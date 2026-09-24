@@ -1,0 +1,17 @@
+__pycache__/
+*.py[cod]
+.venv/
+.env
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+dist/
+build/
+# local data: never committed (licence terms: no redistribution)
+data/*
+!data/.gitkeep
+results/*
+!results/.gitkeep
+!results/README.md
+.ipynb_checkpoints/
+.DS_Store
