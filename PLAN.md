@@ -175,3 +175,13 @@ display only), CoinGecko for OHLC (demo tier ~1 year history).
   and never stitched; derived price bases (raw / split / total-return). CLI: `update`,
   `doctor [--live]`, `import-csv`, `assets`. 24 tests. Live run in this container fails
   loudly as expected (proxy 403 / missing key) and is recorded in `ingestion_runs`.
+- **Phase 2 (done).** Indicator library (SMA/EMA/Wilder RSI/ATR, ROC 1/3/6/12m, MA
+  distances incl. ATR-normalised, 52w-high drawdown, pullback depth, realised vol and its
+  causal 3y percentile, volume stats, 200DMA slope), each with a documented purpose.
+  FRED/ALFRED and EIA providers; per-series PIT policy in `config/macro.yaml`
+  (`market_close` + lag, `vintage`, `display_only`); `asof_values` PIT engine; research
+  loader rejects inadmissible PIT methods. Regime engine (crypto on BTC clock, macro on
+  SPY clock) with weighted votes, explicit coverage and `UNKNOWN` when data is
+  insufficient. Tests: published RSI reference, truncation invariance, future-shock
+  invariance, vintage revisions, backward-only regime joins. Added a clearly labelled
+  SYNTHETIC demo DB (`market demo-data`, `market --demo ...`) for offline demonstration.

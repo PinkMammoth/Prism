@@ -1,0 +1,37 @@
+# Deterministic market-regime classifier. Deliberately simple — do not overfit.
+# Each factor votes +1 / 0 / -1 (times its weight). score = weighted votes / weights of
+# AVAILABLE factors (missing factors are excluded and reduce coverage, never count as 0).
+# If coverage < min_coverage the regime is UNKNOWN (never silently NEUTRAL).
+
+crypto:
+  benchmark: BTC
+  breadth_universe: [BTC, ETH, SOL, LINK, AAVE, HYPE]
+  factors:
+    above_sma200:        {weight: 1.0}
+    sma50_above_sma200:  {weight: 1.0}
+    sma200_rising:       {weight: 1.0}
+    drawdown:            {weight: 1.0, ok_above: -0.20, bad_below: -0.40}   # from 52w high
+    vol_extreme:         {weight: 1.0, pct_above: 0.90}                     # only votes -1
+    breadth:             {weight: 1.0, good_above: 0.60, bad_below: 0.30, min_assets: 3}  # share above SMA100
+  thresholds: {risk_on: 0.40, risk_off: -0.30}
+  min_coverage: 0.60
+
+macro:
+  factors:
+    spy_above_sma200:       {weight: 1.0}
+    spy_sma50_above_sma200: {weight: 1.0}
+    qqq_above_sma200:       {weight: 1.0}
+    vix:                    {weight: 1.0, good_below: 20, bad_above: 30, series: VIXCLS}
+    credit_widening:        {weight: 1.0, lookback_obs: 63, bad_above: 0.50, good_below: -0.25, series: BAA10Y}
+    curve_inverted:         {weight: 0.5, series: T10Y2Y}   # only votes -1
+    usd_surge:              {weight: 0.5, lookback_obs: 63, bad_above: 0.04, series: DTWEXBGS}  # only votes -1
+  thresholds: {risk_on: 0.40, risk_off: -0.30}
+  min_coverage: 0.50
+
+# How the regime changes behaviour (used by scoring/risk, Phase 5)
+policy:
+  risk_multiplier:      {RISK_ON: 1.0, NEUTRAL: 0.75, RISK_OFF: 0.5, UNKNOWN: 0.5}
+  min_score_adjustment: {RISK_ON: 0,   NEUTRAL: 0,    RISK_OFF: 10,  UNKNOWN: 5}
+  entry_aggressiveness: {RISK_ON: normal, NEUTRAL: patient, RISK_OFF: deep_only, UNKNOWN: patient}
+  # which regime governs which asset class
+  governing: {crypto: crypto, equity: macro, etf: macro, commodity: macro}

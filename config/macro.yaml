@@ -1,0 +1,31 @@
+# Macro series and their point-in-time policy. See docs/DATA_SOURCES.md.
+#
+# pit_policy:
+#   market_close  market-determined, not revised; available_at = obs_date + lag_days (00:00 UTC)
+#   vintage       revised series; availability from ALFRED realtime_start (+1 day)
+#   display_only  stored for display; NEVER admissible in research (e.g. truncated history)
+series:
+  DGS10:        {provider: fred, pit_policy: market_close, lag_days: 2, purpose: "10Y nominal yield (rates regime)"}
+  DGS2:         {provider: fred, pit_policy: market_close, lag_days: 2, purpose: "2Y yield (policy expectations)"}
+  T10Y2Y:       {provider: fred, pit_policy: market_close, lag_days: 2, purpose: "yield curve slope (regime)"}
+  DFF:          {provider: fred, pit_policy: market_close, lag_days: 2, purpose: "effective fed funds (hiking/cutting cycles)"}
+  DTB3:         {provider: fred, pit_policy: market_close, lag_days: 2, purpose: "3M T-bill (risk-free, AQAv2 reserve yield)"}
+  DFII10:       {provider: fred, pit_policy: market_close, lag_days: 2, purpose: "10Y real yield (gold module)"}
+  T10YIE:       {provider: fred, pit_policy: market_close, lag_days: 2, purpose: "10Y breakeven inflation (gold module)"}
+  VIXCLS:       {provider: fred, pit_policy: market_close, lag_days: 2, purpose: "equity implied volatility (regime)"}
+  BAA10Y:       {provider: fred, pit_policy: market_close, lag_days: 2, purpose: "Moody's Baa-10Y credit spread (regime; full history)"}
+  DTWEXBGS:
+    provider: fred
+    pit_policy: market_close
+    lag_days: 2
+    purpose: "broad trade-weighted USD (regime, gold, oil)"
+    caveat: "FX rates are market prices, but index trade weights are revised annually and the series was introduced in 2019; pre-2019 levels are a reconstruction. Used only for trend sign, not level."
+  BAMLH0A0HYM2: {provider: fred, pit_policy: display_only, lag_days: 2, purpose: "HY OAS (display only: FRED serves 3y history since 2026)"}
+  NFCI:         {provider: fred, pit_policy: vintage, purpose: "Chicago Fed financial conditions (weekly, revised)"}
+  CPIAUCSL:     {provider: fred, pit_policy: vintage, purpose: "CPI (monthly, revised)"}
+  UNRATE:       {provider: fred, pit_policy: vintage, purpose: "unemployment (monthly, revised)"}
+
+eia:
+  # weekly petroleum; WPSR released Wed 10:30 ET for week ending prior Friday (+1 day after holidays)
+  WCESTUS1: {route: "PET.WCESTUS1.W", lag_days: 6, purpose: "US crude stocks ex-SPR (oil module)"}
+  WCRFPUS2: {route: "PET.WCRFPUS2.W", lag_days: 6, purpose: "US crude field production (oil module)"}

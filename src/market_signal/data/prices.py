@@ -13,6 +13,7 @@ volume, and are sorted by ts.
 
 from __future__ import annotations
 
+import os
 from enum import StrEnum
 
 import numpy as np
@@ -101,7 +102,8 @@ def load_bars(
         spec = asset.series_for(timeframe)
         if spec is None:
             raise ValueError(f"{asset.symbol}: no {timeframe} series configured")
-        source = source_label(spec.provider, timeframe)
+        # an explicit override (demo mode) replaces the configured source wholesale
+        source = os.environ.get("PRISM_SOURCE_OVERRIDE") or source_label(spec.provider, timeframe)
     bars = store.get_bars(asset.symbol, timeframe, source)
     if bars.empty or timeframe != Timeframe.D1:
         return bars

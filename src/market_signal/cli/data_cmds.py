@@ -265,3 +265,30 @@ def assets() -> None:
             series = ", ".join(f"{tf.value}:{s.provider}:{s.symbol}" for tf, s in a.series.items())
             t.add_row(a.symbol, a.name, a.asset_class.value, a.calendar.value, series, a.notes[:60])
         console.print(t)
+
+
+def demo_data(
+    years: int = typer.Option(8, help="Years of synthetic history"),
+    seed: int = typer.Option(7),
+) -> None:
+    """Build the SYNTHETIC demo database (data/demo.duckdb) for exercising the app offline."""
+    import os
+
+    from market_signal.config import get_settings
+    from market_signal.data.store import Store
+    from market_signal.demo import build_demo_db
+
+    settings = get_settings()
+    path = settings.paths.data / "demo.duckdb"
+    if path.exists():
+        path.unlink()
+    os.environ["PRISM_SOURCE_OVERRIDE"] = "synthetic"
+    store = Store(path, settings.paths.data / "demo_raw")
+    try:
+        counts = build_demo_db(settings, store, years=years, seed=seed)
+    finally:
+        store.close()
+    console.print(
+        f"[yellow]Built SYNTHETIC demo DB {path} ({sum(counts.values())} bars). "
+        "Use `market --demo <command>` and `streamlit run dashboard/app.py -- --demo`.[/]"
+    )

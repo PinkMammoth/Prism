@@ -20,6 +20,7 @@ app.command("update")(data_cmds.update)
 app.command("doctor")(data_cmds.doctor)
 app.command("import-csv")(data_cmds.import_csv)
 app.command("assets")(data_cmds.assets)
+app.command("demo-data")(data_cmds.demo_data)
 
 
 def _register_optional() -> None:
@@ -42,10 +43,21 @@ _register_optional()
 @app.callback()
 def main(
     db: Path | None = typer.Option(None, help="DuckDB path (default data/prism.duckdb)"),
+    demo: bool = typer.Option(
+        False, "--demo", help="Use the SYNTHETIC demo database (data/demo.duckdb). Not market data."
+    ),
 ) -> None:
-    if db is not None:
-        import os
+    import os
 
+    if demo:
+        from market_signal.config import get_settings
+
+        os.environ["PRISM_DB_PATH"] = str(get_settings().paths.data / "demo.duckdb")
+        os.environ["PRISM_SOURCE_OVERRIDE"] = "synthetic"
+        console.print(
+            "[bold black on yellow] SYNTHETIC DEMO DATA — not market data; no conclusions [/]"
+        )
+    elif db is not None:
         os.environ["PRISM_DB_PATH"] = str(db)
 
 
