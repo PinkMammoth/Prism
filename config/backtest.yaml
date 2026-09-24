@@ -1,0 +1,44 @@
+# Backtest assumptions. These are CONFIGURED ASSUMPTIONS, not observations.
+
+execution:
+  # A signal computed on bar t's close is filled at bar t+1's OPEN. Not configurable to
+  # same-close: the engine has no code path for it.
+  entry: next_open
+  skip_if_gapped_through_stop: true     # don't enter if t+1 opens beyond invalidation
+  same_bar_stop_and_target: stop_first  # conservative intrabar ambiguity rule
+
+costs:   # per side, in basis points
+  crypto:    {fee_bps: 10, slippage_bps: 10}
+  equity:    {fee_bps: 5,  slippage_bps: 5}
+  etf:       {fee_bps: 5,  slippage_bps: 3}
+  commodity: {fee_bps: 5,  slippage_bps: 5}
+  overrides:
+    HYPE:    {fee_bps: 10, slippage_bps: 20}
+
+# forward-return horizons in BARS (holding from open[t+1] to close[t+h])
+horizons:
+  crypto: {1d: 1, 3d: 3, 1w: 7, 2w: 14, 1m: 30, 3m: 91, 6m: 182, 12m: 365}
+  nyse:   {1d: 1, 3d: 3, 1w: 5, 2w: 10, 1m: 21, 3m: 63, 6m: 126, 12m: 252}
+primary_horizon: 1m
+
+portfolio:
+  initial_equity: 100000
+  max_position_fraction: 0.25     # no single position above 25% of equity
+  max_gross_exposure: 1.0         # no leverage
+  risk_per_trade: 0.005           # 0.5% of equity at risk to invalidation (standard)
+
+walk_forward:
+  train_years: 4
+  test_years: 2
+  anchored: true                  # expanding training window
+  min_train_events: 30
+  objective: median_excess        # of independent events at primary horizon
+
+sensitivity:
+  plateau_min_neighbour_ratio: 0.5   # neighbours must keep >=50% of centre's excess
+  fragile_if_neighbours_fail: 0.5    # >=50% of neighbours with opposite sign -> FRAGILE
+
+statistics:
+  min_events_for_conclusion: 30      # below this, results are reported as INSUFFICIENT
+  bootstrap_samples: 2000
+  seed: 12345

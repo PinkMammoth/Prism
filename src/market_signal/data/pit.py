@@ -53,12 +53,13 @@ def asof_values(rows: pd.DataFrame, times: pd.Series | pd.DatetimeIndex) -> pd.D
         )
 
     r = rows.sort_values(["available_at", "obs_date"]).reset_index(drop=True)
-    avail = pd.DatetimeIndex(r["available_at"]).asi8
+    avail = pd.DatetimeIndex(r["available_at"]).as_unit("ns").asi8
     obs = r["obs_date"].to_numpy()
     vals = r["value"].to_numpy(dtype=float)
 
-    order = np.argsort(times_idx.asi8, kind="stable")
-    t_sorted = times_idx.asi8[order]
+    t_ns = times_idx.as_unit("ns").asi8
+    order = np.argsort(t_ns, kind="stable")
+    t_sorted = t_ns[order]
     latest: dict = {}  # obs_date -> (value, available_at)
     max_obs = None
     j = 0

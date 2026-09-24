@@ -35,8 +35,8 @@ class FeatureStore:
                     feats = compute_features(bars, asset.asset_class)
                     if timeframe == Timeframe.D1:
                         tr = load_bars(self.store, asset, timeframe, PriceBasis.TOTAL_RETURN)
-                        feats["tr_open"] = tr["open"].to_numpy()
-                        feats["tr_close"] = tr["close"].to_numpy()
+                        for c in ("open", "high", "low", "close"):
+                            feats[f"tr_{c}"] = tr[c].to_numpy()
                     self._cache[key] = feats
         return self._cache[key]
 

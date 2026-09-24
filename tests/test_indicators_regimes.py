@@ -258,3 +258,13 @@ def test_macro_regime_votes_from_pit_series():
     assert out["vote_vix"].iloc[-1] == 1.0
     assert np.isnan(out["vote_qqq_above_sma200"].iloc[-1])  # missing, not zero
     assert out["coverage"].iloc[-1] < 1.0
+
+
+def test_asof_is_unit_agnostic():
+    """Regression: rows in ns and query times in us (DuckDB) must compare correctly."""
+    rows = _vintage_rows()
+    rows["available_at"] = rows["available_at"].astype("datetime64[ns, UTC]")
+    times = pd.DatetimeIndex(pd.to_datetime(["2024-02-20", "2024-03-16"], utc=True)).as_unit("us")
+    out = asof_values(rows, times)
+    assert list(out["value"]) == [1.0, 2.0]
+    assert out["known_since"].iloc[1] == pd.Timestamp("2024-03-15", tz="UTC")

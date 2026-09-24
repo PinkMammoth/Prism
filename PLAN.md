@@ -185,3 +185,13 @@ display only), CoinGecko for OHLC (demo tier ~1 year history).
   insufficient. Tests: published RSI reference, truncation invariance, future-shock
   invariance, vintage revisions, backward-only regime joins. Added a clearly labelled
   SYNTHETIC demo DB (`market demo-data`, `market --demo ...`) for offline demonstration.
+- **Phase 3 (done).** Event study (next-open entry, TR-basis net returns, NaN beyond data,
+  asset baselines, independent-event declustering, random-entry p-value), event-driven
+  multi-asset simulator (gap-aware stops, stop-first ambiguity, skip gapped entries,
+  next-open time/trend exits, risk or fixed sizing, regime multiplier, no leverage,
+  dividends credited), metrics, anchored walk-forward with purging and window-local
+  baselines (≤2 params enforced), sensitivity grids with plateau verdicts, regime/trend/
+  vol/rate-cycle splits, declarative experiments (`config/experiments/*.yaml`, conditions
+  DSL), automatic verdict, reports + `research_runs` provenance, `market backtest`.
+  Found and fixed a timestamp-unit bug (µs vs ns) that would have mis-ordered PIT joins;
+  regression tests added. docs/BACKTESTING.md written.

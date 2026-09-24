@@ -1,0 +1,18 @@
+# Declarative experiment using the raw conditions DSL (no Python needed).
+# This mirrors the example in the product brief. It is a *framework demonstration*;
+# the maintained Quality Pullback definition lives in config/setups/quality_pullback.yaml.
+name: conditions_example
+description: >
+  Uptrend + 5–12% pullback from the 20-bar high + RSI 35–55. Tests whether a plain
+  pullback-in-uptrend rule beats random entry on the same assets.
+universe: [BTC, ETH, SPY, QQQ, MSFT]
+conditions:
+  price_above_sma_200: true
+  sma_50_above_sma_200: true
+  pullback_from_20d_high: {min: 0.05, max: 0.12}
+  rsi_14: {min: 35, max: 55}
+params:
+  cooldown: 10
+  stop_atr: 2.5
+  max_hold_bars: 21
+primary_horizon: 1m

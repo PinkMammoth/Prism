@@ -55,6 +55,7 @@ FEATURE_PURPOSE: dict[str, str] = {
     "high_52w": "52-week high (breakout / drawdown reference)",
     "dist_52w_high": "drawdown from 52-week high",
     "pullback_63_atr": "depth of pullback from 3-month high in ATR units (Setup A)",
+    "pullback_from_20d_high": "fractional pullback from the 20-bar high (experiment DSL)",
     "swing_low_20": "recent swing low (technical invalidation)",
     "rvol_20": "20-bar annualised realised volatility (regime/vol filter)",
     "rvol_pct": "rvol_20 percentile vs trailing 3 years (vol extremes filter)",
@@ -172,6 +173,7 @@ def compute_features(bars: pd.DataFrame, asset_class: AssetClass) -> pd.DataFram
     high_63 = h.rolling(p.quarter, min_periods=p.quarter).max()
     df["high_63"] = high_63
     df["pullback_63_atr"] = (high_63 - c) / df["atr_14"]
+    df["pullback_from_20d_high"] = 1 - c / h.rolling(20, min_periods=20).max()
     df["swing_low_20"] = lo.rolling(20, min_periods=20).min()
     df["rvol_20"] = realised_vol(c, 20, p.year)
     df["rvol_pct"] = rolling_percentile(df["rvol_20"], window=3 * p.year, min_periods=p.year)
