@@ -166,3 +166,12 @@ display only), CoinGecko for OHLC (demo tier ~1 year history).
   SEC, DefiLlama, Tiingo, Stooq, Yahoo, CBOE). Code is built and tested against fixture
   payloads and synthetic data; live verification and real-data research require either
   network access in this environment or running `market update` on the user's machine.
+- **Phase 1 (done).** Asset registry (`config/universe.yaml`); providers Coinbase,
+  Bitstamp, Hyperliquid, Tiingo, Stooq, CSV import behind `MarketDataProvider`; DuckDB
+  schema with ordered migrations; idempotent upserts with `bar_revisions` log; raw payload
+  archive (gzip + SHA-256) linked from `ingestion_runs`; batch + series validation (OHLC
+  sanity, alignment/timezone, duplicates, gaps via a rules-based NYSE calendar, jumps,
+  staleness); never-stored incomplete bars; provider changes logged in `series_changes`
+  and never stitched; derived price bases (raw / split / total-return). CLI: `update`,
+  `doctor [--live]`, `import-csv`, `assets`. 24 tests. Live run in this container fails
+  loudly as expected (proxy 403 / missing key) and is recorded in `ingestion_runs`.

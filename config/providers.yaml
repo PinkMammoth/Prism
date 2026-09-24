@@ -1,0 +1,58 @@
+# Provider settings. Secrets are read from .env, never from here.
+http:
+  timeout_seconds: 30
+  max_retries: 4
+  backoff_seconds: 2.0
+  user_agent: "Prism/0.1 (personal research; local)"
+
+providers:
+  coinbase:
+    base_url: https://api.exchange.coinbase.com
+    requests_per_second: 3
+    max_candles_per_request: 300
+  bitstamp:
+    base_url: https://www.bitstamp.net/api/v2
+    requests_per_second: 2
+    max_candles_per_request: 1000
+  hyperliquid:
+    base_url: https://api.hyperliquid.xyz
+    requests_per_second: 2
+    max_candles: 5000
+    hype_spot_pair_fallback: "@107"
+  tiingo:
+    base_url: https://api.tiingo.com
+    requests_per_second: 0.5
+    env_key: TIINGO_API_KEY
+  stooq:
+    base_url: https://stooq.com
+    requests_per_second: 0.5
+    env_key: STOOQ_API_KEY
+  fred:
+    base_url: https://api.stlouisfed.org
+    requests_per_second: 1.5
+    env_key: FRED_API_KEY
+  eia:
+    base_url: https://api.eia.gov
+    requests_per_second: 1
+    env_key: EIA_API_KEY
+  sec_edgar:
+    base_url: https://data.sec.gov
+    requests_per_second: 5
+    env_user_agent: SEC_USER_AGENT
+  defillama:
+    base_url: https://api.llama.fi
+    stablecoins_url: https://stablecoins.llama.fi
+    requests_per_second: 1
+
+# Initial backfill start dates (inclusive). Incremental updates resume from the last stored bar.
+backfill:
+  1d: "2010-01-01"
+  4h: "2024-01-01"
+  1h: "2025-06-01"
+
+# Data-quality thresholds
+quality:
+  stale_hours: {crypto: 48, nyse: 100}   # nyse allows long weekends
+  jump_abs_log_return: {crypto: 0.35, nyse: 0.20}
+  jump_mad_multiple: 12
+  max_invalid_fraction: 0.01            # abort a batch if more than this fraction of rows are invalid

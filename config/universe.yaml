@@ -1,0 +1,150 @@
+# Tradable universe. One provider per (asset, timeframe) — see docs/DATA_SOURCES.md.
+# Changing a series' provider creates a NEW series (never stitched); the change is logged.
+#
+# timeframes: 1d is required for research; 4h/1h are optional entry-refinement data.
+assets:
+  # ---------------- Crypto ----------------
+  BTC:
+    name: Bitcoin
+    asset_class: crypto
+    currency: USD
+    calendar: crypto
+    series:
+      1d: {provider: coinbase, symbol: BTC-USD}
+      4h: {provider: coinbase, symbol: BTC-USD}
+    provider_ids: {coinbase: BTC-USD, bitstamp: btcusd, defillama_chain: Bitcoin}
+  ETH:
+    name: Ethereum
+    asset_class: crypto
+    currency: USD
+    calendar: crypto
+    series:
+      1d: {provider: coinbase, symbol: ETH-USD}
+      4h: {provider: coinbase, symbol: ETH-USD}
+    provider_ids: {coinbase: ETH-USD, bitstamp: ethusd, defillama_chain: Ethereum}
+  SOL:
+    name: Solana
+    asset_class: crypto
+    currency: USD
+    calendar: crypto
+    series:
+      1d: {provider: coinbase, symbol: SOL-USD}
+      4h: {provider: coinbase, symbol: SOL-USD}
+    provider_ids: {coinbase: SOL-USD, bitstamp: solusd, defillama_chain: Solana}
+  HYPE:
+    name: Hyperliquid
+    asset_class: crypto
+    currency: USD
+    calendar: crypto
+    notes: "Quoted in USDC on Hyperliquid spot; treated as USD (basis risk documented)."
+    series:
+      1d: {provider: hyperliquid, symbol: HYPE}
+      4h: {provider: hyperliquid, symbol: HYPE}
+    provider_ids: {hyperliquid_spot_pair: "@107", defillama_protocol: hyperliquid}
+  LINK:
+    name: Chainlink
+    asset_class: crypto
+    currency: USD
+    calendar: crypto
+    series:
+      1d: {provider: coinbase, symbol: LINK-USD}
+      4h: {provider: coinbase, symbol: LINK-USD}
+    provider_ids: {coinbase: LINK-USD, bitstamp: linkusd, defillama_protocol: chainlink}
+  AAVE:
+    name: Aave
+    asset_class: crypto
+    currency: USD
+    calendar: crypto
+    series:
+      1d: {provider: coinbase, symbol: AAVE-USD}
+      4h: {provider: coinbase, symbol: AAVE-USD}
+    provider_ids: {coinbase: AAVE-USD, bitstamp: aaveusd, defillama_protocol: aave}
+
+  # ---------------- Equities / ETFs ----------------
+  SPY:
+    name: SPDR S&P 500 ETF
+    asset_class: etf
+    currency: USD
+    calendar: nyse
+    series: {1d: {provider: tiingo, symbol: SPY}}
+  QQQ:
+    name: Invesco QQQ Trust
+    asset_class: etf
+    currency: USD
+    calendar: nyse
+    series: {1d: {provider: tiingo, symbol: QQQ}}
+  MSFT:
+    name: Microsoft
+    asset_class: equity
+    currency: USD
+    calendar: nyse
+    series: {1d: {provider: tiingo, symbol: MSFT}}
+    provider_ids: {sec_cik: "0000789019"}
+  GOOGL:
+    name: Alphabet (Class A)
+    asset_class: equity
+    currency: USD
+    calendar: nyse
+    series: {1d: {provider: tiingo, symbol: GOOGL}}
+    provider_ids: {sec_cik: "0001652044"}
+    notes: "Pre-2015 filings are under Google Inc (CIK 0001288776); EDGAR history for Alphabet starts 2015."
+  AMZN:
+    name: Amazon
+    asset_class: equity
+    currency: USD
+    calendar: nyse
+    series: {1d: {provider: tiingo, symbol: AMZN}}
+    provider_ids: {sec_cik: "0001018724"}
+  META:
+    name: Meta Platforms
+    asset_class: equity
+    currency: USD
+    calendar: nyse
+    series: {1d: {provider: tiingo, symbol: META}}
+    provider_ids: {sec_cik: "0001326801"}
+  NVDA:
+    name: NVIDIA
+    asset_class: equity
+    currency: USD
+    calendar: nyse
+    series: {1d: {provider: tiingo, symbol: NVDA}}
+    provider_ids: {sec_cik: "0001045810"}
+  JPM:
+    name: JPMorgan Chase
+    asset_class: equity
+    currency: USD
+    calendar: nyse
+    series: {1d: {provider: tiingo, symbol: JPM}}
+    provider_ids: {sec_cik: "0000019617"}
+    tags: [bank]
+
+  # ---------------- Commodities (ETP proxies) ----------------
+  GOLD:
+    name: Gold (GLD proxy)
+    asset_class: commodity
+    currency: USD
+    calendar: nyse
+    series: {1d: {provider: tiingo, symbol: GLD}}
+    tags: [gold]
+  SILVER:
+    name: Silver (SLV proxy)
+    asset_class: commodity
+    currency: USD
+    calendar: nyse
+    series: {1d: {provider: tiingo, symbol: SLV}}
+    tags: [silver]
+  COPPER:
+    name: Copper (CPER proxy)
+    asset_class: commodity
+    currency: USD
+    calendar: nyse
+    series: {1d: {provider: tiingo, symbol: CPER}}
+    tags: [copper]
+  OIL:
+    name: WTI crude (USO proxy)
+    asset_class: commodity
+    currency: USD
+    calendar: nyse
+    series: {1d: {provider: tiingo, symbol: USO}}
+    tags: [oil]
+    notes: "USO restructured its futures roll and reverse-split 1:8 in 2020; treat pre/post-2020 as different instruments."
