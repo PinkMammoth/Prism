@@ -129,7 +129,27 @@ class Updater:
         return int((df["status"] == "failed").sum()) if "status" in df else 0
 
 
-UPDATERS: list[Updater] = [Updater("macro", "Macro update (FRED/ALFRED, EIA)", update_macro)]
+def _update_edgar(settings: Settings, store: Store) -> pd.DataFrame:
+    from market_signal.fundamentals.equity import update_edgar
+
+    return update_edgar(settings, store)
+
+
+def _update_crypto(settings: Settings, store: Store) -> pd.DataFrame:
+    from market_signal.fundamentals.crypto_data import update_crypto_fundamentals
+
+    return update_crypto_fundamentals(settings, store)
+
+
+UPDATERS: list[Updater] = [
+    Updater("macro", "Macro update (FRED/ALFRED, EIA)", update_macro),
+    Updater("fundamentals", "Equity fundamentals (SEC EDGAR, filing-date PIT)", _update_edgar),
+    Updater(
+        "fundamentals",
+        "Crypto fundamentals (DefiLlama, Hyperliquid) — current/prospective only",
+        _update_crypto,
+    ),
+]
 
 
 def register_updater(u: Updater) -> None:

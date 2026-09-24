@@ -201,7 +201,10 @@ def evaluate_universe(
             continue
         params = _params(setup, exp, asset, overrides or {})
         sctx = SetupContext(sym, asset.asset_class.value)
-        if getattr(setup, "needs_fundamentals", False):
+        if (
+            getattr(setup, "needs_fundamentals", False)
+            or params.get("min_fundamental_score") is not None
+        ):
             sctx.fundamentals = ctx.fundamentals(asset, feat)
         regime = ctx.regimes.for_class(asset.asset_class.value, feat["close_time"])
         sctx.regime = pd.Series(regime.to_numpy(), index=feat.index)

@@ -1,0 +1,20 @@
+# SETUP C — Fundamental Re-rating / Dislocation (INVESTMENT: thesis exits, no tight stop).
+# Historical testing is only possible where fundamentals are point-in-time: US single-name
+# equities via SEC EDGAR filing dates. Crypto variants (HYPE buyback yield, fee yield) are
+# evaluated on CURRENT data only — see docs/SETUPS.md.
+name: rerating
+title: Fundamental Re-rating / Dislocation
+kind: INVESTMENT
+defaults:
+  min_rev_growth: 0.05       # TTM revenue growth YoY (as filed)
+  min_ni_growth: 0.0         # TTM net income growth YoY (as filed)
+  require_profitable: true
+  max_pe_pct_5y: 0.30        # P/E in the cheapest 30% of its own trailing 5y (PIT) range
+  min_drawdown: 0.15         # price >= 15% below its 52-week high
+  cooldown: 42
+  max_hold_bars: 126         # ~6 months time exit; thesis/valuation exits are manual in V1
+by_class:
+  crypto:
+    # current-only (not backtestable): HYPE uses the dedicated valuation module
+    hype_min_buyback_yield: 0.05
+    min_drawdown: 0.25

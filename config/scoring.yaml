@@ -1,0 +1,41 @@
+# 0–100 opportunity score. Weights are HYPOTHESES (from the brief), not truths.
+# Missing components are N/A: excluded from the denominator and reported as lower coverage.
+weights:
+  fundamental: 25
+  valuation: 20
+  structure: 15
+  entry: 15
+  macro: 10
+  catalyst: 10
+  liquidity: 5
+
+bands:            # applied to the score AFTER the regime's min_score_adjustment
+  ignore: 0
+  watch: 55
+  actionable: 65
+  strong: 75
+  exceptional: 85
+
+min_coverage_for_actionable: 0.60   # share of total weight with data
+setup_required_for_actionable: true # no active setup -> at most WATCH / WAIT
+
+liquidity:
+  min_dollar_volume: {crypto: 50000000, equity: 200000000, etf: 200000000, commodity: 50000000}
+
+entry:
+  in_zone_points: 6
+  near_zone_atr: 1.0
+  near_zone_points: 3
+  setup_active_points: 5
+  not_extended_max_sma50_atr: 2.5
+  not_extended_points: 2
+  rsi_overbought: 70
+  rsi_points: 2
+  h4_overextension_atr: 2.0   # 4h close > 4h EMA21 + 2 ATR(4h) -> "short-term extended"
+  h4_penalty: 4
+
+risk:   # portfolio risk budgets per score tier (TRADE); fractions of equity
+  trade_risk: {actionable: 0.005, strong: 0.0075, exceptional: 0.010}
+  investment_fraction: {actionable: 0.05, strong: 0.075, exceptional: 0.10}
+  max_position_fraction: 0.25
+  max_gross_exposure: 1.0

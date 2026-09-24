@@ -1,0 +1,13 @@
+name: quality_pullback
+setup: quality_pullback
+description: >
+  SETUP A across the full universe with default parameters (config/setups/quality_pullback.yaml).
+  Question: does buying an orderly pullback inside a constructive trend beat random entry
+  into the same assets, net of costs, out of sample, on a parameter plateau?
+universe: [all]
+primary_horizon: 1m
+trade: {sizing: risk}
+walk_forward:
+  grid: {rsi_max: [45, 50, 55], pb_min_atr: [1.5, 2.0, 2.5]}
+sensitivity:
+  axes: {rsi_max: [40, 45, 50, 55, 60], pb_min_atr: [1.0, 1.5, 2.0, 2.5, 3.0]}

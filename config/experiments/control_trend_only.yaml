@@ -1,0 +1,11 @@
+name: control_trend_only
+description: >
+  CONTROL. Enter whenever the long-term trend turns constructive (price > 200DMA and
+  50DMA > 200DMA), no pullback logic. If Quality Pullback does not beat this, its edge is
+  just "being in an uptrend".
+universe: [all]
+conditions:
+  price_above_sma_200: true
+  sma_50_above_sma_200: true
+params: {cooldown: 20, stop_atr: 3.0, max_hold_bars: 63}
+primary_horizon: 1m

@@ -1,0 +1,13 @@
+name: rerating
+setup: rerating
+description: >
+  SETUP C on single-name US equities using point-in-time SEC EDGAR fundamentals
+  (filing date + 1 day). Crypto is excluded: no defensible historical availability.
+  Survivorship warning: all six names are today's large-cap survivors.
+universe: [equities]
+primary_horizon: 3m
+trade: {sizing: fixed, fixed_fraction: 0.10}
+walk_forward:
+  grid: {max_pe_pct_5y: [0.2, 0.3, 0.4]}
+sensitivity:
+  axes: {max_pe_pct_5y: [0.1, 0.2, 0.3, 0.4, 0.5], min_drawdown: [0.05, 0.10, 0.15, 0.20, 0.25]}

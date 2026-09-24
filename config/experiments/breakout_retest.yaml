@@ -1,0 +1,11 @@
+name: breakout_retest
+setup: breakout_retest
+description: >
+  SETUP B across the full universe. Question: does an orderly retest of a fresh breakout
+  from a tight base beat random entry, net of costs, without chasing extended moves?
+universe: [all]
+primary_horizon: 1m
+walk_forward:
+  grid: {base_len: [30, 40, 55]}
+sensitivity:
+  axes: {base_len: [20, 30, 40, 55, 70], touch_atr: [0.25, 0.5, 0.75, 1.0]}

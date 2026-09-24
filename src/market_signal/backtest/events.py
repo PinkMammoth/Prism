@@ -211,6 +211,9 @@ def run_event_study(
             else np.nan
         )
         st["verdict_sample"] = "OK" if st["n_independent"] >= min_events else "INSUFFICIENT"
+        # minimum detectable excess (one-sided alpha 5%, power 80%) given this sample
+        sd = float(ind["excess"].std(ddof=1)) if len(ind) > 2 else np.nan
+        st["mde_80"] = 2.486 * sd / np.sqrt(len(ind)) if len(ind) > 2 else np.nan
         rows.append({"horizon": h, **st})
     summary = pd.DataFrame(rows)
 

@@ -195,3 +195,13 @@ display only), CoinGecko for OHLC (demo tier ~1 year history).
   DSL), automatic verdict, reports + `research_runs` provenance, `market backtest`.
   Found and fixed a timestamp-unit bug (µs vs ns) that would have mis-ordered PIT joins;
   regression tests added. docs/BACKTESTING.md written.
+- **Phase 4 (done, real-data run pending).** Setups A (Quality Pullback), B (Breakout +
+  Retest, causal state machine), C (Re-rating: PIT equities; crypto current-only), all
+  config-driven (`config/setups/*.yaml`). *Sequencing deviation:* the SEC EDGAR
+  filing-date PIT engine (TTM via YTD identity, restatement-safe) was built here rather
+  than in Phase 6 because Setup C cannot be tested honestly without it. Experiments incl. a
+  trend-only control and a fundamentals-filter variant; MDE (minimum detectable effect)
+  added to every report; `market research` runs everything and writes
+  `results/RESULTS_generated.md`. On synthetic data every idea is correctly REJECTED.
+  RESULTS.md written as a pre-registration + engine validation; real verdicts require a
+  networked run (`market update && market research`).

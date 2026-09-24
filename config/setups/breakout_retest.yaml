@@ -1,0 +1,20 @@
+# SETUP B — Breakout + Retest. Consolidation → decisive break → orderly retest that holds.
+name: breakout_retest
+title: Breakout + Retest
+kind: TRADE
+defaults:
+  base_len: 40               # consolidation window (bars before the breakout bar)
+  max_base_width_atr: 8.0    # base range (max high − min low) must be <= 8 ATR ("tight")
+  require_trend: true        # breakout close above the 200DMA
+  expansion_tr_atr: 1.2      # breakout bar true range >= 1.2 ATR ...
+  expansion_rel_volume: 1.5  # ... OR volume >= 1.5x its 20-bar average
+  min_bars_after_breakout: 2
+  retest_window: 15          # retest must occur within 15 bars of the breakout
+  touch_atr: 0.5             # retest: low comes within 0.5 ATR of the breakout level
+  hold_atr: 0.25             # ... and close holds above level − 0.25 ATR
+  max_extension_atr: 1.5     # never signal if close > level + 1.5 ATR (don't chase)
+  fail_atr: 0.75             # breakout invalid if a close falls 0.75 ATR below the level
+  stop_atr: 1.0              # stop = level − 1 ATR
+  cooldown: 10
+  max_hold_bars: 42
+by_class: {}

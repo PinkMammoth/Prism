@@ -70,6 +70,24 @@ def experiments() -> None:
             console.print(f"- {p.stem}")
 
 
+def research(
+    only: list[str] = typer.Option(None, "--only", help="Run only these experiments"),
+) -> None:
+    """Run ALL experiments and write results/RESULTS_generated.md (the evidence behind RESULTS.md)."""
+    from market_signal.demo import is_synthetic
+    from market_signal.research.run_all import run_all
+    from market_signal.research.runner import ResearchContext
+
+    with open_store() as (settings, store):
+        synthetic = is_synthetic(store)
+        with console.status("Running all experiments (this can take several minutes)…"):
+            path, reps = run_all(ResearchContext(store, settings), only or None, synthetic)
+        for r in reps:
+            console.print(f"{r.experiment.name:32s} {r.verdict['verdict']}")
+        console.print(f"Summary: {path}")
+
+
 def register(app: typer.Typer) -> None:
     app.command("backtest")(backtest)
     app.command("experiments")(experiments)
+    app.command("research")(research)

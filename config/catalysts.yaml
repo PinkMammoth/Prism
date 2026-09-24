@@ -1,0 +1,18 @@
+# User-maintained catalysts. There is no free structured catalyst feed, so the catalyst
+# component is N/A unless an entry exists here. Keep entries factual, sourced and dated.
+# impact: positive | negative ; strength: 1–10 ; active between `date` and `expires`.
+catalysts:
+  - symbol: HYPE
+    description: "AQAv2 live for USDC (2026-08-26): ~90% of cost-adjusted USDC reserve yield on Hyperliquid routed to the Assistance Fund for HYPE buyback/burn; first payout reported for 2026-10-03."
+    date: 2026-08-26
+    expires: 2026-12-31
+    impact: positive
+    strength: 6
+    source: "https://blockonomi.com/hyperliquid-activates-aqav2-to-fund-hype-buybacks-with-usdc-reserve-yield/"
+  - symbol: HYPE
+    description: "Core contributor monthly unlocks (~9.9M HYPE on the 6th of each month through 2027): recurring supply overhang."
+    date: 2026-01-06
+    expires: 2027-12-31
+    impact: negative
+    strength: 3
+    source: "https://tokenomist.ai/hyperliquid/unlock-events"

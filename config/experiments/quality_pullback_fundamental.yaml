@@ -1,0 +1,11 @@
+name: quality_pullback_fundamental
+setup: quality_pullback
+description: >
+  SETUP A on single-name equities with the point-in-time EDGAR quality filter
+  (fundamental_score >= 0.5). Compare against quality_pullback's equity slice: do
+  fundamentals add anything to the technical pullback?
+universe: [equities]
+params: {min_fundamental_score: 0.5}
+primary_horizon: 1m
+sensitivity:
+  axes: {min_fundamental_score: [0.3, 0.4, 0.5, 0.6, 0.7]}

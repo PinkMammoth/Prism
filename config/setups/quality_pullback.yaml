@@ -1,0 +1,23 @@
+# SETUP A — Quality Pullback. Constructive long-term trend + orderly pullback into support.
+# All distances are in ATR units so one rule set applies across asset classes.
+name: quality_pullback
+title: Quality Pullback
+kind: TRADE
+defaults:
+  require_price_above_sma200: true
+  require_sma50_above_sma200: true
+  require_sma200_rising: true
+  min_roc_6m: 0.0            # positive medium-term momentum
+  pb_min_atr: 2.0            # pullback from 63-bar high, in ATRs
+  pb_max_atr: 6.0
+  near_sma50_min_atr: -1.5   # close within [-1.5, +1.0] ATR of the 50DMA (support)
+  near_sma50_max_atr: 1.0
+  rsi_min: 30
+  rsi_max: 50
+  max_rvol_pct: 0.90         # skip extreme-volatility regimes (asset's own 3y percentile)
+  min_fundamental_score: null  # optional PIT fundamental filter (equities only; see Setup C data)
+  cooldown: 10
+  stop_swing_buffer_atr: 0.5 # stop = 20-bar swing low − 0.5 ATR ...
+  max_stop_atr: 4.0          # ... but never wider than 4 ATR below the close
+  max_hold_bars: 63
+by_class: {}

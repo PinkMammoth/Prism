@@ -84,7 +84,129 @@ def build_demo_db(
         store.finish_run(run_id, status="ok", rows_received=len(bars), rows_written=c["inserted"])
         counts[asset.symbol] = c["inserted"]
     _demo_macro(store, rng, end)
+    _demo_fundamentals(settings, store, rng, end)
     return counts
+
+
+def _demo_fundamentals(
+    settings: Settings, store: Store, rng: np.random.Generator, end: pd.Timestamp
+) -> None:
+    """Synthetic EDGAR-shaped facts (10-Q quarters + YTD, 10-K years) for equities."""
+    from market_signal.fundamentals.equity import FACT_COLUMNS, upsert_facts
+
+    rows = []
+    for a in settings.universe.values():
+        if not a.provider_ids.get("sec_cik"):
+            continue
+        rev_q = 10e9 * rng.uniform(0.5, 2.0)
+        growth = rng.uniform(0.01, 0.04)
+        margin = rng.uniform(0.15, 0.40)
+        shares = 1e9 * rng.uniform(0.5, 3.0)
+        first_year = end.year - 9
+        for year in range(first_year, end.year + 1):
+            q_vals = []
+            for q in range(4):
+                q_start = pd.Timestamp(year, 3 * q + 1, 1).date()
+                q_end = (pd.Timestamp(year, 3 * q + 1, 1) + pd.offsets.QuarterEnd(0)).date()
+                if pd.Timestamp(q_end) + pd.Timedelta(days=40) > end.tz_localize(None):
+                    break
+                rev_q *= 1 + growth + rng.normal(0, 0.03)
+                m = float(np.clip(margin + rng.normal(0, 0.03), 0.02, 0.6))
+                vals = {
+                    "revenue": rev_q,
+                    "operating_income": rev_q * m,
+                    "net_income": rev_q * m * 0.8,
+                    "cfo": rev_q * m * 0.95,
+                    "capex": rev_q * 0.08,
+                }
+                q_vals.append((q_start, q_end, vals))
+                filed = (pd.Timestamp(q_end) + pd.Timedelta(days=35)).date()
+                if q < 3:  # 10-Q: quarter, plus YTD for Q2/Q3
+                    for metric, v in vals.items():
+                        rows.append(
+                            (a.symbol, metric, metric, "USD", q_start, q_end, v, "10-Q", filed)
+                        )
+                        if q > 0:
+                            ytd = sum(x[2][metric] for x in q_vals)
+                            rows.append(
+                                (
+                                    a.symbol,
+                                    metric,
+                                    metric,
+                                    "USD",
+                                    q_vals[0][0],
+                                    q_end,
+                                    ytd,
+                                    "10-Q",
+                                    filed,
+                                )
+                            )
+                    rows.append(
+                        (
+                            a.symbol,
+                            "diluted_shares",
+                            "diluted_shares",
+                            "shares",
+                            q_start,
+                            q_end,
+                            shares,
+                            "10-Q",
+                            filed,
+                        )
+                    )
+            if len(q_vals) == 4:  # 10-K
+                filed = (pd.Timestamp(q_vals[-1][1]) + pd.Timedelta(days=60)).date()
+                for metric in ("revenue", "operating_income", "net_income", "cfo", "capex"):
+                    total = sum(x[2][metric] for x in q_vals)
+                    rows.append(
+                        (
+                            a.symbol,
+                            metric,
+                            metric,
+                            "USD",
+                            q_vals[0][0],
+                            q_vals[-1][1],
+                            total,
+                            "10-K",
+                            filed,
+                        )
+                    )
+                rows.append(
+                    (
+                        a.symbol,
+                        "equity",
+                        "equity",
+                        "USD",
+                        None,
+                        q_vals[-1][1],
+                        shares * rng.uniform(5, 30),
+                        "10-K",
+                        filed,
+                    )
+                )
+    df = pd.DataFrame(
+        rows,
+        columns=[
+            "symbol",
+            "concept",
+            "metric",
+            "unit",
+            "period_start",
+            "period_end",
+            "value",
+            "form",
+            "filed",
+        ],
+    )
+    # use the first concept name of each metric so the PIT loader recognises it
+    from market_signal.fundamentals.equity import CONCEPTS
+
+    df["concept"] = df["metric"].map({k: v[0] for k, v in CONCEPTS.items()})
+    df["fy"], df["fp"] = None, None
+    df["accn"] = [f"synthetic-{i}" for i in range(len(df))]
+    df["available_at"] = pd.to_datetime(df["filed"]).dt.tz_localize("UTC") + pd.Timedelta(days=1)
+    df["pit_method"] = "filing_date"
+    upsert_facts(store, df[FACT_COLUMNS], "demo")
 
 
 def _demo_macro(store: Store, rng: np.random.Generator, end: pd.Timestamp) -> None:

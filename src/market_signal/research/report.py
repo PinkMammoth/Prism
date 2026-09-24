@@ -13,7 +13,7 @@ if TYPE_CHECKING:
 PCT_COLS = {
     "mean", "median", "hit_rate", "mean_indep", "median_indep", "hit_rate_indep", "excess_mean_indep",
     "excess_median_indep", "avg_mae", "p10_mae", "avg_mfe", "baseline_mean", "excess_mean", "excess_median",
-    "test_excess_mean", "test_excess_median", "test_hit", "default_test_excess_mean", "train_objective",
+    "test_excess_mean", "test_excess_median", "test_hit", "default_test_excess_mean", "train_objective", "mde_80",
 }  # fmt: skip
 
 
@@ -47,7 +47,7 @@ def md_table(df: pd.DataFrame | None, cols: list[str] | None = None, max_rows: i
 
 
 SUMMARY_COLS = ["horizon", "n_events", "n_independent", "mean_indep", "median_indep", "hit_rate_indep",
-                "baseline_mean", "excess_mean_indep", "excess_t_indep", "p_value_random_entry", "avg_mae", "avg_mfe",
+                "baseline_mean", "excess_mean_indep", "excess_t_indep", "p_value_random_entry", "mde_80", "avg_mae", "avg_mfe",
                 "verdict_sample"]  # fmt: skip
 
 
@@ -69,6 +69,7 @@ def render_markdown(rep: ResearchReport) -> str:
         "",
         "Excess = return minus the same asset's unconditional forward return over eligible bars.",
         "`independent` = non-overlapping events (gap >= horizon). p-value = random-entry null.",
+        "`mde_80` = smallest excess this sample could detect (one-sided 5%, 80% power): smaller true edges are invisible here.",
         "",
         md_table(rep.study.summary, [c for c in SUMMARY_COLS if c in rep.study.summary.columns]),
     ]
