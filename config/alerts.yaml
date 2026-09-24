@@ -1,0 +1,14 @@
+# Local alert rules (evaluated after every `market scan`). Rules added via CLI/dashboard
+# are stored in the database; these YAML rules are synced on each evaluation.
+# kinds:
+#   price_below / price_above   {symbol, price}
+#   score_gte                   {symbol (optional: any asset), score}
+#   enters_zone                 {symbol, zone: entry_zone | accumulate | strong_buy}
+#   status_change               {symbol (optional), to: [ACTIONABLE, STRONG, EXCEPTIONAL]}
+rules:
+  - {kind: price_below, symbol: HYPE, price: 56}
+  - {kind: score_gte, score: 75}
+  - {kind: enters_zone, symbol: HYPE, zone: accumulate}
+  - {kind: status_change, to: [ACTIONABLE, STRONG, EXCEPTIONAL]}
+notifiers: [console]   # future: email, telegram, discord (implement Notifier)
+cooldown_hours: 24     # do not re-fire the same rule for the same asset within this window

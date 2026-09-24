@@ -455,14 +455,18 @@ def price_zones(
         z["ideal_entry"] = float(last["sma_50"])
     ideal = z.get("ideal_entry")
     z["distance_to_ideal"] = (close / ideal - 1) if ideal else None
-    z["invalidation"] = (
-        st.stop
-        if st.stop
-        else (float(last["sma_200"]) - (atr or 0) if _f(last["sma_200"]) else None)
-    )
-    z["invalidation_basis"] = (
-        "setup stop" if st.stop else "thesis review below 200DMA − 1 ATR (investment)"
-    )
+    if st.stop:
+        z["invalidation"], z["invalidation_basis"] = st.stop, "setup stop"
+        return z
+    review = float(last["sma_200"]) - (atr or 0) if _f(last["sma_200"]) else None
+    if review is not None and close <= review:
+        z["invalidation"] = None
+        z["invalidation_basis"] = (
+            "investment: price already below the 200DMA − 1 ATR review level — review thesis"
+        )
+    else:
+        z["invalidation"] = review
+        z["invalidation_basis"] = "thesis review below 200DMA − 1 ATR (investment)"
     return z
 
 

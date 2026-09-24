@@ -215,3 +215,21 @@ display only), CoinGecko for OHLC (demo tier ~1 year history).
   reconstructed history + Hyperliquid snapshots). CLI: `scan`, `asset`, `hype`, `regime`.
   Demo scan exposed and fixed three logic bugs (inverted investment entry zones,
   double-counted HYPE yield, permanently blocked technical-only assets).
+- **Phase 7–8 (done).** *Order note:* the portfolio/journal/alerts backend (Phase 8) was
+  built just before the UI because dashboard page 4 depends on it. Streamlit dashboard:
+  Market Dashboard, Asset Research, Backtest Lab, Portfolio/Journal, HYPE Monitor, Data
+  Health & Alerts; charts follow the validated reference palette (fixed categorical order,
+  blue↔red diverging with grey midpoint, one y-axis per panel). Paper/real positions with
+  thesis/evidence/invalidation/"followed the system", MAE/MFE from stored bars, journal
+  analytics ("which setups am I good at", "where do I break my rules"), local alerts
+  (price, score, zone entry, status change) with cooldown and a Notifier interface.
+  Screenshot review caught and fixed: LaTeX-rendered `$` in markdown, a full-height
+  investment zone band, and an investment invalidation level above the current price.
+  README and docs/ROADMAP.md written. 101 tests, lint clean.
+
+## Final state (V1)
+
+All phases complete. The one open item is the **real-data research run**, which could not
+execute in this build environment (egress policy blocked every data host). It is a single
+command on a networked machine (`market update && market research`), and RESULTS.md
+pre-registers the hypotheses and verdict rules it will be judged by.
