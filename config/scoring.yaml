@@ -17,6 +17,9 @@ bands:            # applied to the score AFTER the regime's min_score_adjustment
   exceptional: 85
 
 min_coverage_for_actionable: 0.60   # share of total weight with data
+# Technical-only assets (BTC, SPY, QQQ: no fundamentals/valuation) may become actionable at
+# lower coverage ONLY if the active setup earned PROMISING/WEAK_POSITIVE in real-data research.
+technical_only_min_coverage: 0.40
 setup_required_for_actionable: true # no active setup -> at most WATCH / WAIT
 
 liquidity:

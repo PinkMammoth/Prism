@@ -85,7 +85,33 @@ def build_demo_db(
         counts[asset.symbol] = c["inserted"]
     _demo_macro(store, rng, end)
     _demo_fundamentals(settings, store, rng, end)
+    _demo_crypto_metrics(store, rng, end)
     return counts
+
+
+def _demo_crypto_metrics(store: Store, rng: np.random.Generator, end: pd.Timestamp) -> None:
+    """Synthetic protocol revenue histories and HYPE snapshots (supply, USDC, AF balance)."""
+    from market_signal.fundamentals.crypto_data import _rows, _snapshot, upsert_metrics
+
+    fetched = pd.Timestamp(utcnow()).to_pydatetime()
+    frames = []
+    for sym, base in {
+        "HYPE": 2.0e6,
+        "ETH": 3.0e6,
+        "SOL": 1.5e6,
+        "AAVE": 0.3e6,
+        "LINK": 0.05e6,
+    }.items():
+        days = pd.date_range(end - pd.Timedelta(days=720), end, freq="D")
+        level = base * np.exp(np.cumsum(rng.normal(0.0005, 0.04, len(days))))
+        hist = pd.DataFrame(
+            {"obs_date": days.date, "value": level * rng.lognormal(0, 0.25, len(days))}
+        )
+        frames.append(_rows(sym, SYNTHETIC_SOURCE, "daily_revenue", hist, fetched))
+    for metric, value in {"circulating_supply": 336e6, "total_supply": 962e6, "future_emissions": 380e6,
+                          "usdc_on_hyperliquid": 5.2e9, "af_hype_balance": 31e6}.items():  # fmt: skip
+        frames.append(_snapshot("HYPE", SYNTHETIC_SOURCE, metric, value, fetched))
+    upsert_metrics(store, pd.concat(frames, ignore_index=True), "demo")
 
 
 def _demo_fundamentals(

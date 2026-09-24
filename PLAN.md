@@ -205,3 +205,13 @@ display only), CoinGecko for OHLC (demo tier ~1 year history).
   `results/RESULTS_generated.md`. On synthetic data every idea is correctly REJECTED.
   RESULTS.md written as a pre-registration + engine validation; real verdicts require a
   networked run (`market update && market research`).
+- **Phase 5–6 (done).** Scoring engine (7 components, config weights, N/A-aware
+  denominator, coverage gate, setup gate, regime adjustment, evidence-gated coverage for
+  technical-only assets), price zones (valuation- and setup-based), risk sizing (TRADE
+  risk/stop, INVESTMENT fixed fraction, caps, no leverage; capped at standard tier until a
+  setup earns an edge). Fundamental modules: HYPE valuation (observed/assumed/derived,
+  inverse table, sensitivity), crypto revenue trend (DefiLlama, current-only), PIT equity
+  module, commodity macro factors (FRED/EIA, PIT). Crypto data updater (DefiLlama
+  reconstructed history + Hyperliquid snapshots). CLI: `scan`, `asset`, `hype`, `regime`.
+  Demo scan exposed and fixed three logic bugs (inverted investment entry zones,
+  double-counted HYPE yield, permanently blocked technical-only assets).

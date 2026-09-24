@@ -30,6 +30,7 @@ class Factor:
     kind: str  # observed | derived | assumed
     source: str
     explanation: str
+    role: str = "quality"  # quality | valuation (which score component it feeds)
 
 
 @dataclass
@@ -94,10 +95,10 @@ def equity_module(fund_row: pd.Series | None, is_bank: bool) -> ModuleResult:
     val = _mean(vparts)
     pe = fund_row.get("pe")
     f.append(Factor("pe_vs_own_5y", pe_pct, None if pe_pct is None else 1 - pe_pct, "derived", "price × diluted shares / TTM net income",
-                    f"P/E {'n/a' if pe is None or pd.isna(pe) else f'{pe:.1f}'} at the {('n/a' if pe_pct is None else f'{pe_pct:.0%}')} percentile of its 5y range (lower = cheaper)"))  # fmt: skip
+                    f"P/E {'n/a' if pe is None or pd.isna(pe) else f'{pe:.1f}'} at the {('n/a' if pe_pct is None else f'{pe_pct:.0%}')} percentile of its 5y range (lower = cheaper)", "valuation"))  # fmt: skip
     if not is_bank:
         f.append(Factor("fcf_yield_vs_own_5y", fcf_pct, fcf_pct, "derived", "TTM FCF / market cap",
-                        f"FCF yield at the {('n/a' if fcf_pct is None else f'{fcf_pct:.0%}')} percentile of its 5y range (higher = cheaper)"))  # fmt: skip
+                        f"FCF yield at the {('n/a' if fcf_pct is None else f'{fcf_pct:.0%}')} percentile of its 5y range (higher = cheaper)", "valuation"))  # fmt: skip
     return ModuleResult("equity", q, val, f, extra={"pe": pe, "pe_pct_5y": pe_pct})
 
 
@@ -154,7 +155,7 @@ def hype_module(store, settings) -> ModuleResult:
     mom = (r30 / r90 - 1) if r30 and r90 else None
     net = val.get("net_structural_yield")
     f = [
-        Factor("buyback_yield", y, band_score, "derived", "structural bid / market cap", f"structural buyback yield {'n/a' if y is None else f'{y:.2%}'} → {val.signal}"),
+        Factor("buyback_yield", y, band_score, "derived", "structural bid / market cap", f"structural buyback yield {'n/a' if y is None else f'{y:.2%}'} → {val.signal}", "valuation"),
         Factor("revenue_momentum_30v90", mom, ramp(mom, -0.3, 0.3), "derived", "DefiLlama dailyRevenue", f"30d vs 90d revenue run-rate {'n/a' if mom is None else f'{mom:+.0%}'}"),
         Factor("net_structural_yield", net, ramp(net, 0.0, 0.05), "derived", "bid − contributor sells", f"net of assumed contributor selling {'n/a' if net is None else f'{net:.2%}'} (partial)"),
     ]  # fmt: skip
