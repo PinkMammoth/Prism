@@ -112,7 +112,8 @@ reliability and fallbacks.
 uv run market update                 # fetch latest prices, macro (ALFRED vintages), EDGAR, crypto fundamentals
 uv run market update --only prices -s BTC -s HYPE --tf 1d
 uv run market doctor [--live]        # keys, freshness, data-quality issues, failed runs, provider probes
-uv run market scan                   # score & rank everything today; evaluate alerts
+uv run market scan                   # score & rank everything today; evaluate alerts (and record the calls)
+uv run market track [--calls]        # live track record of past ACTIONABLE / WAIT calls
 uv run market asset HYPE             # exactly why an asset scored what it did; zones; sizing
 uv run market hype                   # HYPE valuation: observed / assumed / derived + inverse table
 uv run market regime                 # current regimes and factor votes
@@ -127,7 +128,9 @@ uv run market demo-data              # SYNTHETIC demo DB for offline exploration
 uv run market --demo scan            # any command against the synthetic DB (loud banner)
 ```
 
-A daily routine is `market update && market scan`, then open the dashboard.
+A daily routine is `market update && market scan`, then open the dashboard. Run the scan
+every day, even when you don't look: each stored scan becomes part of the live track record,
+and a missed day is a missed call. Opening the dashboard also stores a scan.
 
 ## Dashboard
 
@@ -146,6 +149,7 @@ deeper, the full research behind tabs.
 | All assets | The dense screener: regimes with factor votes and the full ranked, filterable table. Click a row to open the asset. |
 | Backtest Lab | Pick an experiment, setup, universe, dates, regime filter and parameters. Shows verdict, event study, per-asset excess, equity and drawdown curves, trades, splits, walk-forward and the sensitivity heatmap. |
 | HYPE Monitor | Price, supply, revenue run-rates, USDC, AQAv2 revenue, structural bid, buyback yield, net yield, AF balance, band thresholds, the inverse table, sensitivity, and inputs split into observed / assumed / derived. |
+| **Track record** | Live evidence. Every stored scan is a dated record of what Prism said. ACTIONABLE calls are scored at 1 and 3 months against a random pick from the same asset class, net of costs. WAIT calls are scored on whether the price reached the preferred entry, and whether waiting beat buying immediately ("wait edge"). Results are split by the research verdict at the time of the call. Only calls recorded at the time count: nothing is backfilled. |
 | Portfolio / Journal | Record and close paper/real positions, with thesis, evidence, invalidation, "followed the system?", MAE/MFE, current score. Answers "which setups am I good at?" and "where do I break my rules?". |
 | Data health & alerts | Freshness, macro vintages, quality issues, ingestion provenance, provider changes, alert rules and events. |
 
