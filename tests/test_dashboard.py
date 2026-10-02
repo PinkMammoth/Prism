@@ -35,7 +35,9 @@ def demo_db(tmp_path_factory):
             os.environ[k] = v
 
 
-@pytest.mark.parametrize("page", ["market", "asset", "portfolio", "hype", "data", "backtest"])
+@pytest.mark.parametrize(
+    "page", ["today", "market", "asset", "portfolio", "hype", "data", "backtest"]
+)
 def test_page_renders(demo_db, page):
     from streamlit.testing.v1 import AppTest
 
@@ -44,3 +46,12 @@ def test_page_renders(demo_db, page):
     assert not at.exception, [e.value for e in at.exception]
     assert at.title  # page rendered its heading
     assert any("SYNTHETIC" in w.value for w in at.warning)  # demo banner always shown
+
+
+def test_app_navigation_lands_on_today(demo_db):
+    from streamlit.testing.v1 import AppTest
+
+    at = AppTest.from_file(str(REPO / "dashboard" / "app.py"), default_timeout=300)
+    at.run()
+    assert not at.exception, [e.value for e in at.exception]
+    assert at.title[0].value == "Today"

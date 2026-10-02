@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import contextlib
 import os
 import sys
 from collections.abc import Iterator
@@ -91,3 +92,35 @@ def pct(x, signed: bool = True) -> str:
     if x != x:
         return "–"
     return f"{x:+.1%}" if signed else f"{x:.1%}"
+
+
+@st.cache_data(show_spinner=False)
+def cached_evidence(_version: float):
+    """Latest saved research run per setup (pooled evidence), read-only."""
+    from presenter import load_evidence
+
+    min_events = int(settings().yaml("backtest.yaml")["statistics"]["min_events_for_conclusion"])
+    with store(read_only=True) as s:
+        return load_evidence(s, min_events)
+
+
+def decision_views(res):
+    """Presentation views for every assessment, in the engine's ranking order."""
+    from presenter import build_view
+
+    ev = cached_evidence(db_version())
+    return [build_view(a, ev) for a in res.assessments]
+
+
+def open_asset(symbol: str) -> None:
+    st.session_state["asset"] = symbol
+    st.switch_page("views/asset.py")
+
+
+def nav_link(page: str, label: str, icon: str | None = None) -> None:
+    """``st.page_link`` that degrades to nothing when a view runs outside ``app.py``
+    (e.g. the per-page render tests), where other pages are not registered."""
+    from streamlit.errors import StreamlitPageNotFoundError
+
+    with contextlib.suppress(StreamlitPageNotFoundError):
+        st.page_link(page, label=label, icon=icon)

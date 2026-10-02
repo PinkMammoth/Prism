@@ -1,11 +1,13 @@
-"""Page 1 — Market Dashboard: regime, ranked opportunities, headline."""
+"""All Assets (research screener): every assessment with every component, filterable.
+
+The daily decision view lives in views/today.py; this is the dense Level-3 table."""
 
 import pandas as pd
 import streamlit as st
 
-from common import banner, cached_scan, db_version, money, pct
+from common import banner, cached_scan, db_version, decision_views, money, pct
 
-st.title("Market Dashboard")
+st.title("All Assets")
 banner()
 res = cached_scan(db_version())
 if st.button("Re-scan now"):
@@ -24,9 +26,11 @@ for col, key, label in ((c1, "crypto", "Crypto regime"), (c2, "macro", "Macro / 
     )
 c3.info(res.headline)
 st.caption(
-    f"Scan {res.scan_id} at {res.as_of}. Cash is a valid position: statuses below 'ACTIONABLE' are not trades."
+    f"Scan {res.scan_id} at {res.as_of}. Cash is a valid position: statuses below 'ACTIONABLE' are not trades. "
+    "'decision' is the Today view's status (engine status, with setups rejected by research capped at WATCH)."
 )
 
+decision = {v.symbol: v.decision for v in decision_views(res)}
 rows = []
 for a in res.assessments:
     comp = {c.name: c for c in a.components}
@@ -36,7 +40,7 @@ for a in res.assessments:
         "fundamental": comp["fundamental"].label(), "valuation": comp["valuation"].label(),
         "trend": comp["structure"].label(), "entry": comp["entry"].label(), "macro": comp["macro"].label(),
         "price": a.price, "ideal entry": a.zones.get("ideal_entry"), "to ideal": a.zones.get("distance_to_ideal"),
-        "status": a.status, "why": a.status_text, "research verdict": a.setup.research_verdict or "not run",
+        "decision": decision.get(a.symbol), "status": a.status, "why": a.status_text, "research verdict": a.setup.research_verdict or "not run",
     })  # fmt: skip
 df = pd.DataFrame(rows)
 f1, f2, f3 = st.columns(3)

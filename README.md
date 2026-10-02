@@ -136,14 +136,25 @@ uv run streamlit run dashboard/app.py              # real data
 uv run streamlit run dashboard/app.py -- --demo    # synthetic demo DB (banner on every page)
 ```
 
+The dashboard uses progressive disclosure: the daily answer first, the evidence one click
+deeper, the full research behind tabs.
+
 | Page | Contents |
 |---|---|
-| Market Dashboard | Regimes and their factor votes; a ranked, filterable opportunity table (score, coverage, fundamental, valuation, trend, entry, macro, price, ideal entry, status, research verdict); click a row to research that asset. |
-| Asset Research | Weekly, daily or 4h chart with MAs, entry, accumulate and fair-value zones and invalidation. Also: the score breakdown with the reason for every point, price zones, sizing, setup states, fundamentals, and "this setup occurred N times" history. |
+| **Today** (default) | The daily answer in ~30 seconds. A headline ("2 ACTIONABLE OPPORTUNITIES" or "NO ACTIONABLE OPPORTUNITIES TODAY" plus the closest candidate). A compact market state (crypto; equities & macro) with headwinds. Then up to 5 opportunity cards, each with status, setup, why it ranks, current vs preferred entry, distance to entry, invalidation, key risk, suggested size, and **current setup strength shown apart from research evidence** (verdict, data coverage, independent sample). Assets needing no action sit in a collapsed, scannable list. |
+| **Asset decision** | One asset. A summary comes first: what Prism suggests, Thesis, Entry, Evidence (pooled research for the active setup: independent events, excess vs random entry, hit rate, p-value, walk-forward folds) and Caution. Next comes the weekly, daily or 4h chart with zones. Then **Research details** tabs: score breakdown, price zones and sizing, setup states, the pooled setup research (all horizons, walk-forward, sensitivity, simulation, provenance), this asset's own event studies (on demand) and fundamentals. |
+| All assets | The dense screener: regimes with factor votes and the full ranked, filterable table. Click a row to open the asset. |
 | Backtest Lab | Pick an experiment, setup, universe, dates, regime filter and parameters. Shows verdict, event study, per-asset excess, equity and drawdown curves, trades, splits, walk-forward and the sensitivity heatmap. |
-| Portfolio / Journal | Record and close paper/real positions, with thesis, evidence, invalidation, "followed the system?", MAE/MFE, current score. Answers "which setups am I good at?" and "where do I break my rules?". |
 | HYPE Monitor | Price, supply, revenue run-rates, USDC, AQAv2 revenue, structural bid, buyback yield, net yield, AF balance, band thresholds, the inverse table, sensitivity, and inputs split into observed / assumed / derived. |
-| Data Health & Alerts | Freshness, macro vintages, quality issues, ingestion provenance, provider changes, alert rules and events. |
+| Portfolio / Journal | Record and close paper/real positions, with thesis, evidence, invalidation, "followed the system?", MAE/MFE, current score. Answers "which setups am I good at?" and "where do I break my rules?". |
+| Data health & alerts | Freshness, macro vintages, quality issues, ingestion provenance, provider changes, alert rules and events. |
+
+The plain-English text on Today and Asset decision comes from `dashboard/presenter.py`, a
+deterministic presentation layer over the scan and the saved research runs. It has no LLM
+and computes no new analytics. Decisions on those pages are ACTIONABLE / WAIT / WATCH /
+IGNORE. The engine's EXCEPTIONAL / STRONG / ACTIONABLE all display as ACTIONABLE, and the
+band is shown as the strength of the current setup. A setup whose research verdict is
+REJECT is never displayed as ACTIONABLE or WAIT: it is shown as WATCH, with the reason.
 
 ## Reading the signals
 
