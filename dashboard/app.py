@@ -4,7 +4,7 @@ Information architecture (progressive disclosure):
   Today          — Level 1: the daily answer in ~30 seconds (default page)
   Asset decision — Level 2: one asset's thesis/entry/evidence/caution; Level 3 research tabs below
   Research       — screener table, Backtest Lab, HYPE monitor
-  Records/System — portfolio & journal, data health & alerts
+  Records/System — live track record, portfolio & journal, data health & alerts
 """
 
 from __future__ import annotations
@@ -26,6 +26,7 @@ pages = {
         st.Page("views/hype.py", title="HYPE Monitor", icon=":material/monitoring:"),
     ],
     "Records": [
+        st.Page("views/track.py", title="Track record", icon=":material/fact_check:"),
         st.Page("views/portfolio.py", title="Portfolio / Journal", icon=":material/book:"),
     ],
     "System": [

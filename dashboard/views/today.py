@@ -121,6 +121,11 @@ legend = " · ".join(f"{decision_pill(d)} {esc(t)}" for d, t in (
     ("WATCH", "monitor only"), ("IGNORE", "nothing to do")))  # fmt: skip
 html(f"<div class='small muted'>{legend}</div>")
 nav_link(
+    "views/track.py",
+    "Track record — how Prism's past calls actually played out",
+    icon=":material/fact_check:",
+)
+nav_link(
     "views/market.py",
     "All assets — full ranked table and filters",
     icon=":material/table_rows:",

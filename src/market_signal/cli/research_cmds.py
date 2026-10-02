@@ -87,7 +87,103 @@ def research(
         console.print(f"Summary: {path}")
 
 
+def _pct(v, signed: bool = True) -> str:
+    if v is None or v != v:
+        return "–"
+    return f"{v:+.1%}" if signed else f"{v:.0%}"
+
+
+def track(
+    calls: bool = typer.Option(False, "--calls", help="Also list every call and its outcome"),
+) -> None:
+    """Live track record: how Prism's recorded ACTIONABLE and WAIT calls actually played out."""
+    import pandas as pd
+
+    from market_signal.demo import is_synthetic
+    from market_signal.research.track_record import (
+        mark_independent,
+        scan_coverage,
+        score_calls,
+        summarise,
+    )
+
+    with open_store() as (settings, store):
+        if is_synthetic(store):
+            console.print("[bold black on yellow] SYNTHETIC DATA — engine demonstration only [/]")
+        cov = scan_coverage(store)
+        console.print(f"Scans stored on {cov['with_scan']} of the last {cov['days']} days "
+                      f"(first {cov['first']:%Y-%m-%d})." if cov["first"] is not None else
+                      "No scans stored yet: run `market scan` daily (or open the dashboard).")  # fmt: skip
+        sc = score_calls(store, settings)
+        if sc.empty:
+            console.print("No ACTIONABLE or WAIT calls recorded yet.")
+            return
+        sc = mark_independent(sc)
+        summ = summarise(sc)
+        min_n = int(settings.yaml("backtest.yaml")["statistics"]["min_events_for_conclusion"])
+        t = Table(
+            title="ACTIONABLE calls vs a random pick from the same asset class (net of costs)"
+        )
+        for c in (
+            "horizon",
+            "calls",
+            "pending",
+            "independent",
+            "mean return",
+            "benchmark",
+            "mean excess",
+            "beat benchmark",
+            "stop hit",
+        ):
+            t.add_column(c)
+        for _, r in summ[summ["group"] == "ACTIONABLE"].iterrows():
+            t.add_row(r["horizon"], str(r["calls"]), str(r["pending"]), str(r["independent"]), _pct(r["mean_return"]),
+                      _pct(r["mean_benchmark"]), _pct(r["mean_excess"]), _pct(r["beat_benchmark"], False),
+                      _pct(r["stop_hit_rate"], False))  # fmt: skip
+        console.print(t)
+        t = Table(
+            title="WAIT calls: did price reach the preferred entry, and did waiting beat buying now?"
+        )
+        for c in (
+            "horizon",
+            "calls",
+            "pending",
+            "independent",
+            "filled",
+            "median days",
+            "after fill",
+            "if bought now",
+            "wait edge",
+        ):
+            t.add_column(c)
+        for _, r in summ[summ["group"] == "WAIT"].iterrows():
+            t.add_row(r["horizon"], str(r["calls"]), str(r["pending"]), str(r["independent"]), _pct(r["fill_rate"], False),
+                      "–" if pd.isna(r["median_days_to_fill"]) else f"{r['median_days_to_fill']:.0f}",
+                      _pct(r["mean_return_after_fill"]), _pct(r["mean_chase_return"]), _pct(r["mean_wait_edge"]))  # fmt: skip
+        console.print(t)
+        if summ["independent"].max() < min_n:
+            console.print(f"[yellow]Too early to judge: fewer than {min_n} completed independent calls per row. "
+                          "Treat these numbers as anecdotes.[/]")  # fmt: skip
+        if calls:
+            cols = [
+                "bar",
+                "symbol",
+                "group",
+                "status",
+                "setup",
+                "verdict",
+                "horizon",
+                "state",
+                "ret",
+                "excess",
+                "filled",
+                "wait_edge",
+            ]
+            console.print(sc[cols].sort_values(["bar", "symbol", "horizon"]).to_string(index=False))
+
+
 def register(app: typer.Typer) -> None:
+    app.command("track")(track)
     app.command("backtest")(backtest)
     app.command("experiments")(experiments)
     app.command("research")(research)
