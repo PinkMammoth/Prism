@@ -1,5 +1,5 @@
 """Deterministic presentation layer: turns scan assessments + saved research runs into
-plain-English decision summaries for the dashboard.
+plain-English decision summaries for the dashboard and the daily brief.
 
 Nothing here computes new analytics or changes a research result. It only *reads* the
 structured outputs of the scoring engine (``Assessment``) and of saved research runs

@@ -716,3 +716,41 @@ def persist_scan(store: Store, settings: Settings, res: ScanResult) -> None:
                 json.dumps(a.to_json()),
             ],
         )
+
+
+# --------------------------------------------------------------------------- stored scans
+
+
+def assessment_from_json(d: dict[str, Any]) -> Assessment:
+    """Rebuild an ``Assessment`` from its stored ``to_json()`` payload (scan_results)."""
+    d = dict(d)
+
+    def setup(x: dict) -> SetupState:
+        x = dict(x)
+        for k in ("entry_zone",):
+            if x.get(k) is not None:
+                x[k] = tuple(x[k])
+        return SetupState(**x)
+
+    d["setup"] = setup(d["setup"])
+    d["setups"] = [setup(x) for x in d.get("setups") or []]
+    d["components"] = [Component(**c) for c in d.get("components") or []]
+    return Assessment(**d)
+
+
+def load_latest_scan(store: Store) -> tuple[ScanResult, pd.Timestamp] | None:
+    """The most recently stored scan (and when it was created), or None."""
+    runs = store.query(
+        "SELECT scan_id, as_of, created_at, regime, summary FROM scan_runs ORDER BY created_at DESC LIMIT 1"
+    )
+    if runs.empty:
+        return None
+    r = runs.iloc[0]
+    rows = store.query("SELECT payload FROM scan_results WHERE scan_id = ?", [r["scan_id"]])
+    rank = {"EXCEPTIONAL": 0, "STRONG": 1, "ACTIONABLE": 2, "WAIT": 3, "WATCH": 4, "IGNORE": 5}
+    assessments = [assessment_from_json(json.loads(p)) for p in rows["payload"]]
+    assessments.sort(key=lambda a: (rank.get(a.status, 9), -(a.score or 0)))
+    summary = json.loads(r["summary"]) if r["summary"] else {}
+    res = ScanResult(r["scan_id"], pd.Timestamp(r["as_of"]).isoformat(), json.loads(r["regime"] or "{}"),
+                     assessments, summary.get("headline", ""))  # fmt: skip
+    return res, pd.Timestamp(r["created_at"])

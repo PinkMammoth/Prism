@@ -10,5 +10,7 @@ rules:
   - {kind: score_gte, score: 75}
   - {kind: enters_zone, symbol: HYPE, zone: accumulate}
   - {kind: status_change, to: [ACTIONABLE, STRONG, EXCEPTIONAL]}
-notifiers: [console]   # future: email, telegram, discord (implement Notifier)
+notifiers: [console]   # immediate output of `market scan`. Telegram delivery happens in the
+                       # daily brief (`market brief --send`), which sends every alert event not
+                       # yet delivered, including ones recorded by the dashboard.
 cooldown_hours: 24     # do not re-fire the same rule for the same asset within this window

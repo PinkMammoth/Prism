@@ -6,8 +6,18 @@ click away (asset decision page → research details)."""
 import pandas as pd
 import streamlit as st
 
-from common import banner, cached_scan, db_version, decision_views, nav_link, open_asset
-from presenter import closest_candidate, market_state, triage
+from common import (
+    banner,
+    cached_scan,
+    db_version,
+    decision_views,
+    nav_link,
+    open_asset,
+    settings,
+    store,
+)
+from market_signal.data.freshness import check_freshness
+from market_signal.presenter import closest_candidate, market_state, triage
 from ui import card, compact_table, decision_pill, esc, evidence_pill, html, inject_css, pill
 
 MAX_CARDS = 5
@@ -26,6 +36,20 @@ as_of = pd.Timestamp(res.as_of).strftime("%a %d %b %Y, %H:%M UTC")
 st.caption(f"Scan {as_of} · {len(views)} assets scored · Prism never places trades")
 banner()
 
+# ---------------------------------------------------------------- 0. is the data current?
+with store(read_only=True) as _s:
+    fresh = check_freshness(_s, settings())
+stale = fresh.data_stale
+if stale:
+    items = "".join(f"<p>{esc(p)}</p>" for p in fresh.problems(include_scan=False))
+    html(f"""<div class="stale-box"><b>DATA IS OUT OF DATE</b>{items}
+<p class="small">The answer below is the last known one and may be wrong. Check the scheduled task
+(<code>data/daily.log</code>) or run <code>uv run market update</code>, then Re-scan.</p></div>""")
+    st.write("")
+elif probs := fresh.problems(include_scan=False):
+    st.caption("Data note: " + " ".join(probs))
+eyebrow = "Last known answer (data out of date)" if stale else "Today's answer"
+
 # ---------------------------------------------------------------- 1. the answer
 if not views:
     html(
@@ -35,7 +59,7 @@ if not views:
 if act:
     names = ", ".join(v.symbol for v in act)
     sub = f"{len(wait)} more waiting for a better price." if wait else "Nothing else is close."
-    html(f"""<div class="hero"><div class="eyebrow">Today's answer</div>
+    html(f"""<div class="hero"><div class="eyebrow">{esc(eyebrow)}</div>
 <h2>{len(act)} ACTIONABLE {"OPPORTUNITY" if len(act) == 1 else "OPPORTUNITIES"}: {esc(names)}</h2>
 <p class="muted">{esc(sub)} Act only within your plan and the suggested size; cash remains a valid position.</p></div>""")
 else:
@@ -49,7 +73,7 @@ else:
             f"<br><span class='small'>{esc(c.short_reason)}</span>"
             f"<br><span class='small muted'>Research evidence</span> {evidence_pill(c.evidence)}</p>"
         )
-    html(f"""<div class="hero"><div class="eyebrow">Today's answer</div>
+    html(f"""<div class="hero"><div class="eyebrow">{esc(eyebrow)}</div>
 <h2>NO ACTIONABLE OPPORTUNITIES TODAY</h2>
 <p class="muted">Holding cash is a valid, deliberate result. Nothing meets Prism's entry rules right now.</p>{closest}</div>""")
 
@@ -93,7 +117,7 @@ if featured:
     )
     for i, v in enumerate(featured, 1):
         with st.container(border=True):
-            html(card(v, i))
+            html(card(v, i, stale))
             if st.button(f"Open {v.symbol} decision page", key=f"open_{v.symbol}",
                          icon=":material/arrow_forward:", type="tertiary"):  # fmt: skip
                 open_asset(v.symbol)
