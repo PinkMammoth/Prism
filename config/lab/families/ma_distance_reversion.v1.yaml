@@ -1,0 +1,28 @@
+# Strategy family (preregistered research space). Not a recommendation or a result.
+family: ma_distance_reversion
+version: 1
+title: Stretch from the moving average, mean reversion
+rationale: >-
+  A large deviation of price from its recent average can reflect temporary liquidity demand
+  or overreaction; as it is absorbed, price may move back toward the average.
+markets: [perp, spot]
+authored_at: 2026-10-03T00:00:00Z
+parameters:
+  ma: [20, 50]
+  stretch: [0.1, 0.15, 0.2]  # fraction of the average
+name: ma_distance_{ma}_{stretch}_{side}
+cooldown_bars: 10
+exit: {stop_atr: 2.0, max_hold_bars: 10}
+max_variants: 12
+long:
+  hypothesis: >-
+    The first close more than {stretch} (as a fraction) below its {ma}-day SMA may be followed
+    by a partial reversion upward.
+  conditions:
+    - {left: "dist_sma_{ma}", op: lt, right: {param: stretch, scale: -1}}
+short:
+  hypothesis: >-
+    The first close more than {stretch} (as a fraction) above its {ma}-day SMA may be followed
+    by a partial reversion downward.
+  conditions:
+    - {left: "dist_sma_{ma}", op: gt, right: {param: stretch}}

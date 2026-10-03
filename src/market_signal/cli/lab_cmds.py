@@ -1,7 +1,8 @@
 """Strategy Lab commands.
 
-Inspection and ``compile`` are read-only. ``preregister``, ``screen``, ``batch create``
-and ``batch run`` are the only writes; they follow the ledger lifecycle (freeze /
+Inspection, ``compile``, ``families``/``family show`` and ``batch generate`` (without
+``--register``) are read-only. ``preregister``, ``screen``, ``batch generate --register``,
+``batch create`` and ``batch run`` are the only writes; they follow the ledger lifecycle (freeze /
 preregister -> start -> one terminal result -> one batch analysis). There are no
 promotion or AI-generation commands.
 """
@@ -25,6 +26,14 @@ from market_signal.research.lab.batch import (
 )
 from market_signal.research.lab.common import canonical_json
 from market_signal.research.lab.compiler import CompileError, compile_registered
+from market_signal.research.lab.families import (
+    catalogue_summary,
+    generate,
+    load_catalogue,
+    load_request,
+    plan_family_batch,
+    register_family_batch,
+)
 from market_signal.research.lab.ledger import Ledger, LedgerError
 from market_signal.research.lab.provenance import capture_software
 from market_signal.research.lab.screen import run_screen
@@ -205,6 +214,98 @@ def batch_run(
     out = _inspect(run, read_only=False)
     if out["status"] != "completed":
         raise typer.Exit(1)
+
+
+family = typer.Typer(no_args_is_help=True, help="Structured strategy families (templates).")
+lab.add_typer(family, name="family")
+
+
+def _catalogue() -> dict:
+    from market_signal.config import get_settings
+
+    return load_catalogue(get_settings().paths.config / "lab" / "families")
+
+
+def _print(obj) -> None:
+    console.print_json(canonical_json(obj))
+
+
+@lab.command("families")
+def families() -> None:
+    """List the strategy-family catalogue (no database access)."""
+    try:
+        _print(catalogue_summary(_catalogue()))
+    except ValueError as exc:
+        console.print(f"Lab: {exc}", markup=False)
+        raise typer.Exit(1) from None
+
+
+@family.command("show")
+def family_show(
+    name: str,
+    version: int = typer.Option(None, "--version", help="Default: latest version."),
+    market: str = typer.Option("perp", "--market", help="perp | spot"),
+) -> None:
+    """Dry run: every variant a family generates for a market. Nothing is registered."""
+    try:
+        cat = _catalogue()
+        versions = sorted(v for (n, v) in cat if n == name)
+        if not versions:
+            raise ValueError(f"unknown family {name}")
+        f = cat[(name, version or versions[-1])]
+        variants = generate(f, market)
+        _print({"family": f.family, "version": f.version, "family_id": f.family_id,
+                "title": f.title, "rationale": f.rationale, "market": market,
+                "sides": list(f.sides(market)), "variants": len(variants),
+                "members": [v.summary() for v in variants]})  # fmt: skip
+    except (ValueError, KeyError) as exc:
+        console.print(f"Lab: {exc}", markup=False)
+        raise typer.Exit(1) from None
+
+
+@batch.command("generate")
+def batch_generate(
+    request: Path,
+    register: bool = typer.Option(False, "--register", help="WRITE: register new variants."),
+    out: Path = typer.Option(None, "--out", help="Where to write the batch manifest YAML."),
+) -> None:
+    """Families -> a Phase 5 batch manifest. Default is a dry run (read-only, no results).
+
+    The dry run shows variants per family, parameters, strategy IDs, registration state and
+    whether the Monte Carlo resolution supports the family size. With --register, missing
+    variants are submitted to the ledger and the manifest is written to --out; the batch
+    is NOT frozen or run (use `market lab batch create` then `batch run`).
+    """
+    import yaml
+
+    req = load_request(request)
+    if not register:
+
+        def dry(ledger):
+            report = plan_family_batch(ledger, req, _catalogue())
+            report.pop("_variants")
+            return report
+
+        _inspect(dry)
+        return
+    if out is None:
+        console.print("Lab: --register needs --out for the manifest", markup=False)
+        raise typer.Exit(1)
+    if out.exists():
+        console.print(f"Lab: {out} exists; manifests are never overwritten", markup=False)
+        raise typer.Exit(1)
+
+    def write(ledger):
+        manifest, submitted = register_family_batch(ledger, req, _catalogue(), origin="cli")
+        data = manifest.model_dump(mode="json")
+        out.write_text(yaml.safe_dump(data, sort_keys=True), encoding="utf-8")
+        return {
+            "manifest": str(out),
+            "members": len(manifest.members),
+            "new_submissions": submitted,
+        }
+
+    _inspect(write, read_only=False)
 
 
 def register(app: typer.Typer) -> None:

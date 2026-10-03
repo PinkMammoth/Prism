@@ -3,7 +3,8 @@
 Inspection date: 2026-10-03. This is a design grounded in the existing implementation,
 including the local database and generated reports. Only the representation foundation
 (section 6), research governance ledger (section 7), daily feature compiler (section 8),
-fast screen (section 9) and preregistered search batches (section 10) are implemented. No production strategies, evaluation rules, paper records, scanners or
+fast screen (section 9), preregistered search batches (section 10) and structured
+strategy families (section 11) are implemented. No production strategies, evaluation rules, paper records, scanners or
 Telegram paths were changed; the only schema changes are the additive Lab migrations
 described in sections 7 and 10.
 
@@ -367,6 +368,7 @@ not control data mining; BH does not repair invalid or adaptively selected p-val
 | 3 — Daily compiler/features (implemented, section 8) | Added `research/lab/vocabulary.py`, `features.py`, `compiler.py`; reuse `indicators/technical.py`, `data/prices.py`, perp helpers. `alignment.py`/`adapters.py` deferred: daily-only needs no MTF alignment, and adapters belong with Phase 5 injection | Small daily vocabulary compiles to signals/stops/eligibility; synthetic hand-calculation, missing-data, truncation/future-shock and legacy parity tests; no registry mutation |
 | 4 — Fast screen (implemented, section 9) | Added `research/lab/screen.py`, plan schema v2 in `policy.py`; Lab CLI `preregister`, `screen`. `report.py`/`compare`/`history` deferred: results are inspected through `market lab experiment` | Bounded deterministic batches on discovery data; cached returns; all failures persisted; asset/time/side summaries; measured runtime/memory; cannot invoke full research or promote |
 | 5a — Search batches and FDR (implemented, section 10) | Added `research/lab/batch.py`, migration 8, `market lab batch create/run/show`, `market lab batches` | Frozen testing families, BH over one primary test per strategy, family-aware statuses, holdout refusal, immutable analyses |
+| 6 — Structured strategy families (implemented, section 11) | Added `research/lab/families.py`, `config/lab/families/*.yaml`, `market lab families`, `family show`, `batch generate` | Versioned economic families with bounded grids generate deterministic Phase 1 variants and Phase 5 manifests without running them |
 | 5b — Full-research adapters and statistical gate | Extend spot/perp runners for explicit candidate injection; add `research/lab/validation.py`, `multiple_testing.py`; reuse reports/robustness/simulators | Existing strategies retain parity; trusted plan requires completed checks; address audit items with separate versioned methodology patches; holdout/family controls before large-scale claims; link old reports |
 | 6 — Perp MTF and OI | Extend `perps/data.py`, `perps/binance.py`, provider loaders and dataset manifests; extend Lab features/alignment and research policy | Stored 1h/4h data with completeness/availability; settlement-level funding treatment; same-close/gap/stale/snapshot tests; portfolio timing validated before intraday execution claims |
 | 7 — Paper and scanner eligibility | Add `research/lab/promotion.py`; additive versioned paper storage and opt-in adapters in `perps/paper.py`, `scoring/engine.py`, presenter/brief/CLI | Exact strategy + implementation + policy versions carry evidence; paper starts prospectively, no backfill; explicit scanner allowlist; existing strategies unchanged |
@@ -1086,7 +1088,140 @@ Outcome: 45 testable (13 insufficient, 1 no events), 0 FDR survivors.
 - Daily data only; no OI or multi-timeframe; no AI generation.
 - No promotion to full research and no automated confirmatory validation.
 
-## 11. Verification
+## 11. Step 6 implemented: structured strategy families
+
+Module `research/lab/families.py`, the catalogue in `config/lab/families/`
+(`<family>.v<version>.yaml`), and the CLI commands `market lab families`,
+`market lab family show <name> [--market perp|spot]` and
+`market lab batch generate <request.yaml> [--register --out manifest.yaml]`.
+
+### Strategy, family and batch
+
+- A **strategy** is one Phase 1 definition with a canonical `strategy_…` ID.
+- A **family** is a versioned economic hypothesis: a rationale, the markets and sides it
+  applies to, a small explicit parameter grid with constraints, and one condition
+  template per side. It generates strategies and knows nothing about data or plans.
+- A **batch** (Phase 5) is a statistical testing family: chosen strategies on one dataset,
+  plan, role, horizon and FDR target. The same family can feed many batches.
+
+**Parameter grids are preregistered research spaces, not optimisation searches performed
+after observing results.** The catalogue was written before any family was screened, and
+the Phase 6 smoke run below changed nothing in it.
+
+### Initial catalogue (v1, 9 families; 128 perp and 48 spot variants)
+
+| Family | Hypothesised mechanism | Parameters (constraint) | Sides | Perp / spot |
+|---|---|---|---|---|
+| `ma_trend` | Positioning and slow participants adjust gradually, so price and a faster EMA on the same side of a slower EMA may keep drifting | fast {10,20,50}, slow {50,100,200} (slow ≥ 2.5 × fast) | long & short | 14 / 7 |
+| `donchian_breakout` | A close beyond the prior range may reflect new information or persistent order imbalance | lookback {10,20,30,55,100}; close crosses the prior high/low | long & short | 10 / 5 |
+| `trend_pullback` | Counter-moves inside a trend are often transient profit-taking; momentum turning back may end the pullback | trend SMA {100,200}, RSI {7,14}, level {35,40}; shorts use 100 − level | long & short | 16 / 8 |
+| `rsi_exhaustion` | Momentum extremes can reflect forced or crowded flows that partly revert when pressure fades | RSI {7,14}, oversold {20,25,30}; shorts use 100 − oversold | long & short | 12 / 6 |
+| `ma_distance_reversion` | Large deviation from the recent average can be temporary liquidity demand or overreaction | SMA {20,50}, stretch {0.10,0.15,0.20} | long & short | 12 / 6 |
+| `vol_compression_breakout` | Low realised volatility can be a temporary balance; breaking out of it may start a larger move | fast vol {10,20}, slow vol {60,120} (slow ≥ 3 × fast), breakout lookback {20,40} | long & short | 16 / 8 |
+| `volume_breakout` | Abnormal participation may separate committed breakouts from noise | lookback {20,55}, volume window {20,50}, z {2,3} (vol z-score vs the prior window) | long & short | 16 / 8 |
+| `funding_extreme_fade` | Extreme funding versus a coin's own history may proxy for crowded leverage that unwinds against the crowd | mean days {3,7}, percentile lookback {90,180}, tail {0.90,0.95}; longs use the 1 − tail lower tail | short (high funding) & long (low funding) | 16 / – |
+| `funding_momentum_exhaustion` | Extreme funding after a strong same-direction move may be late, fragile trend-chasing | tail {0.90,0.95}, return horizon {7,14}, move {0.10,0.20}; funding_pct_7_180 fixed | short & long | 16 / – |
+
+Every family file states its rationale as a hypothesis, not a claim. OI families are
+absent because no historical OI exists. Relative momentum, failed-breakout reversal and
+range-expansion continuation were left out: they need cross-asset or state features the
+daily vocabulary does not have, or have no clean expression yet. Spot generation keeps
+only long sides (Prism's spot engine is long-only), and the funding families are perp-only.
+
+### Generation semantics
+
+- **Grid.** Parameters are enumerated by name, values ascending, as a Cartesian product
+  filtered by the constraints (`left op factor × right`, with `right` a parameter or a
+  constant). Then the long side, then the short. There is no sampling. A grid that would
+  exceed the family's `max_variants` (≤ 64) makes the family invalid ("narrow the grid in
+  a new version").
+- **Templates.** Feature names are substituted from integer parameters and must be
+  canonical vocabulary tokens. Right-hand sides are structured: a number,
+  `{feature: …}`, or `{param: p, scale, offset}`, which lets shorts mirror thresholds
+  explicitly (RSI 100 − level, funding 1 − tail, distance −stretch). There are no
+  expression strings. Side semantics are explicit per family: compression and volume
+  conditions are intentionally *not* mirrored.
+- **Exit and cooldown.** Each family fixes its exit intent (the ATR meaning comes from the
+  market: `perp_sma_14` or `wilder_14`) and its cooldown.
+- **Variants.** Each variant is an ordinary `Hypothesis` + `StrategyDefinition` with the
+  usual strategy ID:
+  - `created_at` is the family's fixed `authored_at`, so the hypothesis documents are
+    reproducible too;
+  - the name is deterministic, e.g. `ma_trend_20_100_long` or
+    `funding_fade_a7_l180_p95_short` (floats 0.95 → `p95`, 1.5 → `1p5`, minus → `m`);
+  - the hypothesis text is the side's sentence with values substituted, followed by the
+    family rationale;
+  - `source` holds machine-readable lineage
+    `{generator: lab_family_grid_v1, family, version, family_id, market, side, params}`.
+- **Validity checks.** Duplicate names, two assignments producing the same strategy (an
+  unused parameter), placeholders missing from the name, and invalid features or
+  definitions all make a family invalid when it is loaded.
+
+### Identity and versioning
+
+`family_id` is the SHA-256 of the canonical family document: parameters by name with
+sorted values, sorted constraints and sorted conditions, so YAML ordering never matters.
+Any change to values, constraints, templates, exit, cooldown, cap, rationale or version
+changes it. A test pins every catalogue family ID and variant count, so a frozen family
+cannot be edited silently: write `<family>.v2.yaml` instead. In the ledger, a family's
+strategies are registered under `family_id = <family name>` (stable across versions), and
+the version lives in each hypothesis's lineage.
+
+### Complexity limits
+
+Templates have 1–4 conditions (the spec limit); the v1 catalogue uses at most 2. Families
+have at most 4 parameters with 10 values each, at most 6 constraints and at most 64
+variants per market. Each variant reports `conditions`, `unique_features` and
+`free_parameters` for later analysis; no complexity penalty is applied yet. Families
+combine only features that belong to one mechanism; there is no cross-family combining.
+
+### Dry run and batch generation
+
+`market lab batch generate request.yaml` (read-only) takes a strict request: name,
+description, plan, dataset, role (`discovery`/`development`), correction, survivor and a
+list of `{family, version}`. It prints:
+
+- each family with its variants, sides, parameters, constraints, and per-variant name,
+  strategy ID, parameters, complexity and registration state;
+- the total;
+- the statistical check: q, draws, smallest attainable p, and the largest family the Monte
+  Carlo resolution supports, `floor(q × (draws + 1))` (capped at 1,000, the Phase 5 batch
+  limit);
+- every problem the Phase 5 freeze would raise: a member already preregistered on these
+  inputs, a strategy registered under another family, duplicates across families, or a
+  family that is too large.
+
+It reads definitions and the preregistration log, never results.
+
+`--register --out manifest.yaml` refuses if any problem remains. Otherwise it submits only
+variants that are not yet registered (regeneration adds no records) and writes the Phase 5
+manifest, with the primary horizon taken from the plan and members sorted. It **does not
+freeze or run anything**: `market lab batch create` and `batch run` remain separate,
+explicit steps. Oversized families are refused rather than truncated.
+
+### Phase 6 smoke run (scratch copy of the local DB; not a search for winners)
+
+- **Request:** `ma_trend` + `donchian_breakout` + `funding_extreme_fade` v1 on all six
+  Hyperliquid perps, a two-year discovery window with 400-day warmup, primary horizon
+  10d, 2,000 draws, q = 0.10, `min_pooled_excess` 0.002.
+- **Dry run:** 40 variants (14/10/16), compatible (maximum 200).
+- **Pipeline:** `--register` (40 submissions) → `batch create` → `batch run` (12.7 s) →
+  COMPLETED.
+- **Result:** 40 preregistered, 35 in the correction family, 5 insufficient events, 0
+  errors, 0 FDR-significant, 0 survivors. One `ma_trend` variant was Phase 4 `INTERESTING`
+  (raw p 0.068, q 0.83).
+
+The catalogue was not changed after this run.
+
+### Known limitations
+
+- The catalogue is fixed and hand-designed; there is no LLM or automatic hypothesis
+  generation.
+- Daily data only; no OI, cross-asset or multi-timeframe features.
+- Grids only (no paired sets or sampling); one version per family per batch.
+- No automatic promotion to full research.
+
+## 12. Verification
 
 Baseline before changes: **173 tests passed**, repository Ruff checks passed, and all
 89 existing source/test Python files passed format checking. New focused tests cover
@@ -1148,3 +1283,15 @@ was triggered.
 | `git diff --check` | Passed |
 | CLI on a scratch copy of the local DB | `batch create` (YAML) → `batches` (FROZEN) → `batch run` (1.8 s, 4 members, hand-checked q) → `batch show` (COMPLETED); a second run and a re-create are refused (exit 1) |
 | Benchmark (scratch copy) | 59 members, 16.6 s, 0.28 s per member, 377 MB peak; 0 survivors |
+
+### Step 6 verification
+
+| Check | Result |
+|---|---|
+| `.venv/bin/python -m pytest` | **420 passed** (187 s); before Step 6: 399 |
+| `.venv/bin/python -m pytest tests/test_lab_families.py` | **21 passed**: pinned catalogue IDs and counts, determinism, YAML-order invariance, new identity for every frozen change, constraints, cap without truncation, lineage/naming/sides, short = mirror of long where intended, strict schema (bare strings, unknown placeholders, non-canonical features, unused parameters, file naming), every perp variant compiles on a retained snapshot, dry run writes nothing, Monte Carlo refusal, idempotent registration and family clashes, generated batch → freeze → run end to end, CLI |
+| Lab suites (families/batch/screen/compiler/spec/governance) | **237 passed** |
+| `.venv/bin/ruff check src tests dashboard` / `ruff format --check src tests` | Passed / 111 files formatted |
+| `git diff --check` | Passed |
+| CLI dry runs | `market lab families`, `family show <name> --market perp|spot` (perp-only family refused for spot), `batch generate` dry run and `--register --out` |
+| Governed smoke run (scratch copy) | 40 variants → manifest → frozen batch → 40 screens → BH analysis, COMPLETED in 12.7 s (results above) |

@@ -1,0 +1,28 @@
+# Strategy family (preregistered research space). Not a recommendation or a result.
+family: rsi_exhaustion
+version: 1
+title: RSI exhaustion mean reversion
+rationale: >-
+  Short-term extremes in momentum can reflect forced or crowded flows; when that transient
+  pressure dissipates, part of the move may revert.
+markets: [perp, spot]
+authored_at: 2026-10-03T00:00:00Z
+parameters:
+  rsi: [7, 14]
+  oversold: [20, 25, 30]  # below 50 by construction; shorts use the mirror 100 - oversold
+name: rsi_exhaustion_{rsi}_{oversold}_{side}
+cooldown_bars: 10
+exit: {stop_atr: 2.0, max_hold_bars: 10}
+max_variants: 12
+long:
+  hypothesis: >-
+    The first close with the {rsi}-day RSI below {oversold} may mark exhausted selling and be
+    followed by a partial rebound.
+  conditions:
+    - {left: "rsi_{rsi}", op: lt, right: {param: oversold}}
+short:
+  hypothesis: >-
+    The first close with the {rsi}-day RSI above the mirrored level (100 minus {oversold}) may
+    mark exhausted buying and be followed by a partial decline.
+  conditions:
+    - {left: "rsi_{rsi}", op: gt, right: {param: oversold, scale: -1, offset: 100}}

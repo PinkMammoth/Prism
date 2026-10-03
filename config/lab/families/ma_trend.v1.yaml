@@ -1,0 +1,33 @@
+# Strategy family (preregistered research space). Not a recommendation or a result.
+family: ma_trend
+version: 1
+title: Moving-average trend continuation
+rationale: >-
+  Directional positioning and slower-moving participants adjust gradually, so a market whose
+  faster average and price sit on the same side of a slower trend average may keep drifting
+  in that direction.
+markets: [perp, spot]
+authored_at: 2026-10-03T00:00:00Z
+parameters:
+  fast: [10, 20, 50]
+  slow: [50, 100, 200]
+constraints:
+  - {left: slow, op: ge, right: fast, factor: 2.5}  # averages must be clearly separated
+name: ma_trend_{fast}_{slow}_{side}
+cooldown_bars: 10
+exit: {stop_atr: 3.0, max_hold_bars: 30}
+max_variants: 14
+long:
+  hypothesis: >-
+    When the {fast}-day EMA is above the {slow}-day EMA and the close is above the {slow}-day
+    EMA, persistent trend demand may continue to produce positive forward returns.
+  conditions:
+    - {left: "ema_{fast}", op: gt, right: {feature: "ema_{slow}"}}
+    - {left: close, op: gt, right: {feature: "ema_{slow}"}}
+short:
+  hypothesis: >-
+    When the {fast}-day EMA is below the {slow}-day EMA and the close is below the {slow}-day
+    EMA, persistent trend supply may continue to produce negative forward returns.
+  conditions:
+    - {left: "ema_{fast}", op: lt, right: {feature: "ema_{slow}"}}
+    - {left: close, op: lt, right: {feature: "ema_{slow}"}}

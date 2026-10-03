@@ -1,0 +1,30 @@
+# Strategy family (preregistered research space). Not a recommendation or a result.
+family: funding_extreme_fade
+version: 1
+title: Extreme funding fade
+rationale: >-
+  Extreme perpetual funding relative to a coin's own history may proxy for crowded,
+  leveraged positioning whose unwinding shifts the subsequent return distribution against
+  the crowded side.
+markets: [perp]
+authored_at: 2026-10-03T00:00:00Z
+parameters:
+  avg: [3, 7]
+  lookback: [90, 180]
+  tail: [0.9, 0.95]  # percentile; longs use the mirrored lower tail 1 - tail
+name: funding_fade_a{avg}_l{lookback}_{tail}_{side}
+cooldown_bars: 10
+exit: {stop_atr: 2.5, max_hold_bars: 14}
+max_variants: 16
+short:
+  hypothesis: >-
+    When {avg}-day mean funding ranks above the {tail} percentile of its prior {lookback}
+    days, crowded long positioning may precede weaker subsequent returns.
+  conditions:
+    - {left: "funding_pct_{avg}_{lookback}", op: gt, right: {param: tail}}
+long:
+  hypothesis: >-
+    When {avg}-day mean funding ranks below the mirrored lower tail (1 minus {tail}) of its
+    prior {lookback} days, crowded short positioning may precede stronger subsequent returns.
+  conditions:
+    - {left: "funding_pct_{avg}_{lookback}", op: lt, right: {param: tail, scale: -1, offset: 1}}
