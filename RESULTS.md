@@ -224,3 +224,7 @@ How each strategy was judged:
   - event-driven setups using external data (macro releases, exploits/hacks).
 
   These are discussed in `docs/PERPS_BACKTEST.md` → "Next hypotheses".
+- **Registered: `macro_shock`** (hot CPI with the 2Y up, or a 2Y yield shock → short; primary
+  horizon 1w). Pre-registered before any real-data run, and judged per event date on an
+  equal-weight coin basket, because every coin fires on the same date. Definition, timing lag
+  and expected power: `docs/PERPS_BACKTEST.md` → "Pre-registered: `macro_shock`". *Result: pending.*
