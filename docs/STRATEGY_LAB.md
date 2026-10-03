@@ -2,10 +2,10 @@
 
 Inspection date: 2026-10-03. This is a design grounded in the existing implementation,
 including the local database and generated reports. Only the representation foundation
-(section 6), research governance ledger (section 7), daily feature compiler (section 8)
-and fast screen (section 9) are implemented. No production strategies, evaluation rules, paper records, scanners or
-Telegram paths were changed; the only schema change is the additive Lab migration
-described in section 7.
+(section 6), research governance ledger (section 7), daily feature compiler (section 8),
+fast screen (section 9) and preregistered search batches (section 10) are implemented. No production strategies, evaluation rules, paper records, scanners or
+Telegram paths were changed; the only schema changes are the additive Lab migrations
+described in sections 7 and 10.
 
 ## 1. Current architecture
 
@@ -366,7 +366,8 @@ not control data mining; BH does not repair invalid or adaptively selected p-val
 | 2 — Ledger and locked plans (implemented, section 7) | Add `research/lab/ledger.py`, `policy.py`, `datasets.py`; additive migrations in `data/store.py`; Lab-only `cli/lab_cmds.py` | Every attempted submission/run is durably recorded before work; duplicate/lineage/crash tests; plan/data/code hashes; exact inputs retained. No mass screening yet |
 | 3 — Daily compiler/features (implemented, section 8) | Added `research/lab/vocabulary.py`, `features.py`, `compiler.py`; reuse `indicators/technical.py`, `data/prices.py`, perp helpers. `alignment.py`/`adapters.py` deferred: daily-only needs no MTF alignment, and adapters belong with Phase 5 injection | Small daily vocabulary compiles to signals/stops/eligibility; synthetic hand-calculation, missing-data, truncation/future-shock and legacy parity tests; no registry mutation |
 | 4 — Fast screen (implemented, section 9) | Added `research/lab/screen.py`, plan schema v2 in `policy.py`; Lab CLI `preregister`, `screen`. `report.py`/`compare`/`history` deferred: results are inspected through `market lab experiment` | Bounded deterministic batches on discovery data; cached returns; all failures persisted; asset/time/side summaries; measured runtime/memory; cannot invoke full research or promote |
-| 5 — Full-research adapters and statistical gate | Extend spot/perp runners for explicit candidate injection; add `research/lab/validation.py`, `multiple_testing.py`; reuse reports/robustness/simulators | Existing strategies retain parity; trusted plan requires completed checks; address audit items with separate versioned methodology patches; holdout/family controls before large-scale claims; link old reports |
+| 5a — Search batches and FDR (implemented, section 10) | Added `research/lab/batch.py`, migration 8, `market lab batch create/run/show`, `market lab batches` | Frozen testing families, BH over one primary test per strategy, family-aware statuses, holdout refusal, immutable analyses |
+| 5b — Full-research adapters and statistical gate | Extend spot/perp runners for explicit candidate injection; add `research/lab/validation.py`, `multiple_testing.py`; reuse reports/robustness/simulators | Existing strategies retain parity; trusted plan requires completed checks; address audit items with separate versioned methodology patches; holdout/family controls before large-scale claims; link old reports |
 | 6 — Perp MTF and OI | Extend `perps/data.py`, `perps/binance.py`, provider loaders and dataset manifests; extend Lab features/alignment and research policy | Stored 1h/4h data with completeness/availability; settlement-level funding treatment; same-close/gap/stale/snapshot tests; portfolio timing validated before intraday execution claims |
 | 7 — Paper and scanner eligibility | Add `research/lab/promotion.py`; additive versioned paper storage and opt-in adapters in `perps/paper.py`, `scoring/engine.py`, presenter/brief/CLI | Exact strategy + implementation + policy versions carry evidence; paper starts prospectively, no backfill; explicit scanner allowlist; existing strategies unchanged |
 | Later — Constrained hypothesis generation | Submission client only, reading the versioned catalog and writing proposals through ledger service | No AI dependency until separately requested; model cannot edit evaluator, plans, tests, data/results or promotion policy |
@@ -913,7 +914,179 @@ daily resolution.
 - Spot needs per-asset classes in the plan; dividends affect outcomes (total return) but
   not signals.
 
-## 10. Verification
+## 10. Step 5 implemented: preregistered search batches and FDR
+
+Module `research/lab/batch.py`, additive migration 8, and the CLI commands
+`market lab batch create <manifest.yaml>`, `market lab batches`,
+`market lab batch run <id>` and `market lab batch show <id>`.
+
+### Why
+
+Screening 100 strategies on the same data at an uncorrected p ≤ 0.10 is expected to throw
+up about ten "discoveries" even if none of them works. A **search batch** records, before
+any member is screened, that *these N hypotheses were searched together*, so their
+evidence is judged as one testing family with a frozen correction. On the real-data
+benchmark below, two of 59 variants were `INTERESTING` under Phase 4's uncorrected
+heuristic (best raw p 0.027). After BH across the family the smallest q was 0.93 and there
+were no survivors. That is the failure mode this phase exists to prevent.
+
+### Batch definition and identity
+
+`BatchDefinition` (schema 1) holds the statistical identity: plan ID (must be a v2 screen
+plan), dataset ID, role, primary horizon (must equal the plan's preregistered primary
+horizon), the member strategy IDs, `correction` (`method: benjamini_hochberg`, `q`,
+`family: one_primary_test_per_strategy_v1`, `test: random_entry_mean_excess_v1`,
+`eligibility: phase4_sufficient_events_v1`) and `survivor` (`rule:
+substantive_gates_and_q_v1`, required `min_pooled_excess`). `batch_id` is the SHA-256 of the
+canonical definition with members sorted: member order cannot change it, and changing any
+member, the plan, dataset, role, horizon, method, q or survivor rule does. Name,
+description and origin are metadata. Each correction/survivor field is a versioned
+literal, so Benjamini–Yekutieli or a permutation method would be a new value and never
+reinterpret an old batch. Manifests are strict YAML (unknown keys, duplicate keys and
+invalid definitions are rejected):
+
+```yaml
+name: trend_family_v1
+description: Do EMA crossovers beat random timing on majors?
+plan: plan_…
+dataset: dataset_…
+role: discovery            # discovery | development only
+primary_horizon: 10d       # must equal the plan's primary horizon
+correction: {method: benjamini_hochberg, q: 0.10}
+survivor: {min_pooled_excess: 0.002}   # economic floor; no default
+members: [strategy_…, strategy_…]
+```
+
+### Lifecycle: FROZEN → RUNNING → COMPLETED (or FAILED)
+
+- **Freeze** (`freeze_batch`) validates everything and inserts one `lab_batches` row. There
+  is no draft in the database (the draft is the YAML file) and no API to edit a batch, so
+  membership, plan, dataset, role, horizon and correction are fixed from this point. A
+  different family is a new batch with a new, permanent name. Freezing refuses:
+  - an identical definition that is already frozen;
+  - members that overlap another batch on the same plan/dataset/role;
+  - any member already preregistered on these inputs: its outcome may be known, which is
+    exactly the cherry-picking route (test, inspect, drop the losers, "re-correct").
+- **Run** (`run_batch`) creates a `lab_batch_runs` row (attempt, software), then
+  preregisters **every** member as a Phase 2 attempt tagged with the batch ID
+  (`lab_batch_members` links them) before any member is screened. It then calls Phase 4
+  `run_screen` for each member with one shared `ScreenWorkspace`; there is no second
+  screening implementation. Only when every member has a terminal result does it compute
+  and insert one `lab_batch_analyses` row.
+- If preregistration fails, the run is closed with a `failed` analysis that states nothing
+  was screened.
+- If the process dies mid-run, the batch shows `RUNNING`. Running it again with the same
+  software resumes: unstarted members are screened, and started members without a result
+  get an `errored` "interrupted" result.
+- A completed batch cannot be run again without `rerun_of` (an earlier run) and a reason.
+  A rerun is a new run whose member attempts are explicit Phase 2 reruns (new software is
+  allowed and recorded). Earlier runs, screens and analyses are never modified.
+
+### The test family and BH
+
+- **One test per strategy.** Each member contributes exactly its Phase 4 primary test: the
+  `random_entry_mean_excess_v1` p-value at endpoint `pooled:<side>:<primary horizon>`,
+  read from the stored, immutable screen result. Assets, other horizons, metrics and
+  directions are not separate tests (each definition has one side).
+- **Is that p-value coherent?** Yes, as a strategy-level one-sided test. Observed: the mean
+  excess (versus the same-asset/side eligible baseline) of the strategy's independent
+  events, pooled over its assets. Null: the same per-asset counts drawn without
+  replacement from each asset's centred eligible pool. It is a Monte Carlo p-value,
+  (hits + 1) / (draws + 1), so its smallest attainable value is 1/(draws + 1). A batch is
+  refused at freeze if that floor exceeds BH's first threshold q/m, because no member
+  could ever survive (2,000 draws allow at most 200 members at q = 0.10). Its known
+  caveats are the Phase 4 ones: random draws are not horizon-spaced, and assets are not
+  independent.
+- **Who enters.** Members whose Phase 4 triage is `WEAK` or `INTERESTING`, i.e. that passed
+  the plan's minimum independent events and minimum assets with events, and have a
+  recorded primary p-value. `NO_EVENTS` and `INSUFFICIENT_EVENTS` members are
+  `NOT_TESTABLE`, and errored members are `ERROR`. Both are excluded from m but stay
+  visible with a reason. This sample-size filter depends only on event counts, not on the
+  test statistic, which is the condition under which filtering before BH keeps its
+  guarantee (independent filtering). Missing p-values are never replaced by 0 or 1. As a
+  diagnostic only, each member also gets `q_if_all_preregistered_tested`: BH with every
+  excluded member counted as p = 1. It is never used for statuses.
+- **BH.** Sort the family by (p, strategy ID); q₍ᵢ₎ = min over j ≥ i of min(1, p₍ⱼ₎ · m / j).
+  Tied p-values get equal q-values; input order never matters. Rejecting q ≤ target is
+  exactly the BH step-up procedure. Raw p and q are both stored.
+
+**Meaning of q.** q ≤ 0.10 means the procedure controls the *expected* proportion of false
+discoveries among the discoveries at 10%, under its assumptions. It does **not** mean a
+strategy has a 90% probability of being real.
+
+**Dependence.** BH is guaranteed under independence and under positive regression
+dependence (PRDS). Neighbouring variants (EMA 20/50, 21/50, 20/55) share signals, and
+assets and time periods are shared across all members. Positive dependence of this kind
+is often benign for BH, but it is not proven here. Treat the FDR level as approximate and
+the family's effective size as smaller than m. A dependence-robust method (BY, or a joint
+permutation null) would be a new `correction.method` value.
+
+### Family-aware statuses (`substantive_gates_and_q_v1`)
+
+| Status | Rule |
+|---|---|
+| `FDR_SURVIVOR` | in the family, q ≤ target, all four substantive Phase 4 gates true (independent events, assets with events, pooled excess > plan minimum, positive-asset share), and pooled independent net excess ≥ `survivor.min_pooled_excess` |
+| `FDR_SIGNIFICANT_FAILS_SCREEN` | q ≤ target but a substantive gate or the economic floor fails: a tiny or asset-inconsistent effect cannot survive on q alone |
+| `NOT_FDR_SIGNIFICANT` | q > target, however large the effect |
+| `NOT_TESTABLE` | `NO_EVENTS`, `INSUFFICIENT_EVENTS`, or no primary p-value |
+| `ERROR` | the member's screen errored (including interrupted) |
+
+Phase 4's own `INTERESTING`/`WEAK` statuses are unchanged and are reported beside these.
+Phase 4's uncorrected `max_p_value` gate is deliberately **not** part of the survivor rule:
+corrected evidence replaces it.
+
+**FDR survival is not final strategy validation.** It only qualifies a candidate for
+deeper, independent research on data the batch did not touch.
+
+### Holdout protection
+
+- Batch roles are `discovery` or `development` only; `validation` and `final_holdout`
+  are rejected by the schema.
+- Freezing also refuses any batch whose dataset, **warmup region included**, overlaps a
+  validation or final-holdout period in the plan.
+- There is no override. Single, explicitly preregistered screens (`market lab screen`)
+  remain possible on any role and are logged as exposures by Phase 2; bulk search is not.
+
+### Analysis output (`market lab batch show`)
+
+The analysis payload contains:
+
+- **Counts:** preregistered, testable, correction family, no events, insufficient events,
+  errored, Phase 4 interesting, FDR-significant, FDR survivors.
+- **Per member:** strategy ID, Phase 2 family and parents, side, experiment and result IDs,
+  Phase 4 status/triage, independent events, assets with events, pooled net and excess,
+  positive-asset share, gate checks, raw p, q, conservative diagnostic q, inclusion and
+  exclusion reason, batch status.
+- **Per economic family (Phase 2 `family_id`):** variants, testable, survivors, best raw p,
+  best q, and min/median/max excess.
+
+Variants are never collapsed for BH; the family table only describes them. Per-asset
+detail stays in each member's screen result rather than being duplicated.
+
+### Performance
+
+On a copy of the local DB: 59 members in 6 economic families, 6 Hyperliquid perps,
+400-day warmup plus a two-year window, 4 horizons, 2,000 draws.
+
+| Step | Time / memory |
+|---|---|
+| Freeze | 0.11 s |
+| Full governed run (preregister + start + screen + result for every member, then BH) | 16.6 s, 0.28 s per member |
+| Peak RSS | 377 MB |
+| Pure screen per strategy | 0.48 s with a fresh workspace, 0.24 s with the shared one |
+
+Outcome: 45 testable (13 insufficient, 1 no events), 0 FDR survivors.
+
+### Known limitations
+
+- Correlated variants (see Dependence). No BY or permutation methods yet.
+- One primary test per strategy; no hierarchical or family-of-families control across
+  batches. Separate batches on different data are separate families. Batches that share
+  members on the same plan, dataset and role are refused at freeze rather than reconciled.
+- Daily data only; no OI or multi-timeframe; no AI generation.
+- No promotion to full research and no automated confirmatory validation.
+
+## 11. Verification
 
 Baseline before changes: **173 tests passed**, repository Ruff checks passed, and all
 89 existing source/test Python files passed format checking. New focused tests cover
@@ -963,3 +1136,15 @@ was triggered.
 | `.venv/bin/ruff check src tests dashboard` / `ruff format --check src tests` | Passed / 105 files formatted |
 | `git diff --check` | Passed |
 | `market lab compile` on a scratch copy of the local DB | BTC/ETH Hyperliquid snapshot (1,098 daily rows each), crossover + `funding_pct_7_365` rule: metadata printed in ~1 s; the real database was not modified |
+
+### Step 5 verification
+
+| Check | Result |
+|---|---|
+| `.venv/bin/python -m pytest` | **399 passed** (179 s); before Step 5: 385 |
+| `.venv/bin/python -m pytest tests/test_lab_batch.py` | **14 passed**: BH against hand calculations, ties, capping, order invariance and the brute-force step-up rule (200 random families); canonical/complete batch identity; strict manifests; survivor classification (low q cannot pass a tiny or inconsistent effect, a big effect cannot skip q); full run with every member visible; raw p = stored primary endpoint only; q = BH over the family; freeze, overlap and cherry-pick refusals; primary-horizon and final-holdout refusals (warmup overlap included); Monte Carlo resolution refusal; errored members; crash, resume and software guard; explicit reruns reproduce raw p, q and statuses without modifying earlier analyses or screens; CLI lifecycle |
+| Lab suites (batch/screen/compiler/spec/governance) | **216 passed** |
+| `.venv/bin/ruff check src tests dashboard` / `ruff format --check src tests` | Passed / 109 files formatted |
+| `git diff --check` | Passed |
+| CLI on a scratch copy of the local DB | `batch create` (YAML) → `batches` (FROZEN) → `batch run` (1.8 s, 4 members, hand-checked q) → `batch show` (COMPLETED); a second run and a re-create are refused (exit 1) |
+| Benchmark (scratch copy) | 59 members, 16.6 s, 0.28 s per member, 377 MB peak; 0 survivors |

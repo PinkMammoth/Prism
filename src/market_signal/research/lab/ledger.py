@@ -149,6 +149,17 @@ class Ledger:
             return
         self.store.con.execute(f"INSERT INTO {table} VALUES (?,?,?)", [id_, payload, utcnow()])
 
+    def _put_software(self, software: SoftwareIdentity) -> None:
+        data = software.model_dump(mode="python")
+        data["packages"] = sorted(data["packages"])
+        self._put_payload("lab_software", "software_id", software.software_id, canonical_json(data))
+
+    def register_software(self, software: SoftwareIdentity) -> str:
+        software = revalidate(software)
+        with self.store.transaction():
+            self._put_software(software)
+        return software.software_id
+
     def submit(self, raw_json: str, *, family_id: str, origin: str) -> Submission:
         """Persist every submitted JSON document, including validation/lineage failures.
 
@@ -451,11 +462,7 @@ class Ledger:
                 raise LedgerError("rerun_reason requires rerun_of")
             if not prior and rerun_of:
                 raise LedgerError("cannot rerun a different logical experiment")
-            software_data = software.model_dump(mode="python")
-            software_data["packages"] = sorted(software_data["packages"])
-            self._put_payload(
-                "lab_software", "software_id", software.software_id, canonical_json(software_data)
-            )
+            self._put_software(software)
             experiment = ExperimentRecord(
                 experiment_id=_new_id("experiment_"),
                 logical_id=logical_id,

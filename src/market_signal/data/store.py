@@ -400,6 +400,39 @@ MIGRATIONS: list[str] = [
         reason VARCHAR NOT NULL
     );
     """,
+    # 8 — Strategy Lab search batches (testing families); append-only through the Lab API
+    """
+    CREATE TABLE IF NOT EXISTS lab_batches (
+        batch_id VARCHAR PRIMARY KEY,
+        name VARCHAR NOT NULL UNIQUE,
+        payload JSON NOT NULL,
+        origin VARCHAR NOT NULL,
+        frozen_at TIMESTAMPTZ NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS lab_batch_runs (
+        run_id VARCHAR PRIMARY KEY,
+        batch_id VARCHAR NOT NULL REFERENCES lab_batches(batch_id),
+        attempt INTEGER NOT NULL CHECK (attempt > 0),
+        software_id VARCHAR NOT NULL REFERENCES lab_software(software_id),
+        started_at TIMESTAMPTZ NOT NULL,
+        rerun_of VARCHAR REFERENCES lab_batch_runs(run_id),
+        rerun_reason VARCHAR,
+        UNIQUE (batch_id, attempt)
+    );
+    CREATE TABLE IF NOT EXISTS lab_batch_members (
+        run_id VARCHAR NOT NULL REFERENCES lab_batch_runs(run_id),
+        strategy_id VARCHAR NOT NULL REFERENCES lab_strategies(strategy_id),
+        experiment_id VARCHAR NOT NULL UNIQUE REFERENCES lab_experiments(experiment_id),
+        PRIMARY KEY (run_id, strategy_id)
+    );
+    CREATE TABLE IF NOT EXISTS lab_batch_analyses (
+        analysis_id VARCHAR PRIMARY KEY,
+        run_id VARCHAR NOT NULL UNIQUE REFERENCES lab_batch_runs(run_id),
+        recorded_at TIMESTAMPTZ NOT NULL,
+        status VARCHAR NOT NULL CHECK (status IN ('completed','failed')),
+        payload JSON NOT NULL
+    );
+    """,
 ]
 
 
