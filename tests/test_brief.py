@@ -167,3 +167,30 @@ def test_telegram_recent_chats_and_chunking():
     parts = _chunks(text)
     assert len(parts) > 1 and all(len(p) <= 4096 for p in parts)
     assert "".join(parts) == text
+
+
+def test_token_format_is_checked_before_calling_telegram():
+    from market_signal.portfolio.telegram import check_token
+
+    check_token("123456789:AAH" + "x" * 32)
+    for bad, hint in (("bot123456789:AAH" + "x" * 32, "starts with 'bot'"), ("@MyPrismBot", "username"),
+                      ("<123456789:AAH" + "x" * 32 + ">", "brackets"), ("123456789:AAHshort", "shape")):  # fmt: skip
+        with pytest.raises(TelegramError, match=hint) as exc:
+            check_token(bad)
+        assert bad not in str(exc.value)  # never echo the token
+
+
+def test_telegram_http_errors_are_explained():
+    def status(code, desc):
+        return lambda req: httpx.Response(code, json={"ok": False, "description": desc})
+
+    with pytest.raises(TelegramError, match=r"doesn.t exist .HTTP 404"):
+        _client(status(404, "Not Found")).get_me()
+    with pytest.raises(TelegramError, match="revoked"):
+        _client(status(401, "Unauthorized")).get_me()
+    with pytest.raises(TelegramError, match="chat not found"):
+        _client(status(400, "Bad Request: chat not found")).send("x")
+    ok = _client(
+        lambda req: httpx.Response(200, json={"ok": True, "result": {"username": "PrismBot"}})
+    )
+    assert ok.get_me()["username"] == "PrismBot"

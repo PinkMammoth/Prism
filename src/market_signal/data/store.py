@@ -11,8 +11,10 @@ from __future__ import annotations
 import gzip
 import hashlib
 import json
+import re
+import time
 import uuid
-from collections.abc import Iterable, Iterator
+from collections.abc import Callable, Iterable, Iterator
 from contextlib import contextmanager
 from dataclasses import dataclass
 from datetime import datetime
@@ -296,20 +298,78 @@ class ArchivedPayload:
     sha256: str
 
 
+class DatabaseBusy(RuntimeError):
+    """Another process holds the DuckDB file lock (DuckDB allows one writing process, and
+    readers cannot open while it writes). Usually a running ``market update`` or scan."""
+
+    def __init__(self, path: Path, message: str, waited: float):
+        self.path, self.waited = path, waited
+        m = re.search(r"held in (\S+) \(PID (\d+)\)", message)
+        self.program = m.group(1) if m else None
+        self.pid = int(m.group(2)) if m else None
+        super().__init__(
+            f"database busy: {self.holder} has {path.name} open (waited {waited:.0f}s)"
+        )
+
+    @property
+    def holder(self) -> str:
+        return f"another process (PID {self.pid})" if self.pid else "another process"
+
+
+def _is_lock_error(exc: Exception) -> bool:
+    msg = str(exc)
+    return isinstance(exc, duckdb.IOException) and (
+        "Could not set lock" in msg or "Conflicting lock" in msg
+    )
+
+
 class Store:
-    """Thin repository over a DuckDB file. Not thread-safe; open one per process."""
+    """Thin repository over a DuckDB file. Not thread-safe; open one per process.
+
+    ``lock_timeout``: seconds to keep retrying while another process holds the file lock,
+    before raising ``DatabaseBusy`` (0 = fail immediately). ``on_wait`` is called once with a
+    human-readable message when waiting starts.
+    """
 
     def __init__(
-        self, path: Path | str, raw_dir: Path | str | None = None, read_only: bool = False
+        self,
+        path: Path | str,
+        raw_dir: Path | str | None = None,
+        read_only: bool = False,
+        lock_timeout: float = 0.0,
+        on_wait: Callable[[str], None] | None = None,
     ):
         self.path = Path(path)
         self.raw_dir = Path(raw_dir) if raw_dir else self.path.parent / "raw"
         if str(path) != ":memory:":
             self.path.parent.mkdir(parents=True, exist_ok=True)
-        self.con = duckdb.connect(str(path), read_only=read_only)
+        self.con = self._connect(read_only, lock_timeout, on_wait)
         self.con.execute("SET TimeZone='UTC'")
         if not read_only:
             self.migrate()
+
+    def _connect(
+        self, read_only: bool, lock_timeout: float, on_wait: Callable[[str], None] | None
+    ) -> duckdb.DuckDBPyConnection:
+        start = time.monotonic()
+        delay, told = 0.25, False
+        while True:
+            try:
+                return duckdb.connect(str(self.path), read_only=read_only)
+            except duckdb.IOException as exc:
+                if not _is_lock_error(exc):
+                    raise
+                waited = time.monotonic() - start
+                if waited >= lock_timeout:
+                    raise DatabaseBusy(self.path, str(exc), waited) from None
+                if on_wait and not told:
+                    busy = DatabaseBusy(self.path, str(exc), waited)
+                    on_wait(
+                        f"Database busy: {busy.holder} is using it. Waiting up to {lock_timeout:.0f}s…"
+                    )
+                    told = True
+                time.sleep(min(delay, max(lock_timeout - waited, 0.01)))
+                delay = min(delay * 2, 2.0)
 
     # ------------------------------------------------------------------ schema
     def migrate(self) -> None:

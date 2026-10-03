@@ -8,7 +8,16 @@ import pandas as pd
 import streamlit as st
 
 from charts import line_chart, price_chart
-from common import banner, cached_scan, db_version, decision_views, nav_link, settings, store
+from common import (
+    banner,
+    cached_scan,
+    data_version,
+    db_version,
+    decision_views,
+    nav_link,
+    settings,
+    store,
+)
 from market_signal.data.prices import PriceBasis, load_bars
 from market_signal.models.domain import Timeframe
 from market_signal.presenter import DECISION_MEANING, money, pct
@@ -18,7 +27,7 @@ inject_css()
 s = settings()
 symbols = [a.symbol for a in s.active_assets()]
 default = st.session_state.get("asset", "HYPE" if "HYPE" in symbols else symbols[0])
-res = cached_scan(db_version())
+res = cached_scan(data_version())
 views = {v.symbol: v for v in decision_views(res)}
 
 top_l, top_r = st.columns([3, 1], vertical_alignment="bottom")

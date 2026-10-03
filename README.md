@@ -165,6 +165,14 @@ IGNORE. The engine's EXCEPTIONAL / STRONG / ACTIONABLE all display as ACTIONABLE
 band is shown as the strength of the current setup. A setup whose research verdict is
 REJECT is never displayed as ACTIONABLE or WAIT: it is shown as WATCH, with the reason.
 
+### When an update is running
+
+Prism's database (DuckDB) lets one process write at a time. While `market update` or a scan is
+running, the dashboard shows the last answer with a "Prism is updating" notice. If it has no
+answer to show yet, it shows a short holding page that reloads by itself when the database is
+free. CLI commands, including the scheduled job, wait for the database instead of failing:
+up to 10 minutes by default, or set `PRISM_LOCK_TIMEOUT=<seconds>` to change it.
+
 ## Daily brief on Telegram (optional)
 
 Prism can message you each morning with Today's answer: actionable and waiting ideas with
