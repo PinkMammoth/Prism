@@ -1,7 +1,7 @@
 """Perps (research): funding and open-interest context from Hyperliquid perpetual futures.
 
-Phase 1 of the perp work: data and a monitor only. No perp strategy has been tested, so
-nothing here is a trade signal."""
+Funding / open-interest monitor (context) plus the research verdicts of the pre-registered
+perp strategies. A strategy's signals are candidates only if its verdict passed research."""
 
 import pandas as pd
 import streamlit as st
@@ -10,7 +10,7 @@ from charts import funding_chart, line_chart
 from common import banner, db_version, settings, store
 from market_signal.perps.data import load_snapshots, perp_config
 from market_signal.perps.monitor import funding_history_frame, perp_overview
-from ui import esc, html, inject_css, pill
+from ui import esc, evidence_pill, html, inject_css, pill
 
 
 @st.cache_data(show_spinner=False, ttl=900)
@@ -32,15 +32,21 @@ def compact(v):
     return f"${v:,.0f}"
 
 
+def compact_px(v):
+    if v is None or pd.isna(v):
+        return "–"
+    return f"${v:,.0f}" if v >= 1000 else f"${v:,.2f}" if v >= 1 else f"${v:,.4g}"
+
+
 STATE_PILL = {"CROWDED LONG": "WAIT", "CROWDED SHORT": "WATCH", "NEUTRAL": "IGNORE"}
 
 inject_css()
 st.title("Perps")
 banner()
 st.caption(
-    "Positioning context from Hyperliquid perpetual futures. **No perp strategy has been tested "
-    "yet**, so nothing on this page is a trade signal. Whether crowded funding predicts anything "
-    "is the question the research phase will answer."
+    "Positioning context from Hyperliquid perpetual futures, and the research verdicts of Prism's "
+    "pre-registered perp strategies. **The funding table is context, not a signal.** A strategy's "
+    "signals only count as candidates once it passes research (PROMISING or WEAK POSITIVE)."
 )
 rows = load(db_version())
 if not rows:
@@ -86,6 +92,92 @@ with st.expander("How to read this"):
         "means more leverage is piling into one side. OI history only exists from Prism's first daily "
         "snapshot onwards (Hyperliquid has no free OI history).\n"
         "- **Cost of holding:** at +20% annualised funding, a long pays about 0.4% per week."
+    )
+
+# ---------------------------------------------------------------- strategy research
+PASSING = ("PROMISING", "WEAK_POSITIVE")
+
+
+@st.cache_data(show_spinner="Loading perp research…", ttl=900)
+def research_state(_version: float):
+    from market_signal.perps.backtest import perp_frame
+    from market_signal.perps.strategies import STRATEGIES, latest_signals
+    from market_signal.presenter import load_evidence
+
+    min_n = int(settings().yaml("backtest.yaml")["statistics"]["min_events_for_conclusion"])
+    coins = [str(c).upper() for c in perp_config(settings()).get("coins") or []]
+    with store(read_only=True) as s:
+        ev = load_evidence(s, min_n)
+        frames = {c: perp_frame(s, settings(), c) for c in coins}
+    rows, sigs = [], []
+    for name, strat in STRATEGIES.items():
+        e = ev.get(f"perp_{name}")
+        rows.append((strat, e))
+        for coin, f in frames.items():
+            ls = latest_signals(f, strat)
+            if ls["side"]:
+                sigs.append({"strategy": strat.title, "coin": coin, "side": ls["side"].upper(), "close": ls["close"],
+                             "stop": ls["stop"], "verdict": e.verdict if e else None,
+                             "as_of": ls["as_of"]})  # fmt: skip
+    return rows, sigs
+
+
+st.subheader("Strategy research")
+st.caption(
+    "Each strategy is pre-registered (defaults fixed before any result) and judged by the same automatic "
+    "criteria as the spot setups: independent events, excess over random entry *on the same side*, a "
+    "random-entry p-value, walk-forward folds and parameter sensitivity. Returns include fees, slippage "
+    "and funding. Run `uv run market perp-research` to (re)run."
+)
+rows_r, sigs = research_state(db_version())
+
+body = ""
+for strat, e in rows_r:
+    if e is None:
+        body += (f"<tr><td><b>{esc(strat.title)}</b><br><span class='small muted'>{esc(strat.name)}</span></td>"
+                 f"<td>{pill('NOT RUN', 'unproven')}</td><td colspan='5' class='muted'>run "
+                 "<code>market perp-research</code></td></tr>")  # fmt: skip
+        continue
+    sim = e.simulation or {}
+    wf = "–" if not e.wf_folds else f"{e.wf_positive}/{e.wf_folds}"
+    body += (
+        f"<tr><td><b>{esc(strat.title)}</b><br><span class='small muted'>{esc(strat.name)} · {esc(e.horizon)}</span></td>"
+        f"<td>{evidence_pill(e)}</td><td class='num'>{esc(e.n_independent if e.n_independent is not None else '–')}</td>"
+        f"<td class='num'>{esc(pct(e.excess, digits=1))}</td>"
+        f"<td class='num'>{'–' if e.p_value is None else f'{e.p_value:.2f}'}</td><td class='num'>{esc(wf)}</td>"
+        f"<td class='num'>{esc(pct(sim.get('max_drawdown'), digits=1))} · {esc(sim.get('liquidations', 0))} liq.</td>"
+        f"<td class='muted small'>{esc(e.created_at or '')}</td></tr>"
+    )
+html(
+    "<div style='overflow-x:auto'><table class='compact' style='min-width:760px'><thead><tr><th>Strategy</th>"
+    "<th>Verdict</th><th style='text-align:right'>Indep. events</th><th style='text-align:right'>Excess</th>"
+    "<th style='text-align:right'>p</th><th style='text-align:right'>Walk-fwd +</th>"
+    f"<th style='text-align:right'>Simulation</th><th>Run</th></tr></thead><tbody>{body}</tbody></table></div>"
+)
+with st.expander("Hypotheses being tested"):
+    for strat, _ in rows_r:
+        st.markdown(f"**{strat.title}** (`{strat.name}`): {strat.hypothesis}")
+    st.caption(
+        "Full reports: `results/perps/<strategy>/<run>/report.md`. Method: docs/PERPS_BACKTEST.md."
+    )
+
+st.markdown("**What each strategy says today**")
+if not sigs:
+    st.caption("No strategy has a signal on the latest closed bar.")
+else:
+    lines = ""
+    for g in sigs:
+        ok = g["verdict"] in PASSING
+        status = (pill("CANDIDATE", "ACTIONABLE") + " <span class='small muted'>strategy passed research</span>" if ok
+                  else pill("RESEARCH ONLY", "IGNORE") + f" <span class='small muted'>verdict {esc((g['verdict'] or 'not run').replace('_', ' ').lower())}</span>")  # fmt: skip
+        lines += (f"<tr><td>{esc(g['strategy'])}</td><td><b>{esc(g['coin'])}</b></td><td>{esc(g['side'])}</td>"
+                  f"<td class='num'>{esc(compact_px(g['close']))}</td><td class='num'>{esc(compact_px(g['stop']))}</td>"
+                  f"<td>{status}</td></tr>")  # fmt: skip
+    html("<div style='overflow-x:auto'><table class='compact' style='min-width:640px'><thead><tr><th>Strategy</th><th>Coin</th>"
+         "<th>Side</th><th style='text-align:right'>Close</th><th style='text-align:right'>Stop</th><th>Status</th></tr>"
+         f"</thead><tbody>{lines}</tbody></table></div>")  # fmt: skip
+    st.caption(
+        "A signal from a strategy that hasn't passed research is shown for transparency only. Don't trade it."
     )
 
 st.subheader("Funding history")
