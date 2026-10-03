@@ -12,6 +12,8 @@ the research can't quietly tune its way to a good result.
                 one-sided leverage unwinds.
   breakout_ls   Range breakout, both sides: the close leaves a tight N-day range.
                 Hypothesis: volatility expansion out of compression continues.
+  macro_shock   External trigger: a hot CPI print with the 2Y yield up, or a 2Y yield shock.
+                Hypothesis: crypto sells off after hawkish rate surprises (short every coin).
 """
 
 from __future__ import annotations
@@ -44,6 +46,12 @@ class PerpStrategy:
     sensitivity: dict[str, list]  # ≤ 2 signal parameters, default value included
     walk_forward: dict[str, list]  # ≤ 2 parameters the walk-forward may choose between
     fn: Callable[[pd.DataFrame, dict[str, Any]], Signals] = field(repr=False)
+    # True: one event fires on every coin at once (a macro date), so per-coin events aren't
+    # independent. The verdict is then judged on an equal-weight basket of the coins: one
+    # observation per event date, against random dates.
+    basket: bool = False
+    # labelled diagnostics {label: param overrides}, reported separately, never in the verdict
+    breakdowns: dict[str, dict] = field(default_factory=dict)
 
     def signals(self, frame: pd.DataFrame, params: dict[str, Any] | None = None) -> Signals:
         return self.fn(frame.reset_index(drop=True), {**self.defaults, **(params or {})})
@@ -115,6 +123,28 @@ def _breakout(f: pd.DataFrame, p: dict) -> Signals:
     return Signals(edge_trigger(tight & (c > hi), cd), edge_trigger(tight & (c < lo), cd), ls, ss)
 
 
+# --------------------------------------------------------------------------- macro_shock
+
+
+def _macro_shock(f: pd.DataFrame, p: dict) -> Signals:
+    """Signals from the point-in-time ``ms_*`` columns (perps/macro_events.py). A frame without
+    them (no macro data) has no events."""
+    none = pd.Series(False, index=f.index)
+    ls, ss = _stops(f, float(p["stop_atr"]))
+    if "ms_dgs2_z" not in f:
+        return Signals(none, none.copy(), ls, ss)
+    bp, z, cpi = f["ms_dgs2_bp"], f["ms_dgs2_z"], f["ms_cpi_surprise"]
+    k = float(p["shock_k"])
+    if p["mode"] == "mirror":  # secondary: 2Y yield shock DOWN → long
+        return Signals((z <= -k).fillna(False), none, ls, ss)
+    hot_cpi = (cpi > 0) & (bp >= float(p["cpi_dgs2_bp"]))
+    shock_up = z >= k
+    short = (hot_cpi if p["triggers"] in ("both", "cpi") else none) | (
+        shock_up if p["triggers"] in ("both", "rate") else none
+    )
+    return Signals(none, short.fillna(False), ls, ss)
+
+
 STRATEGIES: dict[str, PerpStrategy] = {
     s.name: s
     for s in (
@@ -167,6 +197,37 @@ STRATEGIES: dict[str, PerpStrategy] = {
             {"base": [20, 30, 40, 55], "max_width_atr": [6.0, 8.0, 10.0, 12.0]},
             {"base": [20, 30, 40]},
             _breakout,
+        ),
+        # Pre-registered BEFORE any real-data run. Timing and data: perps/macro_events.py.
+        PerpStrategy(
+            "macro_shock",
+            "Macro shock: hot CPI or 2Y yield jump, short",
+            "A hawkish US rate surprise pushes crypto risk-off for about a week. Trigger 1 (hot CPI): "
+            "on a CPI release day the first-reported m/m change beats the mean m/m of the 12 months "
+            "before it (same vintage), and the 2Y yield (DGS2) rises at least 5bp that day. Trigger 2 "
+            "(rate shock): the 2Y yield's daily change is at least 2 standard deviations of its "
+            "changes over the prior year. Either trigger: short every coin at the next daily open "
+            "after the data is available (1.5–3 days after the print, so this tests the drift, not "
+            "the immediate reaction). Judged on an equal-weight coin basket, one observation per "
+            "event date. Secondary, outside the verdict: the mirror (2Y shock down → long).",
+            "1w",
+            {
+                "cpi_dgs2_bp": 5.0,  # X: 2Y rise needed on a hot-CPI day
+                "shock_k": 2.0,  # k: rate shock threshold, in σ of the prior year's changes
+                "triggers": "both",  # both | cpi | rate
+                "mode": "primary",  # primary (shorts) | mirror (down-shock longs, secondary)
+                "stop_atr": 2.5,  # simulation only
+                "max_hold": 7,
+            },
+            {"cpi_dgs2_bp": [2.0, 5.0, 10.0, 15.0], "shock_k": [1.5, 2.0, 2.5, 3.0]},
+            {"cpi_dgs2_bp": [5.0, 10.0], "shock_k": [2.0, 2.5]},
+            _macro_shock,
+            basket=True,
+            breakdowns={
+                "hot CPI only (short)": {"triggers": "cpi"},
+                "rate shock up only (short)": {"triggers": "rate"},
+                "mirror: rate shock down (long), secondary": {"mode": "mirror"},
+            },
         ),
     )
 }

@@ -40,6 +40,7 @@ from market_signal.perps.backtest import (
     PerpRisk,
     PerpRules,
     PerpSimResult,
+    basket_asset_events,
     load_perp_input,
     perp_asset_events,
     simulate_perps,
@@ -77,6 +78,10 @@ class PerpReport:
     provenance: dict = field(default_factory=dict)
     venue: str = "hyperliquid"
     window_note: str = ""  # e.g. "before Hyperliquid's history starts: unseen by this research"
+    coin_study: EventStudyResult | None = (
+        None  # per-coin pooled study when the verdict is on a basket
+    )
+    breakdowns: pd.DataFrame | None = None  # labelled diagnostics, outside the verdict
 
     @property
     def run_name(self) -> str:
@@ -85,7 +90,7 @@ class PerpReport:
         )
 
 
-def _events(
+def _coin_events(
     strategy: PerpStrategy, inputs: list[PerpInput], params: dict, horizons: dict
 ) -> list[AssetEvents]:
     out = []
@@ -95,6 +100,33 @@ def _events(
             a.coin, a.frame, horizons, a.costs, long_signal=s.long, short_signal=s.short
         )
     return out
+
+
+def _events(
+    strategy: PerpStrategy, inputs: list[PerpInput], params: dict, horizons: dict
+) -> list[AssetEvents]:
+    """The events the verdict is judged on: per coin, or the equal-weight basket."""
+    ev = _coin_events(strategy, inputs, params, horizons)
+    return basket_asset_events(ev) if strategy.basket else ev
+
+
+BREAKDOWN_COLUMNS = ["label", "n_events", "n_independent", "mean_indep", "excess_mean_indep",
+                     "p_value_random_entry", "mde_80"]  # fmt: skip
+
+
+def _breakdowns(
+    strat: PerpStrategy, inputs, params, horizons, primary, stats
+) -> pd.DataFrame | None:
+    if not strat.breakdowns:
+        return None
+    rows = []
+    for label, ov in strat.breakdowns.items():
+        st = run_event_study(_events(strat, inputs, {**params, **ov}, horizons), primary,
+                             int(stats["bootstrap_samples"]), int(stats["seed"]),
+                             int(stats["min_events_for_conclusion"]))  # fmt: skip
+        r = st.summary.set_index("horizon").loc[primary] if not st.summary.empty else {}
+        rows.append({"label": label, **{c: r.get(c, np.nan) for c in BREAKDOWN_COLUMNS[1:]}})
+    return pd.DataFrame(rows, columns=BREAKDOWN_COLUMNS)
 
 
 def run_perp_research(
@@ -156,6 +188,11 @@ def run_perp_research(
     aevs = _events(strat, inputs, params, horizons)
     study = run_event_study(aevs, primary, int(stats["bootstrap_samples"]), int(stats["seed"]),
                             int(stats["min_events_for_conclusion"]))  # fmt: skip
+    coin_study = (
+        run_event_study(_coin_events(strat, inputs, params, horizons), primary, n_boot=0)
+        if strat.basket
+        else study
+    )
     base = baseline_bars(aevs)
     gap = {ae.symbol: horizons[primary] for ae in aevs}
 
@@ -200,10 +237,9 @@ def run_perp_research(
         else pd.Series(dtype=float)
     )
     asset_share = None
-    if not study.by_asset.empty:
-        pa = study.by_asset[
-            (study.by_asset["horizon"] == primary) & (study.by_asset["n_independent"] >= 5)
-        ]
+    if not coin_study.by_asset.empty:  # cross-coin consistency is judged per coin even for a basket
+        ba = coin_study.by_asset
+        pa = ba[(ba["horizon"] == primary) & (ba["n_independent"] >= 5)]
         asset_share = float((pa["excess_mean_indep"] > 0).mean()) if len(pa) else None
     verdict = automatic_verdict(prim_row, wf_summary, sens_verdict, asset_share, bt)
 
@@ -230,6 +266,20 @@ def run_perp_research(
             for a in inputs
         ],
     }
+    if strat.basket:
+        prov["basis"] = "equal-weight basket of coins: one observation per event date"
+    if "ms_event_date" in inputs[0].frame:  # which macro events the data held
+        ev_dates = pd.concat([a.frame["ms_event_date"].dropna() for a in inputs])
+        cpi = pd.concat(
+            [a.frame.loc[a.frame["ms_cpi_surprise"].notna(), "ms_event_date"] for a in inputs]
+        )
+        prov["macro"] = {
+            "dgs2_days_with_z": int(pd.concat([a.frame.loc[a.frame["ms_dgs2_z"].notna(), "ms_event_date"]
+                                               for a in inputs]).nunique()),
+            "cpi_releases": int(cpi.nunique()),
+            "first": str(ev_dates.min())[:10] if len(ev_dates) else None,
+            "last": str(ev_dates.max())[:10] if len(ev_dates) else None,
+        }  # fmt: skip
     try:
         from market_signal.research.runner import _git_commit
 
@@ -239,7 +289,8 @@ def run_perp_research(
     return PerpReport(strat, new_id("prr_"), utcnow().isoformat(timespec="seconds"), params, horizons, study, sim,
                       wf_table, wf_summary, sens_table, sens_verdict, verdict,
                       (str(period[0])[:10], str(period[1])[:10]), [a.coin for a in inputs], prov,
-                      venue, window_note)  # fmt: skip
+                      venue, window_note, coin_study if strat.basket else None,
+                      _breakdowns(strat, inputs, params, horizons, primary, stats))  # fmt: skip
 
 
 # --------------------------------------------------------------------------- report
@@ -264,6 +315,11 @@ def render_perp_markdown(rep: PerpReport) -> str:
         "## Event study (per side, on notional, no leverage)", "",
         "Entry next open, exit at the close h bars later, net of taker fee, slippage and funding. Excess = return "
         "minus random entry on the SAME side of the same coin. `independent` = non-overlapping events.", "",
+        *([f"**Verdict basis: {rep.provenance.get('basis')}.** Every coin trades the same macro date, so per-coin "
+           "events are not independent. Each row below is the equal-weight average of the coins on one date, the "
+           "baseline and random-entry p-value use random dates, and `n_independent` counts event dates. "
+           "`mde_80` is the smallest excess this sample would detect 80% of the time.", ""]
+          if s.basket else []),
         md_table(rep.study.summary, [c for c in cols if c in rep.study.summary.columns]), "",
         f"### By side ({p})", "",
     ]  # fmt: skip
@@ -276,8 +332,24 @@ def render_perp_markdown(rep: PerpReport) -> str:
               md_table(ba[ba["horizon"] == p] if not ba.empty else ba,
                        ["symbol", "n_independent", "mean_indep", "hit_rate_indep", "excess_mean_indep", "avg_mae"]
                        if not ba.empty else None)]  # fmt: skip
-    for note in rep.study.notes:
+    for note in (rep.coin_study or rep.study).notes:  # cross-coin share is per coin
         lines.append(f"- {note}")
+    if rep.coin_study is not None:
+        cs = rep.coin_study.by_asset
+        lines += ["", f"### Per coin ({p}; diagnostic only: these overlap in time and are NOT independent)", "",
+                  md_table(cs[cs["horizon"] == p] if not cs.empty else cs,
+                           ["symbol", "n_events", "mean_indep", "hit_rate_indep", "excess_mean_indep", "avg_mae"]
+                           if not cs.empty else None)]  # fmt: skip
+    if rep.breakdowns is not None:
+        lines += ["", f"### Breakdowns ({p}; diagnostics, NOT part of the verdict)", "",
+                  "Same basis as above, one trigger or side at a time. The mirror is a separate, secondary "
+                  "hypothesis: it can't rescue or sink the primary verdict.", "",
+                  md_table(rep.breakdowns)]  # fmt: skip
+    if rep.provenance.get("macro"):
+        mc = rep.provenance["macro"]
+        lines += ["", f"Macro data seen in this window: {mc['dgs2_days_with_z']} DGS2 days with a z-score, "
+                  f"{mc['cpi_releases']} CPI releases ({mc['first']} → {mc['last']}). Timing: an event is known "
+                  "1.5–3 days after the print; entry is the next daily open after that (perps/macro_events.py)."]  # fmt: skip
     m = rep.sim.metrics
     lines += ["", "## Portfolio simulation (isolated margin, risk-sized, leverage ≤ cap, liquidation modelled)", "",
               "| metric | value |", "|---|---|"]  # fmt: skip
@@ -362,6 +434,9 @@ def save_perp_report(store: Store, settings: Settings, rep: PerpReport):
         "by_side": rep.study.by_class.replace({np.nan: None}).to_dict("records") if not rep.study.by_class.empty else [],
         "simulation": dict(rep.sim.metrics), "walk_forward": rep.wf_summary, "sensitivity": rep.sens_verdict,
         "provenance": rep.provenance, "params": rep.params,
+        "basis": "basket" if rep.strategy.basket else "per_coin",
+        "coin_summary": rep.coin_study.summary.replace({np.nan: None}).to_dict("records") if rep.coin_study is not None else None,
+        "breakdowns": rep.breakdowns.replace({np.nan: None}).to_dict("records") if rep.breakdowns is not None else None,
     }  # fmt: skip
     (out / "summary.json").write_text(json.dumps(summary, indent=2, default=str))
     store.con.execute(

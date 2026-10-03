@@ -24,7 +24,7 @@ from market_signal.backtest.events import run_event_study
 from market_signal.config import Settings, config_hash
 from market_signal.data.store import Store
 from market_signal.models.domain import utcnow
-from market_signal.perps.backtest import load_perp_input, perp_asset_events
+from market_signal.perps.backtest import basket_asset_events, load_perp_input, perp_asset_events
 from market_signal.perps.data import perp_config
 from market_signal.perps.strategies import STRATEGIES, PerpStrategy
 
@@ -144,6 +144,8 @@ def evaluate_paper(store: Store, settings: Settings, name: str) -> PaperResult:
         aevs += perp_asset_events(coin, a.frame, horizons, a.costs, long_signal=pd.Series(longs.to_numpy()),
                                   short_signal=pd.Series(shorts.to_numpy()),
                                   eligible=pd.Series(checked.to_numpy()))  # fmt: skip
+    if strat.basket:  # one observation per event date, as in the research verdict
+        aevs = basket_asset_events(aevs)
     n_sig = int(checks["side"].notna().sum())
     res = PaperResult(name, checks["bar_close"].min(), len(checks), n_sig, 0, 0, None, None, None,
                       strat.primary_horizon, min_n)  # fmt: skip

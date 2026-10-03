@@ -173,7 +173,8 @@ for strat, e, pr, eb in rows_r:
     sim = e.simulation or {}
     wf = "–" if not e.wf_folds else f"{e.wf_positive}/{e.wf_folds}"
     body += (
-        f"<tr><td><b>{esc(strat.title)}</b><br><span class='small muted'>{esc(strat.name)} · {esc(e.horizon)}</span></td>"
+        f"<tr><td><b>{esc(strat.title)}</b><br><span class='small muted'>{esc(strat.name)} · {esc(e.horizon)}"
+        f"{' · events = dates (coin basket)' if strat.basket else ''}</span></td>"
         f"<td>{evidence_pill(e)}</td><td class='num'>{esc(e.n_independent if e.n_independent is not None else '–')}</td>"
         f"<td class='num'>{esc(pct(e.excess, digits=1))}</td>"
         f"<td class='num'>{'–' if e.p_value is None else f'{e.p_value:.2f}'}</td><td class='num'>{esc(wf)}</td>"
