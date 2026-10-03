@@ -14,3 +14,27 @@ monitor:
   avg_days: 7                # "current" funding = mean of the last N days (smooths hourly noise)
   crowded_long_pct: 0.90     # 7d funding at/above this percentile of its own year → "crowded long"
   crowded_short_pct: 0.10    # at/below → "crowded short"
+
+# ---------------------------------------------------------------- Phase 2: backtest engine
+# Assumptions, not facts: check Hyperliquid's current fee schedule and margin tables.
+costs:                       # per side, on notional
+  taker_fee_bps: 4.5         # Hyperliquid base-tier taker fee (0.045%); entries/exits are market orders
+  slippage_bps: {BTC: 2, ETH: 2, SOL: 4, HYPE: 6, LINK: 6, AAVE: 8, default: 8}
+  stop_slippage_bps: 10      # extra adverse slippage when a stop fires (stop-market in a fast move)
+
+margin:
+  # maintenance margin rate = 1 / (2 × venue max leverage) (Hyperliquid's published rule);
+  # used when no snapshot is stored for a coin
+  default_max_leverage: {BTC: 40, ETH: 25, SOL: 20, HYPE: 10, LINK: 10, AAVE: 10, default: 10}
+
+risk:
+  risk_per_trade: 0.005      # 0.5% of equity lost if the stop is hit (before slippage)
+  leverage_cap: 3.0          # hard cap per position, regardless of venue maximum
+  liq_buffer: 2.0            # liquidation must sit >= 2 × the stop distance away at entry
+  max_gross_notional: 2.0    # sum of position notionals <= 2 × equity
+  max_position_notional: 0.5 # any one position's notional <= 50% of equity
+
+event_study:
+  horizons: {1d: 1, 3d: 3, 1w: 7, 2w: 14, 1m: 30, 3m: 91}   # bars (daily, 24/7)
+  primary_horizon: 1m
+  min_funding_settlements_per_day: 20   # fewer → that day's funding is missing (and so is any return spanning it)
