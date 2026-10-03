@@ -77,7 +77,7 @@ src/market_signal/
   models/         domain types
 dashboard/        Streamlit app (app.py + views/)
 config/           universe, providers, macro, regimes, backtest, scoring, hype, catalysts, alerts, setups/, experiments/
-docs/             DATA_SOURCES, SCORING, SETUPS, BACKTESTING, HYPE_MODEL, ROADMAP
+docs/             DATA_SOURCES, SCORING, SETUPS, BACKTESTING, PERPS_BACKTEST, HYPE_MODEL, ROADMAP
 tests/            101 tests (synthetic data proofs of no look-ahead, PIT, timing, sizing, HYPE maths, UI render)
 ```
 
