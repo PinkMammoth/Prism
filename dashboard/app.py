@@ -24,6 +24,7 @@ pages = {
         st.Page("views/market.py", title="All assets", icon=":material/table_rows:"),
         st.Page("views/backtest.py", title="Backtest Lab", icon=":material/science:"),
         st.Page("views/hype.py", title="HYPE Monitor", icon=":material/monitoring:"),
+        st.Page("views/perps.py", title="Perps", icon=":material/swap_vert:"),
     ],
     "Records": [
         st.Page("views/track.py", title="Track record", icon=":material/fact_check:"),

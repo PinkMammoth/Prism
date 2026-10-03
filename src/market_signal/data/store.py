@@ -244,6 +244,45 @@ MIGRATIONS: list[str] = [
     """
     ALTER TABLE alert_events ADD COLUMN IF NOT EXISTS delivered_at TIMESTAMPTZ;
     """,
+    # 5 — perpetual futures (kept apart from spot bars; never stitched)
+    """
+    CREATE TABLE IF NOT EXISTS perp_bars (
+        coin VARCHAR NOT NULL,
+        timeframe VARCHAR NOT NULL,
+        source VARCHAR NOT NULL,
+        ts TIMESTAMPTZ NOT NULL,
+        open DOUBLE, high DOUBLE, low DOUBLE, close DOUBLE, volume DOUBLE,
+        close_time TIMESTAMPTZ NOT NULL,
+        ingested_at TIMESTAMPTZ NOT NULL,
+        ingest_run_id VARCHAR NOT NULL,
+        PRIMARY KEY (coin, timeframe, source, ts)
+    );
+    CREATE TABLE IF NOT EXISTS perp_funding (
+        coin VARCHAR NOT NULL,
+        source VARCHAR NOT NULL,
+        time TIMESTAMPTZ NOT NULL,       -- funding settlement time
+        funding_rate DOUBLE NOT NULL,    -- per funding period (Hyperliquid: hourly)
+        premium DOUBLE,
+        available_at TIMESTAMPTZ NOT NULL,
+        pit_method VARCHAR NOT NULL,
+        ingest_run_id VARCHAR NOT NULL,
+        PRIMARY KEY (coin, source, time)
+    );
+    CREATE TABLE IF NOT EXISTS perp_snapshots (
+        coin VARCHAR NOT NULL,
+        source VARCHAR NOT NULL,
+        snapshot_at TIMESTAMPTZ NOT NULL,
+        mark_px DOUBLE, oracle_px DOUBLE, mid_px DOUBLE, prev_day_px DOUBLE,
+        funding_rate DOUBLE,             -- current (predicted) hourly rate
+        premium DOUBLE,
+        open_interest DOUBLE,            -- in coins
+        oi_notional DOUBLE,              -- open_interest × mark_px (USD)
+        day_ntl_vlm DOUBLE,
+        max_leverage DOUBLE,
+        ingest_run_id VARCHAR NOT NULL,
+        PRIMARY KEY (coin, source, snapshot_at)
+    );
+    """,
 ]
 
 

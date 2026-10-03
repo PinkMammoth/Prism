@@ -235,6 +235,19 @@ use. It fails loudly if a schema differs from what the parser expects.
   [AQAv2 activation coverage](https://blockonomi.com/hyperliquid-activates-aqav2-to-fund-hype-buybacks-with-usdc-reserve-yield/),
   [HYPE unlocks](https://tokenomist.ai/hyperliquid/unlock-events)
 
+## Perpetual futures: Hyperliquid public `info` API (no key)
+
+Configured in `config/perps.yaml`. Stored apart from spot prices and never stitched to them.
+
+| Dataset | Endpoint | Table | Point-in-time | Backtestable |
+|---|---|---|---|---|
+| Daily perp candles | `candleSnapshot` (coin = perp name, e.g. `BTC`) | `perp_bars` | Closed bars only (same rule as spot) | Yes (latest 5,000 candles) |
+| Funding rates (hourly) | `fundingHistory`, paginated 500 rows per call | `perp_funding` | `available_at` = settlement time (`market_close`) | Yes |
+| Mark/oracle price, current funding, open interest, max leverage | `metaAndAssetCtxs` | `perp_snapshots` | Daily snapshot at fetch time | **Prospective only.** No free OI history exists, so OI history starts with Prism's first snapshot. |
+
+Every call is logged in `ingestion_runs`, with its raw payload archived. Responses that don't
+match the documented schema raise `SchemaError` and are not stored.
+
 ## Summary: what can be researched honestly in V1
 
 | Question | Possible historically? | Why |

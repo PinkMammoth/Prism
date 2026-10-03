@@ -36,7 +36,7 @@ def demo_db(tmp_path_factory):
 
 
 @pytest.mark.parametrize(
-    "page", ["today", "track", "market", "asset", "portfolio", "hype", "data", "backtest"]
+    "page", ["today", "track", "perps", "market", "asset", "portfolio", "hype", "data", "backtest"]
 )
 def test_page_renders(demo_db, page):
     from streamlit.testing.v1 import AppTest

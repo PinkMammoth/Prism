@@ -145,3 +145,18 @@ def line_chart(s: pd.Series, name: str, fmt: str = "", title: str = "") -> go.Fi
         fig.update_yaxes(tickformat=fmt)
     fig.update_layout(title=title, showlegend=False)
     return _style(fig, 300)
+
+
+def funding_chart(s: pd.Series, lo: float | None, hi: float | None, title: str = "") -> go.Figure:
+    """Annualised funding with its own past-year 10th/90th percentile lines and zero."""
+    fig = go.Figure(go.Scatter(x=s.index, y=s.values, mode="lines", line=dict(color=SERIES[0], width=2),
+                               name="7-day funding (annualised)",
+                               hovertemplate="%{x|%d %b %Y}: %{y:+.1%}<extra></extra>"))  # fmt: skip
+    fig.add_hline(y=0, line=dict(color=MUTED, width=1))
+    for y, label in ((hi, "90th pct (crowded long)"), (lo, "10th pct (crowded short)")):
+        if y is not None:
+            fig.add_hline(y=y, line=dict(color=MUTED, width=1, dash="dot"), annotation_text=label,
+                          annotation_font_color=MUTED, annotation_position="top left")  # fmt: skip
+    fig.update_yaxes(tickformat=".0%")
+    fig.update_layout(title=title, showlegend=False, hovermode="closest")
+    return _style(fig, 320)

@@ -277,7 +277,12 @@ class HyperliquidProvider(HttpProvider):
     def _candles(
         self, symbol: str, tf: Timeframe, start: datetime, end: datetime
     ) -> tuple[pd.DataFrame, str]:
-        coin = self.resolve_spot_pair(symbol)
+        return self._candle_snapshot(self.resolve_spot_pair(symbol), tf, start, end)
+
+    def _candle_snapshot(
+        self, coin: str, tf: Timeframe, start: datetime, end: datetime
+    ) -> tuple[pd.DataFrame, str]:
+        """``coin``: a spot pair id (``@107``) or a perp name (``BTC``)."""
         span = timedelta(seconds=tf.seconds * self.max_candles)
         start = max(start, end - span)  # API serves only the latest 5,000 candles
         payload = self.info(
@@ -319,3 +324,114 @@ class HyperliquidProvider(HttpProvider):
         if not isinstance(mids, dict) or coin not in mids:
             raise SchemaError(f"hyperliquid allMids missing {coin}")
         return PriceQuote(symbol, float(mids[coin]), utcnow(), self.name)
+
+    # ------------------------------------------------------------------ perpetuals
+    # Perp markets are addressed by their plain name ("BTC"); spot pairs by "@<index>".
+
+    def perp_daily_bars(
+        self, coin: str, start: datetime | None, end: datetime | None
+    ) -> BarsResult:
+        bars, fp = self._candle_snapshot(
+            coin, Timeframe.D1, _as_utc(start, EPOCH_START), _as_utc(end, utcnow())
+        )
+        return BarsResult(
+            self.name, Timeframe.D1, bars, raw=self.drain_raw(), schema_fingerprint=fp
+        )
+
+    def funding_history(
+        self,
+        coin: str,
+        start: datetime,
+        end: datetime | None = None,
+        page_size: int = 500,
+        max_pages: int = 400,
+    ) -> pd.DataFrame:
+        """Settled funding rates (per period; Hyperliquid pays hourly), oldest first.
+
+        The endpoint returns at most ``page_size`` rows from ``startTime``; pages are
+        walked forward from the last row's time until a short page is returned.
+        """
+        end_ms = int(_as_utc(end, utcnow()).timestamp() * 1000)
+        cursor = int(_as_utc(start, EPOCH_START).timestamp() * 1000)
+        rows: list[dict] = []
+        for _ in range(max_pages):
+            page = self.info(
+                {"type": "fundingHistory", "coin": coin, "startTime": cursor, "endTime": end_ms}
+            )
+            if not isinstance(page, list):
+                raise SchemaError(
+                    f"hyperliquid fundingHistory: expected list, got {type(page).__name__}"
+                )
+            for r in page:
+                if not isinstance(r, dict) or not {"time", "fundingRate"} <= r.keys():
+                    raise SchemaError(
+                        f"hyperliquid fundingHistory row missing time/fundingRate: {r!r}"[:200]
+                    )
+                if r.get("coin", coin) != coin:
+                    raise SchemaError(
+                        f"hyperliquid fundingHistory: asked for {coin}, got {r.get('coin')}"
+                    )
+            rows += page
+            if len(page) < page_size:
+                break
+            nxt = int(page[-1]["time"]) + 1
+            if nxt <= cursor:  # no progress: stop rather than loop forever
+                break
+            cursor = nxt
+        if not rows:
+            return pd.DataFrame({"time": pd.Series(dtype="datetime64[us, UTC]"),
+                                 "funding_rate": pd.Series(dtype="float64"),
+                                 "premium": pd.Series(dtype="float64")})  # fmt: skip
+        df = pd.DataFrame(rows)
+        out = pd.DataFrame({
+            "time": pd.to_datetime(df["time"].astype("int64"), unit="ms", utc=True).astype("datetime64[us, UTC]"),
+            "funding_rate": pd.to_numeric(df["fundingRate"], errors="coerce"),
+            "premium": pd.to_numeric(df["premium"], errors="coerce") if "premium" in df else float("nan"),
+        })  # fmt: skip
+        if out["funding_rate"].isna().any():
+            raise SchemaError("hyperliquid fundingHistory: non-numeric fundingRate")
+        return out.drop_duplicates("time").sort_values("time").reset_index(drop=True)
+
+    def perp_contexts(self) -> pd.DataFrame:
+        """Current state of every listed perp (metaAndAssetCtxs): one row per coin."""
+        payload = self.info({"type": "metaAndAssetCtxs"})
+        try:
+            meta, ctxs = payload
+            universe = meta["universe"]
+            if (
+                not isinstance(universe, list)
+                or not isinstance(ctxs, list)
+                or len(universe) != len(ctxs)
+            ):
+                raise ValueError("universe/contexts length mismatch")
+        except (TypeError, KeyError, ValueError) as exc:
+            raise SchemaError(f"hyperliquid metaAndAssetCtxs schema changed: {exc}") from exc
+
+        def num(x: Any) -> float | None:
+            try:
+                return float(x)
+            except (TypeError, ValueError):
+                return None
+
+        rows = []
+        for u, c in zip(universe, ctxs, strict=True):
+            if (
+                "name" not in u
+                or "markPx" not in c
+                or "funding" not in c
+                or "openInterest" not in c
+            ):
+                raise SchemaError(
+                    "hyperliquid metaAndAssetCtxs: missing name/markPx/funding/openInterest"
+                )
+            mark, oi = num(c.get("markPx")), num(c.get("openInterest"))
+            rows.append({
+                "coin": u["name"], "delisted": bool(u.get("isDelisted", False)),
+                "max_leverage": num(u.get("maxLeverage")), "mark_px": mark,
+                "oracle_px": num(c.get("oraclePx")), "mid_px": num(c.get("midPx")),
+                "prev_day_px": num(c.get("prevDayPx")), "funding_rate": num(c.get("funding")),
+                "premium": num(c.get("premium")), "open_interest": oi,
+                "oi_notional": None if mark is None or oi is None else mark * oi,
+                "day_ntl_vlm": num(c.get("dayNtlVlm")),
+            })  # fmt: skip
+        return pd.DataFrame(rows)

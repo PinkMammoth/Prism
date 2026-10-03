@@ -1,0 +1,16 @@
+# Perpetual futures data (Phase 1: data + funding monitor; no strategy is tested yet).
+# Venue: Hyperliquid public info API (free, no key). Perp series are stored SEPARATELY from
+# spot prices (perp_bars / perp_funding / perp_snapshots) and never stitched to them.
+venue: hyperliquid
+coins: [BTC, ETH, SOL, HYPE, LINK, AAVE]   # Hyperliquid perp names
+
+funding:
+  backfill_days: 1095        # first run: up to 3 years of hourly funding (or the coin's whole history)
+  page_size: 500             # rows per fundingHistory response (Hyperliquid's documented limit)
+  periods_per_year: 8760     # Hyperliquid funding is paid hourly; annualised = rate × 8760
+
+monitor:
+  window_days: 365           # history the current funding is compared against
+  avg_days: 7                # "current" funding = mean of the last N days (smooths hourly noise)
+  crowded_long_pct: 0.90     # 7d funding at/above this percentile of its own year → "crowded long"
+  crowded_short_pct: 0.10    # at/below → "crowded short"

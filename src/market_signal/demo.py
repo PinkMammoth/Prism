@@ -86,7 +86,55 @@ def build_demo_db(
     _demo_macro(store, rng, end)
     _demo_fundamentals(settings, store, rng, end)
     _demo_crypto_metrics(store, rng, end)
+    _demo_perps(settings, store, rng)
     return counts
+
+
+def _demo_perps(settings: Settings, store: Store, rng: np.random.Generator) -> None:
+    """Synthetic perp candles (spot × small basis), hourly funding with crowded spells, and
+    30 days of OI snapshots — exercises the perps monitor offline."""
+    from market_signal.perps.data import (
+        insert_snapshots,
+        perp_config,
+        upsert_funding,
+        upsert_perp_bars,
+    )
+
+    now = pd.Timestamp(utcnow())
+    for coin in perp_config(settings).get("coins") or []:
+        spot = (
+            store.get_bars(coin, Timeframe.D1, SYNTHETIC_SOURCE)
+            if coin in settings.universe
+            else None
+        )
+        if spot is None or spot.empty:
+            continue
+        spot = spot.tail(730).reset_index(drop=True)
+        basis = 1 + rng.normal(0.0003, 0.0008, len(spot))
+        perp = spot[["ts", "open", "high", "low", "close", "volume"]].copy()
+        for c in ("open", "high", "low", "close"):
+            perp[c] = perp[c] * basis
+        perp["close_time"] = perp["ts"] + pd.Timedelta(days=1)
+        upsert_perp_bars(store, coin, perp, SYNTHETIC_SOURCE, "demo")
+        hours = pd.date_range(spot["ts"].iloc[0], now.floor("h"), freq="1h", tz="UTC")
+        x, rates = 0.0, np.empty(len(hours))
+        shock = rng.normal(0, 1, len(hours))
+        for i in range(len(hours)):  # AR(1) around ~11%/yr with occasional crowded spells
+            x = 0.995 * x + 0.000004 * shock[i]
+            rates[i] = 0.0000125 + x
+        upsert_funding(store, coin, pd.DataFrame({"time": hours, "funding_rate": rates,
+                                                  "premium": rates * 0.8}), SYNTHETIC_SOURCE, "demo")  # fmt: skip
+        last = float(perp["close"].iloc[-1])
+        oi = last * rng.uniform(2e5, 2e6) / max(last, 1) * 1e3
+        for d in range(30, -1, -1):
+            oi *= 1 + rng.normal(0, 0.03)
+            ctx = pd.DataFrame([{"coin": coin, "mark_px": last, "oracle_px": last * 0.9997, "mid_px": last,
+                                 "prev_day_px": last, "funding_rate": rates[-1], "premium": 0.0003,
+                                 "open_interest": oi / last, "oi_notional": oi, "day_ntl_vlm": oi * 1.5,
+                                 "max_leverage": 40.0 if coin in ("BTC", "ETH") else 10.0}])  # fmt: skip
+            insert_snapshots(
+                store, ctx, SYNTHETIC_SOURCE, (now - pd.Timedelta(days=d)).to_pydatetime(), "demo"
+            )
 
 
 def _demo_crypto_metrics(store: Store, rng: np.random.Generator, end: pd.Timestamp) -> None:

@@ -16,7 +16,7 @@ from market_signal.models.domain import Timeframe, utcnow
 def update(
     symbols: list[str] = typer.Option(None, "--symbol", "-s", help="Limit to these assets"),
     timeframes: list[str] = typer.Option(["1d", "4h"], "--tf", help="Timeframes (1d, 4h, 1h)"),
-    only: str = typer.Option("all", help="all | prices | macro | fundamentals"),
+    only: str = typer.Option("all", help="all | prices | macro | fundamentals | perps"),
 ) -> None:
     """Fetch latest data (incremental, idempotent)."""
     from market_signal.data.registry import ProviderRegistry

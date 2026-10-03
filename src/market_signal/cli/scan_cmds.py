@@ -288,7 +288,45 @@ def telegram_setup(
         console.print("[green]Test message sent.[/]")
 
 
+def perps() -> None:
+    """Perp funding & open-interest monitor (context only: no perp strategy is tested yet)."""
+    from market_signal.perps.monitor import perp_overview
+
+    def pct(v, signed=True):
+        return "–" if v is None else (f"{v:+.0%}" if signed else f"{v:.0%}")
+
+    def compact(v):
+        if v is None:
+            return "–"
+        for unit, div in (("B", 1e9), ("M", 1e6), ("K", 1e3)):
+            if abs(v) >= div:
+                return f"${v / div:.1f}{unit}"
+        return f"${v:,.0f}"
+
+    with open_store(read_only=True) as (settings, store):
+        _banner(store)
+        rows = perp_overview(store, settings)
+        if not rows:
+            console.print("No perp coins configured (config/perps.yaml).")
+            return
+        t = Table(title="Perps: funding (annualised) and open interest. Context, not signals")
+        cols = ("coin", "7d fund", "30d", "pctile", "state", "OI", "OI 7d", "max lev")
+        for c in cols:
+            t.add_column(c, justify="left" if c in ("coin", "state") else "right", no_wrap=True)
+        style = {"CROWDED LONG": "red", "CROWDED SHORT": "cyan", "NEUTRAL": "green"}
+        for v in rows:
+            stale = " [yellow](stale)[/]" if v.funding_stale else ""
+            t.add_row(v.coin, pct(v.funding_avg_ann) + stale, pct(v.funding_30d_ann),
+                      pct(v.percentile, False), f"[{style.get(v.state, 'yellow')}]{v.state}[/]",
+                      compact(v.oi_notional), pct(v.oi_change_7d),
+                      "–" if v.max_leverage is None else f"{v.max_leverage:.0f}x")  # fmt: skip
+        console.print(t)
+        console.print("Funding is annualised; > 0 means longs pay shorts. pctile = this coin's 7-day funding vs its own past year. "
+                      "Whether extremes predict anything is untested (Phase 3).")  # fmt: skip
+
+
 def register(app: typer.Typer) -> None:
+    app.command("perps")(perps)
     app.command("brief")(brief)
     app.command("telegram-setup")(telegram_setup)
     app.command("scan")(scan)

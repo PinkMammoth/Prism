@@ -141,6 +141,12 @@ def _update_crypto(settings: Settings, store: Store) -> pd.DataFrame:
     return update_crypto_fundamentals(settings, store)
 
 
+def _update_perps(settings: Settings, store: Store) -> pd.DataFrame:
+    from market_signal.perps.data import update_perps
+
+    return update_perps(settings, store)
+
+
 UPDATERS: list[Updater] = [
     Updater("macro", "Macro update (FRED/ALFRED, EIA)", update_macro),
     Updater("fundamentals", "Equity fundamentals (SEC EDGAR, filing-date PIT)", _update_edgar),
@@ -148,6 +154,9 @@ UPDATERS: list[Updater] = [
         "fundamentals",
         "Crypto fundamentals (DefiLlama, Hyperliquid) — current/prospective only",
         _update_crypto,
+    ),
+    Updater(
+        "perps", "Perpetual futures (Hyperliquid): candles, funding, OI snapshot", _update_perps
     ),
 ]
 
