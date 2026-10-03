@@ -47,6 +47,16 @@ from market_signal.perps.backtest import (
 from market_signal.perps.data import perp_config
 from market_signal.perps.strategies import STRATEGIES, PerpStrategy, get_strategy
 
+EVENT_COLUMNS = ["symbol", "asset_class", "horizon", "bar", "signal_time", "ret", "excess", "mae", "mfe",
+                 "independent"]  # fmt: skip
+
+
+def funding_coverage(frame: pd.DataFrame) -> float:
+    """Share of days (from the first day with funding) that have a funding value."""
+    fd = frame["funding_day"]
+    first = fd.first_valid_index()
+    return float(fd.loc[first:].notna().mean()) if first is not None else 0.0
+
 
 @dataclass
 class PerpReport:
@@ -150,9 +160,10 @@ def run_perp_research(
     gap = {ae.symbol: horizons[primary] for ae in aevs}
 
     def events_for(overrides: dict[str, Any]) -> pd.DataFrame:
-        return run_event_study(
+        ev = run_event_study(
             _events(strat, inputs, {**params, **overrides}, horizons), primary, n_boot=0
         ).events
+        return ev if not ev.empty else pd.DataFrame(columns=EVENT_COLUMNS)  # no events ≠ crash
 
     period = (
         (base["signal_time"].min(), base["signal_time"].max()) if not base.empty else (None, None)
@@ -214,6 +225,7 @@ def run_perp_research(
                 "first": str(a.frame["ts"].iloc[0])[:10],
                 "last": str(a.frame["ts"].iloc[-1])[:10],
                 "funding_days": int(a.frame["funding_day"].notna().sum()),
+                "funding_coverage": round(funding_coverage(a.frame), 4),
             }
             for a in inputs
         ],
@@ -315,13 +327,20 @@ def render_perp_markdown(rep: PerpReport) -> str:
         "",
         "## Data",
         "",
-        "| coin | bars | first | last | days with funding |",
-        "|---|---|---|---|---|",
+        "| coin | bars | first | last | days with funding | funding coverage |",
+        "|---|---|---|---|---|---|",
     ]
     lines += [
-        f"| {d['coin']} | {d['bars']} | {d['first']} | {d['last']} | {d['funding_days']} |"
+        f"| {d['coin']} | {d['bars']} | {d['first']} | {d['last']} | {d['funding_days']} | "
+        f"{d.get('funding_coverage', 0):.1%} |"
         for d in rep.provenance["data"]
     ]
+    low = [d for d in rep.provenance["data"] if d.get("funding_coverage", 1) < 0.95]
+    if low:
+        lines += ["", "**Warning:** funding is missing on more than 5% of days for "
+                  + ", ".join(f"{d['coin']} ({1 - d['funding_coverage']:.0%})" for d in low)
+                  + ". Any return spanning a missing day is excluded, so the sample is smaller than the price "
+                  "history suggests."]  # fmt: skip
     return "\n".join(lines) + "\n"
 
 
