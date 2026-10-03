@@ -27,7 +27,8 @@ from market_signal.research.lab.batch import (
 from market_signal.research.lab.common import canonical_json
 from market_signal.research.lab.compiler import CompileError, compile_registered
 from market_signal.research.lab.evidence import (
-    EvidencePolicy,
+    POLICIES,
+    REPORT_POLICIES,
     batch_report,
     build_profiles,
     gather,
@@ -323,33 +324,52 @@ evidence = typer.Typer(
 lab.add_typer(evidence, name="evidence")
 
 
+def _policy(version: int | None):
+    version = version or max(POLICIES)
+    if version not in POLICIES:
+        raise LedgerError(f"unknown evidence policy version {version}; known: {sorted(POLICIES)}")
+    return POLICIES[version]
+
+
 @evidence.command("build")
 def evidence_build(
-    batch_id: str, run: str = typer.Option(None, "--run", help="Default: latest completed run.")
+    batch_id: str,
+    run: str = typer.Option(None, "--run", help="Default: latest completed run."),
+    policy_version: int = typer.Option(None, "--policy-version", help="Default: latest."),
 ) -> None:
-    """WRITE: profile every member of a completed batch under the current evidence policy.
+    """WRITE: profile every member of a completed batch under an evidence policy version.
 
-    Idempotent and append-only: identical inputs and policy give the same profile IDs.
+    Idempotent and append-only: identical inputs, policy and builder give the same profile
+    IDs. Profiles under other policies or builders are kept, never rewritten.
     """
 
     def build(ledger):
         records, analysis = gather(ledger, batch_id, run)
-        policy = EvidencePolicy()
-        out = record_profiles(ledger, build_profiles(records, analysis, policy), policy)
-        return {**out, "analysis_id": analysis["analysis_id"]}
+        policy = _policy(policy_version)
+        profiles = build_profiles(
+            records, analysis, policy, builder_software_id=_software().software_id
+        )
+        out = record_profiles(ledger, profiles, policy)
+        return {**out, "analysis_id": analysis["analysis_id"], "policy_version": policy.version}
 
     _inspect(build, read_only=False)
 
 
 @evidence.command("report")
 def evidence_report(
-    batch_id: str, run: str = typer.Option(None, "--run", help="Default: latest completed run.")
+    batch_id: str,
+    run: str = typer.Option(None, "--run", help="Default: latest completed run."),
+    policy_version: int = typer.Option(None, "--policy-version", help="Default: latest."),
+    report_version: int = typer.Option(None, "--report-version", help="Default: latest."),
 ) -> None:
     """Descriptive batch evidence report (families, plateaus, spikes, breadth, horizons)."""
 
     def report(ledger):
         _, analysis = gather(ledger, batch_id, run)
-        policy_id = EvidencePolicy().policy_id
+        policy_id = _policy(policy_version).policy_id
+        rv = report_version or max(REPORT_POLICIES)
+        if rv not in REPORT_POLICIES:
+            raise LedgerError(f"unknown report policy version {rv}")
         profiles = [
             p
             for p in load_profiles(ledger, analysis_id=analysis["analysis_id"])
@@ -358,7 +378,7 @@ def evidence_report(
         if not profiles:
             raise LedgerError("no profiles for this analysis and policy; run `evidence build`")
         return {"analysis_id": analysis["analysis_id"], "policy_id": policy_id,
-                **batch_report(profiles)}  # fmt: skip
+                **batch_report(profiles, REPORT_POLICIES[rv])}  # fmt: skip
 
     _inspect(report)
 

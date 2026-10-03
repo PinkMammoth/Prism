@@ -38,7 +38,10 @@ from market_signal.research.lab.common import (
     content_id,
 )
 
-PROFILE_SCHEMA = "1"
+PROFILE_SCHEMA = "2"  # schema 1 profiles (Phase 7) remain readable with their original IDs
+# Version of the code that derives profile fields. Part of schema-2 identity: a change to
+# how profiles are computed must bump it, giving new profiles instead of a collision.
+EVIDENCE_BUILDER_VERSION = "lab_evidence_builder_v2"
 Tier = Literal[
     "UNAVAILABLE",
     "INSUFFICIENT",
@@ -81,19 +84,61 @@ class NegativeRules(LabModel):
     max_positive_asset_share: Probability = 0.5  # ...and few assets agreeing
 
 
+class HorizonDeadBand(LabModel):
+    """A non-primary horizon whose |excess| is below max(absolute, relative x |primary
+    excess|) counts as flat: it neither agrees nor reverses (descriptive wording only)."""
+
+    relative: Probability = 0.25
+    absolute: Annotated[Number, Field(ge=0)] = 0.001
+
+
 class EvidencePolicy(LabModel):
-    """Versioned tier rules. Changing anything creates a new policy and new profiles."""
+    """Versioned tier rules. Changing anything creates a new policy and new profiles.
+
+    v1 (Phase 7) has no horizon dead band: any opposite-signed horizon is a reversal.
+    v2 (Phase 7.1, the default) adds ``horizon_dead_band``; tier rules are otherwise equal.
+    """
 
     name: Name = "lab_evidence_policy"
-    version: PositiveInt = 1
+    version: PositiveInt = 2
     plateau_share: Probability = 0.67
     exploratory: ExploratoryRules = ExploratoryRules()
     research_supported: ResearchSupportedRules = ResearchSupportedRules()
     negative: NegativeRules = NegativeRules()
+    horizon_dead_band: HorizonDeadBand | None = HorizonDeadBand()
+
+    @model_validator(mode="after")
+    def v1_is_strict(self) -> Self:
+        if self.version == 1 and self.horizon_dead_band is not None:
+            raise ValueError("evidence policy v1 has no horizon dead band")
+        return self
 
     @property
     def policy_id(self) -> str:
-        return content_id("evpolicy_", self.model_dump(mode="python"))
+        data = self.model_dump(mode="python")
+        if data["horizon_dead_band"] is None:
+            del data["horizon_dead_band"]  # keeps the v1 identity exactly as recorded
+        return content_id("evpolicy_", data)
+
+
+# Every released policy, reproducible by version. Never edit an entry; add a new one.
+POLICIES = {1: EvidencePolicy(version=1, horizon_dead_band=None), 2: EvidencePolicy()}
+
+
+class ReportPolicy(LabModel):
+    """Versioned thresholds for the read-time batch report's descriptive wording."""
+
+    name: Name = "lab_evidence_report_policy"
+    version: PositiveInt = 1
+    broad_directional_share: Probability = 0.67
+    min_adequate_variants: PositiveInt = 2
+
+    @property
+    def report_policy_id(self) -> str:
+        return content_id("evreport_", self.model_dump(mode="python"))
+
+
+REPORT_POLICIES = {1: ReportPolicy()}  # v1 = the thresholds Phase 7 used in code
 
 
 class EvidenceSource(LabModel):
@@ -105,8 +150,10 @@ class EvidenceSource(LabModel):
 
 
 class EvidenceProfile(LabModel):
-    profile_schema: Literal["1"] = PROFILE_SCHEMA
+    profile_schema: Literal["1", "2"] = PROFILE_SCHEMA
     policy_id: str
+    # schema 2: {"version": EVIDENCE_BUILDER_VERSION, "software_id": ...}; absent in schema 1
+    builder: dict | None = None
     subject: dict
     sources: Annotated[tuple[EvidenceSource, ...], Field(min_length=1)]
     extends: str | None = None  # an earlier profile this one adds evidence to
@@ -128,6 +175,10 @@ class EvidenceProfile(LabModel):
     def reserved_tier(self) -> Self:
         if self.tier == "VALIDATED" and not any(s.stage == "validation" for s in self.sources):
             raise ValueError("VALIDATED requires a governed validation-stage source")
+        if self.profile_schema == "1" and self.builder is not None:
+            raise ValueError("schema 1 profiles carry no builder provenance")
+        if self.profile_schema == "2" and not (self.builder and self.builder.get("version")):
+            raise ValueError("schema 2 profiles record their builder version")
         return self
 
     @property
@@ -142,6 +193,8 @@ class EvidenceProfile(LabModel):
             ),
             "extends": self.extends,
         }
+        if self.profile_schema != "1":  # schema 1 identities stay exactly as recorded
+            identity["builder_version"] = self.builder["version"]
         return content_id("evidence_", identity)
 
 
@@ -207,8 +260,23 @@ def asset_summary(per_asset: list[dict], aggregate: dict, primary: str, policy) 
     }
 
 
-def horizon_summary(aggregate: list[dict], horizons: dict[str, int], primary: str) -> dict:
-    """All horizons, ordered by bars. Only the primary horizon carries a test."""
+def horizon_summary(
+    aggregate: list[dict],
+    horizons: dict[str, int],
+    primary: str,
+    dead_band: HorizonDeadBand | None = None,
+) -> dict:
+    """All horizons, ordered by bars. Only the primary horizon carries a test.
+
+    With a dead band, small opposite-signed horizons are flat (sign 0) and are excluded
+    from consistency; without one (policy v1) every nonzero sign counts.
+    """
+    p_value = _num(next((a.get("excess_mean") for a in aggregate if a["horizon"] == primary), None))
+    band = max(dead_band.absolute, dead_band.relative * abs(p_value or 0.0)) if dead_band else 0.0
+
+    def signed(x) -> int:
+        return 0 if x is None or abs(x) < band else _sign(x)
+
     rows = []
     for label, bars in sorted(horizons.items(), key=lambda kv: kv[1]):
         agg = next((a for a in aggregate if a["horizon"] == label), {})
@@ -220,18 +288,20 @@ def horizon_summary(aggregate: list[dict], horizons: dict[str, int], primary: st
                 "excess_mean": _num(agg.get("excess_mean")),
                 "net_mean": _num(agg.get("net_mean")),
                 "independent_events": agg.get("independent_events"),
-                "sign": _sign(agg.get("excess_mean")),
+                "sign": signed(_num(agg.get("excess_mean"))),
                 # Phase 4 tests the primary horizon only; others never carry a p-value.
                 "raw_p": _num(agg.get("p_value_random_entry")) if label == primary else None,
             }
         )
     signs = [r["sign"] for r in rows if r["excess_mean"] is not None]
+    if dead_band:
+        signs = [x for x in signs if x != 0]  # flat horizons neither agree nor disagree
     p_sign = next((r["sign"] for r in rows if r["primary"]), 0)
     consistency = _num(np.mean([s == p_sign for s in signs])) if signs and p_sign else None
     values = [(r["bars"], r["excess_mean"]) for r in rows if r["excess_mean"] is not None]
     shape = "unavailable"
     if len(values) >= 2:
-        if len({_sign(v) for _, v in values} - {0}) > 1:
+        if len({signed(v) for _, v in values} - {0}) > 1:
             shape = "reverses"
         else:
             mags = [abs(v) for _, v in values]
@@ -250,6 +320,7 @@ def horizon_summary(aggregate: list[dict], horizons: dict[str, int], primary: st
         "largest_effect_horizon_descriptive": next(
             (r["horizon"] for r in rows if largest and r["bars"] == largest[0]), None
         ),
+        "dead_band": {"threshold": _num(band), **dead_band.model_dump()} if dead_band else None,
         "note": "only the primary horizon was preregistered for testing; others are descriptive",
     }
 
@@ -453,8 +524,14 @@ def assign_tier(ctx: dict, policy: EvidencePolicy) -> tuple[str, dict, list, lis
 # --------------------------------------------------------------------------- building
 
 
-def build_profiles(records: list[dict], analysis: dict, policy: EvidencePolicy) -> list:
-    """Pure: profiles for every member of one batch analysis (peers give context)."""
+def build_profiles(
+    records: list[dict], analysis: dict, policy: EvidencePolicy, *, builder_software_id: str
+) -> list:
+    """Pure: profiles for every member of one batch analysis (peers give context).
+
+    ``builder_software_id`` identifies the code that derived the profile (provenance only;
+    the builder *version* is what enters identity).
+    """
     out = []
     for target in records:
         metrics = target["metrics"]
@@ -494,7 +571,7 @@ def build_profiles(records: list[dict], analysis: dict, policy: EvidencePolicy) 
                 "hit_rate": _num(agg_primary.get("hit_rate")),
             },
             "assets": asset_summary(metrics.get("per_asset", []), agg_primary, primary, policy),
-            "horizons": horizon_summary(aggregate, horizons, primary)
+            "horizons": horizon_summary(aggregate, horizons, primary, policy.horizon_dead_band)
             if aggregate
             else {"primary": primary, "rows": [], "shape": "unavailable"},
             "neighbourhood": neighbourhood_summary(target, records, policy),
@@ -505,6 +582,7 @@ def build_profiles(records: list[dict], analysis: dict, policy: EvidencePolicy) 
         out.append(
             EvidenceProfile(
                 policy_id=policy.policy_id,
+                builder={"version": EVIDENCE_BUILDER_VERSION, "software_id": builder_software_id},
                 subject={
                     "strategy_id": target["strategy_id"],
                     "name": target["name"],
@@ -618,8 +696,21 @@ def gather(ledger, batch_id: str, run_id: str | None = None) -> tuple[list[dict]
     return records, analysis
 
 
+def _content(payload: dict) -> str:
+    # The builder's software ID is provenance of the first recording: an identical profile
+    # rebuilt by later software is the same evidence, not a collision.
+    data = json.loads(json.dumps(payload))
+    if data.get("builder"):
+        data["builder"].pop("software_id", None)
+    return canonical_json(data)
+
+
 def record_profiles(ledger, profiles: list[EvidenceProfile], policy: EvidencePolicy) -> dict:
-    """Append profiles (idempotent by identity); never update an existing one."""
+    """Append profiles (idempotent by identity); never update an existing one.
+
+    Same identity with different derived content raises: the computation changed without
+    a builder/policy/schema version bump.
+    """
     with ledger.store.transaction():
         if not ledger.store.con.execute(
             "SELECT 1 FROM lab_evidence_policies WHERE policy_id=?", [policy.policy_id]
@@ -635,7 +726,7 @@ def record_profiles(ledger, profiles: list[EvidenceProfile], policy: EvidencePol
                 "SELECT payload FROM lab_evidence_profiles WHERE profile_id=?", [p.profile_id]
             ).fetchone()
             if row:
-                if canonical_json(json.loads(row[0])) != payload:
+                if _content(json.loads(row[0])) != _content(json.loads(payload)):
                     raise ValueError("evidence profile identity collision")
                 continue
             analysis_id = next(
@@ -669,8 +760,13 @@ TIER_ORDER = ("RESEARCH_SUPPORTED", "EXPLORATORY", "INCONCLUSIVE", "NEGATIVE", "
               "UNAVAILABLE")  # fmt: skip
 
 
-def batch_report(profiles: list[dict]) -> dict:
-    """Descriptive families/variants view. Sorted by objective fields, never 'best trade'."""
+def batch_report(profiles: list[dict], report_policy: ReportPolicy | None = None) -> dict:
+    """Descriptive families/variants view. Sorted by objective fields, never 'best trade'.
+
+    Computed at read time; its wording thresholds come from a versioned ``ReportPolicy``
+    (cited in the output), so an old batch is always described by an explicit version.
+    """
+    rp = report_policy or REPORT_POLICIES[max(REPORT_POLICIES)]
     families = {}
     for p in profiles:
         s = p["subject"]
@@ -700,8 +796,9 @@ def batch_report(profiles: list[dict]) -> dict:
                 "isolated_spikes": [g["subject"]["name"] for g in group
                                     if g["neighbourhood"].get("isolated_spike")],
                 "pattern": (
-                    "broad_directional" if effects and np.mean([e > 0 for e in effects]) >= 0.67
-                    and len(adequate) >= 2
+                    "broad_directional" if effects
+                    and np.mean([e > 0 for e in effects]) >= rp.broad_directional_share
+                    and len(adequate) >= rp.min_adequate_variants
                     else "uniformly_weak_or_adverse" if effects and all(e <= 0 for e in effects)
                     else "mixed" if effects else "insufficient"
                 ),
@@ -717,6 +814,8 @@ def batch_report(profiles: list[dict]) -> dict:
     )
     return {
         "note": "Descriptive evidence; not a ranking of trades. Only the primary horizon is tested.",
+        "report_policy": {"report_policy_id": rp.report_policy_id, **rp.model_dump(mode="python")},
+        "evidence_policy_ids": sorted({p["policy_id"] for p in profiles}),
         "tiers": {t: sum(p["tier"] == t for p in profiles) for t in TIER_ORDER},
         "families": fam_rows,
         "asset_specific": [p["subject"]["name"] for p in profiles if p["assets"].get("concentrated")

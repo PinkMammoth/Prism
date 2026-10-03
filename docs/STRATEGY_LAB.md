@@ -1416,6 +1416,94 @@ horizons (often at 1 day). The catalogue was not changed in response.
 - Tier thresholds are policy defaults chosen before the descriptive run. They are
   judgement calls, so a change creates a new policy version.
 
+### Step 7.1 housekeeping (reproducibility)
+
+No stored profile was modified. New semantics are introduced as new versions, and old
+records keep their original meaning and IDs.
+
+- **Builder provenance (profile schema 2).**
+  - New profiles carry `builder = {version: lab_evidence_builder_v2, software_id}`.
+  - The builder *version* enters the schema-2 profile identity. A future change to how
+    profiles are computed must bump it, which yields new profiles rather than an identity
+    collision.
+  - The `software_id` is provenance only. An identical profile rebuilt by later software
+    is the same evidence: the first recording is kept, and no collision is raised.
+  - Schema-1 profiles (Phase 7) validate unchanged, forbid a builder field, and keep
+    their original identity formula (tested).
+- **Evidence policy v2 (the default) adds a horizon dead band.**
+  - A non-primary horizon whose |excess| is below max(0.001, 0.25 × |primary excess|) is
+    *flat* (sign 0). It neither agrees with nor reverses the primary horizon, and it is
+    excluded from sign consistency.
+  - A reversal now needs a material opposite-signed horizon. Each profile records the
+    band and its threshold.
+  - Tier rules are otherwise identical to v1, and tiers never used horizons.
+  - v1 is kept in the `POLICIES` registry: it is strict (no dead band, enforced) and has
+    exactly its recorded ID, `evpolicy_133e6746…` (pinned by a test), so v1 profiles
+    remain reproducible.
+- **Report policy.** The read-time report's wording thresholds now come from a versioned
+  `ReportPolicy` (v1 = the Phase 7 values: broad directional at ≥ 67% positive with ≥ 2
+  adequate variants). Every report cites its report-policy ID and version and the
+  evidence-policy IDs it summarises, so an old batch is always described under an
+  explicit version.
+- **CLI.** `evidence build` and `evidence report` take `--policy-version`; `evidence report`
+  also takes `--report-version`. Both default to the latest. `evidence build` records
+  the builder's software identity.
+
+**Real data (Phase 6 smoke batch, scratch DB).** v2 profiles were built beside the 40 v1
+profiles, giving 80 rows; the 40 v1 rows are unchanged. Horizon shape "reverses" went from
+26 to 20, "strengthens" from 2 to 5 and "mixed" from 12 to 15. No tier changed (8
+EXPLORATORY, 12 INCONCLUSIVE, 15 NEGATIVE, 5 INSUFFICIENT). The report's horizon-specific
+list went from 21 to 15. The remaining reversals are material: for example,
+`ma_trend_20_100_long` has 20d excess of −0.45% against a 0.42% band.
+
+### Open-interest collection status (verified 2026-10-03; nothing changed)
+
+**OI history is not being collected continuously.**
+
+- `market update` (and `--only perps`) records one Hyperliquid snapshot row per configured
+  coin on each run: mark, oracle and mid prices, funding, premium, `open_interest`
+  (coins), `oi_notional` (USD), day volume and max leverage. Rows go into
+  `perp_snapshots` with `snapshot_at` = capture time, under an ingestion run.
+- Hyperliquid serves no OI history, and Binance ingestion has no OI feed, so OI history
+  can only be accumulated prospectively.
+- The local DB has **18 rows, all captured on 2026-10-03**: three manual `market update`
+  runs (11:20, 13:15 and 13:28 BST) × 6 coins.
+- The perp collector was first committed at 11:01 BST that day.
+- `daily.sh` (update + scan) has run three times. Its 10:00:01 run on 2026-10-03
+  predates the perp collector, so it captured no snapshot.
+- There is no user crontab and no systemd user timer for Prism. Whatever triggered that
+  10:00 run is not visible from this WSL user; it may be a scheduler outside WSL.
+- Nothing guarantees a snapshot every day, and a missed snapshot can never be backfilled.
+
+**Smallest safe change to start preserving OI history (documented, not applied):**
+
+1. Schedule the existing collector; no code change is needed. `cron` is active and
+   enabled in this WSL instance. Add a user crontab entry that runs only the perp
+   updater a few times a day, serialised with `flock` and logged:
+
+   ```cron
+   # m h dom mon dow — 00:10, 06:10, 12:10, 18:10 UTC (cron uses the system timezone)
+   10 0,6,12,18 * * * cd /home/matth/prism && /usr/bin/flock -n data/.perps.lock /home/matth/.local/bin/uv run market update --only perps >> data/perps.log 2>&1
+   ```
+
+   `--only perps` performs the incremental, idempotent bar and funding updates plus one
+   snapshot. Concurrent runs with `daily.sh` are already serialised by Prism's database
+   lock (they wait rather than corrupt), and the separate `flock` file prevents overlap
+   between perp runs. Several captures a day leave room for a later fixed-time "daily OI"
+   selection, and make a single missed run less damaging.
+2. Make sure the scheduler actually runs. WSL cron fires only while the WSL instance is
+   running, and WSL stops idle distributions. Either keep the distribution alive, or
+   trigger the same command from Windows Task Scheduler (`wsl -d <distro> -- bash -lc
+   '<command>'`), which is the robust option on this machine.
+3. Check coverage with `market doctor` / `ingestion_runs` (`dataset='perp_snapshot'`) and
+   look for gaps between `snapshot_at` values.
+
+Future OI features will need explicit point-in-time rules: capture time is the
+availability time, there is a maximum staleness, units must be chosen (coins vs
+notional, where price changes alone move notional OI), and windows must use matched
+elapsed time. These belong to the planned OI phase, not to Phase 7.1. No OI feature,
+dataset kind or strategy family is added here.
+
 ## 13. Verification
 
 Baseline before changes: **173 tests passed**, repository Ruff checks passed, and all
@@ -1501,3 +1589,14 @@ was triggered.
 | `.venv/bin/ruff check src tests dashboard` / `ruff format --check src tests` | Passed / 113 files formatted |
 | `git diff --check` | Passed |
 | CLI on the Phase 6 smoke batch (scratch copy) | `evidence build` (40 profiles, idempotent), `evidence report`, `evidence show` |
+
+### Step 7.1 verification
+
+| Check | Result |
+|---|---|
+| `.venv/bin/python -m pytest` | **437 passed** (209 s); before Step 7.1: 432 |
+| `.venv/bin/python -m pytest tests/test_lab_evidence.py` | **17 passed** (5 new): v1 policy ID pinned and strict; v2 dead band (tiny flips flat, material flips still reverse; tiers unaffected); builder provenance recorded, version in identity, software ID not; schema-1 identity formula unchanged; report policy versioned and cited; v1 and v2 profiles coexist with old rows untouched |
+| Lab suites | **254 passed** |
+| `.venv/bin/ruff check src tests dashboard` / `ruff format --check src tests` | Passed / 113 files formatted |
+| `git diff --check` | Passed |
+| CLI on the scratch DB | `evidence build` (v2: 40 new; re-run: 0 new), v1 rows unchanged, `evidence report` cites report policy v1 |

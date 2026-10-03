@@ -21,6 +21,7 @@ from market_signal.research.lab.evidence import (
 )
 
 PRIMARY = "5d"
+BUILDER_SW = "software_" + "5" * 64
 ANALYSIS = {
     "primary_horizon": PRIMARY,
     "correction": {"test": "random_entry_mean_excess_v1", "q": 0.1, "method": "benjamini_hochberg"},
@@ -101,7 +102,10 @@ def rec(name, params, excess, *, family="fam", side="long", triage="WEAK",
 
 def profiles(records, policy=None):
     return {
-        p.subject["name"]: p for p in build_profiles(records, ANALYSIS, policy or EvidencePolicy())
+        p.subject["name"]: p
+        for p in build_profiles(
+            records, ANALYSIS, policy or EvidencePolicy(), builder_software_id=BUILDER_SW
+        )
     }
 
 
@@ -228,7 +232,7 @@ def test_profiles_are_deterministic_and_policy_versioned():
     a, b = profiles(plateau()), profiles(plateau())
     assert {k: v.profile_id for k, v in a.items()} == {k: v.profile_id for k, v in b.items()}
     assert a == b
-    stricter = EvidencePolicy(version=2, exploratory={"min_effect": 0.02})
+    stricter = EvidencePolicy(version=3, exploratory={"min_effect": 0.02})
     c = profiles(plateau(), stricter)
     assert stricter.policy_id != EvidencePolicy().policy_id
     assert all(c[k].profile_id != a[k].profile_id for k in a)
@@ -272,7 +276,10 @@ def test_long_horizons_and_future_stages_fit_the_schema():
         horizon_bars={"30d": 30, "90d": 90, "180d": 180},
         horizons={"30d": 0.03, "90d": 0.05, "180d": 0.08},
     )  # fmt: skip
-    p = build_profiles([long_horizon], {**ANALYSIS, "primary_horizon": "90d"}, EvidencePolicy())[0]
+    p = build_profiles(
+        [long_horizon], {**ANALYSIS, "primary_horizon": "90d"}, EvidencePolicy(),
+        builder_software_id=BUILDER_SW,
+    )[0]  # fmt: skip
     assert p.evaluation["horizons"] == {"30d": 30, "90d": 90, "180d": 180}
     assert [r["horizon"] for r in p.horizons["rows"]] == ["30d", "90d", "180d"]
     # a later governed stage is a NEW profile that extends the earlier one
@@ -319,10 +326,11 @@ def test_governed_batch_profiles_cite_records_and_are_append_only(store):
     before = inspect_batch(ledger, batch_id)
 
     records, analysis = gather(ledger, batch_id)
-    built = build_profiles(records, analysis, EvidencePolicy())
+    built = build_profiles(records, analysis, EvidencePolicy(), builder_software_id=BUILDER_SW)
     assert len(built) == 22 and all(r["lineage"] for r in records)
     first = record_profiles(ledger, built, EvidencePolicy())
-    again = record_profiles(ledger, build_profiles(*gather(ledger, batch_id), EvidencePolicy()),
+    again = record_profiles(ledger, build_profiles(*gather(ledger, batch_id), EvidencePolicy(),
+                                                   builder_software_id="software_other"),
                             EvidencePolicy())  # fmt: skip
     assert first["new"] == 22 and again["new"] == 0
     assert inspect_batch(ledger, batch_id) == before  # nothing underneath changed
@@ -352,3 +360,118 @@ def test_governed_batch_profiles_cite_records_and_are_append_only(store):
     assert sum(data["tiers"].values()) == 22 and "not a ranking of trades" in data["note"]
     shown = runner.invoke(app, [*base, "show", stored[0]["subject"]["strategy_id"]])
     assert json.loads(shown.output)[0]["profile_id"] == stored[0]["profile_id"]
+
+
+# --------------------------------------------------------------------------- Phase 7.1
+
+
+def test_v1_policy_identity_and_strict_semantics_are_preserved():
+    from market_signal.research.lab.evidence import POLICIES
+
+    # The Phase 7 profiles in the field cite exactly this policy ID.
+    assert POLICIES[1].policy_id == (
+        "evpolicy_133e674638ac5ddedae442870fffe834df226d4ae93786d648d4faaa3b091346"
+    )
+    assert POLICIES[2] == EvidencePolicy() and POLICIES[2].policy_id != POLICIES[1].policy_id
+    with pytest.raises(ValidationError, match="v1 has no horizon dead band"):
+        EvidencePolicy(version=1)
+    tiny_flip = rec("tiny", {"a": 10}, 0.02, horizons={"1d": -0.0005, "5d": 0.02, "20d": 0.03})
+    v1 = profiles([tiny_flip], POLICIES[1])["tiny"].horizons
+    v2 = profiles([tiny_flip], POLICIES[2])["tiny"].horizons
+    assert v1["shape"] == "reverses" and v1["dead_band"] is None
+    assert v2["shape"] != "reverses" and v2["dead_band"]["threshold"] == pytest.approx(0.005)
+    assert v2["rows"][0]["sign"] == 0 and v2["sign_consistency_with_primary"] == 1.0
+    # a material opposite move is still a reversal under the dead band
+    big_flip = rec("big", {"a": 10}, 0.02, horizons={"1d": -0.01, "5d": 0.02, "20d": 0.03})
+    assert profiles([big_flip], POLICIES[2])["big"].horizons["shape"] == "reverses"
+    # tiers depend on the primary horizon only, so they agree across the two policies here
+    assert profiles([tiny_flip], POLICIES[1])["tiny"].tier == profiles([tiny_flip])["tiny"].tier
+
+
+def test_builder_provenance_is_recorded_and_versioned():
+    from market_signal.research.lab import evidence as ev
+
+    p = profiles(plateau())["v20"]
+    assert p.profile_schema == "2"
+    assert p.builder == {"version": ev.EVIDENCE_BUILDER_VERSION, "software_id": BUILDER_SW}
+    # software provenance is not identity; the builder version is
+    other_sw = p.model_copy(update={"builder": {**p.builder, "software_id": "software_x"}})
+    assert other_sw.profile_id == p.profile_id
+    new_builder = p.model_copy(
+        update={"builder": {**p.builder, "version": "lab_evidence_builder_v3"}}
+    )
+    assert new_builder.profile_id != p.profile_id
+    with pytest.raises(ValidationError, match="record their builder version"):
+        EvidenceProfile.model_validate({**p.model_dump(), "builder": None})
+
+
+def test_schema_one_profiles_keep_their_recorded_identity():
+    from market_signal.research.lab.common import canonical_json, content_id
+
+    p = profiles(plateau(), EvidencePolicy(version=1, horizon_dead_band=None))["v20"]
+    legacy = EvidenceProfile.model_validate(
+        {**p.model_dump(), "profile_schema": "1", "builder": None}
+    )
+    expected = content_id(
+        "evidence_",
+        {
+            "profile_schema": "1",
+            "policy_id": legacy.policy_id,
+            "strategy_id": legacy.subject["strategy_id"],
+            "sources": sorted((s.model_dump(mode="python") for s in legacy.sources),
+                              key=canonical_json),
+            "extends": None,
+        },
+    )  # fmt: skip
+    assert legacy.profile_id == expected  # the Phase 7 formula, unchanged
+    with pytest.raises(ValidationError, match="schema 1 profiles carry no builder"):
+        EvidenceProfile.model_validate({**p.model_dump(), "profile_schema": "1"})
+
+
+def test_report_wording_is_versioned_and_cited():
+    from market_signal.research.lab.evidence import REPORT_POLICIES, ReportPolicy
+
+    data = [json.loads(p.model_dump_json()) for p in profiles(plateau()).values()]
+    v1 = batch_report(data)
+    assert v1["report_policy"]["version"] == 1 and v1["report_policy"]["report_policy_id"]
+    assert v1["report_policy"]["broad_directional_share"] == 0.67  # Phase 7 thresholds
+    assert v1["families"][0]["pattern"] == "broad_directional"
+    assert v1 == batch_report(data, REPORT_POLICIES[1])
+    stricter = ReportPolicy(version=2, min_adequate_variants=5)
+    v2 = batch_report(data, stricter)
+    assert v2["families"][0]["pattern"] == "mixed"
+    assert v2["report_policy"]["report_policy_id"] != v1["report_policy"]["report_policy_id"]
+    assert v1["evidence_policy_ids"] == [EvidencePolicy().policy_id]
+
+
+def test_new_policy_profiles_sit_beside_old_ones(store):
+    from market_signal.research.lab.batch import freeze_batch, run_batch
+    from market_signal.research.lab.datasets import capture_dataset
+    from market_signal.research.lab.evidence import POLICIES
+    from market_signal.research.lab.families import load_catalogue, register_family_batch
+    from market_signal.research.lab.ledger import Ledger
+    from tests.test_lab_families import CATALOGUE_DIR, _request
+    from tests.test_lab_screen import SW, _plan, _seed, _selections
+
+    _seed(store)
+    ledger = Ledger(store)
+    plan = _plan(statistics={"min_independent_events": 5, "random_entry_samples": 300})
+    plan_id = ledger.register_plan(plan)
+    dataset_id = ledger.register_dataset(capture_dataset(store, _selections(plan)))
+    manifest, _ = register_family_batch(
+        ledger, _request(plan_id, dataset_id, ["rsi_exhaustion"]), load_catalogue(CATALOGUE_DIR),
+        origin="t",
+    )  # fmt: skip
+    batch_id = freeze_batch(ledger, manifest, origin="test")
+    run_batch(ledger, batch_id, software=SW)
+    records, analysis = gather(ledger, batch_id)
+    old = build_profiles(records, analysis, POLICIES[1], builder_software_id=BUILDER_SW)
+    record_profiles(ledger, old, POLICIES[1])
+    snapshot = {p["profile_id"]: p for p in load_profiles(ledger)}
+    new = build_profiles(records, analysis, POLICIES[2], builder_software_id="software_later")
+    assert record_profiles(ledger, new, POLICIES[2])["new"] == len(new)
+    after = {p["profile_id"]: p for p in load_profiles(ledger)}
+    assert len(after) == len(snapshot) + len(new)
+    assert all(after[k] == v for k, v in snapshot.items())  # old rows untouched
+    stored = ledger.store.con.execute("SELECT count(*) FROM lab_evidence_policies").fetchone()[0]
+    assert stored == 2
