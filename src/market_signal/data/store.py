@@ -285,6 +285,21 @@ MIGRATIONS: list[str] = [
         PRIMARY KEY (coin, source, snapshot_at)
     );
     """,
+    # 6 — perp strategy paper-tracking (forward test): recorded live, never backfilled
+    """
+    CREATE TABLE IF NOT EXISTS perp_paper_checks (
+        strategy VARCHAR NOT NULL,
+        coin VARCHAR NOT NULL,
+        venue VARCHAR NOT NULL,
+        bar_close TIMESTAMPTZ NOT NULL,   -- the closed bar that was checked
+        checked_at TIMESTAMPTZ NOT NULL,  -- when (must be shortly after bar_close)
+        side VARCHAR,                     -- 'long' | 'short' | NULL (no signal)
+        close DOUBLE,
+        stop DOUBLE,
+        params_hash VARCHAR NOT NULL,
+        PRIMARY KEY (strategy, coin, venue, bar_close)
+    );
+    """,
 ]
 
 

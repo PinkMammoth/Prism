@@ -106,13 +106,16 @@ def research_state(_version: float):
 
     min_n = int(settings().yaml("backtest.yaml")["statistics"]["min_events_for_conclusion"])
     coins = [str(c).upper() for c in perp_config(settings()).get("coins") or []]
+    from market_signal.perps.paper import evaluate_paper
+
     with store(read_only=True) as s:
         ev = load_evidence(s, min_n)
         frames = {c: perp_frame(s, settings(), c) for c in coins}
+        papers = {n: evaluate_paper(s, settings(), n) for n in STRATEGIES}
     rows, sigs = [], []
     for name, strat in STRATEGIES.items():
         e = ev.get(f"perp_{name}")
-        rows.append((strat, e))
+        rows.append((strat, e, papers[name]))
         for coin, f in frames.items():
             ls = latest_signals(f, strat)
             if ls["side"]:
@@ -127,16 +130,34 @@ st.caption(
     "Each strategy is pre-registered (defaults fixed before any result) and judged by the same automatic "
     "criteria as the spot setups: independent events, excess over random entry *on the same side*, a "
     "random-entry p-value, walk-forward folds and parameter sensitivity. Returns include fees, slippage "
-    "and funding. Run `uv run market perp-research` to (re)run."
+    "and funding. Run `uv run market perp-research` to (re)run. **Paper** is the forward test: each day's "
+    "live signals are recorded and scored later (`market perp-paper`). It is never backfilled."
 )
 rows_r, sigs = research_state(db_version())
 
 body = ""
-for strat, e in rows_r:
+
+
+def paper_cell(r) -> str:
+    if r.first_check is None:
+        return "<span class='muted'>starts with the next update</span>"
+    since = f"since {r.first_check:%d %b}"
+    if r.independent == 0:
+        return f"<span class='muted'>{esc(since)} · {r.signals} signal(s), none completed</span>"
+    ex = "–" if r.excess is None else f"{r.excess:+.1%}"
+    tag = (
+        pill(f"TOO EARLY · {r.independent} OF {r.min_events}", "fair")
+        if r.too_early
+        else pill(f"{r.independent} DONE", "good")
+    )
+    return f"{tag} <span class='small'>excess {esc(ex)}</span><br><span class='small muted'>{esc(since)}</span>"
+
+
+for strat, e, pr in rows_r:
     if e is None:
         body += (f"<tr><td><b>{esc(strat.title)}</b><br><span class='small muted'>{esc(strat.name)}</span></td>"
                  f"<td>{pill('NOT RUN', 'unproven')}</td><td colspan='5' class='muted'>run "
-                 "<code>market perp-research</code></td></tr>")  # fmt: skip
+                 f"<code>market perp-research</code></td><td>{paper_cell(pr)}</td></tr>")  # fmt: skip
         continue
     sim = e.simulation or {}
     wf = "–" if not e.wf_folds else f"{e.wf_positive}/{e.wf_folds}"
@@ -146,16 +167,17 @@ for strat, e in rows_r:
         f"<td class='num'>{esc(pct(e.excess, digits=1))}</td>"
         f"<td class='num'>{'–' if e.p_value is None else f'{e.p_value:.2f}'}</td><td class='num'>{esc(wf)}</td>"
         f"<td class='num'>{esc(pct(sim.get('max_drawdown'), digits=1))} · {esc(sim.get('liquidations', 0))} liq.</td>"
-        f"<td class='muted small'>{esc(e.created_at or '')}</td></tr>"
+        f"<td class='muted small'>{esc(e.created_at or '')}</td><td>{paper_cell(pr)}</td></tr>"
     )
 html(
-    "<div style='overflow-x:auto'><table class='compact' style='min-width:760px'><thead><tr><th>Strategy</th>"
+    "<div style='overflow-x:auto'><table class='compact' style='min-width:900px'><thead><tr><th>Strategy</th>"
     "<th>Verdict</th><th style='text-align:right'>Indep. events</th><th style='text-align:right'>Excess</th>"
     "<th style='text-align:right'>p</th><th style='text-align:right'>Walk-fwd +</th>"
-    f"<th style='text-align:right'>Simulation</th><th>Run</th></tr></thead><tbody>{body}</tbody></table></div>"
+    f"<th style='text-align:right'>Simulation</th><th>Run</th><th>Paper (live, not traded)</th></tr></thead>"
+    f"<tbody>{body}</tbody></table></div>"
 )
 with st.expander("Hypotheses being tested"):
-    for strat, _ in rows_r:
+    for strat, _, _ in rows_r:
         st.markdown(f"**{strat.title}** (`{strat.name}`): {strat.hypothesis}")
     st.caption(
         "Full reports: `results/perps/<strategy>/<run>/report.md`. Method: docs/PERPS_BACKTEST.md."

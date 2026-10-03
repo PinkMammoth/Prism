@@ -244,7 +244,31 @@ def perp_research(
                       "anything else means: don't trade it.")  # fmt: skip
 
 
+def perp_paper() -> None:
+    """Paper-tracking (forward test) of the perp strategies: live-recorded signals and how
+    they have done since. Not advice; nothing here was traded."""
+    from market_signal.perps.paper import evaluate_paper
+    from market_signal.perps.strategies import STRATEGIES
+
+    with open_store(read_only=True) as (settings, store):
+        t = Table(title="Perp strategies: paper-tracking since first live check (not traded)")
+        for c in ("strategy", "since", "bars", "signals", "done", "indep.", "excess", "p"):
+            t.add_column(c, no_wrap=True, justify="left" if c in ("strategy", "since") else "right")
+        early = False
+        for name in STRATEGIES:
+            r = evaluate_paper(store, settings, name)
+            early |= r.too_early
+            t.add_row(name, "–" if r.first_check is None else f"{r.first_check:%d %b %Y}", str(r.bars_checked),
+                      str(r.signals), str(r.completed), str(r.independent),
+                      "–" if r.excess is None else f"{r.excess:+.1%}", "–" if r.p_value is None else f"{r.p_value:.2f}")  # fmt: skip
+        console.print(t)
+        if early:
+            console.print("[yellow]Too early to judge: fewer than 30 completed independent signals. "
+                          "Checks are recorded daily by `market update`.[/]")  # fmt: skip
+
+
 def register(app: typer.Typer) -> None:
+    app.command("perp-paper")(perp_paper)
     app.command("perp-strategies")(perp_strategies)
     app.command("perp-research")(perp_research)
     app.command("track")(track)

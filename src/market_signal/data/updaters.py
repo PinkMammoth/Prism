@@ -147,6 +147,12 @@ def _update_perps(settings: Settings, store: Store) -> pd.DataFrame:
     return update_perps(settings, store)
 
 
+def _record_perp_paper(settings: Settings, store: Store) -> pd.DataFrame:
+    from market_signal.perps.paper import record_paper_signals
+
+    return record_paper_signals(store, settings)
+
+
 UPDATERS: list[Updater] = [
     Updater("macro", "Macro update (FRED/ALFRED, EIA)", update_macro),
     Updater("fundamentals", "Equity fundamentals (SEC EDGAR, filing-date PIT)", _update_edgar),
