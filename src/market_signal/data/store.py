@@ -300,6 +300,106 @@ MIGRATIONS: list[str] = [
         PRIMARY KEY (strategy, coin, venue, bar_close)
     );
     """,
+    # 7 — isolated Strategy Lab governance; append-only through the Lab API
+    """
+    CREATE TABLE IF NOT EXISTS lab_strategies (
+        strategy_id VARCHAR PRIMARY KEY,
+        definition JSON NOT NULL,
+        family_id VARCHAR NOT NULL,
+        parent_ids JSON NOT NULL,
+        recorded_at TIMESTAMPTZ NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS lab_hypotheses (
+        hypothesis_id VARCHAR PRIMARY KEY,
+        strategy_id VARCHAR NOT NULL REFERENCES lab_strategies(strategy_id),
+        payload JSON NOT NULL,
+        recorded_at TIMESTAMPTZ NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS lab_submissions (
+        submission_id VARCHAR PRIMARY KEY,
+        received_at TIMESTAMPTZ NOT NULL,
+        origin VARCHAR NOT NULL,
+        family_id VARCHAR NOT NULL,
+        raw_json VARCHAR NOT NULL,
+        hypothesis_id VARCHAR REFERENCES lab_hypotheses(hypothesis_id),
+        error VARCHAR,
+        CHECK ((hypothesis_id IS NOT NULL AND error IS NULL) OR
+               (hypothesis_id IS NULL AND error IS NOT NULL))
+    );
+    CREATE TABLE IF NOT EXISTS lab_plans (
+        plan_id VARCHAR PRIMARY KEY,
+        name VARCHAR NOT NULL,
+        version INTEGER NOT NULL,
+        payload JSON NOT NULL,
+        recorded_at TIMESTAMPTZ NOT NULL,
+        UNIQUE (name, version)
+    );
+    CREATE TABLE IF NOT EXISTS lab_snapshot_blobs (
+        sha256 VARCHAR PRIMARY KEY,
+        payload BLOB NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS lab_datasets (
+        dataset_id VARCHAR PRIMARY KEY,
+        payload JSON NOT NULL,
+        recorded_at TIMESTAMPTZ NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS lab_dataset_blobs (
+        dataset_id VARCHAR NOT NULL REFERENCES lab_datasets(dataset_id),
+        sha256 VARCHAR NOT NULL REFERENCES lab_snapshot_blobs(sha256),
+        PRIMARY KEY (dataset_id, sha256)
+    );
+    CREATE TABLE IF NOT EXISTS lab_software (
+        software_id VARCHAR PRIMARY KEY,
+        payload JSON NOT NULL,
+        recorded_at TIMESTAMPTZ NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS lab_experiments (
+        experiment_id VARCHAR PRIMARY KEY,
+        logical_id VARCHAR NOT NULL,
+        attempt INTEGER NOT NULL CHECK (attempt > 0),
+        strategy_id VARCHAR NOT NULL REFERENCES lab_strategies(strategy_id),
+        hypothesis_id VARCHAR NOT NULL REFERENCES lab_hypotheses(hypothesis_id),
+        submission_id VARCHAR NOT NULL REFERENCES lab_submissions(submission_id),
+        plan_id VARCHAR NOT NULL REFERENCES lab_plans(plan_id),
+        dataset_id VARCHAR NOT NULL REFERENCES lab_datasets(dataset_id),
+        software_id VARCHAR NOT NULL REFERENCES lab_software(software_id),
+        family_id VARCHAR NOT NULL,
+        batch_id VARCHAR,
+        role VARCHAR NOT NULL,
+        period_start TIMESTAMPTZ NOT NULL,
+        period_end TIMESTAMPTZ NOT NULL,
+        stage VARCHAR NOT NULL,
+        assets JSON NOT NULL,
+        timeframes JSON NOT NULL,
+        origin VARCHAR NOT NULL,
+        created_at TIMESTAMPTZ NOT NULL,
+        rerun_of VARCHAR REFERENCES lab_experiments(experiment_id),
+        rerun_reason VARCHAR,
+        UNIQUE (logical_id, attempt)
+    );
+    CREATE TABLE IF NOT EXISTS lab_starts (
+        experiment_id VARCHAR PRIMARY KEY REFERENCES lab_experiments(experiment_id),
+        started_at TIMESTAMPTZ NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS lab_results (
+        result_id VARCHAR PRIMARY KEY,
+        experiment_id VARCHAR NOT NULL UNIQUE REFERENCES lab_starts(experiment_id),
+        completed_at TIMESTAMPTZ NOT NULL,
+        status VARCHAR NOT NULL CHECK
+            (status IN ('succeeded','rejected','insufficient_data','failed','errored','cancelled')),
+        verdict VARCHAR,
+        metrics JSON NOT NULL,
+        p_values JSON NOT NULL,
+        error JSON
+    );
+    CREATE TABLE IF NOT EXISTS lab_inspections (
+        inspection_id VARCHAR PRIMARY KEY,
+        experiment_id VARCHAR NOT NULL REFERENCES lab_experiments(experiment_id),
+        recorded_at TIMESTAMPTZ NOT NULL,
+        kind VARCHAR NOT NULL CHECK (kind IN ('evaluation_started','manual_inspection')),
+        reason VARCHAR NOT NULL
+    );
+    """,
 ]
 
 

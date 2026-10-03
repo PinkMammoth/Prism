@@ -27,7 +27,7 @@ def _register_optional() -> None:
     """Commands added by later phases register themselves here (kept import-light)."""
     import importlib
 
-    for mod in ("research_cmds", "scan_cmds", "portfolio_cmds"):
+    for mod in ("research_cmds", "scan_cmds", "portfolio_cmds", "lab_cmds"):
         try:
             m = importlib.import_module(f"market_signal.cli.{mod}")
         except ModuleNotFoundError as exc:

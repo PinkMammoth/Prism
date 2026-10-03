@@ -2,8 +2,9 @@
 
 Inspection date: 2026-10-03. This is a design grounded in the existing implementation,
 including the local database and generated reports. Only the representation foundation
-described in section 6 is implemented. No production strategies, evaluation rules,
-database schemas, paper records, or Telegram paths were changed.
+(section 6) and research governance ledger (section 7) are implemented. No production
+strategies, evaluation rules, paper records, scanners or Telegram paths were changed; the
+only schema change is the additive Lab migration described in section 7.
 
 ## 1. Current architecture
 
@@ -317,7 +318,8 @@ establish intraday execution correctness.
 ### Permanent ledger and multiple testing
 
 Use additive tables in the existing DuckDB, written through a Lab-only service. Do not
-create another result database or overwrite old `research_runs`. Suggested tables:
+create another result database or overwrite old `research_runs`. Suggested tables (the
+schema actually implemented in Step 2 is described in section 7):
 
 | Table | Immutable record |
 |---|---|
@@ -359,8 +361,8 @@ not control data mining; BH does not repair invalid or adaptively selected p-val
 
 | Phase | Files/modules | Reviewable completion criterion |
 |---|---|---|
-| 1 — Representation (this change) | New `research/lab/spec.py`, `config/lab/examples/`, `tests/test_lab_spec.py`, this report | Strict data-only documents, explicit timeframes/ATR meaning, stable identity, no production imports or evaluation |
-| 2 — Ledger and locked plans | Add `research/lab/ledger.py`, `policy.py`, `datasets.py`; additive migrations in `data/store.py`; Lab-only `cli/lab_cmds.py` | Every attempted submission/run is durably recorded before work; duplicate/lineage/crash tests; plan/data/code hashes; exact inputs retained. No mass screening yet |
+| 1 — Representation (implemented) | New `research/lab/spec.py`, `config/lab/examples/`, `tests/test_lab_spec.py`, this report | Strict data-only documents, explicit timeframes/ATR meaning, stable identity, no production imports or evaluation |
+| 2 — Ledger and locked plans (implemented, section 7) | Add `research/lab/ledger.py`, `policy.py`, `datasets.py`; additive migrations in `data/store.py`; Lab-only `cli/lab_cmds.py` | Every attempted submission/run is durably recorded before work; duplicate/lineage/crash tests; plan/data/code hashes; exact inputs retained. No mass screening yet |
 | 3 — Daily compiler/features | Add `research/lab/features.py`, `compiler.py`, `alignment.py`, `adapters.py`; reuse `indicators/technical.py`, `setups/base.py`, perp helpers | Small daily vocabulary compiles to signals/stops/eligibility; synthetic hand-calculation, missing-data, truncation/future-shock and legacy parity tests; no registry mutation |
 | 4 — Fast screen and comparison | Add `research/lab/screen.py`, `report.py`; extend Lab CLI with `screen`, `compare`, `history` | Bounded deterministic batches on discovery data; cached returns; all failures persisted; asset/time/side summaries; measured runtime/memory; cannot invoke full research or promote |
 | 5 — Full-research adapters and statistical gate | Extend spot/perp runners for explicit candidate injection; add `research/lab/validation.py`, `multiple_testing.py`; reuse reports/robustness/simulators | Existing strategies retain parity; trusted plan requires completed checks; address audit items with separate versioned methodology patches; holdout/family controls before large-scale claims; link old reports |
@@ -455,11 +457,146 @@ print(h.strategy_id)
 print(h.definition.canonical_json())
 ```
 
-Not implemented: feature evaluation, signals, screen runner, storage migrations, new CLI
+Not implemented in Step 1: feature evaluation, signals, screen runner, storage migrations, new CLI
 commands, AI integration, or paper/live promotion. This is a small foundation for the
 ledger/compiler phases, not a second backtesting engine.
 
-## 7. Verification
+## 7. Step 2 implemented: research governance
+
+Modules: `research/lab/common.py` (canonical JSON, strict types), `policy.py` (evaluation
+plans), `datasets.py` (snapshots/fingerprints), `provenance.py` (software identity),
+`ledger.py` (append-only API), migration 7 in `data/store.py`, read-only `cli/lab_cmds.py`.
+No existing module imports the Lab, and nothing here evaluates a strategy.
+
+### Workflow
+
+```python
+ledger = Ledger(store)                                   # requires migration 7
+receipt = ledger.submit(raw_json, family_id="trend_family", origin="manual")
+plan_id = ledger.register_plan(plan)                     # EvaluationPlan, frozen name+version
+dataset_id = ledger.register_dataset(capture_dataset(store, selections))
+software = capture_software(Path("."))
+exp = ledger.preregister(receipt.submission_id, plan_id, dataset_id, role="discovery",
+                         assets=("BTC",), software=software, origin="manual",
+                         batch_id="trend_batch_1")       # committed before evaluation
+ledger.start(exp.experiment_id, software=software)       # records data exposure
+# ... evaluation happens elsewhere (not implemented in the Lab yet) ...
+ledger.record_result(exp.experiment_id, status="rejected", verdict="NO_EDGE",
+                     metrics={...}, p_values=(PValue(...),))
+```
+
+Every mutation runs in its own transaction and commits before returning; do not wrap Lab
+calls in an outer transaction (DuckDB will refuse the nested `BEGIN`).
+
+### Identities and rerun semantics
+
+| ID | Derivation |
+|---|---|
+| `strategy_…` | SHA-256 of canonical rule behaviour (Step 1) |
+| `hypothesis_…` | SHA-256 of the authored document (name, text, source, authored time, sorted parents, canonical definition) |
+| `plan_…` | SHA-256 of the canonical plan; list order and timestamp offsets do not change it |
+| `dataset_…` | SHA-256 of the manifest (selections, per-series hashes, row counts, schema, observed bounds, ingestion run IDs) |
+| `software_…` | SHA-256 of Python version, git commit, working-tree `src/**/*.py` + `pyproject.toml` hash, `uv.lock` hash, key package versions |
+| `logical_…` | SHA-256 of strategy ID, plan ID, dataset ID, role, sorted assets, timeframes and stage |
+| `experiment_…`, `submission_…`, `result_…`, `inspection_…` | Random UUIDs: each is a distinct immutable event |
+
+A **logical experiment** is "this strategy, under this plan, on this exact dataset/role/
+universe". An **attempt** (`experiment_id`, numbered `attempt` 1, 2, …) is one concrete
+preregistered execution. Preregistering an existing logical experiment raises
+`DuplicateExperiment` naming the prior attempt unless `rerun_of` (an attempt of the same
+logical experiment) and `rerun_reason` are both given. Renaming a hypothesis, changing the
+batch, or editing code does not escape this check: the hypothesis ID and software ID are
+recorded on the attempt but are deliberately not part of the logical identity, so a rerun
+under new code is an explicit, linked reproduction rather than a fresh discovery. `start`
+refuses software that differs from the attempt's preregistration. Changing the data
+(including a provider revision or re-ingestion), plan version, role, universe or rule is a
+new logical experiment.
+
+### Evaluation plans
+
+`EvaluationPlan` is a narrow, versioned contract for a DAILY event study only: exact stored
+source (no provider fallback), up to four non-overlapping dataset-role periods
+(`discovery`, `development`, `validation`, `final_holdout`), per-asset fee/slippage, named
+horizons and a primary horizon, a market-matched return model, next-open entry, the
+current Prism funding approximation (pinned with its known full-history cadence
+limitation), the existing independent-event/random-entry statistics, and
+`multiple_testing="uncorrected"`, `promotion="disabled"`. Unknown fields at any level and
+values other than these literals are rejected; walk-forward, sensitivity, portfolio,
+thresholds and BH are not accepted. A `name`+`version` is frozen on first registration;
+different content needs a new version. Plans hold no strategy rules and strategy documents
+reject evaluation fields.
+
+### Dataset snapshots and fingerprint strength
+
+`capture_dataset` reads explicit `SeriesSelection`s (kind, symbol, exact source,
+timeframe, `[start, end)`) in one transaction. The selected rows, **including provenance
+columns** (`ingest_run_id`, `ingested_at`, funding `available_at`/`pit_method`), are
+serialised canonically (floats losslessly as hex, NULL distinct from NaN), hashed with
+SHA-256, gzip-compressed and stored content-addressed in `lab_snapshot_blobs`. Retained
+rows can be decoded with `Ledger.read_dataset` after the market tables change; decoding
+verifies hash, header and row count. Snapshots are bounded (250k rows / 64 MiB by
+default) and fail rather than truncate. Empty selections are recorded as strong empty
+snapshots.
+
+Strengths are explicit: `content_sha256` (rows retained and hashed), `metadata_only` and
+`unavailable` (must carry a `limitation` and cannot claim a hash). Weak manifests can be
+catalogued but cannot be preregistered under the v1 plan. A hash describes the stored
+snapshot only, not provider correctness, completeness or point-in-time validity.
+Preregistration requires the dataset to contain exactly bars + actions (spot) or bars +
+funding (perp) for each selected asset, at the plan's source/timeframe and the exact
+window of the chosen role, and every selected asset to have a frozen cost assumption.
+
+### Schema (migration 7, additive)
+
+| Table | Contents |
+|---|---|
+| `lab_strategies` | Canonical definition, fixed `family_id` and sorted parent IDs (parents must exist in the same family) |
+| `lab_hypotheses` | Authored document per hypothesis ID → strategy |
+| `lab_submissions` | Every raw submission with receipt time/origin/family; either a hypothesis ID or the validation/lineage error |
+| `lab_plans` | Canonical plan JSON; `UNIQUE(name, version)` |
+| `lab_datasets`, `lab_dataset_blobs`, `lab_snapshot_blobs` | Manifests, manifest→snapshot links, compressed snapshots by SHA-256 |
+| `lab_software` | Software identity payloads |
+| `lab_experiments` | Attempts: logical ID, attempt number, strategy/hypothesis/submission/plan/dataset/software IDs, family, batch, role and period, stage, assets, timeframes, origin, time, `rerun_of`/`rerun_reason` |
+| `lab_starts` | At most one start per attempt |
+| `lab_results` | At most one terminal result per **started** attempt (FK to `lab_starts`): `succeeded`, `rejected`, `insufficient_data`, `failed`, `errored`, `cancelled`; verdict, metrics, uncorrected p-values by test/endpoint, error |
+| `lab_inspections` | Exposure log: automatic `evaluation_started` and manual `manual_inspection` records |
+
+Primary/unique/foreign keys and CHECK constraints enforce existence, one start and one
+result per attempt even for direct SQL inserts. The API offers no update or delete;
+failures, errors and rejections are retained exactly like successes, and status is a
+projection (`preregistered` → `started` → terminal). Append-only is an application
+guarantee, not tamper-proofing against the database owner. Read-only `Store`s do not
+migrate; the Lab reports "tables are absent" until the DB has been opened writable once.
+
+### Holdouts and multiple testing (recorded, not enforced)
+
+`Ledger.exposures(start, end, family_id=…, strategy_id=…)` returns every recorded start or
+manual inspection whose role window overlaps an interval, across dataset revisions. An
+empty answer means no *recorded* exposure, never proof that a holdout is untouched (direct
+market-table access is not observable). Family, lineage, batch, role and per-endpoint raw
+p-values are stored so that a later phase can define testing families and apply BH; no
+correction or holdout enforcement is implemented.
+
+### CLI (read-only)
+
+`market lab strategies | experiments | experiment <id> | plan <id> | dataset <id>` print
+canonical JSON from a read-only store. `dataset` shows the manifest, never the rows. There
+are no write, evaluation or promotion commands; registration is programmatic.
+
+### Known limitations
+
+- No evaluator: results are attached by whatever runs the evaluation; the Lab does not
+  verify that metrics came from the registered inputs.
+- Only DAILY event-study plans; full research, walk-forward, sensitivity and portfolio
+  policies are rejected rather than represented.
+- Software identity hashes `src/` Python, `pyproject.toml` and `uv.lock`; it does not
+  archive source, cover `config/`, or prove the environment matches the lockfile.
+- Spot corporate actions are selected by effective date, not publication availability.
+- Snapshot size limits mean wide universes/long histories must be split or the limit raised.
+- Audit items listed in section 2 (perp warmup, funding cadence, portfolio ordering,
+  incomplete-check verdicts, name-based evidence matching, multiple testing) are unchanged.
+
+## 8. Verification
 
 Baseline before changes: **173 tests passed**, repository Ruff checks passed, and all
 89 existing source/test Python files passed format checking. New focused tests cover
@@ -483,3 +620,16 @@ static type check was not run. No new type-checking tool or dependency is introd
 Runtime model validation is covered by pytest. Database inspection was read-only, and
 tests used their existing isolated fixtures; no real-data research or live/paper scan
 was triggered.
+
+### Step 2 verification
+
+| Check | Result |
+|---|---|
+| `.venv/bin/python -m pytest` | **258 passed** (121.5 s) |
+| `.venv/bin/python -m pytest tests/test_lab_governance.py` | **53 passed**: plan/dataset/hypothesis identity, unknown/unsupported policy fields, strategy/policy separation, content and provenance revisions, retained snapshots after market-table edits, NULL vs NaN, weak fingerprints, snapshot corruption/limits, invalid submissions, fixed family/lineage, preregister→start→result ordering (also via SQL FKs), one immutable result per attempt for all six statuses, explicit reruns (including after rename or code change), universe canonicalisation, exposure records, persistence + read-only CLI, additive migration from a v6 DB, spot actions, software identity |
+| `.venv/bin/python -m pytest tests/test_lab_spec.py` | **32 passed** |
+| `.venv/bin/ruff check src tests dashboard` | Passed |
+| `.venv/bin/ruff format --check src tests` | All 99 files formatted |
+| `git diff --check` | Passed |
+| Migration on a copy of the local `data/prism.duckdb` | v6 → v7; all pre-existing table row counts identical (only `schema_version` gained a row); reopen is a no-op |
+| `market lab --help`, `market lab experiments/strategies` on the migrated copy | Passed (empty ledger) |
