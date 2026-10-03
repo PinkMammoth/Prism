@@ -2,9 +2,10 @@
 
 Inspection date: 2026-10-03. This is a design grounded in the existing implementation,
 including the local database and generated reports. Only the representation foundation
-(section 6) and research governance ledger (section 7) are implemented. No production
-strategies, evaluation rules, paper records, scanners or Telegram paths were changed; the
-only schema change is the additive Lab migration described in section 7.
+(section 6), research governance ledger (section 7) and daily feature compiler (section 8)
+are implemented. No production strategies, evaluation rules, paper records, scanners or
+Telegram paths were changed; the only schema change is the additive Lab migration
+described in section 7.
 
 ## 1. Current architecture
 
@@ -363,7 +364,7 @@ not control data mining; BH does not repair invalid or adaptively selected p-val
 |---|---|---|
 | 1 — Representation (implemented) | New `research/lab/spec.py`, `config/lab/examples/`, `tests/test_lab_spec.py`, this report | Strict data-only documents, explicit timeframes/ATR meaning, stable identity, no production imports or evaluation |
 | 2 — Ledger and locked plans (implemented, section 7) | Add `research/lab/ledger.py`, `policy.py`, `datasets.py`; additive migrations in `data/store.py`; Lab-only `cli/lab_cmds.py` | Every attempted submission/run is durably recorded before work; duplicate/lineage/crash tests; plan/data/code hashes; exact inputs retained. No mass screening yet |
-| 3 — Daily compiler/features | Add `research/lab/features.py`, `compiler.py`, `alignment.py`, `adapters.py`; reuse `indicators/technical.py`, `setups/base.py`, perp helpers | Small daily vocabulary compiles to signals/stops/eligibility; synthetic hand-calculation, missing-data, truncation/future-shock and legacy parity tests; no registry mutation |
+| 3 — Daily compiler/features (implemented, section 8) | Added `research/lab/vocabulary.py`, `features.py`, `compiler.py`; reuse `indicators/technical.py`, `data/prices.py`, perp helpers. `alignment.py`/`adapters.py` deferred: daily-only needs no MTF alignment, and adapters belong with Phase 5 injection | Small daily vocabulary compiles to signals/stops/eligibility; synthetic hand-calculation, missing-data, truncation/future-shock and legacy parity tests; no registry mutation |
 | 4 — Fast screen and comparison | Add `research/lab/screen.py`, `report.py`; extend Lab CLI with `screen`, `compare`, `history` | Bounded deterministic batches on discovery data; cached returns; all failures persisted; asset/time/side summaries; measured runtime/memory; cannot invoke full research or promote |
 | 5 — Full-research adapters and statistical gate | Extend spot/perp runners for explicit candidate injection; add `research/lab/validation.py`, `multiple_testing.py`; reuse reports/robustness/simulators | Existing strategies retain parity; trusted plan requires completed checks; address audit items with separate versioned methodology patches; holdout/family controls before large-scale claims; link old reports |
 | 6 — Perp MTF and OI | Extend `perps/data.py`, `perps/binance.py`, provider loaders and dataset manifests; extend Lab features/alignment and research policy | Stored 1h/4h data with completeness/availability; settlement-level funding treatment; same-close/gap/stale/snapshot tests; portfolio timing validated before intraday execution claims |
@@ -596,7 +597,174 @@ are no write, evaluation or promotion commands; registration is programmatic.
 - Audit items listed in section 2 (perp warmup, funding cadence, portfolio ordering,
   incomplete-check verdicts, name-based evidence matching, multiple testing) are unchanged.
 
-## 8. Verification
+## 8. Step 3 implemented: daily feature compiler
+
+Modules: `research/lab/vocabulary.py` (names and parameter schema, no pandas),
+`features.py` (pure calculations), `compiler.py` (snapshot → features → masks), read-only
+`Ledger.get_strategy` and `market lab compile`. Phase 3 computes signals only; it makes **no
+claim of profitability** and runs no statistics, screening, ranking or simulation.
+
+### Feature vocabulary (`lab_features_v1`)
+
+A feature reference is one canonical token, `family_p1[_p2]`: parameters are integers in a
+fixed order, inside the name. This keeps the Phase 1 `FeatureRef {name, timeframe}` shape,
+so every previously registered strategy ID is unchanged (the pinned ID test still passes),
+and gives each logical feature exactly one spelling: no leading zeros, exact parameter
+count, bounded values, and an implicit default cannot be spelled out (`rel_volume`, never
+`rel_volume_20`). The compiler parses tokens into `FeatureKey(family, params)`; the
+canonical token is the identity used in metadata and digests. The nine Phase 1 names keep
+their meaning. All windows are in native (daily) bars, inclusive of bar T unless stated.
+
+| Family | Parameters | Value at bar T | Warmup (bars) | Market | Implementation |
+|---|---|---|---|---|---|
+| `open`, `high`, `low`, `close`, `volume` | — | the closed bar's value | 1 | general | snapshot column |
+| `ret_N` | N 1–1000 | close[T] / close[T−N] − 1 | N+1 | general | `technical.roc` |
+| `roc_1m` | — (legacy) | `ret` over 30 (crypto) / 21 (NYSE) bars | 31 / 22 | general, daily | `technical.roc` |
+| `range_pct` | — | (high − low) / close of bar T | 1 | general | — |
+| `sma_N` | N 1–1000 | mean close of T−N+1..T | N | general | `technical.sma` |
+| `ema_N` | N 2–1000 | recursive EMA, `adjust=False`, seeded at the first bar | N | general | `technical.ema` |
+| `dist_sma_N`, `dist_ema_N` | N | close / MA − 1 | N | general | as above |
+| `rsi_N` | N 2–1000 | Wilder RSI | N+1 | general | `technical.rsi` |
+| `atr_N` | N 1–1000 | Wilder ATR, seeded from bar 1 | N+1 | general | `technical.atr` |
+| `atr_sma_N` | N 1–1000 | simple-mean ATR incl. bar 0's high − low | N | general | `perps.strategies.sma_atr` |
+| `atr_pct_N` | N | `atr_N` / close | N+1 | general | `technical.atr` |
+| `rvol_N` | N 2–1000 | sample std of the last N log returns, **not annualised** | N+1 | general | `technical.realised_vol(bars_per_year=1)` |
+| `donchian_high_N`, `donchian_low_N` | N 1–1000 | max high / min low of **T−N..T−1** | N+1 | general | as in `breakout_ls` |
+| `close_high_N`, `close_low_N` | N 1–1000 | max / min close of **T−N..T−1** | N+1 | general | as in `trend_ls` |
+| `dist_donchian_high_N`, `dist_donchian_low_N` | N | close / level − 1 | N+1 | general | — |
+| `vol_sma_N` | N 1–1000 | mean volume of T−N+1..T | N | general | `technical.sma` |
+| `rel_volume` / `rel_volume_N` | N 1–1000, bare = 20 | volume / `vol_sma_N` (window includes T) | N | general | as `technical` `rel_volume` |
+| `vol_z_N` | N 2–1000 | (volume − mean) / sample std of **T−N..T−1**; undefined if std is 0 | N+1 | general | — |
+| `funding_day` | — | settled funding in (open, open + 1 day], see below | 1 | perp, daily | `perps.backtest.daily_funding` |
+| `funding_sum_N`, `funding_mean_N` | N 1–1000 | sum / mean of the last N `funding_day` | N | perp, daily | rolling, full window |
+| `funding_pct_A_L` | A 1–365, L 2–2000 | percentile rank (average ties, in (0, 1]) of `funding_mean_A` among its last L values incl. T; full L required | A+L−1 | perp, daily | `perps.strategies.funding_percentile(min_history=L)` |
+
+Deliberately absent: log returns (a monotone transform of `ret_N`, so it adds no
+expressible rule), OI (only 18 same-day snapshots exist; no historical series is in any
+snapshot), and any annualised measure (annualisation depends on asset class). Comparison
+operators are `gt`, `ge`, `lt`, `le`, `crosses_above`, `crosses_below`. Equality is not
+supported: exact float equality of continuous features is not a robust rule, and no
+existing Prism condition uses it. Percentile and range ideas are features, not operators.
+`vocabulary.catalog()` returns the vocabulary as data for a later proposal client.
+
+### Compiler semantics
+
+`compile_strategy(definition, snapshot, symbol, *, asset_class=None)` returns
+`CompiledStrategy`; `compile_registered(ledger, strategy_id, dataset_id, symbols=…)` loads
+both from the ledger. Every frame is indexed by bar `close_time` (UTC), the decision time.
+
+1. **Inputs.** Only the retained snapshot rows (`Ledger.read_dataset`, which verifies
+   hashes) are read; no feature function receives a Store. The definition, trigger and
+   every reference must be `1d`, the bar series must be daily, open and close times must be
+   strictly increasing and every bar must close after it opens. Missing series (bars,
+   funding when a funding feature is used, corporate actions for spot), a foreign venue
+   for funding/actions, several series for one symbol, a non-crypto perp or a spot run
+   without an explicit asset class raise `CompileError`. Nothing falls back or is filled.
+2. **Features.** Required features are the condition references plus the exit-intent ATR
+   (`wilder_14` → `atr_14`, `perp_sma_14` → `atr_sma_14`). Each is computed once.
+   `feature_valid` = finite value.
+3. **Conditions.** A comparison at T is *defined* when both sides are finite at T. A
+   crossover is defined when both sides are finite at T **and** T−1 (the previous native
+   bar); `crosses_above` is left > right at T and left ≤ right at T−1 (mirrored for
+   `crosses_below`). Only T and T−1 are read. `conditions` holds the truth, forced False
+   where undefined, and `condition_defined` preserves the distinction.
+4. **Warmup and eligibility.** `warmup_bars` = max feature warmup (+1 if any crossover).
+   `eligible[T]` = T ≥ `warmup_bars` − 1 **and** every required feature finite at T **and**
+   every condition defined at T. NaN or insufficient history therefore makes a bar
+   ineligible, never a false observation. Gaps in the middle of a series (e.g. a funding
+   day below coverage) are ineligible bars, and rolling windows containing them stay
+   undefined until a full window of valid values exists again.
+5. **Active state.** `active` = eligible and every condition true.
+6. **Signal.** `signal[T]` fires when `active[T]`, bar T−1 was eligible and inactive, and
+   more than `cooldown_bars` bars have passed since the last signal. This is
+   `setups.base.edge_trigger` semantics (the Phase 1 contract), with one stricter rule: if
+   T−1 was ineligible the previous state is unknown, so a condition already true when data
+   becomes valid does not fire (including bar 0). With every bar eligible and bar 0 inactive
+   the two are identical (tested).
+7. **Stop.** `stop` = close ∓ `stop_atr` × exit ATR at T (below the close for longs), the
+   level a later engine would use if it acted on that bar's signal, in the frame's basis.
+
+**Signal versus entry.** A signal is a decision at bar T's close. The compiler does not
+shift it; existing Prism research enters at the next bar's open (`EvaluationPlan.entry =
+"next_bar_open"`), and that shift belongs to the screening/evaluation stage. No fills,
+costs, exits or forward returns are computed or reachable here.
+
+### Point-in-time rules
+
+- Every value at T depends only on bars ≤ T. Breakout levels (`donchian_*`, `close_high/
+  low`) and the `vol_z` baseline use T−N..T−1, so bar T never sets its own threshold.
+  Rolling means, sums, std and percentiles are trailing windows with a full-window minimum.
+- **Funding.** `funding_day` reuses `daily_funding` (sum of settlements in (open,
+  open + 1 day], minute-snapped timestamps, pro-rata scaling at ≥ 80% coverage, otherwise
+  missing) with two Lab differences: the expected settlements per day come from the
+  median spacing of settlements in the **trailing 7 days** ending at the bar's end rather
+  than the whole history (Prism's estimate lets later observations change earlier coverage;
+  a test demonstrates this), and a bar is missing if any summed settlement's minute-snapped
+  `available_at` is after the bar's close. On a constant cadence the result is identical to
+  `daily_funding` (tested for hourly and 8-hourly funding). NULL rates are not settlements.
+- **Spot prices** use **forward** split adjustment: `data.prices.adjustment_factors` /
+  `apply_basis` normalised to the first snapshot bar's share terms. Prism's backward
+  adjustment rescales bar T by splits after T; the two series differ by one constant, so
+  all ratio features (returns, distances, RSI, percentages, relative volume) are identical
+  to Prism's, but levels (`close`, MAs, ATR, Donchian, stops) are in first-bar share terms
+  and a constant price threshold refers to those units. Dividends are ignored for signals,
+  as in Prism; corporate actions are still selected by effective date (Phase 2 limitation).
+
+### Reproducibility and result metadata
+
+Results stay in memory: they are a pure function of (strategy ID, dataset ID, symbol,
+asset class, compiler version). `CompileMetadata` records compiler and vocabulary
+versions, strategy/dataset IDs, symbol, market, side, source, asset class, price basis,
+features with warmups, canonical condition labels, cooldown, exit ATR, warmup bars, row
+count, first/last close, largest bar spacing, eligible/active/signal counts, and a SHA-256
+`digest` of the index, features and all masks, so a later stage can verify a bit-identical
+recomputation. Nothing is persisted and no ledger row is written.
+
+`market lab compile <strategy-id> <dataset-id> [--symbol BTC] [--asset-class equity]`
+prints that metadata (never rows) from a read-only store.
+
+### Reuse and refactors
+
+- `technical.sma/ema/rsi/atr/roc/realised_vol` are called directly; parity tests show the
+  Lab values are bit-identical to `compute_features` columns (rvol up to the annualisation
+  factor, tolerance 1e-12 relative).
+- `perps/strategies.py`: private `_atr` renamed to public `sma_atr` (pure rename; both
+  internal call sites updated). `funding_percentile` reused as-is.
+- `perps/backtest.py`: `daily_funding` gained an optional `per_day` array. Omitted, the
+  existing full-history median is used exactly as before, so existing research is unchanged.
+- `data/prices.py` adjustment functions reused for spot; `setups.base.edge_trigger`
+  semantics reproduced with the missing-state rule above (it has no eligibility input).
+- Known definition differences, named rather than merged: Wilder `atr_N` vs perp
+  `atr_sma_N`; `rvol_N` unannualised; `rel_volume` includes bar T while `vol_z` excludes
+  it; funding cadence as above.
+
+### Spec changes (additive)
+
+`FeatureRef.name` is now validated against the vocabulary instead of a nine-value literal;
+`daily_only` and perp-only checks come from the vocabulary; `Condition.op` gained the two
+crossover operators; a condition cannot compare a feature with itself. Schema version and
+document shape are unchanged, and all previously valid documents keep their IDs.
+
+### Known limitations
+
+- DAILY only. No intraday, multi-timeframe or as-of alignment; MTF documents are still
+  accepted by the spec and rejected by the compiler.
+- No OI, basis, liquidation or order-flow features: no historical series exists in any
+  snapshot. No cross-asset features (relative strength, regime, benchmark trend).
+- Windows count native bars; calendar gaps are not filled (NYSE weekends are normal; the
+  largest spacing is reported).
+- Spot needs an explicit asset class (not part of a dataset); levels are in first-bar
+  share terms. EMA/Wilder values depend on the first bar of the snapshot, so snapshots
+  starting on different dates give slightly different recursive values (warmup reduces,
+  but does not eliminate, this; exactly as in Prism).
+- Funding: the 7-day cadence window is a fixed Lab choice; a venue cadence change is
+  treated as missing until a week of the new cadence exists. The `EvaluationPlan`'s
+  `prism_daily_full_history_median_v1` literal still names the Prism policy; reconciling
+  the plan literal with the Lab's causal cadence is a decision for the screening phase.
+- No plan-period masking: outputs cover the whole snapshot; restricting signals to a role
+  window (with warmup loaded before it) is the screen's job.
+
+## 9. Verification
 
 Baseline before changes: **173 tests passed**, repository Ruff checks passed, and all
 89 existing source/test Python files passed format checking. New focused tests cover
@@ -633,3 +801,16 @@ was triggered.
 | `git diff --check` | Passed |
 | Migration on a copy of the local `data/prism.duckdb` | v6 → v7; all pre-existing table row counts identical (only `schema_version` gained a row); reopen is a no-op |
 | `market lab --help`, `market lab experiments/strategies` on the migrated copy | Passed (empty ledger) |
+
+### Step 3 verification
+
+| Check | Result |
+|---|---|
+| `.venv/bin/python -m pytest` | **362 passed** (132.8 s); baseline before Step 3: 268 |
+| `.venv/bin/python -m pytest tests/test_lab_compiler.py` | **94 passed**: canonical tokens/aliases, registry ↔ implementation correspondence, declared warmup = first valid bar for every family, hand calculations, Prism parity (`compute_features`, `sma_atr`, trend/breakout levels, `funding_percentile`, `daily_funding` hourly + 8-hourly, `edge_trigger`, trend_ls conjunction), per-family future-mutation and truncation invariance, compiled mutation/truncation invariance including a funding-cadence change that Prism's full-history estimate fails, breakout excludes bar T, percentile ignores later extremes, crossover/T−1 semantics, missing ⇒ ineligible, late-published funding, spot forward split causality + ratio parity, explicit failures, determinism/digest, snapshot isolation after live-table edits, read-only CLI |
+| Lab suites (`test_lab_compiler/spec/governance`) | **179 passed**; pinned Phase 1 strategy ID unchanged |
+| Sabotage checks (temporary, reverted) | Full-history funding cadence → mutation test fails (89.7% of pre-cutoff `funding_pct` values change); backward split adjustment → spot causality test fails (`atr_14` levels before T change) |
+| `daily_funding` default path vs the pre-change implementation | Bit-identical on all 11 stored coin/venue series (read-only DB) |
+| `.venv/bin/ruff check src tests dashboard` / `ruff format --check src tests` | Passed / 105 files formatted |
+| `git diff --check` | Passed |
+| `market lab compile` on a scratch copy of the local DB | BTC/ETH Hyperliquid snapshot (1,098 daily rows each), crossover + `funding_pct_7_365` rule: metadata printed in ~1 s; the real database was not modified |

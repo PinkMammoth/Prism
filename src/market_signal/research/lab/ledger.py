@@ -35,7 +35,7 @@ from market_signal.research.lab.datasets import (
 )
 from market_signal.research.lab.policy import DatasetRole, EvaluationPlan, PValue
 from market_signal.research.lab.provenance import SoftwareIdentity
-from market_signal.research.lab.spec import Hypothesis
+from market_signal.research.lab.spec import Hypothesis, StrategyDefinition
 
 ResultStatus = Literal[
     "succeeded", "rejected", "insufficient_data", "failed", "errored", "cancelled"
@@ -287,6 +287,13 @@ class Ledger:
                         "INSERT INTO lab_dataset_blobs VALUES (?,?)", [manifest.dataset_id, digest]
                     )
         return manifest.dataset_id
+
+    def get_strategy(self, strategy_id: str) -> StrategyDefinition:
+        row = self._one("SELECT definition FROM lab_strategies WHERE strategy_id=?", [strategy_id])
+        definition = StrategyDefinition.model_validate_json(row["definition"])
+        if definition.strategy_id != strategy_id:
+            raise LedgerError("stored definition does not match its strategy ID")
+        return definition
 
     def get_plan(self, plan_id: str) -> EvaluationPlan:
         row = self._one("SELECT payload FROM lab_plans WHERE plan_id=?", [plan_id])

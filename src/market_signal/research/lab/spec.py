@@ -1,9 +1,10 @@
 """Versioned hypothesis documents, independent of the evaluation methodology.
 
 This module describes rules; it neither calculates features nor executes strategies.
-Feature references name a small vocabulary grounded in existing Prism calculations.
-Accepting a document does NOT establish data availability, PIT correctness, or eligibility
-for a research/paper/live run. A future compiler must establish those separately.
+Feature references name the vocabulary in ``vocabulary.py``, grounded in existing Prism
+calculations. Accepting a document does NOT establish data availability, PIT correctness,
+or eligibility for a research/paper/live run; ``compiler.py`` establishes data
+availability for DAILY definitions against a registered snapshot.
 """
 
 from __future__ import annotations
@@ -14,23 +15,27 @@ from pathlib import Path
 from typing import Annotated, Literal, Self
 
 import yaml
-from pydantic import AwareDatetime, BaseModel, ConfigDict, Field, model_validator
+from pydantic import AfterValidator, AwareDatetime, BaseModel, ConfigDict, Field, model_validator
 
 from market_signal.models.domain import Timeframe
+from market_signal.research.lab.vocabulary import parse_feature
 
 # Schema v1 pins these meanings to the implementations documented in STRATEGY_LAB.md.
-# In particular, roc_1m is a DAILY calendar-class horizon and funding_day is daily.
-# Do not expand this vocabulary without an implementation/availability contract.
-FeatureName = Literal[
-    "close",
-    "sma_20",
-    "sma_50",
-    "sma_200",
-    "ema_21",
-    "rsi_14",
-    "rel_volume",
-    "roc_1m",
-    "funding_day",
+# In particular, roc_1m is a DAILY calendar-class horizon and funding_* are daily.
+# The original nine names (close, sma_20/50/200, ema_21, rsi_14, rel_volume, roc_1m,
+# funding_day) keep their meaning; vocabulary v1 adds parameterised canonical tokens
+# without changing the FeatureRef shape, so previously registered strategy IDs are stable.
+
+
+def _feature_name(name: str) -> str:
+    parse_feature(name)
+    return name
+
+
+FeatureName = Annotated[
+    str,
+    Field(strict=True, max_length=64, pattern=r"^[a-z][a-z0-9_]*$"),
+    AfterValidator(_feature_name),
 ]
 Number = Annotated[float, Field(strict=True, allow_inf_nan=False)]
 BarCount = Annotated[int, Field(strict=True, ge=1, le=10_000)]
@@ -48,7 +53,7 @@ class FeatureRef(_Model):
 
     @model_validator(mode="after")
     def daily_features(self) -> Self:
-        if self.name in ("roc_1m", "funding_day") and self.timeframe != Timeframe.D1:
+        if parse_feature(self.name).spec.daily_only and self.timeframe != Timeframe.D1:
             raise ValueError(f"{self.name} is defined only on daily bars in vocabulary v1")
         return self
 
@@ -57,13 +62,21 @@ class Condition(_Model):
     """One comparison; all conditions in a definition must hold.
 
     No expression strings, Python callables, arbitrary feature names, or nested logic.
-    Crossovers/ranges will need explicit missing-data and alignment semantics before
-    being added. A range can currently be expressed as two comparisons.
+    A range can be expressed as two comparisons. ``crosses_above`` at bar T means
+    left > right at T and left <= right at T-1 (``crosses_below`` mirrors it); both bars
+    must be defined. Equality is deliberately absent: exact float equality of continuous
+    features is not a robust rule. Compiler semantics are documented in STRATEGY_LAB.md.
     """
 
     left: FeatureRef
-    op: Literal["gt", "ge", "lt", "le"]
+    op: Literal["gt", "ge", "lt", "le", "crosses_above", "crosses_below"]
     right: Number | FeatureRef
+
+    @model_validator(mode="after")
+    def distinct_sides(self) -> Self:
+        if self.right == self.left:
+            raise ValueError("a condition cannot compare a feature with itself")
+        return self
 
     def references(self) -> tuple[FeatureRef, ...]:
         return (self.left, self.right) if isinstance(self.right, FeatureRef) else (self.left,)
@@ -111,8 +124,10 @@ class StrategyDefinition(_Model):
         refs = [ref for condition in self.conditions for ref in condition.references()]
         if any(ref.timeframe.seconds < self.trigger_timeframe.seconds for ref in refs):
             raise ValueError("feature timeframes must be at least as slow as the trigger")
-        if self.market == "spot" and any(ref.name == "funding_day" for ref in refs):
-            raise ValueError("funding_day requires the perp market")
+        if self.market == "spot":
+            for ref in refs:
+                if parse_feature(ref.name).spec.market == "perp":
+                    raise ValueError(f"{ref.name} requires the perp market")
         if self.market == "spot" and self.exit.atr != "wilder_14":
             raise ValueError("spot exit intent uses wilder_14 ATR")
         clauses = [self._condition_json(c) for c in self.conditions]
