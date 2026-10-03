@@ -115,7 +115,7 @@ def research_state(_version: float):
     rows, sigs = [], []
     for name, strat in STRATEGIES.items():
         e = ev.get(f"perp_{name}")
-        rows.append((strat, e, papers[name]))
+        rows.append((strat, e, papers[name], ev.get(f"perp_{name}@binance")))
         for coin, f in frames.items():
             ls = latest_signals(f, strat)
             if ls["side"]:
@@ -131,7 +131,9 @@ st.caption(
     "criteria as the spot setups: independent events, excess over random entry *on the same side*, a "
     "random-entry p-value, walk-forward folds and parameter sensitivity. Returns include fees, slippage "
     "and funding. Run `uv run market perp-research` to (re)run. **Paper** is the forward test: each day's "
-    "live signals are recorded and scored later (`market perp-paper`). It is never backfilled."
+    "live signals are recorded and scored later (`market perp-paper`). It is never backfilled. **Unseen "
+    "years** runs the same unchanged strategies on Binance history from before Hyperliquid's data begins "
+    "(`market perp-research --venue binance`)."
 )
 rows_r, sigs = research_state(db_version())
 
@@ -153,11 +155,20 @@ def paper_cell(r) -> str:
     return f"{tag} <span class='small'>excess {esc(ex)}</span><br><span class='small muted'>{esc(since)}</span>"
 
 
-for strat, e, pr in rows_r:
+def unseen_cell(b) -> str:
+    if b is None:
+        return "<span class='muted small'>not run yet</span>"
+    per = f"{b.period[0][:4]}–{b.period[1][:4]}" if b.period else ""
+    ex = "–" if b.excess is None else f"{b.excess:+.1%}"
+    p = "–" if b.p_value is None else f"{b.p_value:.2f}"
+    return f"{evidence_pill(b)} <span class='small'>excess {esc(ex)} · p {esc(p)}</span><br><span class='small muted'>{esc(per)} · {esc(b.n_independent or 0)} events</span>"
+
+
+for strat, e, pr, eb in rows_r:
     if e is None:
         body += (f"<tr><td><b>{esc(strat.title)}</b><br><span class='small muted'>{esc(strat.name)}</span></td>"
-                 f"<td>{pill('NOT RUN', 'unproven')}</td><td colspan='5' class='muted'>run "
-                 f"<code>market perp-research</code></td><td>{paper_cell(pr)}</td></tr>")  # fmt: skip
+                 f"<td>{pill('NOT RUN', 'unproven')}</td><td colspan='4' class='muted'>run "
+                 f"<code>market perp-research</code></td><td>{unseen_cell(eb)}</td><td>{paper_cell(pr)}</td></tr>")  # fmt: skip
         continue
     sim = e.simulation or {}
     wf = "–" if not e.wf_folds else f"{e.wf_positive}/{e.wf_folds}"
@@ -167,17 +178,17 @@ for strat, e, pr in rows_r:
         f"<td class='num'>{esc(pct(e.excess, digits=1))}</td>"
         f"<td class='num'>{'–' if e.p_value is None else f'{e.p_value:.2f}'}</td><td class='num'>{esc(wf)}</td>"
         f"<td class='num'>{esc(pct(sim.get('max_drawdown'), digits=1))} · {esc(sim.get('liquidations', 0))} liq.</td>"
-        f"<td class='muted small'>{esc(e.created_at or '')}</td><td>{paper_cell(pr)}</td></tr>"
+        f"<td>{unseen_cell(eb)}</td><td>{paper_cell(pr)}</td></tr>"
     )
 html(
-    "<div style='overflow-x:auto'><table class='compact' style='min-width:900px'><thead><tr><th>Strategy</th>"
+    "<div style='overflow-x:auto'><table class='compact' style='min-width:980px'><thead><tr><th>Strategy</th>"
     "<th>Verdict</th><th style='text-align:right'>Indep. events</th><th style='text-align:right'>Excess</th>"
     "<th style='text-align:right'>p</th><th style='text-align:right'>Walk-fwd +</th>"
-    f"<th style='text-align:right'>Simulation</th><th>Run</th><th>Paper (live, not traded)</th></tr></thead>"
+    f"<th style='text-align:right'>Simulation</th><th>Unseen years (Binance)</th><th>Paper (live, not traded)</th></tr></thead>"
     f"<tbody>{body}</tbody></table></div>"
 )
 with st.expander("Hypotheses being tested"):
-    for strat, _, _ in rows_r:
+    for strat, *_ in rows_r:
         st.markdown(f"**{strat.title}** (`{strat.name}`): {strat.hypothesis}")
     st.caption(
         "Full reports: `results/perps/<strategy>/<run>/report.md`. Method: docs/PERPS_BACKTEST.md."

@@ -248,6 +248,22 @@ Configured in `config/perps.yaml`. Stored apart from spot prices and never stitc
 Every call is logged in `ingestion_runs`, with its raw payload archived. Responses that don't
 match the documented schema raise `SchemaError` and are not stored.
 
+## Perpetual futures history: Binance USD-M public API (no key)
+
+Configured under `venues.binance` in `config/perps.yaml`; endpoint in `config/providers.yaml`
+(`binance_futures`). Used **only for history**, to test the unchanged, pre-registered perp
+strategies on years before Hyperliquid's data begins (Binance perps date from September
+2019). The rows are stored in the same perp tables with `source = binance` and are never
+mixed with Hyperliquid series: every loader reads one venue.
+
+| Dataset | Endpoint | Notes |
+|---|---|---|
+| Daily candles | `/fapi/v1/klines` (1,500 per call) | closed bars only; validated like spot |
+| Funding | `/fapi/v1/fundingRate` (1,000 per call) | every 8h (some symbols switch to 4h at times); `available_at` = settlement time |
+
+Binance blocks some locations with HTTP 451 (notably the US). Prism reports that clearly and
+stores nothing. HYPE isn't included (no long Binance history).
+
 ## Summary: what can be researched honestly in V1
 
 | Question | Possible historically? | Why |

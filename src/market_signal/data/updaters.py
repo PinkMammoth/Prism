@@ -147,6 +147,12 @@ def _update_perps(settings: Settings, store: Store) -> pd.DataFrame:
     return update_perps(settings, store)
 
 
+def _update_binance(settings: Settings, store: Store) -> pd.DataFrame:
+    from market_signal.perps.binance import update_binance_perps
+
+    return update_binance_perps(settings, store)
+
+
 def _record_perp_paper(settings: Settings, store: Store) -> pd.DataFrame:
     from market_signal.perps.paper import record_paper_signals
 

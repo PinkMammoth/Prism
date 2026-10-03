@@ -43,6 +43,9 @@ providers:
     base_url: https://api.llama.fi
     stablecoins_url: https://stablecoins.llama.fi
     requests_per_second: 1
+  binance_futures:
+    base_url: https://fapi.binance.com
+    requests_per_second: 2
 
 # Initial backfill start dates (inclusive). Incremental updates resume from the last stored bar.
 backfill:

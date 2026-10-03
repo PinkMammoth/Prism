@@ -1,0 +1,152 @@
+"""Binance perps as a second venue: client pagination and guards, venue isolation, 8h
+funding aggregation, and research restricted to the years before Hyperliquid's data."""
+
+from __future__ import annotations
+
+from datetime import UTC, datetime, timedelta
+
+import httpx
+import numpy as np
+import pandas as pd
+import pytest
+
+from market_signal.data.http import HttpClient, ProviderError, SchemaError
+from market_signal.perps.backtest import daily_funding
+from market_signal.perps.binance import BinanceFuturesProvider, update_binance_perps
+from market_signal.perps.data import load_funding, load_perp_bars
+
+DAY = 86_400_000
+
+
+class FakeBinance:
+    def __init__(self, start: datetime, days: int):
+        t0 = int(start.timestamp() * 1000)
+        self.klines = []
+        for d in range(days + 1):  # the last one is today's, still open
+            px = 100 + d * 0.1
+            self.klines.append([t0 + d * DAY, str(px), str(px + 2), str(px - 2), str(px + 1), "10",
+                                t0 + (d + 1) * DAY - 1, "0", 1, "0", "0", "0"])  # fmt: skip
+        self.funding = [{"symbol": "BTCUSDT", "fundingTime": t0 + k * 8 * 3_600_000, "fundingRate": "0.0001",
+                         "markPrice": "100"} for k in range(days * 3)]  # fmt: skip
+        self.calls: list[tuple[str, dict]] = []
+
+    def __call__(self, req: httpx.Request) -> httpx.Response:
+        p = dict(req.url.params)
+        self.calls.append((req.url.path, p))
+        s, e, lim = int(p["startTime"]), int(p["endTime"]), int(p["limit"])
+        if req.url.path == "/fapi/v1/klines":
+            return httpx.Response(200, json=[k for k in self.klines if s <= k[0] <= e][:lim])
+        if req.url.path == "/fapi/v1/fundingRate":
+            return httpx.Response(
+                200, json=[f for f in self.funding if s <= f["fundingTime"] <= e][:lim]
+            )
+        raise AssertionError(req.url)
+
+
+def _prov(handler, **kw) -> BinanceFuturesProvider:
+    http = HttpClient("binance_futures", "https://fapi.test", requests_per_second=0, backoff_seconds=0,
+                      max_retries=0, transport=httpx.MockTransport(handler))  # fmt: skip
+    return BinanceFuturesProvider(http, **kw)
+
+
+def test_klines_and_funding_paginate():
+    start = datetime(2020, 1, 1, tzinfo=UTC)
+    fake = FakeBinance(start, 40)
+    p = _prov(fake, kline_limit=15, funding_limit=50)
+    bars = p.daily_bars("BTCUSDT", start, start + timedelta(days=60))
+    assert len(bars) == 41 and bars["ts"].is_monotonic_increasing
+    assert bars["close"].iloc[0] == pytest.approx(101.0)
+    assert sum(1 for path, _ in fake.calls if path.endswith("klines")) == 3  # 15 + 15 + 11
+    f = p.funding_history("BTCUSDT", start, start + timedelta(days=60))
+    assert len(f) == 120 and f["funding_rate"].iloc[0] == pytest.approx(0.0001)
+
+
+def test_restricted_location_is_explained_and_schema_is_checked():
+    blocked = _prov(
+        lambda req: httpx.Response(
+            451, json={"code": 0, "msg": "Service unavailable from a restricted location"}
+        )
+    )
+    with pytest.raises(ProviderError, match="restricted region"):
+        blocked.daily_bars(
+            "BTCUSDT", datetime(2020, 1, 1, tzinfo=UTC), datetime(2020, 2, 1, tzinfo=UTC)
+        )
+    with pytest.raises(SchemaError):
+        _prov(lambda req: httpx.Response(200, json={"oops": 1})).funding_history(
+            "BTCUSDT", datetime(2020, 1, 1, tzinfo=UTC)
+        )
+
+
+def test_eight_hour_funding_aggregates_per_day():
+    ts = pd.date_range("2021-01-01", periods=4, freq="1D", tz="UTC")
+    bars = pd.DataFrame({"ts": ts})
+    eight = pd.date_range("2021-01-01 08:00", "2021-01-05 00:00", freq="8h", tz="UTC")
+    f = pd.Series(0.0001, index=eight)
+    f = f.drop(pd.Timestamp("2021-01-03 16:00", tz="UTC"))  # day 3 has only 2 of 3 settlements
+    extra = pd.Series(
+        0.0001, index=pd.date_range("2021-01-04 04:00", "2021-01-04 20:00", freq="8h", tz="UTC")
+    )
+    f = pd.concat([f, extra]).sort_index()  # day 4: interval shortened to 4h → 6 settlements
+    out = daily_funding(bars, f, min_coverage=0.8)
+    assert out[0] == pytest.approx(0.0003) and out[1] == pytest.approx(0.0003)
+    assert np.isnan(out[2])  # 2/3 < 80% coverage → missing, never assumed zero
+    assert out[3] == pytest.approx(0.0006)  # more settlements than usual: summed as they are
+
+
+def test_updater_stores_binance_separately(settings, store, monkeypatch):
+    import market_signal.perps.binance as bmod
+
+    cfg = {
+        "venues": {
+            "binance": {
+                "enabled": True,
+                "history_start": "2020-01-01",
+                "symbols": {"BTC": "BTCUSDT"},
+            }
+        }
+    }
+    monkeypatch.setattr(bmod, "perp_config", lambda s: cfg)
+    now = datetime.now(UTC).replace(hour=12, minute=0, second=0, microsecond=0)
+    start = (now - timedelta(days=30)).replace(hour=0)
+    fake = FakeBinance(start, 30)
+    monkeypatch.setattr(bmod, "_ms", lambda dt: int(max(dt, start).timestamp() * 1000))
+    res = update_binance_perps(settings, store, provider=_prov(fake))
+    assert set(res["status"]) == {"ok"}, res
+    assert (
+        len(load_perp_bars(store, "BTC", venue="binance")) == 30
+    )  # today's open candle not stored
+    assert load_perp_bars(store, "BTC").empty  # Hyperliquid loaders never see Binance rows
+    assert (
+        load_funding(store, "BTC").empty and len(load_funding(store, "BTC", venue="binance")) == 90
+    )
+    runs = store.query("SELECT DISTINCT provider FROM ingestion_runs")
+    assert set(runs["provider"]) == {"binance"}
+
+    cfg["venues"]["binance"]["enabled"] = False  # a disabled venue fetches nothing
+    fake.calls.clear()
+    assert update_binance_perps(settings, store, provider=_prov(fake)).empty and not fake.calls
+
+
+def test_research_on_binance_stops_before_hyperliquid(settings, store):
+    from market_signal.perps.backtest import PerpCosts, PerpInput
+    from market_signal.perps.research import run_perp_research, save_perp_report
+    from market_signal.presenter import load_evidence
+
+    rng = np.random.default_rng(2)
+    n = 1300
+    c = 100 * np.exp(np.cumsum(rng.normal(0, 0.03, n)))
+    o = np.concatenate([[c[0]], c[:-1]])
+    ts = pd.date_range("2019-09-01", periods=n, freq="1D", tz="UTC")
+    f = pd.DataFrame({"ts": ts, "close_time": ts + pd.Timedelta(days=1), "open": o, "high": np.maximum(o, c) * 1.01,
+                      "low": np.minimum(o, c) * 0.99, "close": c, "volume": 1.0, "funding_day": 0.0003})  # fmt: skip
+    cut = pd.Timestamp("2022-06-01", tz="UTC")
+    inputs = [PerpInput("BTC", f, PerpCosts(5, 2, 10), 20.0, maint_rate=0.004)]
+    rep = run_perp_research(None, settings, "trend_ls", inputs=inputs, walk_forward_on=False, sensitivity_on=False,
+                            venue="binance", end=cut, window_note="before Hyperliquid")  # fmt: skip
+    assert rep.run_name == "perp_trend_ls@binance"
+    assert pd.Timestamp(rep.period[1], tz="UTC") < cut
+    out = save_perp_report(store, settings, rep)
+    assert (
+        out.name.startswith("binance-") and "before Hyperliquid" in (out / "report.md").read_text()
+    )
+    assert load_evidence(store)["perp_trend_ls@binance"].verdict == rep.verdict["verdict"]

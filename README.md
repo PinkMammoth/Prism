@@ -120,6 +120,8 @@ uv run market perps                  # perp funding & open-interest monitor (con
 uv run market update --only perps    # just the perp data: candles, hourly funding, OI snapshot
 uv run market perp-strategies        # the pre-registered perp strategies and their hypotheses
 uv run market perp-research [NAME]   # research perp strategies → verdicts + results/perps/<strategy>/…/report.md
+uv run market perp-research --venue binance   # same strategies on Binance years before Hyperliquid's data (unseen)
+uv run market perp-paper             # paper-tracking: live-recorded strategy signals and how they did (not traded)
 uv run market asset HYPE             # exactly why an asset scored what it did; zones; sizing
 uv run market hype                   # HYPE valuation: observed / assumed / derived + inverse table
 uv run market regime                 # current regimes and factor votes
