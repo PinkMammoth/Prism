@@ -451,6 +451,35 @@ MIGRATIONS: list[str] = [
         recorded_at TIMESTAMPTZ NOT NULL
     );
     """,
+    # 10 — perp open interest. Interval-based provider history (Binance) is stored raw, per
+    # venue; Hyperliquid OI stays in perp_snapshots (prospective, irregular capture times).
+    # The view lists both side by side with the venue explicit; it never merges them.
+    """
+    CREATE TABLE IF NOT EXISTS perp_oi_history (
+        source VARCHAR NOT NULL,           -- venue, e.g. 'binance'
+        coin VARCHAR NOT NULL,             -- Prism perp coin, e.g. 'BTC'
+        provider_symbol VARCHAR NOT NULL,  -- e.g. 'BTCUSDT'
+        market_type VARCHAR NOT NULL,      -- e.g. 'usdm_perpetual'
+        period VARCHAR NOT NULL,           -- provider statistics period, e.g. '1h'
+        observed_at TIMESTAMPTZ NOT NULL,  -- provider timestamp, exact (never re-gridded)
+        open_interest DOUBLE,              -- base units (coins), as returned
+        oi_notional DOUBLE,                -- USD(T) value, as returned by the provider
+        oi_notional_method VARCHAR NOT NULL,
+        ingested_at TIMESTAMPTZ NOT NULL,  -- first stored
+        updated_at TIMESTAMPTZ NOT NULL,   -- last time the values changed
+        ingest_run_id VARCHAR NOT NULL,
+        PRIMARY KEY (source, coin, period, observed_at)
+    );
+    CREATE OR REPLACE VIEW perp_oi_observations AS
+        SELECT source AS venue, coin, coin AS provider_symbol, 'hyperliquid_perp' AS market_type,
+               'snapshot' AS period, snapshot_at AS observed_at, open_interest, oi_notional,
+               'open_interest*mark_px' AS oi_notional_method, ingest_run_id
+        FROM perp_snapshots
+        UNION ALL
+        SELECT source, coin, provider_symbol, market_type, period, observed_at, open_interest,
+               oi_notional, oi_notional_method, ingest_run_id
+        FROM perp_oi_history;
+    """,
 ]
 
 

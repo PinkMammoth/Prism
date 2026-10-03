@@ -27,6 +27,9 @@ from market_signal.perps.data import perp_config, upsert_funding, upsert_perp_ba
 
 SOURCE = "binance"
 DAY_MS = 86_400_000
+# openInterestHist statistics periods, in seconds
+OI_PERIODS = {"5m": 300, "15m": 900, "30m": 1800, "1h": 3600, "2h": 7200, "4h": 14400,
+              "6h": 21600, "12h": 43200, "1d": 86400}  # fmt: skip
 
 
 def _ms(dt: datetime) -> int:
@@ -52,9 +55,11 @@ class BinanceFuturesProvider(HttpProvider):
         kline_limit: int = 1500,
         funding_limit: int = 1000,
         max_pages: int = 400,
+        oi_limit: int = 500,
     ):
         super().__init__(http)
         self.kline_limit, self.funding_limit, self.max_pages = kline_limit, funding_limit, max_pages
+        self.oi_limit = oi_limit
 
     def daily_bars(self, symbol: str, start: datetime, end: datetime) -> pd.DataFrame:
         rows: list = []
@@ -127,6 +132,66 @@ class BinanceFuturesProvider(HttpProvider):
         if out["funding_rate"].isna().any():
             raise SchemaError("binance fundingRate: non-numeric fundingRate")
         return out.drop_duplicates("time").sort_values("time").reset_index(drop=True)
+
+    def open_interest_history(
+        self, symbol: str, period: str, stop_at: datetime, end: datetime | None = None
+    ) -> pd.DataFrame:
+        """``GET /futures/data/openInterestHist``: OI statistics for one USD-M symbol.
+
+        Binance keeps only the latest ~30 days and rejects an older ``startTime`` (HTTP 400,
+        code -1130). Given a window wider than ``limit`` it returns the window's *latest*
+        rows, so paging forward by ``startTime`` would silently skip data. This pages
+        backward by ``endTime`` (never sending ``startTime``) until a page reaches
+        ``stop_at``, comes back short, or is empty (the start of the available history).
+        An unknown symbol returns an empty list, not an error. Each request asks only for
+        the rows still needed (plus one), so a routine top-up is one small request."""
+        if period not in OI_PERIODS:
+            raise ValueError(f"unsupported openInterestHist period {period!r}")
+        rows: list = []
+        step_ms = OI_PERIODS[period] * 1000
+        end_ms, stop_ms = _ms(end or utcnow()), _ms(stop_at)
+        for _ in range(self.max_pages):
+            limit = max(1, min(self.oi_limit, -(-(end_ms - stop_ms) // step_ms) + 1))
+            try:
+                page = self.http.get_json("/futures/data/openInterestHist", params={
+                    "symbol": symbol, "period": period, "endTime": end_ms, "limit": limit})  # fmt: skip
+            except ProviderError as exc:
+                raise _explain(exc) from None
+            if not isinstance(page, list):
+                raise SchemaError(
+                    f"binance openInterestHist: expected list, got {type(page).__name__}"
+                )
+            for r in page:
+                if (
+                    not isinstance(r, dict)
+                    or not {"timestamp", "sumOpenInterest", "sumOpenInterestValue"} <= r.keys()
+                ):
+                    raise SchemaError("binance openInterestHist row missing timestamp/sumOpenInterest/sumOpenInterestValue")  # fmt: skip
+                if r.get("symbol", symbol) != symbol:
+                    raise SchemaError(
+                        f"binance openInterestHist: asked for {symbol}, got {r.get('symbol')}"
+                    )
+            rows += page
+            if len(page) < limit:
+                break
+            oldest = min(int(r["timestamp"]) for r in page)
+            if oldest <= stop_ms or oldest - 1 >= end_ms:
+                break
+            end_ms = oldest - 1
+        if not rows:
+            return pd.DataFrame({"observed_at": pd.Series(dtype="datetime64[us, UTC]"),
+                                 "open_interest": pd.Series(dtype=float), "oi_notional": pd.Series(dtype=float)})  # fmt: skip
+        df = pd.DataFrame(rows)
+        out = pd.DataFrame({
+            "observed_at": pd.to_datetime(df["timestamp"].astype("int64"), unit="ms", utc=True).astype("datetime64[us, UTC]"),
+            "open_interest": pd.to_numeric(df["sumOpenInterest"], errors="coerce"),
+            "oi_notional": pd.to_numeric(df["sumOpenInterestValue"], errors="coerce"),
+        })  # fmt: skip
+        if out[["open_interest", "oi_notional"]].isna().any().any():
+            raise SchemaError(
+                "binance openInterestHist: non-numeric sumOpenInterest/sumOpenInterestValue"
+            )
+        return out.drop_duplicates("observed_at").sort_values("observed_at").reset_index(drop=True)
 
 
 def update_binance_perps(

@@ -152,7 +152,7 @@ def test_research_on_binance_stops_before_hyperliquid(settings, store):
     assert load_evidence(store)["perp_trend_ls@binance"].verdict == rep.verdict["verdict"]
 
 
-def test_update_only_perps_runs_all_three_perp_steps(settings, monkeypatch):
+def test_update_only_perps_runs_all_perp_steps(settings, monkeypatch):
     """Regression: the Binance and paper-tracking steps were defined but never registered."""
     import market_signal.data.updaters as up
     from market_signal.cli.data_cmds import update
@@ -163,7 +163,7 @@ def test_update_only_perps_runs_all_three_perp_steps(settings, monkeypatch):
     monkeypatch.setattr(up, "UPDATERS", fakes)
     update(symbols=None, timeframes=["1d"], only="perps")
     assert [t.split(":")[0].split(" (")[0] for t in ran] == [
-        "Perpetual futures", "Binance perps", "Perp strategies"]  # fmt: skip
+        "Perpetual futures", "Binance perps", "Binance perp open interest", "Perp strategies"]  # fmt: skip
 
 
 def test_binance_window_is_cut_per_coin(settings):

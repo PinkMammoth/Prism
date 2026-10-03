@@ -123,7 +123,7 @@ class Updater:
         for c in df.columns:
             t.add_column(str(c))
         for _, r in df.iterrows():
-            style = "green" if r.get("status") == "ok" else "red"
+            style = {"ok": "green", "failed": "red"}.get(r.get("status"), "yellow")
             t.add_row(*[f"[{style}]{v}[/]" if k == "status" else str(v) for k, v in r.items()])
         console.print(t)
         return int((df["status"] == "failed").sum()) if "status" in df else 0
@@ -153,6 +153,12 @@ def _update_binance(settings: Settings, store: Store) -> pd.DataFrame:
     return update_binance_perps(settings, store)
 
 
+def _update_binance_oi(settings: Settings, store: Store) -> pd.DataFrame:
+    from market_signal.perps.open_interest import update_binance_oi
+
+    return update_binance_oi(settings, store)
+
+
 def _record_perp_paper(settings: Settings, store: Store) -> pd.DataFrame:
     from market_signal.perps.paper import record_paper_signals
 
@@ -174,6 +180,11 @@ UPDATERS: list[Updater] = [
         "perps",
         "Binance perps: history for out-of-sample research (candles, 8h funding)",
         _update_binance,
+    ),
+    Updater(
+        "perps",
+        "Binance perp open interest: rolling ~30-day backfill (data only, not a signal)",
+        _update_binance_oi,
     ),
     Updater(
         "perps",
