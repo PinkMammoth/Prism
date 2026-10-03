@@ -57,3 +57,33 @@ own isolated margin.
 - Fees are the base-tier taker fee; no maker rebates or volume tiers.
 - Hyperliquid's real liquidation engine (partial liquidations, insurance fund, ADL) is not
   modelled. Losing the whole margin is the worst case for an isolated position.
+
+## Strategy research (Phase 3)
+
+Strategies live in `src/market_signal/perps/strategies.py`. Their defaults are
+**pre-registered**: fixed before any real-data result. Each one declares its sensitivity
+axes and walk-forward choices up front.
+
+| Strategy | Hypothesis | Primary horizon |
+|---|---|---|
+| `trend_ls` | A new 20-day closing high in an uptrend (close and 50-day average above the 150-day) keeps rising; mirrored for shorts. | 1m |
+| `funding_fade` | When 7-day funding is in the top 5% of the coin's own past year after a run-up, longs are crowded and the move unwinds (short); mirrored for extreme negative funding after a sell-off (long). | 2w |
+| `breakout_ls` | A close outside a tight 30-day range (≤ 8 ATR) continues in the breakout direction. | 1m |
+
+`market perp-research` runs, for each strategy:
+1. the event study per side;
+2. a walk-forward (1-year anchored training, 6-month tests; it may only choose among the
+   declared values, using past data);
+3. a parameter-sensitivity grid with the plateau test;
+4. the portfolio simulation.
+
+The verdict comes from the **same `automatic_verdict` used for spot setups**. Reports go to
+`results/perps/<strategy>/<timestamp>/`, and a `research_runs` row (`perp_<strategy>`) is
+added that the dashboard reads.
+
+The validation tests plant persistent trends in synthetic data: `trend_ls` then earns a
+passing verdict, out-of-sample walk-forward included, while the same pipeline on pure noise
+returns REJECT.
+
+**With only ~2–3 years of perp history, expect few independent events and at most 2–3
+walk-forward folds.** INSUFFICIENT_DATA and INCONCLUSIVE are honest outcomes, not failures.

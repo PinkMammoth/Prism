@@ -38,3 +38,15 @@ event_study:
   horizons: {1d: 1, 3d: 3, 1w: 7, 2w: 14, 1m: 30, 3m: 91}   # bars (daily, 24/7)
   primary_horizon: 1m
   min_funding_settlements_per_day: 20   # fewer → that day's funding is missing (and so is any return spanning it)
+
+# ---------------------------------------------------------------- Phase 3: strategy research
+# Strategy defaults are pre-registered in src/market_signal/perps/strategies.py.
+# Verdicts use the SAME automatic criteria as spot research (config/backtest.yaml).
+research:
+  walk_forward:              # perp history is ~2-3 years, so shorter windows than spot
+    train_years: 1.0
+    test_years: 0.5
+    anchored: true
+    min_train_events: 20
+    objective: median_excess
+  initial_equity: 100000

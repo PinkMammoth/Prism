@@ -182,7 +182,71 @@ def track(
             console.print(sc[cols].sort_values(["bar", "symbol", "horizon"]).to_string(index=False))
 
 
+def perp_strategies() -> None:
+    """List the pre-registered perp strategies and their hypotheses."""
+    from market_signal.perps.strategies import STRATEGIES
+
+    for st in STRATEGIES.values():
+        console.print(f"[bold]{st.name}[/]: {st.title} (primary horizon {st.primary_horizon})")
+        console.print(f"  {st.hypothesis}")
+        console.print(f"  defaults: {st.defaults}")
+
+
+def perp_research(
+    name: str = typer.Argument("all", help="Strategy name (see `market perp-strategies`) or 'all'"),
+    no_walk_forward: bool = typer.Option(False, "--no-wf", help="Skip walk-forward"),
+    no_sensitivity: bool = typer.Option(False, "--no-sens", help="Skip the sensitivity grid"),
+) -> None:
+    """Research perp strategies on stored perp data: event study, walk-forward, sensitivity,
+    simulation and an automatic verdict (same criteria as spot). Reports go to results/perps/."""
+    from market_signal.demo import is_synthetic
+    from market_signal.perps.research import all_strategies, run_perp_research, save_perp_report
+    from market_signal.research.report import fmt
+
+    names = all_strategies() if name == "all" else [name]
+    with open_store() as (settings, store):
+        synthetic = is_synthetic(store)
+        if synthetic:
+            console.print("[bold black on yellow] SYNTHETIC DATA: engine demonstration only [/]")
+        t = Table(title="Perp strategy research (net of fees, slippage and funding)")
+        for c in ("strategy", "verdict", "events", "excess", "p", "WF +", "liq.", "max DD"):
+            t.add_column(
+                c, no_wrap=True, justify="left" if c in ("strategy", "verdict") else "right"
+            )
+
+        def pc(x) -> str:
+            return "–" if x is None or x != x else f"{x:+.1%}"
+
+        for n in names:
+            with console.status(f"Researching {n}…"):
+                try:
+                    rep = run_perp_research(store, settings, n, walk_forward_on=not no_walk_forward,
+                                            sensitivity_on=not no_sensitivity)  # fmt: skip
+                except (RuntimeError, KeyError) as exc:
+                    console.print(f"[red]{n}: {exc}[/]")
+                    raise typer.Exit(1) from None
+                path = save_perp_report(store, settings, rep)
+            row = rep.study.summary.set_index("horizon").loc[rep.strategy.primary_horizon]
+            wf = rep.wf_summary or {}
+            m = rep.sim.metrics
+            colour = {"PROMISING": "green", "WEAK_POSITIVE": "cyan", "REJECT": "red"}.get(
+                rep.verdict["verdict"], "yellow"
+            )
+            t.add_row(n, f"[{colour}]{rep.verdict['verdict']}[/]", str(int(row["n_independent"])),
+                      pc(row["excess_mean_indep"]), fmt(row["p_value_random_entry"]),
+                      f"{wf.get('folds_positive', '–')}/{wf.get('folds_with_events', '–')}",
+                      str(m.get("liquidations", 0)), pc(m.get("max_drawdown")))  # fmt: skip
+            console.print(
+                f"{n}: {rep.verdict['verdict']}: {'; '.join(rep.verdict['reasons'])}  → {path / 'report.md'}"
+            )
+        console.print(t)
+        console.print("Verdicts use the same automatic criteria as spot research. PROMISING is not proven; "
+                      "anything else means: don't trade it.")  # fmt: skip
+
+
 def register(app: typer.Typer) -> None:
+    app.command("perp-strategies")(perp_strategies)
+    app.command("perp-research")(perp_research)
     app.command("track")(track)
     app.command("backtest")(backtest)
     app.command("experiments")(experiments)
