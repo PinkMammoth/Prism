@@ -116,6 +116,8 @@ uv run market scan                   # score & rank everything today; evaluate a
 uv run market track [--calls]        # live track record of past ACTIONABLE / WAIT calls
 uv run market brief [--send] [--update-exit N]   # today's answer + freshness warnings + new alerts (Telegram with --send)
 uv run market telegram-setup         # find your Telegram chat id and send a test message
+uv run market perps                  # perp funding & open-interest monitor (context, not signals)
+uv run market update --only perps    # just the perp data: candles, hourly funding, OI snapshot
 uv run market asset HYPE             # exactly why an asset scored what it did; zones; sizing
 uv run market hype                   # HYPE valuation: observed / assumed / derived + inverse table
 uv run market regime                 # current regimes and factor votes
@@ -151,6 +153,7 @@ deeper, the full research behind tabs.
 | All assets | The dense screener: regimes with factor votes and the full ranked, filterable table. Click a row to open the asset. |
 | Backtest Lab | Pick an experiment, setup, universe, dates, regime filter and parameters. Shows verdict, event study, per-asset excess, equity and drawdown curves, trades, splits, walk-forward and the sensitivity heatmap. |
 | HYPE Monitor | Price, supply, revenue run-rates, USDC, AQAv2 revenue, structural bid, buyback yield, net yield, AF balance, band thresholds, the inverse table, sensitivity, and inputs split into observed / assumed / derived. |
+| Perps | Positioning context from Hyperliquid perpetual futures. Shows annualised funding (latest, 7-day and 30-day), where the 7-day reading sits against the coin's own past year (crowded long, crowded short or neutral), who pays whom, open interest with its 7-day change, and the venue's maximum leverage. It also charts funding history and open interest. **No perp strategy has been tested yet, so nothing here is a signal.** |
 | **Track record** | Live evidence. Every stored scan is a dated record of what Prism said. ACTIONABLE calls are scored at 1 and 3 months against a random pick from the same asset class, net of costs. WAIT calls are scored on whether the price reached the preferred entry, and whether waiting beat buying immediately ("wait edge"). Results are split by the research verdict at the time of the call. Only calls recorded at the time count: nothing is backfilled. |
 | Portfolio / Journal | Record and close paper/real positions, with thesis, evidence, invalidation, "followed the system?", MAE/MFE, current score. Answers "which setups am I good at?" and "where do I break my rules?". |
 | Data health & alerts | Freshness, macro vintages, quality issues, ingestion provenance, provider changes, alert rules and events. |
