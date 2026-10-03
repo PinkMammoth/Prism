@@ -170,6 +170,16 @@ UPDATERS: list[Updater] = [
     Updater(
         "perps", "Perpetual futures (Hyperliquid): candles, funding, OI snapshot", _update_perps
     ),
+    Updater(
+        "perps",
+        "Binance perps: history for out-of-sample research (candles, 8h funding)",
+        _update_binance,
+    ),
+    Updater(
+        "perps",
+        "Perp strategies: paper-tracking check of the newest bar (not advice)",
+        _record_perp_paper,
+    ),
 ]
 
 

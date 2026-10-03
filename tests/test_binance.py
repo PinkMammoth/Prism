@@ -150,3 +150,66 @@ def test_research_on_binance_stops_before_hyperliquid(settings, store):
         out.name.startswith("binance-") and "before Hyperliquid" in (out / "report.md").read_text()
     )
     assert load_evidence(store)["perp_trend_ls@binance"].verdict == rep.verdict["verdict"]
+
+
+def test_update_only_perps_runs_all_three_perp_steps(settings, monkeypatch):
+    """Regression: the Binance and paper-tracking steps were defined but never registered."""
+    import market_signal.data.updaters as up
+    from market_signal.cli.data_cmds import update
+
+    ran = []
+    fakes = [up.Updater(u.kind, u.title, (lambda t: lambda s, st: (ran.append(t), pd.DataFrame())[1])(u.title))
+             for u in up.UPDATERS]  # fmt: skip
+    monkeypatch.setattr(up, "UPDATERS", fakes)
+    update(symbols=None, timeframes=["1d"], only="perps")
+    assert [t.split(":")[0].split(" (")[0] for t in ran] == [
+        "Perpetual futures", "Binance perps", "Perp strategies"]  # fmt: skip
+
+
+def test_binance_window_is_cut_per_coin(settings):
+    from market_signal.perps.backtest import PerpCosts, PerpInput
+    from market_signal.perps.research import run_perp_research
+
+    rng = np.random.default_rng(5)
+    n = 1500
+    ts = pd.date_range("2019-09-01", periods=n, freq="1D", tz="UTC")
+
+    def frame():
+        c = 100 * np.exp(np.cumsum(rng.normal(0, 0.03, n)))
+        o = np.concatenate([[c[0]], c[:-1]])
+        return pd.DataFrame({"ts": ts, "close_time": ts + pd.Timedelta(days=1), "open": o,
+                             "high": np.maximum(o, c) * 1.01, "low": np.minimum(o, c) * 0.99, "close": c,
+                             "volume": 1.0, "funding_day": 0.0003})  # fmt: skip
+
+    inputs = [
+        PerpInput(c, frame(), PerpCosts(5, 2, 10), 20.0, maint_rate=0.004)
+        for c in ("BTC", "ETH", "SOL")
+    ]
+    cuts = {"BTC": pd.Timestamp("2021-06-01", tz="UTC"), "ETH": pd.Timestamp("2022-06-01", tz="UTC"),
+            "SOL": pd.Timestamp("2019-10-01", tz="UTC")}  # SOL: under 60 days → dropped  # fmt: skip
+    rep = run_perp_research(None, settings, "breakout_ls", inputs=inputs, walk_forward_on=False,
+                            sensitivity_on=False, venue="binance", end=cuts)  # fmt: skip
+    last = {d["coin"]: pd.Timestamp(d["last"], tz="UTC") for d in rep.provenance["data"]}
+    assert set(last) == {"BTC", "ETH"}
+    assert last["BTC"] < cuts["BTC"] and last["ETH"] < cuts["ETH"]
+    assert last["ETH"] > cuts["BTC"]  # each coin keeps its own window
+
+
+def test_hyperliquid_research_period_starts_when_funding_does(store):
+    """Pre-launch price bars without funding were never evaluated, so they don't count."""
+    from market_signal.perps.binance import hyperliquid_starts
+    from market_signal.perps.data import upsert_funding, upsert_perp_bars
+
+    ts = pd.date_range("2020-08-19", periods=1500, freq="1D", tz="UTC")
+    bars = pd.DataFrame({"ts": ts, "open": 1.0, "high": 1.0, "low": 1.0, "close": 1.0, "volume": 1.0,
+                         "close_time": ts + pd.Timedelta(days=1)})  # fmt: skip
+    upsert_perp_bars(store, "BTC", bars, "hyperliquid", "t")
+    hours = pd.date_range("2023-10-05 01:00", periods=48, freq="1h", tz="UTC")
+    upsert_funding(
+        store,
+        "BTC",
+        pd.DataFrame({"time": hours, "funding_rate": 1e-5, "premium": 0.0}),
+        "hyperliquid",
+        "t",
+    )
+    assert hyperliquid_starts(store) == {"BTC": pd.Timestamp("2023-10-05", tz="UTC")}
