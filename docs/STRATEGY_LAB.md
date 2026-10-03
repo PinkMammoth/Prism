@@ -1456,53 +1456,24 @@ EXPLORATORY, 12 INCONCLUSIVE, 15 NEGATIVE, 5 INSUFFICIENT). The report's horizon
 list went from 21 to 15. The remaining reversals are material: for example,
 `ma_trend_20_100_long` has 20d excess of −0.45% against a 0.42% band.
 
-### Open-interest collection status (verified 2026-10-03; nothing changed)
+### Open-interest collection
 
-**OI history is not being collected continuously.**
+OI collection now lives outside the Strategy Lab. See [OPEN_INTEREST.md](OPEN_INTEREST.md)
+for storage, the verified Binance API limits, rolling backfill, downtime recovery,
+diagnostics and the schedule.
 
-- `market update` (and `--only perps`) records one Hyperliquid snapshot row per configured
-  coin on each run: mark, oracle and mid prices, funding, premium, `open_interest`
-  (coins), `oi_notional` (USD), day volume and max leverage. Rows go into
-  `perp_snapshots` with `snapshot_at` = capture time, under an ingestion run.
-- Hyperliquid serves no OI history, and Binance ingestion has no OI feed, so OI history
-  can only be accumulated prospectively.
-- The local DB has **18 rows, all captured on 2026-10-03**: three manual `market update`
-  runs (11:20, 13:15 and 13:28 BST) × 6 coins.
-- The perp collector was first committed at 11:01 BST that day.
-- `daily.sh` (update + scan) has run three times. Its 10:00:01 run on 2026-10-03
-  predates the perp collector, so it captured no snapshot.
-- There is no user crontab and no systemd user timer for Prism. Whatever triggered that
-  10:00 run is not visible from this WSL user; it may be a scheduler outside WSL.
-- Nothing guarantees a snapshot every day, and a missed snapshot can never be backfilled.
+- **Hyperliquid:** OI is captured prospectively in `perp_snapshots` on every perp run, at
+  irregular times. A missed capture can never be backfilled.
+- **Binance USD-M:** 1h OI is backfilled into `perp_oi_history` from a ~30-day API window.
+- **Scheduling:** the Windows Task Scheduler task "Prism OI collect" runs `market oi
+  collect`. The 10:00 run noted in the 2026-10-03 audit comes from a separate Windows task,
+  "Prism daily". At that audit the local DB held only 18 Hyperliquid snapshot rows, from
+  manual runs.
 
-**Smallest safe change to start preserving OI history (documented, not applied):**
-
-1. Schedule the existing collector; no code change is needed. `cron` is active and
-   enabled in this WSL instance. Add a user crontab entry that runs only the perp
-   updater a few times a day, serialised with `flock` and logged:
-
-   ```cron
-   # m h dom mon dow — 00:10, 06:10, 12:10, 18:10 UTC (cron uses the system timezone)
-   10 0,6,12,18 * * * cd /home/matth/prism && /usr/bin/flock -n data/.perps.lock /home/matth/.local/bin/uv run market update --only perps >> data/perps.log 2>&1
-   ```
-
-   `--only perps` performs the incremental, idempotent bar and funding updates plus one
-   snapshot. Concurrent runs with `daily.sh` are already serialised by Prism's database
-   lock (they wait rather than corrupt), and the separate `flock` file prevents overlap
-   between perp runs. Several captures a day leave room for a later fixed-time "daily OI"
-   selection, and make a single missed run less damaging.
-2. Make sure the scheduler actually runs. WSL cron fires only while the WSL instance is
-   running, and WSL stops idle distributions. Either keep the distribution alive, or
-   trigger the same command from Windows Task Scheduler (`wsl -d <distro> -- bash -lc
-   '<command>'`), which is the robust option on this machine.
-3. Check coverage with `market doctor` / `ingestion_runs` (`dataset='perp_snapshot'`) and
-   look for gaps between `snapshot_at` values.
-
-Future OI features will need explicit point-in-time rules: capture time is the
-availability time, there is a maximum staleness, units must be chosen (coins vs
-notional, where price changes alone move notional OI), and windows must use matched
-elapsed time. These belong to the planned OI phase, not to Phase 7.1. No OI feature,
-dataset kind or strategy family is added here.
+Stored OI is data only. Future OI features still need explicit point-in-time rules:
+availability time, maximum staleness, units (coins vs notional, where price alone moves
+notional OI) and windows measured in elapsed time. These belong to the planned OI phase.
+No OI feature, dataset kind or strategy family exists in the Lab.
 
 ## 13. Verification
 
