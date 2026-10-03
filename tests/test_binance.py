@@ -213,3 +213,34 @@ def test_hyperliquid_research_period_starts_when_funding_does(store):
         "t",
     )
     assert hyperliquid_starts(store) == {"BTC": pd.Timestamp("2023-10-05", tz="UTC")}
+
+
+def test_settlement_jitter_does_not_drop_days():
+    """Regression: Binance stamps settlements a few ms late; a midnight settlement at
+    00:00:00.004 must still count for the day ending at midnight."""
+    ts = pd.date_range("2021-01-01", periods=60, freq="1D", tz="UTC")
+    t0 = pd.date_range(
+        pd.Timestamp("2021-01-01 08:00", tz="UTC"), ts[-1] + pd.Timedelta(days=1), freq="8h"
+    )
+    jitter = pd.to_timedelta(np.random.default_rng(0).integers(1, 9, len(t0)), unit="ms")
+    out = daily_funding(pd.DataFrame({"ts": ts}), pd.Series(0.0001, index=t0 + jitter))
+    assert np.isfinite(out).all() and np.allclose(out, 0.0003)
+
+
+def test_research_with_no_events_reports_instead_of_crashing(settings):
+    """Regression: zero events crashed the walk-forward with KeyError 'horizon'."""
+    from market_signal.perps.backtest import PerpCosts, PerpInput
+    from market_signal.perps.research import run_perp_research
+
+    n = 1200
+    ts = pd.date_range("2019-09-01", periods=n, freq="1D", tz="UTC")
+    c = 100 * np.exp(np.cumsum(np.random.default_rng(1).normal(0, 0.03, n)))
+    o = np.concatenate([[c[0]], c[:-1]])
+    f = pd.DataFrame({"ts": ts, "close_time": ts + pd.Timedelta(days=1), "open": o, "high": np.maximum(o, c) * 1.01,
+                      "low": np.minimum(o, c) * 0.99, "close": c, "volume": 1.0, "funding_day": np.nan})  # fmt: skip
+    f.loc[:20, "funding_day"] = 0.0003  # funding known only at the very start → no complete returns
+    rep = run_perp_research(
+        None, settings, "funding_fade", inputs=[PerpInput("BTC", f, PerpCosts(5, 2, 10), 20.0)]
+    )
+    assert rep.verdict["verdict"] == "INSUFFICIENT_DATA"
+    assert rep.provenance["data"][0]["funding_coverage"] < 0.05

@@ -281,6 +281,11 @@ def perp_research(
                       pc(row["excess_mean_indep"]), fmt(row["p_value_random_entry"]),
                       f"{wf.get('folds_positive', '–')}/{wf.get('folds_with_events', '–')}",
                       str(m.get("liquidations", 0)), pc(m.get("max_drawdown")))  # fmt: skip
+            low = [d for d in rep.provenance["data"] if d.get("funding_coverage", 1) < 0.95]
+            if low:
+                console.print("[yellow]Funding missing on >5% of days for "
+                              + ", ".join(f"{d['coin']} ({1 - d['funding_coverage']:.0%})" for d in low)
+                              + ": returns spanning those days are excluded.[/]")  # fmt: skip
             console.print(
                 f"{n}: {rep.verdict['verdict']}: {'; '.join(rep.verdict['reasons'])}  → {path / 'report.md'}"
             )

@@ -124,7 +124,9 @@ def daily_funding(bars: pd.DataFrame, funding: pd.Series, min_coverage: float = 
     if funding is None or funding.empty or not len(ts):
         return out
     f = funding.sort_index()
-    t = pd.DatetimeIndex(pd.to_datetime(f.index, utc=True)).as_unit("ns").asi8
+    # snap to the nearest minute: venues stamp settlements with a few ms of jitter (Binance:
+    # "00:00:00.004"), which would otherwise push a midnight settlement into the next day
+    t = pd.DatetimeIndex(pd.to_datetime(f.index, utc=True)).round("min").as_unit("ns").asi8
     v = f.to_numpy(float)
     spacing = float(np.median(np.diff(t))) / 1e9 if len(t) > 1 else 3600.0
     per_day = max(round(86400 / spacing), 1) if spacing > 0 else 24
