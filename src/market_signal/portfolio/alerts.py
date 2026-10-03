@@ -159,7 +159,8 @@ def evaluate_alerts(
                 continue
             ev = AlertEvent(r["rule_id"], symbol, msg, rule)
             store.con.execute(
-                "INSERT INTO alert_events VALUES (?,?,?,?,?,?,?)",
+                "INSERT INTO alert_events (event_id, rule_id, fired_at, symbol, message, payload, acknowledged) "
+                "VALUES (?,?,?,?,?,?,?)",
                 [new_id("al_"), r["rule_id"], now, symbol, msg, json.dumps(rule), False],
             )
             for n in notifiers:

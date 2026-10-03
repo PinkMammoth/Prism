@@ -97,7 +97,7 @@ def pct(x, signed: bool = True) -> str:
 @st.cache_data(show_spinner=False)
 def cached_evidence(_version: float):
     """Latest saved research run per setup (pooled evidence), read-only."""
-    from presenter import load_evidence
+    from market_signal.presenter import load_evidence
 
     min_events = int(settings().yaml("backtest.yaml")["statistics"]["min_events_for_conclusion"])
     with store(read_only=True) as s:
@@ -106,7 +106,7 @@ def cached_evidence(_version: float):
 
 def decision_views(res):
     """Presentation views for every assessment, in the engine's ranking order."""
-    from presenter import build_view
+    from market_signal.presenter import build_view
 
     ev = cached_evidence(db_version())
     return [build_view(a, ev) for a in res.assessments]

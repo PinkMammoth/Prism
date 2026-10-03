@@ -11,7 +11,7 @@ from charts import line_chart, price_chart
 from common import banner, cached_scan, db_version, decision_views, nav_link, settings, store
 from market_signal.data.prices import PriceBasis, load_bars
 from market_signal.models.domain import Timeframe
-from presenter import DECISION_MEANING, money, pct
+from market_signal.presenter import DECISION_MEANING, money, pct
 from ui import decision_pill, esc, evidence_pill, html, inject_css, kv, meter, price_block
 
 inject_css()

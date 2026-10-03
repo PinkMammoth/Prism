@@ -239,6 +239,11 @@ MIGRATIONS: list[str] = [
         acknowledged BOOLEAN DEFAULT FALSE
     );
     """,
+    # 4 — alert delivery: events are delivered (e.g. in the Telegram daily brief) exactly once,
+    # whoever evaluated them (CLI scan or dashboard)
+    """
+    ALTER TABLE alert_events ADD COLUMN IF NOT EXISTS delivered_at TIMESTAMPTZ;
+    """,
 ]
 
 

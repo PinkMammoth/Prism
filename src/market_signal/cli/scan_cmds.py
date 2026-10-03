@@ -220,7 +220,77 @@ def regime() -> None:
             )
 
 
+def _plain(html_text: str) -> str:
+    import re
+    from html import unescape
+
+    return unescape(re.sub(r"<[^>]+>", "", html_text))
+
+
+def brief(
+    send: bool = typer.Option(False, "--send", help="Send via Telegram (default: print only)"),
+    update_exit: int = typer.Option(
+        0, "--update-exit", help="Exit code of the preceding `market update` (flags failures)"
+    ),
+) -> None:
+    """The daily brief: today's answer, freshness warnings and new alerts (print or Telegram)."""
+    from market_signal.brief import build_brief, mark_delivered
+    from market_signal.portfolio.telegram import TelegramClient, TelegramError
+
+    with open_store() as (settings, store):
+        b = build_brief(store, settings, update_exit=update_exit or None)
+        console.print(_plain(b.text), highlight=False, markup=False)
+        if not send:
+            return
+        try:
+            TelegramClient.from_settings(settings).send(b.text)
+        except TelegramError as exc:
+            console.print(f"[red]Telegram: {exc}[/]")
+            raise typer.Exit(1) from None
+        mark_delivered(store, b.alert_ids)
+        console.print(f"[green]Sent to Telegram ({len(b.alert_ids)} alert(s) marked delivered).[/]")
+
+
+def telegram_setup(
+    test: bool = typer.Option(
+        True, "--test/--no-test", help="Send a test message to TELEGRAM_CHAT_ID"
+    ),
+) -> None:
+    """Find your Telegram chat id (message your bot first), then send a test message."""
+    from market_signal.config import get_settings
+    from market_signal.portfolio.telegram import TelegramClient, TelegramError
+
+    settings = get_settings()
+    try:
+        tg = TelegramClient.from_settings(settings, require_chat=False)
+        chats = tg.recent_chats()
+    except TelegramError as exc:
+        console.print(f"[red]{exc}[/]")
+        raise typer.Exit(1) from None
+    if not tg.chat_id:
+        if not chats:
+            console.print("No messages found. Open your bot in Telegram, press Start / send it any "
+                          "message, then run this again.")  # fmt: skip
+            raise typer.Exit(1)
+        for c in chats:
+            console.print(f"chat id [bold]{c['id']}[/]  ({c['type']}, {c['name']})")
+        console.print(
+            "Add yours to .env as TELEGRAM_CHAT_ID=<id>, then run `market telegram-setup` again."
+        )
+        return
+    console.print(f"Using TELEGRAM_CHAT_ID={tg.chat_id}.")
+    if test:
+        try:
+            tg.send("<b>Prism</b>: Telegram is set up. The daily brief will arrive here.")
+        except TelegramError as exc:
+            console.print(f"[red]{exc}[/]")
+            raise typer.Exit(1) from None
+        console.print("[green]Test message sent.[/]")
+
+
 def register(app: typer.Typer) -> None:
+    app.command("brief")(brief)
+    app.command("telegram-setup")(telegram_setup)
     app.command("scan")(scan)
     app.command("asset")(asset)
     app.command("hype")(hype)

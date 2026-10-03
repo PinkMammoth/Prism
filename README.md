@@ -114,6 +114,8 @@ uv run market update --only prices -s BTC -s HYPE --tf 1d
 uv run market doctor [--live]        # keys, freshness, data-quality issues, failed runs, provider probes
 uv run market scan                   # score & rank everything today; evaluate alerts (and record the calls)
 uv run market track [--calls]        # live track record of past ACTIONABLE / WAIT calls
+uv run market brief [--send] [--update-exit N]   # today's answer + freshness warnings + new alerts (Telegram with --send)
+uv run market telegram-setup         # find your Telegram chat id and send a test message
 uv run market asset HYPE             # exactly why an asset scored what it did; zones; sizing
 uv run market hype                   # HYPE valuation: observed / assumed / derived + inverse table
 uv run market regime                 # current regimes and factor votes
@@ -159,6 +161,23 @@ and computes no new analytics. Decisions on those pages are ACTIONABLE / WAIT / 
 IGNORE. The engine's EXCEPTIONAL / STRONG / ACTIONABLE all display as ACTIONABLE, and the
 band is shown as the strength of the current setup. A setup whose research verdict is
 REJECT is never displayed as ACTIONABLE or WAIT: it is shown as WATCH, with the reason.
+
+## Daily brief on Telegram (optional)
+
+Prism can message you each morning with Today's answer: actionable and waiting ideas with
+their preferred prices, the market state, any new alerts, and a warning if the data is out
+of date or the update failed. It is the same text the dashboard shows, from the same rules.
+
+1. In Telegram, message **@BotFather**, send `/newbot`, and copy the token into `.env` as
+   `TELEGRAM_BOT_TOKEN`.
+2. Open your new bot and press **Start** (or send it any message).
+3. Run `uv run market telegram-setup`. Copy the chat id it prints into `.env` as
+   `TELEGRAM_CHAT_ID`, then run it again to receive a test message.
+4. Add `uv run market brief --send --update-exit <update's exit code>` after `market scan`
+   in your scheduled job.
+
+Alerts are delivered once each, in the next brief, whether they were raised by the scheduled
+scan or by opening the dashboard. The bot only ever sends to your chat id.
 
 ## Reading the signals
 

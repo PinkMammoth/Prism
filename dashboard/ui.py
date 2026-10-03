@@ -8,7 +8,7 @@ from html import escape
 
 import streamlit as st
 
-from presenter import DECISION_MEANING, Evidence, View, money, pct
+from market_signal.presenter import DECISION_MEANING, Evidence, View, money, pct
 
 CSS = """
 <style>
@@ -28,6 +28,10 @@ CSS = """
 .pz .muted { color:var(--muted); }
 .pz .small { font-size:.82rem; }
 .pz .hero { border:1px solid var(--line); border-radius:12px; padding:1rem 1.2rem; background:var(--soft); }
+.pz .stale-box { border:1px solid var(--bad); background:var(--bad-bg); border-radius:12px; padding:.75rem 1.1rem; }
+.pz .stale-box b { color:var(--bad); }
+.pz .stale-box p { margin:.15rem 0; }
+.pz .stale-card { opacity:.5; }
 .pz .hero h2 { margin:.1rem 0 .3rem; font-size:1.35rem; font-weight:700; letter-spacing:.01em; padding:0; }
 .pz .hero p { margin:.15rem 0; }
 .pz .regimes { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:.6rem; }
@@ -124,7 +128,7 @@ def price_block(v: View, compact: bool = True) -> str:
     return out
 
 
-def card(v: View, rank: int) -> str:
+def card(v: View, rank: int, stale: bool = False) -> str:
     why = "".join(f"<li>{esc(w)}</li>" for w in v.why)
     risk = esc(v.risks[0]) if v.risks else "No specific risk flagged"
     sizing = (
@@ -133,7 +137,7 @@ def card(v: View, rank: int) -> str:
         else ""
     )
     cap = f'<div class="note small">{esc(v.cap_note)}</div>' if v.cap_note else ""
-    return f"""
+    return f"""<div class="{"stale-card" if stale else ""}">
 <div class="card-head">
   <span class="muted">{rank}.</span><span class="sym">{esc(v.symbol)}</span>
   {decision_pill(v.decision)}
@@ -148,6 +152,7 @@ def card(v: View, rank: int) -> str:
   <div><div class="eyebrow">Strength vs evidence</div>{evidence_block(v)}</div>
 </div>
 {sizing}
+</div>
 """
 
 
