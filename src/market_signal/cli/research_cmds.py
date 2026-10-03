@@ -253,7 +253,7 @@ def perp_research(
         if note:
             console.print(f"[bold]{venue}[/]: {note}")
         t = Table(title=f"Perp strategy research on {venue} (net of fees, slippage and funding)")
-        for c in ("strategy", "verdict", "events", "excess", "p", "WF +", "liq.", "max DD"):
+        for c in ("strategy", "verdict", "events", "excess", "p", "MDE", "WF +", "liq.", "max DD"):
             t.add_column(
                 c, no_wrap=True, justify="left" if c in ("strategy", "verdict") else "right"
             )
@@ -278,9 +278,16 @@ def perp_research(
                 rep.verdict["verdict"], "yellow"
             )
             t.add_row(n, f"[{colour}]{rep.verdict['verdict']}[/]", str(int(row["n_independent"])),
-                      pc(row["excess_mean_indep"]), fmt(row["p_value_random_entry"]),
+                      pc(row["excess_mean_indep"]), fmt(row["p_value_random_entry"]), pc(row["mde_80"]),
                       f"{wf.get('folds_positive', '–')}/{wf.get('folds_with_events', '–')}",
                       str(m.get("liquidations", 0)), pc(m.get("max_drawdown")))  # fmt: skip
+            if rep.strategy.basket:
+                console.print(f"{n}: judged on an equal-weight coin basket: {int(row['n_independent'])} independent "
+                              f"event dates; smallest detectable excess (80% power) {pc(row['mde_80'])}.")  # fmt: skip
+                if rep.breakdowns is not None:
+                    for _, b in rep.breakdowns.iterrows():
+                        console.print(f"  [dim]{b['label']}: {int(b['n_independent'] or 0)} dates, excess "
+                                      f"{pc(b['excess_mean_indep'])}, p {fmt(b['p_value_random_entry'])} (not in the verdict)[/]")  # fmt: skip
             low = [d for d in rep.provenance["data"] if d.get("funding_coverage", 1) < 0.95]
             if low:
                 console.print("[yellow]Funding missing on >5% of days for "

@@ -157,7 +157,10 @@ def perp_frame(store: Any, settings: Any, coin: str, venue: str = "hyperliquid")
     es = perp_config(settings).get("event_study") or {}
     cov = float(es.get("min_funding_coverage", 0.8))
     bars["funding_day"] = daily_funding(bars, load_funding(store, coin, venue=venue), cov)
-    return bars.reset_index(drop=True)
+    from market_signal.perps.macro_events import attach_macro_events, load_event_table
+
+    # point-in-time macro events (DGS2, CPI) for event-driven strategies; NaN if not stored
+    return attach_macro_events(bars.reset_index(drop=True), load_event_table(store))
 
 
 # --------------------------------------------------------------------------- event study
@@ -234,6 +237,44 @@ def perp_asset_events(
             continue
         out.append(AssetEvents(f"{coin}:{label}", f"perp_{label}", frame, side_forward_returns(frame, horizons, side, costs),
                                sig.reindex(frame.index).fillna(False).astype(bool), elig, dict(horizons)))  # fmt: skip
+    return out
+
+
+def basket_asset_events(per_coin: list[AssetEvents], name: str = "BASKET") -> list[AssetEvents]:
+    """Equal-weight basket per side: on each date, the mean of the coins' forward returns (each
+    coin only where it is eligible). One observation per date, so an event that fires on every
+    coin at once counts once, and its random-entry baseline draws random *dates*, keeping the
+    coins' co-movement. A coin with no data on a date simply isn't in that day's mean."""
+    out = []
+    for cls in dict.fromkeys(a.asset_class for a in per_coin):
+        group = [a for a in per_coin if a.asset_class == cls]
+        horizons = dict(group[0].horizons)
+        cts = [pd.DatetimeIndex(pd.to_datetime(a.feat["close_time"], utc=True)) for a in group]
+        idx = cts[0]
+        for c in cts[1:]:
+            idx = idx.union(c)
+        n = len(idx)
+        cols = [f"{k}_{h}" for h in horizons for k in ("ret", "mae", "mfe")]
+        tot = {c: np.zeros(n) for c in cols}
+        cnt = {c: np.zeros(n) for c in cols}
+        sig = np.zeros(n, bool)
+        elig = np.zeros(n, bool)
+        for a, ct in zip(group, cts, strict=True):
+            pos = idx.get_indexer(ct)
+            el = a.eligible.fillna(False).to_numpy(bool)
+            for c in cols:
+                v = a.fwd[c].to_numpy(float)
+                ok = el & np.isfinite(v)
+                np.add.at(tot[c], pos[ok], v[ok])
+                np.add.at(cnt[c], pos[ok], 1)
+            sig[pos] |= a.signal.fillna(False).to_numpy(bool) & el
+            elig[pos] |= el
+        fwd = pd.DataFrame(
+            {c: np.where(cnt[c] > 0, tot[c] / np.maximum(cnt[c], 1), np.nan) for c in cols}
+        )
+        side = cls.removeprefix("perp_")
+        out.append(AssetEvents(f"{name}:{side}", cls, pd.DataFrame({"close_time": idx}), fwd,
+                               pd.Series(sig), pd.Series(elig), horizons))  # fmt: skip
     return out
 
 

@@ -84,6 +84,7 @@ def build_demo_db(
         store.finish_run(run_id, status="ok", rows_received=len(bars), rows_written=c["inserted"])
         counts[asset.symbol] = c["inserted"]
     _demo_macro(store, rng, end)
+    _demo_rates_cpi(store, end)
     _demo_fundamentals(settings, store, rng, end)
     _demo_crypto_metrics(store, rng, end)
     _demo_perps(settings, store, rng)
@@ -299,6 +300,42 @@ def _demo_macro(store: Store, rng: np.random.Generator, end: pd.Timestamp) -> No
                            "realtime_end": None, "available_at": dates.tz_convert("UTC") + pd.Timedelta(days=2),
                            "pit_method": "market_close"})  # fmt: skip
         upsert_macro(store, df, SYNTHETIC_SOURCE, "demo")
+
+
+def _demo_rates_cpi(store: Store, end: pd.Timestamp, seed: int = 11) -> None:
+    """Synthetic DGS2 (fat-tailed daily moves, FRED-style holiday gaps) and CPIAUCSL ALFRED-style
+    vintages (each release adds a month and revises the previous one) for ``macro_shock``.
+    Own RNG, so the other demo series are unchanged."""
+    from market_signal.data.updaters import upsert_macro
+
+    rng = np.random.default_rng(seed)
+    dates = pd.bdate_range(end - pd.Timedelta(days=365 * 8), end)
+    x = np.empty(len(dates))
+    x[0] = 2.0
+    for i in range(1, len(x)):  # mean-reverting, fat-tailed daily moves (~5bp typical)
+        x[i] = x[i - 1] + 0.01 * (2.5 - x[i - 1]) + rng.standard_t(3) * 0.035
+    x[rng.random(len(dates)) < 0.03] = np.nan  # holidays: FRED '.', missing stays missing
+    upsert_macro(store, pd.DataFrame({
+        "series_id": "DGS2", "obs_date": dates.date, "value": np.clip(x, 0.05, 8.0), "realtime_start": dates.date,
+        "realtime_end": None, "available_at": dates.tz_convert("UTC") + pd.Timedelta(days=2),
+        "pit_method": "market_close"}), SYNTHETIC_SOURCE, "demo")  # fmt: skip
+    end = end.tz_localize(None) if end.tzinfo else end  # release dates are plain dates
+    months = pd.date_range(end - pd.DateOffset(years=8), end - pd.DateOffset(months=2), freq="MS")
+    lvl = 250 * np.exp(np.cumsum(rng.normal(0.0025, 0.002, len(months))))
+    rows = []
+    for i, m in enumerate(months):
+        rel = (m + pd.DateOffset(months=1, days=11)).normalize()
+        rel = rel + pd.offsets.BDay(0)  # roll a weekend release to Monday
+        rows.append((m, rel, lvl[i]))
+        if i:  # this release also revises last month a little
+            rows.append((months[i - 1], rel, lvl[i - 1] * (1 + rng.normal(0, 0.0005))))
+    df = pd.DataFrame(rows, columns=["obs_date", "realtime_start", "value"])
+    df["series_id"], df["realtime_end"], df["pit_method"] = "CPIAUCSL", None, "vintage"
+    df["available_at"] = pd.to_datetime(df["realtime_start"]).dt.tz_localize("UTC") + pd.Timedelta(
+        days=1
+    )
+    df["obs_date"], df["realtime_start"] = df["obs_date"].dt.date, df["realtime_start"].dt.date
+    upsert_macro(store, df, SYNTHETIC_SOURCE, "demo")
 
 
 def is_synthetic(store: Store) -> bool:
