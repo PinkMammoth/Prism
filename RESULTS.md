@@ -2,6 +2,9 @@
 
 ## 1. Status
 
+> **Update:** the perpetual-futures research has now been run on real data (Hyperliquid,
+> plus Binance for unseen years). See §9. The spot-setup verdicts in §7 are still pending.
+
 **No real-market research result exists yet.** The build environment's egress policy
 blocked every market-data host (Coinbase, Hyperliquid, Bitstamp, Kraken, Binance, Tiingo,
 Stooq, Yahoo, FRED/ALFRED, EIA, SEC EDGAR, DefiLlama, CBOE). Each attempt was logged as a
@@ -132,3 +135,92 @@ When the real run comes back, answer each question from the generated reports:
 7. Does Quality Pullback beat the trend-only control?
 8. Which ideas should be discarded? Anything REJECTED is removed from live scoring
    (set `setup_required_for_actionable` to exclude it) rather than re-tuned.
+
+## 9. Perp research: what we tested and found
+
+*Run on real data, October 2026. Engine and execution model: `docs/PERPS_BACKTEST.md`.*
+
+### 9.1 What was tested
+
+Three strategies were **pre-registered** in `perps/strategies.py` before any real perp data
+was examined. All three are long/short on BTC, ETH, SOL, HYPE, LINK and AAVE, using daily bars:
+
+| Strategy | Idea | Defaults | Primary horizon |
+|---|---|---|---|
+| `trend_ls` | Trade in the direction of the 50/150 trend on a 20-day breakout | stop 3 ATR, max hold 30d | 1m |
+| `funding_fade` | Fade crowded positioning: funding above its 95th percentile (1y lookback, 7d average) and rolling over | stop 2.5 ATR, max hold 14d | 2w |
+| `breakout_ls` | Break out of a tight 30-day base (≤ 8 ATR wide), in either direction | stop 2 ATR, max hold 21d | 1m |
+
+How each strategy was judged:
+
+- **Edge** comes from an event study on notional. Returns are side-aware and net of taker fees, slippage
+  and **actual funding paid or received**. Each trade is compared with a *same-side*
+  random-entry baseline, so a long strategy isn't credited for a bull market.
+- **Verdicts** come from the automatic rules in §5. PROMISING needs at least 30 independent events,
+  p < 0.05, positive walk-forward folds and a PLATEAU in parameter sensitivity.
+- **Risk** is modelled with an isolated-margin simulator. Leverage is an output (risk 0.5% per
+  trade, cap 3×, liquidation kept ≥ 2× the stop distance away), and the path order is
+  checked: liquidation before stop.
+- **Two venues, never mixed.** Hyperliquid covers its own history. Binance USD-M was then used only
+  for the **years before** each coin's Hyperliquid history begins (per coin, up to
+  2023-10-04). The strategies were not changed between the two runs.
+
+### 9.2 Hyperliquid (in-sample period)
+
+| Strategy | Verdict | Indep. events | Excess (primary) | p | Walk-fwd + | Max DD (sim) | Liquidations |
+|---|---|---:|---:|---:|---|---:|---:|
+| trend_ls | REJECT | 110 | +3.6% | 0.057 | 0/3 | −6.1% | 0 |
+| funding_fade | REJECT | 54 | −0.6% | 0.578 | 1/3 | −4.0% | 0 |
+| breakout_ls | REJECT | 145 | −0.6% | 0.624 | 1/3 | −12.1% | 0 |
+
+### 9.3 Binance: unseen years (2019/20 → 2023-10-04, per coin)
+
+| Strategy | Verdict | Indep. events | Excess (primary) | p | Walk-fwd + | Max DD (sim) | Note |
+|---|---|---:|---:|---:|---|---:|---|
+| trend_ls | REJECT | 109 | +3.8% | 0.158 | 2/6 | −7.8% | No out-of-sample excess at the default params |
+| funding_fade | REJECT | 74 | −1.6% | 0.724 | 4/6 | — | Positive on only 22% of assets |
+| breakout_ls | REJECT | 149 | +4.2% | 0.091 | 3/6 | −13.9% | Sign flipped from Hyperliquid; no OOS excess at the defaults |
+
+### 9.4 What it means
+
+- **`funding_fade` is closed.** It is negative in both eras and on most coins. Extreme funding
+  alone did not predict reversals after costs and funding.
+- **`breakout_ls` is inconsistent.** It was −0.6% on Hyperliquid and +4.2% on Binance. An edge that
+  changes sign between eras is not an edge that can be traded.
+- **`trend_ls` is the only recurring signal.** It averaged about +3.7% per trade in *both* eras,
+  but it fails stability (walk-forward 0/3 and 2/6), and the p-values (0.06 and 0.16) don't clear the
+  bar. The most likely explanation is a few big trending periods carrying the average.
+  That is how trend-following is *supposed* to work, but it is also indistinguishable from luck
+  at this sample size.
+- **Risk was never the binding constraint.** There were zero liquidations, and the drawdowns were modest. The
+  verdicts are about the *direction* of returns, not the sizing (see 9.6).
+
+### 9.5 Caveats and bugs fixed before these runs
+
+- **Fixed-horizon exits.** Every strategy is scored at a fixed horizon (1m/2w). That handicaps
+  trend-following, which earns from letting winners run. A trailing-exit variant is a *new*
+  hypothesis, not a re-tune.
+- **The strategies are generic by design.** They are the textbook versions, chosen so that a pass would mean something.
+- **Bugs that affected earlier (discarded) runs:**
+  - Binance funding timestamps carry millisecond jitter, which pushed midnight settlements into the next day
+    (about 11% of days lost, and about 97% of 1m trades voided). Timestamps are now rounded to the minute, and a
+    funding-coverage table plus a warning below 95% are reported.
+  - The unseen-years cut-off was global and used Hyperliquid's pre-launch candles. It is now per coin.
+  - Walk-forward crashed on folds with zero events. It now returns an empty result.
+  - The Binance and paper updaters were not registered.
+
+  All of the numbers above come from after these fixes.
+- **Attempts are counted.** Every run is logged in `research_runs`, including the discarded ones.
+
+### 9.6 What happens next
+
+- **Paper-tracking is live** (`market perp-paper`). Each day's signals are recorded once, live,
+  never backfilled. This is the only clean out-of-sample test left for these three.
+- **Phase 4 (execution) is on hold.** No strategy has earned it.
+- **New hypotheses must be new, named experiments,** pre-registered before their data is looked at,
+  and tested on data not yet used: Binance coins never touched (DOGE, XRP, ADA, AVAX, BNB…)
+  and/or forward paper. Candidates:
+  - a trailing-exit version of `trend_ls`;
+  - event-driven setups using external data (macro releases, exploits/hacks).
+
+  These are discussed in `docs/PERPS_BACKTEST.md` → "Next hypotheses".

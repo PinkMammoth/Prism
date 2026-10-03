@@ -103,3 +103,29 @@ of every coin with every strategy and records the result in `perp_paper_checks`.
 backfills days that were missed, and each row stores the strategy's parameter hash.
 `market perp-paper` scores the recorded signals against random entry drawn from the same
 live-checked bars. Nothing is traded or shown as advice.
+
+## Next hypotheses (not yet registered)
+
+All three strategies in Phase 3 were rejected (see RESULTS.md §9). The ideas below are
+*candidates*. Each would become a new, named, pre-registered experiment, defined before
+its data is examined, and tested on data not yet used: fresh Binance coins and/or forward
+paper-tracking.
+
+**Risk profile is not the lever.** The event study scores each trade on notional, without
+leverage. Bigger size or more leverage scales an edge that exists; it can't create one. A
+strategy with zero or negative excess loses faster at 3× than at 1×. Sizing becomes a
+question only *after* an edge passes.
+
+**External events.** These are setups triggered by something outside the price series. The engine
+already supports them: an event list goes into `run_event_study` against the same-side
+random baseline. What each candidate needs:
+
+| Idea | Trigger (point-in-time) | Data | Main risk |
+|---|---|---|---|
+| Hot CPI → crypto risk-off | The CPI release beats the prior trend and the 2Y yield (DGS2) jumps on the day | CPIAUCSL ALFRED vintages and DGS2, both already ingested; release dates come from ALFRED | Without a consensus forecast, "hot" is a proxy. There are only about 12 releases a year (~60–100 since 2019), so the sample is small. |
+| Large hack → privacy coins / ETH | An exploit above $X M, timestamped when it was *publicly reported* | DefiLlama hacks list (free); XMR prices (not in the universe, and delisted on many venues) | Report-time lags, few qualifying events, and XMR liquidity |
+| Rate-expectation shock | Any day the 2Y yield moves more than k standard deviations | DGS2 (ingested) | Overlaps with equity regime signals |
+
+**A system that fires on setups.** This already exists. Any strategy that earns PROMISING or
+WEAK_POSITIVE becomes a CANDIDATE on the Perps page and in the daily brief. Until one does,
+signals show as RESEARCH ONLY.
