@@ -265,3 +265,6 @@ uv run ruff check src tests dashboard && uv run ruff format --check src tests
 
 The phase-by-phase build log is in [PLAN.md](PLAN.md). V2 ideas are in
 [docs/ROADMAP.md](docs/ROADMAP.md).
+
+The [Strategy Lab audit and phased design](docs/STRATEGY_LAB.md) maps the current research
+infrastructure and documents the isolated strategy-definition foundation.
