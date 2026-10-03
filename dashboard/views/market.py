@@ -5,11 +5,11 @@ The daily decision view lives in views/today.py; this is the dense Level-3 table
 import pandas as pd
 import streamlit as st
 
-from common import banner, cached_scan, db_version, decision_views, money, pct
+from common import banner, cached_scan, data_version, decision_views, money, pct
 
 st.title("All Assets")
 banner()
-res = cached_scan(db_version())
+res = cached_scan(data_version())
 if st.button("Re-scan now"):
     cached_scan.clear()
     st.rerun()

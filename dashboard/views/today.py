@@ -7,9 +7,10 @@ import pandas as pd
 import streamlit as st
 
 from common import (
+    LAST_TODAY,
     banner,
     cached_scan,
-    db_version,
+    data_version,
     decision_views,
     nav_link,
     open_asset,
@@ -17,14 +18,24 @@ from common import (
     store,
 )
 from market_signal.data.freshness import check_freshness
+from market_signal.data.store import DatabaseBusy
 from market_signal.presenter import closest_candidate, market_state, triage
 from ui import card, compact_table, decision_pill, esc, evidence_pill, html, inject_css, pill
 
 MAX_CARDS = 5
 
 inject_css()
-res = cached_scan(db_version())
-views = decision_views(res)
+busy = None
+try:
+    res = cached_scan(data_version())
+    views = decision_views(res)
+    with store(read_only=True) as _s:
+        fresh = check_freshness(_s, settings())
+    LAST_TODAY.update(res=res, views=views, fresh=fresh)
+except DatabaseBusy as exc:
+    if not LAST_TODAY:
+        raise  # nothing to show yet: app.py renders the "Prism is updating" notice
+    busy, res, views, fresh = exc, LAST_TODAY["res"], LAST_TODAY["views"], LAST_TODAY["fresh"]
 act, wait, rest = triage(views)
 
 head, btn = st.columns([5, 1], vertical_alignment="bottom")
@@ -37,8 +48,12 @@ st.caption(f"Scan {as_of} · {len(views)} assets scored · Prism never places tr
 banner()
 
 # ---------------------------------------------------------------- 0. is the data current?
-with store(read_only=True) as _s:
-    fresh = check_freshness(_s, settings())
+if busy is not None:
+    st.info(
+        f"Prism is updating ({busy.holder} is using the database). Showing the answer from "
+        f"{pd.Timestamp(res.as_of):%H:%M UTC}; refresh in a few minutes for the new one.",
+        icon=":material/hourglass_top:",
+    )
 stale = fresh.data_stale
 if stale:
     items = "".join(f"<p>{esc(p)}</p>" for p in fresh.problems(include_scan=False))

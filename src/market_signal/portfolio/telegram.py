@@ -7,6 +7,7 @@ store it as TELEGRAM_CHAT_ID. Messages go only to that chat.
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass
 
 import httpx
@@ -30,12 +31,13 @@ class TelegramClient:
 
     @classmethod
     def from_settings(cls, settings: Settings, require_chat: bool = True) -> TelegramClient:
-        token = settings.secret("TELEGRAM_BOT_TOKEN")
-        chat = settings.secret("TELEGRAM_CHAT_ID")
+        token = (settings.secret("TELEGRAM_BOT_TOKEN") or "").strip().strip("\"'")
+        chat = (settings.secret("TELEGRAM_CHAT_ID") or "").strip().strip("\"'") or None
         if not token:
             raise TelegramError(
                 "TELEGRAM_BOT_TOKEN is not set in .env (create a bot with @BotFather)"
             )
+        check_token(token)
         if require_chat and not chat:
             raise TelegramError("TELEGRAM_CHAT_ID is not set in .env (run `market telegram-setup`)")
         return cls(token, chat)
@@ -51,10 +53,12 @@ class TelegramClient:
         except ValueError:
             raise TelegramError(f"Telegram returned HTTP {r.status_code}") from None
         if not body.get("ok"):
-            raise TelegramError(
-                f"Telegram error {r.status_code}: {body.get('description', 'unknown')}"
-            )
+            raise TelegramError(_explain(r.status_code, str(body.get("description", "unknown"))))
         return body.get("result") or {}
+
+    def get_me(self) -> dict:
+        """The bot behind this token (verifies the token)."""
+        return self._call("getMe")
 
     def send(self, html_text: str) -> None:
         """Send an HTML-formatted message (split if it exceeds Telegram's limit)."""
@@ -78,6 +82,44 @@ class TelegramClient:
                     "type": chat.get("type"),
                 }
         return list(seen.values())
+
+
+TOKEN_RE = re.compile(r"^\d{5,}:[A-Za-z0-9_-]{30,}$")
+TOKEN_HELP = (
+    "It should look like 123456789:AAH… (digits, a colon, then about 35 letters, digits, '_' or "
+    "'-'), on one line, with no 'bot' prefix, brackets or spaces. BotFather shows it again under "
+    "/mybots → your bot → API Token."
+)
+
+
+def check_token(token: str) -> None:
+    """Reject malformed tokens before calling Telegram, without ever echoing the token."""
+    if TOKEN_RE.match(token):
+        return
+    if token.lower().startswith("bot") and TOKEN_RE.match(token[3:]):
+        hint = "it starts with 'bot'; remove that prefix (Prism adds it)"
+    elif token.startswith("@") or ":" not in token:
+        hint = "it has no ':'; this looks like a bot username, not the API token"
+    elif any(c in token for c in "<> \t"):
+        hint = "it contains brackets or spaces"
+    else:
+        hint = f"it doesn't have the expected shape (length {len(token)})"
+    raise TelegramError(f"TELEGRAM_BOT_TOKEN in .env looks malformed: {hint}. {TOKEN_HELP}")
+
+
+def _explain(status: int, description: str) -> str:
+    if status == 404:
+        return ("Telegram says this bot token doesn't exist (HTTP 404). The token in .env is probably "
+                f"incomplete or mistyped. {TOKEN_HELP}")  # fmt: skip
+    if status == 401:
+        return ("Telegram rejected the bot token (HTTP 401 Unauthorized): it may have been revoked or "
+                "regenerated. Copy the current one from BotFather: /mybots → your bot → API Token.")  # fmt: skip
+    if status == 400 and "chat not found" in description.lower():
+        return ("Telegram can't find that chat (HTTP 400: chat not found). Check TELEGRAM_CHAT_ID, and "
+                "make sure you've pressed Start in your bot's chat.")  # fmt: skip
+    if status == 403:
+        return f"Telegram refused to deliver (HTTP 403: {description}). Did you block the bot? Press Start in its chat."
+    return f"Telegram error {status}: {description}"
 
 
 def _chunks(text: str, limit: int = MAX_LEN) -> list[str]:

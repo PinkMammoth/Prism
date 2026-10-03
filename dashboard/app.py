@@ -11,7 +11,7 @@ from __future__ import annotations
 
 import streamlit as st
 
-import common  # noqa: F401  (path/env setup)
+import common
 
 st.set_page_config(page_title="Prism", page_icon=":material/change_history:", layout="wide")
 
@@ -34,4 +34,10 @@ pages = {
         st.Page("views/data.py", title="Data health & alerts", icon=":material/health_and_safety:"),
     ],
 }
-st.navigation(pages).run()
+from market_signal.data.store import DatabaseBusy  # noqa: E402
+
+nav = st.navigation(pages)
+try:
+    nav.run()
+except DatabaseBusy as exc:  # a long `market update` holds the database: wait calmly, don't crash
+    common.busy_notice(exc)

@@ -263,6 +263,10 @@ def telegram_setup(
     settings = get_settings()
     try:
         tg = TelegramClient.from_settings(settings, require_chat=False)
+        me = tg.get_me()
+        console.print(
+            f"[green]Token OK[/]: bot @{me.get('username', '?')} ({me.get('first_name', '')})."
+        )
         chats = tg.recent_chats()
     except TelegramError as exc:
         console.print(f"[red]{exc}[/]")
