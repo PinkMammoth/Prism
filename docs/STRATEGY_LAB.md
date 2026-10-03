@@ -3,10 +3,10 @@
 Inspection date: 2026-10-03. This is a design grounded in the existing implementation,
 including the local database and generated reports. Only the representation foundation
 (section 6), research governance ledger (section 7), daily feature compiler (section 8),
-fast screen (section 9), preregistered search batches (section 10) and structured
-strategy families (section 11) are implemented. No production strategies, evaluation rules, paper records, scanners or
+fast screen (section 9), preregistered search batches (section 10), structured
+strategy families (section 11) and evidence profiles (section 12) are implemented. No production strategies, evaluation rules, paper records, scanners or
 Telegram paths were changed; the only schema changes are the additive Lab migrations
-described in sections 7 and 10.
+described in sections 7, 10 and 12.
 
 ## 1. Current architecture
 
@@ -369,6 +369,7 @@ not control data mining; BH does not repair invalid or adaptively selected p-val
 | 4 — Fast screen (implemented, section 9) | Added `research/lab/screen.py`, plan schema v2 in `policy.py`; Lab CLI `preregister`, `screen`. `report.py`/`compare`/`history` deferred: results are inspected through `market lab experiment` | Bounded deterministic batches on discovery data; cached returns; all failures persisted; asset/time/side summaries; measured runtime/memory; cannot invoke full research or promote |
 | 5a — Search batches and FDR (implemented, section 10) | Added `research/lab/batch.py`, migration 8, `market lab batch create/run/show`, `market lab batches` | Frozen testing families, BH over one primary test per strategy, family-aware statuses, holdout refusal, immutable analyses |
 | 6 — Structured strategy families (implemented, section 11) | Added `research/lab/families.py`, `config/lab/families/*.yaml`, `market lab families`, `family show`, `batch generate` | Versioned economic families with bounded grids generate deterministic Phase 1 variants and Phase 5 manifests without running them |
+| 7 — Evidence profiles (implemented, section 12) | Added `research/lab/evidence.py`, migration 9, `market lab evidence build/report/show` | Consumer-neutral, versioned, append-only profiles with stage provenance; VALIDATED reserved |
 | 5b — Full-research adapters and statistical gate | Extend spot/perp runners for explicit candidate injection; add `research/lab/validation.py`, `multiple_testing.py`; reuse reports/robustness/simulators | Existing strategies retain parity; trusted plan requires completed checks; address audit items with separate versioned methodology patches; holdout/family controls before large-scale claims; link old reports |
 | 6 — Perp MTF and OI | Extend `perps/data.py`, `perps/binance.py`, provider loaders and dataset manifests; extend Lab features/alignment and research policy | Stored 1h/4h data with completeness/availability; settlement-level funding treatment; same-close/gap/stale/snapshot tests; portfolio timing validated before intraday execution claims |
 | 7 — Paper and scanner eligibility | Add `research/lab/promotion.py`; additive versioned paper storage and opt-in adapters in `perps/paper.py`, `scoring/engine.py`, presenter/brief/CLI | Exact strategy + implementation + policy versions carry evidence; paper starts prospectively, no backfill; explicit scanner allowlist; existing strategies unchanged |
@@ -1221,7 +1222,201 @@ The catalogue was not changed after this run.
 - Grids only (no paired sets or sampling); one version per family per batch.
 - No automatic promotion to full research.
 
-## 12. Verification
+## 12. Step 7 implemented: evidence profiles
+
+Module `research/lab/evidence.py`, additive migration 9 (`lab_evidence_policies`,
+`lab_evidence_profiles`), and the CLI commands `market lab evidence build <batch-id>`,
+`evidence report <batch-id>` and `evidence show <strategy-id>`.
+
+### Evidence versus action
+
+> Prism separates evidence from action. The Strategy Lab records what historical and
+> forward research says about a setup. Separate, versioned consumer policies decide
+> whether that evidence is sufficient for human alerts, long-horizon opportunity
+> surfacing, or — in the future — automated execution.
+
+> A co-pilot alert threshold may intentionally be lower than an automated-trading
+> promotion threshold. This does not weaken the research record; it changes only how an
+> application consumer uses that record.
+
+Prism will have three consumers of one research record:
+
+- a perp co-pilot (human decision support);
+- a future perp auto-trader;
+- a later 1–6 month opportunity radar.
+
+**Statistical research** (Phases 4–5) asks whether an apparent edge survives systematic
+testing: raw p, BH q, survivor status, frozen and unchanged. **Human decision support**
+needs more than that. It needs to know what the history looks like, how broad and how
+robust it is, and how uncertain it is. An evidence profile provides that view, and it
+answers neither "should Prism trade this?" nor "should this alert?".
+
+A profile has no field for alerting, trading, sizing or approval. The schema forbids extra
+fields, and a test scans every key. Consumer policies are future, separately versioned
+layers (documented below, not implemented), and changing one can never change an
+evidence identity.
+
+### Stages versus tiers
+
+Each profile cites typed **sources**: `{stage, records, versions}`, where the stage is one
+of `fast_screen`, `batch_fdr`, `full_research`, `validation`, `paper_forward` or
+`live_forward`. Phase 7 emits only the two stages that exist:
+
+- `fast_screen`: the experiment and result IDs, plan, dataset, software and screen/compiler
+  versions;
+- `batch_fdr`: the batch, run and analysis IDs and the analysis version.
+
+No placeholder results are invented for later stages. When a later stage exists, it creates
+a **new** profile listing the extra source with `extends` set to the earlier profile ID; the
+earlier profile is never rewritten.
+
+The **tier** is the human-readable summary, assigned under a versioned `EvidencePolicy`.
+`profile_id` = SHA-256 of profile schema, policy ID, strategy ID, the cited sources and
+`extends`. These inputs determine every derived field, so the same inputs and policy give
+the same profile. A new policy version gives new profiles beside the old ones. Underlying
+screen and batch records are only read.
+
+### Tiers (`lab_evidence_policy` v1)
+
+Every rule uses only the plan's **primary horizon** plus descriptive robustness context.
+
+| Tier | Definition |
+|---|---|
+| `UNAVAILABLE` | The screen errored. No evidence either way, never treated as negative |
+| `INSUFFICIENT` | Phase 4 `NO_EVENTS`/`INSUFFICIENT_EVENTS`, or fewer than 30 independent events, or fewer than 3 assets with events |
+| `EXPLORATORY` | Adequate sample **and** every check below passes: pooled net excess ≥ 0.002; ≥ 60% of assets agree in the expected direction; no single asset holds > 50% of events **and** the pooled sign survives dropping the largest contributor; raw p ≤ 0.25 (a loose sanity bound, not the defining criterion); and either ≥ 50% of testable adjacent parameter variants agree **or** the effect is strong (≥ 0.01). FDR survival is **not** required |
+| `RESEARCH_SUPPORTED` | All EXPLORATORY checks, **plus** a Phase 5 `FDR_SURVIVOR` (which already includes the substantive Phase 4 gates and the batch's economic floor), **plus** neighbourhood support from at least one agreeing testable neighbour (`plateau` or `mixed` with support ≥ 50%; an isolated spike or a strategy without family lineage cannot qualify) |
+| `NEGATIVE` | Adequate sample, pooled excess ≤ 0 **and** ≤ 50% of assets agreeing: history does not support the hypothesis |
+| `INCONCLUSIVE` | Adequate sample, neither supportive enough for EXPLORATORY nor adverse enough for NEGATIVE (e.g. a positive but tiny or narrow effect) |
+| `VALIDATED` | **Reserved.** The model rejects it unless a `validation`-stage source is cited. Nothing in Phase 7 can produce it |
+
+> EXPLORATORY does not mean a strategy has demonstrated persistent alpha. It means the
+> historical pattern is sufficiently interesting to merit human inspection.
+
+> RESEARCH_SUPPORTED is not equivalent to production validation.
+
+Instead of one score, each profile carries named categorical **components**:
+
+- sample: adequate / insufficient;
+- effect: strong / meaningful / small / adverse;
+- breadth: broad / narrow;
+- concentration: spread / concentrated;
+- neighbourhood: plateau / mixed / isolated / no testable neighbours / unavailable;
+- horizon: strengthens / decays / reverses / mixed;
+- statistics: fdr_survivor / raw_only / weak.
+
+It also carries explicit `supporting` and `limiting` reasons and standard limitations.
+There is no probability that a strategy "works".
+
+### Raw p versus q
+
+Every profile shows the Phase 4 raw p (`random_entry_mean_excess_v1` at the primary
+horizon), the BH q, the target, the family size, the preregistered count, the batch status
+and Phase 4 triage, exactly as recorded. A raw p below 0.10 with q of 0.83 can be
+EXPLORATORY; the limiting reasons then state "not an FDR survivor (q = …)". It can never
+be RESEARCH_SUPPORTED, and the q-value is never hidden.
+
+### Parameter neighbourhood and family context
+
+- **Neighbours.** Same family, version, market and side, differing by **one adjacent step
+  in one parameter**. Steps use the sorted distinct values each parameter takes among
+  that family-side's batch members, so constraint-removed grid points are skipped
+  naturally.
+- **Neighbourhood metrics.** For each target: neighbour and testable-neighbour counts, how
+  many agree in sign, support share, median neighbour excess, the target minus that
+  median, the neighbour range, and a label: `plateau` (≥ 2 testable neighbours, ≥ 67%
+  agree), `isolated` (< 50% agree; `isolated_spike` when the target itself is positive),
+  `mixed`, or `no_testable_neighbours`.
+- **Family context** (all variants of that family-side): variant and testable counts,
+  positive-effect share, median and standard deviation of excess, the target's rank,
+  variants passing the substantive gates, and FDR survivors.
+
+These are robustness descriptions, not significance tests. Plateaus are sign-agnostic
+agreement; the batch report splits them into positive and adverse.
+
+### Asset breadth (primary horizon, from Phase 4 per-asset rows)
+
+Assets with events, positive and negative counts, positive share, median asset excess,
+best and worst asset, events by asset, the largest single-asset event share, and the
+**pooled excess without the largest contributor**. If that flips sign, the profile is
+`dominated_by_one_asset`. A profile is `concentrated` if it is dominated or one asset
+holds > 50% of events. This distinguishes "appears across several assets" from "pooled
+result is mostly one asset".
+
+### Horizon profile
+
+Every plan horizon, ordered by bars, shows excess, net, events and sign. The raw p appears
+**only** on the primary horizon; every other row carries `raw_p: null`. Descriptive
+measures are the sign consistency with the primary horizon, the shape (strengthens /
+decays / reverses / mixed), and the horizon of largest effect, labelled descriptive. A
+reversal adds a limiting reason but never changes statistics or the tier. Picking the best
+horizon afterwards cannot be passed off as preregistered. Horizons are generic
+`label → bars`, so a 30/90/180-day radar plan fits the same schema (tested).
+
+### Batch evidence report (`market lab evidence report`)
+
+Computed on read from stored profiles. Per family-side it shows:
+
+- tier counts;
+- positive-effect share and median excess;
+- positive and adverse plateaus;
+- isolated spikes;
+- a descriptive pattern (`broad_directional`, `uniformly_weak_or_adverse`, `mixed`,
+  `insufficient`).
+
+It also lists asset-specific and horizon-reversing variants (adequate samples only), and
+variants sorted by tier, family and name. It states that it is not a ranking of trades
+and never picks a winner.
+
+### Future consumer policies (documented, not implemented)
+
+- **Co-pilot policy:** may surface EXPLORATORY or stronger profiles that meet its own
+  usefulness/risk criteria, always showing raw p, q and limitations.
+- **Auto-trader promotion policy:** requires materially stronger stages (full research,
+  untouched validation, realistic costs, paper/live forward observation, execution
+  reliability) and explicit risk approval. RESEARCH_SUPPORTED alone never qualifies;
+  EXPLORATORY can never become executable because it triggers an alert.
+- **Long-horizon radar policy:** its own families, plans and horizons, consuming the same
+  profile abstraction.
+
+Each is versioned independently and reads profiles. None writes to them.
+
+### Descriptive run (Phase 6 smoke batch, scratch DB)
+
+All 40 members were profiled. Tiers:
+
+- EXPLORATORY 8: seven `ma_trend` variants (4 long, 3 short) and
+  `funding_fade_a3_l180_p9_long`;
+- INCONCLUSIVE 12;
+- NEGATIVE 15;
+- INSUFFICIENT 5;
+- RESEARCH_SUPPORTED 0, because there are no FDR survivors. Every EXPLORATORY profile has
+  q = 0.83.
+
+By family:
+
+- `ma_trend` long: positive effect on all 7 testable variants and 6 positive plateaus
+  (`broad_directional`).
+- `ma_trend` short: positive on 57%, 4 positive plateaus.
+- `donchian_breakout` short: uniformly adverse (3 adverse plateaus).
+- `donchian_breakout` long: mostly adverse, with an isolated positive spike at lookback 55.
+- `funding_extreme_fade` short: negative on 6 of 8 variants (7 adverse plateaus), with one
+  isolated spike.
+- `funding_extreme_fade` long: mixed, one EXPLORATORY variant.
+
+Several adequate variants are flagged asset-concentrated, and many reverse sign across
+horizons (often at 1 day). The catalogue was not changed in response.
+
+### Known limitations
+
+- Not connected to live scanning, Telegram or any consumer policy.
+- Daily only; no intraday, OI or long-horizon families yet.
+- Profiles summarise one batch run's discovery-window evidence; there is no full
+  independent validation adapter yet, so VALIDATED is unreachable.
+- Tier thresholds are policy defaults chosen before the descriptive run. They are
+  judgement calls, so a change creates a new policy version.
+
+## 13. Verification
 
 Baseline before changes: **173 tests passed**, repository Ruff checks passed, and all
 89 existing source/test Python files passed format checking. New focused tests cover
@@ -1295,3 +1490,14 @@ was triggered.
 | `git diff --check` | Passed |
 | CLI dry runs | `market lab families`, `family show <name> --market perp|spot` (perp-only family refused for spot), `batch generate` dry run and `--register --out` |
 | Governed smoke run (scratch copy) | 40 variants → manifest → frozen batch → 40 screens → BH analysis, COMPLETED in 12.7 s (results above) |
+
+### Step 7 verification
+
+| Check | Result |
+|---|---|
+| `.venv/bin/python -m pytest` | **432 passed** (216 s); before Step 7: 420 |
+| `.venv/bin/python -m pytest tests/test_lab_evidence.py` | **12 passed**: FDR honesty (raw p < 0.10 with q 0.8 is at most EXPLORATORY; FDR survivor plus plateau gives RESEARCH_SUPPORTED); isolated spike flagged and blocking research support; plateau, edge and two-parameter adjacency; asset domination and concentration; horizon reversal descriptive only (statistics and tier unchanged by non-primary horizons); INSUFFICIENT, UNAVAILABLE (errors are not negative), NEGATIVE, INCONCLUSIVE; lineage-free strategies; determinism and policy versioning; consumer neutrality (forbidden keys, extra fields rejected, identity independent of derived text); long horizons, `extends` with later stages, VALIDATED reserved; governed batch integration (profiles cite records, append-only, idempotent, underlying records unchanged); CLI |
+| Lab suites (evidence/families/batch/screen/compiler/spec/governance) | **249 passed** |
+| `.venv/bin/ruff check src tests dashboard` / `ruff format --check src tests` | Passed / 113 files formatted |
+| `git diff --check` | Passed |
+| CLI on the Phase 6 smoke batch (scratch copy) | `evidence build` (40 profiles, idempotent), `evidence report`, `evidence show` |

@@ -433,6 +433,24 @@ MIGRATIONS: list[str] = [
         payload JSON NOT NULL
     );
     """,
+    # 9 — Strategy Lab evidence profiles: consumer-neutral, append-only via the Lab API
+    """
+    CREATE TABLE IF NOT EXISTS lab_evidence_policies (
+        policy_id VARCHAR PRIMARY KEY,
+        payload JSON NOT NULL,
+        recorded_at TIMESTAMPTZ NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS lab_evidence_profiles (
+        profile_id VARCHAR PRIMARY KEY,
+        policy_id VARCHAR NOT NULL REFERENCES lab_evidence_policies(policy_id),
+        strategy_id VARCHAR NOT NULL REFERENCES lab_strategies(strategy_id),
+        analysis_id VARCHAR REFERENCES lab_batch_analyses(analysis_id),
+        tier VARCHAR NOT NULL CHECK (tier IN ('UNAVAILABLE','INSUFFICIENT','NEGATIVE',
+            'INCONCLUSIVE','EXPLORATORY','RESEARCH_SUPPORTED','VALIDATED')),
+        payload JSON NOT NULL,
+        recorded_at TIMESTAMPTZ NOT NULL
+    );
+    """,
 ]
 
 

@@ -2,7 +2,7 @@
 
 Inspection, ``compile``, ``families``/``family show`` and ``batch generate`` (without
 ``--register``) are read-only. ``preregister``, ``screen``, ``batch generate --register``,
-``batch create`` and ``batch run`` are the only writes; they follow the ledger lifecycle (freeze /
+``batch create``, ``batch run`` and ``evidence build`` are the only writes; they follow the ledger lifecycle (freeze /
 preregister -> start -> one terminal result -> one batch analysis). There are no
 promotion or AI-generation commands.
 """
@@ -26,6 +26,14 @@ from market_signal.research.lab.batch import (
 )
 from market_signal.research.lab.common import canonical_json
 from market_signal.research.lab.compiler import CompileError, compile_registered
+from market_signal.research.lab.evidence import (
+    EvidencePolicy,
+    batch_report,
+    build_profiles,
+    gather,
+    load_profiles,
+    record_profiles,
+)
 from market_signal.research.lab.families import (
     catalogue_summary,
     generate,
@@ -306,6 +314,59 @@ def batch_generate(
         }
 
     _inspect(write, read_only=False)
+
+
+evidence = typer.Typer(
+    no_args_is_help=True,
+    help="Consumer-neutral evidence profiles (descriptive; never trade decisions).",
+)
+lab.add_typer(evidence, name="evidence")
+
+
+@evidence.command("build")
+def evidence_build(
+    batch_id: str, run: str = typer.Option(None, "--run", help="Default: latest completed run.")
+) -> None:
+    """WRITE: profile every member of a completed batch under the current evidence policy.
+
+    Idempotent and append-only: identical inputs and policy give the same profile IDs.
+    """
+
+    def build(ledger):
+        records, analysis = gather(ledger, batch_id, run)
+        policy = EvidencePolicy()
+        out = record_profiles(ledger, build_profiles(records, analysis, policy), policy)
+        return {**out, "analysis_id": analysis["analysis_id"]}
+
+    _inspect(build, read_only=False)
+
+
+@evidence.command("report")
+def evidence_report(
+    batch_id: str, run: str = typer.Option(None, "--run", help="Default: latest completed run.")
+) -> None:
+    """Descriptive batch evidence report (families, plateaus, spikes, breadth, horizons)."""
+
+    def report(ledger):
+        _, analysis = gather(ledger, batch_id, run)
+        policy_id = EvidencePolicy().policy_id
+        profiles = [
+            p
+            for p in load_profiles(ledger, analysis_id=analysis["analysis_id"])
+            if p["policy_id"] == policy_id
+        ]
+        if not profiles:
+            raise LedgerError("no profiles for this analysis and policy; run `evidence build`")
+        return {"analysis_id": analysis["analysis_id"], "policy_id": policy_id,
+                **batch_report(profiles)}  # fmt: skip
+
+    _inspect(report)
+
+
+@evidence.command("show")
+def evidence_show(strategy_id: str) -> None:
+    """Every recorded evidence profile for one strategy (all policies and batches)."""
+    _inspect(lambda ledger: load_profiles(ledger, strategy_id=strategy_id))
 
 
 def register(app: typer.Typer) -> None:
