@@ -223,12 +223,33 @@ def perp_research(
             cut = pd.Timestamp(end, tz="UTC") + pd.Timedelta(days=1)
             note = f"data up to {end}"
         elif venue == "binance":
-            from market_signal.perps.binance import hyperliquid_start
+            from market_signal.perps.binance import binance_ranges, hyperliquid_starts
 
-            hl = hyperliquid_start(store)
-            if hl is not None:
-                cut = hl
-                note = f"before Hyperliquid's history starts ({hl:%Y-%m-%d}): years the research never saw"
+            hl, bn = hyperliquid_starts(store), binance_ranges(store)
+            if not bn:
+                console.print("[red]No Binance perp data stored yet. Run `uv run market update --only perps`: "
+                              "a table titled 'Binance perps…' should appear.[/]")  # fmt: skip
+                raise typer.Exit(1)
+            cut = dict(hl)  # each coin stops where ITS Hyperliquid history starts
+            w = Table(
+                title="Unseen windows: Binance years before each coin's Hyperliquid research period"
+            )
+            for c in ("coin", "Binance from", "unseen until", "days"):
+                w.add_column(c, no_wrap=True)
+            for coin, (first, last) in sorted(bn.items()):
+                until = min(cut.get(coin, last + pd.Timedelta(days=1)), last + pd.Timedelta(days=1))
+                days = max((until - first).days, 0)
+                w.add_row(
+                    coin,
+                    f"{first:%Y-%m-%d}",
+                    f"{until:%Y-%m-%d}",
+                    f"{days}" + ("" if days > 60 else " (too short, skipped)"),
+                )
+            console.print(w)
+            note = (
+                "per coin, before that coin's Hyperliquid research period (first day with both prices and "
+                "funding): years the research never saw"
+            )
         if note:
             console.print(f"[bold]{venue}[/]: {note}")
         t = Table(title=f"Perp strategy research on {venue} (net of fees, slippage and funding)")

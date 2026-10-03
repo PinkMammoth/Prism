@@ -199,12 +199,33 @@ def update_binance_perps(
     return pd.DataFrame(out, columns=["coin", "dataset", "status", "received", "new_rows", "note"])
 
 
-def hyperliquid_start(store: Store) -> pd.Timestamp | None:
-    """When the Hyperliquid perp history used by the main research begins (earliest bar)."""
+def hyperliquid_starts(store: Store) -> dict[str, pd.Timestamp]:
+    """Per coin: when the Hyperliquid research period begins: the first day with BOTH
+    Hyperliquid prices and funding. The research skips any trade without funding data, so
+    earlier price-only bars were never evaluated."""
     try:
-        t = store.con.execute(
-            "SELECT min(ts) FROM perp_bars WHERE source IN ('hyperliquid', 'synthetic')"
-        ).fetchone()[0]
+        df = store.query(
+            """SELECT b.coin, greatest(b.first, f.first) AS first
+               FROM (SELECT coin, min(ts) AS first FROM perp_bars
+                     WHERE source IN ('hyperliquid', 'synthetic') GROUP BY coin) b
+               JOIN (SELECT coin, min(time) AS first FROM perp_funding
+                     WHERE source IN ('hyperliquid', 'synthetic') GROUP BY coin) f USING (coin)"""
+        )
     except Exception:
-        return None
-    return None if t is None else pd.Timestamp(t).tz_convert("UTC")
+        return {}
+    return {
+        r["coin"]: pd.Timestamp(r["first"]).tz_convert("UTC").normalize() for _, r in df.iterrows()
+    }
+
+
+def binance_ranges(store: Store) -> dict[str, tuple[pd.Timestamp, pd.Timestamp]]:
+    """Per coin: first and last stored Binance bar."""
+    try:
+        df = store.query(
+            "SELECT coin, min(ts) AS first, max(ts) AS last FROM perp_bars WHERE source = ? GROUP BY coin",
+            [SOURCE],
+        )
+    except Exception:
+        return {}
+    return {r["coin"]: (pd.Timestamp(r["first"]).tz_convert("UTC"), pd.Timestamp(r["last"]).tz_convert("UTC"))
+            for _, r in df.iterrows()}  # fmt: skip

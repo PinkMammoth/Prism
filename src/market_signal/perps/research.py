@@ -95,7 +95,7 @@ def run_perp_research(
     walk_forward_on: bool = True,
     sensitivity_on: bool = True,
     venue: str = "hyperliquid",
-    end: pd.Timestamp | None = None,
+    end: pd.Timestamp | dict[str, pd.Timestamp] | None = None,
     window_note: str = "",
 ) -> PerpReport:
     """``inputs`` may be passed directly (tests); otherwise they're loaded from ``store`` for
@@ -122,15 +122,20 @@ def run_perp_research(
             for c in coins
             if (a := load_perp_input(store, settings, str(c).upper(), venue)) is not None
         ]
-    if end is not None:
-        cut = pd.Timestamp(end)
-        cut = cut.tz_localize("UTC") if cut.tzinfo is None else cut
+    if end is not None:  # one date for every coin, or {coin: date}
+
+        def _cut(coin: str) -> pd.Timestamp | None:
+            c = end.get(coin) if isinstance(end, dict) else end
+            if c is None:
+                return None
+            c = pd.Timestamp(c)
+            return c.tz_localize("UTC") if c.tzinfo is None else c
+
         inputs = [
-            dataclasses.replace(
-                a, frame=a.frame[a.frame["close_time"] <= cut].reset_index(drop=True)
-            )
+            a if (c := _cut(a.coin)) is None
+            else dataclasses.replace(a, frame=a.frame[a.frame["close_time"] <= c].reset_index(drop=True))
             for a in inputs
-        ]
+        ]  # fmt: skip
     inputs = [a for a in inputs if len(a.frame) > 60]
     if not inputs:
         raise RuntimeError(
