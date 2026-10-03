@@ -14,7 +14,7 @@ from __future__ import annotations
 
 import hashlib
 import operator
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 import numpy as np
 import pandas as pd
@@ -190,15 +190,29 @@ def build_inputs(
         # but a value at T now depends only on splits effective on or before T.
         factors["split_mult"] = factors["split_mult"] / factors["split_mult"].iloc[0]
         return apply_basis(bars, factors, PriceBasis.SPLIT), source, "split_forward"
-    if need_funding:
-        found = snapshot.find("perp_funding", symbol)
-        if found is None:
-            raise CompileError(f"funding features need the perp_funding series for {symbol}")
+    found = snapshot.find("perp_funding", symbol)
+    if found is None and need_funding:
+        raise CompileError(f"funding features need the perp_funding series for {symbol}")
+    if found is not None:  # always derived when retained: screening returns need it too
         if found[0].selection.source != source:
             raise CompileError("funding must come from the bars' venue")
         funding = _frame(found[1], ["time", "funding_rate", "available_at"])
         bars["funding_day"] = lab_features.lab_funding_day(bars, funding)
     return bars, source, "perp_last"
+
+
+@dataclass
+class CompileCache:
+    """In-process reuse for many definitions on ONE snapshot (e.g. a screening batch).
+
+    Inputs are keyed by (symbol, market, asset class) and feature series additionally by
+    canonical feature name, so a shared ``ema_20`` is computed once. Cached frames are
+    never mutated. Results are identical with or without a cache (tested).
+    """
+
+    snapshot: Snapshot
+    inputs: dict = field(default_factory=dict)
+    features: dict = field(default_factory=dict)
 
 
 # --------------------------------------------------------------------------- conditions
@@ -292,6 +306,7 @@ def compile_strategy(
     symbol: str,
     *,
     asset_class: AssetClass | None = None,
+    cache: CompileCache | None = None,
 ) -> CompiledStrategy:
     """Compile one DAILY definition for one symbol of a registered snapshot.
 
@@ -313,15 +328,32 @@ def compile_strategy(
         raise CompileError("spot compilation requires an explicit asset class")
     keys = required_features(definition)
     need_funding = any("funding_day" in k.spec.inputs for k in keys)
-    inputs, source, basis = build_inputs(
-        snapshot, symbol, definition.market, asset_class, need_funding
-    )
+    if cache is not None and cache.snapshot is not snapshot:
+        raise CompileError("compile cache belongs to a different snapshot")
+    key = (symbol, definition.market, asset_class)
+    if cache is not None and key in cache.inputs:
+        inputs, source, basis = cache.inputs[key]
+        if need_funding and "funding_day" not in inputs:
+            raise CompileError(f"funding features need the perp_funding series for {symbol}")
+    else:
+        inputs, source, basis = build_inputs(
+            snapshot, symbol, definition.market, asset_class, need_funding
+        )
+        if cache is not None:
+            cache.inputs[key] = (inputs, source, basis)
     index = pd.DatetimeIndex(inputs["close_time"], name="close_time")
 
-    try:
-        values = {k.name: lab_features.compute(k, inputs, asset_class) for k in keys}
-    except ValueError as exc:
-        raise CompileError(str(exc)) from exc
+    values = {}
+    for k in keys:
+        if cache is not None and (*key, k.name) in cache.features:
+            values[k.name] = cache.features[(*key, k.name)]
+            continue
+        try:
+            values[k.name] = lab_features.compute(k, inputs, asset_class)
+        except ValueError as exc:
+            raise CompileError(str(exc)) from exc
+        if cache is not None:
+            cache.features[(*key, k.name)] = values[k.name]
     feats = pd.DataFrame(values, index=inputs.index)
     feature_valid = pd.DataFrame(
         {name: np.isfinite(col) for name, col in feats.items()}, index=inputs.index

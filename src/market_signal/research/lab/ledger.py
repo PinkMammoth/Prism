@@ -33,7 +33,13 @@ from market_signal.research.lab.datasets import (
     DatasetManifest,
     snapshot_rows,
 )
-from market_signal.research.lab.policy import DatasetRole, EvaluationPlan, PValue
+from market_signal.research.lab.policy import (
+    AnyPlan,
+    DatasetRole,
+    PValue,
+    ScreenPlan,
+    parse_plan,
+)
 from market_signal.research.lab.provenance import SoftwareIdentity
 from market_signal.research.lab.spec import Hypothesis, StrategyDefinition
 
@@ -78,7 +84,7 @@ class ExperimentRecord(LabModel):
     role: DatasetRole
     period_start: UTCDateTime
     period_end: UTCDateTime
-    stage: Literal["event_study"]
+    stage: Literal["event_study", "screen"]
     assets: tuple[Symbol, ...]
     timeframes: tuple[Timeframe, ...]
     origin: Text
@@ -115,6 +121,10 @@ def _new_id(prefix: str) -> str:
 class Ledger:
     def __init__(self, store: Store):
         self.store = store
+        # Verified snapshot rows keyed by the full series fingerprint. Blobs are content-
+        # addressed and the API never rewrites them, so each is verified once per Ledger
+        # instance instead of on every preregistration/start of a batch. Do not mutate.
+        self._verified: dict[str, list[dict]] = {}
         if not store.con.execute(
             "SELECT 1 FROM information_schema.tables WHERE table_name='lab_experiments'"
         ).fetchone():
@@ -227,7 +237,7 @@ class Ledger:
             **{**receipt.model_dump(), "hypothesis_id": hypothesis_id, "error": error}
         )
 
-    def register_plan(self, plan: EvaluationPlan) -> str:
+    def register_plan(self, plan: AnyPlan) -> str:
         plan = revalidate(plan)
         with self.store.transaction():
             row = self.store.con.execute(
@@ -288,6 +298,17 @@ class Ledger:
                     )
         return manifest.dataset_id
 
+    def _verified_rows(self, series) -> list[dict]:
+        # The key includes the full fingerprint: identical bytes under a different
+        # selection/schema header must still be checked against that header.
+        key = canonical_json(series.model_dump(mode="python"))
+        if key not in self._verified:
+            blob = self._one(
+                "SELECT payload FROM lab_snapshot_blobs WHERE sha256=?", [series.sha256]
+            )
+            self._verified[key] = snapshot_rows(series, blob["payload"])
+        return self._verified[key]
+
     def get_strategy(self, strategy_id: str) -> StrategyDefinition:
         row = self._one("SELECT definition FROM lab_strategies WHERE strategy_id=?", [strategy_id])
         definition = StrategyDefinition.model_validate_json(row["definition"])
@@ -295,9 +316,12 @@ class Ledger:
             raise LedgerError("stored definition does not match its strategy ID")
         return definition
 
-    def get_plan(self, plan_id: str) -> EvaluationPlan:
+    def get_plan(self, plan_id: str) -> AnyPlan:
         row = self._one("SELECT payload FROM lab_plans WHERE plan_id=?", [plan_id])
-        return EvaluationPlan.model_validate_json(row["payload"])
+        plan = parse_plan(row["payload"])
+        if plan.plan_id != plan_id:
+            raise LedgerError("stored plan does not match its plan ID")
+        return plan
 
     def get_dataset(self, dataset_id: str) -> DatasetManifest:
         row = self._one("SELECT payload FROM lab_datasets WHERE dataset_id=?", [dataset_id])
@@ -313,10 +337,7 @@ class Ledger:
         for series in self.get_dataset(dataset_id).series:
             if series.strength != "content_sha256":
                 raise LedgerError("no retained content for weak fingerprint")
-            blob = self._one(
-                "SELECT payload FROM lab_snapshot_blobs WHERE sha256=?", [series.sha256]
-            )
-            out.append(snapshot_rows(series, blob["payload"]))
+            out.append(self._verified_rows(series))
         return tuple(out)
 
     def preregister(
@@ -366,6 +387,10 @@ class Ledger:
                 raise LedgerError("initial event-study plan supports daily references only")
             if not set(assets) <= {c.symbol for c in plan.costs}:
                 raise LedgerError("every selected asset needs a frozen cost assumption")
+            # v2 screen datasets carry a fixed warmup region before the role period.
+            data_start = plan.data_start(role) if isinstance(plan, ScreenPlan) else period.start
+            if isinstance(plan, ScreenPlan) and len(assets) < plan.gates.min_assets_with_events:
+                raise LedgerError("fewer assets than the plan's minimum assets with events")
             if dataset.strength != plan.required_fingerprint:
                 raise LedgerError("preregistration requires strong retained dataset content")
             kinds = (
@@ -383,18 +408,20 @@ class Ledger:
                 selection = series.selection
                 if (
                     selection.source != plan.source
-                    or selection.start != period.start
+                    or selection.start != data_start
                     or selection.end != period.end
                 ):
                     raise LedgerError(
                         "dataset source/window must match the selected plan role exactly"
+                        + (
+                            " (including the plan's warmup region)"
+                            if data_start != period.start
+                            else ""
+                        )
                     )
                 if selection.timeframe is not None and selection.timeframe != plan.timeframe:
                     raise LedgerError("dataset timeframe does not match plan")
-                blob = self._one(
-                    "SELECT payload FROM lab_snapshot_blobs WHERE sha256=?", [series.sha256]
-                )
-                snapshot_rows(series, blob["payload"])
+                self._verified_rows(series)
             # Software is recorded per attempt, not part of the logical identity: a code
             # change must not let identical strategy/plan/data escape the duplicate guard.
             logical = {

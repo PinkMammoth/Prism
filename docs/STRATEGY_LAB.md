@@ -2,8 +2,8 @@
 
 Inspection date: 2026-10-03. This is a design grounded in the existing implementation,
 including the local database and generated reports. Only the representation foundation
-(section 6), research governance ledger (section 7) and daily feature compiler (section 8)
-are implemented. No production strategies, evaluation rules, paper records, scanners or
+(section 6), research governance ledger (section 7), daily feature compiler (section 8)
+and fast screen (section 9) are implemented. No production strategies, evaluation rules, paper records, scanners or
 Telegram paths were changed; the only schema change is the additive Lab migration
 described in section 7.
 
@@ -365,7 +365,7 @@ not control data mining; BH does not repair invalid or adaptively selected p-val
 | 1 — Representation (implemented) | New `research/lab/spec.py`, `config/lab/examples/`, `tests/test_lab_spec.py`, this report | Strict data-only documents, explicit timeframes/ATR meaning, stable identity, no production imports or evaluation |
 | 2 — Ledger and locked plans (implemented, section 7) | Add `research/lab/ledger.py`, `policy.py`, `datasets.py`; additive migrations in `data/store.py`; Lab-only `cli/lab_cmds.py` | Every attempted submission/run is durably recorded before work; duplicate/lineage/crash tests; plan/data/code hashes; exact inputs retained. No mass screening yet |
 | 3 — Daily compiler/features (implemented, section 8) | Added `research/lab/vocabulary.py`, `features.py`, `compiler.py`; reuse `indicators/technical.py`, `data/prices.py`, perp helpers. `alignment.py`/`adapters.py` deferred: daily-only needs no MTF alignment, and adapters belong with Phase 5 injection | Small daily vocabulary compiles to signals/stops/eligibility; synthetic hand-calculation, missing-data, truncation/future-shock and legacy parity tests; no registry mutation |
-| 4 — Fast screen and comparison | Add `research/lab/screen.py`, `report.py`; extend Lab CLI with `screen`, `compare`, `history` | Bounded deterministic batches on discovery data; cached returns; all failures persisted; asset/time/side summaries; measured runtime/memory; cannot invoke full research or promote |
+| 4 — Fast screen (implemented, section 9) | Added `research/lab/screen.py`, plan schema v2 in `policy.py`; Lab CLI `preregister`, `screen`. `report.py`/`compare`/`history` deferred: results are inspected through `market lab experiment` | Bounded deterministic batches on discovery data; cached returns; all failures persisted; asset/time/side summaries; measured runtime/memory; cannot invoke full research or promote |
 | 5 — Full-research adapters and statistical gate | Extend spot/perp runners for explicit candidate injection; add `research/lab/validation.py`, `multiple_testing.py`; reuse reports/robustness/simulators | Existing strategies retain parity; trusted plan requires completed checks; address audit items with separate versioned methodology patches; holdout/family controls before large-scale claims; link old reports |
 | 6 — Perp MTF and OI | Extend `perps/data.py`, `perps/binance.py`, provider loaders and dataset manifests; extend Lab features/alignment and research policy | Stored 1h/4h data with completeness/availability; settlement-level funding treatment; same-close/gap/stale/snapshot tests; portfolio timing validated before intraday execution claims |
 | 7 — Paper and scanner eligibility | Add `research/lab/promotion.py`; additive versioned paper storage and opt-in adapters in `perps/paper.py`, `scoring/engine.py`, presenter/brief/CLI | Exact strategy + implementation + policy versions carry evidence; paper starts prospectively, no backfill; explicit scanner allowlist; existing strategies unchanged |
@@ -758,13 +758,162 @@ document shape are unchanged, and all previously valid documents keep their IDs.
   starting on different dates give slightly different recursive values (warmup reduces,
   but does not eliminate, this; exactly as in Prism).
 - Funding: the 7-day cadence window is a fixed Lab choice; a venue cadence change is
-  treated as missing until a week of the new cadence exists. The `EvaluationPlan`'s
-  `prism_daily_full_history_median_v1` literal still names the Prism policy; reconciling
-  the plan literal with the Lab's causal cadence is a decision for the screening phase.
-- No plan-period masking: outputs cover the whole snapshot; restricting signals to a role
-  window (with warmup loaded before it) is the screen's job.
+  treated as missing until a week of the new cadence exists. (The plan-wording mismatch
+  noted here at Phase 3 is resolved by plan schema v2, section 9.)
+- No plan-period masking in the compiler: outputs cover the whole snapshot; the screen
+  restricts signals to the role window (section 9).
 
-## 9. Verification
+## 9. Step 4 implemented: fast screen
+
+Module `research/lab/screen.py`, plan schema v2 (`ScreenPlan`) in `policy.py`, small
+ledger extensions, and `market lab preregister` / `market lab screen`. The fast screen is
+a **cheap, deterministic rejection layer**. It answers "how often does this fire, what
+happens next versus random eligible entry on the same asset and side, and does that hold
+across assets and horizons?". It does **not** establish production readiness, sizing,
+leverage, a portfolio, statistical validation after multiple-testing correction, or
+eligibility for paper/live trading. **An `INTERESTING` result is only a candidate for
+deeper research in Prism's full pipeline**; nothing is promoted automatically.
+
+### Funding policy fix and plan schema v2
+
+The v1 `EvaluationPlan` froze `prism_daily_full_history_median_v1`, which the Lab compiler
+deliberately does not implement (it lets later observations change earlier funding). v1
+is kept byte-for-byte: existing v1 plan IDs, ledger rows and payloads parse and mean what
+they meant, but a v1 plan **cannot be screened** (`run_screen` refuses before recording
+a start). Schema v2 (`ScreenPlan`, `schema_version: "2"`, stage `screen`) freezes:
+
+- `funding: CausalFundingPolicy` = `lab_causal_trailing_7d_median_v1`, nearest-minute
+  settlement alignment, `available_at_minute_by_bar_close`, coverage pinned to 0.8 (the
+  compiler constant; changing it is a new policy version), pro-rata partial days, and
+  `missing_window: exclude`;
+- `warmup_days`, `outcome_boundary: exit_within_role_period`, triage `gates`, and an
+  `asset_class` per asset (required for spot).
+
+`Ledger.get_plan` dispatches on `schema_version` and checks the stored payload still
+hashes to its plan ID. Non-Lab Prism funding (`daily_funding` default path, perp research,
+paper checks) is unchanged. Compatibility consequence: any perp event study preregistered
+under a v1 plan stays a valid record of that methodology but must be re-registered under a
+v2 plan to be screened; the two are different logical experiments (different plan IDs).
+
+### Warmup and window boundaries
+
+A v2 dataset for role R must select `[R.start − warmup_days, R.end)` exactly (bars by
+close time, funding by `available_at`); preregistration rejects anything else. Hence:
+
+- Data before `R.start − warmup_days` is not in the dataset and cannot influence anything.
+- Data in the warmup region feeds features, including recursive ones (EMA, Wilder RSI/ATR)
+  whose in-window values depend on the warmup data, and the edge/cooldown state (a
+  warmup signal can suppress an early in-window signal within `cooldown_bars`). It never
+  produces a scored event or a baseline observation.
+- Signals, eligible baseline bars and events are restricted to close times in
+  `[R.start, R.end)`. The dataset ends at `R.end`, so an outcome whose exit bar falls after
+  the window is not evaluable. No observation after the window can affect a result.
+- The required warmup is the compiled `warmup_bars`. Each asset records `prewindow_bars`,
+  `warmup_bars`, `warmup_shortfall_bars`, `first_eligible_close` and eligible counts. A
+  shortfall (e.g. a coin listed during the window) is not padded with other data: those
+  in-window bars are simply ineligible, and the shortfall is visible in the result.
+
+### Screen semantics
+
+| Item | Convention |
+|---|---|
+| Signal | Phase 3 `signal` at bar T's close, in-window only; one side per definition |
+| Entry | Bar **T+1 open**. Never the signal bar. No T+1 bar ⇒ not evaluable |
+| Exit | Bar **T+h close** for each plan horizon (≤ 8 horizons, ≤ 250 bars); missing ⇒ not evaluable |
+| Perp return | `perps.backtest.side_forward_returns`: side × (exit/entry − 1) − 2 × (fee + slippage) − side × Σ_{T+1..T+h} funding_day × close / entry; any missing funding day ⇒ not evaluable (never zero) |
+| Spot return | `backtest.events.forward_returns` on the total-return basis: exit × (1 − c) / (entry × (1 + c)) − 1, c = fee + slippage. Ratios within one window cannot depend on the adjustment constant |
+| Gross | The same price move without costs or funding, for the same events |
+| Costs | Per-asset `fee_bps` and `slippage_bps` from the plan; nothing invented |
+| Eligibility | Compiled eligibility ∧ in-window; perps also require funding known at T (existing `perp_asset_events` convention) |
+| Baseline | Mean forward return of all eligible in-window bars of the same asset and side with an evaluable outcome (`run_event_study`) |
+| Independent events | `backtest.events.decluster`: keep the first, then only events ≥ h bars after the last kept one, per asset and horizon. All metrics use independent events; raw and evaluable counts are reported |
+| Null | Existing `random_entry_pvalue`: draws without replacement from each asset's centred eligible pool, matching per-asset counts; one-sided; `random_entry_samples` draws, `seed` recorded; primary horizon only; uncorrected |
+
+Existing Prism research semantics are reused, not changed. The known audit caveats apply:
+random draws do not enforce horizon spacing within a draw, and assets are not independent.
+
+### Metrics
+
+Per asset × horizon: eligible bars, raw signals, evaluable events, independent events,
+baseline n/mean, gross mean/median, net mean/median, hit rate, net std, a descriptive
+`net_mean_over_std` (per event, not an annualised Sharpe), excess mean/median, worst and
+best net. Aggregate per horizon: the same pooled statistics plus excess t, assets with
+events, assets with positive/negative excess, positive-asset share, median/min/max/std of
+asset-level excess, the largest single-asset share of events, and (primary horizon) the
+random-entry p-value. Per-asset rows are always kept beside the aggregate, so a strategy
+that is +3/+2/+1% on three coins and −12% on a fourth shows a 0.75 positive share and a
+wide asset dispersion, unlike one that is mildly positive everywhere.
+
+### Triage statuses (primary horizon, gates frozen in the plan)
+
+| Status | Rule | Ledger status |
+|---|---|---|
+| `NO_EVENTS` | 0 independent evaluable events | `insufficient_data` |
+| `INSUFFICIENT_EVENTS` | fewer than `statistics.min_independent_events` (default 30), or fewer than `gates.min_assets_with_events` (default 2) assets with events | `insufficient_data` |
+| `INTERESTING` | pooled independent net excess > `gates.min_pooled_excess` (default 0) **and** positive-asset share ≥ `gates.min_positive_asset_share` (default 0.6) **and** random-entry p ≤ `gates.max_p_value` (default 0.10, uncorrected; `null` disables) | `succeeded` |
+| `WEAK` | otherwise | `rejected` |
+| `ERROR` | any exception after the start | `errored`, with exception type, message and short traceback |
+
+The per-gate booleans are stored in `metrics.gate_checks`. No status claims profitability,
+validation, approval or live readiness. Thresholds come only from the plan; strategy
+documents cannot carry them.
+
+### Governed lifecycle
+
+```text
+submit → register_plan (v2) → register_dataset (with warmup region)
+       → preregister (stage "screen")       market lab preregister …
+       → run_screen: start → compile → screen → record_result   market lab screen <experiment-id>
+       → inspect                             market lab experiment <experiment-id>
+```
+
+`run_screen` refuses (before any start) a non-screen attempt, a v1 plan, different
+software, or an already-started attempt. After the start every outcome, including
+exceptions, becomes exactly one immutable terminal result. Reruns need `rerun_of` +
+`rerun_reason` (Phase 2 rule) and reproduce the same metrics from the retained snapshot
+even after the live tables change. The result's `metrics.provenance` holds the screen,
+compiler and vocabulary versions, strategy/dataset/plan/experiment/logical/software IDs,
+attempt, role, window, data start and warmup days, side, horizons, entry/exit/outcome
+conventions, return model, costs of the selected assets, funding policy, baseline, the
+statistics policy (seed, draws), gates and the independence rule; per-asset compile
+digests sit under `metrics.assets`. Snapshots are not duplicated. `screen(...)` is a pure
+developer function for tests; it writes nothing and is not a Lab result.
+
+### Batches and performance
+
+`ScreenWorkspace` (one per dataset) shares decoded rows, compiled inputs, every computed
+feature (by canonical name) and forward returns between strategies; `run_screen(...,
+workspaces=…)` reuses it. The ledger verifies each snapshot blob once per `Ledger`
+instance (content-addressed, never rewritten) instead of on every preregistration and
+start. Measured on a copy of the local DB, all six Hyperliquid perps (AAVE, BTC, ETH, HYPE,
+LINK, SOL), 400-day warmup + two-year window, 140,024 retained rows, 5 horizons, 2,000
+random-entry draws:
+
+| Step | Time |
+|---|---|
+| Capture + register dataset | 3.5–4.5 s (once) |
+| Verify + decode snapshot | 0.6 s (once per Ledger) |
+| Compile without cache | 45 ms per strategy × asset (funding aggregation dominates) |
+| Pure screen, fresh workspace | 0.54 s per strategy |
+| Pure screen, shared workspace | 0.25 s per strategy (mostly the random-entry null) |
+| Governed batch, shared workspace, incl. ledger writes | 0.29 s per strategy (was 1.44 s before verification reuse) |
+
+Peak RSS 365 MB for 26 strategies. Hundreds of strategies on one dataset are minutes, not
+hours. The random-entry loop is the next cost to vectorise if needed; workspaces grow
+with distinct features (one float series per feature per asset), which is small at
+daily resolution.
+
+### Known limitations
+
+- DAILY only; no intraday, multi-timeframe, OI, basis or order-flow inputs.
+- No AI generation, bulk/batch CLI, comparison reports, holdout enforcement, testing
+  families or multiple-testing correction; p-values are recorded uncorrected per endpoint.
+- No stops, targets, sizing or portfolio simulation; horizon outcomes only.
+- No automatic promotion to full research, paper or the scanner.
+- Spot needs per-asset classes in the plan; dividends affect outcomes (total return) but
+  not signals.
+
+## 10. Verification
 
 Baseline before changes: **173 tests passed**, repository Ruff checks passed, and all
 89 existing source/test Python files passed format checking. New focused tests cover
