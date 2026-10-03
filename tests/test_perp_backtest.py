@@ -59,7 +59,7 @@ def test_daily_funding_window_and_missing_days():
             (f.index > t0 + pd.Timedelta(days=2)) & (f.index <= t0 + pd.Timedelta(days=2, hours=10))
         ]
     )
-    out = daily_funding(bars, f, min_settlements=20)
+    out = daily_funding(bars, f, min_coverage=20 / 24)
     assert out[0] == pytest.approx(
         0.0024
     )  # 24 settlements in (ts, ts+1d]; the one AT ts is excluded

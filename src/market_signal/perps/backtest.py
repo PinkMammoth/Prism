@@ -57,11 +57,16 @@ class PerpCosts:
         return (self.fee_bps + self.slippage_bps) / 1e4
 
 
-def perp_costs(cfg: dict, coin: str) -> PerpCosts:
+def venue_config(cfg: dict, venue: str) -> dict:
+    return ((cfg.get("venues") or {}).get(venue) or {}) if venue != "hyperliquid" else {}
+
+
+def perp_costs(cfg: dict, coin: str, venue: str = "hyperliquid") -> PerpCosts:
     c = cfg.get("costs") or {}
     slip = c.get("slippage_bps") or {}
+    v = venue_config(cfg, venue)
     return PerpCosts(
-        float(c.get("taker_fee_bps", 4.5)),
+        float(v.get("taker_fee_bps", c.get("taker_fee_bps", 4.5))),
         float(slip.get(coin, slip.get("default", 8))),
         float(c.get("stop_slippage_bps", 10)),
     )
@@ -106,11 +111,13 @@ def liquidation_price(
 # --------------------------------------------------------------------------- data alignment
 
 
-def daily_funding(bars: pd.DataFrame, funding: pd.Series, min_settlements: int = 20) -> np.ndarray:
-    """Funding per daily bar: sum of the hourly rates settled in (ts, ts + 1 day].
+def daily_funding(bars: pd.DataFrame, funding: pd.Series, min_coverage: float = 0.8) -> np.ndarray:
+    """Funding per daily bar: sum of the rates settled in (ts, ts + 1 day].
 
-    Days with fewer than ``min_settlements`` settlements are missing (NaN); days with a few
-    missing hours are scaled up from their mean (mean × 24).
+    Works for any settlement frequency (Hyperliquid hourly, Binance every 8h): the expected
+    settlements per day come from the series' median spacing. A day with fewer settlements
+    than that but at least ``min_coverage`` of them is scaled up pro rata. Below that, the
+    day is missing (NaN), never assumed zero.
     """
     ts = pd.DatetimeIndex(pd.to_datetime(bars["ts"], utc=True))
     out = np.full(len(ts), np.nan)
@@ -119,31 +126,35 @@ def daily_funding(bars: pd.DataFrame, funding: pd.Series, min_settlements: int =
     f = funding.sort_index()
     t = pd.DatetimeIndex(pd.to_datetime(f.index, utc=True)).as_unit("ns").asi8
     v = f.to_numpy(float)
+    spacing = float(np.median(np.diff(t))) / 1e9 if len(t) > 1 else 3600.0
+    per_day = max(round(86400 / spacing), 1) if spacing > 0 else 24
     starts = ts.as_unit("ns").asi8
     ends = starts + pd.Timedelta(days=1).value
     lo = np.searchsorted(t, starts, side="right")  # strictly after the bar open
     hi = np.searchsorted(t, ends, side="right")  # up to and including the bar close
     cs = np.concatenate([[0.0], np.cumsum(v)])
     n = hi - lo
-    ok = n >= min_settlements
-    out[ok] = (cs[hi[ok]] - cs[lo[ok]]) / n[ok] * 24.0
+    total = cs[hi] - cs[lo]
+    full = n >= per_day
+    partial = ~full & (n >= min_coverage * per_day) & (n > 0)
+    out[full] = total[full]
+    out[partial] = total[partial] * per_day / n[partial]
     return out
 
 
-def perp_frame(store: Any, settings: Any, coin: str) -> pd.DataFrame:
-    """Daily perp bars + per-bar funding (``funding_day``), ready for both engines."""
+def perp_frame(store: Any, settings: Any, coin: str, venue: str = "hyperliquid") -> pd.DataFrame:
+    """Daily perp bars + per-bar funding (``funding_day``) for one venue, ready for both engines."""
     from market_signal.perps.data import load_funding, load_perp_bars, perp_config
 
-    bars = load_perp_bars(store, coin)
+    bars = load_perp_bars(store, coin, venue=venue)
     if bars.empty:
         return bars
     bars = bars.copy()
     bars["ts"] = pd.to_datetime(bars["ts"], utc=True)
     bars["close_time"] = pd.to_datetime(bars["close_time"], utc=True)
     es = perp_config(settings).get("event_study") or {}
-    bars["funding_day"] = daily_funding(
-        bars, load_funding(store, coin), int(es.get("min_funding_settlements_per_day", 20))
-    )
+    cov = float(es.get("min_funding_coverage", 0.8))
+    bars["funding_day"] = daily_funding(bars, load_funding(store, coin, venue=venue), cov)
     return bars.reset_index(drop=True)
 
 
@@ -238,6 +249,7 @@ class PerpInput:
     long_stop: pd.Series | None = None  # stop price set at the signal bar
     short_stop: pd.Series | None = None
     setup: str = ""
+    maint_rate: float | None = None  # venue maintenance margin rate; default 1/(2 × max leverage)
 
 
 @dataclass
@@ -326,7 +338,7 @@ def simulate_perps(
             "low": f["low"].to_numpy(float), "close": f["close"].to_numpy(float), "funding": fd,
             "long": _aligned(a.long_signal, n, False).astype(bool), "short": _aligned(a.short_signal, n, False).astype(bool),
             "long_stop": _aligned(a.long_stop, n, np.nan).astype(float), "short_stop": _aligned(a.short_stop, n, np.nan).astype(float),
-            "input": a, "maint": maintenance_rate(a.venue_max_leverage),
+            "input": a, "maint": a.maint_rate or maintenance_rate(a.venue_max_leverage),
         }  # fmt: skip
         ct = data[a.coin]["close_time"].as_unit("ns").asi8
         events.extend((ct[i], a.coin, i) for i in range(n))
@@ -535,16 +547,29 @@ def simulate_perps(
     return res
 
 
-def load_perp_input(store: Any, settings: Any, coin: str, **signals: Any) -> PerpInput | None:
-    """A ``PerpInput`` from stored data: perp bars + daily funding, configured costs, and the
-    venue's max leverage from the latest snapshot (config default otherwise). Pass
-    ``long_signal`` / ``short_signal`` / ``long_stop`` / ``short_stop`` / ``setup`` as needed."""
+def load_perp_input(
+    store: Any, settings: Any, coin: str, venue: str = "hyperliquid", **signals: Any
+) -> PerpInput | None:
+    """A ``PerpInput`` from stored data for one venue: perp bars + daily funding, that venue's
+    costs and margin rules (Hyperliquid: max leverage from the latest snapshot, config default
+    otherwise). Pass ``long_signal`` / ``short_signal`` / ``long_stop`` / ``short_stop`` /
+    ``setup`` as needed."""
     from market_signal.perps.data import load_snapshots, perp_config
 
-    f = perp_frame(store, settings, coin)
+    f = perp_frame(store, settings, coin, venue)
     if f.empty:
         return None
     cfg = perp_config(settings)
+    v = venue_config(cfg, venue)
+    if v:
+        lev = float(
+            (v.get("max_leverage") or {}).get(
+                coin, (v.get("max_leverage") or {}).get("default", 20)
+            )
+        )
+        mr = v.get("maintenance_rate") or {}
+        maint = float(mr.get(coin, mr.get("default", 0.01)))
+        return PerpInput(coin, f, perp_costs(cfg, coin, venue), lev, maint_rate=maint, **signals)
     snaps = load_snapshots(store, coin)
     snap_lev = (
         float(snaps["max_leverage"].dropna().iloc[-1])

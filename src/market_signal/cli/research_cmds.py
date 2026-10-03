@@ -196,9 +196,19 @@ def perp_research(
     name: str = typer.Argument("all", help="Strategy name (see `market perp-strategies`) or 'all'"),
     no_walk_forward: bool = typer.Option(False, "--no-wf", help="Skip walk-forward"),
     no_sensitivity: bool = typer.Option(False, "--no-sens", help="Skip the sensitivity grid"),
+    venue: str = typer.Option(
+        "hyperliquid", help="hyperliquid | binance (history before Hyperliquid's)"
+    ),
+    end: str = typer.Option(
+        None,
+        help="Last date to include (YYYY-MM-DD). Binance default: the day "
+        "before Hyperliquid's history starts, so the years are unseen",
+    ),
 ) -> None:
     """Research perp strategies on stored perp data: event study, walk-forward, sensitivity,
     simulation and an automatic verdict (same criteria as spot). Reports go to results/perps/."""
+    import pandas as pd
+
     from market_signal.demo import is_synthetic
     from market_signal.perps.research import all_strategies, run_perp_research, save_perp_report
     from market_signal.research.report import fmt
@@ -208,7 +218,20 @@ def perp_research(
         synthetic = is_synthetic(store)
         if synthetic:
             console.print("[bold black on yellow] SYNTHETIC DATA: engine demonstration only [/]")
-        t = Table(title="Perp strategy research (net of fees, slippage and funding)")
+        cut, note = None, ""
+        if end:
+            cut = pd.Timestamp(end, tz="UTC") + pd.Timedelta(days=1)
+            note = f"data up to {end}"
+        elif venue == "binance":
+            from market_signal.perps.binance import hyperliquid_start
+
+            hl = hyperliquid_start(store)
+            if hl is not None:
+                cut = hl
+                note = f"before Hyperliquid's history starts ({hl:%Y-%m-%d}): years the research never saw"
+        if note:
+            console.print(f"[bold]{venue}[/]: {note}")
+        t = Table(title=f"Perp strategy research on {venue} (net of fees, slippage and funding)")
         for c in ("strategy", "verdict", "events", "excess", "p", "WF +", "liq.", "max DD"):
             t.add_column(
                 c, no_wrap=True, justify="left" if c in ("strategy", "verdict") else "right"
@@ -221,7 +244,8 @@ def perp_research(
             with console.status(f"Researching {n}…"):
                 try:
                     rep = run_perp_research(store, settings, n, walk_forward_on=not no_walk_forward,
-                                            sensitivity_on=not no_sensitivity)  # fmt: skip
+                                            sensitivity_on=not no_sensitivity, venue=venue, end=cut,
+                                            window_note=note)  # fmt: skip
                 except (RuntimeError, KeyError) as exc:
                     console.print(f"[red]{n}: {exc}[/]")
                     raise typer.Exit(1) from None
@@ -244,7 +268,31 @@ def perp_research(
                       "anything else means: don't trade it.")  # fmt: skip
 
 
+def perp_paper() -> None:
+    """Paper-tracking (forward test) of the perp strategies: live-recorded signals and how
+    they have done since. Not advice; nothing here was traded."""
+    from market_signal.perps.paper import evaluate_paper
+    from market_signal.perps.strategies import STRATEGIES
+
+    with open_store(read_only=True) as (settings, store):
+        t = Table(title="Perp strategies: paper-tracking since first live check (not traded)")
+        for c in ("strategy", "since", "bars", "signals", "done", "indep.", "excess", "p"):
+            t.add_column(c, no_wrap=True, justify="left" if c in ("strategy", "since") else "right")
+        early = False
+        for name in STRATEGIES:
+            r = evaluate_paper(store, settings, name)
+            early |= r.too_early
+            t.add_row(name, "–" if r.first_check is None else f"{r.first_check:%d %b %Y}", str(r.bars_checked),
+                      str(r.signals), str(r.completed), str(r.independent),
+                      "–" if r.excess is None else f"{r.excess:+.1%}", "–" if r.p_value is None else f"{r.p_value:.2f}")  # fmt: skip
+        console.print(t)
+        if early:
+            console.print("[yellow]Too early to judge: fewer than 30 completed independent signals. "
+                          "Checks are recorded daily by `market update`.[/]")  # fmt: skip
+
+
 def register(app: typer.Typer) -> None:
+    app.command("perp-paper")(perp_paper)
     app.command("perp-strategies")(perp_strategies)
     app.command("perp-research")(perp_research)
     app.command("track")(track)

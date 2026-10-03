@@ -193,13 +193,35 @@ def update_perps(settings: Settings, store: Store, provider: Any | None = None) 
 
 
 # --------------------------------------------------------------------------- loaders
-# One venue per coin today, so loaders read any source (the demo DB uses "synthetic").
+# Venues never mix: every loader reads exactly one source. The default venue falls back to
+# the demo DB's "synthetic" rows only when it has no rows of its own.
 
 
-def load_funding(store: Store, coin: str, since: datetime | None = None) -> pd.Series:
+def resolve_source(store: Store, coin: str, venue: str = SOURCE) -> str:
+    if venue != SOURCE:
+        return venue
+    try:
+        has = store.con.execute(
+            "SELECT (SELECT count(*) FROM perp_bars WHERE coin=? AND source=?) + "
+            "(SELECT count(*) FROM perp_funding WHERE coin=? AND source=?)",
+            [coin, venue, coin, venue],
+        ).fetchone()[0]
+        if has:
+            return venue
+        synth = store.con.execute(
+            "SELECT count(*) FROM perp_bars WHERE coin=? AND source='synthetic'", [coin]
+        ).fetchone()[0]
+    except Exception:
+        return venue
+    return "synthetic" if synth else venue
+
+
+def load_funding(
+    store: Store, coin: str, since: datetime | None = None, venue: str = SOURCE
+) -> pd.Series:
     """Settled funding rate per period, indexed by settlement time (UTC)."""
-    sql = "SELECT time, funding_rate FROM perp_funding WHERE coin=?"
-    params: list = [coin]
+    sql = "SELECT time, funding_rate FROM perp_funding WHERE coin=? AND source=?"
+    params: list = [coin, resolve_source(store, coin, venue)]
     if since is not None:
         sql += " AND time >= ?"
         params.append(since)
@@ -214,23 +236,30 @@ def load_funding(store: Store, coin: str, since: datetime | None = None) -> pd.S
     )
 
 
-def load_snapshots(store: Store, coin: str | None = None) -> pd.DataFrame:
+def load_snapshots(store: Store, coin: str | None = None, venue: str = SOURCE) -> pd.DataFrame:
+    """Snapshots exist for Hyperliquid only (the demo DB stores them as "synthetic")."""
     try:
+        sources = (venue, "synthetic") if venue == SOURCE else (venue,)
+        marks = ",".join("?" * len(sources))
         if coin:
             return store.query(
-                "SELECT * FROM perp_snapshots WHERE coin=? ORDER BY snapshot_at", [coin]
+                f"SELECT * FROM perp_snapshots WHERE coin=? AND source IN ({marks}) ORDER BY snapshot_at",
+                [coin, *sources],
             )
-        return store.query("SELECT * FROM perp_snapshots ORDER BY coin, snapshot_at")
+        return store.query(
+            f"SELECT * FROM perp_snapshots WHERE source IN ({marks}) ORDER BY coin, snapshot_at",
+            list(sources),
+        )
     except Exception:
         return pd.DataFrame()
 
 
-def load_perp_bars(store: Store, coin: str) -> pd.DataFrame:
+def load_perp_bars(store: Store, coin: str, venue: str = SOURCE) -> pd.DataFrame:
     try:
         return store.query(
             "SELECT ts, open, high, low, close, volume, close_time FROM perp_bars "
-            "WHERE coin=? AND timeframe='1d' ORDER BY ts",
-            [coin],
+            "WHERE coin=? AND timeframe='1d' AND source=? ORDER BY ts",
+            [coin, resolve_source(store, coin, venue)],
         )
     except Exception:
         return pd.DataFrame()

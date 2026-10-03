@@ -87,3 +87,19 @@ returns REJECT.
 
 **With only ~2–3 years of perp history, expect few independent events and at most 2–3
 walk-forward folds.** INSUFFICIENT_DATA and INCONCLUSIVE are honest outcomes, not failures.
+
+## Two further checks on the same strategies
+
+**Unseen years (Binance, 2019 → the start of the Hyperliquid data).**
+`market perp-research --venue binance` runs the *unchanged* strategies on Binance history
+that ends where the Hyperliquid data begins, so no year is used twice. It uses Binance's own
+costs and margin assumptions (`venues.binance`). Its verdicts are saved as
+`perp_<strategy>@binance`. The strategies weren't fitted to these years. They are generic
+ideas, though, written with general knowledge of crypto history, so this is strong
+evidence but not perfect evidence.
+
+**Paper-tracking (live, from now on).** Each `market update` checks the newest closed bar
+of every coin with every strategy and records the result in `perp_paper_checks`. It never
+backfills days that were missed, and each row stores the strategy's parameter hash.
+`market perp-paper` scores the recorded signals against random entry drawn from the same
+live-checked bars. Nothing is traded or shown as advice.

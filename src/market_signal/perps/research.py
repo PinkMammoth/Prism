@@ -12,6 +12,7 @@ Saved like spot runs (results/perps/<strategy>/<ts>/ + a ``research_runs`` row n
 
 from __future__ import annotations
 
+import dataclasses
 import json
 from dataclasses import dataclass, field
 from typing import Any
@@ -64,6 +65,14 @@ class PerpReport:
     period: tuple[str, str]
     coins: list[str]
     provenance: dict = field(default_factory=dict)
+    venue: str = "hyperliquid"
+    window_note: str = ""  # e.g. "before Hyperliquid's history starts: unseen by this research"
+
+    @property
+    def run_name(self) -> str:
+        return f"perp_{self.strategy.name}" + (
+            "" if self.venue == "hyperliquid" else f"@{self.venue}"
+        )
 
 
 def _events(
@@ -85,8 +94,13 @@ def run_perp_research(
     inputs: list[PerpInput] | None = None,
     walk_forward_on: bool = True,
     sensitivity_on: bool = True,
+    venue: str = "hyperliquid",
+    end: pd.Timestamp | None = None,
+    window_note: str = "",
 ) -> PerpReport:
-    """``inputs`` may be passed directly (tests); otherwise they're loaded from ``store``."""
+    """``inputs`` may be passed directly (tests); otherwise they're loaded from ``store`` for
+    ``venue``. ``end`` (exclusive) truncates every coin's history first, e.g. to test the
+    strategies only on years before the Hyperliquid data they were researched on."""
     strat = get_strategy(name)
     pcfg, bt = perp_config(settings), settings.yaml("backtest.yaml")
     stats = bt["statistics"]
@@ -96,14 +110,32 @@ def run_perp_research(
     }
     primary = strat.primary_horizon
     if inputs is None:
+        from market_signal.perps.backtest import venue_config
+
+        coins = (
+            list(venue_config(pcfg, venue).get("symbols") or {})
+            if venue != "hyperliquid"
+            else pcfg.get("coins") or []
+        )
         inputs = [
             a
-            for c in pcfg.get("coins") or []
-            if (a := load_perp_input(store, settings, str(c).upper())) is not None
+            for c in coins
+            if (a := load_perp_input(store, settings, str(c).upper(), venue)) is not None
+        ]
+    if end is not None:
+        cut = pd.Timestamp(end)
+        cut = cut.tz_localize("UTC") if cut.tzinfo is None else cut
+        inputs = [
+            dataclasses.replace(
+                a, frame=a.frame[a.frame["close_time"] <= cut].reset_index(drop=True)
+            )
+            for a in inputs
         ]
     inputs = [a for a in inputs if len(a.frame) > 60]
     if not inputs:
-        raise RuntimeError("no perp data stored: run `market update --only perps` first")
+        raise RuntimeError(
+            f"no {venue} perp data stored for this window: run `market update --only perps` first"
+        )
     params = dict(strat.defaults)
 
     aevs = _events(strat, inputs, params, horizons)
@@ -163,7 +195,7 @@ def run_perp_research(
     for a in inputs:
         s = strat.signals(a.frame, params)
         sim_inputs.append(PerpInput(a.coin, a.frame, a.costs, a.venue_max_leverage, s.long, s.short,
-                                    s.long_stop, s.short_stop, strat.name))  # fmt: skip
+                                    s.long_stop, s.short_stop, strat.name, a.maint_rate))  # fmt: skip
     sim = simulate_perps(sim_inputs, PerpRules(max_hold_bars=int(params["max_hold"])), PerpRisk.from_config(pcfg),
                          float((pcfg.get("research") or {}).get("initial_equity", 100_000)))  # fmt: skip
     prov = {
@@ -189,7 +221,8 @@ def run_perp_research(
         prov["git_commit"] = None
     return PerpReport(strat, new_id("prr_"), utcnow().isoformat(timespec="seconds"), params, horizons, study, sim,
                       wf_table, wf_summary, sens_table, sens_verdict, verdict,
-                      (str(period[0])[:10], str(period[1])[:10]), [a.coin for a in inputs], prov)  # fmt: skip
+                      (str(period[0])[:10], str(period[1])[:10]), [a.coin for a in inputs], prov,
+                      venue, window_note)  # fmt: skip
 
 
 # --------------------------------------------------------------------------- report
@@ -206,6 +239,7 @@ def render_perp_markdown(rep: PerpReport) -> str:
         f"# Perp research: {s.title} (`{s.name}`)", "",
         f"- **Verdict:** **{v['verdict']}**: {'; '.join(v['reasons'])}",
         f"- **Hypothesis:** {s.hypothesis}",
+        f"- **Venue:** {rep.venue}" + (f" · **{rep.window_note}**" if rep.window_note else ""),
         f"- **Coins:** {', '.join(rep.coins)} · **signal period:** {rep.period[0]} → {rep.period[1]} · primary horizon **{p}**",
         f"- **Pre-registered parameters:** `{rep.params}`",
         f"- **Run:** `{rep.run_id}` at {rep.created_at}; config `{rep.provenance.get('config_hash')}`; "
@@ -287,12 +321,11 @@ def render_perp_markdown(rep: PerpReport) -> str:
 
 
 def save_perp_report(store: Store, settings: Settings, rep: PerpReport):
-    out = (
-        settings.paths.results
-        / "perps"
-        / rep.strategy.name
-        / rep.created_at.replace(":", "").replace("-", "")[:15]
-    )
+    stamp = rep.created_at.replace(":", "").replace("-", "")[:15]
+    folder = (
+        stamp if rep.venue == "hyperliquid" else f"{rep.venue}-{stamp}"
+    )  # venues never share a folder
+    out = settings.paths.results / "perps" / rep.strategy.name / folder
     out.mkdir(parents=True, exist_ok=True)
     (out / "report.md").write_text(render_perp_markdown(rep))
     rep.study.events.to_csv(out / "events.csv", index=False)
@@ -300,7 +333,7 @@ def save_perp_report(store: Store, settings: Settings, rep: PerpReport):
         rep.sim.trades.to_csv(out / "trades.csv", index=False)
     rep.sim.equity.rename("equity").to_csv(out / "equity.csv")
     summary = {
-        "name": f"perp_{rep.strategy.name}", "setup": rep.strategy.name, "verdict": rep.verdict, "period": rep.period,
+        "name": rep.run_name, "setup": rep.strategy.name, "venue": rep.venue, "window_note": rep.window_note, "verdict": rep.verdict, "period": rep.period,
         "summary": rep.study.summary.replace({np.nan: None}).to_dict("records"),
         "by_side": rep.study.by_class.replace({np.nan: None}).to_dict("records") if not rep.study.by_class.empty else [],
         "simulation": dict(rep.sim.metrics), "walk_forward": rep.wf_summary, "sensitivity": rep.sens_verdict,
@@ -309,8 +342,9 @@ def save_perp_report(store: Store, settings: Settings, rep: PerpReport):
     (out / "summary.json").write_text(json.dumps(summary, indent=2, default=str))
     store.con.execute(
         "INSERT INTO research_runs VALUES (?,?,?,?,?,?,?,?,?,?,?)",
-        [rep.run_id, f"perp_{rep.strategy.name}", "perp_experiment", utcnow(),
-         json.dumps({"strategy": rep.strategy.name, "params": rep.params, "primary_horizon": rep.strategy.primary_horizon}),
+        [rep.run_id, rep.run_name, "perp_experiment", utcnow(),
+         json.dumps({"strategy": rep.strategy.name, "params": rep.params, "primary_horizon": rep.strategy.primary_horizon,
+                     "venue": rep.venue, "period": list(rep.period), "window_note": rep.window_note}),
          rep.provenance["config_hash"], json.dumps(rep.provenance["data"], default=str), "perps-phase3",
          rep.provenance.get("git_commit"), json.dumps({"verdict": rep.verdict}, default=str), str(out)],
     )  # fmt: skip

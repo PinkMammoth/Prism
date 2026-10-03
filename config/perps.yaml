@@ -37,7 +37,8 @@ risk:
 event_study:
   horizons: {1d: 1, 3d: 3, 1w: 7, 2w: 14, 1m: 30, 3m: 91}   # bars (daily, 24/7)
   primary_horizon: 1m
-  min_funding_settlements_per_day: 20   # fewer → that day's funding is missing (and so is any return spanning it)
+  min_funding_coverage: 0.8   # share of a day's expected settlements needed; fewer → that day's funding
+                              # is missing (and so is any return spanning it)
 
 # ---------------------------------------------------------------- Phase 3: strategy research
 # Strategy defaults are pre-registered in src/market_signal/perps/strategies.py.
@@ -50,3 +51,15 @@ research:
     min_train_events: 20
     objective: median_excess
   initial_equity: 100000
+
+# ---------------------------------------------------------------- second venue: Binance USD-M
+# Used for history only: to test the SAME pre-registered strategies on years before
+# Hyperliquid's data begins. Never mixed with Hyperliquid series (separate `source`).
+venues:
+  binance:
+    enabled: true
+    history_start: "2019-09-01"     # Binance USD-M perps launched Sept 2019
+    symbols: {BTC: BTCUSDT, ETH: ETHUSDT, SOL: SOLUSDT, LINK: LINKUSDT, AAVE: AAVEUSDT}
+    taker_fee_bps: 5.0              # base-tier USD-M taker fee (0.05%), an assumption
+    max_leverage: {default: 20}     # only bounds leverage; Prism's 3x cap applies first
+    maintenance_rate: {BTC: 0.004, ETH: 0.005, default: 0.01}   # lowest tier, conservative for alts
