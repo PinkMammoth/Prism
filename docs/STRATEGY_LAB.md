@@ -8,10 +8,11 @@ strategy families (section 11), evidence profiles (section 12), prospective forw
 tracking (section 13) and full research with independent validation (section 14) are
 implemented, plus the first consumer of that evidence, the perps co-pilot (section 15),
 cross-venue historical corroboration (section 16) and a second consumer, the paper-only
-auto-trader (section 17: a simulated account that can never place a real order).
+auto-trader (section 17: a simulated account that can never place a real order), with
+read-only paper observability (section 18).
 No production strategies, evaluation rules, paper records or scanners were changed; the
 co-pilot and the paper trader reuse the existing Telegram client. The only schema changes
-are the additive migrations described in sections 7, 10, 12, 13, 14, 15, 16 and 17.
+are the additive migrations described in sections 7, 10, 12, 13, 14, 15, 16, 17 and 18.
 
 ## 1. Current architecture
 
@@ -3331,7 +3332,290 @@ Phase 11 MIXED corroboration. A wrapper run (`forward_run.sh`) logged
 - Telegram reuses the existing bot. Delivery problems are recorded but cannot affect the
   account.
 
-## 18. Verification
+## 18. Step 13 implemented: paper observability
+
+Module `src/market_signal/paper/observe.py`, additive migration 16 (`paper_snapshots`,
+`paper_briefs`), new and reworked `market lab paper …` views, and a top-level
+`market status`. The question this phase answers: *is the paper trader healthy, what is it
+doing, what has it missed, and how is the account evolving?*
+
+> Phase 13 is read-only with respect to paper trading policy and execution. It observes the
+> frozen Phase 12 experiment and does not adapt it.
+
+> Operational misses are distinguished from deliberate policy or risk rejections.
+
+No promotion, risk, exit, execution or maturity policy, no event semantics, sizing,
+cohort or signal rule changed. The v1 policy IDs are pinned in a test. There is no feedback
+loop: nothing reallocates, loosens a window or retunes a limit from results. The only
+engine change is an optional `alerts` flag on `run_all` (default on, behaviour unchanged),
+exposed as `market lab paper run --no-notify`.
+
+### One source of truth
+
+Every number is derived from the run's append-only `paper_events` (replayed with
+`account.replay`) and its recorded `paper_cycles` and `paper_notifications`. Nothing is
+cached or kept in a second account table. `account_summary` reports
+`reconciles_with_ledger`: starting equity + realised + unrealised = marked equity.
+
+### Views
+
+| Command | Shows |
+|---|---|
+| `market lab paper status [--json]` | Everything important on one screen (detailed below the table) |
+| `positions` | Per open position: asset, side, strategy, entry time, entry reference → simulated fill, current mark (last processed close), units, notional, leverage, margin committed and balance, unrealised PnL, funding to date, entry fee, **approximate** liquidation level and distance (model `isolated_full_margin_loss_v1`, not Hyperliquid parity), scheduled exit bar, bars remaining |
+| `risk` | Headroom against the frozen limits: positions `n / 3`, gross exposure `x% / 60%`, per asset `/ 20%`, per strategy `/ 40%`, free cash vs the 25% reserve, last bar return vs the −3% halt, drawdown `/ 15%` kill threshold, failed-cycle streak `/ 3`, whether new entries are permitted, free slots, near-liquidation assets. No risk score |
+| `trades` | Closed trades: strategy, asset, side, signal bar, entry/exit time, fills, bars held, gross, fees, funding, slippage, net, return on margin, exit reason, operational issues |
+| `intents [--skipped]` | Every signal acted on: promotion result, risk result, disposition, category, reason |
+| `gaps` | The operational gap audit plus notification lag |
+| `contributions` | Descriptive per-strategy and per-asset totals (below) |
+| `equity` | Daily equity curve: equity, peak, drawdown, exposure at each recorded close. No intraday values are inferred, and no plotting dependency was added |
+| `snapshot` / `brief [--record] [--send]` | Snapshots and the daily brief (below) |
+| `runs` | The Phase 12 JSON listing of all runs (`status` previously printed this) |
+
+`status` shows on one screen:
+
+- account: status and health, age, start/current equity, cash, free cash,
+  realised/unrealised/net PnL, return, peak, drawdown and max drawdown, gross exposure,
+  margin in use, open/pending/closed counts, maturity, observed days;
+- risk headroom;
+- coverage;
+- component health;
+- open positions;
+- intent dispositions.
+
+Every view has `--json`. Without a run ID, a view uses the open run, else the newest one;
+observation never creates a run.
+
+### Expected skip versus missed execution
+
+Every intent gets one disposition:
+
+| Disposition | Meaning |
+|---|---|
+| `ENTERED` | the entry order filled at T+1's open |
+| `PENDING_FILL` | the order was submitted; T+1 has not completed yet |
+| `EXPECTED_SKIP` | the system deliberately did not enter |
+| `MISSED_EXECUTION` | the system would have traded, but operational timing or data prevented it |
+
+Categories:
+
+- **Expected skip** (deliberate):
+  - `promotion_rejection`;
+  - `risk_rejection`: position, strategy, asset or headroom limits, or the daily-loss halt;
+  - `conflicting_position`: duplicate, conflict, or a same-bar conflict;
+  - `account_paused_or_killed`.
+- **Missed execution** (operational):
+  - `offline_gap`: no paper cycle at all inside the 12 h entry window, e.g. PC off;
+  - `data_late`: cycles ran inside the window but waited for a lagging asset;
+  - `engine_error`: every cycle inside the window failed;
+  - `stale_or_missing_data`: gapped signal data, or an entry order expired because its
+    fill bar never arrived;
+  - `execution_error`: an order rejected at fill.
+
+A policy or risk rejection is never counted as an operational miss.
+
+**Mixed reasons.** If any of an intent's reasons is deliberate, it is an expected skip, and
+the operational reasons are listed alongside.
+
+**Counterfactual.** An intent rejected *only* for operational reasons is re-decided once,
+read-only:
+
+- the run's frozen risk policy and execution model are applied to **the same pre-trade
+  snapshot** the engine used, rebuilt by replaying the ledger up to that bar's decisions;
+- timing and data are assumed fine;
+- if the counterfactual accepts the intent, it is `MISSED_EXECUTION`; otherwise it is an
+  `EXPECTED_SKIP` ("would have been rejected anyway").
+
+No hypothetical fill, price or PnL is ever constructed for a missed trade.
+
+### Coverage and the gap audit
+
+Expected bars are every daily close after the run's creation that has already happened.
+For each bar, the status comes only from recorded marks and cycles:
+
+| Status | Meaning |
+|---|---|
+| `ON_TIME` | processed within 12 h of its close |
+| `LATE` | processed after the window. The cause is `offline_gap`, `data_late` or `engine_error`, from the cycles recorded inside the window |
+| `PENDING` | not processed; the window is still open |
+| `UNPROCESSED` | not processed; the window has passed |
+
+Coverage also reports:
+
+- cycle counts: total, ok, error, consecutive ok;
+- the last ok cycle and the last cycle;
+- calendar days without any cycle (honest PC-off days);
+- the next bar and its entry window.
+
+`gaps` lists each late or unprocessed bar with:
+
+- the cycles inside its window;
+- the signals found once it was processed;
+- each intent's disposition, and how many trades became impossible;
+- the positions held through the gap;
+- whether marks and funding were recovered later, and how many settlements are missing;
+- data-issue events;
+- what is permanently unknowable. Signals on a bar stay unknown until it is processed,
+  and fills that were never placed are not reconstructed.
+
+**Notification lag** (from Phase 12, not "fixed" here). `gaps` and `trades` report, for
+each opened/closed position:
+
+- the execution time the simulated fill represents (T+1's open, or the exit close);
+- when it was recorded;
+- when Telegram delivered it.
+
+Opens are recorded about a day after the fill they represent, because only completed bars
+are stored.
+
+### Health
+
+| State | When |
+|---|---|
+| `KILLED` / `STOPPED` / `PAUSED` | from the run's status |
+| `STALE` | a bar is past its entry window and still unprocessed |
+| `DEGRADED` | any of: a failed-cycle streak; a recent (last 7 bars) bar processed late; a recent data issue; recently missing funding settlements; a position within 20% of its modelled liquidation level (display threshold only; the position is never touched) |
+| `HEALTHY` | otherwise |
+
+Failed or unknown Telegram deliveries are reported next to health. They never make the
+account unhealthy, because they cannot affect trading.
+
+Component freshness is read with SQL only, and `observe` imports nothing from the co-pilot.
+A component is `current` if it ran within 36 h:
+
+- newest Hyperliquid daily bar;
+- last forward check;
+- last co-pilot run.
+
+### Contributions (descriptive only)
+
+**Per strategy:**
+
+- signals, intents, entered;
+- closed trades, wins/losses, net PnL, fees, funding;
+- expected skips, missed executions, open positions.
+
+**Per asset:**
+
+- closed trades, net PnL, fees, funding;
+- average exposure (mean of daily per-asset notional / equity);
+- missed executions, and whether a position is open.
+
+These are totals, not a ranking: nothing is labelled best, and nothing is disabled.
+
+### Snapshots (`paper_snapshot_v1`)
+
+An immutable `paper_execution` snapshot is keyed by `(run, ledger sequence, version)`. It
+holds:
+
+- status, observed days;
+- closed and open trades, wins/losses;
+- gross, realised, unrealised and net PnL; fees, funding, slippage; equity;
+- return on starting equity, max drawdown, average exposure;
+- signals and intents; entered, pending, expected skips and missed executions, each by
+  category;
+- strategy and asset contributions;
+- maturity, ledger reconciliation, the events digest and the policy IDs.
+
+It is ledger-derived only, so it can be reproduced exactly from `events[:as_of_seq]`
+(tested). Recording again at the same sequence returns the stored row unchanged; nothing
+is recomputed in place.
+
+**Cadence:** the scheduled wrapper takes one snapshot after every paper cycle that appended
+events, so at least one per completed paper day. `market lab paper snapshot` takes one by
+hand. Snapshots are descriptive and change no eligibility or policy.
+
+### Daily brief
+
+`market lab paper brief` prints the compact brief, read-only:
+
+- **PAPER ACCOUNT:** equity, PnL, drawdown vs kill, positions vs limit, gross exposure vs
+  limit;
+- **TODAY:** signals, opened, closed, orders submitted, rejected, missed, for the last
+  completed paper day;
+- **POSITIONS** (when any exist): one line each, with uPnL, exit date, bars left and
+  approximate liquidation distance;
+- **HEALTH:** paper engine state, last cycle, data, forward tracking, co-pilot, maturity.
+
+It is labelled `PAPER · SIMULATED — no real order was placed` and ends with the research
+footer.
+
+`--record` takes a snapshot, then stores the brief **once per completed paper day**
+(`paper_briefs`, unique per run, bar and version). A stored brief is never rebuilt.
+Before the first completed day, nothing is stored.
+
+### Telegram brief
+
+The daily brief is **enabled**: the wrapper calls `brief --send`.
+
+- One message per completed paper day, sent only after the paper cycle has committed and
+  the snapshot is taken.
+- Delivery uses the Phase 12 pattern in `paper_notifications`: `attempted`, then `sent` or
+  `failed`. A failure is retried on later wrapper runs for 24 h. An attempt of unknown
+  outcome is never resent. Delivery can never affect the account.
+- It can be toggled independently of position alerts:
+  - remove `--send` from `forward_run.sh` for a CLI-only brief;
+  - use `market lab paper run --no-notify` to silence open/close/kill alerts.
+
+### `market status`
+
+One read-only table with five components:
+
+| Component | Source |
+|---|---|
+| Data | the existing `check_freshness` |
+| OI | the existing `oi_coverage` |
+| Forward tracker | last check, active trackings, newest evaluated bar |
+| Co-pilot | last run, active watches, alerts |
+| Paper trader | health, equity, return, positions, maturity |
+
+`market doctor` is unchanged and remains the detailed diagnostic.
+
+### Scheduling
+
+`forward_run.sh` (the installed "Prism forward" task) now runs:
+
+1. forward run;
+2. co-pilot;
+3. `market lab paper run`;
+4. `market lab paper brief --send`.
+
+The log line is `=== done forward=… copilot=… paper=… brief=…`. The brief step only
+reads committed state and writes observability rows.
+
+### Live application (2026-10-04)
+
+The DB was backed up first to `data/prism.pre_phase13.duckdb`, and migration 16 was
+applied. Observability is attached to the **existing** run
+`paperrun_27b0a336…`: no new run, no restarted clock, and the same balance and policies.
+
+- **First governed snapshot:** `papersnap_ce392529…` (sequence 1, before any processed bar).
+  It records exactly what exists: equity 10,000.00 USDC, 0 positions, 0 trades, 0 signals,
+  0 intents, 0 skips, 0 missed executions, `WARMUP`.
+- **Daily brief:** none stored, because no paper day has completed yet. The first is due
+  after the 2026-10-05 00:00 UTC bar is processed.
+- **Health:** `HEALTHY`. `market status` shows Data, OI, Forward tracker, Co-pilot and
+  Paper trader all OK.
+- **Immutability:** after migration, smoke tests, the snapshot and a wrapper run
+  (`forward=0 copilot=0 paper=0 brief=0`), every `lab_*`, `copilot_*`, `paper_events`,
+  `paper_runs`, `paper_policies`, `paper_evidence` and `paper_software` table (45 tables)
+  was byte-identical to the backup.
+
+### Known limitations
+
+- **Home-PC uptime.** Coverage reports offline days honestly but cannot prevent them; a day
+  without a run inside 00:00–12:00 UTC is a missed entry window.
+- **Notification lag.** Open notifications still arrive about a day after the fill they
+  represent. This is reported, not changed.
+- **Daily granularity only.** Marks, the equity curve and liquidation distance use daily
+  closes; there are no intraday marks.
+- The counterfactual for operational misses uses the recorded snapshot and the frozen risk
+  policy. It says whether an order *would have been submitted*, never what it would have
+  earned.
+- Component freshness uses a fixed 36 h threshold (display only).
+- No chart: the equity history is a table. The Streamlit dashboard was not extended.
+
+## 19. Verification
 
 Baseline before changes: **173 tests passed**, repository Ruff checks passed, and all
 89 existing source/test Python files passed format checking. New focused tests cover
@@ -3629,3 +3913,39 @@ was triggered.
 - **evidence and neutrality:** evidence reconciles with the ledger; the evidence chain is
   point-in-time; `lab_*`/`copilot_*` byte-identical and the forward tracker unaffected;
   the consumers never import each other; the fast funding-readiness check equals Phase 8's.
+
+### Step 13 verification
+
+| Check | Result |
+|---|---|
+| `pytest` (full) | **605 passed**; before Step 13: 585 |
+| `pytest tests/test_paper_observe.py` | **20 passed** |
+| Paper, co-pilot and CLI suites on the final code | Passed (the Phase 12 CLI test now reads `runs` / `--json`, since `status`, `positions` and `trades` render tables) |
+| `ruff check src tests dashboard` / `ruff format --check src tests` | Passed / 141 files formatted |
+| `git diff --check` (+ trailing-whitespace scan of new files) | Passed |
+| CLI against the live run | `status`, `positions`, `risk`, `trades`, `intents [--skipped]`, `gaps`, `contributions`, `equity`, `brief`, `snapshot` (repeat is a no-op), `market status` |
+| Live DB | Backed up to `data/prism.pre_phase13.duckdb`; migration 16 additive; first snapshot `papersnap_ce392529…` (10,000 USDC, 0 positions, 0 trades); no brief yet (no completed day); `forward_run.sh` logged `forward=0 copilot=0 paper=0 brief=0`; 45 `lab_*`/`copilot_*`/paper ledger and policy tables byte-identical to the backup |
+
+`test_paper_observe.py` covers:
+
+- **identity and reconciliation:** the v1 policy IDs are pinned; the account summary
+  reconciles with replay and the Phase 12 summary;
+- **views:** position metrics (marks, uPnL, margin, approximate liquidation distance, bars
+  left); near-liquidation surfaced and the position untouched; risk headroom, and a pause
+  blocks entries; trade history costs; strategy and asset attribution;
+- **dispositions:** paused/risk rejections are expected skips; an offline gap is a missed
+  execution, with an accepted counterfactual and no backfill; late data is `data_late`, not
+  offline;
+- **coverage:** missed cycles become unprocessed → `STALE`, then late → `DEGRADED`, with the
+  PC-off days listed; error streaks are reported;
+- **notification lag** timestamps;
+- **snapshots:** immutable, idempotent, reproducible from the ledger prefix;
+- **brief:** matches the account, is stored once, sent once, retried on failure; an
+  unknown outcome is never resent; nothing is stored before the first completed day; a
+  crash mid-brief leaves no partial row;
+- **read-only guarantee:** every view, snapshot and brief leaves the ledger, policies,
+  cycles and the Lab/co-pilot tables byte-identical, creates no run, and the next cycle is
+  unaffected;
+- **no feedback path:** the observe module calls no engine write path and constructs no
+  policy;
+- `market status`, and the CLI observability commands.

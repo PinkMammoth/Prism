@@ -974,7 +974,7 @@ def test_cli_paper_lifecycle(pap):
     names = [pap.names["long"], pap.names["short"]]
     vers = ["--promotion-version", "99", "--exit-version", "99"]
     dry = run("create", *names, "--reason", "cli", "--dry-run", *vers)
-    assert dry["dry_run"] is True and run("status") == []
+    assert dry["dry_run"] is True and run("runs") == []
     run(
         "create",
         *names,
@@ -988,13 +988,13 @@ def test_cli_paper_lifecycle(pap):
     )  # v1 promotion refuses synthetic evidence
     made = run("create", *names, "--reason", "cli", *vers)
     rid = made["run_id"]
-    assert [s["run_id"] for s in run("status")] == [rid]
+    assert [s["run_id"] for s in run("runs")] == [rid]
     # real clock: the synthetic market ended long ago and the run was created now
     out = run("run", "--dry-run")
     assert out["dry_run"] is True and out["runs"][0]["bars_processed"] == []
     out = run("run")
     assert out["runs"][0]["status"] == "ok"
-    assert run("positions")["open"] == [] and run("trades") == []
+    assert run("positions", "--json") == [] and run("trades", "--json") == []
     assert [e["event_type"] for e in run("events")] == ["run_created"]
     run("pause", rid, "--reason", "x")
     run("resume", rid, "--reason", "y")

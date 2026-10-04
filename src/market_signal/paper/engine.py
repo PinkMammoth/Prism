@@ -1163,8 +1163,9 @@ def run_all(
     sender_factory: Callable[[], Sender] | None = None,
     now: datetime | None = None,
     dry_run: bool = False,
+    alerts: bool = True,
 ) -> dict:
-    """Cycle every run that is open or still holds positions/orders, then notify."""
+    """Cycle every run that is open or still holds positions/orders, then notify (optional)."""
     store = ledger.store
     _require_tables(store)
     now = _ts(now or utcnow())
@@ -1176,7 +1177,7 @@ def run_all(
         results.append(cycle(ledger, r["run_id"], software=software, now=now, dry_run=dry_run))
     out = {"now": now.isoformat(), "runs": results, "dry_run": dry_run}
     if not dry_run:
-        out["notifications"] = notify(store, sender_factory or _no_sender, now)
+        out["notifications"] = notify(store, sender_factory or _no_sender, now) if alerts else []
     return out
 
 

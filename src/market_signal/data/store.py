@@ -808,6 +808,31 @@ MIGRATIONS: list[str] = [
         recorded_at TIMESTAMPTZ NOT NULL,
         payload JSON NOT NULL
     );
+    """,  # 16 — paper observability (read-only w.r.t. trading): immutable snapshots of the
+    # paper_execution evidence (one per run, ledger sequence and version) and one stored daily
+    # brief per completed paper day. Delivery attempts reuse paper_notifications.
+    """
+    CREATE TABLE IF NOT EXISTS paper_snapshots (
+        snapshot_id VARCHAR PRIMARY KEY,
+        run_id VARCHAR NOT NULL REFERENCES paper_runs(run_id),
+        snapshot_version VARCHAR NOT NULL,
+        as_of_seq INTEGER NOT NULL CHECK (as_of_seq > 0),
+        as_of_bar TIMESTAMPTZ,
+        recorded_at TIMESTAMPTZ NOT NULL,
+        payload JSON NOT NULL,
+        UNIQUE (run_id, as_of_seq, snapshot_version)
+    );
+    CREATE TABLE IF NOT EXISTS paper_briefs (
+        brief_id VARCHAR PRIMARY KEY,
+        run_id VARCHAR NOT NULL REFERENCES paper_runs(run_id),
+        bar_close TIMESTAMPTZ NOT NULL,
+        brief_version VARCHAR NOT NULL,
+        recorded_at TIMESTAMPTZ NOT NULL,
+        text_sha256 VARCHAR NOT NULL,
+        text VARCHAR NOT NULL,
+        payload JSON NOT NULL,
+        UNIQUE (run_id, bar_close, brief_version)
+    );
     """,
 ]
 
