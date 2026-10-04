@@ -480,6 +480,93 @@ MIGRATIONS: list[str] = [
                oi_notional, oi_notional_method, ingest_run_id
         FROM perp_oi_history;
     """,
+    # 11 — Strategy Lab prospective forward tracking: append-only via the Lab API. A bar is
+    # evaluated only within one bar interval of closing (CHECK below), so missed bars stay
+    # missing; outcomes are written once, when final.
+    """
+    CREATE TABLE IF NOT EXISTS lab_forward_trackings (
+        tracking_id VARCHAR PRIMARY KEY,
+        strategy_id VARCHAR NOT NULL REFERENCES lab_strategies(strategy_id),
+        profile_id VARCHAR NOT NULL REFERENCES lab_evidence_profiles(profile_id),
+        profile_tier VARCHAR NOT NULL,
+        enrolled_at TIMESTAMPTZ NOT NULL,
+        reason VARCHAR NOT NULL,
+        origin VARCHAR NOT NULL,
+        software_id VARCHAR NOT NULL REFERENCES lab_software(software_id),
+        definition JSON NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS lab_forward_status (
+        event_id VARCHAR PRIMARY KEY,
+        tracking_id VARCHAR NOT NULL REFERENCES lab_forward_trackings(tracking_id),
+        status VARCHAR NOT NULL CHECK (status IN ('active','paused','stopped')),
+        reason VARCHAR NOT NULL,
+        recorded_at TIMESTAMPTZ NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS lab_forward_runs (
+        run_id VARCHAR PRIMARY KEY,
+        kind VARCHAR NOT NULL CHECK (kind IN ('check','resolve')),
+        started_at TIMESTAMPTZ NOT NULL,
+        finished_at TIMESTAMPTZ NOT NULL,
+        software_id VARCHAR NOT NULL REFERENCES lab_software(software_id),
+        summary JSON NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS lab_forward_inputs (
+        input_id VARCHAR PRIMARY KEY,      -- content ID of the fingerprint manifest
+        manifest JSON NOT NULL,
+        recorded_at TIMESTAMPTZ NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS lab_forward_evaluations (
+        evaluation_id VARCHAR PRIMARY KEY,
+        tracking_id VARCHAR NOT NULL REFERENCES lab_forward_trackings(tracking_id),
+        symbol VARCHAR NOT NULL,
+        bar_close TIMESTAMPTZ NOT NULL,    -- signal bar T (its close is the decision time)
+        evaluated_at TIMESTAMPTZ NOT NULL,
+        run_id VARCHAR NOT NULL REFERENCES lab_forward_runs(run_id),
+        status VARCHAR NOT NULL CHECK (status IN ('signal','no_signal','ineligible')),
+        eligible BOOLEAN NOT NULL,
+        active BOOLEAN NOT NULL,
+        fired BOOLEAN NOT NULL,
+        close DOUBLE,
+        stop DOUBLE,
+        input_id VARCHAR NOT NULL REFERENCES lab_forward_inputs(input_id),
+        software_id VARCHAR NOT NULL REFERENCES lab_software(software_id),
+        payload JSON NOT NULL,
+        UNIQUE (tracking_id, symbol, bar_close),
+        CHECK (evaluated_at >= bar_close AND evaluated_at < bar_close + INTERVAL 1 DAY),
+        CHECK (fired = (status = 'signal')),
+        CHECK (NOT fired OR (eligible AND active))
+    );
+    CREATE TABLE IF NOT EXISTS lab_forward_entries (
+        evaluation_id VARCHAR PRIMARY KEY REFERENCES lab_forward_evaluations(evaluation_id),
+        status VARCHAR NOT NULL CHECK (status IN ('entered','unavailable')),
+        entry_bar_open TIMESTAMPTZ,
+        entry_price DOUBLE,
+        recorded_at TIMESTAMPTZ NOT NULL,
+        payload JSON NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS lab_forward_outcomes (
+        evaluation_id VARCHAR NOT NULL REFERENCES lab_forward_evaluations(evaluation_id),
+        horizon VARCHAR NOT NULL,
+        status VARCHAR NOT NULL CHECK (status IN ('resolved','unavailable')),
+        exit_bar_close TIMESTAMPTZ NOT NULL,
+        gross DOUBLE,
+        net DOUBLE,
+        input_id VARCHAR REFERENCES lab_forward_inputs(input_id),
+        software_id VARCHAR NOT NULL REFERENCES lab_software(software_id),
+        recorded_at TIMESTAMPTZ NOT NULL,
+        payload JSON NOT NULL,
+        PRIMARY KEY (evaluation_id, horizon),
+        CHECK (recorded_at >= exit_bar_close),
+        CHECK ((status = 'resolved') = (net IS NOT NULL AND gross IS NOT NULL))
+    );
+    CREATE TABLE IF NOT EXISTS lab_forward_summaries (
+        summary_id VARCHAR PRIMARY KEY,
+        tracking_id VARCHAR NOT NULL REFERENCES lab_forward_trackings(tracking_id),
+        as_of TIMESTAMPTZ NOT NULL,
+        payload JSON NOT NULL,
+        recorded_at TIMESTAMPTZ NOT NULL
+    );
+    """,
 ]
 
 

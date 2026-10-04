@@ -2,7 +2,8 @@
 
 Inspection, ``compile``, ``families``/``family show`` and ``batch generate`` (without
 ``--register``) are read-only. ``preregister``, ``screen``, ``batch generate --register``,
-``batch create``, ``batch run`` and ``evidence build`` are the only writes; they follow the ledger lifecycle (freeze /
+``batch create``, ``batch run``, ``evidence build`` and the ``forward`` writes (``enroll``,
+``pause``/``resume``/``stop``, ``check``, ``resolve``, ``run``, ``evidence``) are the only writes; they follow the ledger lifecycle (freeze /
 preregister -> start -> one terminal result -> one batch analysis). There are no
 promotion or AI-generation commands.
 """
@@ -387,6 +388,161 @@ def evidence_report(
 def evidence_show(strategy_id: str) -> None:
     """Every recorded evidence profile for one strategy (all policies and batches)."""
     _inspect(lambda ledger: load_profiles(ledger, strategy_id=strategy_id))
+
+
+forward = typer.Typer(
+    no_args_is_help=True,
+    help="Prospective forward tracking (evidence collection only; never trade approval).",
+)
+lab.add_typer(forward, name="forward")
+
+
+@forward.command("candidates")
+def forward_candidates(
+    batch_id: str,
+    run: str = typer.Option(None, "--run", help="Default: latest completed run."),
+    policy_version: int = typer.Option(None, "--policy-version", help="Default: latest."),
+) -> None:
+    """Enrollable profiles of a batch, with the deterministic plateau_centrality_v1 rule.
+
+    Suggestions ignore effect size, p and q. Nothing is enrolled.
+    """
+    from market_signal.research.lab.forward import candidates
+
+    def read(ledger):
+        _, analysis = gather(ledger, batch_id, run)
+        return candidates(ledger, analysis["analysis_id"], _policy(policy_version).policy_id)
+
+    _inspect(read)
+
+
+@forward.command("enroll")
+def forward_enroll(
+    profile_id: str,
+    reason: str = typer.Option(..., "--reason", help="Why this strategy is tracked."),
+    horizon: list[str] = typer.Option(None, "--horizon", help="Subset of plan horizons."),
+    label: str = typer.Option(None, "--label", help="Distinguish a deliberate re-enrollment."),
+    continues: str = typer.Option(None, "--continues", help="Earlier tracking this continues."),
+    dry_run: bool = typer.Option(False, "--dry-run", help="Show the frozen definition only."),
+) -> None:
+    """WRITE: freeze a tracking definition from an EXPLORATORY/RESEARCH_SUPPORTED profile.
+
+    The profile ID (and tier) at enrollment is fixed forever. Only bars completing after
+    enrollment are evaluated. Enrollment grants no trading or alert status.
+    """
+    from market_signal.research.lab.forward import enroll
+
+    _inspect(
+        lambda ledger: enroll(
+            ledger, profile_id, reason=reason, origin="cli", software=_software(),
+            horizons=tuple(horizon or ()), label=label, continues=continues, dry_run=dry_run,
+        ),
+        read_only=dry_run,
+    )  # fmt: skip
+
+
+@forward.command("list")
+def forward_list() -> None:
+    """List tracking definitions, their status and evaluation counts."""
+    from market_signal.research.lab.forward import list_trackings
+
+    _inspect(list_trackings)
+
+
+@forward.command("show")
+def forward_show(tracking_id: str) -> None:
+    """Definition, status history, coverage gaps, signals with entries/outcomes, summary."""
+    from market_signal.research.lab.forward import show
+
+    _inspect(lambda ledger: show(ledger, tracking_id))
+
+
+def _status(tracking_id: str, status: str, reason: str) -> None:
+    from market_signal.research.lab.forward import set_status
+
+    _inspect(lambda ledger: set_status(ledger, tracking_id, status, reason=reason), read_only=False)
+
+
+@forward.command("pause")
+def forward_pause(tracking_id: str, reason: str = typer.Option(..., "--reason")) -> None:
+    """WRITE: pause evaluation (paused days are not counted as coverage gaps)."""
+    _status(tracking_id, "paused", reason)
+
+
+@forward.command("resume")
+def forward_resume(tracking_id: str, reason: str = typer.Option(..., "--reason")) -> None:
+    """WRITE: resume a paused tracking. Bars missed meanwhile are never evaluated."""
+    _status(tracking_id, "active", reason)
+
+
+@forward.command("stop")
+def forward_stop(tracking_id: str, reason: str = typer.Option(..., "--reason")) -> None:
+    """WRITE: stop permanently. Recorded signals still resolve their outcomes."""
+    _status(tracking_id, "stopped", reason)
+
+
+def _forward_step(step: str, dry_run: bool) -> dict:
+    from market_signal.research.lab import forward as fwd
+
+    fn = fwd.check if step == "check" else fwd.resolve
+    return _inspect(
+        lambda ledger: fn(ledger, software=_software(), dry_run=dry_run), read_only=dry_run
+    )
+
+
+@forward.command("check")
+def forward_check(dry_run: bool = typer.Option(False, "--dry-run")) -> None:
+    """WRITE: evaluate each active tracking's newest completed bar inside its 1-day window.
+
+    Older bars are never evaluated (no backfill). Idempotent; a changed answer for an
+    already-recorded bar is a conflict (exit 1) and nothing is overwritten.
+    """
+    _forward_step("check", dry_run)
+
+
+@forward.command("resolve")
+def forward_resolve(dry_run: bool = typer.Option(False, "--dry-run")) -> None:
+    """WRITE: record final entries/outcomes whose exit data is available; others stay pending."""
+    _forward_step("resolve", dry_run)
+
+
+@forward.command("run")
+def forward_run(
+    update: bool = typer.Option(
+        True, "--update/--no-update", help="Ingest Hyperliquid perp candles/funding first."
+    ),
+) -> None:
+    """WRITE: (update perps) -> check -> resolve. Idempotent; meant for a scheduler."""
+    if update:
+        from market_signal.perps.data import update_perps
+
+        try:
+            with open_store() as (settings, store):
+                result = update_perps(settings, store)
+                failed = result[result["status"] != "ok"]
+                console.print(f"perp update: {len(result) - len(failed)} ok, {len(failed)} failed")
+        except Exception as exc:  # a failed update must not stop the check
+            console.print(f"perp update failed: {exc}", markup=False)
+    try:
+        _forward_step("check", False)
+    except typer.Exit:  # a conflict or error in check must not block resolution
+        _forward_step("resolve", False)
+        raise
+    _forward_step("resolve", False)
+
+
+@forward.command("evidence")
+def forward_evidence(tracking_id: str) -> None:
+    """WRITE: record a forward summary and a NEW profile extending the enrollment profile.
+
+    The historical profile is never modified and the tier is unchanged.
+    """
+    from market_signal.research.lab.forward import record_forward_evidence
+
+    _inspect(
+        lambda ledger: record_forward_evidence(ledger, tracking_id, software=_software()),
+        read_only=False,
+    )
 
 
 def register(app: typer.Typer) -> None:

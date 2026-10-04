@@ -4,9 +4,10 @@ Inspection date: 2026-10-03. This is a design grounded in the existing implement
 including the local database and generated reports. Only the representation foundation
 (section 6), research governance ledger (section 7), daily feature compiler (section 8),
 fast screen (section 9), preregistered search batches (section 10), structured
-strategy families (section 11) and evidence profiles (section 12) are implemented. No production strategies, evaluation rules, paper records, scanners or
-Telegram paths were changed; the only schema changes are the additive Lab migrations
-described in sections 7, 10 and 12.
+strategy families (section 11), evidence profiles (section 12) and prospective forward
+tracking (section 13) are implemented. No production strategies, evaluation rules, paper
+records, scanners or Telegram paths were changed; the only schema changes are the additive
+Lab migrations described in sections 7, 10, 12 and 13.
 
 ## 1. Current architecture
 
@@ -372,6 +373,7 @@ not control data mining; BH does not repair invalid or adaptively selected p-val
 | 7 — Evidence profiles (implemented, section 12) | Added `research/lab/evidence.py`, migration 9, `market lab evidence build/report/show` | Consumer-neutral, versioned, append-only profiles with stage provenance; VALIDATED reserved |
 | 5b — Full-research adapters and statistical gate | Extend spot/perp runners for explicit candidate injection; add `research/lab/validation.py`, `multiple_testing.py`; reuse reports/robustness/simulators | Existing strategies retain parity; trusted plan requires completed checks; address audit items with separate versioned methodology patches; holdout/family controls before large-scale claims; link old reports |
 | 6 — Perp MTF and OI | Extend `perps/data.py`, `perps/binance.py`, provider loaders and dataset manifests; extend Lab features/alignment and research policy | Stored 1h/4h data with completeness/availability; settlement-level funding treatment; same-close/gap/stale/snapshot tests; portfolio timing validated before intraday execution claims |
+| 8 — Prospective forward tracking (implemented, section 13) | Added `research/lab/forward.py`, migration 11, profile schema 3, `market lab forward …` | Explicit enrollment freezing the evidence profile; live-only daily evaluations (no backfill); write-once T+1-open/T+h-close outcomes; descriptive `paper_forward` profiles; no execution |
 | 7 — Paper and scanner eligibility | Add `research/lab/promotion.py`; additive versioned paper storage and opt-in adapters in `perps/paper.py`, `scoring/engine.py`, presenter/brief/CLI | Exact strategy + implementation + policy versions carry evidence; paper starts prospectively, no backfill; explicit scanner allowlist; existing strategies unchanged |
 | Later — Constrained hypothesis generation | Submission client only, reading the versioned catalog and writing proposals through ledger service | No AI dependency until separately requested; model cannot edit evaluator, plans, tests, data/results or promotion policy |
 
@@ -1475,7 +1477,312 @@ availability time, maximum staleness, units (coins vs notional, where price alon
 notional OI) and windows measured in elapsed time. These belong to the planned OI phase.
 No OI feature, dataset kind or strategy family exists in the Lab.
 
-## 13. Verification
+## 13. Step 8 implemented: prospective forward tracking
+
+Module `research/lab/forward.py`, additive migration 11 (`lab_forward_*` tables), profile
+schema 3 in `evidence.py`, and `market lab forward candidates | enroll | list | show |
+pause | resume | stop | check | resolve | run | evidence`.
+
+> This forward tracker is not the simulated-execution paper trader. It measures whether
+> historical signal behaviour persists prospectively. A later paper auto-trader will add
+> sizing, portfolio state, simulated fills, margin, risk limits and execution rules.
+
+It answers one question: *when Prism genuinely saw this setup live, before knowing what
+happened next, did the outcomes resemble the historical research?*
+
+### Relationship to `perps/paper.py`
+
+Prism's existing paper tracker (`perp_paper_checks`) checks the three registered Python
+strategies during `market update`. It only checks the newest closed bar within 36 hours,
+writes each check once and never backfills. Phase 8 keeps those rules but is a separate,
+Lab-only path because the legacy table cannot carry what Lab evidence needs:
+
+- its primary key omits the parameter hash;
+- it has no eligibility state, input fingerprint or compiler version;
+- it has no enrollment record and no outcome rows;
+- its evaluation uses the legacy full-history funding median.
+
+`perps/paper.py`, its table, the scanner and Telegram are unchanged.
+
+### Prospective versus retrospective (no backfill)
+
+- **When a daily bar is observable.** Crypto perp daily bars close at UTC midnight
+  (Prism's `close_time`). Bar T may be evaluated only while
+  `bar_close ≤ evaluated_at < bar_close + 1 day`, i.e. from completion until the next
+  bar completes, before even the 1-day outcome is known (`grace = one_bar_interval_v1`).
+  A DuckDB CHECK on `lab_forward_evaluations` enforces the same window, so a direct
+  insert of an old bar is refused too.
+- **Only the newest completed bar.** `check` looks only at each asset's newest stored bar
+  with `close_time ≤ now`. If that bar's window has passed, nothing is recorded. An older
+  bar is never evaluated, so a restart after downtime cannot fill in earlier days.
+- **Only after enrollment.** Bars must close strictly after `enrolled_at`. The first
+  evaluable bar is the next UTC midnight.
+- **Inputs must be complete.** The bar must be stored, and a funding settlement at or
+  after the bar close must be ingested (minute-snapped). Otherwise the check notes "not
+  ingested yet" and retries on the next run inside the window. Prism's local clock is
+  never used to label days; only market `close_time` is.
+- **What a miss looks like.** A missed bar has no row. `coverage` derives it on read: every
+  expected (asset, daily close) after enrollment is `evaluated`, `gap`, `paused`/`stopped`
+  or `pending_window` (window still open). Each gap carries a reason: no check ran inside
+  the window, or a check ran and noted why it could not evaluate (from the append-only
+  `lab_forward_runs` log). Expected evaluations exclude paused days and open windows.
+
+With the PC on roughly 07:15–20:00 and 22:00–23:00 UK time, the bar that closes at 00:00
+UTC is still inside its window all day (00:00–24:00 UTC). One successful
+`market lab forward run` on any day captures that day's bar. A fully missed day (PC off
+all day, or the trip) is a recorded gap, never backfilled.
+
+### Enrollment (why the profile is frozen)
+
+`enroll <profile-id> --reason …` accepts only a historical (schema 1/2) profile whose tier
+is `EXPLORATORY` or `RESEARCH_SUPPORTED`. FDR survival and VALIDATED are not required, and
+nothing is enrolled automatically. The `TrackingDefinition` freezes:
+
+- the strategy ID, the **enrollment profile ID and its tier**, and the evidence policy;
+- family, version and parameters;
+- the plan, dataset, experiment, batch and analysis that produced the profile;
+- market, side and venue;
+- the assets (the screen's universe) and their frozen fee + slippage;
+- the causal funding policy;
+- the horizons (default: all plan horizons; a subset may be chosen, but the primary horizon
+  is required);
+- `lookback_days` (the plan's `warmup_days`);
+- the grace, entry and exit conventions and the outcome wait;
+- `semantics`: the compiler, vocabulary, evaluator and resolver versions.
+
+`tracking_id` is the SHA-256 of that definition. Re-enrolling identical content is refused.
+A different horizon set, `--label` or `--continues <tracking>` is a new tracking. The row
+also stores `enrolled_at`, the reason, origin and software identity.
+
+Freezing the profile means a later rebuild cannot rewrite what was known when the forward
+clock started (e.g. a new policy that relabels the strategy). Future research can therefore
+ask "how did strategies that were EXPLORATORY at enrollment perform?" (tested). The
+lookback must cover the strategy's warmup plus cooldown, or enrollment is refused.
+Status is an append-only event log: `active ⇄ paused`, then `stopped`, which is terminal.
+Recorded signals keep resolving after a pause or stop.
+
+`candidates <batch-id>` lists enrollable profiles per family and side and suggests one per
+group by the deterministic `plateau_centrality_v1` rule:
+
+1. Prefer neighbourhood `plateau` members, else `mixed`.
+2. Never suggest isolated spikes or members without testable neighbours.
+3. Pick the member with the most agreeing testable neighbours, then the most testable
+   neighbours, then by name.
+
+Effect size, p and q are deliberately not inputs, so the rule cannot pick the historically
+best variant. Enrollment remains a manual, recorded choice.
+
+### Evaluations: signal, no signal, not observed
+
+Each evaluation is one row per (tracking, asset, signal bar), `UNIQUE` in the schema:
+
+- `signal`: the Phase 3 `signal` fired at T;
+- `no_signal`: eligible, did not fire;
+- `ineligible`: inputs complete enough to compile, but the eligibility mask is false at T
+  (a missing funding day, insufficient history).
+
+All three are observations. Never-evaluated bars are gaps (above).
+
+Signals come from `compile_strategy` itself, run on a fingerprinted in-memory snapshot of
+bars with `close_time ≤ T` and funding available (to the minute) by T. The snapshot covers
+`[T − lookback_days, T + 1 min)`. Eligibility, edge trigger and cooldown are therefore
+exactly the compiler's. The edge/cooldown state is rebuilt from data legitimately
+available at T inside that window, never from future bars or from the recorded rows. A
+signal in that window on a day Prism did not observe can still suppress a signal within
+its cooldown, because that data existed at T.
+
+Each row records:
+
+- evaluation and signal-bar times;
+- the data cutoff and evaluation latency;
+- strategy, tracking and enrollment-profile IDs;
+- semantics versions and software ID;
+- feature values and condition truths at T;
+- the compile metadata, including its digest;
+- an `input_id` (content ID of the snapshot's fingerprint manifest in
+  `lab_forward_inputs`: per-series SHA-256, row counts, bounds, ingestion run IDs).
+
+Rows are not retained as blobs, which would cost about 1 MB per day. The hash identifies
+exactly what was read. Later edits to live tables cannot change a recorded evaluation
+(tested).
+
+**Write once.** Re-running `check` on a recorded bar recomputes it. An identical answer
+(status, eligible, active, fired) is a no-op. A different answer, e.g. after a provider
+revision, raises `ForwardConflict` after logging the run. Nothing is overwritten.
+
+### Outcomes (T+1 entry, fixed horizons)
+
+`resolve` mirrors Phase 4 on live tables:
+
+- **Entry and exit.** A signal at T's close enters at **bar T+1's open**: the bar opening
+  at T's close. Exit is bar T+h's close.
+- **Contiguity.** The bars T..T+h must be contiguous daily bars (stricter than Phase 4's
+  positional shift).
+- **Returns.** Net uses `perps.backtest.side_forward_returns`: side × (exit/entry − 1),
+  minus 2 × (frozen fee + slippage), minus side × Σ funding_day × close / entry over
+  T+1..T+h.
+- **Funding.** `funding_day` comes from the Lab's causal `lab_funding_day`. The resolver
+  reads 8 days of context before T for its trailing 7-day cadence.
+- **Gross** is the same price move without costs or funding.
+- **Entries.** Signals get a write-once entry record (`entered` with the T+1 open, or
+  `unavailable`). It is an analytical reference price, not a fill.
+
+Outcome rows are written once, only when final:
+
+| State | Meaning |
+|---|---|
+| pending | no row: `now` is before T+h's close, or data is still missing within 7 days of it |
+| `resolved` | gross and net recorded with entry/exit prices, funding paid, cost, input ID, resolver version, software |
+| `unavailable` | 7 days after the exit close, bars or funding are still missing or late; net and gross are NULL, never zero |
+
+CHECKs forbid recording before the exit close and a `resolved` row without values. Later
+price revisions do not change a resolved outcome (tested). No correction mechanism exists
+yet: a correction would be a new, separately versioned record, never an update.
+
+Eligible no-signal evaluations get outcomes too. They are the prospective same-asset/side
+baseline, mirroring Phase 4's excess definition.
+
+### Forward evidence and maturity
+
+`forward_summary` is computed from immutable rows recorded by `as_of`. It contains:
+
+- **Observation:** enrollment time, first and last evaluated bars, observed days, expected
+  evaluations, evaluated, gaps, paused, coverage share, and signal / no-signal /
+  inputs-incomplete counts.
+- **Entries:** entered and unavailable counts.
+- **Per horizon:** signals recorded, resolved, unavailable and pending; independent
+  resolved events (Phase 4 greedy per-asset declustering); the net distribution (mean,
+  median, hit rate, min, quartiles, max); gross mean; baseline bars and mean; forward
+  excess.
+- **Comparison with enrollment:** the enrollment profile's historical excess/net/events,
+  `direction_vs_historical` (same / opposite) and the excess difference.
+- **Maturity:** `lab_forward_maturity_v1`, based on independent resolved primary-horizon
+  signal outcomes:
+
+  | Level | Rule |
+  |---|---|
+  | `TOO_EARLY` | fewer than 10 |
+  | `EARLY` | 10–29 |
+  | `DEVELOPING` | 30 or more |
+  | `MATURE` | ≥ 100 **and** ≥ 180 observed days |
+
+  Maturity is sample size, not quality. A mature negative sample is evidence.
+- **Record digests:** of the evaluation and outcome IDs.
+
+No p-value or significance test is computed on forward samples.
+
+`market lab forward evidence <tracking-id>` appends the summary (`lab_forward_summaries`,
+content-addressed) and a **new** evidence profile (schema 3):
+
+- `extends` = the enrollment profile;
+- the original sources plus a `paper_forward` source citing the tracking, summary, `as_of`,
+  record digests and versions;
+- a `forward` block;
+- the historical fields copied unchanged.
+
+The **tier stays the historical tier**: forward wins can never turn EXPLORATORY into
+RESEARCH_SUPPORTED. The enrollment profile and every historical record are only read.
+Schema 1/2 payloads omit `forward`, so existing profile IDs and stored content are
+unchanged (all Phase 7 tests pass).
+
+### Consumer neutrality
+
+Enrollment, evaluations, outcomes and forward profiles carry no alert, trade, sizing,
+leverage or approval fields (tested with the Phase 7 key scan). Tracking an EXPLORATORY
+profile is evidence collection only. Forward evidence does not mean trade approval;
+consumer policies remain future, separate and versioned.
+
+### Code changes
+
+- Each evaluation and outcome records its software ID. Bug fixes that do not change
+  semantics continue the same tracking (as with the Lab's builder provenance).
+- If the compiler, vocabulary, evaluator or resolver **version** differs from the
+  definition's `semantics`, `check` refuses to evaluate that tracking and says so. Resuming
+  means enrolling a new tracking, optionally `--continues <old>`, so incomparable
+  semantics are never mixed silently.
+- Strategy definitions are immutable by ID, so a changed rule is always a new strategy and
+  a new tracking.
+
+### Scheduling (recommended; nothing installed)
+
+Use one idempotent command: `market lab forward run`. It ingests Hyperliquid perp candles
+and funding (`update_perps`), then runs `check` and then `resolve`. Today only
+`market update` ingests perp bars; `market oi collect` does not. A failed update does not
+stop the check, and a conflict in `check` does not stop `resolve`.
+
+Recommended setup: `forward_run.sh` (repo root, its own `flock`; DuckDB's lock handles
+overlap with `daily.sh` and `oi_collect.sh`; log in `data/forward.log`) in a Windows task
+"Prism forward" with:
+
+- **At log on, delayed 5 min:** the first chance each day (~07:20 UK). Data for the
+  00:00 UTC bar is complete by then.
+- **Daily 12:00 and 19:30:** retries in case the morning run failed.
+- **"Run as soon as possible after a missed start":** on.
+
+Several runs a day are harmless (no-ops). The existing 10:00 `daily.sh` also refreshes perp
+data; it does not run forward checks. A day with no run inside 00:00–24:00 UTC is a
+recorded gap.
+
+### Real cohort (live DB)
+
+The live DB held no Lab records before Phase 8: the Phase 6/7 smoke batch had run on a
+scratch copy. It was therefore reproduced in the live DB, governed and append-only, with
+the documented parameters and an explicit window:
+
+- **Plan** `hl_perp_smoke_discovery` v1 (`plan_a8e77687…`): six Hyperliquid perps,
+  discovery `[2024-10-01, 2026-10-01)`, 400-day warmup, horizons 1d/5d/10d/20d (primary
+  10d), taker 4.5 bps plus `config/perps.yaml` slippage, 2,000 draws.
+- **Batch** `hl_perp_smoke_families_v1` (`batch_699ddabd…`), families `ma_trend`,
+  `donchian_breakout` and `funding_extreme_fade` v1: 40 variants, 36 testable,
+  4 insufficient, 0 FDR survivors (q = 0.91 for every EXPLORATORY profile).
+- **Profiles** (policy v2): 6 EXPLORATORY, 12 INCONCLUSIVE, 18 NEGATIVE, 4 INSUFFICIENT.
+
+These differ from the scratch run in section 12 (8 EXPLORATORY), whose exact window was not
+recorded. Here no `ma_trend` short plateau of three and no EXPLORATORY funding-fade variant
+appear. The cohort below comes from these recorded profiles only.
+
+**Selection:** `market lab forward candidates` with `plateau_centrality_v1`, one per family
+and side, applied without discretion and without forward outcomes (none exist):
+
+| Strategy | Profile | Why |
+|---|---|---|
+| `ma_trend_10_50_long` | `evidence_ac9120d8…` | `ma_trend` long plateau (2/2 testable neighbours agree); tie with `ma_trend_20_50_long` broken by name |
+| `ma_trend_20_100_short` | `evidence_168da1c0…` | the only EXPLORATORY short; plateau (2/2 agree) |
+| `donchian_breakout_55_long` | `evidence_47a57457…` | the only EXPLORATORY non-`ma_trend` family-side; `mixed` (1/2 agree) in an otherwise adverse family. Tracked to test persistence, not as an endorsement |
+
+All three are EXPLORATORY, so enrollment grants no trading or alert status.
+
+**Forward clock:** enrolled 2026-10-04 07:57 UTC with all plan horizons. The first
+observable bar closes **2026-10-05 00:00 UTC**. The 2026-10-04 bar closed before
+enrollment and is never evaluated. No prospective evaluation exists yet.
+
+Tracking IDs:
+
+- `tracking_250f844a…` (ma_trend 10/50 long);
+- `tracking_65febaad…` (ma_trend 20/100 short);
+- `tracking_94289899…` (donchian 55 long).
+
+**Rehearsal** (scratch copy, back-dated enrollment): 18 evaluations of the 2026-10-03 bar
+in 5.8 s; an idempotent re-check; a late check refused; outcomes pending; an extended
+profile with an unchanged tier.
+
+### Known limitations
+
+- Daily perp strategies only (Hyperliquid source of the frozen plan); no spot, intraday,
+  OI or long-horizon radar tracking.
+- Coverage depends on the local PC. A future always-on deployment improves coverage;
+  history can never be backfilled.
+- No simulated execution: no fills, stops, targets, sizing, margin, portfolio or risk
+  engine. Outcomes are fixed-horizon analytical returns.
+- Rolling-window snapshots seed recursive features (EMA, Wilder RSI/ATR) `lookback_days`
+  before T, unlike the historical screen's fixed window start. SMA/Donchian/funding
+  features are unaffected. Recursive values converge but are not bit-identical to the
+  research run.
+- Evaluation inputs are fingerprinted, not retained. An exact recomputation needs the
+  same rows (or a backup).
+- No outcome-correction mechanism; no automatic consumer action, alerting or promotion.
+
+## 14. Verification
 
 Baseline before changes: **173 tests passed**, repository Ruff checks passed, and all
 89 existing source/test Python files passed format checking. New focused tests cover
@@ -1571,3 +1878,36 @@ was triggered.
 | `.venv/bin/ruff check src tests dashboard` / `ruff format --check src tests` | Passed / 113 files formatted |
 | `git diff --check` | Passed |
 | CLI on the scratch DB | `evidence build` (v2: 40 new; re-run: 0 new), v1 rows unchanged, `evidence report` cites report policy v1 |
+
+### Step 8 verification
+
+| Check | Result |
+|---|---|
+| `.venv/bin/python -m pytest` | **473 passed** (395 s) |
+| `.venv/bin/python -m pytest tests/test_lab_forward.py` | **20 passed** (see list below) |
+| Lab, paper and perp suites (`test_lab_*`, `test_perp_paper`, `test_perps`, `test_perp_backtest`, `test_perp_research`, `test_binance`, `test_open_interest`, `test_store_lock`) | Passed; Phase 7 profile identities and payloads unchanged |
+| `.venv/bin/ruff check src tests dashboard` / `ruff format --check src tests` | Passed / 118 files formatted |
+| `git diff --check` | Passed |
+| CLI | `forward --help`, `candidates`, `enroll --dry-run`, `enroll`, `list`, `check --dry-run` on the live DB; full lifecycle in the CLI test |
+| Live DB | Backed up to `data/prism.pre_phase8.duckdb`; migration 11 additive; Lab batch reproduced; 3 trackings enrolled; 0 evaluations (correct: no bar has closed since enrollment) |
+
+`test_lab_forward.py` covers:
+
+- no evaluation before a bar completes (plus the DB CHECK);
+- no backfill after downtime, with gap reasons;
+- idempotent re-checks;
+- conflicts are refused without overwrites;
+- funding readiness waits;
+- signals match the Phase 3 compiler, with provenance and a data cutoff of T;
+- a semantics change stops evaluation;
+- isolation from live-table edits;
+- pause and stop;
+- hand-calculated long and short T+1-open outcomes with costs and funding;
+- pending until exit data exists, then immutable;
+- missing funding is unavailable, never zero;
+- a missing T+1 bar makes the entry unavailable;
+- a `paper_forward` profile extends history without changing it or its tier;
+- no-signal is distinct from a gap;
+- maturity levels;
+- the candidate rule ignores effect size;
+- the CLI lifecycle.
