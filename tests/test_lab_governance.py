@@ -667,7 +667,10 @@ def test_migration_is_additive_and_old_rows_survive(tmp_path):
         readonly.close()
     writable = Store(path)
     try:
-        assert writable.con.execute("SELECT max(version) FROM schema_version").fetchone() == (7,)
+        # every later additive migration (8: Lab batches) is applied on top
+        assert writable.con.execute("SELECT max(version) FROM schema_version").fetchone() == (
+            len(MIGRATIONS),
+        )
         assert writable.con.execute("SELECT run_id,name,summary FROM research_runs").fetchone() == (
             "legacy",
             "old_strategy",

@@ -111,13 +111,22 @@ def liquidation_price(
 # --------------------------------------------------------------------------- data alignment
 
 
-def daily_funding(bars: pd.DataFrame, funding: pd.Series, min_coverage: float = 0.8) -> np.ndarray:
+def daily_funding(
+    bars: pd.DataFrame,
+    funding: pd.Series,
+    min_coverage: float = 0.8,
+    per_day: np.ndarray | None = None,
+) -> np.ndarray:
     """Funding per daily bar: sum of the rates settled in (ts, ts + 1 day].
 
     Works for any settlement frequency (Hyperliquid hourly, Binance every 8h): the expected
     settlements per day come from the series' median spacing. A day with fewer settlements
     than that but at least ``min_coverage`` of them is scaled up pro rata. Below that, the
     day is missing (NaN), never assumed zero.
+
+    ``per_day`` optionally supplies the expected settlements for each bar instead (NaN =
+    unknown, so the day is missing). The Strategy Lab passes a causal estimate; the
+    default full-history median is unchanged for existing research.
     """
     ts = pd.DatetimeIndex(pd.to_datetime(bars["ts"], utc=True))
     out = np.full(len(ts), np.nan)
@@ -128,8 +137,10 @@ def daily_funding(bars: pd.DataFrame, funding: pd.Series, min_coverage: float = 
     # "00:00:00.004"), which would otherwise push a midnight settlement into the next day
     t = pd.DatetimeIndex(pd.to_datetime(f.index, utc=True)).round("min").as_unit("ns").asi8
     v = f.to_numpy(float)
-    spacing = float(np.median(np.diff(t))) / 1e9 if len(t) > 1 else 3600.0
-    per_day = max(round(86400 / spacing), 1) if spacing > 0 else 24
+    if per_day is None:
+        spacing = float(np.median(np.diff(t))) / 1e9 if len(t) > 1 else 3600.0
+        per_day = max(round(86400 / spacing), 1) if spacing > 0 else 24
+    expected = np.broadcast_to(np.asarray(per_day, dtype=float), (len(ts),))
     starts = ts.as_unit("ns").asi8
     ends = starts + pd.Timedelta(days=1).value
     lo = np.searchsorted(t, starts, side="right")  # strictly after the bar open
@@ -137,10 +148,10 @@ def daily_funding(bars: pd.DataFrame, funding: pd.Series, min_coverage: float = 
     cs = np.concatenate([[0.0], np.cumsum(v)])
     n = hi - lo
     total = cs[hi] - cs[lo]
-    full = n >= per_day
-    partial = ~full & (n >= min_coverage * per_day) & (n > 0)
+    full = n >= expected
+    partial = ~full & (n >= min_coverage * expected) & (n > 0)
     out[full] = total[full]
-    out[partial] = total[partial] * per_day / n[partial]
+    out[partial] = total[partial] * expected[partial] / n[partial]
     return out
 
 

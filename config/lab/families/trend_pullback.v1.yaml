@@ -1,0 +1,33 @@
+# Strategy family (preregistered research space). Not a recommendation or a result.
+family: trend_pullback
+version: 1
+title: Pullback and re-entry within a trend
+rationale: >-
+  Within an established trend, short-term counter-moves are often driven by transient
+  profit-taking; momentum turning back in the trend direction may mark the end of the
+  pullback.
+markets: [perp, spot]
+authored_at: 2026-10-03T00:00:00Z
+parameters:
+  trend: [100, 200]
+  rsi: [7, 14]
+  level: [35, 40]
+name: trend_pullback_{trend}_rsi{rsi}_{level}_{side}
+cooldown_bars: 10
+exit: {stop_atr: 2.5, max_hold_bars: 20}
+max_variants: 16
+long:
+  hypothesis: >-
+    While the close is above its {trend}-day SMA, a {rsi}-day RSI recovering up through
+    {level} may mark the end of a pullback and a resumption of the uptrend.
+  conditions:
+    - {left: close, op: gt, right: {feature: "sma_{trend}"}}
+    - {left: "rsi_{rsi}", op: crosses_above, right: {param: level}}
+short:
+  hypothesis: >-
+    While the close is below its {trend}-day SMA, a {rsi}-day RSI falling back through the
+    mirrored level (100 minus {level}) may mark the end of a rally and a resumption of the
+    downtrend.
+  conditions:
+    - {left: close, op: lt, right: {feature: "sma_{trend}"}}
+    - {left: "rsi_{rsi}", op: crosses_below, right: {param: level, scale: -1, offset: 100}}

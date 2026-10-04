@@ -1,0 +1,33 @@
+# Strategy family (preregistered research space). Not a recommendation or a result.
+family: vol_compression_breakout
+version: 1
+title: Volatility compression, then directional breakout
+rationale: >-
+  Unusually low realised volatility can reflect a temporary balance between buyers and
+  sellers; a break out of the range from that state may begin a larger directional move.
+markets: [perp, spot]
+authored_at: 2026-10-03T00:00:00Z
+parameters:
+  fast_vol: [10, 20]
+  slow_vol: [60, 120]
+  lookback: [20, 40]
+constraints:
+  - {left: slow_vol, op: ge, right: fast_vol, factor: 3}  # compression vs a clearly longer base
+name: vol_compression_{fast_vol}_{slow_vol}_{lookback}_{side}
+cooldown_bars: 10
+exit: {stop_atr: 2.5, max_hold_bars: 20}
+max_variants: 16
+long:
+  hypothesis: >-
+    When {fast_vol}-day realised volatility is below {slow_vol}-day realised volatility, a
+    close crossing above the prior {lookback}-day high may start an upside expansion.
+  conditions:
+    - {left: "rvol_{fast_vol}", op: lt, right: {feature: "rvol_{slow_vol}"}}
+    - {left: close, op: crosses_above, right: {feature: "donchian_high_{lookback}"}}
+short:
+  hypothesis: >-
+    When {fast_vol}-day realised volatility is below {slow_vol}-day realised volatility, a
+    close crossing below the prior {lookback}-day low may start a downside expansion.
+  conditions:
+    - {left: "rvol_{fast_vol}", op: lt, right: {feature: "rvol_{slow_vol}"}}
+    - {left: close, op: crosses_below, right: {feature: "donchian_low_{lookback}"}}

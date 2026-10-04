@@ -243,7 +243,7 @@ Configured in `config/perps.yaml`. Stored apart from spot prices and never stitc
 |---|---|---|---|---|
 | Daily perp candles | `candleSnapshot` (coin = perp name, e.g. `BTC`) | `perp_bars` | Closed bars only (same rule as spot) | Yes (latest 5,000 candles) |
 | Funding rates (hourly) | `fundingHistory`, paginated 500 rows per call | `perp_funding` | `available_at` = settlement time (`market_close`) | Yes |
-| Mark/oracle price, current funding, open interest, max leverage | `metaAndAssetCtxs` | `perp_snapshots` | Daily snapshot at fetch time | **Prospective only.** No free OI history exists, so OI history starts with Prism's first snapshot. |
+| Mark/oracle price, current funding, open interest, max leverage | `metaAndAssetCtxs` | `perp_snapshots` | Snapshot at capture time, on every run (irregular times) | **Prospective only.** Hyperliquid serves no OI history, so OI history starts with Prism's first snapshot and missed captures are lost. See [OPEN_INTEREST.md](OPEN_INTEREST.md). |
 
 Every call is logged in `ingestion_runs`, with its raw payload archived. Responses that don't
 match the documented schema raise `SchemaError` and are not stored.
@@ -260,9 +260,10 @@ mixed with Hyperliquid series: every loader reads one venue.
 |---|---|---|
 | Daily candles | `/fapi/v1/klines` (1,500 per call) | closed bars only; validated like spot |
 | Funding | `/fapi/v1/fundingRate` (1,000 per call) | every 8h (some symbols switch to 4h at times); `available_at` = settlement time |
+| Open interest (1h) | `/futures/data/openInterestHist` (500 per call) | **latest ~30 days only**; rolling backfill into `perp_oi_history`, data only. HYPE included (`HYPEUSDT`). See [OPEN_INTEREST.md](OPEN_INTEREST.md) |
 
 Binance blocks some locations with HTTP 451 (notably the US). Prism reports that clearly and
-stores nothing. HYPE isn't included (no long Binance history).
+stores nothing. HYPE isn't included in candles/funding (no long Binance history); it is in OI.
 
 ## Summary: what can be researched honestly in V1
 

@@ -177,19 +177,39 @@ def update_perps(settings: Settings, store: Store, provider: Any | None = None) 
 
         run("perp_funding", coin, {"start": str(f_start)}, funding_fn)
 
-    def snap_fn(run_id: str) -> tuple:
-        ctx = provider.perp_contexts()
-        at = utcnow().astimezone(UTC)
-        missing = [c for c in coins if c not in set(ctx["coin"])]
-        rows = ctx[ctx["coin"].isin(coins)]
-        note = "OI, mark, funding, max leverage" + (
-            f"; not listed: {', '.join(missing)}" if missing else ""
-        )
-        return len(ctx), insert_snapshots(store, rows, SOURCE, at, run_id), note
-
     if coins:
-        run("perp_snapshot", "ALL", {}, snap_fn)
+        run(
+            "perp_snapshot",
+            "ALL",
+            {},
+            lambda run_id: snapshot_contexts(settings, store, provider, coins, run_id),
+        )
     return pd.DataFrame(out, columns=["coin", "dataset", "status", "received", "new_rows", "note"])
+
+
+def snapshot_contexts(
+    settings: Settings, store: Store, provider: Any, coins: list[str], run_id: str
+) -> tuple[int, int, str]:
+    """One Hyperliquid snapshot (OI, mark, funding, max leverage) at the capture time.
+
+    Snapshots are opportunistic: they happen whenever Prism runs, at irregular times, and a
+    missed one can never be recovered. The only dedup is a short minimum gap, so two runs
+    fired back to back (e.g. the daily job and the OI collector) don't record twice."""
+    gap = float(((perp_config(settings).get("open_interest") or {}).get("hyperliquid") or {})
+                .get("min_snapshot_gap_minutes", 5))  # fmt: skip
+    last = _last(store, "SELECT max(snapshot_at) FROM perp_snapshots WHERE source=?", [SOURCE])
+    now = utcnow().astimezone(UTC)
+    if last is not None and gap > 0 and now - last < timedelta(minutes=gap):
+        mins = (now - last).total_seconds() / 60
+        return 0, 0, f"skipped: last snapshot {mins:.1f}m ago (< {gap:g}m)"
+    ctx = provider.perp_contexts()
+    at = utcnow().astimezone(UTC)
+    missing = [c for c in coins if c not in set(ctx["coin"])]
+    rows = ctx[ctx["coin"].isin(coins)]
+    note = "OI, mark, funding, max leverage" + (
+        f"; not listed: {', '.join(missing)}" if missing else ""
+    )
+    return len(ctx), insert_snapshots(store, rows, SOURCE, at, run_id), note
 
 
 # --------------------------------------------------------------------------- loaders

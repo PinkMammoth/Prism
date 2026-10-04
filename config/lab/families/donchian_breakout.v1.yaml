@@ -1,0 +1,27 @@
+# Strategy family (preregistered research space). Not a recommendation or a result.
+family: donchian_breakout
+version: 1
+title: Donchian breakout continuation
+rationale: >-
+  A close beyond the prior N-day trading range may reflect new information or a persistent
+  order imbalance that the market has not finished absorbing.
+markets: [perp, spot]
+authored_at: 2026-10-03T00:00:00Z
+parameters:
+  lookback: [10, 20, 30, 55, 100]
+name: donchian_breakout_{lookback}_{side}
+cooldown_bars: 10
+exit: {stop_atr: 2.5, max_hold_bars: 20}
+max_variants: 10
+long:
+  hypothesis: >-
+    A close that crosses above the highest high of the prior {lookback} days may mark the
+    start of continued upside.
+  conditions:
+    - {left: close, op: crosses_above, right: {feature: "donchian_high_{lookback}"}}
+short:
+  hypothesis: >-
+    A close that crosses below the lowest low of the prior {lookback} days may mark the start
+    of continued downside.
+  conditions:
+    - {left: close, op: crosses_below, right: {feature: "donchian_low_{lookback}"}}

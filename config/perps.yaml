@@ -63,3 +63,20 @@ venues:
     taker_fee_bps: 5.0              # base-tier USD-M taker fee (0.05%), an assumption
     max_leverage: {default: 20}     # only bounds leverage; Prism's 3x cap applies first
     maintenance_rate: {BTC: 0.004, ETH: 0.005, default: 0.01}   # lowest tier, conservative for alts
+
+# ---------------------------------------------------------------- open interest (data collection only)
+# Infrastructure for later research; NOT a feature or a signal. See docs/OPEN_INTEREST.md.
+# Venues are stored separately and never merged.
+open_interest:
+  hyperliquid:                      # prospective snapshots in perp_snapshots; no history API
+    min_snapshot_gap_minutes: 5     # back-to-back runs (daily job + OI collector) record once
+    stale_hours: 20                 # doctor: STALE when the newest snapshot is older (lost for good)
+    gap_hours: 20                   # doctor: count gaps longer than this (overnight PC-off is shorter)
+  binance:                          # GET /futures/data/openInterestHist (USD-M), rolling backfill
+    enabled: true
+    period: 1h                      # raw statistics period stored (5m…1d available; 1h: 720 rows/30d/coin)
+    history_days: 30                # Binance serves only the latest ~30 days (verified 2026-10-03)
+    overlap_periods: 3              # re-read the newest few points every run
+    stale_hours: 12                 # doctor: newest row older → "stale" (still recoverable)
+    recovery_warn_days: 20          # doctor: "AT RISK" — the oldest missing hours drop out at ~30d
+    symbols: {BTC: BTCUSDT, ETH: ETHUSDT, SOL: SOLUSDT, HYPE: HYPEUSDT, LINK: LINKUSDT, AAVE: AAVEUSDT}

@@ -73,6 +73,7 @@ def doctor(live: bool = typer.Option(False, help="Also probe provider connectivi
     with open_store() as (settings, store):
         _doctor_config(settings)
         _doctor_freshness(settings, store)
+        _doctor_open_interest(settings, store)
         _doctor_issues(store)
         if live:
             _doctor_live(settings)
@@ -154,6 +155,19 @@ def _doctor_freshness(settings, store) -> None:
                 fmt_age((now - pd.Timestamp(r["last_avail"])).total_seconds() / 3600),
             )
         console.print(m)
+
+
+def _doctor_open_interest(settings, store) -> None:
+    from market_signal.cli.oi_cmds import render_coverage
+    from market_signal.perps.open_interest import oi_coverage
+
+    cov = oi_coverage(store, settings)
+    if cov.empty:
+        return
+    render_coverage(cov, "Open interest coverage (data only)")
+    if cov["status"].isin(["STALE", "AT RISK", "LOST"]).any():
+        console.print("[red]OI collection needs attention: Hyperliquid gaps are permanent; Binance gaps are "
+                      "recoverable only within ~30 days. Run `uv run market oi collect`.[/]")  # fmt: skip
 
 
 def _doctor_issues(store) -> None:

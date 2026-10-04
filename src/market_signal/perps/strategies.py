@@ -57,7 +57,8 @@ class PerpStrategy:
         return self.fn(frame.reset_index(drop=True), {**self.defaults, **(params or {})})
 
 
-def _atr(f: pd.DataFrame, n: int = 14) -> pd.Series:
+def sma_atr(f: pd.DataFrame, n: int = 14) -> pd.Series:
+    """Simple-mean ATR. The first bar's true range is its high - low (no previous close)."""
     prev = f["close"].shift(1)
     tr = pd.concat(
         [f["high"] - f["low"], (f["high"] - prev).abs(), (f["low"] - prev).abs()], axis=1
@@ -66,7 +67,7 @@ def _atr(f: pd.DataFrame, n: int = 14) -> pd.Series:
 
 
 def _stops(f: pd.DataFrame, k: float) -> tuple[pd.Series, pd.Series]:
-    atr = _atr(f)
+    atr = sma_atr(f)
     return f["close"] - k * atr, f["close"] + k * atr
 
 
@@ -115,7 +116,7 @@ def _breakout(f: pd.DataFrame, p: dict) -> Signals:
     n = int(p["base"])
     hi = f["high"].rolling(n).max().shift(1)
     lo = f["low"].rolling(n).min().shift(1)
-    atr = _atr(f).shift(1)
+    atr = sma_atr(f).shift(1)
     tight = (hi - lo) <= float(p["max_width_atr"]) * atr
     c = f["close"]
     ls, ss = _stops(f, float(p["stop_atr"]))

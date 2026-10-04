@@ -1,0 +1,31 @@
+# Strategy family (preregistered research space). Not a recommendation or a result.
+family: volume_breakout
+version: 1
+title: Volume-confirmed breakout
+rationale: >-
+  Abnormal participation may distinguish breakouts driven by new information or committed
+  flows from low-conviction noise.
+markets: [perp, spot]
+authored_at: 2026-10-03T00:00:00Z
+parameters:
+  lookback: [20, 55]
+  volume: [20, 50]
+  z: [2, 3]  # volume z-score versus the prior window
+name: volume_breakout_{lookback}_v{volume}_z{z}_{side}
+cooldown_bars: 10
+exit: {stop_atr: 2.5, max_hold_bars: 20}
+max_variants: 16
+long:
+  hypothesis: >-
+    A close crossing above the prior {lookback}-day high on volume more than {z} standard
+    deviations above its prior {volume}-day mean may be followed by continued upside.
+  conditions:
+    - {left: close, op: crosses_above, right: {feature: "donchian_high_{lookback}"}}
+    - {left: "vol_z_{volume}", op: gt, right: {param: z}}
+short:
+  hypothesis: >-
+    A close crossing below the prior {lookback}-day low on volume more than {z} standard
+    deviations above its prior {volume}-day mean may be followed by continued downside.
+  conditions:
+    - {left: close, op: crosses_below, right: {feature: "donchian_low_{lookback}"}}
+    - {left: "vol_z_{volume}", op: gt, right: {param: z}}

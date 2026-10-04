@@ -400,6 +400,86 @@ MIGRATIONS: list[str] = [
         reason VARCHAR NOT NULL
     );
     """,
+    # 8 — Strategy Lab search batches (testing families); append-only through the Lab API
+    """
+    CREATE TABLE IF NOT EXISTS lab_batches (
+        batch_id VARCHAR PRIMARY KEY,
+        name VARCHAR NOT NULL UNIQUE,
+        payload JSON NOT NULL,
+        origin VARCHAR NOT NULL,
+        frozen_at TIMESTAMPTZ NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS lab_batch_runs (
+        run_id VARCHAR PRIMARY KEY,
+        batch_id VARCHAR NOT NULL REFERENCES lab_batches(batch_id),
+        attempt INTEGER NOT NULL CHECK (attempt > 0),
+        software_id VARCHAR NOT NULL REFERENCES lab_software(software_id),
+        started_at TIMESTAMPTZ NOT NULL,
+        rerun_of VARCHAR REFERENCES lab_batch_runs(run_id),
+        rerun_reason VARCHAR,
+        UNIQUE (batch_id, attempt)
+    );
+    CREATE TABLE IF NOT EXISTS lab_batch_members (
+        run_id VARCHAR NOT NULL REFERENCES lab_batch_runs(run_id),
+        strategy_id VARCHAR NOT NULL REFERENCES lab_strategies(strategy_id),
+        experiment_id VARCHAR NOT NULL UNIQUE REFERENCES lab_experiments(experiment_id),
+        PRIMARY KEY (run_id, strategy_id)
+    );
+    CREATE TABLE IF NOT EXISTS lab_batch_analyses (
+        analysis_id VARCHAR PRIMARY KEY,
+        run_id VARCHAR NOT NULL UNIQUE REFERENCES lab_batch_runs(run_id),
+        recorded_at TIMESTAMPTZ NOT NULL,
+        status VARCHAR NOT NULL CHECK (status IN ('completed','failed')),
+        payload JSON NOT NULL
+    );
+    """,
+    # 9 — Strategy Lab evidence profiles: consumer-neutral, append-only via the Lab API
+    """
+    CREATE TABLE IF NOT EXISTS lab_evidence_policies (
+        policy_id VARCHAR PRIMARY KEY,
+        payload JSON NOT NULL,
+        recorded_at TIMESTAMPTZ NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS lab_evidence_profiles (
+        profile_id VARCHAR PRIMARY KEY,
+        policy_id VARCHAR NOT NULL REFERENCES lab_evidence_policies(policy_id),
+        strategy_id VARCHAR NOT NULL REFERENCES lab_strategies(strategy_id),
+        analysis_id VARCHAR REFERENCES lab_batch_analyses(analysis_id),
+        tier VARCHAR NOT NULL CHECK (tier IN ('UNAVAILABLE','INSUFFICIENT','NEGATIVE',
+            'INCONCLUSIVE','EXPLORATORY','RESEARCH_SUPPORTED','VALIDATED')),
+        payload JSON NOT NULL,
+        recorded_at TIMESTAMPTZ NOT NULL
+    );
+    """,
+    # 10 — perp open interest. Interval-based provider history (Binance) is stored raw, per
+    # venue; Hyperliquid OI stays in perp_snapshots (prospective, irregular capture times).
+    # The view lists both side by side with the venue explicit; it never merges them.
+    """
+    CREATE TABLE IF NOT EXISTS perp_oi_history (
+        source VARCHAR NOT NULL,           -- venue, e.g. 'binance'
+        coin VARCHAR NOT NULL,             -- Prism perp coin, e.g. 'BTC'
+        provider_symbol VARCHAR NOT NULL,  -- e.g. 'BTCUSDT'
+        market_type VARCHAR NOT NULL,      -- e.g. 'usdm_perpetual'
+        period VARCHAR NOT NULL,           -- provider statistics period, e.g. '1h'
+        observed_at TIMESTAMPTZ NOT NULL,  -- provider timestamp, exact (never re-gridded)
+        open_interest DOUBLE,              -- base units (coins), as returned
+        oi_notional DOUBLE,                -- USD(T) value, as returned by the provider
+        oi_notional_method VARCHAR NOT NULL,
+        ingested_at TIMESTAMPTZ NOT NULL,  -- first stored
+        updated_at TIMESTAMPTZ NOT NULL,   -- last time the values changed
+        ingest_run_id VARCHAR NOT NULL,
+        PRIMARY KEY (source, coin, period, observed_at)
+    );
+    CREATE OR REPLACE VIEW perp_oi_observations AS
+        SELECT source AS venue, coin, coin AS provider_symbol, 'hyperliquid_perp' AS market_type,
+               'snapshot' AS period, snapshot_at AS observed_at, open_interest, oi_notional,
+               'open_interest*mark_px' AS oi_notional_method, ingest_run_id
+        FROM perp_snapshots
+        UNION ALL
+        SELECT source, coin, provider_symbol, market_type, period, observed_at, open_interest,
+               oi_notional, oi_notional_method, ingest_run_id
+        FROM perp_oi_history;
+    """,
 ]
 
 

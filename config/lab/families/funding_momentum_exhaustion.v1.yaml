@@ -1,0 +1,32 @@
+# Strategy family (preregistered research space). Not a recommendation or a result.
+family: funding_momentum_exhaustion
+version: 1
+title: Extreme funding plus price momentum exhaustion
+rationale: >-
+  Extreme funding after a strong move in the same direction may indicate late, leveraged
+  trend-chasing; such positioning may be fragile and precede a reversal.
+markets: [perp]
+authored_at: 2026-10-03T00:00:00Z
+parameters:
+  tail: [0.9, 0.95]
+  horizon: [7, 14]
+  move: [0.1, 0.2]  # fractional price move over the horizon
+name: funding_momentum_{tail}_h{horizon}_{move}_{side}
+cooldown_bars: 10
+exit: {stop_atr: 2.5, max_hold_bars: 14}
+max_variants: 16
+short:
+  hypothesis: >-
+    When 7-day mean funding ranks above the {tail} percentile of its prior 180 days and price
+    has risen more than {move} over {horizon} days, late leveraged longs may precede a decline.
+  conditions:
+    - {left: funding_pct_7_180, op: gt, right: {param: tail}}
+    - {left: "ret_{horizon}", op: gt, right: {param: move}}
+long:
+  hypothesis: >-
+    When 7-day mean funding ranks below the mirrored lower tail (1 minus {tail}) of its prior
+    180 days and price has fallen more than {move} over {horizon} days, late leveraged shorts
+    may precede a rebound.
+  conditions:
+    - {left: funding_pct_7_180, op: lt, right: {param: tail, scale: -1, offset: 1}}
+    - {left: "ret_{horizon}", op: lt, right: {param: move, scale: -1}}

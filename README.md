@@ -117,7 +117,9 @@ uv run market track [--calls]        # live track record of past ACTIONABLE / WA
 uv run market brief [--send] [--update-exit N]   # today's answer + freshness warnings + new alerts (Telegram with --send)
 uv run market telegram-setup         # find your Telegram chat id and send a test message
 uv run market perps                  # perp funding & open-interest monitor (context, not signals)
-uv run market update --only perps    # just the perp data: candles, hourly funding, OI snapshot
+uv run market update --only perps    # just the perp data: candles, hourly funding, OI snapshot + Binance OI backfill
+uv run market oi collect             # just OI: Hyperliquid snapshot + Binance ~30-day backfill (for a scheduler)
+uv run market oi status [--gaps]     # OI coverage per venue/coin: latest, gaps, rows (data only, not a signal)
 uv run market perp-strategies        # the pre-registered perp strategies and their hypotheses
 uv run market perp-research [NAME]   # research perp strategies → verdicts + results/perps/<strategy>/…/report.md
 uv run market perp-research --venue binance   # same strategies on Binance years before Hyperliquid's data (unseen)
