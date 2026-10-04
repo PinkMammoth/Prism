@@ -1703,23 +1703,33 @@ consumer policies remain future, separate and versioned.
 - Strategy definitions are immutable by ID, so a changed rule is always a new strategy and
   a new tracking.
 
-### Scheduling (recommended; nothing installed)
+### Scheduling (installed)
 
 Use one idempotent command: `market lab forward run`. It ingests Hyperliquid perp candles
 and funding (`update_perps`), then runs `check` and then `resolve`. Today only
 `market update` ingests perp bars; `market oi collect` does not. A failed update does not
 stop the check, and a conflict in `check` does not stop `resolve`.
 
-Recommended setup: `forward_run.sh` (repo root, its own `flock`; DuckDB's lock handles
-overlap with `daily.sh` and `oi_collect.sh`; log in `data/forward.log`) in a Windows task
-"Prism forward" with:
+The Windows Task Scheduler task **"Prism forward"** is installed (2026-10-04, at the
+operator's request; Prism code never installs or edits scheduled tasks). It runs the
+`forward_run.sh` wrapper, which runs `market lab forward run`: update → prospective
+check → outcome resolution.
 
-- **At log on, delayed 5 min:** the first chance each day (~07:20 UK). Data for the
-  00:00 UTC bar is complete by then.
-- **Daily 12:00 and 19:30:** retries in case the morning run failed.
-- **"Run as soon as possible after a missed start":** on.
+- **Wrapper:** repo root, with its own `flock`. DuckDB's lock handles overlap with
+  `daily.sh` and `oi_collect.sh`. The log is `data/forward.log`.
+- **Action:** `wsl.exe -d Ubuntu -- bash -lc "/home/matth/prism/forward_run.sh"`.
+- **Triggers:**
+  - at log on, delayed 5 minutes: the first chance each day (~07:20 UK), when data for
+    the 00:00 UTC bar is complete;
+  - daily at 12:00 and 19:30: retries in case an earlier run failed.
+- **Settings:** run as soon as possible after a missed start; ignore a new instance while
+  one runs; 30-minute limit; runs on battery.
+- **Test run (2026-10-04 08:13 UTC, triggered through Task Scheduler):** result 0. The perp
+  update reported 13 ok and 0 failed. The check recorded 0 evaluations, correctly, because
+  every newest bar closed before enrollment. Resolve had nothing pending.
 
-Several runs a day are harmless (no-ops). The existing 10:00 `daily.sh` also refreshes perp
+The command is idempotent: with nothing new, a run only refreshes data and appends a run
+log entry, so several runs a day are harmless. The existing 10:00 `daily.sh` also refreshes perp
 data; it does not run forward checks. A day with no run inside 00:00–24:00 UTC is a
 recorded gap.
 
@@ -1748,19 +1758,37 @@ and side, applied without discretion and without forward outcomes (none exist):
 |---|---|---|
 | `ma_trend_10_50_long` | `evidence_ac9120d8…` | `ma_trend` long plateau (2/2 testable neighbours agree); tie with `ma_trend_20_50_long` broken by name |
 | `ma_trend_20_100_short` | `evidence_168da1c0…` | the only EXPLORATORY short; plateau (2/2 agree) |
-| `donchian_breakout_55_long` | `evidence_47a57457…` | the only EXPLORATORY non-`ma_trend` family-side; `mixed` (1/2 agree) in an otherwise adverse family. Tracked to test persistence, not as an endorsement |
+| `donchian_breakout_55_long` | `evidence_47a57457…` | the only EXPLORATORY non-`ma_trend` family-side; `mixed` (1/2 agree) in an otherwise adverse family. **Stopped before its first evaluation** (below) |
 
-All three are EXPLORATORY, so enrollment grants no trading or alert status.
+All three were EXPLORATORY, so enrollment granted no trading or alert status.
 
-**Forward clock:** enrolled 2026-10-04 07:57 UTC with all plan horizons. The first
-observable bar closes **2026-10-05 00:00 UTC**. The 2026-10-04 bar closed before
-enrollment and is never evaluated. No prospective evaluation exists yet.
+**Forward clock:** all three were enrolled at 2026-10-04 07:57 UTC with all plan horizons.
+The first observable bar closes **2026-10-05 00:00 UTC**. The 2026-10-04 bar closed before
+enrollment and is never evaluated.
 
-Tracking IDs:
+**Cohort 1 (active):** the two `ma_trend` plateau representatives.
 
-- `tracking_250f844a…` (ma_trend 10/50 long);
-- `tracking_65febaad…` (ma_trend 20/100 short);
-- `tracking_94289899…` (donchian 55 long).
+| Tracking | Strategy | Enrolled (UTC) | Status |
+|---|---|---|---|
+| `tracking_250f844a…` | `ma_trend_10_50_long` | 2026-10-04 07:57:27 | active |
+| `tracking_65febaad…` | `ma_trend_20_100_short` | 2026-10-04 07:57:28 | active |
+
+**Stopped:** `tracking_94289899…` (`donchian_breakout_55_long`).
+
+- Enrolled 2026-10-04 07:57:31 UTC; stopped 2026-10-04 08:55:46 UTC through
+  `market lab forward stop`.
+- **Zero** prospective evaluations, signals, entries or outcomes were recorded before the
+  stop, because no bar became observable in between.
+- **Why:** its neighbourhood is mixed (1/2 neighbours agree) in an otherwise largely
+  adverse family, and cohort 1 was meant to hold only the two `ma_trend` plateau
+  representatives. It was enrolled because the rule admits `mixed` members when a
+  family-side has no plateau. It is not replaced.
+- **Audit trail:** stopping appends a status event. The tracking definition, enrollment
+  record and reason stay in the ledger, so history shows it was enrolled and then stopped.
+  `stopped` is terminal.
+- **Effect:** `check` skips it ("not active (stopped)"). Coverage counts every later bar
+  as `stopped`, never as an expected evaluation or a gap, so it contributes nothing to
+  future coverage or forward evidence.
 
 **Rehearsal** (scratch copy, back-dated enrollment): 18 evaluations of the 2026-10-03 bar
 in 5.8 s; an idempotent re-check; a late check refused; outcomes pending; an extended
@@ -1778,8 +1806,11 @@ profile with an unchanged tier.
   before T, unlike the historical screen's fixed window start. SMA/Donchian/funding
   features are unaffected. Recursive values converge but are not bit-identical to the
   research run.
-- Evaluation inputs are fingerprinted, not retained. An exact recomputation needs the
-  same rows (or a backup).
+- Evaluation inputs are fingerprinted, not retained. Feature values and provenance are
+  recorded with each evaluation, but full source rows are not duplicated per evaluation.
+  Exact recomputation of a prospective evaluation currently requires the original source
+  rows or an external backup matching the stored fingerprint. Content-addressed input
+  retention is a possible future infrastructure improvement.
 - No outcome-correction mechanism; no automatic consumer action, alerting or promotion.
 
 ## 14. Verification
@@ -1889,7 +1920,7 @@ was triggered.
 | `.venv/bin/ruff check src tests dashboard` / `ruff format --check src tests` | Passed / 118 files formatted |
 | `git diff --check` | Passed |
 | CLI | `forward --help`, `candidates`, `enroll --dry-run`, `enroll`, `list`, `check --dry-run` on the live DB; full lifecycle in the CLI test |
-| Live DB | Backed up to `data/prism.pre_phase8.duckdb`; migration 11 additive; Lab batch reproduced; 3 trackings enrolled; 0 evaluations (correct: no bar has closed since enrollment) |
+| Live DB | Backed up to `data/prism.pre_phase8.duckdb`; migration 11 additive; Lab batch reproduced; 3 trackings enrolled; 0 evaluations (correct: no bar has closed since enrollment). Closure: the Donchian tracking was stopped before any evaluation; 2 active |
 
 `test_lab_forward.py` covers:
 
