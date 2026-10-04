@@ -3649,6 +3649,11 @@ This phase is infrastructure only:
 - **Schedule (UTC).** Prospective at 00:10, 00:45, 03:00, 06:00, 11:00 and 17:00, plus a boot
   catch-up; backup at 01:30; OI at 02:30, 08:30, 14:30 and 20:30; daily update/scan at 09:00.
   00:10 is the first run after each daily close, well inside the paper 12 h entry window.
+- **Live application (2026-10-04).** Cut over at 17:46–17:48 UTC: home tasks disabled, the DB
+  claimed and transferred (hash-verified), and continuity identical apart from the schema
+  version (16 → 17). The service was then moved to eu-west, because Binance Futures blocks US
+  IPs. Deployment recorded as `rtev_e767cf57…` (commit `34ab752`). The full timeline and
+  baselines are in docs/OPERATIONS.md, "Phase 14 cutover log".
 - **Unchanged.** Bar semantics: an "opened" notification can still arrive a bar after the
   fill it describes (section 18, Known limitations). The always-on host removes the scheduler
   delay, not the daily-bar design.
