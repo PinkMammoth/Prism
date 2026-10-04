@@ -6,10 +6,11 @@ including the local database and generated reports. Only the representation foun
 fast screen (section 9), preregistered search batches (section 10), structured
 strategy families (section 11), evidence profiles (section 12), prospective forward
 tracking (section 13) and full research with independent validation (section 14) are
-implemented, plus the first consumer of that evidence, the perps co-pilot (section 15).
+implemented, plus the first consumer of that evidence, the perps co-pilot (section 15), and
+cross-venue historical corroboration (section 16).
 No production strategies, evaluation rules, paper records or scanners were changed; the
 co-pilot reuses the existing Telegram client. The only schema changes are the additive
-migrations described in sections 7, 10, 12, 13, 14 and 15.
+migrations described in sections 7, 10, 12, 13, 14, 15 and 16.
 
 ## 1. Current architecture
 
@@ -2452,8 +2453,8 @@ signal fires.
 
 ### Known limitations
 
-- Daily perp strategies only: there are no intraday, OI or long-horizon families, and no
-  cross-venue corroboration.
+- Daily perp strategies only: there are no intraday, OI or long-horizon families.
+  Cross-venue corroboration (section 16) exists, but co-pilot policy v1 does not read it.
 - Only two strategies are watched.
 - The forward sample is empty (TOO_EARLY). Validation is not mature until the reserved
   period completes (2027-10-01), and the short strategy is projected to stay insufficient.
@@ -2468,7 +2469,312 @@ signal fires.
 - A crash between sending and recording leaves an `unknown` delivery that needs a manual
   look (`market lab copilot show`).
 
-## 16. Verification
+## 16. Step 11 implemented: cross-venue historical corroboration
+
+Module `research/lab/corroboration.py`, additive migration 14 (`lab_corroboration_*`
+tables), dataset role `corroboration`, evidence stage `cross_venue_corroboration`,
+evidence profile schema 5 and the CLI group
+`market lab corroboration register | run | show | list | evidence`. Research only: no
+consumer, eligibility or auto-trader field exists, and co-pilot policy v1 does not read it.
+
+> Binance historical corroboration is supporting historical evidence, not independent
+> validation, because parts of the Binance history have been used in prior Prism research.
+
+The question is narrow: *does the same frozen strategy show broadly similar behaviour on
+another major perp venue, in earlier market regimes?*
+
+| Evidence | Venue / data | Independence |
+|---|---|---|
+| Hyperliquid discovery + full research (Phases 4–9) | Hyperliquid 2024-10-01 → 2026-10-01 | none (selected the strategy) |
+| Hyperliquid reserved validation (Phase 9) | Hyperliquid 2026-10-01 → 2027-10-01 | **independent validation** (untouched on record) |
+| **Cross-venue corroboration (Phase 11)** | **Binance 2019-09-01 → 2024-10-01** | **none: historically exposed, non-independent** |
+| Prospective forward (Phase 8) | live Hyperliquid bars | prospective, separate |
+
+### Machinery (reused, not a second backtester)
+
+- **Plan.** The corroboration plan is the strategy's source plan with only three things
+  changed: `source` (the venue), the venue's per-asset costs, and one `corroboration`
+  period (`check_plan_compatibility`). Horizons, the primary horizon (10d), Lab causal
+  funding, statistics, warmup (400 days), T+1-open entry, T+h-close exit, the outcome
+  boundary and the gates are identical.
+- **Governed look.** The look is a Phase 2 experiment (role `corroboration`, origin
+  `lab_corroboration:<registration>`) run by Phase 4 `run_screen`. Its start is the
+  permanent `evaluation_started` record in `lab_inspections`, so `Ledger.exposures` shows
+  it. The pure screen is recomputed on the same retained snapshot and must match the
+  governed result exactly (parity) before the deeper summaries use its events.
+- **Deeper summaries.**
+  - Walk-forward: the Phase 9 `frozen_walk_forward`, 6-month blocks with no reselection.
+  - Neighbours: `neighbour_sensitivity` (Prism `plateau_verdict`). Each registered
+    neighbour is its own governed experiment. This is descriptive only and never
+    affects the status.
+  - Breadth and horizons: Phase 7 `asset_summary` / `horizon_summary`.
+  - Regime blocks: Prism `window_excess`.
+- **Only venue rows.** Dataset selections name the venue and nothing else. The evaluator
+  refuses a snapshot with any other source. A test rewrites Hyperliquid prices for the
+  same window and shows nothing changes.
+
+### Registration (explicit, frozen)
+
+`market lab corroboration register <profile> --start … --end … --reason …` accepts a
+historical (schema 1/2) or full-research (schema 4) profile. `--dry-run` writes nothing
+and shows:
+
+- the frozen strategy definition;
+- the period and its warmup-inclusive data region;
+- included and excluded assets;
+- per-asset coverage: first and last bar, bar gaps, funding settlements and irregular
+  settlement days;
+- venue costs and funding semantics;
+- the recorded historical exposure.
+
+The registration (content-hashed `xvenue_…`) freezes:
+
+- the strategy, side, family and parameters;
+- the base and historical profiles;
+- the source plan, dataset, experiment, result and period;
+- the batch;
+- the neighbours (taken from the profile, so they cannot be re-chosen);
+- the venue plan and period, the included and excluded assets;
+- the full-research and corroboration policy IDs;
+- the semantic versions.
+
+Rules:
+
+- **Earlier regimes only.** The period must end no later than the source discovery period
+  starts, so no market day contributes an outcome to both venues. Reserved Hyperliquid
+  validation and final-holdout windows are therefore never touched.
+- **Frozen strategy.** The strategy is cited by its immutable ID. There is no parameter
+  option, and changed semantics refuse the run.
+- **Looked at once.** A second run needs `--rerun-of` and `--rerun-reason`, is marked
+  `first_look: false`, and never replaces the earlier result.
+- **Never independent.** `independent` is the literal `False` in the registration model,
+  the policy (`satisfies_independent_validation: false`), every result, the profile
+  block, and a database `CHECK (NOT independent)`.
+
+### Historical window (frozen before evaluation)
+
+**Binance USD-M, [2019-09-01, 2024-10-01)**, primary horizon 10d. The data region with
+the plan's 400-day warmup is [2018-07-28, 2024-10-01). Only rows from 2019-09-09 exist.
+
+- **Start:** Prism's configured Binance history start (`venues.binance.history_start`,
+  the USD-M launch month). This keeps every stored year.
+- **End:** the Hyperliquid discovery start.
+
+Both boundaries were fixed from coverage alone, before any outcome was computed.
+
+| Asset | First Binance bar (close) | Bars in period | Gaps | Funding settlements | Notes |
+|---|---|---|---|---|---|
+| BTC | 2019-09-09 | 1,849 | 0 | 5,543 | 3/day (8-hourly) |
+| ETH | 2019-11-28 | 1,769 | 0 | 5,309 | 3/day |
+| LINK | 2020-01-18 | 1,718 | 0 | 5,156 | 3/day |
+| SOL | 2020-09-15 | 1,477 | 0 | 4,510 | 3/day; 2022-11-09 → 11-18 (FTX crash) up to 12/day |
+| AAVE | 2020-10-17 | 1,445 | 0 | 4,337 | 3/day |
+| HYPE | — | 0 | — | 0 | **excluded**: no Binance perp history stored (HYPE launched Nov 2024, after the period) |
+
+Each asset's first day also has a partial settlement count. Assets listed after the
+period start are included from their listing. Their features warm up from their own first
+bar, and nothing is back-filled. Asset composition therefore differs from Hyperliquid
+(no HYPE; fewer alts in 2019–2020).
+
+### Venue semantics
+
+| | Hyperliquid (source) | Binance (corroboration) |
+|---|---|---|
+| Fee per side | 4.5 bps | 5.0 bps (`venues.binance.taker_fee_bps`) |
+| Slippage per side | BTC/ETH 2, SOL 4, LINK 6, AAVE 8 (HYPE 6) | same per-coin table (`perp_costs(cfg, coin, "binance")`) |
+| Funding | hourly settlements | 8-hourly (shorter intervals in a few volatile episodes) |
+| Contract | USDC-margined perps | USDT-margined linear perps (last-price candles) |
+
+- Costs are frozen in the venue plan through Prism's own `perp_costs`. Stop slippage
+  does not apply because the event study has no stops.
+- Funding uses the same Lab causal policy on both venues. Each daily bar sums the settled
+  rates in (open, close], with the cadence inferred from the trailing 7 days. A full day
+  takes its actual sum, so the SOL 2022 episode is not scaled down. Both venues therefore
+  yield a daily funding fraction of notional.
+- Binance's baseline funding (about 0.01% per 8h) differs in level from Hyperliquid's.
+- Daily bars open at 00:00 UTC on both venues.
+
+A difference in outcome may reflect market structure, cost, funding or asset composition
+as well as strategy quality.
+
+### Exposure (recorded honestly)
+
+Recorded at registration, for both strategies:
+
+- **Legacy Prism research used this Binance history.** On 2026-10-03 at 12:32–12:44 UTC,
+  `perp_trend_ls@binance` (×2), `perp_funding_fade@binance` and
+  `perp_breakout_ls@binance` were run on Binance per-coin windows from 2019-09-11 to
+  2023-10-03. All were REJECT except the first `trend_ls` run (INSUFFICIENT_DATA).
+  `trend_ls` is a related moving-average trend rule (SMA 50/150 plus a 20-day breakout,
+  long and short), not the Lab's EMA `ma_trend` rule. Those windows cover **79.9% of the
+  corroboration period**.
+- The `ma_trend` family file was committed about seven hours later (2026-10-03 19:45
+  UTC), and both strategies were registered after the legacy runs
+  (`before_strategy_registered: true`).
+- **Not recorded:** which human design decisions (family design, parameter grids,
+  strategy choice) those results influenced. The record says only that they existed
+  first.
+- The last 20% of the period (2023-10-03 → 2024-10-01) was not in legacy Binance runs.
+  Those market days were, however, in legacy Hyperliquid runs and in the Hyperliquid
+  discovery warmup (features only).
+- There were no earlier Lab experiments on Binance. The two corroboration looks, plus 5
+  neighbour looks, are now recorded exposure of this window.
+
+### Statuses (`lab_cross_venue_corroboration_policy` v1, `xvpolicy_712462d8…`)
+
+Descriptive only; the p-value never decides a status. Sample thresholds equal the
+discovery evidence policy's.
+
+| Status | Rule |
+|---|---|
+| `CROSS_VENUE_INSUFFICIENT` | < 30 independent primary events or < 3 assets with events (never an adverse finding) |
+| `CROSS_VENUE_CORROBORATIVE` | excess > 0, ≥ 60% of assets positive, sign survives dropping the largest contributor, walk-forward `consistent`/`mixed`, regimes `broadly_persistent`/`unstable` |
+| `CROSS_VENUE_ADVERSE` | excess ≤ 0 and ≤ 50% of assets positive |
+| `CROSS_VENUE_MIXED` | otherwise (reasons listed) |
+| `CROSS_VENUE_ERROR` | exception or parity failure (recorded) |
+
+**Regimes:** the period is split into three equal-length chronological blocks:
+
+- early [2019-09-01, 2021-05-12);
+- middle [2021-05-12, 2023-01-21);
+- late [2023-01-21, 2024-10-01).
+
+Each block uses block-local baselines. A block is adequate with ≥ 5 independent events.
+Labels:
+
+| Label | Adequate blocks positive |
+|---|---|
+| `broadly_persistent` | all |
+| `unstable` | ≥ 2, but not all |
+| `concentrated` | exactly 1 |
+| `adverse` | none |
+| `insufficient` | fewer than 2 adequate blocks |
+
+### Real run (live DB, 2026-10-04 ~12:52 UTC)
+
+The DB was backed up first to `data/prism.pre_phase11.duckdb`. The candidates were the two
+active Phase 8/10 strategies, chosen by `plateau_centrality_v1` before any forward or
+co-pilot outcome existed. Nothing was tuned or added after the results.
+
+Plan: `hl_perp_smoke_discovery_xv_binance_20190901_20241001` v1 (`plan_a79e2b01…`).
+
+| | `ma_trend_10_50_long` | `ma_trend_20_100_short` |
+|---|---|---|
+| Registration | `xvenue_e77932f8…` | `xvenue_07cd8c5f…` |
+| Binance independent 10d events / assets | 142 / 5 | 86 / 5 |
+| Pooled net excess (expected direction) | **−0.34%** | **+1.08%** |
+| Median excess / net mean / net median | −1.47% / +1.75% / +1.10% | +3.50% / −1.26% / +0.84% |
+| Hit rate (net > 0) | 52% | 52% |
+| Per-asset excess | BTC +2.43%, ETH +0.58%, LINK +0.83%, SOL −3.10%, AAVE −3.26% | BTC +1.16%, ETH +2.90%, LINK +3.37%, SOL +1.64%, AAVE −2.40% |
+| Breadth | 3/5 positive; sign flips without AAVE (+0.44%): dominated | 4/5 positive; max event share 27%; survives leave-largest-out (+0.44%) |
+| Walk-forward (6-month blocks) | mixed: 4/9 adequate blocks positive | mixed: 3/7 adequate blocks positive |
+| Regimes early / middle / late | +0.19% (31) / −0.17% (52) / −0.75% (59): **concentrated** | −5.95% (6) / **+3.81% (40)** / −2.42% (40): **concentrated** |
+| Neighbours (descriptive) | NO_EDGE: 20/50 −2.24%, 10/100 −2.49% | PLATEAU: 10/100 +2.05%, 20/50 +2.45%, 20/200 +0.002% |
+| Horizons 1d/5d/10d/20d | −0.63 / −0.03 / −0.34 / −1.35% | +0.28 / +0.11 / +1.08 / +3.51% |
+| Random-entry p (descriptive) | 0.59 | 0.29 |
+| Parity (governed = recomputed) | exact | exact |
+| **Status** | **CROSS_VENUE_MIXED** (excess not positive; one-asset sign; regimes concentrated) | **CROSS_VENUE_MIXED** (regimes concentrated) |
+| Schema-5 profile | `evidence_73a008c2…`, tier **EXPLORATORY (unchanged)** | `evidence_124ab50f…`, tier **EXPLORATORY (unchanged)** |
+
+Notes:
+
+- **Excess versus absolute.** Excess is net return minus the same-asset, same-side
+  random-entry baseline. The long's positive absolute net mean (+1.75%) reflects a rising
+  market, not timing: random long entries did as well.
+- **The short's excess is relative.** Its gross and net absolute means are negative
+  (prices rose after signals on average) but less so than random short entries. Its
+  support comes almost entirely from 2021-05 → 2023-01 (the 2022 bear market).
+
+**Cross-venue comparison (side by side, never pooled).**
+
+| | Long HL | Long Binance | Short HL | Short Binance |
+|---|---|---|---|---|
+| Excess (10d) | +1.38% | −0.34% | +2.61% | +1.08% |
+| Events / assets | 77 / 6 | 142 / 5 | 39 / 6 | 86 / 5 |
+| Positive-asset share | 67% | 60% | 67% | 80% |
+| Breadth | broad | asset-specific | broad | broad |
+| Walk-forward | consistent (3/4) | mixed (4/9) | consistent (3/4) | mixed (3/7) |
+| Status | FULL_RESEARCH_CONSISTENT | CROSS_VENUE_MIXED | FULL_RESEARCH_MIXED | CROSS_VENUE_MIXED |
+
+- **Long:** opposite sign (ratio −0.25). Per-asset signs agree on only 1 of 5 common
+  assets (LINK). Hyperliquid on the common assets alone is +1.29%.
+- **Short:** same sign, smaller magnitude (ratio 0.42). Per-asset signs agree on 5 of 5
+  common assets (AAVE is negative on both). Hyperliquid on the common assets is +4.34%.
+- **Walk-forward:** consistent on Hyperliquid's two years, mixed across Binance's five.
+
+### Evidence integration and tiers
+
+`market lab corroboration evidence <registration>` appends a **schema-5** profile:
+
+- It `extends` the registered base: the Phase 9 schema-4 profile here, or a historical
+  profile.
+- It cites the base's sources plus a `cross_venue_corroboration` source.
+- It copies every existing field and block unchanged and adds a `corroboration` block:
+  - venue, period and assets;
+  - exposure summary;
+  - status, sample, effect and breadth;
+  - walk-forward, regimes and neighbours;
+  - comparison, policy and `independent: false`.
+- A `cross_venue_corroboration` component appears in `components`, with one line in
+  `supporting` (if CORROBORATIVE) or `limiting` (otherwise).
+
+Existing profiles stay unchanged. All 42 pre-existing profiles are byte-identical, and
+historical, Phase 9 and forward payloads omit the new block.
+
+**Tiers never change:**
+
+- The policy's `tier_effect` is the literal `"none"`, and the builder refuses a tier
+  different from the base's.
+- The schema-5 model rejects `VALIDATED` and any non-independent block.
+- A `cross_venue_corroboration` source cannot satisfy anything that requires a
+  `validation` source.
+- Corroboration therefore can neither create RESEARCH_SUPPORTED nor unlock VALIDATED. The
+  reason is that the data is historically exposed and not independent of the research
+  that led to these strategies.
+
+Phase 8 enrollment and Phase 9 registration refuse schema-5 profiles. The batch evidence
+report excludes them, so its output is identical to before.
+
+**Future consumers.** A future auto-trader promotion policy can read the block's
+`status`: cross-venue supportive, mixed or adverse. No eligibility, approval or
+readiness field is created here.
+
+### Co-pilot compatibility
+
+`copilot_policy` v1 (`copolicy_e235b9de…`) is unchanged. The co-pilot reads the newest
+**schema-4** extension, so schema 5 is invisible to it. On the live DB, after the run:
+
+- every `copilot_*` table (watchlist, status, runs, decisions, deliveries, policies,
+  software) is byte-identical to the backup;
+- the co-pilot `evidence_view` for both watches is identical;
+- `lab_forward_*` and `lab_research_*` are byte-identical.
+
+The only DB changes are migration 14 and:
+
+- +1 plan;
+- +2 schema-5 profiles;
+- the corroboration registrations, runs and results;
+- 7 corroboration experiments (2 targets + 5 neighbours), with their starts, results,
+  inspections, dataset and snapshot blobs.
+
+### Known limitations
+
+- **Not independent.** About 80% of the period was used by legacy Binance research on a
+  related trend rule before these strategies were defined. Which decisions it influenced
+  is not recorded. A positive result could never have counted as validation; neither
+  result here is positive.
+- Different asset composition (no HYPE), different costs and funding levels, and USDT
+  versus USDC quoting. Venue differences are confounded with regime differences: Binance
+  covers 2019–2024, Hyperliquid 2024–2026.
+- Regime blocks are equal calendar thirds, not economically defined regimes. The early
+  block is warmup-limited (the short has only 6 events there).
+- Daily perps and two strategies only. Neighbours are the registered Phase 6 neighbours.
+  No other family member was examined.
+- The Lab compiler's EMA warmup and the plan's 400-day warmup are reused unchanged.
+  Assets listed late contribute fewer events.
+- Recorded exposure is application-level. Direct market-table access is not observable.
+
+## 17. Verification
 
 Baseline before changes: **173 tests passed**, repository Ruff checks passed, and all
 89 existing source/test Python files passed format checking. New focused tests cover
@@ -2682,4 +2988,42 @@ was triggered.
 - a paused watch is respected, and the DB CHECK on the decision window holds;
 - no auto-trader field or column exists anywhere in co-pilot records;
 - `research/` never imports `copilot`;
+- the CLI lifecycle.
+
+### Step 11 verification
+
+| Check | Result |
+|---|---|
+| `pytest` (full) | **545 passed**; before Step 11: 527 |
+| `pytest tests/test_lab_corroboration.py` | **18 passed** |
+| Lab + co-pilot + Binance/perp/OI suites (`test_lab_*`, `test_copilot`, `test_binance`, `test_perps`, `test_perp_*`, `test_open_interest`), on the final code | **404 passed** |
+| `ruff check src tests dashboard` / `ruff format --check src tests` | Passed / 129 files formatted |
+| `git diff --check` | Passed |
+| CLI | `corroboration register --dry-run/register/run/show/list/evidence`; full lifecycle in the CLI test, dry-run rehearsed on a scratch copy, then live. `copilot policy/candidates`, `forward check --dry-run` and `evidence report` behave as before (report identical to the backup) |
+| Live DB | Backed up to `data/prism.pre_phase11.duckdb`; migration 14 additive; 2 registrations, 2 runs (both CROSS_VENUE_MIXED), 2 schema-5 profiles; every `copilot_*`, `lab_forward_*`, `lab_research_*` table and all 42 earlier profiles byte-identical to the backup |
+
+`test_lab_corroboration.py` covers:
+
+- terminology: never independent (model, policy, DB CHECK); no status says VALID; the
+  corroboration plan is refused as a Phase 9 validation plan;
+- the frozen strategy, period, assets and venue costs; only venue, costs and period may
+  differ from the source plan;
+- the period must end before the source discovery starts;
+- missing listing history: excluded with a reason or reported per asset, never
+  fabricated; too few venue assets refuses registration;
+- historical exposure: venue-specific legacy runs, their share of the period, the
+  unrecorded caveat, and the governed look recorded as exposure;
+- only venue rows: Hyperliquid rows in the same window change nothing; parity between
+  the governed and recomputed screens;
+- T+1-open entry and T+h-close exit; Binance fee and slippage; 8-hourly funding summed
+  per day; the exact cost difference from Hyperliquid costs;
+- adverse and insufficient results are recorded, never hidden; reruns are explicit;
+  semantic changes are refused; errors are recorded;
+- no pooling: the comparison is side by side and asset composition is reported;
+- evidence extension: earlier profiles byte-identical; the tier is copied; idempotent;
+  no consumer or approval field;
+- tier safety: VALIDATED and an independent block are rejected; Phase 8 enrollment and
+  Phase 9 registration refuse schema 5;
+- co-pilot isolation: policy v1 ID, `latest_extension` and all `copilot_*` rows are
+  unchanged; the batch report is unchanged;
 - the CLI lifecycle.

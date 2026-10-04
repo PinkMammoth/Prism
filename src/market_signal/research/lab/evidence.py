@@ -52,7 +52,15 @@ Tier = Literal[
     "VALIDATED",  # reserved: requires a governed validation stage (not implemented)
 ]
 Stage = Literal[
-    "fast_screen", "batch_fdr", "full_research", "validation", "paper_forward", "live_forward"
+    "fast_screen",
+    "batch_fdr",
+    "full_research",
+    "validation",
+    "paper_forward",
+    "live_forward",
+    # Phase 11: another venue's earlier history. Historically exposed, non-independent
+    # cross-venue evidence; it never satisfies a rule that requires `validation`.
+    "cross_venue_corroboration",
 ]
 STANDARD_LIMITATIONS = (
     "Historical, in-sample-for-this-batch evidence from a fast screen; not full research.",
@@ -152,7 +160,9 @@ class EvidenceSource(LabModel):
 class EvidenceProfile(LabModel):
     # "3": a profile that extends an earlier one with a paper_forward summary (Phase 8)
     # "4": a profile that extends a historical one with full research / validation (Phase 9)
-    profile_schema: Literal["1", "2", "3", "4"] = PROFILE_SCHEMA
+    # "5": a profile that extends a historical or schema-4 profile with a descriptive
+    #      cross-venue corroboration block (Phase 11); its tier equals the extended one's
+    profile_schema: Literal["1", "2", "3", "4", "5"] = PROFILE_SCHEMA
     policy_id: str
     # schema 2: {"version": EVIDENCE_BUILDER_VERSION, "software_id": ...}; absent in schema 1
     builder: dict | None = None
@@ -179,6 +189,9 @@ class EvidenceProfile(LabModel):
     # with forward evidence.
     full_research: dict | None = None
     validation: dict | None = None
+    # schema 5 only: historically exposed, NON-independent evidence from another venue.
+    # Never pooled with the blocks above and never a substitute for `validation`.
+    corroboration: dict | None = None
 
     @model_validator(mode="after")
     def reserved_tier(self) -> Self:
@@ -211,14 +224,34 @@ class EvidenceProfile(LabModel):
                 # Phase 9 can run validation, but VALIDATED is reserved for a future standard
                 # (prospective forward and final-holdout evidence); no Phase 9 policy emits it.
                 raise ValueError("VALIDATED is reserved: schema 4 profiles cannot carry it")
+        elif self.profile_schema == "5":
+            # Copies the extended profile's blocks (schema 4 or none) and adds corroboration.
+            if self.extends is None or self.corroboration is None:
+                raise ValueError("schema 5 profiles extend a profile with a corroboration block")
+            if "cross_venue_corroboration" not in stages:
+                raise ValueError("a corroboration block must cite its corroboration source")
+            if (self.full_research is not None) != ("full_research" in stages) or (
+                self.validation is not None
+            ) != ("validation" in stages):
+                raise ValueError("schema 5 blocks must cite their full_research/validation sources")
+            if self.corroboration.get("independent") is not False:
+                raise ValueError("cross-venue corroboration is never independent evidence")
+            # The builder copies the extended profile's tier unchanged (policy tier_effect
+            # "none"); the model can only rule out the reserved tier.
+            if self.tier == "VALIDATED":
+                raise ValueError("VALIDATED is reserved: schema 5 profiles cannot carry it")
         elif self.full_research is not None or self.validation is not None:
             raise ValueError("full_research/validation blocks belong to schema 4 profiles")
+        if self.corroboration is not None and self.profile_schema != "5":
+            raise ValueError("a corroboration block belongs to schema 5 profiles")
+        if "cross_venue_corroboration" in stages and self.profile_schema != "5":
+            raise ValueError("cross_venue_corroboration sources belong to schema 5 profiles")
         return self
 
     def payload(self) -> dict:
         """Stored form. Older payloads omit later blocks so they stay byte-identical."""
         data = self.model_dump(mode="python")
-        for block in ("forward", "full_research", "validation"):
+        for block in ("forward", "full_research", "validation", "corroboration"):
             if data[block] is None:
                 data.pop(block)
         return data

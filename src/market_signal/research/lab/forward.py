@@ -357,7 +357,8 @@ def build_definition(
     from market_signal.research.lab.policy import ScreenPlan
 
     profile = _profile(ledger, profile_id)
-    if profile.profile_schema in ("3", "4"):  # 4 = Phase 9 extension; enroll from history
+    # 4 = Phase 9 extension, 5 = Phase 11 corroboration extension; enroll from history
+    if profile.profile_schema in ("3", "4", "5"):
         raise ForwardError("enroll from a historical profile, not an extended one")
     if profile.tier not in ENROLLABLE_TIERS:
         raise ForwardError(
@@ -1195,7 +1196,7 @@ def candidates(ledger: Ledger, analysis_id: str, policy_id: str) -> dict:
                 if p["policy_id"] == policy_id]  # fmt: skip
     groups = defaultdict(list)
     for p in profiles:
-        if p["tier"] in ENROLLABLE_TIERS and p.get("profile_schema") != "3":
+        if p["tier"] in ENROLLABLE_TIERS and p.get("profile_schema") not in ("3", "5"):
             s = p["subject"]
             groups[(str(s["family"] or s["ledger_family"]), s["side"])].append(p)
     out = []

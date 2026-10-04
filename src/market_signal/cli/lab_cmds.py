@@ -4,8 +4,8 @@ Inspection, ``compile``, ``families``/``family show`` and ``batch generate`` (wi
 ``--register``) are read-only. ``preregister``, ``screen``, ``batch generate --register``,
 ``batch create``, ``batch run``, ``evidence build``, the ``forward`` writes (``enroll``,
 ``pause``/``resume``/``stop``, ``check``, ``resolve``, ``run``, ``evidence``) and the Phase 9
-``research reserve-plan``/``register``/``run``/``evidence`` and ``validation run`` are the
-only Lab writes; they follow the ledger lifecycle (freeze / preregister -> start -> one
+``research reserve-plan``/``register``/``run``/``evidence``, ``validation run`` and the
+Phase 11 ``corroboration register``/``run``/``evidence`` are the only Lab writes; they follow the ledger lifecycle (freeze / preregister -> start -> one
 terminal result -> one batch analysis). There are no promotion or AI-generation commands.
 The ``copilot`` sub-commands are a consumer of Lab evidence and write only co-pilot tables.
 """
@@ -376,7 +376,9 @@ def evidence_report(
         profiles = [
             p
             for p in load_profiles(ledger, analysis_id=analysis["analysis_id"])
-            if p["policy_id"] == policy_id
+            # Phase 11 corroboration extensions describe another venue; the batch report
+            # stays the discovery batch's view (output identical to before Phase 11).
+            if p["policy_id"] == policy_id and p.get("profile_schema") != "5"
         ]
         if not profiles:
             raise LedgerError("no profiles for this analysis and policy; run `evidence build`")
@@ -709,6 +711,97 @@ def validation_run(
     )  # fmt: skip
     if out["status"] == "VALIDATION_ERROR":
         raise typer.Exit(1)
+
+
+corroboration = typer.Typer(
+    no_args_is_help=True,
+    help="Cross-venue historical corroboration (historically exposed, NOT independent "
+    "validation; research only).",
+)
+lab.add_typer(corroboration, name="corroboration")
+
+
+@corroboration.command("register")
+def corroboration_register(
+    profile_id: str,
+    start: str = typer.Option(..., "--start", help="Corroboration period start, YYYY-MM-DD (UTC)."),
+    end: str = typer.Option(..., "--end", help="Exclusive; at most the source period start."),
+    venue: str = typer.Option("binance", "--venue"),
+    reason: str = typer.Option(None, "--reason", help="Required unless --dry-run."),
+    label: str = typer.Option(None, "--label", help="Distinguish a deliberate re-registration."),
+    dry_run: bool = typer.Option(
+        False,
+        "--dry-run",
+        help="Inspect only: frozen strategy, period, assets, coverage, "
+        "costs/funding and recorded historical exposure. Writes nothing.",
+    ),
+) -> None:
+    """WRITE: freeze a corroboration of a historical (schema 1/2) or full-research (schema 4)
+    profile on another venue's earlier history. The strategy is the registered one, unchanged."""
+    from market_signal.config import get_settings
+    from market_signal.perps.data import perp_config
+    from market_signal.research.lab.corroboration import register
+
+    if not dry_run and not reason:
+        console.print("Lab: --reason is required to register", markup=False)
+        raise typer.Exit(1)
+    cfg = perp_config(get_settings())
+    _inspect(
+        lambda ledger: register(ledger, profile_id, venue=venue, start=_date(start),
+                                end=_date(end), perps_cfg=cfg, reason=reason or "dry run",
+                                origin="cli", software=_software(), label=label,
+                                dry_run=dry_run),
+        read_only=dry_run,
+    )  # fmt: skip
+
+
+@corroboration.command("list")
+def corroboration_list() -> None:
+    """List corroboration registrations with their latest status."""
+    from market_signal.research.lab.corroboration import list_registrations
+
+    _inspect(list_registrations)
+
+
+@corroboration.command("show")
+def corroboration_show(registration_id: str) -> None:
+    """Registration, recorded exposure, runs, latest result and extended profiles."""
+    from market_signal.research.lab.corroboration import show
+
+    _inspect(lambda ledger: show(ledger, registration_id))
+
+
+@corroboration.command("run")
+def corroboration_run(
+    registration_id: str,
+    rerun_of: str = typer.Option(None, "--rerun-of", help="Earlier corroboration run."),
+    rerun_reason: str = typer.Option(None, "--rerun-reason"),
+) -> None:
+    """WRITE: one governed look at the venue period (recorded as exposure; append-only)."""
+    from market_signal.research.lab.corroboration import run
+
+    out = _inspect(
+        lambda ledger: run(ledger, registration_id, software=_software(), rerun_of=rerun_of,
+                           rerun_reason=rerun_reason),
+        read_only=False,
+    )  # fmt: skip
+    if out["status"] == "CROSS_VENUE_ERROR":
+        raise typer.Exit(1)
+
+
+@corroboration.command("evidence")
+def corroboration_evidence(
+    registration_id: str,
+    result: str = typer.Option(None, "--result", help="Default: latest."),
+) -> None:
+    """WRITE: a NEW schema-5 profile extending the registered profile. Tier unchanged."""
+    from market_signal.research.lab.corroboration import extend_profile
+
+    _inspect(
+        lambda ledger: extend_profile(ledger, registration_id, software=_software(),
+                                      result_id=result),
+        read_only=False,
+    )  # fmt: skip
 
 
 def _copilot() -> None:

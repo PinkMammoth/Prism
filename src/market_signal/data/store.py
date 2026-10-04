@@ -687,6 +687,46 @@ MIGRATIONS: list[str] = [
         UNIQUE (decision_id, attempt, status)
     );
     """,
+    # 14 — Strategy Lab cross-venue historical corroboration: append-only via the Lab API.
+    # A registration freezes the strategy, the profile it extends, the venue plan/period and
+    # the recorded historical exposure. It is never independent (CHECK). The look itself is
+    # the Phase 2 start/inspection of the linked experiment (role 'corroboration').
+    """
+    CREATE TABLE IF NOT EXISTS lab_corroboration_registrations (
+        registration_id VARCHAR PRIMARY KEY,
+        strategy_id VARCHAR NOT NULL REFERENCES lab_strategies(strategy_id),
+        base_profile_id VARCHAR NOT NULL REFERENCES lab_evidence_profiles(profile_id),
+        venue VARCHAR NOT NULL,
+        plan_id VARCHAR NOT NULL REFERENCES lab_plans(plan_id),
+        registered_at TIMESTAMPTZ NOT NULL,
+        reason VARCHAR NOT NULL,
+        origin VARCHAR NOT NULL,
+        software_id VARCHAR NOT NULL REFERENCES lab_software(software_id),
+        independent BOOLEAN NOT NULL CHECK (NOT independent),
+        definition JSON NOT NULL,
+        exposure JSON NOT NULL             -- recorded prior exposure at registration time
+    );
+    CREATE TABLE IF NOT EXISTS lab_corroboration_runs (
+        run_id VARCHAR PRIMARY KEY,
+        registration_id VARCHAR NOT NULL REFERENCES lab_corroboration_registrations(registration_id),
+        attempt INTEGER NOT NULL CHECK (attempt > 0),
+        software_id VARCHAR NOT NULL REFERENCES lab_software(software_id),
+        started_at TIMESTAMPTZ NOT NULL,
+        experiment_id VARCHAR NOT NULL REFERENCES lab_experiments(experiment_id),
+        rerun_of VARCHAR REFERENCES lab_corroboration_runs(run_id),
+        rerun_reason VARCHAR,
+        UNIQUE (registration_id, attempt)
+    );
+    CREATE TABLE IF NOT EXISTS lab_corroboration_results (
+        result_id VARCHAR PRIMARY KEY,
+        run_id VARCHAR NOT NULL UNIQUE REFERENCES lab_corroboration_runs(run_id),
+        completed_at TIMESTAMPTZ NOT NULL,
+        status VARCHAR NOT NULL CHECK (status IN (
+            'CROSS_VENUE_CORROBORATIVE','CROSS_VENUE_MIXED','CROSS_VENUE_ADVERSE',
+            'CROSS_VENUE_INSUFFICIENT','CROSS_VENUE_ERROR')),
+        payload JSON NOT NULL
+    );
+    """,
 ]
 
 
