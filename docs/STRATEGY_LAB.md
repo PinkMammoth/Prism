@@ -4,10 +4,11 @@ Inspection date: 2026-10-03. This is a design grounded in the existing implement
 including the local database and generated reports. Only the representation foundation
 (section 6), research governance ledger (section 7), daily feature compiler (section 8),
 fast screen (section 9), preregistered search batches (section 10), structured
-strategy families (section 11), evidence profiles (section 12) and prospective forward
-tracking (section 13) are implemented. No production strategies, evaluation rules, paper
-records, scanners or Telegram paths were changed; the only schema changes are the additive
-Lab migrations described in sections 7, 10, 12 and 13.
+strategy families (section 11), evidence profiles (section 12), prospective forward
+tracking (section 13) and full research with independent validation (section 14) are
+implemented. No production strategies, evaluation rules, paper records, scanners or
+Telegram paths were changed; the only schema changes are the additive Lab migrations
+described in sections 7, 10, 12, 13 and 14.
 
 ## 1. Current architecture
 
@@ -371,7 +372,7 @@ not control data mining; BH does not repair invalid or adaptively selected p-val
 | 5a — Search batches and FDR (implemented, section 10) | Added `research/lab/batch.py`, migration 8, `market lab batch create/run/show`, `market lab batches` | Frozen testing families, BH over one primary test per strategy, family-aware statuses, holdout refusal, immutable analyses |
 | 6 — Structured strategy families (implemented, section 11) | Added `research/lab/families.py`, `config/lab/families/*.yaml`, `market lab families`, `family show`, `batch generate` | Versioned economic families with bounded grids generate deterministic Phase 1 variants and Phase 5 manifests without running them |
 | 7 — Evidence profiles (implemented, section 12) | Added `research/lab/evidence.py`, migration 9, `market lab evidence build/report/show` | Consumer-neutral, versioned, append-only profiles with stage provenance; VALIDATED reserved |
-| 5b — Full-research adapters and statistical gate | Extend spot/perp runners for explicit candidate injection; add `research/lab/validation.py`, `multiple_testing.py`; reuse reports/robustness/simulators | Existing strategies retain parity; trusted plan requires completed checks; address audit items with separate versioned methodology patches; holdout/family controls before large-scale claims; link old reports |
+| 5b/9 — Full research and independent validation (implemented for daily perps, section 14) | Added `research/lab/adapter.py`, `research/lab/validation.py`, migration 12, profile schema 4, `market lab research …` / `validation …` | Frozen registrations; adapter reuses the screen, event study and Prism robustness functions (parity-checked); validation only on plan-reserved periods, looked at once, exposure recorded; final holdout never read; completeness-gated statuses; VALIDATED reserved. Spot and portfolio simulation not yet supported |
 | 6 — Perp MTF and OI | Extend `perps/data.py`, `perps/binance.py`, provider loaders and dataset manifests; extend Lab features/alignment and research policy | Stored 1h/4h data with completeness/availability; settlement-level funding treatment; same-close/gap/stale/snapshot tests; portfolio timing validated before intraday execution claims |
 | 8 — Prospective forward tracking (implemented, section 13) | Added `research/lab/forward.py`, migration 11, profile schema 3, `market lab forward …` | Explicit enrollment freezing the evidence profile; live-only daily evaluations (no backfill); write-once T+1-open/T+h-close outcomes; descriptive `paper_forward` profiles; no execution |
 | 7 — Paper and scanner eligibility | Add `research/lab/promotion.py`; additive versioned paper storage and opt-in adapters in `perps/paper.py`, `scoring/engine.py`, presenter/brief/CLI | Exact strategy + implementation + policy versions carry evidence; paper starts prospectively, no backfill; explicit scanner allowlist; existing strategies unchanged |
@@ -1813,7 +1814,370 @@ profile with an unchanged tier.
   retention is a possible future infrastructure improvement.
 - No outcome-correction mechanism; no automatic consumer action, alerting or promotion.
 
-## 14. Verification
+## 14. Step 9 implemented: full research and independent validation
+
+Modules: `research/lab/adapter.py` (pure computations) and `research/lab/validation.py`
+(governance). Also additive migration 12 (`lab_research_*` tables), evidence profile
+schema 4, and the CLI groups `market lab research reserve-plan | register | list | show |
+run | evidence` and `market lab validation preview | run`. This phase is research only:
+it has no auto-trading, simulated execution, position sizing or consumer policy.
+
+> Validation evidence tests a frozen historical hypothesis on untouched data. It does not
+> optimise the strategy.
+
+> Prospective forward evidence and historical validation are separate evidence sources and
+> must not be pooled as if they were the same experiment.
+
+### Discovery versus validation
+
+| Stage | Data | Question | Independence |
+|---|---|---|---|
+| Historical (Phases 4–7) | plan `discovery`/`development` role | Did this look interesting historically? | none: the data selected the strategy |
+| `full_research` (Stage A) | the **same** retained discovery snapshot | What do we know from discovery, examined with Prism's deeper methods? | none (recorded as `not_independent`) |
+| `validation` (Stage B) | a period the plan reserves as `validation` | Did the frozen strategy's expected-direction effect persist on unseen data? | intact only if nothing touched the window before registration |
+| `paper_forward` (Phase 8) | live bars after enrollment | Did it persist when Prism genuinely saw it live? | prospective; separate source |
+| `final_holdout` | reserved, never read in Phase 9 | future confirmatory testing | untouched |
+
+### Registration (explicit, frozen)
+
+`market lab research register <profile-id> --validation-plan <plan-id> --reason …` freezes
+a `ResearchRegistration`; its `registration_id` is a content hash. Eligibility:
+
+- The source must be a historical (schema 1/2) profile whose tier is `EXPLORATORY` or
+  `RESEARCH_SUPPORTED`. FDR survival is not required, but nothing is registered
+  automatically.
+- Extended profiles (schema 3/4) are refused.
+- Re-registering identical content is refused. `--label` creates a deliberate new
+  registration.
+
+The registration freezes:
+
+- the strategy ID, name, side, family, version and parameters;
+- the source profile, its tier and evidence policy;
+- the source plan, dataset, experiment, result, role, batch, batch run and analysis;
+- the assets;
+- the Phase 6/7 neighbour IDs (from the profile, so they cannot be re-chosen later);
+- the validation plan, the validation period and its warmup;
+- the full-research, validation and extension policy IDs;
+- the semantic versions (screen, compiler, vocabulary, adapter, validation).
+
+The row also stores the reason, origin, software identity and the recorded exposure state
+at registration time.
+
+**Frozen strategy.** Strategy definitions are immutable by ID, and the registration cites
+one. The validation plan must equal the source plan in every field except `name`,
+`version` and the extra reserved periods (`check_plan_compatibility`), so costs, horizons,
+the primary horizon, funding, statistics and warmup cannot change either. A "nearby better
+EMA", a changed threshold, side, horizon or stop is a different strategy ID: it needs its
+own lineage, history and registration. If the semantic versions change, runs are refused
+until a new registration is made, so incomparable results are never mixed.
+
+`market lab research reserve-plan <source-plan> --name … --validation-start …
+--validation-end … [--final-holdout-start … --final-holdout-end …]` builds such a plan by
+copying the source plan and appending the reserved periods. This makes it compatible by
+construction.
+
+### Validation period integrity
+
+Registration refuses:
+
+- a plan with no `validation` role;
+- a validation period that overlaps the source data region `[discovery start − warmup,
+  discovery end)` (the Phase 5 convention: warmup counts as touched);
+- a validation data region (warmup included) that would reach a `final_holdout` period.
+
+Validation datasets select `[validation start − warmup, validation end)` and nothing else.
+Warmup bars (which may lie in the discovery period) feed only features. Signals, baselines
+and outcomes are restricted to the window by the Phase 4 screen. An outcome whose exit
+would fall after the window is not evaluable. Tests show that rewriting every bar from the
+final holdout onwards, and every discovery bar before the warmup, leaves the validation
+result unchanged.
+
+**Looked at once.** Validation is evaluated only when the reserved period is **complete**:
+`now ≥ end` and stored bars reach `end − 1 day`. Before that, the attempt is recorded as
+`VALIDATION_INSUFFICIENT` (gate `pre_outcome`). The same happens when a capacity bound shows
+the stored bars could never reach the policy's sample: at most ⌈(bars − h)/h⌉ independent
+primary events per asset. In both cases no validation-window outcome is computed and no
+Phase 2 evaluation is started, so no exposure is consumed. `market lab validation preview`
+shows the same gates read-only, together with:
+
+- the period, the data region and the final holdout;
+- assets, horizons, strategy and source profile;
+- independence as recorded now;
+- the sample projected from the discovery event rate.
+
+This rule removes sequential peeking: nobody re-runs validation monthly until it "works".
+
+### Exposure
+
+An evaluated validation is a Phase 2 experiment with role `validation` and origin
+`lab_validation:<registration>`. The order is:
+
+1. preregister (committed; no exposure yet);
+2. insert the Phase 9 run row citing that experiment;
+3. Phase 4 `run_screen`, whose `Ledger.start` writes the permanent `evaluation_started`
+   record in `lab_inspections`.
+
+`Ledger.exposures(start, end, family_id=…)` therefore shows every look. Neighbour checks
+(below) are their own experiments, so their exposure is recorded too.
+
+`independence` labels each registration and evaluated run:
+
+| Label | Meaning |
+|---|---|
+| `untouched_on_record` | no recorded Lab exposure of the strategy or its ledger family to the window, and no forward outcome in the window, before the registration |
+| `compromised` | the strategy itself was exposed (any experiment), or forward outcomes in the window were recorded, before the registration |
+| `family_exposed` | another member of the same ledger family was exposed before the registration |
+
+Exposure recorded after the registration (including concurrent Phase 8 observation of the
+same days) is listed but does not compromise a registration frozen beforehand. An empty
+answer means no *recorded* exposure; direct market-table access is not observable.
+
+**Reruns never restore independence.**
+
+- A second evaluated validation needs `--rerun-of` and `--rerun-reason`. It reproduces the
+  same look, is linked as a Phase 2 rerun when the data are identical, and is marked
+  `first_look: false`.
+- A new registration of the same strategy after a look is `compromised`. So is any family
+  member whose own validation look already happened.
+- Descendants are new strategies in the same ledger family (lineage is fixed at
+  submission), so `family_id` exposure queries include them.
+
+### Adapter: which Prism research steps generic Lab strategies receive
+
+Every result stores this table (`steps`). The adapter reuses Prism code; it is not a
+second engine.
+
+| Step | Status | How |
+|---|---|---|
+| Event study | supported | Phase 4 `screen` = compiler + `perp_asset_events` semantics + `side_forward_returns` + `run_event_study` on the retained snapshot. **Parity** with the stored discovery result (aggregate, per-asset, triage) is checked bit for bit for the target and each neighbour. A test also recomputes it with Prism's own `perp_asset_events` → `run_event_study` |
+| Independent events | supported | `backtest.events.decluster` |
+| Costs/slippage | supported | per-asset values frozen in the plan |
+| Funding | adapted | Lab causal funding (`lab_causal_trailing_7d_median_v1`), not Prism's full-history cadence |
+| Random-entry baseline | supported | Phase 4 `random_entry_mean_excess_v1` (primary horizon, plan seed/draws) |
+| Walk-forward | adapted | Prism `walk_forward` with a **one-point grid** (the frozen strategy) and zero training length via `make_folds`. Consecutive 6-month blocks, block-local baselines (`window_excess`), no reselection (asserted) |
+| Sensitivity | adapted | the registered Phase 6 neighbours re-evaluated on the same data. Prism `plateau_verdict` classifies the target; the Phase 7 sign-agreement label is also reported. No winner is selected |
+| Cross-asset | supported | per-asset rows, breadth, concentration, leave-largest-out |
+| Horizon profile | supported | all plan horizons; only the primary is tested |
+| Regime splits | skipped | the perp runner has none; Lab snapshots hold no regime/benchmark series |
+| Portfolio simulation | **unsupported** | risk/sizing are not frozen in a governed policy; max leverage is the latest snapshot (not point-in-time); cross-symbol ordering is an open audit item |
+| Legacy `automatic_verdict` | skipped | can return a positive verdict with checks missing |
+
+The only change to existing code for reuse: `ScreenResult` now also carries the
+`AssetEvents` it passed to `run_event_study` (a defaulted field), so walk-forward uses
+exactly those inputs.
+
+**Walk-forward for a frozen strategy** means evaluating the same definition on
+consecutive chronological blocks of the role period, each with its own baseline, and
+counting how many adequate blocks (≥ 5 independent events) agree with the expected
+direction. A block's events are selected by signal time, so an outcome can end in the next
+block (Prism's convention). With nothing trained or selected, this cannot leak.
+
+**Sensitivity** answers "are nearby parameterisations similar?", not "which is best?".
+
+- Rows: each neighbour's events, excess, sign and hit rate.
+- Phase 7 label: sign-agreement share.
+- Prism `plateau_verdict` for the target: `PLATEAU` if at least 60% of neighbours keep at
+  least 50% of the target's excess; `FRAGILE` if at least 50% have the opposite sign. The
+  thresholds are frozen copies of `config/backtest.yaml`.
+- Effect dispersion (std and range).
+- A `knife_edge` flag: `FRAGILE`, or an isolated spike.
+
+The frozen target is always the row being judged.
+
+### Statuses
+
+**Full research** (`lab_full_research_policy` v1): positive only when every prescribed
+check completed.
+
+| Status | Rule |
+|---|---|
+| `FULL_RESEARCH_ERROR` | an exception (recorded with traceback), or parity with the stored discovery result failed |
+| `FULL_RESEARCH_INSUFFICIENT` | < 30 independent events or < 3 assets, < 3 adequate walk-forward blocks, or sensitivity undefined/insufficient |
+| `FULL_RESEARCH_INCONSISTENT` | excess ≤ 0, walk-forward inconsistent (≤ 34% of adequate blocks positive), or sensitivity `FRAGILE`/`NO_EDGE` |
+| `FULL_RESEARCH_CONSISTENT` | walk-forward consistent (≥ 67%), sensitivity `PLATEAU`, not asset-concentrated |
+| `FULL_RESEARCH_MIXED` | otherwise |
+
+**Validation** (`lab_validation_policy` v1): descriptive, never an action. The sample
+thresholds equal the discovery evidence policy's and are not loosened for a short window.
+
+| Status | Rule |
+|---|---|
+| `VALIDATION_INSUFFICIENT` | pre-outcome gate (incomplete period, capacity); or < 30 independent events, < 3 assets, < 80% of in-window primary signals evaluable, or < 80% of in-window bars eligible. Too few events is never a rejection |
+| `VALIDATION_SUPPORTIVE` | pooled net excess > 0 in the expected direction, ≥ 60% of assets agree, the sign survives dropping the largest contributor |
+| `VALIDATION_ADVERSE` | excess ≤ 0 and ≤ 50% of assets agree |
+| `VALIDATION_MIXED` | otherwise |
+| `VALIDATION_ERROR` | an exception after the start (recorded) |
+
+The p-value on the validation window is recorded as descriptive and never decides a
+status. Each result carries a historical-versus-validation comparison, with nothing
+pooled:
+
+- effect, net mean/median, hit rate, events, assets and positive-asset share;
+- historical raw p and q;
+- whether the direction agrees, and the effect ratio;
+- per-asset excess side by side.
+
+Each result also carries the independence assessment and, if neighbours were checked,
+`depends_on_single_parameterisation`.
+
+### Evidence extension and tiers
+
+`market lab research evidence <registration>` appends a **new** schema-4 profile:
+
+- `extends` the frozen historical profile;
+- cites the historical sources plus a `full_research` source and, if run, a `validation`
+  source;
+- copies the historical fields unchanged and adds `full_research` / `validation` blocks.
+
+Historical (Phase 7) and forward (Phase 8, schema 3) profiles are never modified, and older
+payloads stay byte-identical. Profiles are idempotent by identity.
+
+Tier rules (`lab_evidence_extension_policy` v1):
+
+- Full research alone never changes a tier: it re-reads the discovery data.
+- `EXPLORATORY → RESEARCH_SUPPORTED` requires all of:
+  - `VALIDATION_SUPPORTIVE`;
+  - `first_look`;
+  - `untouched_on_record`;
+  - `FULL_RESEARCH_CONSISTENT`.
+- `VALIDATION_ADVERSE` caps `EXPLORATORY`/`RESEARCH_SUPPORTED` at `INCONCLUSIVE`.
+- `INSUFFICIENT`/`MIXED` validation leaves the tier unchanged.
+
+**VALIDATED remains unreachable.** The extension policy's `validated_reachable` is the
+literal `False`, and the schema-4 model rejects a `VALIDATED` tier outright. The Phase 7
+contract only *represents* VALIDATED with a validation source; its existing test still
+passes. Running the validation adapter does not meet the future standard, which should
+include prospective/paper-forward evidence and probably final-holdout confirmation.
+Phase 8 enrollment refuses schema-4 profiles: tracking starts from historical evidence.
+
+### Interaction with Phase 8 forward evidence
+
+Forward tracking keeps running unchanged:
+
+- Phase 9 reads the forward tables only to report:
+  - the independence assessment (forward outcomes recorded before a registration
+    compromise it);
+  - a separate `forward` section in `research show`.
+- Forward rows never enter validation metrics. A test enrolls and tracks a strategy inside
+  its validation window, then shows the stored validation metrics equal a pure screen of
+  the validation snapshot.
+- When a validation window covers the same days as prospective tracking (as for the
+  current cohort), the two are **not** independent confirmations of each other. Each
+  result flags `concurrent_prospective_tracking`.
+
+### Audit items (section 2) and this phase
+
+| Item | Affects Phase 9? | Handling |
+|---|---|---|
+| Perp warmup eligibility | No | the Lab compiler's explicit eligibility (full feature warmup, defined conditions, funding known) is what the screen passes to the event study |
+| Funding cadence from full history | No | Lab plans freeze the causal trailing-7-day policy; Prism's `daily_funding` default path is untouched and unused here |
+| Portfolio event ordering | Would | portfolio simulation is **unsupported** rather than run on known-unaudited ordering |
+| Incomplete checks permitting positive verdicts | Would | `automatic_verdict` is not used; Phase 9 positive statuses require every prescribed check |
+| Name-based evidence matching | No | everything is keyed by content IDs; Phase 9 writes no `research_runs` rows, so the legacy latest-by-name reader can never mistake Lab results for validation |
+| Historical margin inputs not PIT | Would | only via simulation, which is unsupported |
+
+### Ledger clock fix
+
+While Phase 9 tests ran, `Ledger.start` intermittently raised "clock precedes
+preregistration". This is the same class of error as the intermittent `Ledger.record_result`
+failure ("completion clock precedes start") seen at Phase 8 closure. A wall-clock probe run
+beside the tests showed the cause: **this WSL2 host steps its wall clock back by about
+0.6 s every ~32 s** while it re-synchronises (47 steps of 592–685 ms during a
+25-minute probe on 2026-10-04 from 10:02 UTC).
+
+`ledger.ordered_now(not_before)` now handles the step:
+
+- a regression of at most 5 s (`CLOCK_STEP_TOLERANCE`) is recorded as the earlier record's
+  timestamp (equal, never earlier);
+- a larger regression is still refused as an impossible ordering.
+
+Program order already proves that a start follows its preregistration and a result follows
+its start. A test simulates both cases. Phase 9's own run/result timestamps use the same
+helper. Forward CHECKs compare against market close times far from "now" and are
+unaffected.
+
+### Real cohort
+
+Run on the live DB on 2026-10-04 at about 10:30 UTC, with code `b24ce83`. The DB was backed up
+first to `data/prism.pre_phase9.duckdb`. Candidates were the two active Phase 8 strategies,
+chosen by `plateau_centrality_v1` from historical evidence before any forward outcome
+existed. No forward data was used, and no third strategy was added.
+
+**Validation plan.** `hl_perp_smoke_validation` v1 (`plan_5b936985…`) was made with
+`research reserve-plan` from `hl_perp_smoke_discovery` v1. It is identical except for the
+reserved periods:
+
+| Role | Period |
+|---|---|
+| discovery (unchanged) | [2024-10-01, 2026-10-01) |
+| validation | [2026-10-01, 2027-10-01) |
+| final holdout | [2027-10-01, 2028-10-01) |
+
+The source plan reserved **no** validation period. Hyperliquid funding starts on
+2023-10-04, inside the discovery dataset's 400-day warmup. So the only untouched
+Hyperliquid data starts on 2026-10-01. The 12-month length was fixed before any validation
+outcome existed and will not be changed after this run.
+
+| | `ma_trend_10_50_long` | `ma_trend_20_100_short` |
+|---|---|---|
+| Registration | `research_b9c29c47…` | `research_32a1dcf6…` |
+| Historical profile / tier | `evidence_ac9120d8…` / EXPLORATORY | `evidence_168da1c0…` / EXPLORATORY |
+| Historical 10d excess / net / hit rate | +1.38% / +2.17% / 53% | +2.61% / +1.32% / 56% |
+| Historical sample / assets agreeing | 77 independent on 6 assets / 67% | 39 independent on 6 assets / 67% |
+| Raw p / q (batch) | 0.152 / 0.915 | 0.112 / 0.915 |
+| Parity with stored discovery result | exact (target and both neighbours) | exact (target and all three neighbours) |
+| Walk-forward (6-month blocks, frozen) | consistent: 3/4 blocks positive (+1.75%, +2.18%, **−6.04%**, +1.81%; 20/23/12/22 events) | consistent: 3/4 positive (+11.35%, +3.80%, **−4.48%**, +2.17%; 8/7/10/14 events) |
+| Sensitivity (Prism `plateau_verdict`) | PLATEAU: neighbours 20/50 (+1.90%) and 10/100 (+2.08%) agree and keep ≥ 50% | MIXED: neighbours 10/100 (+0.81%) and 20/50 (+0.49%) agree in sign but keep < 50% of the target's effect; 20/200 has too few events |
+| Knife-edge | no | no (but the target sits above its neighbours) |
+| Portfolio simulation | unsupported | unsupported |
+| **Full research** | **FULL_RESEARCH_CONSISTENT** | **FULL_RESEARCH_MIXED** (sensitivity) |
+| Validation independence | `untouched_on_record` | `untouched_on_record` |
+| Validation bars stored | 4 per asset (closes 2026-10-01 … 10-04) of 365 days | same |
+| Projected validation sample at completion | 38.5 independent 10d events (minimum 30) | **19.5 (below the minimum 30)** |
+| **Validation** | **VALIDATION_INSUFFICIENT** (pre-outcome: period incomplete, capacity 0) | **VALIDATION_INSUFFICIENT** (same) |
+| Validation exposure consumed | none (no Phase 2 experiment started) | none |
+| Extended profile (schema 4) | `evidence_4f05b80c…`, tier **EXPLORATORY (unchanged)** | `evidence_a3c4eacc…`, tier **EXPLORATORY (unchanged)** |
+
+Notes:
+
+- The 2025-10 → 2026-04 block is negative for both strategies: the historical effect is
+  not uniform in time.
+- The validation window coincides with Phase 8 forward tracking (first observable bar
+  2026-10-05). When it completes, validation and forward will describe the same market days
+  and must not be counted as two confirmations.
+- On the discovery event rate, the short strategy is unlikely to reach an adequate
+  validation sample in 12 months. It will then be reported as insufficient; the window
+  will not be stretched for it.
+
+After the run:
+
+- Phase 8 tracking definitions are unchanged (same content hash), with 0 forward
+  evaluations, 2 active trackings and 1 stopped.
+- All 40 historical profiles are byte-identical to the backup.
+- There are no validation-role experiments and no new `lab_inspections` rows.
+- `market lab forward check --dry-run` behaves as before.
+
+### Known limitations
+
+- **Short validation history.** On Hyperliquid the only data untouched by the discovery
+  batch (warmup included) starts on 2026-10-01. Hyperliquid funding starts on 2023-10-04,
+  inside the discovery warmup, so no earlier window is untouched. Binance pre-2023 history
+  is a different venue, and legacy perp research already used it for EMA-trend hypotheses,
+  so it is not a clean holdout for `ma_trend` without a separately justified cross-venue
+  design.
+- Daily perp strategies only. Spot registration, intraday data, OI and portfolio
+  simulation are not supported.
+- Neighbour checks during validation expose the neighbours' validation windows as well;
+  this is recorded and makes later validation of those neighbours `compromised`.
+- Recorded exposure is application-level, not tamper-proof; direct market-table access
+  cannot be observed.
+- Family exposure uses the ledger family; correlated strategies from other families are
+  not tracked as exposed.
+- Walk-forward blocks are 6 months, so a two-year discovery window gives four blocks with
+  modest per-block samples.
+
+## 15. Verification
 
 Baseline before changes: **173 tests passed**, repository Ruff checks passed, and all
 89 existing source/test Python files passed format checking. New focused tests cover
@@ -1942,3 +2306,43 @@ was triggered.
 - maturity levels;
 - the candidate rule ignores effect size;
 - the CLI lifecycle.
+
+### Step 9 verification
+
+| Check | Result |
+|---|---|
+| `.venv/bin/python -m pytest` | **497 passed** (607 s); before Step 9: 473 |
+| `.venv/bin/python -m pytest tests/test_lab_validation.py` | **24 passed** (see list below) |
+| Lab, perp, paper, OI and lock suites (`test_lab_*`, `test_perp_*`, `test_perps`, `test_binance`, `test_open_interest`, `test_store_lock`, `test_macro_shock`) | **368 passed**; Phase 7/8 identities and payloads unchanged |
+| `.venv/bin/ruff check src tests dashboard` / `ruff format --check src tests` | Passed / 121 files formatted |
+| `git diff --check` | Passed |
+| CLI | `research reserve-plan/register (--dry-run)/list/show/run/evidence`, `validation preview/run`, rerun refusal; full lifecycle in the CLI test, rehearsed on a scratch copy and run on the live DB |
+| Live DB | Backed up to `data/prism.pre_phase9.duckdb`; migration 12 additive; 2 registrations, 2 full-research and 2 pre-outcome validation results, 2 schema-4 profiles; Phase 8 untouched |
+
+`test_lab_validation.py` covers:
+
+- registration freezing and eligibility (explicit; INSUFFICIENT refused; re-registration
+  refused);
+- period separation: no reserved period, a period inside the discovery data region, a
+  changed methodology, or a final-holdout clash are all refused;
+- the final holdout is never read: rewriting rows from it onwards (and discovery rows
+  before the warmup) leaves validation unchanged;
+- parity with Prism's `perp_asset_events` → `run_event_study`;
+- frozen walk-forward equals a direct one-point `walk_forward`;
+- sensitivity describes neighbours without selecting one;
+- explicit reruns keep earlier results;
+- incomplete and capacity gates give INSUFFICIENT with no exposure;
+- post-outcome too-few-events is INSUFFICIENT, not a rejection;
+- hand-built supportive and adverse toy markets;
+- exposure is permanent for the strategy and its neighbours, and reruns never restore
+  independence (later registrations are compromised);
+- a semantic change stops the run;
+- forward records never enter validation metrics, while forward outcomes before a
+  registration compromise it;
+- evidence extension: full research alone does not change the tier, supportive
+  independent validation promotes, the historical profile is byte-identical, idempotent;
+- VALIDATED is unreachable; compromised or non-first-look validation cannot promote;
+- extended profiles cannot be enrolled for forward tracking;
+- errors are recorded;
+- the CLI lifecycle;
+- the ledger orders events through small backward clock steps.
