@@ -31,6 +31,8 @@ trap 'rm -rf "$OUT"' EXIT
 git archive "$COMMIT" | tar -x -C "$OUT"
 echo "$COMMIT" > "$OUT/REVISION"
 cp "$OUT/deploy/railway/railway.json" "$OUT/railway.json"
+# Railway builds the root Dockerfile (RAILWAY_DOCKERFILE_PATH=Dockerfile), never Railpack autodetection.
+cp "$OUT/deploy/railway/Dockerfile" "$OUT/Dockerfile"
 echo "== deploying $COMMIT to $SERVICE"
 railway up "$OUT" --path-as-root --service "$SERVICE" --ci --message "prism ${COMMIT:0:12}"
 echo "== deployed. Next: watch the boot cycle and record the deployment:"
