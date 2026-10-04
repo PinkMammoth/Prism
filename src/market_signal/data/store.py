@@ -615,6 +615,78 @@ MIGRATIONS: list[str] = [
         payload JSON NOT NULL
     );
     """,
+    # 13 — perps co-pilot: a CONSUMER of Lab evidence (human alerts only). Reads lab_*
+    # tables, never writes them (not even lab_software). Decisions are recorded once per
+    # policy, strategy, symbol and signal bar, only inside the bar's live window (CHECK).
+    # Deliveries are separate append-only attempts, so "policy said ALERT" and "message
+    # delivered" stay distinct.
+    """
+    CREATE TABLE IF NOT EXISTS copilot_software (
+        software_id VARCHAR PRIMARY KEY,
+        payload JSON NOT NULL,
+        recorded_at TIMESTAMPTZ NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS copilot_policies (
+        policy_id VARCHAR PRIMARY KEY,
+        payload JSON NOT NULL,
+        recorded_at TIMESTAMPTZ NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS copilot_watchlist (
+        watch_id VARCHAR PRIMARY KEY,
+        strategy_id VARCHAR NOT NULL REFERENCES lab_strategies(strategy_id),
+        baseline_profile_id VARCHAR NOT NULL REFERENCES lab_evidence_profiles(profile_id),
+        policy_id VARCHAR NOT NULL REFERENCES copilot_policies(policy_id),
+        registered_at TIMESTAMPTZ NOT NULL,
+        reason VARCHAR NOT NULL,
+        origin VARCHAR NOT NULL,
+        software_id VARCHAR NOT NULL REFERENCES copilot_software(software_id),
+        definition JSON NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS copilot_watch_status (
+        event_id VARCHAR PRIMARY KEY,
+        watch_id VARCHAR NOT NULL REFERENCES copilot_watchlist(watch_id),
+        status VARCHAR NOT NULL CHECK (status IN ('active','paused','stopped')),
+        reason VARCHAR NOT NULL,
+        recorded_at TIMESTAMPTZ NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS copilot_runs (
+        run_id VARCHAR PRIMARY KEY,
+        started_at TIMESTAMPTZ NOT NULL,
+        finished_at TIMESTAMPTZ NOT NULL,
+        software_id VARCHAR NOT NULL REFERENCES copilot_software(software_id),
+        summary JSON NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS copilot_decisions (
+        decision_id VARCHAR PRIMARY KEY,
+        watch_id VARCHAR NOT NULL REFERENCES copilot_watchlist(watch_id),
+        policy_id VARCHAR NOT NULL REFERENCES copilot_policies(policy_id),
+        strategy_id VARCHAR NOT NULL REFERENCES lab_strategies(strategy_id),
+        symbol VARCHAR NOT NULL,
+        bar_close TIMESTAMPTZ NOT NULL,
+        evaluated_at TIMESTAMPTZ NOT NULL,
+        run_id VARCHAR NOT NULL REFERENCES copilot_runs(run_id),
+        decision VARCHAR NOT NULL CHECK (decision IN ('ALERT','SUPPRESS')),
+        priority VARCHAR CHECK (priority IN ('WATCH','STRONG_WATCH')),
+        profile_id VARCHAR REFERENCES lab_evidence_profiles(profile_id),
+        software_id VARCHAR NOT NULL REFERENCES copilot_software(software_id),
+        payload JSON NOT NULL,
+        UNIQUE (policy_id, strategy_id, symbol, bar_close),
+        CHECK (evaluated_at >= bar_close AND evaluated_at < bar_close + INTERVAL 1 DAY),
+        CHECK ((decision = 'ALERT') = (priority IS NOT NULL))
+    );
+    CREATE TABLE IF NOT EXISTS copilot_deliveries (
+        delivery_id VARCHAR PRIMARY KEY,
+        decision_id VARCHAR NOT NULL REFERENCES copilot_decisions(decision_id),
+        attempt INTEGER NOT NULL CHECK (attempt > 0),
+        status VARCHAR NOT NULL CHECK (status IN ('attempted','sent','failed')),
+        channel VARCHAR NOT NULL,
+        message_kind VARCHAR NOT NULL CHECK (message_kind IN ('single','digest')),
+        message_sha256 VARCHAR NOT NULL,
+        error VARCHAR,
+        recorded_at TIMESTAMPTZ NOT NULL,
+        UNIQUE (decision_id, attempt, status)
+    );
+    """,
 ]
 
 

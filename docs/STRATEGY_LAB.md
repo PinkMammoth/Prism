@@ -6,9 +6,10 @@ including the local database and generated reports. Only the representation foun
 fast screen (section 9), preregistered search batches (section 10), structured
 strategy families (section 11), evidence profiles (section 12), prospective forward
 tracking (section 13) and full research with independent validation (section 14) are
-implemented. No production strategies, evaluation rules, paper records, scanners or
-Telegram paths were changed; the only schema changes are the additive Lab migrations
-described in sections 7, 10, 12, 13 and 14.
+implemented, plus the first consumer of that evidence, the perps co-pilot (section 15).
+No production strategies, evaluation rules, paper records or scanners were changed; the
+co-pilot reuses the existing Telegram client. The only schema changes are the additive
+migrations described in sections 7, 10, 12, 13, 14 and 15.
 
 ## 1. Current architecture
 
@@ -375,6 +376,7 @@ not control data mining; BH does not repair invalid or adaptively selected p-val
 | 5b/9 — Full research and independent validation (implemented for daily perps, section 14) | Added `research/lab/adapter.py`, `research/lab/validation.py`, migration 12, profile schema 4, `market lab research …` / `validation …` | Frozen registrations; adapter reuses the screen, event study and Prism robustness functions (parity-checked); validation only on plan-reserved periods, looked at once, exposure recorded; final holdout never read; completeness-gated statuses; VALIDATED reserved. Spot and portfolio simulation not yet supported |
 | 6 — Perp MTF and OI | Extend `perps/data.py`, `perps/binance.py`, provider loaders and dataset manifests; extend Lab features/alignment and research policy | Stored 1h/4h data with completeness/availability; settlement-level funding treatment; same-close/gap/stale/snapshot tests; portfolio timing validated before intraday execution claims |
 | 8 — Prospective forward tracking (implemented, section 13) | Added `research/lab/forward.py`, migration 11, profile schema 3, `market lab forward …` | Explicit enrollment freezing the evidence profile; live-only daily evaluations (no backfill); write-once T+1-open/T+h-close outcomes; descriptive `paper_forward` profiles; no execution |
+| 10 — Perps co-pilot (implemented, section 15) | Added `copilot/` (policy, engine, render), migration 13, `market lab copilot …`; shared live-window helpers in `research/lab/forward.py` | Versioned consumer policy over governed evidence; live-window-only decisions recorded once per policy/strategy/asset/bar; append-only delivery attempts; no Lab writes; no execution fields |
 | 7 — Paper and scanner eligibility | Add `research/lab/promotion.py`; additive versioned paper storage and opt-in adapters in `perps/paper.py`, `scoring/engine.py`, presenter/brief/CLI | Exact strategy + implementation + policy versions carry evidence; paper starts prospectively, no backfill; explicit scanner allowlist; existing strategies unchanged |
 | Later — Constrained hypothesis generation | Submission client only, reading the versioned catalog and writing proposals through ledger service | No AI dependency until separately requested; model cannot edit evaluator, plans, tests, data/results or promotion policy |
 
@@ -1382,7 +1384,8 @@ and never picks a winner.
 - **Long-horizon radar policy:** its own families, plans and horizons, consuming the same
   profile abstraction.
 
-Each is versioned independently and reads profiles. None writes to them.
+Each is versioned independently and reads profiles. None writes to them. The co-pilot
+policy is implemented in Phase 10 (section 15); the other two do not exist yet.
 
 ### Descriptive run (Phase 6 smoke batch, scratch DB)
 
@@ -2177,7 +2180,295 @@ After the run:
 - Walk-forward blocks are 6 months, so a two-year discovery window gives four blocks with
   modest per-block samples.
 
-## 15. Verification
+## 15. Step 10 implemented: perps co-pilot
+
+Package `src/market_signal/copilot/` (`policy.py`, `engine.py`, `render.py`), additive
+migration 13 (`copilot_*` tables) and `market lab copilot …`. The co-pilot watches current
+daily perp bars, detects when a watched Strategy Lab setup fires, reads the latest governed
+evidence for it, applies a separately versioned **co-pilot policy**, and sends a short
+Telegram message through Prism's existing `portfolio/telegram.py` client.
+
+The message means: *this setup is happening now; here is what Prism knows historically,
+how strong or weak that evidence is, and why it may be worth looking at.* It does not
+mean "take this trade".
+
+> Prism's co-pilot policy is intentionally less strict than a future automated-execution
+> policy. This changes what is surfaced to a human, not what the research says.
+
+> No co-pilot alert can directly trigger an order.
+
+### Evidence versus consumer policy
+
+- **The co-pilot consumes evidence and never modifies it.** It reads strategies, evidence
+  profiles (historical, schema-4 full research/validation extensions) and the Phase 8
+  forward summary. It writes only `copilot_*` tables, including its own software registry
+  (`copilot_software`), so not even `lab_software` changes. No module under
+  `research/` imports `copilot` (tested). Screens, FDR analyses, tiers, forward
+  evidence and validation cannot depend on a co-pilot decision.
+- **Exploratory signals may be surfaced.** EXPLORATORY and RESEARCH_SUPPORTED are
+  eligible. VALIDATED is not required, nor are FDR survival, supportive validation or
+  mature forward evidence. Requiring those would keep the co-pilot silent for years. They
+  are shown as caveats instead.
+- **Co-pilot priority is not the evidence tier.** An alert can be `EXPLORATORY` evidence
+  with `STRONG WATCH` priority. Priority is a reading-order label for a human. The tier is
+  never changed to make an alert look stronger.
+- **An alert is not a trading recommendation.** The side is shown as LONG/SHORT BIAS: the
+  tested hypothesis, not an instruction. There are no BUY/SELL/APPROVED labels and no
+  probabilities.
+- **Auto-trader promotion will use a separate future policy.** It must be materially
+  stricter. Co-pilot eligibility never implies it. No co-pilot record has an
+  executable/approval/order/size/leverage/stop/target/risk field (tested by a key and
+  column scan). The compiled exit-intent stop is deliberately not copied into co-pilot
+  records.
+- **Validation and forward evidence are shown with their current maturity.** "Validation:
+  not mature / insufficient (reserved period runs to 01 Oct 2027)" and "Forward: TOO EARLY
+  (0 resolved, 0 prospective signals so far)" are printed instead of being omitted.
+
+### Policy `copilot_policy` v1 (`copolicy_e235b9de…`)
+
+The policy is a frozen model. Its content hash covers every threshold and rule, so changing
+anything is a new version and a new ID (`market lab copilot policy`). It decides only
+whether a **fired** signal is surfaced, and with what priority.
+
+**Suppress** (SUPPRESS is recorded with every failing rule) if any of these hold:
+
+| Rule | v1 condition |
+|---|---|
+| `versions_compatible` | the watch's frozen compiler/vocabulary versions equal the running code's, and every cited evidence source used the same versions |
+| `data_quality` | the largest gap between daily bars in the signal's lookback is above 24 h |
+| `signal_new` | this strategy/asset/bar was already surfaced (under any policy) |
+| `strategy_not_retired` | the strategy has forward trackings and every one is stopped |
+| `evidence_available` | no usable evidence profile |
+| `tier_eligible` | tier is not EXPLORATORY or RESEARCH_SUPPORTED (NEGATIVE, INSUFFICIENT, UNAVAILABLE and **INCONCLUSIVE** are blocked) |
+| `sample_adequate` | fewer than 30 independent primary-horizon events, or fewer than 3 assets |
+| `effect_positive` | primary-horizon net excess in the tested direction is ≤ 0 |
+| `breadth_ok` | one asset dominates (pooled sign flips without it) or holds > 50% of events |
+| `not_isolated_spike` | the parameter neighbourhood is an isolated spike |
+| `full_research_not_adverse` | full research is `FULL_RESEARCH_INCONSISTENT` |
+| `validation_not_adverse` | validation is `VALIDATION_ADVERSE` (Phase 9 also caps such a tier at INCONCLUSIVE) |
+| `forward_not_adverse_mature` | forward maturity is MATURE **and** forward net excess is ≤ 0 or points opposite to history |
+
+Not suppressed, shown as caveats: q above 0.10 ("did not survive family correction"),
+validation insufficient or not run, forward TOO_EARLY/EARLY (even if negative), full
+research MIXED/INSUFFICIENT/not run, and a non-plateau neighbourhood.
+
+**Priority** (ALERTs only, explicit rules, no weighted score):
+
+- `STRONG_WATCH` if at least one of these holds and no downgrade applies:
+  - tier RESEARCH_SUPPORTED;
+  - validation SUPPORTIVE;
+  - full research CONSISTENT, a plateau neighbourhood and broad support (≥ 5 assets with
+    events, ≥ 60% positive).
+- Downgrades to `WATCH`: validation MIXED, or DEVELOPING/MATURE forward evidence pointing
+  the other way.
+- Otherwise `WATCH`.
+
+Before outcomes are mature, `ma_trend_10_50_long` reads as STRONG WATCH (consistent full
+research, plateau, 6 assets) and `ma_trend_20_100_short` as WATCH (full research MIXED on
+sensitivity).
+
+### Watchlist
+
+A strategy is never alerted automatically. A **watch** registration (`market lab copilot
+watch <historical-profile-id> --reason …`) freezes these, and its ID is their content hash:
+
+- the strategy;
+- its historical baseline profile and tier;
+- the evidence policy and the co-pilot policy ID;
+- market, side, venue, assets, primary horizon and lookback (derived read-only from the
+  screening plan with Phase 8's `build_definition`);
+- the compiler/vocabulary versions.
+
+Statuses are `active`, `paused` or `stopped` (terminal), recorded as appended events. A
+strategy has at most one open watch.
+
+**Changing the policy** means stopping the watch and registering a new one. A new watch
+only evaluates bars that close **after** its registration, so historical signals are
+never replayed. The cross-policy `signal_new` rule is a second guard.
+
+### Signal semantics
+
+Live evaluation is the Phase 3 compiler on Phase 8's live window. Phase 8's helpers are
+now shared functions (`newest_bar`, `in_live_window`, `live_snapshot`,
+`funding_ready`), with behaviour unchanged and forward tests unchanged and passing.
+
+- Bar T is the newest completed daily bar. It is evaluated only while
+  `T <= now < T + 1 day`, from a snapshot of rows available at T's close: bars with
+  `close_time <= T`, funding judged to the minute, and the plan's lookback.
+  Edge-trigger and cooldown state is rebuilt from that snapshot.
+- Only `signal` (the rising edge, with cooldown) can alert. Conditions that merely remain
+  true do not. A bar outside its window is `OUTSIDE_WINDOW` and never alerts: there are no
+  "you missed this yesterday" messages.
+- If funding through T is not ingested yet, the state is `WAITING_FOR_DATA` and a later
+  run inside the window retries.
+- The co-pilot and the forward tracker observe the same signal with the same semantics.
+  They are separate consumers. A decision records what the tracker recorded for that bar,
+  if anything (`forward_tracker_recorded`), as a consistency check. The co-pilot never
+  writes forward records; `market lab forward run` stays responsible for them.
+
+### Evidence presentation
+
+For each signal the engine builds an evidence view from the governed records:
+
+- the newest schema-4 profile extending the watch's baseline, or the baseline itself;
+- plus a read-only `forward_summary` of the strategy's tracking.
+
+Each stage stays separate: historical (tier, primary-horizon excess/net/hit rate,
+independent events, asset breadth, neighbourhood), FDR (raw p, BH q, survivor status),
+full research (status, walk-forward blocks, sensitivity), validation (status, sample,
+window) and forward (maturity, prospective/resolved counts, and direction only once past
+TOO_EARLY). There is no combined confidence number. The decision stores this view, so
+"why did Prism alert me?" can be answered from the decision alone.
+
+### Telegram message
+
+Example: the live rendering check (`market lab copilot preview ma_trend_10_50_long --symbol
+ETH`) on the 2026-10-04 bar. It is labelled PREVIEW because that bar was **not** a new
+signal:
+
+```
+PREVIEW — no current signal. Rendering check only; not an alert.
+
+ETH · LONG BIAS
+MA Trend 10/50 · STRONG WATCH
+
+Setup (daily close 04 Oct 00:00 UTC)
+• Close above 50D EMA (2,687 vs 2,474)
+• 10D EMA above 50D EMA (2,678 vs 2,474)
+• Not a new signal on this close (10-bar cooldown)
+
+Evidence · EXPLORATORY
+10d excess in the tested direction vs same-asset baseline: +1.4% (net +2.2%, hit rate 53%)
+77 independent events · 6 assets (4 positive)
+Parameter neighbourhood: plateau
+Raw p 0.15 · BH q 0.91 (did not survive family correction)
+
+Research
+Full research: CONSISTENT · walk-forward 3/4 blocks positive · sensitivity plateau
+Validation: not mature / insufficient (reserved period runs to 01 Oct 2027)
+Forward: TOO EARLY (0 resolved, 0 prospective signals so far)
+
+Why surfaced: data current and complete, signal is new, evidence tier eligible,
+adequate sample, positive historical effect, broad asset support, full research not adverse
+Priority: consistent full research, plateau neighbourhood and broad asset support
+Exploratory evidence — human review only. Not an automated trade signal.
+```
+
+**Several signals in one run.** Up to 3 ALERTs are sent as individual messages. More are
+sent as one compact digest of 3 lines each, so no valid signal is dropped and Telegram is
+not flooded. A condition shown in a preview that is false is marked "— not met".
+
+### Audit trail
+
+| Table | What |
+|---|---|
+| `copilot_policies` | released policy payloads by content ID |
+| `copilot_watchlist`, `copilot_watch_status` | frozen watches and appended status events |
+| `copilot_runs` | every run, with a note per watched strategy/asset (`NO_SIGNAL`, `WAITING_FOR_DATA`, `OUTSIDE_WINDOW`, `BEFORE_REGISTRATION`, `ERROR` …), so non-firing days are auditable without a row per day |
+| `copilot_decisions` | one row per fired signal: `ALERT` (with priority) or `SUPPRESS` |
+| `copilot_deliveries` | append-only delivery attempts (`attempted`, then `sent` or `failed`) |
+| `copilot_software` | the co-pilot's own software registry |
+
+Each `copilot_decisions` row stores:
+
+- the evidence view and the profile ID used;
+- the signal (conditions, feature values, data cutoff, compile digest, input fingerprint);
+- every rule result, the caveats and the priority reasons;
+- the policy and software IDs and the engine/render versions;
+- the rendered message and its SHA-256.
+
+The decision row is `UNIQUE (policy_id, strategy_id, symbol, bar_close)`. It also has a
+CHECK that `evaluated_at` lies inside the bar's live window, and a CHECK that only ALERTs
+carry a priority.
+
+**Delivery.** Decisions are committed before anything is sent, so a Telegram failure cannot
+lose or alter them.
+
+- A failed attempt is retried by the next run while the bar is still live.
+- An `attempted` row with no outcome (the process died mid-send) is reported as `unknown`
+  and never resent automatically. Retries therefore cannot duplicate a message.
+- If Telegram is not configured, that is recorded as a failed delivery.
+- `market lab copilot run` exits 1 when a delivery failed.
+
+### CLI
+
+| Command | |
+|---|---|
+| `market lab copilot policy [--version N]` | the frozen policy and its ID |
+| `market lab copilot watch <profile-id> --reason … [--policy-version N] [--label] [--dry-run]` | WRITE: register a watch |
+| `market lab copilot watchlist` | watches, status, decision counts |
+| `market lab copilot pause/resume/stop <watch-id> --reason …` | WRITE: status events |
+| `market lab copilot candidates [--full] [--now ISO]` | read-only: each watched strategy/asset's state, conditions, new-signal flag, and the decision (for a live signal) or `if_it_fired` (inspection only) |
+| `market lab copilot preview <strategy> --symbol X` | read-only rendering check (labelled PREVIEW unless genuinely fired) |
+| `market lab copilot run [--dry-run] [--update]` | WRITE: evaluate → record decisions → send new ALERTs; `--dry-run` writes and sends nothing and prints the messages it would send |
+| `market lab copilot decisions [--limit]`, `show <decision-id> [--message]` | recorded decisions with delivery state; one decision in full |
+
+### Scheduling
+
+There is no new scheduler. `forward_run.sh`, which the installed **"Prism forward"** Task
+Scheduler task already runs at log-on (+5 min) and at 12:00 and 19:30, now runs:
+
+1. `market lab forward run` (perp update → check → resolve);
+2. then `market lab copilot run --no-update`.
+
+The co-pilot's exit code is logged as `copilot=` in `data/forward.log`. The wrapper exits
+with the forward code if that failed, otherwise with the co-pilot code. Both commands are
+idempotent. The first run after 00:00 UTC is the first chance to alert on the new bar.
+Later runs inside the day only retry failed deliveries or pick up late data.
+
+### Live setup (2026-10-04)
+
+The DB was backed up to `data/prism.pre_phase10.duckdb` first. Migration 13 was applied on
+the first writable open.
+
+**Rehearsal on a scratch copy.** Both watches were registered; `candidates`,
+`preview` and `run --dry-run` were checked. The results matched the live run below,
+including identical watch IDs.
+
+**Watchlist (live).** Both watches are active and were registered at about 11:52 UTC. The
+first alertable bar is the 2026-10-05 00:00 UTC close.
+
+| Strategy | Watch | Baseline | If it fired today |
+|---|---|---|---|
+| `ma_trend_10_50_long` | `copwatch_32cde88c…` | `evidence_ac9120d8…` EXPLORATORY | ALERT · STRONG WATCH (no rule blocks) |
+| `ma_trend_20_100_short` | `copwatch_c0e4e977…` | `evidence_168da1c0…` EXPLORATORY | ALERT · WATCH (full research mixed) |
+
+`donchian_breakout_55_long` is not watched. Its forward tracking was stopped, and the
+policy would block it (`strategy_not_retired`).
+
+**State on the 2026-10-04 00:00 UTC bar.**
+
+- `ma_trend_10_50_long`: both conditions hold on all 6 assets (close and EMA10 above
+  EMA50), but on none is it a **new** signal. The edge fired earlier and the cooldown or
+  continuation applies.
+- `ma_trend_20_100_short`: neither condition holds on any asset.
+- The bar also closed before registration, so it is `BEFORE_REGISTRATION` and could not
+  alert anyway.
+
+`run --dry-run` gave 0 decisions and 0 messages. One real `run` and one wrapper run
+recorded run summaries with 0 decisions and 0 deliveries. **No Telegram message was sent
+and no signal was manufactured.** The first real alert will be sent when the next genuine
+signal fires.
+
+### Known limitations
+
+- Daily perp strategies only: there are no intraday, OI or long-horizon families, and no
+  cross-venue corroboration.
+- Only two strategies are watched.
+- The forward sample is empty (TOO_EARLY). Validation is not mature until the reserved
+  period completes (2027-10-01), and the short strategy is projected to stay insufficient.
+- The alert window equals the forward window (one bar). If the PC is off all day, that
+  day's signals are never alerted, by design.
+- The `data_quality` rule checks only bar contiguity in the lookback and funding
+  readiness. Stale data appears as `OUTSIDE_WINDOW`/`WAITING_FOR_DATA` notes, not as
+  messages. The daily brief's freshness warnings remain the place to notice a broken
+  update.
+- Evidence profiles are read as recorded. A newer Phase 9 extension is picked up
+  automatically, but a new historical batch needs a new watch.
+- A crash between sending and recording leaves an `unknown` delivery that needs a manual
+  look (`market lab copilot show`).
+
+## 16. Verification
 
 Baseline before changes: **173 tests passed**, repository Ruff checks passed, and all
 89 existing source/test Python files passed format checking. New focused tests cover
@@ -2346,3 +2637,49 @@ was triggered.
 - errors are recorded;
 - the CLI lifecycle;
 - the ledger orders events through small backward clock steps.
+
+### Step 10 verification
+
+| Check | Result |
+|---|---|
+| `.venv/bin/python -m pytest` | **527 passed**; before Step 10: 497 |
+| `.venv/bin/python -m pytest tests/test_copilot.py` | **30 passed** (see list below) |
+| Scanner/Telegram/co-pilot/forward suites (`test_brief`, `test_portfolio`, `test_presenter`, `test_setups`, `test_scoring_hype`, `test_copilot`, `test_lab_forward`) | **104 passed**; forward tests unchanged after the live-window helper extraction |
+| `.venv/bin/ruff check src tests dashboard` / `ruff format --check src tests` | Passed / 127 files formatted |
+| `git diff --check` | Passed |
+| CLI | `copilot policy/watch (--dry-run)/watchlist/candidates/preview/run --dry-run/run/decisions/show/pause/resume/stop`; full lifecycle in the CLI test, rehearsed on a scratch copy, then live |
+| Live DB | Backed up to `data/prism.pre_phase10.duckdb`; migration 13 additive; 2 watches; 1 CLI run and 1 `forward_run.sh` run: 0 decisions, 0 deliveries. 28 of 30 `lab_*` tables byte-identical to the backup; the other two (`lab_forward_runs` +2, `lab_software` +1) are the forward tracker's own check/resolve rows from the wrapper run |
+
+`test_copilot.py` covers:
+
+- EXPLORATORY evidence alerts with q 0.91, and the message says it did not survive family
+  correction;
+- stronger evidence (consistent full research + plateau + breadth, RESEARCH_SUPPORTED, or
+  supportive validation) maps to STRONG WATCH, while the evidence tier is unchanged;
+- adverse validation suppresses, and mixed validation holds the priority at WATCH;
+- insufficient validation and TOO_EARLY or EARLY forward evidence do not suppress;
+- mature adverse forward evidence suppresses, and developing adverse forward evidence
+  downgrades;
+- NEGATIVE, INSUFFICIENT, UNAVAILABLE and INCONCLUSIVE suppress;
+- each blocking rule is tested in isolation;
+- policy identity and strictness (extra fields rejected);
+- message wording (no BUY/SELL/APPROVED/probability) and the digest;
+- watch registration rules;
+- no signal means no decision and no send, with the state recorded in the run summary;
+- an alert is recorded and sent once; re-runs are idempotent;
+- bars outside their window never alert;
+- a dry run writes nothing and sends nothing;
+- consumer neutrality: every `lab_*` table is byte-identical, and the forward tracker
+  agrees on the signal;
+- Telegram failure: recorded, retried once inside the window, never duplicated; "not
+  configured" is a recorded failure;
+- an unknown delivery outcome is never resent;
+- a digest is sent when many alerts fire;
+- a policy change never replays old bars, and cross-policy duplicates are suppressed;
+- a version mismatch suppresses;
+- the newest schema-4 extension is used (INCONCLUSIVE + adverse validation → SUPPRESS,
+  baseline untouched);
+- a paused watch is respected, and the DB CHECK on the decision window holds;
+- no auto-trader field or column exists anywhere in co-pilot records;
+- `research/` never imports `copilot`;
+- the CLI lifecycle.

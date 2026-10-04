@@ -5,9 +5,9 @@ Inspection, ``compile``, ``families``/``family show`` and ``batch generate`` (wi
 ``batch create``, ``batch run``, ``evidence build``, the ``forward`` writes (``enroll``,
 ``pause``/``resume``/``stop``, ``check``, ``resolve``, ``run``, ``evidence``) and the Phase 9
 ``research reserve-plan``/``register``/``run``/``evidence`` and ``validation run`` are the
-only writes; they follow the ledger lifecycle (freeze /
-preregister -> start -> one terminal result -> one batch analysis). There are no
-promotion or AI-generation commands.
+only Lab writes; they follow the ledger lifecycle (freeze / preregister -> start -> one
+terminal result -> one batch analysis). There are no promotion or AI-generation commands.
+The ``copilot`` sub-commands are a consumer of Lab evidence and write only co-pilot tables.
 """
 
 from __future__ import annotations
@@ -709,6 +709,15 @@ def validation_run(
     )  # fmt: skip
     if out["status"] == "VALIDATION_ERROR":
         raise typer.Exit(1)
+
+
+def _copilot() -> None:
+    from market_signal.cli.copilot_cmds import copilot
+
+    lab.add_typer(copilot, name="copilot")
+
+
+_copilot()
 
 
 def register(app: typer.Typer) -> None:
