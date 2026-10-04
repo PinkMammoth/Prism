@@ -329,8 +329,8 @@ def build_definition(
     from market_signal.research.lab.policy import ScreenPlan
 
     profile = _profile(ledger, profile_id)
-    if profile.profile_schema == "3":
-        raise ForwardError("enroll from a historical profile, not a forward-extended one")
+    if profile.profile_schema in ("3", "4"):  # 4 = Phase 9 extension; enroll from history
+        raise ForwardError("enroll from a historical profile, not an extended one")
     if profile.tier not in ENROLLABLE_TIERS:
         raise ForwardError(
             f"profile tier {profile.tier} is not trackable; forward tracking starts from "

@@ -151,7 +151,8 @@ class EvidenceSource(LabModel):
 
 class EvidenceProfile(LabModel):
     # "3": a profile that extends an earlier one with a paper_forward summary (Phase 8)
-    profile_schema: Literal["1", "2", "3"] = PROFILE_SCHEMA
+    # "4": a profile that extends a historical one with full research / validation (Phase 9)
+    profile_schema: Literal["1", "2", "3", "4"] = PROFILE_SCHEMA
     policy_id: str
     # schema 2: {"version": EVIDENCE_BUILDER_VERSION, "software_id": ...}; absent in schema 1
     builder: dict | None = None
@@ -173,6 +174,11 @@ class EvidenceProfile(LabModel):
     limitations: tuple[str, ...]
     # schema 3 only: descriptive prospective evidence (never changes the tier)
     forward: dict | None = None
+    # schema 4 only: deeper research on the discovery data, and independent validation on a
+    # reserved untouched period. Kept as separate blocks; never pooled with each other or
+    # with forward evidence.
+    full_research: dict | None = None
+    validation: dict | None = None
 
     @model_validator(mode="after")
     def reserved_tier(self) -> Self:
@@ -193,13 +199,28 @@ class EvidenceProfile(LabModel):
             )
         if self.profile_schema == "3" and self.extends is None:
             raise ValueError("schema 3 profiles extend an earlier profile")
+        stages = {s.stage for s in self.sources}
+        if self.profile_schema == "4":
+            if self.extends is None or self.full_research is None:
+                raise ValueError("schema 4 profiles extend a profile with a full_research block")
+            if "full_research" not in stages or (self.validation is not None) != (
+                "validation" in stages
+            ):
+                raise ValueError("schema 4 blocks must cite their full_research/validation sources")
+            if self.tier == "VALIDATED":
+                # Phase 9 can run validation, but VALIDATED is reserved for a future standard
+                # (prospective forward and final-holdout evidence); no Phase 9 policy emits it.
+                raise ValueError("VALIDATED is reserved: schema 4 profiles cannot carry it")
+        elif self.full_research is not None or self.validation is not None:
+            raise ValueError("full_research/validation blocks belong to schema 4 profiles")
         return self
 
     def payload(self) -> dict:
-        """Stored form. Schema 1/2 payloads omit ``forward`` so they stay byte-identical."""
+        """Stored form. Older payloads omit later blocks so they stay byte-identical."""
         data = self.model_dump(mode="python")
-        if self.forward is None:
-            data.pop("forward")
+        for block in ("forward", "full_research", "validation"):
+            if data[block] is None:
+                data.pop(block)
         return data
 
     @property

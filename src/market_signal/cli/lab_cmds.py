@@ -2,8 +2,10 @@
 
 Inspection, ``compile``, ``families``/``family show`` and ``batch generate`` (without
 ``--register``) are read-only. ``preregister``, ``screen``, ``batch generate --register``,
-``batch create``, ``batch run``, ``evidence build`` and the ``forward`` writes (``enroll``,
-``pause``/``resume``/``stop``, ``check``, ``resolve``, ``run``, ``evidence``) are the only writes; they follow the ledger lifecycle (freeze /
+``batch create``, ``batch run``, ``evidence build``, the ``forward`` writes (``enroll``,
+``pause``/``resume``/``stop``, ``check``, ``resolve``, ``run``, ``evidence``) and the Phase 9
+``research reserve-plan``/``register``/``run``/``evidence`` and ``validation run`` are the
+only writes; they follow the ledger lifecycle (freeze /
 preregister -> start -> one terminal result -> one batch analysis). There are no
 promotion or AI-generation commands.
 """
@@ -543,6 +545,170 @@ def forward_evidence(tracking_id: str) -> None:
         lambda ledger: record_forward_evidence(ledger, tracking_id, software=_software()),
         read_only=False,
     )
+
+
+research = typer.Typer(
+    no_args_is_help=True,
+    help="Full research and independent validation (research only; never trade approval).",
+)
+lab.add_typer(research, name="research")
+validation = typer.Typer(
+    no_args_is_help=True,
+    help="Independent validation on a plan-reserved, untouched period (frozen strategy).",
+)
+lab.add_typer(validation, name="validation")
+
+
+def _date(value: str):
+    from datetime import UTC, datetime
+
+    return datetime.fromisoformat(value).replace(tzinfo=UTC)
+
+
+@research.command("reserve-plan")
+def research_reserve_plan(
+    source_plan_id: str,
+    name: str = typer.Option(..., "--name", help="New frozen plan name."),
+    version: int = typer.Option(1, "--version"),
+    validation_start: str = typer.Option(..., "--validation-start", help="YYYY-MM-DD (UTC)."),
+    validation_end: str = typer.Option(..., "--validation-end", help="Exclusive."),
+    holdout_start: str = typer.Option(None, "--final-holdout-start"),
+    holdout_end: str = typer.Option(None, "--final-holdout-end"),
+    dry_run: bool = typer.Option(False, "--dry-run", help="Print the plan; register nothing."),
+) -> None:
+    """WRITE: freeze a plan = the source plan + reserved validation (and final-holdout) periods.
+
+    Everything else (costs, horizons, funding, statistics, warmup) is copied, so the
+    validation plan cannot quietly change the methodology. The final holdout is never read.
+    """
+    from market_signal.research.lab.policy import Period, ScreenPlan
+
+    def build(ledger):
+        src = ledger.get_plan(source_plan_id)
+        if not isinstance(src, ScreenPlan):
+            raise ValueError("the source must be a v2 screen plan")
+        periods = [
+            *src.periods,
+            Period(role="validation", start=_date(validation_start), end=_date(validation_end)),
+        ]
+        if holdout_start or holdout_end:
+            periods.append(
+                Period(role="final_holdout", start=_date(holdout_start), end=_date(holdout_end))
+            )
+        plan = ScreenPlan.model_validate(
+            {**src.model_dump(mode="python"), "name": name, "version": version, "periods": periods}
+        )
+        plan_id = plan.plan_id if dry_run else ledger.register_plan(plan)
+        return {"plan_id": plan_id, "dry_run": dry_run, "plan": plan.model_dump(mode="python")}
+
+    _inspect(build, read_only=dry_run)  # fmt: skip
+
+
+@research.command("register")
+def research_register(
+    profile_id: str,
+    validation_plan: str = typer.Option(
+        ..., "--validation-plan", help="Plan reserving validation."
+    ),
+    reason: str = typer.Option(..., "--reason", help="Why this strategy gets deeper research."),
+    label: str = typer.Option(None, "--label", help="Distinguish a deliberate re-registration."),
+    dry_run: bool = typer.Option(False, "--dry-run", help="Show the frozen registration only."),
+) -> None:
+    """WRITE: freeze a full-research/validation registration from an EXPLORATORY or
+    RESEARCH_SUPPORTED historical profile. Explicit only; FDR survival is not required."""
+    from market_signal.research.lab.validation import register
+
+    _inspect(
+        lambda ledger: register(ledger, profile_id, validation_plan, reason=reason, origin="cli",
+                                software=_software(), label=label, dry_run=dry_run),
+        read_only=dry_run,
+    )  # fmt: skip
+
+
+@research.command("list")
+def research_list() -> None:
+    """List registrations with their latest full-research and validation statuses."""
+    from market_signal.research.lab.validation import list_registrations
+
+    _inspect(list_registrations)
+
+
+@research.command("show")
+def research_show(registration_id: str) -> None:
+    """Historical, full research, validation and forward evidence side by side (never pooled)."""
+    from market_signal.research.lab.validation import show
+
+    _inspect(lambda ledger: show(ledger, registration_id))
+
+
+@research.command("run")
+def research_run(
+    registration_id: str,
+    rerun_of: str = typer.Option(None, "--rerun-of", help="Earlier full-research run."),
+    rerun_reason: str = typer.Option(None, "--rerun-reason"),
+) -> None:
+    """WRITE: full research on the source discovery data (one immutable result per run)."""
+    from market_signal.research.lab.validation import run_full_research
+
+    out = _inspect(
+        lambda ledger: run_full_research(ledger, registration_id, software=_software(),
+                                         rerun_of=rerun_of, rerun_reason=rerun_reason),
+        read_only=False,
+    )  # fmt: skip
+    if out["status"] == "FULL_RESEARCH_ERROR":
+        raise typer.Exit(1)
+
+
+@research.command("evidence")
+def research_evidence(
+    registration_id: str,
+    full_result: str = typer.Option(None, "--full-result", help="Default: latest."),
+    validation_result: str = typer.Option(None, "--validation-result", help="Default: latest."),
+) -> None:
+    """WRITE: a NEW profile extending the historical one with full_research/validation sources.
+
+    The historical profile is never modified. VALIDATED is unreachable.
+    """
+    from market_signal.research.lab.validation import extend_profile
+
+    _inspect(
+        lambda ledger: extend_profile(ledger, registration_id, software=_software(),
+                                      full_result_id=full_result,
+                                      validation_result_id=validation_result),
+        read_only=False,
+    )  # fmt: skip
+
+
+@validation.command("preview")
+def validation_preview(registration_id: str) -> None:
+    """Dry run before consuming validation data: period, untouched status, assets, horizons,
+    completeness, capacity and the projected sample. Reads no validation outcome."""
+    from market_signal.research.lab.validation import preview_validation
+
+    _inspect(lambda ledger: preview_validation(ledger, registration_id))
+
+
+@validation.command("run")
+def validation_run(
+    registration_id: str,
+    rerun_of: str = typer.Option(None, "--rerun-of", help="Earlier validation run."),
+    rerun_reason: str = typer.Option(None, "--rerun-reason"),
+) -> None:
+    """WRITE: validate the frozen strategy on the reserved period.
+
+    An incomplete period (or one that cannot yield an adequate sample) is recorded as
+    VALIDATION_INSUFFICIENT without reading outcomes. Otherwise the look is recorded
+    permanently as an exposure; rerunning never restores independence.
+    """
+    from market_signal.research.lab.validation import run_validation
+
+    out = _inspect(
+        lambda ledger: run_validation(ledger, registration_id, software=_software(),
+                                      rerun_of=rerun_of, rerun_reason=rerun_reason),
+        read_only=False,
+    )  # fmt: skip
+    if out["status"] == "VALIDATION_ERROR":
+        raise typer.Exit(1)
 
 
 def register(app: typer.Typer) -> None:

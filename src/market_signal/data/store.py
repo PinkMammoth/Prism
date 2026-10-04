@@ -567,6 +567,54 @@ MIGRATIONS: list[str] = [
         recorded_at TIMESTAMPTZ NOT NULL
     );
     """,
+    # 12 — Strategy Lab full research and independent validation: append-only via the Lab
+    # API. A registration freezes the strategy, source profile and reserved validation
+    # period; each run has at most one terminal result. Validation exposure itself is the
+    # Phase 2 start/inspection of the linked experiment.
+    """
+    CREATE TABLE IF NOT EXISTS lab_research_policies (
+        policy_id VARCHAR PRIMARY KEY,
+        payload JSON NOT NULL,
+        recorded_at TIMESTAMPTZ NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS lab_research_registrations (
+        registration_id VARCHAR PRIMARY KEY,
+        strategy_id VARCHAR NOT NULL REFERENCES lab_strategies(strategy_id),
+        source_profile_id VARCHAR NOT NULL REFERENCES lab_evidence_profiles(profile_id),
+        historical_tier VARCHAR NOT NULL CHECK (historical_tier IN ('EXPLORATORY','RESEARCH_SUPPORTED')),
+        validation_plan_id VARCHAR NOT NULL REFERENCES lab_plans(plan_id),
+        registered_at TIMESTAMPTZ NOT NULL,
+        reason VARCHAR NOT NULL,
+        origin VARCHAR NOT NULL,
+        software_id VARCHAR NOT NULL REFERENCES lab_software(software_id),
+        definition JSON NOT NULL,
+        independence JSON NOT NULL         -- recorded exposure state at registration time
+    );
+    CREATE TABLE IF NOT EXISTS lab_research_runs (
+        run_id VARCHAR PRIMARY KEY,
+        registration_id VARCHAR NOT NULL REFERENCES lab_research_registrations(registration_id),
+        stage VARCHAR NOT NULL CHECK (stage IN ('full_research','validation')),
+        attempt INTEGER NOT NULL CHECK (attempt > 0),
+        software_id VARCHAR NOT NULL REFERENCES lab_software(software_id),
+        started_at TIMESTAMPTZ NOT NULL,
+        experiment_id VARCHAR REFERENCES lab_experiments(experiment_id),
+        rerun_of VARCHAR REFERENCES lab_research_runs(run_id),
+        rerun_reason VARCHAR,
+        UNIQUE (registration_id, stage, attempt),
+        CHECK (stage = 'validation' OR experiment_id IS NULL)
+    );
+    CREATE TABLE IF NOT EXISTS lab_research_results (
+        result_id VARCHAR PRIMARY KEY,
+        run_id VARCHAR NOT NULL UNIQUE REFERENCES lab_research_runs(run_id),
+        completed_at TIMESTAMPTZ NOT NULL,
+        status VARCHAR NOT NULL CHECK (status IN (
+            'FULL_RESEARCH_CONSISTENT','FULL_RESEARCH_MIXED','FULL_RESEARCH_INCONSISTENT',
+            'FULL_RESEARCH_INSUFFICIENT','FULL_RESEARCH_ERROR',
+            'VALIDATION_SUPPORTIVE','VALIDATION_MIXED','VALIDATION_ADVERSE',
+            'VALIDATION_INSUFFICIENT','VALIDATION_ERROR')),
+        payload JSON NOT NULL
+    );
+    """,
 ]
 
 
