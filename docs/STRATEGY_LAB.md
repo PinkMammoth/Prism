@@ -6,11 +6,12 @@ including the local database and generated reports. Only the representation foun
 fast screen (section 9), preregistered search batches (section 10), structured
 strategy families (section 11), evidence profiles (section 12), prospective forward
 tracking (section 13) and full research with independent validation (section 14) are
-implemented, plus the first consumer of that evidence, the perps co-pilot (section 15), and
-cross-venue historical corroboration (section 16).
+implemented, plus the first consumer of that evidence, the perps co-pilot (section 15),
+cross-venue historical corroboration (section 16) and a second consumer, the paper-only
+auto-trader (section 17: a simulated account that can never place a real order).
 No production strategies, evaluation rules, paper records or scanners were changed; the
-co-pilot reuses the existing Telegram client. The only schema changes are the additive
-migrations described in sections 7, 10, 12, 13, 14, 15 and 16.
+co-pilot and the paper trader reuse the existing Telegram client. The only schema changes
+are the additive migrations described in sections 7, 10, 12, 13, 14, 15, 16 and 17.
 
 ## 1. Current architecture
 
@@ -2774,7 +2775,563 @@ The only DB changes are migration 14 and:
   Assets listed late contribute fewer events.
 - Recorded exposure is application-level. Direct market-table access is not observable.
 
-## 17. Verification
+## 17. Step 12 implemented: paper auto-trader
+
+Package `src/market_signal/paper/` (`policy.py`, `execution.py`, `risk.py`, `account.py`,
+`engine.py`, `render.py`), additive migration 15 (`paper_*` tables) and
+`market lab paper …`. This is the **paper-only auto-trader foundation**: a stateful,
+prospective, simulated perp account that behaves as if Prism controlled an account, under
+frozen promotion, risk, execution and exit policies. It places **zero real orders**.
+
+> The paper auto-trader is structurally incapable of placing real orders.
+
+> Paper results are forward evidence. They do not automatically authorize real-money
+> execution.
+
+> Any future transition to real trading requires a separate explicit promotion phase after
+> sufficient paper-forward evidence.
+
+> Paper trading evaluates a trading-policy implementation built around the historical
+> signal, not merely the raw signal's forward-return statistic.
+
+### Purpose and architecture
+
+Phase 8 asks: *did the raw signal's forward outcome persist?* Phase 12 asks: *did an actual
+simulated trading system, with sizing, costs, funding, margin, risk limits and exits, make
+sensible decisions and survive operational constraints?* Both observe the same governed
+signals independently.
+
+```
+governed Lab signal + evidence (read only)
+  -> autotrader_policy   (promotion: may this strategy generate paper intent?)
+  -> paper_risk_policy   (account gates, sizing, exposure, conflicts, kill switches)
+  -> strategy intent     (one per fired signal)
+  -> PaperExecutionAdapter (simulated order lifecycle and fills; the ONLY adapter)
+  -> paper account       (replay of the append-only event ledger)
+  -> paper_execution evidence
+```
+
+A future live phase is meant to reuse the promotion policy, risk engine, intent logic,
+account semantics and order lifecycle, replacing only the execution adapter and adding
+much stronger safety controls. Nothing here was built as a throwaway simulator, and
+nothing here can be switched to live.
+
+| Module | Role |
+|---|---|
+| `policy.py` | Frozen, content-addressed policies: `AutotraderPolicy`, `RiskPolicy`, `ExecutionModel`, `ExitPolicy`, `PaperMaturityPolicy`, and the pure `evaluate_promotion` |
+| `risk.py` | Pure `allocate`: every intent of one bar against one account snapshot |
+| `execution.py` | `PaperOrder`, the order states, `PaperExecutionAdapter` (pure fills) and the `require_paper_adapter` guard |
+| `account.py` | `AccountState`, `apply`/`replay`: the account is a fold of the event ledger |
+| `engine.py` | Runs, the frozen daily cycle, evidence view, status changes, notifications and evidence summary |
+| `render.py` | PAPER/SIMULATED Telegram texts |
+
+### Inspection before building (what was reused, what was not)
+
+- **`perps/backtest.py` `simulate_perps`** is not reused as an engine. It sizes from a stop,
+  carries the last funding rate forward over missing days, and reads max leverage from the
+  latest snapshot. Its pure `liquidation_price` formula *is* reused.
+- **`perps/paper.py`** and **Phase 8** stay unchanged. Phase 8's live-window helpers
+  (`live_snapshot`, `in_live_window`) and the Phase 3 compiler are reused for signals, so
+  the paper trader sees exactly the signal the forward tracker and co-pilot see.
+- **Strategy exit intent.** Both cohort strategies carry the `ma_trend` *family template*
+  `ExitIntent` (3 × ATR stop, 30-bar hold). No Phase 4–11 evidence evaluated it: every
+  result is the fixed 10-bar horizon (T+1 open → T+10 close). Paper v1 therefore does
+  **not** use it (below).
+- **Phase 9 audit items** that made portfolio simulation unsupported are resolved for the
+  paper engine (the Phase 9 research adapter is unchanged and still reports portfolio
+  simulation as unsupported for *historical* research):
+
+  | Phase 9 concern | Paper engine |
+  |---|---|
+  | Risk settings not frozen in a governed policy | `paper_risk_policy` v1 is a content-hashed policy; any change is a new policy and a new run |
+  | Max leverage not point-in-time | leverage and per-asset maintenance rates are frozen constants in the policy; `perp_snapshots` is never read |
+  | Cross-symbol ordering | every intent of a bar is decided against the same snapshot; capacity is allocated by a hash lottery, notional by one proportional factor (below) |
+
+### Safety boundary
+
+There is no path in this phase that can place a real exchange order.
+
+- The `paper` package imports no network client (`httpx`, `requests`, `urllib`, `socket`, …),
+  no provider/registry/updater module, no exchange SDK and no Telegram client. It reads no
+  environment variable or secret (all tested by an AST scan).
+- Prism contains no order-placement code at all. It talks to Hyperliquid's public `/info`
+  endpoint only. A repo-wide test fails on `/exchange`, `ccxt`, `eth_account`,
+  `place_order`/`create_order`/`submit_order`, `api_secret`, and any
+  `READY_FOR_LIVE`/`APPROVED_LIVE`/`ENABLE_LIVE` string.
+- `PaperExecutionAdapter` is the only adapter. `transmits_orders` is the literal `False`,
+  fills are arithmetic on stored bars, and its public surface is exactly `mode`,
+  `transmits_orders`, `model`, `validate`, `fill`. The engine's `require_paper_adapter`
+  refuses any other type, including a subclass or a look-alike object.
+- Every policy and run has `mode: "paper"` as a literal. The DB CHECKs `paper_runs.mode =
+  'paper'`.
+- The CLI has no `--live`, `--real`, `--execute`, key or secret option, and no command for
+  real execution (tested over the whole command tree).
+- A full engine cycle runs with sockets disabled (tested).
+- Run statuses are `ACTIVE`, `PAUSED`, `STOPPED`, `KILLED`. No status, field or
+  transition expresses live readiness.
+
+### Promotion policy `autotrader_policy` v1 (`appolicy_1f0b69cf…`)
+
+The question it answers: *is this strategy allowed to generate **paper** trading intent?* It
+is separate from `copilot_policy` (different ID and content, no shared code path) and
+stricter. It is evaluated for every fired signal at decision time, on the evidence that
+exists then (the evidence chain is point-in-time by `recorded_at`).
+
+**Blocking rules** (every one must pass):
+
+| Rule | v1 condition |
+|---|---|
+| `strategy_enrolled` | the strategy is in the run's frozen, manually chosen cohort |
+| `versions_compatible` | compiler/vocabulary versions equal the run's and every evidence source's |
+| `forward_tracking_active` | the member's frozen Phase 8 tracking is active (a stopped/retired strategy cannot trade) |
+| `evidence_available` | a usable profile chain exists |
+| `tier_eligible` | `EXPLORATORY` or `RESEARCH_SUPPORTED` |
+| `sample_adequate` | ≥ 30 independent primary-horizon events on ≥ 3 assets |
+| `effect_positive` | expected-direction net excess > 0 |
+| `breadth_ok` | not dominated by one asset; largest asset share ≤ 50% |
+| `not_isolated_spike` | parameter neighbourhood is not an isolated spike |
+| `full_research_adequate` | full research **was run** and is `CONSISTENT` or `MIXED` (`INCONSISTENT`, `INSUFFICIENT`, `ERROR` or not run block) |
+| `validation_registered` | a Phase 9 validation registration exists |
+| `validation_not_adverse` | not `VALIDATION_ADVERSE` or `VALIDATION_ERROR` |
+| `corroboration_not_adverse` | Phase 11 status is not `CROSS_VENUE_ADVERSE` |
+| `forward_not_adverse` | forward maturity `DEVELOPING`/`MATURE` with excess ≤ 0 or opposite direction blocks |
+
+**Not required** (recorded as caveats): FDR survival, supportive validation, cross-venue
+corroboration (`MIXED`/`INSUFFICIENT`/not run), forward maturity, a plateau
+neighbourhood. Final validation is deliberately not required: paper trading is how
+stronger forward evidence is gathered. The corroboration choice is frozen: the Binance
+data is historically exposed, so it may only veto (`ADVERSE`), never qualify.
+
+Compared with `copilot_policy` v1, this policy additionally requires full research to have
+been run, a validation registration and an active forward tracking. It also blocks adverse
+corroboration and adverse forward evidence at `DEVELOPING` rather than only `MATURE`.
+
+### Risk policy `paper_risk_policy` v1 (`riskpolicy_e755fb81…`)
+
+All values are **arbitrary conservative research defaults**, fixed before any paper result
+existed. They are not optimised and must not be tuned on paper outcomes. Changing any of
+them is a new policy and a new paper run.
+
+| Setting | v1 |
+|---|---|
+| Starting equity | 10,000 USDC (a research account, unrelated to any real portfolio) |
+| Sizing | `fixed_equity_fraction_v1`: notional = 20% of current marked equity |
+| Minimum position (after scaling) | 5% of equity |
+| Margin | isolated, fixed 2× leverage (cap 2×), so margin = 10% of equity per position |
+| Max open positions (incl. unfilled entry orders) | 3 |
+| Max gross notional | 60% of equity |
+| Max per asset | 20% of equity (so one position per asset) |
+| Max per strategy | 40% of equity |
+| Cash reserve after margin + fees | 25% of equity |
+| Daily loss halt | bar-to-bar marked equity loss ≥ 3% → no new entries on that bar |
+| Drawdown kill | ≥ 15% below peak marked equity → run `KILLED` |
+| Repeated errors | 3 consecutive failed cycles → automatic `PAUSED` |
+| Signal data gap | a gap > 24 h between daily bars in the signal lookback blocks the entry |
+| Maintenance rates | 1 / (2 × venue max): BTC 1.25%, ETH 2%, SOL 2.5%, HYPE/LINK/AAVE 5% (frozen constants) |
+| Liquidation model | `isolated_full_margin_loss_v1` |
+| Conflicts | `one_position_per_asset_no_hedge_no_add_v1` |
+| Allocation | `same_snapshot_hash_lottery_proportional_v1` |
+
+**Why fixed-fraction, not stop-based risk.** The strategies carry no stop that their
+evidence evaluated. Inventing an ATR stop just to size positions would make the paper
+result depend on an untested component. There is no Kelly or volatility targeting. The
+per-trade loss is therefore bounded by notional, isolated margin and the kill switches,
+not by a stop.
+
+### Account model
+
+- A paper run has a frozen `PaperRunDefinition`: cohort, the five policy IDs, engine
+  version, the frozen cycle order, semantics and `created_at`. Its `run_id` is the content
+  hash. `continues` records lineage to a stopped/killed run. A new policy means a new
+  run; old runs are never overwritten.
+- Each cohort member is frozen from the strategy's **active Phase 8 tracking definition**:
+  baseline profile and tier, assets, venue, lookback, primary horizon and tracking ID.
+- Statuses are `ACTIVE`, `PAUSED` (no new entries), `STOPPED` (terminal, manual) and
+  `KILLED` (terminal, automatic). In every status, open positions are still managed to
+  their scheduled exits.
+- At most one non-terminal run exists at a time.
+- **State** is always `replay(paper_events)`. It holds cash, open positions (entry
+  reference/fill, side, units, notional, isolated margin and margin balance, accrued
+  funding, fees, last mark), unfilled orders, closed trades, daily marks, peak equity and
+  halted bars. Every account mark records equity, drawdown, day PnL, gross/per-asset/
+  per-strategy exposure and unrealised PnL. There is no mutable "current position" table.
+
+### Execution model `paper_execution_model` v1 (simulated fills)
+
+| | v1 |
+|---|---|
+| Venue / order type | Hyperliquid perp, market orders |
+| Entry reference | **the stored open of bar T+1** (the bar opening at T's close) |
+| Exit reference | the stored close of the scheduled exit bar |
+| Slippage | reference ± frozen per-asset slippage, always against the order (BTC/ETH 2, SOL 4, HYPE/LINK 6, AAVE 8 bps) |
+| Fee | 4.5 bps taker on filled notional |
+| Fills | `full_immediate_v1`: full, immediate. No partial fills, queue or order book |
+| Entry window | 12 h after T's close |
+| Funding | settled hourly rates, priced at the bar close (below) |
+
+Costs are frozen from the cohort's research plan, so paper costs equal the costs the
+evidence assumed. High/low are never used to produce a favourable fill. They are used only
+for the adverse liquidation check.
+
+Each fill records the reference price, slippage, fill price, units, notional, fee and
+execution-model ID.
+
+**Entry timing.** A daily signal at bar T is computed only from data available at T's
+close (bars with `close_time ≤ T`, funding to the minute, Phase 3 compiler). The intent is
+recorded **within 12 hours of T's close**. Its market order fills at T+1's open once that
+bar is stored: Prism stores only completed bars, so the fill is recorded the next day.
+It never fills at T's close; in live data T+1's open differs from T's close by up to
+~50 bps.
+
+**Missed execution window.** If the engine first sees bar T more than 12 hours after it
+closed (PC off, data late), the signal and intent are still recorded, and the risk
+decision is `REJECTED: missed_execution_window`. No order is created, and nothing ever fills
+retrospectively. With Prism's schedule (first run ~07:20 UK, retries 12:00 and 19:30 UK),
+the morning and midday runs are inside the window and the evening run is not.
+
+**Order lifecycle.** `SUBMITTED → FILLED | REJECTED | EXPIRED | CANCELLED`. `PARTIALLY_FILLED`
+exists in the vocabulary, but the v1 fill model never produces it. Exits use the same
+lifecycle as reduce-only orders. An entry order whose fill bar is still not stored 12 h
+after it closed `EXPIRES`.
+
+### Exit policy `paper_exit_policy` v1 (`exitpolicy_4ef7a1b2…`)
+
+`fixed_horizon_v1`: a position entered at T+1's open closes at **T+10's close** (the
+primary research horizon, 10 bars). This reproduces the evidence's return window exactly.
+
+- There is no protective stop, no take-profit and no opposite-signal exit
+  (`uses_strategy_exit_intent: false`).
+- The only other way a position ends is a simulated liquidation (risk policy).
+- Run creation refuses a cohort member whose primary horizon differs from the exit
+  policy's.
+- A time exit processed late (the engine was off) still fills at the scheduled close. Its
+  time was fixed in advance and does not depend on prices. The trade is flagged
+  `late_processing` and counted as a late exit in the evidence.
+
+### Funding
+
+For every open position and every processed bar B, the engine reads the funding
+settlements **actually stored** in (B − 1 day, B] (minute-snapped) and records one
+immutable `funding_accrued` event:
+
+- amount = Σ side × units × close(B) × rate (the research convention); a positive amount
+  is paid (longs pay positive funding), a negative amount is received;
+- the event lists every settlement, `present` versus `expected` (24) and `missing`.
+
+Funding is debited from or credited to the position's isolated margin balance, which moves
+its liquidation price. Nothing is estimated: a missing settlement is counted, never filled
+in, and it appears in the evidence as `funding_missing_settlements`. Event keys are per
+position and bar, so funding can never be charged twice.
+
+### Margin, leverage and liquidation
+
+- Isolated margin per position: margin = notional / 2. The margin and entry fee leave cash
+  at the fill.
+- Liquidation price: `perps.backtest.liquidation_price` with the frozen maintenance rate
+  and the current margin balance. At entry it is about −47% to −49% for a
+  long and +43% to +48% for a short.
+- Each bar, if the adverse extreme (low for longs, high for shorts) reaches the liquidation
+  price, the position is liquidated at that price, or at the open if the bar gapped
+  through it. If funding at the close exhausts the margin, it is liquidated at the close.
+- A liquidation loses the **whole remaining isolated margin** (proceeds 0). It records the
+  reference and liquidation prices, the margin lost and any theoretical loss beyond the
+  margin. Losses are not clamped silently: beyond-margin loss is recorded but not charged,
+  because isolated margin caps the account's loss at the posted margin.
+- This is an **approximation, not Hyperliquid liquidation parity**: there are no tiered
+  margin tables, no partial liquidation, no liquidation fee and no backstop model. The v1
+  sizing (2×, 20% notional) keeps normal operation far from liquidation.
+
+### Conflicts and simultaneous signals
+
+Frozen rules:
+
+- **One position per asset.** No hedged long and short on one asset.
+- **An existing position or unfilled order on the asset** blocks a new entry: the same side
+  is rejected as `duplicate_position_no_add` (size is never added), the other side as
+  `conflicting_position`.
+- **Same-bar long and short on one asset** reject each other
+  (`conflicting_signals_same_bar`).
+- **Several same-side strategies on one asset** keep one (the lottery winner); the others
+  are rejected as `duplicate_signal_same_bar`.
+
+All intents of one bar close are decided together against **the same pre-trade snapshot**:
+the account marked at that close, after exits.
+
+1. **Gates:** account ACTIVE, no daily-loss halt, signal inside the entry window, promotion
+   eligible, data contiguous, no conflict.
+2. **Capacity in lottery order:** free position slots, then per-strategy and per-asset
+   headroom. The lottery key is `SHA-256(run, bar, strategy, symbol)`: deterministic and
+   reproducible, unrelated to symbol names, input order or past profitability. Over 200
+   synthetic bars with 6 simultaneous signals and 3 slots, each asset won 60–140 times
+   (tested).
+3. **Notional:** the selected intents all request 20% of snapshot equity. If gross headroom
+   or free cash (after the 25% reserve) cannot fund them, **all are scaled by one common
+   factor**. If that leaves a position below 5% of equity, the last in lottery order is
+   dropped and the factor recomputed.
+
+Every rejection is recorded with all its reasons.
+
+### Daily cycle (`paper_engine_v1`, frozen in every run)
+
+For each bar close B after the last processed one, in time order:
+
+1. **validate_bar_data:** held assets need B's bar and funding through B, otherwise the
+   cycle waits (never invents). Signal assets that are merely lagging (yesterday's bar
+   exists) are waited for while the entry window is open. A stale asset (missing for more
+   than one bar) or a late bar proceeds without them, with a `data_issue` event.
+2. **fill_entry_orders_at_open:** orders submitted after B − 1 fill at B's open.
+3. **liquidation_check_on_bar_range**
+4. **accrue_settled_funding**
+5. **mark_at_close**
+6. **scheduled_exits_at_close**
+7. **account_state_and_kill_switches:** equity, drawdown and day PnL go into the
+   `account_mark`. Then impossible state → KILLED, drawdown ≥ 15% → KILLED, and day loss
+   ≥ 3% → halt for this bar.
+8. **read_signals:** Phase 3 compiler on the Phase 8 live snapshot for every cohort
+   strategy and asset. A `signals_evaluated` event records every state (SIGNAL, NO_SIGNAL,
+   INELIGIBLE_BAR, DATA_MISSING, ERROR); fired signals add `signal_consumed`.
+9. **intents_promotion_and_risk:** `intent_created` (with the promotion decision and
+   evidence view), then one `risk_decision` per intent from `allocate`.
+10. **submit_entry_orders:** these fill at B + 1's open, and the exit bar is B + 10.
+11. **persist_then_notify:** all of the cycle's events and its `paper_cycles` row commit in
+    one transaction. Telegram is attempted only after the commit.
+
+Only bars closing **strictly after the run's `created_at`** are ever processed. Terminal,
+flat runs stop processing.
+
+### Immutable event ledger
+
+`paper_events` is append-only, with `UNIQUE (run_id, seq)` and `UNIQUE (run_id,
+event_key)`. Event IDs are content hashes of `(run, key)`, and keys are deterministic, for
+example `funding:<position>:<bar>`, `filled:<order>` or `mark:<bar>`. A DB CHECK refuses
+any bar event whose market time is not after the run's creation.
+
+Event types: `run_created`, `status_changed`, `signals_evaluated`, `signal_consumed`,
+`intent_created`, `risk_decision`, `order_submitted`, `order_filled`, `order_rejected`,
+`order_expired`, `order_cancelled`, `position_opened`, `funding_accrued`, `liquidation`,
+`exit_intent`, `position_closed`, `account_mark`, `kill_switch`, `data_issue`.
+
+Other tables:
+
+| Table | Contents |
+|---|---|
+| `paper_runs` | frozen definitions |
+| `paper_policies` | released policy payloads by ID and kind |
+| `paper_cycles` | every engine pass, ok or error with traceback |
+| `paper_notifications` | delivery attempts |
+| `paper_evidence` | content-addressed `paper_execution` summaries |
+| `paper_software` | software identities |
+
+**Crash and restart.** A cycle is computed in memory and committed in one transaction. A
+crash therefore leaves nothing partial, and the next run recomputes the same bars. Re-runs
+are no-ops: a processed bar is never processed again, and event keys make a duplicate fill,
+funding charge, exit or position impossible. The state survives WSL/PC restarts because it
+*is* the database. Before committing, the engine checks that the cycle's in-memory state
+equals the replay of the old plus new events. Rehearsed with a real `SIGKILL` mid-cycle (see
+the verification section).
+
+**Manual intervention.** `pause`, `resume` and `stop` append `status_changed` events
+with a reason. Historical fills and PnL cannot be edited; there is no command that does.
+There is no manual close in v1: positions are short-lived, so a stop simply lets them reach
+their scheduled exits. A future manual close must be recorded as `manual paper close`.
+
+### Kill switches (paper mode)
+
+| Switch | Effect |
+|---|---|
+| Manual pause / stop | no new entries; positions managed |
+| Daily loss halt (≥ 3% bar-to-bar) | no entries on that bar |
+| Drawdown kill (≥ 15% from peak) | run `KILLED` (terminal) |
+| Stale/missing data | entries blocked for affected assets or bars; held positions wait for data |
+| Repeated errors (3 consecutive failed cycles) | automatic `PAUSED` |
+| Impossible account state (negative cash/margin, equity ≤ 0, replay contradiction) | `KILLED`, or the cycle fails and is recorded |
+
+No live-execution kill switch exists, because live execution does not.
+
+### Data outages
+
+- Prices and funding are never invented.
+- A held asset without B's bar or funding stops the account at B. The bar is not processed,
+  exits and marks wait, and once the entry window passes a single `data_issue` records the
+  unresolved state.
+- A lagging signal asset delays the bar inside the entry window only.
+- A stale asset (missing for more than one bar) no longer blocks the other assets. Its
+  signals are `DATA_MISSING`.
+- Signals first evaluated after the window are rejected `missed_execution_window`.
+- Missing funding settlements are counted on the funding event.
+
+### Relationship to Phase 8, the co-pilot and Phase 11
+
+| | Phase 8 forward | Co-pilot | Paper auto-trader |
+|---|---|---|---|
+| Question | did the raw signal's outcome persist? | is this worth a human look? | did the simulated trading system behave sensibly? |
+| Writes | `lab_forward_*` | `copilot_*` | `paper_*` only |
+| Depends on the others? | no | reads forward evidence | reads forward evidence and tracking status; **not** co-pilot alerts or Telegram delivery |
+
+- A signal can produce a co-pilot alert, a paper intent and a Phase 8 evaluation. Each
+  consumer records it independently.
+- A paper trade never causes a co-pilot alert, and Telegram failures cannot change a paper
+  decision.
+- `paper` imports nothing from `copilot`, and neither `copilot` nor `research/` imports
+  `paper` (tested).
+- After paper cycles, every `lab_*` and `copilot_*` table is byte-identical (tested), so
+  paper results can never change a Lab tier.
+- Phase 11 corroboration is shown in the evidence view and used only by the frozen
+  `corroboration_not_adverse` rule. It never alters a strategy definition.
+
+### Paper evidence (`paper_execution`) and maturity
+
+`market lab paper summary` (read-only) and `market lab paper evidence` (appends a
+content-addressed summary to `paper_evidence`) compute everything from the ledger:
+
+- trades, win rate, gross PnL, slippage cost, fees, funding, net PnL, liquidations, late
+  exits;
+- return on starting equity, max drawdown, average/max exposure, unrealised PnL;
+- signals, intents, accepted, rejections by reason, orders filled/expired/rejected;
+- average holding period, and contribution by strategy and by asset;
+- missing funding settlements and data issues;
+- `reconciles_with_ledger`: starting equity + Σ closed net + unrealised = marked equity.
+
+The stage is named `paper_execution`, distinct from Phase 8's `paper_forward`. It is
+descriptive only: no p-value or significance claim is computed. It never writes
+`lab_evidence_profiles`.
+
+**Maturity** (`paper_maturity` v1) needs closed trades **and** observed days. It describes
+sample size, never profitability.
+
+| Level | Rule |
+|---|---|
+| `WARMUP` | otherwise |
+| `EARLY` | ≥ 10 closed trades and ≥ 30 observed days |
+| `DEVELOPING` | ≥ 30 and ≥ 90 |
+| `MATURE` | ≥ 100 and ≥ 365 |
+
+### Telegram (PAPER notifications)
+
+Few messages, all starting `🧪 PAPER · SIMULATED — no real order was placed` and ending
+`Research account only. Not an instruction to trade.`:
+
+- paper position opened (sent when the T+1 open fill is recorded, i.e. the following day);
+- paper position closed (time exit or SIMULATED LIQUIDATION);
+- kill switch (daily loss halt, drawdown kill, impossible state);
+- automatic pause after repeated errors;
+- the start of an engine error streak (once per streak).
+
+There are no BUY/SELL words and no co-pilot wording. More than 4 pending messages are sent
+as one digest. Delivery follows the co-pilot's pattern: `attempted`, then `sent` or
+`failed`. A failure is retried on later runs for 24 h, and an attempt with an unknown
+outcome is never resent. Delivery is attempted only after the ledger commit and never
+affects trading.
+
+### CLI
+
+| Command | |
+|---|---|
+| `market lab paper policy` | the released promotion, risk, exit and maturity policies with IDs |
+| `market lab paper create <strategy>… --reason … [--label] [--continues RUN] [--dry-run] [--promotion-version/--risk-version/--exit-version N]` | WRITE: create a run (clock starts now) |
+| `market lab paper run [--dry-run [--full]] [--now ISO (dry-run only)]` | WRITE: process new bars of every open run (or one holding positions), then notify |
+| `market lab paper status [RUN]` / `positions` / `trades` / `events [--type] [--limit]` | read-only views (default: the newest run) |
+| `market lab paper pause/resume/stop RUN --reason …` | WRITE: status events |
+| `market lab paper summary [RUN]` / `evidence [RUN]` | `paper_execution` evidence (read-only / append) |
+
+### Scheduling
+
+There is no new scheduler. `forward_run.sh` is already run by the installed **"Prism forward"**
+task at log-on (+5 min) and at 12:00 and 19:30. It now runs:
+
+1. `market lab forward run`: perp update → Phase 8 check → resolve;
+2. `market lab copilot run --no-update`;
+3. `market lab paper run`.
+
+The paper cycle runs last because it needs the freshly ingested bar and funding. It reads
+forward tracking state, and it must not depend on the co-pilot's Telegram outcome. The log
+line is `=== done forward=… copilot=… paper=…`. The wrapper exits with the first non-zero
+code in that order. All three commands are idempotent.
+
+### Live setup (2026-10-04)
+
+The DB was backed up first to `data/prism.pre_phase12.duckdb`. Migration 15 was applied on
+the next writable open.
+
+**Rehearsals (scratch copies only, never evidence):**
+
+- *Creation:* dry-run create, create, dry-run cycle, two real cycles (idempotent), and a
+  refused second open run.
+- *Mechanics replay:* a back-dated account replayed day by day over 2026-06 → 2026-10 on real
+  Hyperliquid bars and hourly funding, with a scratch-only promotion variant (real tracking
+  only began 2026-10-04). 20 signals produced:
+  - 11 trades: every one held exactly 10 bars, with real funding (longs paid, shorts
+    received);
+  - rejections: 5 `conflicting_position`, 3 `max_strategy_allocation`, 1
+    `max_open_positions`;
+  - a reconciling ledger, and each retry run wrote nothing.
+
+  Its PnL is not evidence and is not reported.
+- *Crash:* a 60-day catch-up cycle was killed with `SIGKILL` mid-computation. Nothing was
+  written. The recovered run was then identical, in all 311 event keys, types and payloads,
+  to the same schedule without the kill. The catch-up recorded its 20 signals as
+  `missed_execution_window` with **0** positions: no retrospective fills.
+
+**Dry run against current data (live DB):**
+
+- Both members are `PAPER_ELIGIBLE` under `autotrader_policy` v1. Their evidence chain
+  tips are the schema-5 profiles `evidence_73a008c2…` (long) and `evidence_124ab50f…`
+  (short). Caveats:
+  - both: q 0.91 (no FDR survival), validation insufficient, cross-venue corroboration
+    mixed, forward evidence too early;
+  - short only: full research mixed.
+- **Newest bar (2026-10-04 00:00 UTC):** no new signal on any of the 12 strategy/asset pairs.
+  - Long conditions hold on all six assets, but the edge fired earlier (continuation or
+    cooldown). The last long signals were in August.
+  - Short conditions hold on none.
+  - The bar also closed before creation, so it can never be processed.
+- **Illustration (inspection only):** if all six longs fired on the first bar of the fresh
+  account, the lottery would accept AAVE and ETH at 2,000 USDC each, and the 40%
+  per-strategy cap would reject the other four.
+- A cycle ran with sockets disabled. Every `lab_*` and `copilot_*` table (40 tables, 492
+  rows) was byte-identical to the backup after creation and the first cycles.
+
+**The paper run:**
+
+| | |
+|---|---|
+| Run | `paperrun_27b0a336e707c389a3fb574cd9d09a7800b563f0691612bf4fb4f1fd97029279` |
+| Created (paper clock start) | 2026-10-04 14:59:39 UTC |
+| First processable bar | 2026-10-05 00:00 UTC (no earlier signal can ever trade) |
+| Starting equity | 10,000 USDC |
+| Cohort | `ma_trend_10_50_long` (`tracking_250f844a…`), `ma_trend_20_100_short` (`tracking_65febaad…`), both unchanged |
+| Promotion / risk / execution / exit / maturity | `appolicy_1f0b69cf…` / `riskpolicy_e755fb81…` / `execmodel_3a94bdf5…` / `exitpolicy_4ef7a1b2…` / `papermaturity_0b19dee3…` |
+| Status at activation | ACTIVE, flat (all cash), 0 positions, 0 orders; **no trade fired at activation** |
+
+No Donchian or other variant was added, and the strategies were not changed after the
+Phase 11 MIXED corroboration. A wrapper run (`forward_run.sh`) logged
+`forward=0 copilot=0 paper=0`.
+
+### Known limitations
+
+- **Daily cadence on a home PC.** Entries need a run within 12 h of the 00:00 UTC close.
+  A day the PC is off is a skipped entry (recorded), never a late fill. Exits processed
+  late still use the scheduled close and are flagged.
+- **Entry notifications lag a day.** Only completed bars are stored, so the T+1 open fill
+  is recorded when T+1 completes.
+- **Simplistic v1 execution:** full immediate fills at stored open/close ± frozen
+  slippage. There is no order book, queue, partial fill, latency model, venue size
+  increment or minimum notional, and fractional units are allowed.
+- **Approximate margin:** isolated margin with frozen maintenance rates, not Hyperliquid's
+  tiered tables. A liquidation loses the whole isolated margin, and there is no liquidation
+  parity. Funding is priced at the bar close, not at each settlement's oracle price.
+- **No stop.** The v1 exit is time-only, by design (above). The tail loss per position is
+  bounded by its isolated margin (10% of equity), and the kill switches act only at
+  daily marks.
+- **Small, slow sample.** At most 3 positions with 10-bar holds, from two strategies that
+  fire a few times a month in total. Maturity will take a long time, and early results
+  are noise.
+- Promotion decisions read the evidence as recorded at decision time. A later Lab record
+  never rewrites an earlier decision.
+- Telegram reuses the existing bot. Delivery problems are recorded but cannot affect the
+  account.
+
+## 18. Verification
 
 Baseline before changes: **173 tests passed**, repository Ruff checks passed, and all
 89 existing source/test Python files passed format checking. New focused tests cover
@@ -3027,3 +3584,48 @@ was triggered.
 - co-pilot isolation: policy v1 ID, `latest_extension` and all `copilot_*` rows are
   unchanged; the batch report is unchanged;
 - the CLI lifecycle.
+
+### Step 12 verification
+
+| Check | Result |
+|---|---|
+| `pytest` (full) | **585 passed**; before Step 12: 545 |
+| `pytest tests/test_paper.py` | **40 passed** |
+| `ruff check src tests dashboard` / `ruff format --check src tests` | Passed / 138 files formatted |
+| `git diff --check` (+ trailing-whitespace scan of new files) | Passed |
+| CLI | `paper policy/create (--dry-run)/run (--dry-run)/status/positions/trades/events/pause/resume/stop/summary/evidence`; full lifecycle in the CLI test, rehearsed on scratch copies, then live |
+| Restart/idempotency | `SIGKILL` mid-cycle on a scratch copy: nothing written; recovery identical to the uninterrupted schedule (311 events); retry runs write nothing |
+| Live DB | Backed up to `data/prism.pre_phase12.duckdb`; migration 15 additive; 1 paper run created (flat, no trade at activation); all 40 `lab_*`/`copilot_*` tables byte-identical to the backup after creation and first cycles; `forward_run.sh` logged `forward=0 copilot=0 paper=0` |
+
+`test_paper.py` covers:
+
+- **safety:** the paper package imports no network/provider/exchange/Telegram/co-pilot
+  module and reads no secret or environment variable; repo-wide, no order-placement path
+  and no live-readiness status; the adapter's public surface is exactly the five members
+  and the guard refuses subclasses and look-alikes; policies reject `mode: live`; no
+  live/real/execute/key option in the paper CLI and no real-trading command anywhere; a
+  full cycle with sockets disabled; DB CHECKs refuse a non-paper run and a pre-creation
+  event;
+- **policies:** v1 admits the live cohort's evidence shape with MIXED corroboration as a
+  caveat, and is stricter than the co-pilot rule by rule; identities and versions; frozen
+  risk values; maturity counts only trades and days;
+- **risk engine (pure):** fixed-fraction sizing; same-snapshot lottery allocation that is
+  invariant to input order and gives no name advantage over 200 bars; proportional scaling
+  and minimum-size drop; every gate and limit; conflict rules;
+- **account (integration):**
+  - creation freezes identity, refuses ineligible/second runs and allows lineage;
+  - prospective only;
+  - one intent per signal; T+1-open fills (with a T+1 open made to differ from T's close);
+    fees and slippage; hand-calculated long and short trades;
+  - funding: settled once with the right sign; missing settlements counted, never
+    estimated;
+  - stale data waits, never invents; a dead asset does not block other assets; a signal
+    after the window is skipped;
+  - pause/resume without replay; stop manages positions to exit; daily-loss halt;
+    drawdown kill; liquidation; auto-pause after repeated errors;
+  - reruns idempotent; crash mid-commit leaves nothing and recovers identically;
+- **notifications:** PAPER-labelled, retried once, never resent, an unknown outcome never
+  resent;
+- **evidence and neutrality:** evidence reconciles with the ledger; the evidence chain is
+  point-in-time; `lab_*`/`copilot_*` byte-identical and the forward tracker unaffected;
+  the consumers never import each other; the fast funding-readiness check equals Phase 8's.

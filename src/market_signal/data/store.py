@@ -727,6 +727,88 @@ MIGRATIONS: list[str] = [
         payload JSON NOT NULL
     );
     """,
+    # 15 — paper auto-trader: a SIMULATED account (mode 'paper' only, CHECKed). A CONSUMER of
+    # Lab evidence: reads lab_* tables, writes only paper_*. The account is the replay of the
+    # append-only paper_events ledger (idempotent event keys; bar events must be strictly after
+    # the run's creation). Notifications are separate attempts, never part of the ledger.
+    """
+    CREATE TABLE IF NOT EXISTS paper_software (
+        software_id VARCHAR PRIMARY KEY,
+        payload JSON NOT NULL,
+        recorded_at TIMESTAMPTZ NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS paper_policies (
+        policy_id VARCHAR PRIMARY KEY,
+        kind VARCHAR NOT NULL CHECK (kind IN ('promotion','risk','execution','exit','maturity')),
+        payload JSON NOT NULL,
+        recorded_at TIMESTAMPTZ NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS paper_runs (
+        run_id VARCHAR PRIMARY KEY,
+        created_at TIMESTAMPTZ NOT NULL,
+        mode VARCHAR NOT NULL CHECK (mode = 'paper'),
+        label VARCHAR,
+        continues VARCHAR REFERENCES paper_runs(run_id),
+        promotion_policy_id VARCHAR NOT NULL REFERENCES paper_policies(policy_id),
+        risk_policy_id VARCHAR NOT NULL REFERENCES paper_policies(policy_id),
+        execution_model_id VARCHAR NOT NULL REFERENCES paper_policies(policy_id),
+        exit_policy_id VARCHAR NOT NULL REFERENCES paper_policies(policy_id),
+        maturity_policy_id VARCHAR NOT NULL REFERENCES paper_policies(policy_id),
+        engine_version VARCHAR NOT NULL,
+        reason VARCHAR NOT NULL,
+        origin VARCHAR NOT NULL,
+        software_id VARCHAR NOT NULL REFERENCES paper_software(software_id),
+        definition JSON NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS paper_cycles (
+        cycle_id VARCHAR PRIMARY KEY,
+        run_id VARCHAR NOT NULL REFERENCES paper_runs(run_id),
+        started_at TIMESTAMPTZ NOT NULL,
+        finished_at TIMESTAMPTZ NOT NULL,
+        status VARCHAR NOT NULL CHECK (status IN ('ok','error')),
+        software_id VARCHAR NOT NULL REFERENCES paper_software(software_id),
+        events_written INTEGER NOT NULL,
+        summary JSON NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS paper_events (
+        event_id VARCHAR PRIMARY KEY,
+        run_id VARCHAR NOT NULL REFERENCES paper_runs(run_id),
+        seq INTEGER NOT NULL CHECK (seq > 0),
+        event_key VARCHAR NOT NULL,
+        event_type VARCHAR NOT NULL CHECK (event_type IN (
+            'run_created','status_changed','signals_evaluated','signal_consumed',
+            'intent_created','risk_decision','order_submitted','order_filled','order_rejected',
+            'order_expired','order_cancelled','position_opened','funding_accrued','liquidation',
+            'exit_intent','position_closed','account_mark','kill_switch','data_issue')),
+        market_time TIMESTAMPTZ,
+        run_created_at TIMESTAMPTZ NOT NULL,
+        recorded_at TIMESTAMPTZ NOT NULL,
+        cycle_id VARCHAR,
+        payload JSON NOT NULL,
+        UNIQUE (run_id, seq),
+        UNIQUE (run_id, event_key),
+        CHECK (event_type IN ('run_created','status_changed') OR market_time > run_created_at)
+    );
+    CREATE TABLE IF NOT EXISTS paper_notifications (
+        notification_id VARCHAR PRIMARY KEY,
+        run_id VARCHAR NOT NULL REFERENCES paper_runs(run_id),
+        subject_id VARCHAR NOT NULL,
+        attempt INTEGER NOT NULL CHECK (attempt > 0),
+        status VARCHAR NOT NULL CHECK (status IN ('attempted','sent','failed')),
+        channel VARCHAR NOT NULL,
+        message_sha256 VARCHAR NOT NULL,
+        error VARCHAR,
+        recorded_at TIMESTAMPTZ NOT NULL,
+        UNIQUE (subject_id, attempt, status)
+    );
+    CREATE TABLE IF NOT EXISTS paper_evidence (
+        summary_id VARCHAR PRIMARY KEY,
+        run_id VARCHAR NOT NULL REFERENCES paper_runs(run_id),
+        stage VARCHAR NOT NULL CHECK (stage = 'paper_execution'),
+        recorded_at TIMESTAMPTZ NOT NULL,
+        payload JSON NOT NULL
+    );
+    """,
 ]
 
 

@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 # Prism Strategy Lab forward tracking: perp data update -> prospective check -> resolve,
 # then the perps co-pilot (a separate consumer: reads Lab evidence, may send Telegram
-# alerts, never writes research records). Idempotent; meant to be triggered several times
-# a day by Windows Task Scheduler (see docs/STRATEGY_LAB.md sections 13 and 15). Not
-# installed anywhere automatically.
+# alerts, never writes research records), then the PAPER auto-trader (another separate
+# consumer: a simulated account that can never place a real order; writes only paper_*
+# tables). Idempotent; meant to be triggered several times a day by Windows Task Scheduler
+# (see docs/STRATEGY_LAB.md sections 13, 15 and 17). Not installed anywhere automatically.
 REPO=/home/matth/prism
 UV=/home/matth/.local/bin/uv
 LOG=data/forward.log
@@ -23,7 +24,9 @@ fi
   "$UV" run market lab forward run;  rc=$?
   # Data was just refreshed above; the co-pilot never changes forward evidence.
   "$UV" run market lab copilot run --no-update;  cop=$?
-  echo "=== done forward=$rc copilot=$cop"
+  # Paper account: independent of the co-pilot's alerts and of Telegram delivery.
+  "$UV" run market lab paper run;  pap=$?
+  echo "=== done forward=$rc copilot=$cop paper=$pap"
 } >> "$LOG" 2>&1
 
 # Keep the log to the last 5000 lines.
@@ -32,4 +35,5 @@ if [ "$(wc -l < "$LOG")" -gt 5000 ]; then
 fi
 
 [ "$rc" -ne 0 ] && exit "$rc"
-exit "$cop"
+[ "$cop" -ne 0 ] && exit "$cop"
+exit "$pap"

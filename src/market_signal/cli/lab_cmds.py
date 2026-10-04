@@ -8,6 +8,8 @@ Inspection, ``compile``, ``families``/``family show`` and ``batch generate`` (wi
 Phase 11 ``corroboration register``/``run``/``evidence`` are the only Lab writes; they follow the ledger lifecycle (freeze / preregister -> start -> one
 terminal result -> one batch analysis). There are no promotion or AI-generation commands.
 The ``copilot`` sub-commands are a consumer of Lab evidence and write only co-pilot tables.
+The ``paper`` sub-commands (simulated auto-trader) are another consumer and write only
+``paper_*`` tables.
 """
 
 from __future__ import annotations
@@ -811,6 +813,15 @@ def _copilot() -> None:
 
 
 _copilot()
+
+
+def _paper() -> None:
+    from market_signal.cli.paper_cmds import paper
+
+    lab.add_typer(paper, name="paper")
+
+
+_paper()
 
 
 def register(app: typer.Typer) -> None:
