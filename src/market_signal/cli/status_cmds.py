@@ -93,11 +93,21 @@ def system_status(store, settings, now=None) -> list[dict]:
                                f"{a['maturity']}" + (f"; {'; '.join(h['reasons'])}" if h["reasons"] else "")})  # fmt: skip
     except Exception as exc:
         rows.append({"component": "Paper trader", "state": "NOT SET UP", "detail": str(exc)})
+    # Infrastructure health (Phase 14), kept separate from strategy evidence.
+    try:
+        from market_signal.ops.runtime import health_rows
+
+        rows.extend(health_rows(store, now.to_pydatetime()))
+    except Exception as exc:
+        rows.append(
+            {"component": "Runtime (infra)", "state": "ATTENTION", "detail": f"unavailable: {exc}"}
+        )
     return rows
 
 
 def status(as_json: bool = typer.Option(False, "--json")) -> None:
-    """One-screen operational status: data, OI, forward tracker, co-pilot, paper trader."""
+    """One-screen operational status: data, OI, forward tracker, co-pilot, paper trader, and
+    the always-on runtime (authority, last cycles, backups, disk, Telegram)."""
     with open_store(read_only=True) as (settings, store):
         rows = system_status(store, settings)
     if as_json:

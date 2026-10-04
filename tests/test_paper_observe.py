@@ -516,7 +516,11 @@ def test_system_status(pap, settings):
 
     _create(pap)
     rows = {r["component"]: r for r in system_status(pap.store, settings, now=day(0, 4))}
-    assert set(rows) == {"Data", "OI", "Forward tracker", "Co-pilot", "Paper trader"}
+    strategy = {"Data", "OI", "Forward tracker", "Co-pilot", "Paper trader"}
+    assert strategy <= set(rows)
+    # Phase 14 infra health is kept separate; an unclaimed (development) DB is "not set up"
+    assert set(rows) - strategy == {"Runtime (infra)"}
+    assert rows["Runtime (infra)"]["state"] == "NOT SET UP"
     assert rows["Paper trader"]["state"] == "OK" and "WARMUP" in rows["Paper trader"]["detail"]
     assert rows["Co-pilot"]["state"] == "NOT SET UP"
 

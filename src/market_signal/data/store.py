@@ -11,6 +11,7 @@ from __future__ import annotations
 import gzip
 import hashlib
 import json
+import os
 import re
 import time
 import uuid
@@ -833,8 +834,33 @@ MIGRATIONS: list[str] = [
         payload JSON NOT NULL,
         UNIQUE (run_id, bar_close, brief_version)
     );
+    """,  # 17 — always-on runtime (infrastructure only; never research or paper evidence):
+    # who may write this database (latest ``authority_claimed`` wins), deployments, verified
+    # backups, and one row per scheduled/manual pipeline cycle.
+    """
+    CREATE TABLE IF NOT EXISTS runtime_events (
+        event_id VARCHAR PRIMARY KEY,
+        event_type VARCHAR NOT NULL,
+        runtime_id VARCHAR NOT NULL,
+        recorded_at TIMESTAMPTZ NOT NULL,
+        git_commit VARCHAR,
+        payload JSON NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS runtime_cycles (
+        cycle_id VARCHAR PRIMARY KEY,
+        job VARCHAR NOT NULL,
+        runtime_id VARCHAR NOT NULL,
+        trigger VARCHAR NOT NULL,
+        git_commit VARCHAR,
+        started_at TIMESTAMPTZ NOT NULL,
+        finished_at TIMESTAMPTZ,
+        status VARCHAR NOT NULL,
+        payload JSON
+    );
     """,
 ]
+
+ROLE_ENV, RUNTIME_ID_ENV = "PRISM_RUNTIME_ROLE", "PRISM_RUNTIME_ID"
 
 
 def new_id(prefix: str = "") -> str:
@@ -865,6 +891,49 @@ class DatabaseBusy(RuntimeError):
         return f"another process (PID {self.pid})" if self.pid else "another process"
 
 
+class NotAuthoritative(RuntimeError):
+    """This process may not write this database: it carries an authority claim for another
+    runtime (exactly one runtime writes the live prospective database), or this process
+    claims to be authoritative for a database that was never claimed."""
+
+
+def authority_claim(con: duckdb.DuckDBPyConnection) -> tuple[str, Any] | None:
+    """(runtime_id, claimed_at) of the newest ``authority_claimed`` event, or None."""
+    try:
+        return con.execute(
+            "SELECT runtime_id, recorded_at FROM runtime_events WHERE event_type="
+            "'authority_claimed' ORDER BY recorded_at DESC, event_id DESC LIMIT 1"
+        ).fetchone()
+    except duckdb.CatalogException:  # before migration 17: never claimed
+        return None
+
+
+def check_authority(claim: tuple[str, Any] | None, path: Path) -> None:
+    """Allow a writable open, or raise ``NotAuthoritative``.
+
+    Unclaimed databases (development, tests, scratch) are unaffected unless this process says
+    it is the authoritative runtime. A claimed database is writable only by the runtime named
+    in the claim (``PRISM_RUNTIME_ROLE=authoritative`` + matching ``PRISM_RUNTIME_ID``) or by a
+    process that explicitly declares it is working on a copy (``PRISM_RUNTIME_ROLE=scratch``).
+    """
+    role = os.environ.get(ROLE_ENV, "").strip().lower()
+    rid = os.environ.get(RUNTIME_ID_ENV, "").strip()
+    if claim is None:
+        if role == "authoritative":
+            raise NotAuthoritative(
+                f"{path} has no authority claim; the authoritative runtime only writes a claimed "
+                "live database (`market ops claim-authority`)"
+            )
+        return
+    if role == "scratch" or (role == "authoritative" and rid == claim[0]):
+        return
+    raise NotAuthoritative(
+        f"{path.name} is the live database of runtime {claim[0]!r} (claimed {str(claim[1])[:19]} UTC); "
+        f"this process (role={role or 'unset'}, id={rid or 'unset'}) may only read it. "
+        f"Set {ROLE_ENV}=scratch only if this file is a copy you are deliberately modifying."
+    )
+
+
 def _is_lock_error(exc: Exception) -> bool:
     msg = str(exc)
     return isinstance(exc, duckdb.IOException) and (
@@ -887,13 +956,23 @@ class Store:
         read_only: bool = False,
         lock_timeout: float = 0.0,
         on_wait: Callable[[str], None] | None = None,
+        authority_check: bool = True,
     ):
         self.path = Path(path)
         self.raw_dir = Path(raw_dir) if raw_dir else self.path.parent / "raw"
+        guarded = authority_check and not read_only and str(path) != ":memory:"
+        if guarded and not self.path.exists():
+            check_authority(None, self.path)  # never create a fresh "live" database
         if str(path) != ":memory:":
             self.path.parent.mkdir(parents=True, exist_ok=True)
         self.con = self._connect(read_only, lock_timeout, on_wait)
         self.con.execute("SET TimeZone='UTC'")
+        if guarded:
+            try:
+                check_authority(authority_claim(self.con), self.path)
+            except NotAuthoritative:
+                self.con.close()
+                raise
         if not read_only:
             self.migrate()
 

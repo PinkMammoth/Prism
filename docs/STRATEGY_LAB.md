@@ -3615,7 +3615,45 @@ applied. Observability is attached to the **existing** run
 - Component freshness uses a fixed 36 h threshold (display only).
 - No chart: the equity history is a table. The Streamlit dashboard was not extended.
 
-## 19. Verification
+## 19. Step 14 implemented: always-on runtime
+
+> **Exactly one runtime is permitted to write the live prospective Prism database.**
+>
+> **Moving hosts does not restart or alter any prospective research or paper-trading experiment.**
+
+Phase 14 moved the live prospective runtime off the home PC, which had been the main cause of
+missed evaluations, missed entry windows and coverage gaps. It now runs on an always-on
+Railway service, `prism-runtime`, with the authoritative database on its `/data` volume. The
+full operations guide is **docs/OPERATIONS.md**. It covers the architecture, scheduler,
+backups, health, deploys, rollback, secrets and troubleshooting.
+
+This phase is infrastructure only:
+
+- **Same experiments.** Same paper run `paperrun_27b0a336…`, same balance, peak, maturity
+  clock and event sequence, same trackings, same watches, same `copilot_policy v1`,
+  `autotrader_policy v1`, `paper_risk_policy v1`, exit policy and execution model. No new
+  run and no backfill.
+- **Same commands, same order.** `market ops cycle prospective` runs `lab forward run` →
+  `lab copilot run --no-update` → `lab paper run` → `lab paper brief --send` as child
+  processes, exactly like `forward_run.sh` did. The business logic is untouched.
+- **Migration 17** adds `runtime_events` (authority claims, deployments, verified backups) and
+  `runtime_cycles` (one row per job run). These are deployment facts, never evidence.
+  `market ops continuity` fingerprints every `lab_*`, `copilot_*` and `paper_*` table, and
+  excludes these two.
+- **Provenance.** `software_id` remains per-run provenance. The deployed image has no `.git`,
+  so the commit comes from a `REVISION` file written by `deploy.sh`. The host name is recorded
+  only in runtime rows and never enters research identity, so changing hardware creates no
+  new evidence.
+- **Authority guard.** The live database is claimed for `railway-prism-runtime`. Any other
+  process (the home PC, a laptop with a pulled copy) can read it but cannot write it.
+- **Schedule (UTC).** Prospective at 00:10, 00:45, 03:00, 06:00, 11:00 and 17:00, plus a boot
+  catch-up; backup at 01:30; OI at 02:30, 08:30, 14:30 and 20:30; daily update/scan at 09:00.
+  00:10 is the first run after each daily close, well inside the paper 12 h entry window.
+- **Unchanged.** Bar semantics: an "opened" notification can still arrive a bar after the
+  fill it describes (section 18, Known limitations). The always-on host removes the scheduler
+  delay, not the daily-bar design.
+
+## 20. Verification
 
 Baseline before changes: **173 tests passed**, repository Ruff checks passed, and all
 89 existing source/test Python files passed format checking. New focused tests cover

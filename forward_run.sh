@@ -6,6 +6,9 @@
 # tables), then the PAPER daily brief (observability only). Idempotent; meant to be
 # triggered several times a day by Windows Task Scheduler (see docs/STRATEGY_LAB.md
 # sections 13, 15, 17 and 18). Not installed anywhere automatically.
+# Phase 14: production runs on the always-on Railway runtime (docs/OPERATIONS.md). This home-PC
+# wrapper is kept only for rollback; its task is disabled, and against the claimed live database
+# every write below is refused unless this machine is made authoritative again.
 REPO=/home/matth/prism
 UV=/home/matth/.local/bin/uv
 LOG=data/forward.log
