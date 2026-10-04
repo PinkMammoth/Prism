@@ -108,12 +108,13 @@ separation and gap diagnostics are unchanged (docs/OPEN_INTEREST.md).
 - **Container restart / host reboot / deploy:** Railway restarts the container. supercronic
   resumes the schedule, and the boot catch-up runs one prospective cycle (seen after the region
   move: boot cycle at 17:53:08Z).
-- **Restart policy actually in force:** `ON_FAILURE`, up to 10 retries, with Railway's default
-  drain. Railway did not apply the `restartPolicyType: ALWAYS` / `drainingSeconds: 900` in
-  `deploy/railway/railway.json`, and `railway environment edit` did not change them either.
-  supercronic only exits on failure, so `ON_FAILURE` restarts it. To get the intended
-  settings, set "Restart policy: Always" and a 900 s draining time in the dashboard (service →
-  Settings → Deploy). A deploy that kills a cycle mid-way is covered by idempotent retry.
+- **Restart policy and drain (applied):** restart policy **Always**, set in the dashboard
+  (service → Settings → Deploy); drain **900 s**, set by the service variable
+  `RAILWAY_DEPLOYMENT_DRAINING_SECONDS=900`. Railway does not apply these from
+  `deploy/railway/railway.json`, and `railway environment edit` did not change them, so the
+  dashboard and the service variable are where they live; keep them there. On a deploy or
+  restart the old container gets SIGTERM, and supercronic waits up to 900 s for a running job
+  to finish before SIGKILL. A cycle killed anyway is covered by idempotent retry.
 - **Crash mid-cycle:** the `runtime_cycles` row stays `running` (visible in status). The lock
   is released by the kernel. The next run repeats the steps, and each step is idempotent
   (forward evaluations once per tracking/bar, co-pilot decisions once per policy/strategy/asset/bar,
@@ -226,8 +227,8 @@ railway ssh --service prism-runtime -- market status
 the server. It then uploads `git archive <commit>` plus a `REVISION` file (never the working
 tree, `data/` or `.env`) and lets Railway build the pinned image. Python 3.12.3 and every
 package come from `uv.lock`; supercronic and uv are pinned by version and checksum. The old
-container receives SIGTERM, and supercronic lets a running job finish (within Railway's drain
-time; see Restart policy above). The new
+container receives SIGTERM, and supercronic lets a running job finish (900 s drain,
+`RAILWAY_DEPLOYMENT_DRAINING_SECONDS`). The new
 container starts, and its boot cycle applies any migration on its first writable open and runs
 a normal idempotent cycle.
 
@@ -333,7 +334,8 @@ same claim, so every write to it is refused. The pre-cutover copy is
 
 **Still open.**
 
-- The restart policy is `ON_FAILURE` (set ALWAYS + 900 s drain in the dashboard).
+- ~~The restart policy is `ON_FAILURE` (set ALWAYS + 900 s drain in the dashboard).~~
+  Resolved after the cutover: restart policy Always, `RAILWAY_DEPLOYMENT_DRAINING_SECONDS=900`.
 - `PRISM_HEARTBEAT_URL` is not configured.
 - The Telegram-delivered parts (the first co-pilot/paper message and brief) are verified on
   the first real bar after 2026-10-05 00:10.
