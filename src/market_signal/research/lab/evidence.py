@@ -150,7 +150,8 @@ class EvidenceSource(LabModel):
 
 
 class EvidenceProfile(LabModel):
-    profile_schema: Literal["1", "2"] = PROFILE_SCHEMA
+    # "3": a profile that extends an earlier one with a paper_forward summary (Phase 8)
+    profile_schema: Literal["1", "2", "3"] = PROFILE_SCHEMA
     policy_id: str
     # schema 2: {"version": EVIDENCE_BUILDER_VERSION, "software_id": ...}; absent in schema 1
     builder: dict | None = None
@@ -170,6 +171,8 @@ class EvidenceProfile(LabModel):
     supporting: tuple[str, ...]
     limiting: tuple[str, ...]
     limitations: tuple[str, ...]
+    # schema 3 only: descriptive prospective evidence (never changes the tier)
+    forward: dict | None = None
 
     @model_validator(mode="after")
     def reserved_tier(self) -> Self:
@@ -177,9 +180,27 @@ class EvidenceProfile(LabModel):
             raise ValueError("VALIDATED requires a governed validation-stage source")
         if self.profile_schema == "1" and self.builder is not None:
             raise ValueError("schema 1 profiles carry no builder provenance")
-        if self.profile_schema == "2" and not (self.builder and self.builder.get("version")):
-            raise ValueError("schema 2 profiles record their builder version")
+        if self.profile_schema != "1" and not (self.builder and self.builder.get("version")):
+            raise ValueError("schema 2+ profiles record their builder version")
+        # Schema 1/2 may already cite later stages (Phase 7 contract); only schema 3 carries
+        # a forward block, and it must cite the paper_forward source behind it.
+        has_forward_source = any(s.stage == "paper_forward" for s in self.sources)
+        if (self.profile_schema == "3") != (self.forward is not None) or (
+            self.forward is not None and not has_forward_source
+        ):
+            raise ValueError(
+                "a forward block belongs to schema 3 profiles citing a paper_forward source"
+            )
+        if self.profile_schema == "3" and self.extends is None:
+            raise ValueError("schema 3 profiles extend an earlier profile")
         return self
+
+    def payload(self) -> dict:
+        """Stored form. Schema 1/2 payloads omit ``forward`` so they stay byte-identical."""
+        data = self.model_dump(mode="python")
+        if self.forward is None:
+            data.pop("forward")
+        return data
 
     @property
     def profile_id(self) -> str:
@@ -721,7 +742,7 @@ def record_profiles(ledger, profiles: list[EvidenceProfile], policy: EvidencePol
             )
         new = 0
         for p in profiles:
-            payload = canonical_json(p.model_dump(mode="python"))
+            payload = canonical_json(p.payload())
             row = ledger.store.con.execute(
                 "SELECT payload FROM lab_evidence_profiles WHERE profile_id=?", [p.profile_id]
             ).fetchone()
