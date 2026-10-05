@@ -275,4 +275,7 @@ structural-price and trade-path primitives (swings, equal highs/lows, failed bre
 structure shifts, retests, MFE/MAE/R with explicit OHLC ambiguity) are in
 [docs/STRUCTURE.md](docs/STRUCTURE.md). The Phase 17 preregistered falsification study of
 sweep / rejection / structure-shift / retest claims (EXPLORATORY; nothing survived) is in
-[docs/PHASE17_FALSIFICATION.md](docs/PHASE17_FALSIFICATION.md).
+[docs/PHASE17_FALSIFICATION.md](docs/PHASE17_FALSIFICATION.md). The Phase 18 preregistered study of
+relative strength, BTC beta/correlation, residuals and cross-asset dislocation (EXPLORATORY;
+nothing robust, no USD-directional or after-cost relative edge) is in
+[docs/PHASE18_RELATIVE_STRENGTH.md](docs/PHASE18_RELATIVE_STRENGTH.md).

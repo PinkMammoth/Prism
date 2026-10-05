@@ -3775,6 +3775,48 @@ The full report is **docs/PHASE17_FALSIFICATION.md**. For the Lab:
 | Governed run (scratch DB) | `srun_b2a805a9…` COMPLETED, 209 s / 2.4 GB |
 | Reproducibility | the first rerun differed only in leaked timing fields (fixed in `b060f82`); both later reruns reproduce digest `4ac47837…` exactly |
 
+## 19d. Step 18 implemented: relative-strength / BTC-dislocation study
+
+> **EXPLORATORY.** Historical intraday availability is reconstructed under an explicit
+> latency assumption rather than observed in real time.
+
+The full report is **docs/PHASE18_RELATIVE_STRENGTH.md**. For the Lab:
+
+- **Same governance adapter, no migration.** `research/lab/structure_study.py` now
+  dispatches on `study_version`: Phase 18 definitions (`RelativeStudyDefinition`,
+  `relative_strength_v1`) live in the `lab_structure_*` tables with the same lifecycle
+  (frozen content-addressed definition, run row before evaluation, explicit reruns,
+  `EXPLORATORY` CHECK). Family membership is hashed into the definition.
+- **Primitives** (`research/relative/primitives.py`, `relative_strength_primitives_v1`):
+  BTC-grid panel, BTC-relative / market-relative / beta-adjusted residual returns, exact
+  causal rolling beta and correlation, prior-window z-scores, edge triggers, correlation
+  breakdown, eligible-universe ranks. Raw, BTC-relative and market-relative ranks are
+  identical by construction; only the residual reorders the cross-section.
+- **Study.** `config/relative/phase18_relative_strength.v1.yaml`: 4h primary (13
+  one-at-a-time variants) and 1h secondary (central only); Hyperliquid 2024-11 → 2026-10
+  and Binance 2021-03 → 2024-11 (HYPE excluded: not listed); six families of 30
+  two-sided members per venue and timeframe, each family with one declared target
+  (BTC-relative spread, beta-neutral residual, or USD).
+- **Inference** (`relative_inference_v1`): a block-clustered t-test, because co-timed
+  cross-asset signals make Phase 17's independent-draw null anti-conservative (synthetic
+  null: 6.3% vs 1.9% at p < 0.05). The Phase 17 p is still reported.
+- **Result** (`sstudy_1fd9f727…`): nothing ROBUST. The only PROMISING cell is a 1h
+  Hyperliquid leader-persistence probability (+5.3 pp, q = 0.022). It is untradeable after
+  costs and not reproduced on Binance. No relative signal is a USD-directional trade.
+- **Unchanged:** forward tracker, co-pilot, paper trader, runtime schedule, every policy and
+  `lab_features_v1`. No consumer reads `research.relative` (tested).
+
+### Step 18 verification
+
+| Check | Result |
+|---|---|
+| `pytest tests/test_relative_strength.py` | **28 passed** |
+| `pytest` (full) | **765 passed** (exit 0); before Phase 18: 737 |
+| `ruff check` / `ruff format --check` / `git diff --check` | Passed |
+| Null calibration (4 seeds, 477 tests) | 1.9% / 5.9% at p < 0.05 / 0.10; 3 BH discoveries |
+| Governed run (scratch DB) | `srun_265b35bd…` COMPLETED, 54 s / 0.92 GB |
+| Reproducibility | fresh-copy rerun reproduces digest `e22f8a0a…` exactly |
+
 ## 20. Verification
 
 Baseline before changes: **173 tests passed**, repository Ruff checks passed, and all
