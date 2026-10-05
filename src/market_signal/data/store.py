@@ -857,6 +857,87 @@ MIGRATIONS: list[str] = [
         status VARCHAR NOT NULL,
         payload JSON
     );
+    """,  # 18 — intraday perp bars (Phase 15; market data only, never a signal). One table for
+    # every intraday timeframe, keyed by venue/coin/timeframe/open. Bars are UTC half-open
+    # [open_time, close_time) and stored only once closed (CHECK). ``first_observed_at`` is when
+    # Prism first held the closed bar (its availability); value changes after that bump
+    # ``revision`` and keep the superseded values in ``perp_intraday_revisions`` so what Prism
+    # knew at any instant is reconstructible. ``perp_intraday_coverage`` holds the merged
+    # open-time ranges a provider was successfully asked for after they closed (gap triage).
+    # ``intraday_execution_shadow`` is observational timing around paper orders: it is never
+    # read by the paper engine and is not paper evidence.
+    """
+    CREATE TABLE IF NOT EXISTS perp_intraday_bars (
+        source VARCHAR NOT NULL,
+        coin VARCHAR NOT NULL,
+        timeframe VARCHAR NOT NULL CHECK (timeframe IN ('15m', '1h', '4h')),
+        open_time TIMESTAMPTZ NOT NULL,
+        close_time TIMESTAMPTZ NOT NULL,
+        open DOUBLE NOT NULL, high DOUBLE NOT NULL, low DOUBLE NOT NULL, close DOUBLE NOT NULL,
+        volume DOUBLE,
+        trades BIGINT,
+        derivation VARCHAR NOT NULL,
+        first_observed_at TIMESTAMPTZ NOT NULL,
+        first_run_id VARCHAR NOT NULL,
+        observed_live BOOLEAN NOT NULL,
+        revision INTEGER NOT NULL CHECK (revision >= 0),
+        updated_at TIMESTAMPTZ NOT NULL,
+        ingest_run_id VARCHAR NOT NULL,
+        -- unique (source, coin, timeframe, open_time) by the single writer's upsert (checked in
+        -- its transaction); no PRIMARY KEY: its ART index would be ~73% of the table's bytes
+        CHECK (close_time > open_time),
+        CHECK (first_observed_at >= close_time),
+        CHECK (updated_at >= first_observed_at)
+    );
+    CREATE TABLE IF NOT EXISTS perp_intraday_revisions (
+        source VARCHAR NOT NULL,
+        coin VARCHAR NOT NULL,
+        timeframe VARCHAR NOT NULL,
+        open_time TIMESTAMPTZ NOT NULL,
+        close_time TIMESTAMPTZ NOT NULL,
+        revision INTEGER NOT NULL CHECK (revision > 0),
+        old_open DOUBLE, old_high DOUBLE, old_low DOUBLE, old_close DOUBLE, old_volume DOUBLE,
+        old_trades BIGINT,
+        new_open DOUBLE, new_high DOUBLE, new_low DOUBLE, new_close DOUBLE, new_volume DOUBLE,
+        new_trades BIGINT,
+        old_observed_at TIMESTAMPTZ NOT NULL,
+        old_run_id VARCHAR NOT NULL,
+        revised_at TIMESTAMPTZ NOT NULL,
+        ingest_run_id VARCHAR NOT NULL,
+        PRIMARY KEY (source, coin, timeframe, open_time, revision),
+        CHECK (revised_at > old_observed_at)
+    );
+    CREATE TABLE IF NOT EXISTS perp_intraday_coverage (
+        source VARCHAR NOT NULL,
+        coin VARCHAR NOT NULL,
+        timeframe VARCHAR NOT NULL,
+        covered_from TIMESTAMPTZ NOT NULL,
+        covered_to TIMESTAMPTZ NOT NULL,
+        updated_at TIMESTAMPTZ NOT NULL,
+        PRIMARY KEY (source, coin, timeframe, covered_from),
+        CHECK (covered_to > covered_from)
+    );
+    CREATE TABLE IF NOT EXISTS intraday_execution_shadow (
+        shadow_id VARCHAR PRIMARY KEY,
+        rule_version VARCHAR NOT NULL,
+        paper_run_id VARCHAR NOT NULL,
+        order_id VARCHAR NOT NULL,
+        symbol VARCHAR NOT NULL,
+        source VARCHAR NOT NULL,
+        side INTEGER NOT NULL CHECK (side IN (1, -1)),
+        intended_entry_at TIMESTAMPTZ NOT NULL,
+        decision_at TIMESTAMPTZ NOT NULL,
+        ref_open_time TIMESTAMPTZ NOT NULL,
+        ref_price DOUBLE NOT NULL CHECK (ref_price > 0),
+        ref_observed_at TIMESTAMPTZ NOT NULL,
+        latency_seconds DOUBLE NOT NULL,
+        timely BOOLEAN NOT NULL,
+        recorded_at TIMESTAMPTZ NOT NULL,
+        payload JSON NOT NULL,
+        UNIQUE (paper_run_id, order_id, rule_version),
+        CHECK (ref_open_time >= intended_entry_at),
+        CHECK (recorded_at >= ref_observed_at)
+    );
     """,
 ]
 

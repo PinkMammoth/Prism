@@ -58,6 +58,8 @@ def system_status(store, settings, now=None) -> list[dict]:
     except Exception as exc:
         rows.append({"component": "OI", "state": "ATTENTION", "detail": f"unavailable: {exc}"})
 
+    rows.extend(intraday_rows(store, settings, now))
+
     last = _one(store, "SELECT max(finished_at) FROM lab_forward_runs WHERE kind='check'")
     active = _one(store, "SELECT count(*) FROM lab_forward_trackings t WHERE (SELECT status FROM "
                          "lab_forward_status s WHERE s.tracking_id=t.tracking_id ORDER BY recorded_at "
@@ -103,6 +105,40 @@ def system_status(store, settings, now=None) -> list[dict]:
             {"component": "Runtime (infra)", "state": "ATTENTION", "detail": f"unavailable: {exc}"}
         )
     return rows
+
+
+def intraday_rows(store, settings, now) -> list[dict]:
+    """One row per intraday timeframe across the LIVE venue's coins, judged by that
+    timeframe's own stale threshold (a 4h feed 2 h old is fine; a 15m feed 2 h old is not)."""
+    try:
+        from market_signal.intraday.bars import coverage
+        from market_signal.intraday.ingest import intraday_config
+
+        cfg = intraday_config(settings)
+        series = cfg.series(live_only=True)
+        if not series:
+            return []
+        cov = coverage(store, series, now)
+    except Exception as exc:  # e.g. a copy from before migration 18
+        return [
+            {"component": "Intraday", "state": "NOT SET UP", "detail": f"unavailable: {exc}"[:200]}
+        ]
+    out = []
+    for tf, g in cov.groupby("timeframe", sort=False):
+        bad = g[g["status"] != "OK"]
+        state = ("NOT SET UP" if (g["status"] == "NO DATA").all() else "STALE" if (g["status"] == "STALE").any()
+                 else "ATTENTION" if len(bad) else "OK")  # fmt: skip
+        newest = g["age_min"].min()
+        pm = int(g["provider_missing"].sum())
+        detail = (f"{len(g) - len(bad)}/{len(g)} {g['venue'].iloc[0]} coins current; newest close "
+                  f"{'-' if pd.isna(newest) else f'{newest:.0f}m'} ago (stale > "
+                  f"{cfg.stale_after[tf].total_seconds() / 60:.0f}m)")  # fmt: skip
+        if len(bad):
+            detail += "; " + ", ".join(f"{r.coin} {r.status}" for r in bad.itertuples())
+        if pm:
+            detail += f"; {pm} provider-missing bars (not a local failure)"
+        out.append({"component": f"Intraday {tf}", "state": state, "detail": detail})
+    return out
 
 
 def status(as_json: bool = typer.Option(False, "--json")) -> None:

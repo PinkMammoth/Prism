@@ -19,6 +19,7 @@ class AssetClass(StrEnum):
 
 
 class Timeframe(StrEnum):
+    M15 = "15m"  # intraday perp bars only (perp_intraday_bars); never a spot series
     H1 = "1h"
     H4 = "4h"
     D1 = "1d"
@@ -26,7 +27,7 @@ class Timeframe(StrEnum):
 
     @property
     def seconds(self) -> int:
-        return {"1h": 3600, "4h": 14400, "1d": 86400, "1w": 604800}[self.value]
+        return {"15m": 900, "1h": 3600, "4h": 14400, "1d": 86400, "1w": 604800}[self.value]
 
 
 class Calendar(StrEnum):

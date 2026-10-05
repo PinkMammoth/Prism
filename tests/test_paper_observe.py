@@ -519,7 +519,10 @@ def test_system_status(pap, settings):
     strategy = {"Data", "OI", "Forward tracker", "Co-pilot", "Paper trader"}
     assert strategy <= set(rows)
     # Phase 14 infra health is kept separate; an unclaimed (development) DB is "not set up"
-    assert set(rows) - strategy == {"Runtime (infra)"}
+    # Phase 15 intraday data rows (one per timeframe; no bars in this fixture)
+    intraday = {"Intraday 15m", "Intraday 1h", "Intraday 4h"}
+    assert set(rows) - strategy == {"Runtime (infra)"} | intraday
+    assert all(rows[c]["state"] == "NOT SET UP" for c in intraday)
     assert rows["Runtime (infra)"]["state"] == "NOT SET UP"
     assert rows["Paper trader"]["state"] == "OK" and "WARMUP" in rows["Paper trader"]["detail"]
     assert rows["Co-pilot"]["state"] == "NOT SET UP"

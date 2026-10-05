@@ -30,7 +30,7 @@ def _fail(msg: str, code: int) -> None:
 
 @ops.command("cycle")
 def cycle(
-    job: str = typer.Argument(..., help="prospective | oi | daily | backup"),
+    job: str = typer.Argument(..., help="prospective | oi | daily | backup | intraday"),
     trigger: str = typer.Option("manual", "--trigger", help="schedule | boot | manual (recorded)."),
     wait: float = typer.Option(0, "--wait", help="Seconds to queue behind a running job."),
 ) -> None:

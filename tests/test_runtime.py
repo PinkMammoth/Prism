@@ -477,7 +477,7 @@ def test_policy_ids_are_unchanged():
 
 def test_migration_17_is_runtime_only():
     ddl = MIGRATIONS[16]
-    assert len(MIGRATIONS) == 17
+    assert len(MIGRATIONS) >= 17  # Phase 15 appended migration 18 (intraday market data)
     assert "runtime_events" in ddl and "runtime_cycles" in ddl
     assert not any(p in ddl for p in ("lab_", "copilot_", "paper_"))
 

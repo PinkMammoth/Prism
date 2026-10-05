@@ -3658,6 +3658,33 @@ This phase is infrastructure only:
   fill it describes (section 18, Known limitations). The always-on host removes the scheduler
   delay, not the daily-bar design.
 
+## 19a. Step 15 implemented: intraday market-data foundation
+
+> **Phase 15 introduces intraday market data but does not introduce intraday strategy signals.**
+>
+> **The existing daily paper account continues using its frozen Phase 12 execution semantics;
+> intraday execution data is observational/shadow-only in this phase.**
+
+The full reference is **docs/INTRADAY.md**. For the Lab:
+
+- **Data:** provider-native Hyperliquid 15m/1h/4h perp bars, collected live every 15 minutes,
+  plus Binance USD-M history (research only). One table (`perp_intraday_bars`, migration 18)
+  with UTC half-open `[open_time, close_time)` bars on the epoch grid. Bars are stored only
+  once closed, carry `first_observed_at` (availability) and `observed_live`, and keep
+  revisions in `perp_intraday_revisions`.
+- **Causal access:** `intraday.align` returns, at any instant, only bars that were closed and
+  available by then (observed availability by default; an explicit assumed latency for
+  backfilled history). `load_bars(..., known_at=t)` reconstructs the values Prism held at `t`.
+- **Datasets:** `SeriesSelection` kinds `perp_intraday_bars` and `perp_intraday_revisions`
+  (15m/1h/4h) use the existing compressed SHA-256 row snapshots. Evaluation plans still
+  preregister daily inputs only, so no confirmatory claim can rest on intraday data yet.
+- **Unchanged:** every strategy, the compiler/vocabulary, the evidence and promotion policies,
+  `copilot_policy v1`, `autotrader_policy v1`, `paper_risk_policy v1`, the exit policy, the
+  execution model, the paper run and its events. The shadow table `intraday_execution_shadow`
+  is not paper evidence, and the paper engine never reads it.
+- **Not implemented (Phases 16–18):** swing/sweep/rejection/structure/retest primitives,
+  relative strength, OI features, intraday signals and intraday backtests.
+
 ## 20. Verification
 
 Baseline before changes: **173 tests passed**, repository Ruff checks passed, and all

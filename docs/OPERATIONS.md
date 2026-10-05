@@ -77,6 +77,7 @@ and history are not left to it. They live in Prism (below).
 | `backup` | 01:30 | checkpoint → copy → verify → prune → record |
 | `oi` | 02:30, 08:30, 14:30, 20:30 | `oi collect` (Binance OI backfill + HL OI snapshot) |
 | `daily` | 09:00 | `update` → `scan` (the old 10:00 UK "Prism daily" task) |
+| `intraday` | every hour at :01, :16, :31, :46 (`--wait 600`) | `bars update` (Hyperliquid 15m/1h/4h; 1h/4h only once a new bar has closed) → `bars shadow --record` (Phase 15; data and observational timing only, docs/INTRADAY.md) |
 | boot | 60 s after every container start | one `prospective` cycle (catch-up after restart, reboot or deploy) |
 
 **Provider timing (checked 2026-10-04).** Hyperliquid's daily candle closes at 23:59:59.999 UTC
@@ -88,7 +89,11 @@ entry window. 17:00 resolves late outcomes and keeps the longest gap between pro
 at 7 h 10 m, for the heartbeat. Every run after the first is a no-op when nothing is new. As
 before, steps run even if an earlier one failed; the job fails if any step failed.
 
-The schedule is defined once, in `market_signal.ops.runtime.SCHEDULE`.
+The schedule is defined once, in `market_signal.ops.runtime.SCHEDULE` (`"*:MM"` means every
+hour at MM). The intraday job only collects data: strategy, co-pilot and paper evaluation stay
+on the daily `prospective` cadence. A failed intraday cycle sends one infra alert on the first
+failure after a success, not one every 15 minutes, and the next run recovers missed bars from
+its overlap window.
 
 ## Data dependencies
 
@@ -97,6 +102,8 @@ The schedule is defined once, in `market_signal.ops.runtime.SCHEDULE`.
 | Hyperliquid daily candles + funding | `prospective` (`forward run`) | yes, a backfill window. But a **prospective evaluation** missed outside its live window is never backfilled |
 | Hyperliquid OI snapshots (`perp_snapshots`) | `prospective` and `oi` | **no**: capture-time snapshots, prospective-only. Now taken around the clock (~10/day), so the old overnight PC gap is gone |
 | Binance OI 1h (`perp_oi_history`) | `oi` | yes: rolling backfill, ~30 days |
+| Hyperliquid intraday bars 15m/1h/4h (`perp_intraday_bars`) | `intraday` | values yes, within the provider's newest 5,000 bars (15m ≈ 52 days); **live availability timing no**: a bar first fetched late is recorded as backfilled (`observed_live = false`) |
+| Binance intraday history (`perp_intraday_bars`, `source='binance'`) | manual `bars backfill --venue binance` | yes |
 | spot/equity/macro (`update`) and `scan` | `daily` | yes |
 
 A failed raw ingestion is not a missed prospective signal. It shows in the step's exit code
@@ -152,7 +159,9 @@ These are infrastructure only, not trading policy.
   at copy time. A `backup_verified` runtime event records the path, sha256 and size.
 - **Retention:** daily 7, weekly 5 (a hard link to the daily copy, taken at most once per
   ~week), manual 6. Pruning touches only `backups/*/prism-*.duckdb` and never the live file.
-  About 11 copies × ~135 MB.
+  About 11 copies × ~135 MB. Intraday bars live in the database, so they are in every backup
+  (~18 B per bar; see docs/INTRADAY.md for the footprint). Raw provider archives
+  (`/data/raw`, including `*_intraday/`) are provenance and are not copied into backups.
 - **Off-host copy:** `deploy/railway/pull_backup.sh` (home PC) downloads the newest daily
   backup, checks its sha256 against the server, and verifies it.
 - **Restore rehearsal:** `market ops restore-test <backup>` copies to a temporary scratch dir,

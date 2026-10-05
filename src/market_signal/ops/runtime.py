@@ -61,6 +61,9 @@ JOBS: dict[str, list[tuple[str, list[str]]]] = {
     "oi": [("oi", ["oi", "collect"])],
     "daily": [("update", ["update"]), ("scan", ["scan"])],
     "backup": [],  # in-process: ``backup_live``
+    # Phase 15: intraday perp bars (data only) + observational shadow timing. Never strategy,
+    # co-pilot or paper evaluation: those stay on the daily prospective cadence above.
+    "intraday": [("bars", ["bars", "update"]), ("shadow", ["bars", "shadow", "--record"])],
 }
 
 # UTC. Daily bars close at 00:00 UTC and Hyperliquid serves the closed candle and the settled
@@ -72,8 +75,13 @@ SCHEDULE: dict[str, list[str]] = {
     "backup": ["01:30"],
     "oi": ["02:30", "08:30", "14:30", "20:30"],  # Binance backfill + HL snapshot (data only)
     "daily": ["09:00"],  # broad market update + scan (was the 10:00 UK "Prism daily" task)
+    # "*:MM" = every hour at MM. One minute after each 15m close; 1h/4h bars are fetched by the
+    # same run only once a new one has closed. A missed run is recovered by the next one.
+    "intraday": ["*:01", "*:16", "*:31", "*:46"],
 }
 SCHEDULED_WAIT = 3600  # a scheduled job queues behind a running one for up to this long
+JOB_WAIT = {"intraday": 600}  # a late intraday run is pointless: the next one is 15 minutes away
+QUIET_JOBS = {"intraday"}  # alert on the first failure after a success only (no 15-minute spam)
 STEP_TIMEOUT = float(os.environ.get("PRISM_STEP_TIMEOUT", str(45 * 60)))
 
 DISK_WARN, DISK_CRITICAL = 0.15, 0.05  # free fraction of the database filesystem
@@ -383,12 +391,21 @@ def run_job(job: str, *, trigger: str, wait: float,
              " ".join(f"{st['step']}={st['exit']}" for st in steps))  # fmt: skip
     if job == "prospective":
         heartbeat(ok)
-    if not ok:
+    if not ok and (job not in QUIET_JOBS or _previous_ok(db, job, cycle_id)):
         infra_alert(f"{job} cycle FAILED on {runtime_id()} ({trigger}): "
                     + ", ".join(f"{st['step']}={st['exit']}" for st in steps)
                     + ". Steps are idempotent; the next scheduled run retries.")  # fmt: skip
     return {"job": job, "cycle_id": cycle_id, "status": status,
             "exit": 0 if ok else EXIT_FAILED, **summary}  # fmt: skip
+
+
+def _previous_ok(db: Path, job: str, cycle_id: str) -> bool:
+    """Was the job's previous cycle (before ``cycle_id``) ok, or is this its first cycle?"""
+    with _store(db) as s:
+        row = s.con.execute("SELECT status FROM runtime_cycles WHERE job=? AND cycle_id<>? AND "
+                            "finished_at IS NOT NULL ORDER BY started_at DESC LIMIT 1",
+                            [job, cycle_id]).fetchone()  # fmt: skip
+    return row is None or row[0] == "ok"
 
 
 @contextmanager
@@ -407,9 +424,9 @@ def crontab(executable: str = "market") -> str:
     ]
     for job, times in SCHEDULE.items():
         for t in times:
-            h, m = (int(x) for x in t.split(":"))
-            lines.append(f"{m} {h} * * * {executable} ops cycle {job} --trigger schedule "
-                         f"--wait {SCHEDULED_WAIT}")  # fmt: skip
+            h, m = t.split(":")
+            lines.append(f"{int(m)} {'*' if h == '*' else int(h)} * * * {executable} ops cycle {job} "
+                         f"--trigger schedule --wait {JOB_WAIT.get(job, SCHEDULED_WAIT)}")  # fmt: skip
     return "\n".join(lines) + "\n"
 
 
@@ -417,8 +434,12 @@ def next_run(job: str, now: datetime) -> datetime:
     now = now.astimezone(utcnow().tzinfo)
     cands = []
     for t in SCHEDULE[job]:
-        h, m = (int(x) for x in t.split(":"))
-        c = now.replace(hour=h, minute=m, second=0, microsecond=0)
+        hh, mm = t.split(":")
+        if hh == "*":  # hourly at :MM
+            c = now.replace(minute=int(mm), second=0, microsecond=0)
+            cands.append(c if c > now else c + timedelta(hours=1))
+            continue
+        c = now.replace(hour=int(hh), minute=int(mm), second=0, microsecond=0)
         cands.append(c if c > now else c + timedelta(days=1))
     return min(cands)
 
@@ -518,6 +539,12 @@ def fingerprint(store: Store, *, table_digests: bool = True) -> dict[str, Any]:
                                             "GROUP BY 1 ORDER BY 1").fetchall():  # fmt: skip
                 oi[f"{t}/{src}"] = {"rows": n, "last": str(last)}
     out["oi"] = oi
+    intraday = {}
+    if "perp_intraday_bars" in tables:
+        for src, tf, n, last in con.execute("SELECT source, timeframe, count(*), max(open_time) FROM "
+                                            "perp_intraday_bars GROUP BY 1, 2 ORDER BY 1, 2").fetchall():  # fmt: skip
+            intraday[f"{src}/{tf}"] = {"rows": n, "last": str(last)}
+    out["intraday"] = intraday
     if table_digests:
         digests = {}
         for t in sorted(tables):
@@ -530,7 +557,7 @@ def fingerprint(store: Store, *, table_digests: bool = True) -> dict[str, Any]:
 
 # Keys a host move is allowed to change: the claim itself, and (for oi) data appended by new
 # collection. Anything else differing is a continuity failure.
-_EXPECTED_TO_CHANGE = {"authority", "oi"}
+_EXPECTED_TO_CHANGE = {"authority", "oi", "intraday"}
 
 
 def compare(before: dict, after: dict, *, allow: set[str] = frozenset()) -> list[str]:
@@ -543,6 +570,11 @@ def compare(before: dict, after: dict, *, allow: set[str] = frozenset()) -> list
             diffs.append(f"oi series changed: {sorted(b)} -> {sorted(a)}")
         diffs += [f"oi {k}: rows decreased {b[k]['rows']} -> {a[k]['rows']}"
                   for k in set(b) & set(a) if a[k]["rows"] < b[k]["rows"]]  # fmt: skip
+    if "intraday" not in allow:  # market data may be appended (new series too), never lost
+        b, a = before.get("intraday") or {}, after.get("intraday") or {}
+        diffs += [f"intraday {k}: series disappeared" for k in sorted(set(b) - set(a))]
+        diffs += [f"intraday {k}: rows decreased {b[k]['rows']} -> {a[k]['rows']}"
+                  for k in sorted(set(b) & set(a)) if a[k]["rows"] < b[k]["rows"]]  # fmt: skip
     for k in sorted(set(before) | set(after)):
         if k in skip:
             continue
