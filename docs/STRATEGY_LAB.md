@@ -3817,6 +3817,48 @@ The full report is **docs/PHASE18_RELATIVE_STRENGTH.md**. For the Lab:
 | Governed run (scratch DB) | `srun_265b35bd…` COMPLETED, 54 s / 0.92 GB |
 | Reproducibility | fresh-copy rerun reproduces digest `e22f8a0a…` exactly |
 
+## 19e. Step 19 implemented: open interest × price × funding study
+
+> **EXPLORATORY.** Historical OI availability is reconstructed under an explicit latency
+> assumption: every Binance OI row in the window was backfilled.
+
+The full report is **docs/PHASE19_OI_PRICE.md**. For the Lab:
+
+- **Same governance adapter, no migration.** `structure_study.py` also dispatches
+  `oi_price_v1` (`OiStudyDefinition`): the same `lab_structure_*` tables, lifecycle and
+  `EXPLORATORY` CHECK. Family membership is hashed into the definition.
+- **Two new dataset kinds** in `research/lab/datasets.py`: `perp_oi_history` (Binance OI
+  statistics, selection filters `period`) and `perp_snapshots` (Hyperliquid captures). The
+  existing kinds are unchanged.
+- **Primitives** (`research/oiprice/primitives.py`, `oi_price_primitives_v1`):
+  - one-venue hourly grid; OI matched to the bar whose close it is stamped at, never filled;
+  - assumed OI availability; coin and USD OI kept separate;
+  - prior-window scaled change and z-score, percentile, acceleration and trend;
+  - cadence-free trailing funding;
+  - Hyperliquid alignment by elapsed time with a staleness limit.
+- **Study** (`config/oiprice/phase19_oi_price.v1.yaml`): Binance 1h,
+  2026-09-08 → 2026-10-01 (all available pre-cutoff OI), primary horizon 6 h,
+  16 one-at-a-time variants. 11 families / 57 two-sided members, including price-only,
+  funding-only and volatility controls. Hyperliquid is a coverage-gated comparison venue.
+- **Inference:** Phase 18's block-clustered t-test (time blocks shared across assets).
+  Synthetic null: 2.0% at p < 0.05 (event-level iid 5.8%).
+- **Result** (`sstudy_da3df235…`): nothing ROBUST; 3 PROMISING, all weaker against the
+  price-only control. No OI information is demonstrated beyond price. Hyperliquid OI:
+  INSUFFICIENT (no snapshots in the window).
+- **Unchanged:** OI collection, forward tracker, co-pilot, paper trader, runtime schedule
+  and every policy. No consumer reads `research.oiprice` (tested).
+
+### Step 19 verification
+
+| Check | Result |
+|---|---|
+| `pytest tests/test_oi_price.py` | **30 passed** |
+| `pytest` (full) | **795 passed**, 0 failed; before Phase 19: 765 |
+| `ruff check` / `ruff format --check` / `git diff --check` | Passed |
+| Null calibration (20 seeds, 612 tests) | 2.0% / 4.6% at p < 0.05 / 0.10; 8 BH discoveries |
+| Governed run (scratch DB) | `srun_08a74900…` COMPLETED, 9.6 s / 0.30 GB |
+| Reproducibility | fresh-copy and explicit reruns reproduce digest `21abe032…` exactly |
+
 ## 20. Verification
 
 Baseline before changes: **173 tests passed**, repository Ruff checks passed, and all
