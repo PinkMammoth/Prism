@@ -29,10 +29,11 @@ Lifecycle (append-only; no update/delete API):
 
 No consumer reads these tables, and no field can mark a study validated.
 
-Phase 18 (relative strength / BTC dislocation) studies use the same tables and lifecycle:
-the definition type is chosen by its ``study_version`` (``RelativeStudyDefinition`` for
-``relative_strength_v1``), and each kind brings its own manifest, dataset selections and
-evaluation. Nothing else differs.
+Phase 18 (relative strength / BTC dislocation) and Phase 19 (open interest x price x
+funding) studies use the same tables and lifecycle: the definition type is chosen by its
+``study_version`` (``RelativeStudyDefinition`` for ``relative_strength_v1``,
+``OiStudyDefinition`` for ``oi_price_v1``), and each kind brings its own manifest, dataset
+selections, loader and evaluation. Nothing else differs.
 """
 
 from __future__ import annotations
@@ -74,33 +75,49 @@ def _rows(ledger: Ledger, sql: str, args: list) -> list[dict]:
 
 
 RELATIVE_VERSION = "relative_strength_v1"
+OI_PRICE_VERSION = "oi_price_v1"
+
+
+def _kind(obj) -> str:
+    """``relative`` (Phase 18), ``oi_price`` (Phase 19) or ``structure`` (Phase 17) for a
+    manifest or a definition. Phases 18 and 19 carry their own dataset selections."""
+    from market_signal.research.oiprice.study import spec as oi
+    from market_signal.research.relative.study import spec as rs
+
+    if isinstance(obj, rs.StudyManifest | rs.RelativeStudyDefinition):
+        return "relative"
+    if isinstance(obj, oi.OiStudyManifest | oi.OiStudyDefinition):
+        return "oi_price"
+    return "structure"
 
 
 def _is_relative(obj) -> bool:
-    """True for a Phase 18 manifest or definition (they carry their own selections)."""
-    from market_signal.research.relative.study import spec as rs
-
-    return isinstance(obj, rs.StudyManifest | rs.RelativeStudyDefinition)
+    return _kind(obj) == "relative"
 
 
 def _venue_coins(manifest) -> list[tuple[str, str]]:
-    if _is_relative(manifest):
+    if _kind(manifest) != "structure":
         return manifest.venue_coins()
     return [(v.venue, c) for v in manifest.venues for c in manifest.coins]
 
 
 def _definition_class(definition_json: str):
-    if json.loads(definition_json).get("study_version") == RELATIVE_VERSION:
+    version = json.loads(definition_json).get("study_version")
+    if version == RELATIVE_VERSION:
         from market_signal.research.relative.study.spec import RelativeStudyDefinition
 
         return RelativeStudyDefinition
+    if version == OI_PRICE_VERSION:
+        from market_signal.research.oiprice.study.spec import OiStudyDefinition
+
+        return OiStudyDefinition
     return StudyDefinition
 
 
 def selections(manifest, venue: str, coin: str) -> tuple[SeriesSelection, ...]:
     """The exact retained series of one (venue, coin). Phase 17: three bar timeframes and
-    funding; Phase 18: the manifest's own per-timeframe windows and funding."""
-    if _is_relative(manifest):
+    funding; Phases 18/19: the manifest's own selections (Phase 19 adds OI series)."""
+    if _kind(manifest) != "structure":
         return manifest.selections(venue, coin)
     v = next(x for x in manifest.venues if x.venue == venue)
     bars = tuple(
@@ -140,6 +157,14 @@ def verify_datasets(ledger: Ledger, defn) -> None:
             )
 
 
+def _latency(manifest) -> float:
+    """The registry's ``assumed_latency_s`` column: the bar latency (Phase 19 also freezes an
+    OI latency, which lives in its definition)."""
+    if _kind(manifest) == "oi_price":
+        return manifest.assumed_bar_latency_s
+    return manifest.assumed_latency_s
+
+
 def register(ledger: Ledger, manifest, *, perps_cfg: dict, software: SoftwareIdentity,
              origin: str, reason: str, max_rows: int = 250_000) -> StudyDefinition:  # fmt: skip
     """Capture + register the datasets, then freeze the study. Evaluates nothing."""
@@ -154,12 +179,18 @@ def register(ledger: Ledger, manifest, *, perps_cfg: dict, software: SoftwareIde
     for venue, coin in _venue_coins(manifest):
         cap = capture_dataset(ledger.store, selections(manifest, venue, coin), max_rows=max_rows)
         refs.append(DatasetRef(venue=venue, coin=coin, dataset_id=ledger.register_dataset(cap)))
-    if _is_relative(manifest):
+    if _kind(manifest) == "relative":
         from market_signal.research.relative.study import spec as rs
 
         defn = rs.RelativeStudyDefinition(manifest=manifest, families=rs.families_spec(),
                                           costs=frozen_costs(manifest, perps_cfg),
                                           datasets=tuple(refs), semantics=rs.semantics())  # fmt: skip
+    elif _kind(manifest) == "oi_price":
+        from market_signal.research.oiprice.study import spec as oi
+
+        defn = oi.OiStudyDefinition(manifest=manifest, families=oi.families_spec(),
+                                    costs=frozen_costs(manifest, perps_cfg),
+                                    datasets=tuple(refs), semantics=oi.semantics())  # fmt: skip
     else:
         defn = StudyDefinition(manifest=manifest, costs=frozen_costs(manifest, perps_cfg),
                                datasets=tuple(refs), semantics=semantics())  # fmt: skip
@@ -173,7 +204,7 @@ def register(ledger: Ledger, manifest, *, perps_cfg: dict, software: SoftwareIde
         ledger.store.con.execute(
             "INSERT INTO lab_structure_studies VALUES (?,?,?,?,?,?,?,?,?,?)",
             [defn.study_id, manifest.name, defn.evidence_class, defn.availability_mode,
-             manifest.assumed_latency_s, utcnow(), reason, origin, software.software_id,
+             _latency(manifest), utcnow(), reason, origin, software.software_id,
              defn.canonical_json()],
         )  # fmt: skip
         for r in refs:
@@ -202,9 +233,12 @@ def run(ledger: Ledger, study_id: str, *, software: SoftwareIdentity, rerun_of: 
     from market_signal.research.structure.study.run import digest
 
     defn, row = get_study(ledger, study_id)
+    kind = _kind(defn)
     if evaluate is None:
-        if _is_relative(defn):
+        if kind == "relative":
             from market_signal.research.relative.study.run import evaluate
+        elif kind == "oi_price":
+            from market_signal.research.oiprice.study.run import evaluate
         else:
             from market_signal.research.structure.study.run import evaluate
     runs = _rows(
@@ -240,12 +274,22 @@ def run(ledger: Ledger, study_id: str, *, software: SoftwareIdentity, rerun_of: 
                 rerun_reason,
             ],
         )
-    latency = defn.manifest.assumed_latency_s
+    if kind == "oi_price":
+        from market_signal.research.oiprice.study.data import load_coin as load_oi_coin
 
-    def load(venue: str, coin: str):
-        return load_coin(
-            ledger, defn.dataset(venue, coin), venue=venue, coin=coin, latency_s=latency
-        )
+        man = defn.manifest
+
+        def load(venue: str, coin: str):
+            return load_oi_coin(ledger, defn.dataset(venue, coin), venue=venue, coin=coin,
+                                bar_latency_s=man.assumed_bar_latency_s,
+                                oi_latency_s=man.assumed_oi_latency_s)  # fmt: skip
+    else:
+        latency = defn.manifest.assumed_latency_s
+
+        def load(venue: str, coin: str):
+            return load_coin(
+                ledger, defn.dataset(venue, coin), venue=venue, coin=coin, latency_s=latency
+            )
 
     try:
         payload, meta = evaluate(defn, load)
