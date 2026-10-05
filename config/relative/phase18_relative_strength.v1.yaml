@@ -1,0 +1,85 @@
+# Phase 18: preregistered exploratory study of relative strength, BTC beta/correlation,
+# beta-adjusted residuals and cross-asset dislocation. EXPLORATORY. Historical intraday
+# availability is reconstructed under an explicit latency assumption rather than observed
+# in real time. Frozen by `market relative study register`; the study_id is the content hash
+# of this manifest, the frozen family membership, the frozen costs and the dataset IDs.
+#
+# Every value below was fixed from data COVERAGE (2026-10-05 scratch backfill: no gaps and
+# no zero-volume bars in any 4h/1h series) before any outcome was computed:
+#   PRIMARY 4h. Hyperliquid retains 5,000 4h bars (from 2024-06-24; HYPE from its
+#     2024-12-05 listing), so its events run 2024-11-01 -> 2026-10-01 after >= 4 months of
+#     warmup (the longest window needs 360 + 42 bars of history; BTC vol terciles need
+#     30 days). Binance runs 2021-03-01 -> 2024-11-01: it starts once SOL (2020-09-14) and
+#     AAVE (2020-10-16) have >= 4 months of history and ENDS where Hyperliquid begins
+#     (Phase 11's rule: no outcome hour contributes to both venues). Binance HYPE did not
+#     exist in that window and is excluded explicitly (no history is fabricated).
+#   SECONDARY 1h (central parameters only; separate families). Hyperliquid retains 5,000
+#     1h bars (from 2026-03-11), so events run 2026-04-15 -> 2026-10-01 (vol terciles need
+#     30 days of 1h). Binance 1h runs 2024-11-01 -> 2026-04-01, ending before the
+#     Hyperliquid 1h window begins; Binance HYPE joins the cross-section once it has history.
+#   Nothing after 2026-10-01 is read (it stays untouched, as does the Phase 9 window).
+name: phase18_relative_strength_v1
+description: >-
+  Does an asset's performance relative to BTC and to the alt market contain forward-return
+  information? Tests relative-strength and relative-weakness continuation/reversal, raw vs
+  beta-adjusted residual momentum, correlation breakdown, BTC-consolidation and broad-pullback
+  interactions and cross-sectional rank persistence, separating relative (spread) from
+  USD-directional outcomes. An attempt to falsify each claim, venues never pooled.
+reference: BTC
+assumed_latency_s: 60.0
+funding:
+  - {venue: hyperliquid, start: "2024-06-24T00:00:00Z", end: "2026-10-01T00:00:00Z"}
+  - {venue: binance, start: "2020-09-01T00:00:00Z", end: "2026-04-01T00:00:00Z"}
+architectures:
+  # PRIMARY: 4h bars. Lookbacks/horizons are in 4h bars: L = 18 (3 days), W = 180 (30 days),
+  # S = 42 (7 days); horizons 4 h, 1 day, 3 days; primary 1 day.
+  - name: primary
+    timeframe: 4h
+    horizons: [1, 6, 18]
+    primary_horizon: 6
+    windows:
+      - venue: hyperliquid
+        data_start: "2024-06-24T00:00:00Z"
+        event_start: "2024-11-01T00:00:00Z"
+        event_end: "2026-10-01T00:00:00Z"
+        coins: [BTC, ETH, SOL, HYPE, LINK, AAVE]
+      - venue: binance
+        data_start: "2020-09-01T00:00:00Z"
+        event_start: "2021-03-01T00:00:00Z"
+        event_end: "2024-11-01T00:00:00Z"
+        coins: [BTC, ETH, SOL, LINK, AAVE]
+        excluded: {HYPE: "not listed on Binance USD-M until 2025-05-30, after this window"}
+    central:
+      lookback: 18
+      beta_window: 180
+      z_threshold: 2.0
+      corr_high: 0.7
+      corr_drop: 0.3
+      corr_short: 42
+      confirm_within: 18
+      min_universe: 4
+    # One-at-a-time neighbours (central value in the middle); sensitivity, never search.
+    axes:
+      - {name: lookback, values: [6, 18, 42]}
+      - {name: beta_window, values: [90, 180, 360]}
+      - {name: z_threshold, values: [1.5, 2.0, 2.5]}
+      - {name: corr_high, values: [0.6, 0.7, 0.8]}
+      - {name: corr_drop, values: [0.2, 0.3, 0.4]}
+      - {name: corr_short, values: [18, 42, 84]}
+  # SECONDARY (exploratory, separate families, central parameters only): the same bar
+  # counts on 1h bars (L = 18 h, W = 7.5 days, horizons 1/6/18 h, primary 6 h).
+  - name: secondary
+    timeframe: 1h
+    horizons: [1, 6, 18]
+    primary_horizon: 6
+    windows:
+      - venue: hyperliquid
+        data_start: "2026-03-11T00:00:00Z"
+        event_start: "2026-04-15T00:00:00Z"
+        event_end: "2026-10-01T00:00:00Z"
+        coins: [BTC, ETH, SOL, HYPE, LINK, AAVE]
+      - venue: binance
+        data_start: "2024-09-01T00:00:00Z"
+        event_start: "2024-11-01T00:00:00Z"
+        event_end: "2026-04-01T00:00:00Z"
+        coins: [BTC, ETH, SOL, HYPE, LINK, AAVE]
