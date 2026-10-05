@@ -28,6 +28,11 @@ Lifecycle (append-only; no update/delete API):
 3. one terminal result per run: COMPLETED (payload + digest) or FAILED (error).
 
 No consumer reads these tables, and no field can mark a study validated.
+
+Phase 18 (relative strength / BTC dislocation) studies use the same tables and lifecycle:
+the definition type is chosen by its ``study_version`` (``RelativeStudyDefinition`` for
+``relative_strength_v1``), and each kind brings its own manifest, dataset selections and
+evaluation. Nothing else differs.
 """
 
 from __future__ import annotations
@@ -45,7 +50,6 @@ from market_signal.research.structure.study.spec import (
     CostRef,
     DatasetRef,
     StudyDefinition,
-    StudyManifest,
     semantics,
 )
 
@@ -69,8 +73,35 @@ def _rows(ledger: Ledger, sql: str, args: list) -> list[dict]:
     return [dict(zip(names, r, strict=True)) for r in cur.fetchall()]
 
 
-def selections(manifest: StudyManifest, venue: str, coin: str) -> tuple[SeriesSelection, ...]:
-    """The exact retained series of one (venue, coin): three bar timeframes and funding."""
+RELATIVE_VERSION = "relative_strength_v1"
+
+
+def _is_relative(obj) -> bool:
+    """True for a Phase 18 manifest or definition (they carry their own selections)."""
+    from market_signal.research.relative.study import spec as rs
+
+    return isinstance(obj, rs.StudyManifest | rs.RelativeStudyDefinition)
+
+
+def _venue_coins(manifest) -> list[tuple[str, str]]:
+    if _is_relative(manifest):
+        return manifest.venue_coins()
+    return [(v.venue, c) for v in manifest.venues for c in manifest.coins]
+
+
+def _definition_class(definition_json: str):
+    if json.loads(definition_json).get("study_version") == RELATIVE_VERSION:
+        from market_signal.research.relative.study.spec import RelativeStudyDefinition
+
+        return RelativeStudyDefinition
+    return StudyDefinition
+
+
+def selections(manifest, venue: str, coin: str) -> tuple[SeriesSelection, ...]:
+    """The exact retained series of one (venue, coin). Phase 17: three bar timeframes and
+    funding; Phase 18: the manifest's own per-timeframe windows and funding."""
+    if _is_relative(manifest):
+        return manifest.selections(venue, coin)
     v = next(x for x in manifest.venues if x.venue == venue)
     bars = tuple(
         SeriesSelection(kind="perp_intraday_bars", symbol=coin, source=venue,
@@ -81,20 +112,19 @@ def selections(manifest: StudyManifest, venue: str, coin: str) -> tuple[SeriesSe
                                    start=v.start_funding, end=v.end))  # fmt: skip
 
 
-def frozen_costs(manifest: StudyManifest, perps_cfg: dict) -> tuple[CostRef, ...]:
+def frozen_costs(manifest, perps_cfg: dict) -> tuple[CostRef, ...]:
     """Per-side fee and slippage from Prism's perp cost machinery, frozen at registration."""
     from market_signal.perps.backtest import perp_costs
 
     out = []
-    for v in manifest.venues:
-        for coin in manifest.coins:
-            c = perp_costs(perps_cfg, coin, v.venue)
-            out.append(CostRef(venue=v.venue, coin=coin, fee_bps=c.fee_bps,
-                               slippage_bps=c.slippage_bps))  # fmt: skip
+    for venue, coin in _venue_coins(manifest):
+        c = perp_costs(perps_cfg, coin, venue)
+        out.append(CostRef(venue=venue, coin=coin, fee_bps=c.fee_bps,
+                           slippage_bps=c.slippage_bps))  # fmt: skip
     return tuple(out)
 
 
-def verify_datasets(ledger: Ledger, defn: StudyDefinition) -> None:
+def verify_datasets(ledger: Ledger, defn) -> None:
     """Every referenced dataset is strong, retained and selects exactly the manifest's
     windows for its venue/coin (nothing more, nothing less)."""
     for ref in defn.datasets:
@@ -110,7 +140,7 @@ def verify_datasets(ledger: Ledger, defn: StudyDefinition) -> None:
             )
 
 
-def register(ledger: Ledger, manifest: StudyManifest, *, perps_cfg: dict, software: SoftwareIdentity,
+def register(ledger: Ledger, manifest, *, perps_cfg: dict, software: SoftwareIdentity,
              origin: str, reason: str, max_rows: int = 250_000) -> StudyDefinition:  # fmt: skip
     """Capture + register the datasets, then freeze the study. Evaluates nothing."""
     _require(ledger)
@@ -121,16 +151,18 @@ def register(ledger: Ledger, manifest: StudyManifest, *, perps_cfg: dict, softwa
     ).fetchone():
         raise StudyError(f"study name {manifest.name!r} is already frozen; declare a new name")
     refs = []
-    for v in manifest.venues:
-        for coin in manifest.coins:
-            cap = capture_dataset(
-                ledger.store, selections(manifest, v.venue, coin), max_rows=max_rows
-            )
-            refs.append(
-                DatasetRef(venue=v.venue, coin=coin, dataset_id=ledger.register_dataset(cap))
-            )
-    defn = StudyDefinition(manifest=manifest, costs=frozen_costs(manifest, perps_cfg),
-                           datasets=tuple(refs), semantics=semantics())  # fmt: skip
+    for venue, coin in _venue_coins(manifest):
+        cap = capture_dataset(ledger.store, selections(manifest, venue, coin), max_rows=max_rows)
+        refs.append(DatasetRef(venue=venue, coin=coin, dataset_id=ledger.register_dataset(cap)))
+    if _is_relative(manifest):
+        from market_signal.research.relative.study import spec as rs
+
+        defn = rs.RelativeStudyDefinition(manifest=manifest, families=rs.families_spec(),
+                                          costs=frozen_costs(manifest, perps_cfg),
+                                          datasets=tuple(refs), semantics=rs.semantics())  # fmt: skip
+    else:
+        defn = StudyDefinition(manifest=manifest, costs=frozen_costs(manifest, perps_cfg),
+                               datasets=tuple(refs), semantics=semantics())  # fmt: skip
     verify_datasets(ledger, defn)
     ledger.register_software(software)
     with ledger.store.transaction():
@@ -152,12 +184,12 @@ def register(ledger: Ledger, manifest: StudyManifest, *, perps_cfg: dict, softwa
     return defn
 
 
-def get_study(ledger: Ledger, study_id: str) -> tuple[StudyDefinition, dict]:
+def get_study(ledger: Ledger, study_id: str) -> tuple:
     _require(ledger)
     rows = _rows(ledger, "SELECT * FROM lab_structure_studies WHERE study_id=?", [study_id])
     if not rows:
         raise StudyError(f"unknown study {study_id}")
-    defn = StudyDefinition.model_validate_json(rows[0]["definition"])
+    defn = _definition_class(rows[0]["definition"]).model_validate_json(rows[0]["definition"])
     if defn.study_id != study_id:
         raise StudyError("stored definition does not match its study ID")
     return defn, rows[0]
@@ -168,10 +200,13 @@ def run(ledger: Ledger, study_id: str, *, software: SoftwareIdentity, rerun_of: 
     """Commit a run row, THEN evaluate from the retained snapshots, then record one result."""
     from market_signal.research.structure.study.data import load_coin
     from market_signal.research.structure.study.run import digest
-    from market_signal.research.structure.study.run import evaluate as default_evaluate
 
-    evaluate = evaluate or default_evaluate
     defn, row = get_study(ledger, study_id)
+    if evaluate is None:
+        if _is_relative(defn):
+            from market_signal.research.relative.study.run import evaluate
+        else:
+            from market_signal.research.structure.study.run import evaluate
     runs = _rows(
         ledger, "SELECT * FROM lab_structure_runs WHERE study_id=? ORDER BY attempt", [study_id]
     )
@@ -240,7 +275,8 @@ def inspect(ledger: Ledger, study_id: str) -> dict:
                          "WHERE r.study_id=? ORDER BY r.attempt", [study_id])  # fmt: skip
     for r in runs:
         r["meta"] = json.loads(r["meta"]) if r.get("meta") else None
-    return {"study_id": study_id, "name": row["name"], "registered_at": row["registered_at"],
+    return {"study_id": study_id, "name": row["name"], "study_version": defn.study_version,
+            "registered_at": row["registered_at"],
             "evidence_class": row["evidence_class"], "reason": row["reason"],
             "datasets": [d.model_dump() for d in defn.datasets], "runs": runs}  # fmt: skip
 
