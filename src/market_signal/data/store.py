@@ -939,6 +939,56 @@ MIGRATIONS: list[str] = [
         CHECK (recorded_at >= ref_observed_at)
     );
     """,
+    # 19 — Phase 17 structural falsification studies: append-only via the Lab API
+    # (``research/lab/structure_study.py``). A study freezes its full definition (windows,
+    # grids, horizons, families, gates, verdict policy, costs, retained Lab dataset IDs)
+    # BEFORE any run; a run row is committed before evaluation starts (the exposure record);
+    # each run has at most one terminal result. Studies are EXPLORATORY (CHECK): backfilled
+    # intraday history with assumed-latency availability is never validation. No consumer
+    # (forward, co-pilot, paper) reads these tables.
+    """
+    CREATE TABLE IF NOT EXISTS lab_structure_studies (
+        study_id VARCHAR PRIMARY KEY,
+        name VARCHAR NOT NULL UNIQUE,
+        evidence_class VARCHAR NOT NULL CHECK (evidence_class = 'EXPLORATORY'),
+        availability_mode VARCHAR NOT NULL CHECK (availability_mode = 'assumed'),
+        assumed_latency_s DOUBLE NOT NULL,
+        registered_at TIMESTAMPTZ NOT NULL,
+        reason VARCHAR NOT NULL,
+        origin VARCHAR NOT NULL,
+        software_id VARCHAR NOT NULL REFERENCES lab_software(software_id),
+        definition JSON NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS lab_structure_study_datasets (
+        study_id VARCHAR NOT NULL REFERENCES lab_structure_studies(study_id),
+        venue VARCHAR NOT NULL,
+        coin VARCHAR NOT NULL,
+        dataset_id VARCHAR NOT NULL REFERENCES lab_datasets(dataset_id),
+        PRIMARY KEY (study_id, venue, coin)
+    );
+    CREATE TABLE IF NOT EXISTS lab_structure_runs (
+        run_id VARCHAR PRIMARY KEY,
+        study_id VARCHAR NOT NULL REFERENCES lab_structure_studies(study_id),
+        attempt INTEGER NOT NULL CHECK (attempt > 0),
+        software_id VARCHAR NOT NULL REFERENCES lab_software(software_id),
+        started_at TIMESTAMPTZ NOT NULL,
+        rerun_of VARCHAR REFERENCES lab_structure_runs(run_id),
+        rerun_reason VARCHAR,
+        UNIQUE (study_id, attempt),
+        CHECK ((rerun_of IS NULL) = (rerun_reason IS NULL))
+    );
+    CREATE TABLE IF NOT EXISTS lab_structure_results (
+        result_id VARCHAR PRIMARY KEY,
+        run_id VARCHAR NOT NULL UNIQUE REFERENCES lab_structure_runs(run_id),
+        completed_at TIMESTAMPTZ NOT NULL,
+        status VARCHAR NOT NULL CHECK (status IN ('COMPLETED', 'FAILED')),
+        evidence_class VARCHAR NOT NULL CHECK (evidence_class = 'EXPLORATORY'),
+        result_digest VARCHAR,
+        payload JSON NOT NULL,
+        meta JSON NOT NULL,
+        CHECK ((status = 'COMPLETED') = (result_digest IS NOT NULL))
+    );
+    """,
 ]
 
 ROLE_ENV, RUNTIME_ID_ENV = "PRISM_RUNTIME_ROLE", "PRISM_RUNTIME_ID"
