@@ -2,6 +2,10 @@
 
 > **Phase 15 introduces intraday market data but does not introduce intraday strategy signals.**
 >
+> Phase 16 adds descriptive structural primitives on these bars (swings, clusters, failed
+> breakouts, structure shifts, retests, trade paths). They are not signals either; see
+> [STRUCTURE.md](STRUCTURE.md).
+>
 > **The existing daily paper account continues using its frozen Phase 12 execution semantics;
 > intraday execution data is observational/shadow-only in this phase.**
 

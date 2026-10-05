@@ -3683,7 +3683,52 @@ The full reference is **docs/INTRADAY.md**. For the Lab:
   execution model, the paper run and its events. The shadow table `intraday_execution_shadow`
   is not paper evidence, and the paper engine never reads it.
 - **Not implemented (Phases 16–18):** swing/sweep/rejection/structure/retest primitives,
-  relative strength, OI features, intraday signals and intraday backtests.
+  relative strength, OI features, intraday signals and intraday backtests. (Phase 16 has
+  since added the structural primitives; see section 19b.)
+
+## 19b. Step 16 implemented: structural-price and trade-path primitives
+
+> **These primitives are descriptive infrastructure. Phase 16 does not claim that any of them
+> predict returns.**
+>
+> **Prism uses the term "sweep" only as shorthand for an objectively defined failed-breakout
+> event. It does not imply knowledge of stop locations, manipulation or institutional intent.**
+
+The full reference is **docs/STRUCTURE.md**. For the Lab:
+
+- **Three layers:** state (`swing_v1`, `prior_extreme_v1`, `level_cluster_v1`,
+  `level_touch_v1`, continuous rejection metrics), events (`level_breach_v1`,
+  `breakout_outcome_v1`, `failed_breakout_v1`, `rejection_v1`, `structure_shift_v1`,
+  `retest_v1`), and paths (`trade_path_v1`: MFE/MAE, thresholds, R, explicit
+  `AMBIGUOUS_INTRABAR_ORDER`, optional nested-timeframe resolution). Code:
+  `research/structure/`, registry `structure_primitives_v1`.
+- **Causality:** every value carries the time it could be known (`ready_at` = cumulative
+  bar availability). A swing exists only after its right-side bars close. A level is
+  referenceable only by bars opening after its price was formed. Unresolved windows emit
+  no event. Appending bars never changes an earlier event (tested on every stage).
+- **Declarative chains:** `ChainSpec` (structure/event/confirmation timeframes + optional
+  stages) and `run_chain` give Phase 17's ablation ladder (A breach → B failed breakout → C
+  rejection → D structure shift → E retest) from shared detectors, with entry-delay
+  analytics per stage. `StrategyDefinition` and `lab_features_v1` are unchanged. Wiring
+  chains into a strategy schema is left to Phase 17's preregistration.
+- **Provenance:** availability mode and assumed latency are part of every event's identity.
+  Historical events on backfilled bars are labelled `assumed`. IDs are deterministic
+  content hashes, independent of later data.
+- **Storage:** generated on demand (a pure function, benchmarked near-linear: ~5 s for a full
+  chain on 400k 15m bars). Optional immutable Parquet export with a build manifest. No new
+  table, no migration.
+- **Unchanged:** forward tracker, co-pilot, paper trader, runtime schedule, every policy and
+  every Lab table. No live consumer imports `research.structure` (tested).
+
+### Step 16 verification
+
+| Check | Result |
+|---|---|
+| `pytest tests/test_structure.py tests/test_trade_path.py` | **45 passed** (34 + 11) |
+| `pytest` (full, committed code) | **710 passed** in 24 m 56 s; before Step 16: 665 |
+| `ruff check src tests dashboard` / `ruff format --check src tests` / `git diff --check` | Passed |
+| `market structure smoke` (scratch DB; HL all history, BN 2026-04 → 10) | counts in docs/STRUCTURE.md; HL 5.6 s / 234 MB, BN 7.1 s / 275 MB |
+| Benchmark (synthetic 15m, full chain + paths) | 400k bars: swing chain 5.0 s, paths 1.4 s; near-linear (docs/STRUCTURE.md) |
 
 ## 20. Verification
 

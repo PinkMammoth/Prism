@@ -270,3 +270,7 @@ The phase-by-phase build log is in [PLAN.md](PLAN.md). V2 ideas are in
 
 The [Strategy Lab audit and phased design](docs/STRATEGY_LAB.md) maps the current research
 infrastructure and documents the isolated strategy-definition foundation.
+Intraday market data is described in [docs/INTRADAY.md](docs/INTRADAY.md). The descriptive
+structural-price and trade-path primitives (swings, equal highs/lows, failed breakouts,
+structure shifts, retests, MFE/MAE/R with explicit OHLC ambiguity) are in
+[docs/STRUCTURE.md](docs/STRUCTURE.md).
