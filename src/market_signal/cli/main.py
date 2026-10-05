@@ -38,6 +38,7 @@ def _register_optional() -> None:
         "bars_cmds",
         "structure_cmds",
         "relative_cmds",
+        "oiprice_cmds",
     ):
         try:
             m = importlib.import_module(f"market_signal.cli.{mod}")

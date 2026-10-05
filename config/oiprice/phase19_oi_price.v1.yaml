@@ -1,0 +1,78 @@
+# Phase 19: preregistered exploratory study of open interest x price x funding. EXPLORATORY.
+# Historical OI availability is reconstructed under an explicit latency assumption rather
+# than observed in real time. Frozen by `market oiprice study register`; the study_id is the
+# content hash of this manifest, the frozen family membership, the frozen costs and the
+# dataset IDs.
+#
+# Every value below was fixed from data COVERAGE (2026-10-05 audit of a scratch copy of the
+# local database + a public Binance 1h bar backfill) before any outcome was computed:
+#   Binance USD-M OI (perp_oi_history, period 1h): 650 complete hourly rows per coin from
+#     2026-09-03 22:00 to 2026-09-30 23:00 UTC (BTC, ETH, SOL, HYPE, LINK, AAVE); no gaps,
+#     no nulls. Every row was backfilled on 2026-10-03, so its publication time is ASSUMED
+#     (observed_at + 30 min; one live check served the 21:00 point by 21:18).
+#   Hyperliquid OI (perp_snapshots): 13 prospective snapshots per coin, all captured
+#     2026-10-03 10:20 -> 2026-10-04 16:06 UTC, i.e. NONE inside this window. Hyperliquid is
+#     the corroborative / prospective venue: its cross-venue family is gated on coverage and
+#     is expected to be INSUFFICIENT. Nothing is filled from Binance.
+#   Binance 1h bars: complete 2026-07-01 -> 2026-10-01 (backfilled, zero gaps, zero
+#     zero-volume bars). Funding: 8-hourly for five coins, 4-hourly for HYPE (HYPE fetched
+#     into the scratch copy only; the live funding configuration is unchanged).
+#   Warmup: the central OI scale needs W + 2L + 1 = 85 hourly OI observations (to
+#     2026-09-07 10:00), own-volatility terciles 744 bars, funding percentiles 720 hourly
+#     values: events start 2026-09-08 00:00. Events end at 2026-10-01 00:00 (nothing later
+#     is read: post-2026-10-01 data stays untouched, as in Phase 18 and the Phase 9 window).
+#   That leaves 552 event hours: 92 non-overlapping 6-hour blocks. The study is sized for
+#     four weeks of data, not years: one primary horizon (6 h), 1 h, 12 h and 24 h descriptive.
+name: phase19_oi_price_v1
+description: >-
+  Does a change in perp open interest, read together with price direction and funding,
+  contain forward information beyond price alone? Tests the four price/OI quadrants against
+  unconditional and price-matched controls, large vs ordinary OI change, OI-only moves (coin
+  and USD measures), OI shocks, funding x OI crowding and unwinds against funding-matched
+  controls, divergence and price progress, volatility (magnitude) prediction, cross-sectional
+  lead/lag, and cross-venue agreement (gated). Every claim is a two-sided test whose sign is
+  read afterwards. An attempt to falsify, never a strategy search.
+timeframe: 1h
+assumed_bar_latency_s: 60.0
+assumed_oi_latency_s: 1800.0
+oi_measure_primary: coin
+window:
+  venue: binance
+  data_start: "2026-07-01T00:00:00Z"
+  oi_start: "2026-09-03T22:00:00Z"
+  event_start: "2026-09-08T00:00:00Z"
+  event_end: "2026-10-01T00:00:00Z"
+  funding_start: "2026-07-01T00:00:00Z"
+  coins: [BTC, ETH, SOL, HYPE, LINK, AAVE]
+comparison:
+  venue: hyperliquid
+  role: corroborative_prospective
+  coins: [BTC, ETH, SOL, HYPE, LINK, AAVE]
+  max_age_s: 7200.0
+  min_aligned_hours: 336
+  min_assets: 3
+# Horizons in hourly bars; exactly one primary (6 h) for every family.
+horizons: [1, 6, 12, 24]
+primary_horizon: 6
+central:
+  lookback: 6
+  norm_window: 72
+  price_thr: 0.5
+  oi_thr: 0.5
+  oi_large: 2.0
+  shock_z: 2.0
+  fund_tail: 0.9
+  crowd_oi: 1.0
+  progress_split: 1.0
+  fund_window: 720
+  min_universe: 4
+# One-at-a-time neighbours (central value in the middle): sensitivity, never search.
+axes:
+  - {name: lookback, values: [3, 6, 12]}
+  - {name: norm_window, values: [48, 72, 120]}
+  - {name: price_thr, values: [0.25, 0.5, 1.0]}
+  - {name: oi_thr, values: [0.25, 0.5, 1.0]}
+  - {name: oi_large, values: [1.5, 2.0, 2.5]}
+  - {name: shock_z, values: [1.5, 2.0, 2.5]}
+  - {name: fund_tail, values: [0.85, 0.9, 0.95]}
+  - {name: crowd_oi, values: [0.5, 1.0, 1.5]}
