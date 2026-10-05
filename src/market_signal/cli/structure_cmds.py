@@ -2,6 +2,7 @@
 
 catalog  the primitive registry: versions, layers and bounded parameter schemas
 smoke    descriptive detector counts on stored intraday bars (no returns, no ranking)
+study    Phase 17 preregistered falsification studies: register | run | list | show | report
 """
 
 from __future__ import annotations
@@ -78,6 +79,115 @@ def smoke(
         t.add_row(*["-" if str(r[c]) == "nan" else str(r[c]) for c in cols])
     console.print(t)
     console.print(meta)
+
+
+study = typer.Typer(
+    no_args_is_help=True,
+    help="Phase 17 preregistered falsification studies (EXPLORATORY; assumed-latency history).",
+)
+structure.add_typer(study, name="study")
+
+
+def _software():
+    from market_signal.cli.lab_cmds import _software as lab_software
+
+    return lab_software()
+
+
+def _fail(exc: Exception) -> None:
+    console.print(f"Study: {exc}", style="red", markup=False)
+    raise typer.Exit(1) from None
+
+
+@study.command("register")
+def study_register(
+    manifest: str = typer.Argument(..., help="Study manifest YAML"),
+    reason: str = typer.Option(..., help="Why this study is being frozen"),
+) -> None:
+    """WRITE: capture + retain the datasets and freeze the study. Evaluates nothing."""
+    from market_signal.perps.data import perp_config
+    from market_signal.research.lab import structure_study as ss
+    from market_signal.research.lab.ledger import Ledger, LedgerError
+    from market_signal.research.structure.study.spec import family_sizes, load_manifest
+
+    man = load_manifest(manifest)
+    with open_store() as (settings, store):
+        try:
+            defn = ss.register(Ledger(store), man, perps_cfg=perp_config(settings), software=_software(),
+                               origin=f"cli:{manifest}", reason=reason)  # fmt: skip
+        except (LedgerError, ValueError) as exc:
+            _fail(exc)
+    console.print(f"Frozen study [bold]{defn.study_id}[/] ({man.name}), EXPLORATORY")
+    for d in defn.datasets:
+        console.print(f"  dataset {d.venue}/{d.coin}: {d.dataset_id}")
+    for a in man.architectures:
+        console.print(f"  {a.name}: preregistered family sizes {family_sizes(a)}")
+
+
+@study.command("run")
+def study_run(
+    study_id: str = typer.Argument(...),
+    rerun_of: str = typer.Option(None, help="Earlier run of this study (explicit rerun)"),
+    reason: str = typer.Option(None, help="Rerun reason (required with --rerun-of)"),
+) -> None:
+    """WRITE: commit a run row, evaluate from the retained snapshots, record the result."""
+    from market_signal.research.lab import structure_study as ss
+    from market_signal.research.lab.ledger import Ledger, LedgerError
+
+    with open_store() as (_, store):
+        try:
+            out = ss.run(Ledger(store), study_id, software=_software(), rerun_of=rerun_of,
+                         rerun_reason=reason)  # fmt: skip
+        except (LedgerError, ValueError) as exc:
+            _fail(exc)
+    console.print(f"run {out['run_id']}: {out['status']} digest={out['result_digest']}")
+    console.print(out["meta"])
+    if out["status"] != "COMPLETED":
+        console.print(out["payload"].get("error", {}).get("message", ""), markup=False)
+        raise typer.Exit(1)
+
+
+@study.command("list")
+def study_list() -> None:
+    """READ-ONLY: frozen studies."""
+    from market_signal.research.lab import structure_study as ss
+    from market_signal.research.lab.ledger import Ledger
+
+    with open_store(read_only=True) as (_, store):
+        console.print_json(json.dumps(ss.list_studies(Ledger(store)), default=str))
+
+
+@study.command("show")
+def study_show(study_id: str = typer.Argument(...)) -> None:
+    """READ-ONLY: definition summary, datasets, runs and result digests."""
+    from market_signal.research.lab import structure_study as ss
+    from market_signal.research.lab.ledger import Ledger
+
+    with open_store(read_only=True) as (_, store):
+        console.print_json(json.dumps(ss.inspect(Ledger(store), study_id), default=str))
+
+
+@study.command("report")
+def study_report(
+    run_id: str = typer.Argument(...),
+    out: str = typer.Option(None, help="Write markdown here instead of printing"),
+    as_json: bool = typer.Option(False, "--json", help="The raw result payload"),
+) -> None:
+    """READ-ONLY: render a stored result (presentation only; computes nothing new)."""
+    from pathlib import Path
+
+    from market_signal.research.lab import structure_study as ss
+    from market_signal.research.lab.ledger import Ledger
+    from market_signal.research.structure.study.report import render
+
+    with open_store(read_only=True) as (_, store):
+        payload = ss.result_payload(Ledger(store), run_id)
+    text = json.dumps(payload, indent=1) if as_json else render(payload)
+    if out:
+        Path(out).write_text(text)
+        console.print(f"wrote {out}")
+    else:
+        print(text)
 
 
 def register(app: typer.Typer) -> None:
