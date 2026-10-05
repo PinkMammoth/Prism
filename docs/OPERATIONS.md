@@ -350,3 +350,20 @@ same claim, so every write to it is refused. The pre-cutover copy is
   the first real bar after 2026-10-05 00:10.
 - `SEC_USER_AGENT` is still the placeholder from `.env`.
 - Commits `0212d32`, `34ab752` and the docs commit are not pushed yet.
+
+## Phase 15 deployment log (2026-10-05, all times UTC)
+
+- 07:43 pre-deploy continuity baseline `/data/baselines/pre-phase15.json`; verified manual
+  backup `prism-20261005T074338Z-pre-deploy-482ae382cfce.duckdb` (134.3 MiB).
+- 07:44 deployed `482ae38` (`feat: add intraday market data foundation`). The boot cycle at
+  07:45:48 applied migration 18 (schema 17 → 18) and was a no-op for the experiments.
+- 07:46 the first scheduled `intraday` cycle seeded Hyperliquid 15m/1h/4h (OK in 18.7 s).
+- 07:47–07:52 Binance intraday history backfilled under the runtime lock
+  (`flock /data/prism.duckdb.runtime.lock market bars backfill --venue binance`): 18/18 series,
+  341 s. Database 140.8 → 158.6 MB.
+- Idempotency: a repeat update was a no-op, and re-reading two days of Hyperliquid bars gave
+  0 new / 0 revised across 18 series. 08:01 and 08:16 cycles stored each new 15m bar ~61 s
+  after its close (`observed_live`). `market status`: Intraday 15m/1h/4h OK.
+- Continuity vs the baseline: paper run, `paper_events`, policies, trackings, watches and
+  co-pilot decisions identical. Only run/software bookkeeping rows from the boot cycle, OI
+  collection, intraday rows and the schema version changed. Recorded as `rtev_dcf038d0…`.

@@ -197,6 +197,31 @@ first observation is the backfill instant. Research on them must use
 `Availability.assumed(latency)`, and claims that depend on exact intraday publication timing or
 revision state before Phase 15's live collection began are not supported.
 
+## Historical coverage and footprint (production, 2026-10-05)
+
+Seeded on the Railway runtime right after deployment. There are zero missing, duplicate or
+malformed bars in all 36 series. Only the newest bar of each series was observed live; every
+older bar is backfill (`observed_live = false`).
+
+| venue | 15m | 1h | 4h |
+|---|---|---|---|
+| Hyperliquid (all six coins) | 2026-08-14 → now (5,000 bars each) | 2026-03-10/11 → now (4,999–5,000) | 2024-06-24 → now (4,999); HYPE 2024-12-05 → (4,013) |
+| Binance BTC / ETH / SOL / LINK / AAVE | 2024-10-01 → now (70,495 each) | BTC 2019-09-08, ETH 2019-11-27, LINK 2020-01-17, SOL 2020-09-14, AAVE 2020-10-16 → now | same starts as 1h |
+| Binance HYPE | 2025-05-30 → now (47,317) | 2025-05-30 → (11,829) | 2025-05-30 → (2,957) |
+
+Binance zero-volume (maintenance) bars: BTC 1h 3, ETH 1h 1.
+
+| measure | value |
+|---|---|
+| rows | Hyperliquid ≈ 89k; Binance ≈ 772k (15m 399.8k, 1h 298.2k, 4h 74.6k) |
+| database growth | 140.8 MB (pre-deploy backup) → 158.6 MB: **≈ 18 MB** for ≈ 861k bars (~21 B/bar in place; 18 B compacted) |
+| raw archive | Hyperliquid seed 2.5 MB, Binance history 37 MB (gzip JSON-lines) |
+| runtime / memory | Hyperliquid seed ≈ 20 s; Binance history 341 s on Railway (local: 5 m 24 s, peak RSS ≈ 600 MB; the 8 GB limit is ample) |
+| ongoing (Hyperliquid live) | 6 coins × (35,040 + 8,760 + 2,190) ≈ **276k bars/yr ≈ 5–11 MB/yr** of database; one ~2–4 KB raw file per 15-min run ≈ **140 MB/yr** of raw archive (4 KB blocks); 96 `ingestion_runs` + 96 `runtime_cycles` rows/day |
+| backups | each retained copy grows with the database. Worst case at today's size: ≈ 18 MB × 18 copies ≈ 0.3 GB on a 4.5 GiB volume (3.9 GiB free after seeding) |
+
+No volume expansion is needed. The disk guard re-checks before every write.
+
 ## Runtime, health, storage and backups
 
 - **Schedule:** job `intraday` at :01, :16, :31 and :46 every hour (`--wait 600`). It runs
