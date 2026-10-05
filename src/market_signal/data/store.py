@@ -989,6 +989,30 @@ MIGRATIONS: list[str] = [
         CHECK ((status = 'COMPLETED') = (result_digest IS NOT NULL))
     );
     """,
+    # 20 — Phase 20 edge profiles: append-only via ``research/lifecycle/profile.py``. One row
+    # per immutable, content-addressed profile (strategy, venue, evaluation time, data cutoff,
+    # lifecycle policy and methodology version). A later evaluation is a new row; nothing is
+    # updated or deleted. EXPLORATORY research records: no consumer (forward, co-pilot, paper)
+    # reads this table, and no column grants any permission.
+    """
+    CREATE TABLE IF NOT EXISTS lab_edge_profiles (
+        profile_id VARCHAR PRIMARY KEY,
+        strategy_id VARCHAR NOT NULL,
+        strategy_name VARCHAR NOT NULL,
+        venue VARCHAR NOT NULL,
+        as_of TIMESTAMPTZ NOT NULL,
+        data_cutoff TIMESTAMPTZ NOT NULL,
+        policy_id VARCHAR NOT NULL,
+        methodology_version VARCHAR NOT NULL,
+        edge_state VARCHAR NOT NULL CHECK (edge_state IN ('EMERGING', 'ACTIVE', 'STABLE',
+            'DECAYING', 'DORMANT', 'DEAD', 'INSUFFICIENT')),
+        source_id VARCHAR NOT NULL,
+        recorded_at TIMESTAMPTZ NOT NULL,
+        software_id VARCHAR NOT NULL REFERENCES lab_software(software_id),
+        payload JSON NOT NULL,
+        CHECK (as_of <= data_cutoff)
+    );
+    """,
 ]
 
 ROLE_ENV, RUNTIME_ID_ENV = "PRISM_RUNTIME_ROLE", "PRISM_RUNTIME_ID"
