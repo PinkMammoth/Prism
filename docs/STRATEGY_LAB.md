@@ -3730,6 +3730,51 @@ The full reference is **docs/STRUCTURE.md**. For the Lab:
 | `market structure smoke` (scratch DB; HL all history, BN 2026-04 → 10) | counts in docs/STRUCTURE.md; HL 5.6 s / 234 MB, BN 7.1 s / 275 MB |
 | Benchmark (synthetic 15m, full chain + paths) | 400k bars: swing chain 5.0 s, paths 1.4 s; near-linear (docs/STRUCTURE.md) |
 
+## 19c. Step 17 implemented: structural falsification study
+
+> **EXPLORATORY.** Historical intraday availability is reconstructed under an explicit
+> latency assumption rather than observed in real time.
+
+The full report is **docs/PHASE17_FALSIFICATION.md**. For the Lab:
+
+- **Governance adapter, not a parallel framework.**
+  - `research/lab/structure_study.py` and migration 19 (`lab_structure_studies`,
+    `lab_structure_study_datasets`, `lab_structure_runs`, `lab_structure_results`) follow
+    the Phase 9/11 pattern: a frozen, content-addressed definition (`sstudy_…`), a run row
+    committed before evaluation, one terminal result per run, and explicit reruns.
+  - Evidence class is CHECKed `EXPLORATORY`.
+  - Reused: retained Lab datasets (`perp_intraday_bars` 4h/1h/15m + `perp_funding`) read
+    only from hash-verified snapshots, `SoftwareIdentity`, `ordered_now`, Phase 5 BH,
+    `decluster`, `plateau_verdict` and `perp_costs`.
+- **Why not a `StrategyDefinition`.** Lab strategies are daily, one-sided condition trees,
+  and plans preregister daily inputs only. `StrategyDefinition` and `lab_features_v1` are
+  unchanged.
+- **Study.** `config/structure/phase17_falsification.v1.yaml`:
+  - primary architecture: 4h levels → 1h events; secondary: 1h → 15m;
+  - 3 level types × A→E ladder + held breakout + stretch control, reversal and
+    continuation;
+  - matched (coin/direction/vol-tercile) random-entry nulls and per-venue BH families
+    (38 / 6 / 54; secondary 36);
+  - one-at-a-time neighbours (17 chain variants per level type);
+  - Hyperliquid and Binance never pooled.
+- **Result** (`sstudy_908e4387…`): no hypothesis survives correction on either venue, and
+  nothing is PROMISING or ROBUST. Structure confirmation's apparent edge is a non-executable
+  selection: +105 to +243 bps from the sweep entry versus −6 to −78 bps from the
+  confirmation entry.
+- **Unchanged:** forward tracker, co-pilot, paper trader, runtime schedule and every
+  policy. No consumer reads `lab_structure_*` (tested).
+
+### Step 17 verification
+
+| Check | Result |
+|---|---|
+| `pytest tests/test_structure_study.py` | **27 passed** |
+| `pytest` structure + trade-path + intraday + Lab governance/batch + Phase 17 | **167 passed** |
+| `pytest` (full) | **737 passed** in 22 m 52 s; before Step 17: 710 |
+| `ruff check` / `ruff format --check` / `git diff --check` | Passed |
+| Governed run (scratch DB) | `srun_b2a805a9…` COMPLETED, 209 s / 2.4 GB |
+| Reproducibility | the first rerun differed only in leaked timing fields (fixed in `b060f82`); both later reruns reproduce digest `4ac47837…` exactly |
+
 ## 20. Verification
 
 Baseline before changes: **173 tests passed**, repository Ruff checks passed, and all

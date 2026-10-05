@@ -15,6 +15,10 @@ profitability (that is Phase 17), and no live consumer reads any of it (see
 Code: `src/market_signal/research/structure/`. CLI: `market structure catalog | smoke`. Tests:
 `tests/test_structure.py`.
 
+**Phase 17** used these primitives, unchanged, in a preregistered falsification study of the
+A → E ladder (breach → failed breakout → rejection → structure shift → retest). No claim
+survived correction. See [PHASE17_FALSIFICATION.md](PHASE17_FALSIFICATION.md).
+
 ## Architecture: state, event, path
 
 | layer | module | what it is | examples |
