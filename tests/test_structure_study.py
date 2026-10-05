@@ -448,6 +448,22 @@ def test_venues_are_never_pooled():
         )
 
 
+def test_result_payload_is_deterministic_and_carries_no_clock():
+    """Two evaluations of the same inputs give the same digest; timings live in meta only."""
+    from market_signal.research.structure.study.run import digest, evaluate
+
+    man = small_manifest(architectures=[{**small_manifest().architecture("primary").model_dump(mode="json"),
+                                         "axes": [], "subgroups": False}])  # fmt: skip
+    defn = definition(man)
+
+    def load(venue, coin):
+        return coin_data(man, venue, coin, seed=7 if coin == "BTC" else 8)
+
+    (p1, m1), (p2, _) = evaluate(defn, load), evaluate(defn, load)
+    assert digest(p1) == digest(p2)
+    assert "seconds" in canonical_json(m1) and "seconds" not in canonical_json(p1)
+
+
 def test_unresolved_same_bar_order_is_never_an_outcome():
     ev_ind = pd.DataFrame({"rung": "B_failed", "direction": "reversal", "key": ["k1", "k2", "k3"],
                            "coin": "X"})  # fmt: skip

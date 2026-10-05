@@ -66,7 +66,7 @@ def evaluate(defn: StudyDefinition, load) -> tuple[dict, dict]:
     man = defn.manifest
     st = man.statistics
     t0 = time.perf_counter()
-    meta: dict = {"seconds": {}, "source_bars": {}, "variants": {}}
+    meta: dict = {"seconds": {}, "seconds_per_coin": {}, "source_bars": {}, "variants": {}}
     cache: dict = {}
     archs: dict = {}
     for arch in man.architectures:
@@ -90,6 +90,7 @@ def evaluate(defn: StudyDefinition, load) -> tuple[dict, dict]:
             out["event_window"] = [w.event_start.isoformat(), w.event_end.isoformat()]
             res["venues"][w.venue] = out
             meta["seconds"][f"{arch.name}|{w.venue}"] = round(time.perf_counter() - ta, 2)
+            meta["seconds_per_coin"][f"{arch.name}|{w.venue}"] = col.seconds
             meta["source_bars"][f"{arch.name}|{w.venue}"] = sum(
                 v["rows"] for c in col.inputs.values() for k, v in c.items() if isinstance(v, dict)
             )

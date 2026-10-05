@@ -271,8 +271,8 @@ def analyse_venue(defn: StudyDefinition, arch: Architecture, col: Collected) -> 
     cost = pd.Series({c.coin: c.per_side for c in defn.costs if c.venue == venue})
     keys = ("coin", "d", "vol")
     pool = pools(base, hp, keys) if len(base) else {}
-    out: dict = {"venue": venue, "inputs": col.inputs, "counts": dict(col.counts),
-                 "seconds_per_coin": col.seconds}  # fmt: skip
+    # Wall-clock timings (col.seconds) are run metadata, never part of the result digest.
+    out: dict = {"venue": venue, "inputs": col.inputs, "counts": dict(col.counts)}
     if ev.empty:
         out["empty"] = True
         return out
