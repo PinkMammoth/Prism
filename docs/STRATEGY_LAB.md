@@ -3918,6 +3918,36 @@ The full reference is **docs/EDGE_LIFECYCLE.md**. For the Lab:
 | Governed run (scratch DB) | `srun_a5856bb8…` COMPLETED, 183 s / 0.44 GB (concurrent with calibration) |
 | Reproducibility | explicit rerun `srun_b8f0ec91…` and a fresh-copy registration + run (`srun_2dc15907…`, same study ID, 179 s / 0.43 GB) reproduce digest `550c2ba1…` exactly |
 
+## 19g. Step 21 implemented: fast prospective candidate incubation
+
+> **Exploratory paper admission is intentionally permissive. False candidate activations cost
+> no capital and are useful observations. No Phase 21 state authorizes real trading.**
+
+The full reference is **docs/CANDIDATE_INCUBATION.md**. For the Lab:
+
+- **Separate bars, never one threshold:** research evidence (unchanged) / exploratory paper /
+  confirmed paper (designed, unconnected) / future live eligibility (untouched).
+- **Frozen policies** (`research/incubation/policy.py`, IDs pinned): CONSERVATIVE = the
+  unchanged Phase 20 lifecycle `lcpolicy_2fae77e8…` as benchmark (its replay reproduces Phase
+  20's published numbers); BALANCED / AGGRESSIVE = one rule set on a 21-day window (≥ 4
+  outcomes, ≥ 2 assets, mean ≥ floor, not one asset, not worse than random timing) admitting at
+  t ≥ 2.0 / 1.0 at a single daily evaluation, deactivating at t ≤ 1.0 / 0.0. Chosen on synthetic
+  data by pre-declared rules (the grid was extended in t once, disclosed).
+- **Levels** INSUFFICIENT / NEUTRAL / WATCH / EXPLORATORY_PAPER / CONFIRMED_PAPER / DORMANT;
+  fast dormancy, reactivation as new episodes with deterministic IDs; no LIVE state.
+- **Synthetic:** useful detection in 15–33 days (CONSERVATIVE 50–180+); 14-day edges are
+  uncapturable at the catalogue's information rate; null participation 8% / 14% / 33% and
+  0.2 / 3.5 / 5.0 false admissions per strategy-year (C / B / A).
+- **Retrospective replay** (diagnostics only, digest `c649db93…`): no policy finds an edge in
+  the catalogue; the pool fires ≈ 0.06 signals per strategy-day, so the fast policies are
+  data-limited (AGGRESSIVE active 6% of strategy-time on HL).
+- **Prospective:** migration 21 (append-only `incubation_*`), `market lab incubation freeze`
+  then `run` (runtime prospective job, last step): live-window-only daily snapshots,
+  decisions, transitions, shadow intents ($1,000 fixed notional, frozen costs, T+1 open →
+  T+10 close) and write-once outcomes. Not yet frozen on the live database.
+- **Unchanged:** forward tracker, co-pilot, paper trader and their policies, Phase 20
+  lifecycle; no consumer reads `research.incubation` (tested).
+
 ## 20. Verification
 
 Baseline before changes: **173 tests passed**, repository Ruff checks passed, and all

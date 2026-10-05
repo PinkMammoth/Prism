@@ -73,7 +73,7 @@ and history are not left to it. They live in Prism (below).
 
 | job | times (UTC) | steps (existing commands, in order) |
 |---|---|---|
-| `prospective` | 00:10, 00:45, 03:00, 06:00, 11:00, 17:00 | `lab forward run` (Hyperliquid candles + funding + HL OI snapshot → Phase 8 check → resolve) → `lab copilot run --no-update` → `lab paper run` → `lab paper brief --send` (Phase 13 snapshot + brief) |
+| `prospective` | 00:10, 00:45, 03:00, 06:00, 11:00, 17:00 | `lab forward run` (Hyperliquid candles + funding + HL OI snapshot → Phase 8 check → resolve) → `lab copilot run --no-update` → `lab paper run` → `lab paper brief --send` (Phase 13 snapshot + brief) → `lab incubation run` (Phase 21 candidate incubation: shadow records only; a no-op until `market lab incubation freeze` has been run once, and after the day's bar is recorded) |
 | `backup` | 01:30 | checkpoint → copy → verify → prune → record |
 | `oi` | 02:30, 08:30, 14:30, 20:30 | `oi collect` (Binance OI backfill + HL OI snapshot) |
 | `daily` | 09:00 | `update` → `scan` (the old 10:00 UK "Prism daily" task) |

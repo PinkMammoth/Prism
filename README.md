@@ -285,4 +285,8 @@ no OI information demonstrated beyond price, Hyperliquid OI insufficient) is in
 strategy-lifecycle evidence — rolling, recency-weighted, regime-local and stress-split
 evidence beside lifetime evidence, edge states, a hysteretic lifecycle simulated causally,
 synthetic calibration and `market lab edge` queries (research only; nothing promoted) — in
-[docs/EDGE_LIFECYCLE.md](docs/EDGE_LIFECYCLE.md).
+[docs/EDGE_LIFECYCLE.md](docs/EDGE_LIFECYCLE.md). Phase 21 adds fast prospective candidate incubation — frozen
+CONSERVATIVE / BALANCED / AGGRESSIVE exploratory-paper admission policies, shadow paper
+intents and episodes, opportunity-rate and long/short diagnostics, temporary-edge calibration
+and `market lab incubation` queries (exploratory paper only; no state authorizes real
+trading) — in [docs/CANDIDATE_INCUBATION.md](docs/CANDIDATE_INCUBATION.md).
