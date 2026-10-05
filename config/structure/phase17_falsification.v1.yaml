@@ -1,0 +1,85 @@
+# Phase 17: preregistered falsification study of discretionary price-action claims.
+# EXPLORATORY. Historical intraday availability is reconstructed under an explicit latency
+# assumption rather than observed in real time. Frozen by `market structure study register`;
+# the study_id is the content hash of this manifest plus the frozen costs and dataset IDs.
+#
+# Every value below was fixed from data COVERAGE and the Phase 16 defaults before any
+# outcome was computed. Windows (see docs/PHASE17_FALSIFICATION.md, "Data"):
+#   Hyperliquid events 2026-04-01 -> 2026-10-01: HL retains only 5,000 1h bars (from
+#     2026-03-11 at the 2026-10-05 backfill), so 1h events start after >= 2 weeks of 1h
+#     warmup; 4h levels/regimes use 4 months of warmup.
+#   Binance events 2024-10-01 -> 2026-04-01: starts where Phase 15's governed Binance 15m
+#     history starts (so 15m ambiguity resolution exists throughout) and ENDS where the
+#     Hyperliquid window begins (Phase 11's rule: no hour contributes outcomes to both
+#     venues). Binance is a cross-venue/cross-regime reproduction check, not validation.
+#   Both end on/before 2026-10-01: nothing after it is read.
+name: phase17_structure_falsification_v1
+description: >-
+  Do prior-level breaches, failed breakouts ("sweeps"), rejection, structure-shift
+  confirmation and retests contain forward-return information, in the reversal OR the
+  continuation direction, and does each confirmation layer add information or only
+  reduce the sample and delay the entry? An attempt to falsify the A->E ladder.
+coins: [BTC, ETH, SOL, HYPE, LINK, AAVE]
+assumed_latency_s: 60.0
+venues:
+  - venue: hyperliquid
+    start_4h: "2025-12-01T00:00:00Z"
+    start_1h: "2026-03-15T00:00:00Z"
+    start_15m: "2026-08-15T00:00:00Z"
+    start_funding: "2026-03-15T00:00:00Z"
+    end: "2026-10-01T00:00:00Z"
+  - venue: binance
+    start_4h: "2024-06-01T00:00:00Z"
+    start_1h: "2024-09-01T00:00:00Z"
+    start_15m: "2024-10-01T00:00:00Z"
+    start_funding: "2024-09-01T00:00:00Z"
+    end: "2026-04-01T00:00:00Z"
+architectures:
+  # PRIMARY: 4h structural levels -> 1h breach / failure / rejection / shift / retest.
+  # 15m is used ONLY to resolve same-bar stop/target ordering. Confirmation on 15m was
+  # rejected because Hyperliquid 15m covers ~52 days (most 1h sweeps would be NO_DATA).
+  - name: primary
+    structure_tf: 4h
+    event_tf: 1h
+    confirm_tf: 1h
+    resolve_tf: 15m
+    horizons: [4, 24, 96]        # 4 h, 1 day, 4 days of 1h bars
+    primary_horizon: 24          # 1 day
+    windows:
+      - {venue: hyperliquid, event_start: "2026-04-01T00:00:00Z", event_end: "2026-10-01T00:00:00Z"}
+      - {venue: binance, event_start: "2024-10-01T00:00:00Z", event_end: "2026-04-01T00:00:00Z"}
+    central:
+      swing: {kind: swing, swing: {left: 2, right: 2}, max_age_bars: 200}
+      prior_extreme: {kind: prior_extreme, n: 20}
+      cluster: {kind: cluster, swing: {left: 2, right: 2}, tolerance: {method: atr, value: 0.2}, max_age_bars: 200}
+      min_excursion_bps: 0.0
+      min_excursion_atr: 0.1
+      failure_window: 2
+      rejection: {min_wick_range: 0.5, within_bars: 0}
+      structure_shift: {swing: {left: 2, right: 2}, window: 20, break_on: close, min_excursion_atr: 0.0}
+      retest: {tolerance: {method: atr, value: 0.2}, max_delay: 10}
+    # One-at-a-time neighbours (central value in the middle); sensitivity, never search.
+    axes:
+      - {name: level_swing, values: [1, 2, 3]}
+      - {name: prior_n, values: [10, 20, 50]}
+      - {name: cluster_tol_atr, values: [0.1, 0.2, 0.3]}
+      - {name: overshoot_atr, values: [0.0, 0.1, 0.25]}
+      - {name: failure_window, values: [0, 2, 5]}
+      - {name: rejection_wick, values: [0.33, 0.5, 0.66]}
+      - {name: shift_window, values: [10, 20, 50]}
+      - {name: shift_swing, values: [1, 2, 3]}
+      - {name: retest_tol_atr, values: [0.1, 0.2, 0.3]}
+      - {name: retest_max_delay, values: [5, 10, 20]}
+    stretch_control: {lookback_bars: 4, threshold_atr: 2.0}
+    subgroups: true
+  # SECONDARY (exploratory, separate family, central parameters only): 1h levels -> 15m
+  # events and confirmation. Frozen independently of the primary family.
+  - name: secondary
+    structure_tf: 1h
+    event_tf: 15m
+    confirm_tf: 15m
+    horizons: [4, 16, 96]        # 1 h, 4 h, 1 day of 15m bars
+    primary_horizon: 16          # 4 h
+    windows:
+      - {venue: hyperliquid, event_start: "2026-08-22T00:00:00Z", event_end: "2026-10-01T00:00:00Z"}
+      - {venue: binance, event_start: "2024-10-08T00:00:00Z", event_end: "2026-04-01T00:00:00Z"}

@@ -42,6 +42,9 @@ def capture_software(root: Path) -> SoftwareIdentity:
         commit = subprocess.run(
             ["git", "rev-parse", "HEAD"], cwd=root, capture_output=True, text=True, check=True
         ).stdout.strip()
+    if not commit and (root / "REVISION").is_file():
+        # A deployed export of one commit (no .git): the commit recorded when it was exported.
+        commit = (root / "REVISION").read_text().strip() or None
     packages = []
     for name in (
         "prism-market-signal",

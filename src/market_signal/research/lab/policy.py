@@ -31,7 +31,9 @@ from market_signal.research.lab.common import (
     content_id,
 )
 
-DatasetRole = Literal["discovery", "development", "validation", "final_holdout"]
+# "corroboration" (Phase 11): another venue's earlier history, used only for historically
+# exposed, non-independent cross-venue evidence. It never stands in for "validation".
+DatasetRole = Literal["discovery", "development", "validation", "final_holdout", "corroboration"]
 
 
 class Period(LabModel):

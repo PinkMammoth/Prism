@@ -245,6 +245,34 @@ def _selections(source: str, symbol: str, start, end) -> tuple[SeriesSelection, 
     )
 
 
+def newest_bar(store, source: str, symbol: str, now) -> pd.Timestamp | None:
+    """Close of the newest completed daily perp bar stored at ``now`` (None if none)."""
+    row = store.con.execute(
+        "SELECT max(close_time) FROM perp_bars WHERE coin=? AND source=? AND "
+        "timeframe='1d' AND close_time<=?",
+        [symbol, source, _ts(now).to_pydatetime()],
+    ).fetchone()
+    return None if row[0] is None else _ts(row[0])
+
+
+def in_live_window(bar, now) -> bool:
+    """Bar T is live from its close until the next bar completes (one bar interval)."""
+    return _ts(bar) <= _ts(now) < _ts(bar) + GRACE
+
+
+def live_snapshot(store, source: str, symbol: str, bar, lookback_days: int) -> Snapshot:
+    """Rows available at bar T's close: bars with close_time <= T, funding to the minute."""
+    bar = _ts(bar)
+    start = bar - pd.Timedelta(days=lookback_days)
+    return _snapshot(store, _selections(source, symbol, start, bar + AVAILABILITY_SLACK))
+
+
+def funding_ready(snap: Snapshot, symbol: str, bar) -> bool:
+    """Has funding through the bar close been ingested (judged to the minute)?"""
+    funding = snap.find("perp_funding", symbol)[1]
+    return any(_ts(r["time"]).round("min") >= _ts(bar) for r in funding)
+
+
 def _input_id(snapshot: Snapshot) -> tuple[str, str]:
     manifest = snapshot.manifest.canonical_json()
     return content_id("fwdinput_", json.loads(manifest)), manifest
@@ -329,8 +357,9 @@ def build_definition(
     from market_signal.research.lab.policy import ScreenPlan
 
     profile = _profile(ledger, profile_id)
-    if profile.profile_schema == "3":
-        raise ForwardError("enroll from a historical profile, not a forward-extended one")
+    # 4 = Phase 9 extension, 5 = Phase 11 corroboration extension; enroll from history
+    if profile.profile_schema in ("3", "4", "5"):
+        raise ForwardError("enroll from a historical profile, not an extended one")
     if profile.tier not in ENROLLABLE_TIERS:
         raise ForwardError(
             f"profile tier {profile.tier} is not trackable; forward tracking starts from "
@@ -520,32 +549,23 @@ def check(
         definition = ledger.get_strategy(d.strategy_id)
         for symbol in d.assets:
             note = {"tracking_id": tid, "symbol": symbol}
-            row = ledger.store.con.execute(
-                "SELECT max(close_time) FROM perp_bars WHERE coin=? AND source=? AND "
-                "timeframe='1d' AND close_time<=?",
-                [symbol, d.source, now.to_pydatetime()],
-            ).fetchone()
-            if row[0] is None:
+            bar = newest_bar(ledger.store, d.source, symbol, now)
+            if bar is None:
                 notes.append({**note, "note": "no completed bars stored"})
                 continue
-            bar = _ts(row[0])
             note["bar_close"] = bar.isoformat()
             if bar <= _ts(t["enrolled_at"]):
                 notes.append({**note, "note": "newest bar closed before enrollment"})
                 continue
-            if now - bar >= GRACE:
+            if not in_live_window(bar, now):
                 notes.append({**note, "note": "newest stored bar is outside its evaluation "
                               "window; missed bars are never backfilled (run an update first)"})  # fmt: skip
                 continue
             key = (d.source, symbol, bar, d.lookback_days)
             if key not in snapshots:
-                start = bar - pd.Timedelta(days=d.lookback_days)
-                snapshots[key] = _snapshot(
-                    ledger.store, _selections(d.source, symbol, start, bar + AVAILABILITY_SLACK)
-                )
+                snapshots[key] = live_snapshot(ledger.store, d.source, symbol, bar, d.lookback_days)
             snap = snapshots[key]
-            funding = snap.find("perp_funding", symbol)[1]
-            if not any(_ts(r["time"]).round("min") >= bar for r in funding):
+            if not funding_ready(snap, symbol, bar):
                 notes.append({**note, "note": "funding through the bar close is not ingested "
                               "yet; will retry inside the window"})  # fmt: skip
                 continue
@@ -1176,7 +1196,7 @@ def candidates(ledger: Ledger, analysis_id: str, policy_id: str) -> dict:
                 if p["policy_id"] == policy_id]  # fmt: skip
     groups = defaultdict(list)
     for p in profiles:
-        if p["tier"] in ENROLLABLE_TIERS and p.get("profile_schema") != "3":
+        if p["tier"] in ENROLLABLE_TIERS and p.get("profile_schema") not in ("3", "5"):
             s = p["subject"]
             groups[(str(s["family"] or s["ledger_family"]), s["side"])].append(p)
     out = []

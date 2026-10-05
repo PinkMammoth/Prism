@@ -8,7 +8,7 @@ It records governance facts, not an evaluator or a guarantee against out-of-band
 from __future__ import annotations
 
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import Annotated, Literal
 from uuid import uuid4
 
@@ -116,6 +116,22 @@ class _Result(LabModel):
 
 def _new_id(prefix: str) -> str:
     return prefix + uuid4().hex
+
+
+# The wall clock can step backwards. Observed on this WSL2 host (2026-10-04): bursts of
+# ~0.6 s backward steps every ~32 s while the VM re-synchronises its clock, which made
+# start/record_result intermittently raise "clock precedes ...". Program order already
+# proves the later event follows the record it is compared with, so a small regression is
+# recorded as that record's timestamp (equal, never earlier). A larger regression is still
+# returned as-is, and the caller refuses it as an impossible ordering.
+CLOCK_STEP_TOLERANCE = timedelta(seconds=5)
+
+
+def ordered_now(not_before: datetime) -> datetime:
+    now = utcnow()
+    if now < not_before and not_before - now <= CLOCK_STEP_TOLERANCE:
+        return not_before
+    return now
 
 
 class Ledger:
@@ -517,7 +533,7 @@ class Ledger:
             self.read_dataset(
                 experiment.dataset_id
             )  # validate retained inputs before recording start
-            now = utcnow()
+            now = ordered_now(experiment.created_at)
             if now < experiment.created_at:
                 raise LedgerError("clock precedes preregistration")
             self.store.con.execute("INSERT INTO lab_starts VALUES (?,?)", [experiment_id, now])
@@ -570,7 +586,7 @@ class Ledger:
                 "SELECT 1 FROM lab_results WHERE experiment_id=?", [experiment_id]
             ).fetchone():
                 raise LedgerError("terminal result is immutable; register a new attempt")
-            now = utcnow()
+            now = ordered_now(start["started_at"])
             if now < start["started_at"]:
                 raise LedgerError("completion clock precedes start")
             self.store.con.execute(

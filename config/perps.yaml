@@ -80,3 +80,28 @@ open_interest:
     stale_hours: 12                 # doctor: newest row older → "stale" (still recoverable)
     recovery_warn_days: 20          # doctor: "AT RISK" — the oldest missing hours drop out at ~30d
     symbols: {BTC: BTCUSDT, ETH: ETHUSDT, SOL: SOLUSDT, HYPE: HYPEUSDT, LINK: LINKUSDT, AAVE: AAVEUSDT}
+
+# ---------------------------------------------------------------- intraday bars (Phase 15: data only)
+# Market-data substrate, NOT a signal: nothing here feeds a strategy, the co-pilot or the paper
+# run. Bars are UTC half-open [open_time, close_time) on the epoch grid; stored only once
+# closed. See docs/INTRADAY.md.
+intraday:
+  timeframes: [15m, 1h, 4h]
+  settle_seconds: 5                 # a bar counts as closed only if it closed >= 5 s before the request was sent
+  stale_after_minutes: {15m: 45, 1h: 120, 4h: 300}   # newest closed bar older than this → STALE (live venues)
+  disk:                             # disk-guard estimates (measured on the Phase 15 backfill, rounded up)
+    db_bytes_per_row: 40         # measured 18 B/row compacted (no index); ×2 for fragmentation
+    raw_bytes_per_row: 60        # measured 28 (Hyperliquid) – 47 (Binance) B/row gzip
+  venues:
+    hyperliquid:                    # LIVE: the paper/co-pilot venue; provider-native candleSnapshot bars
+      live: true
+      retention_bars: 5000          # the API serves only the newest 5,000 candles per interval
+      page_bars: 5000
+      overlap_bars: {15m: 4, 1h: 3, 4h: 2}   # every update re-reads these closed bars (revision window)
+      history_start: {15m: max, 1h: max, 4h: max}   # = whatever the provider still serves
+    binance:                        # HISTORY ONLY (never scheduled): deeper 15m/1h/4h for research
+      live: false
+      symbols: {BTC: BTCUSDT, ETH: ETHUSDT, SOL: SOLUSDT, HYPE: HYPEUSDT, LINK: LINKUSDT, AAVE: AAVEUSDT}
+      page_bars: 1500
+      overlap_bars: {15m: 4, 1h: 3, 4h: 2}
+      history_start: {15m: "2024-10-01", 1h: "2019-09-01", 4h: "2019-09-01"}   # 15m: 24 months; 1h/4h: since USD-M launch

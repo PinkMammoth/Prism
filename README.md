@@ -270,3 +270,23 @@ The phase-by-phase build log is in [PLAN.md](PLAN.md). V2 ideas are in
 
 The [Strategy Lab audit and phased design](docs/STRATEGY_LAB.md) maps the current research
 infrastructure and documents the isolated strategy-definition foundation.
+Intraday market data is described in [docs/INTRADAY.md](docs/INTRADAY.md). The descriptive
+structural-price and trade-path primitives (swings, equal highs/lows, failed breakouts,
+structure shifts, retests, MFE/MAE/R with explicit OHLC ambiguity) are in
+[docs/STRUCTURE.md](docs/STRUCTURE.md). The Phase 17 preregistered falsification study of
+sweep / rejection / structure-shift / retest claims (EXPLORATORY; nothing survived) is in
+[docs/PHASE17_FALSIFICATION.md](docs/PHASE17_FALSIFICATION.md). The Phase 18 preregistered study of
+relative strength, BTC beta/correlation, residuals and cross-asset dislocation (EXPLORATORY;
+nothing robust, no USD-directional or after-cost relative edge) is in
+[docs/PHASE18_RELATIVE_STRENGTH.md](docs/PHASE18_RELATIVE_STRENGTH.md). The Phase 19 preregistered
+study of open interest × price × funding (EXPLORATORY; 23 days of Binance OI; nothing robust,
+no OI information demonstrated beyond price, Hyperliquid OI insufficient) is in
+[docs/PHASE19_OI_PRICE.md](docs/PHASE19_OI_PRICE.md). Phase 20 adds time-varying edge and
+strategy-lifecycle evidence — rolling, recency-weighted, regime-local and stress-split
+evidence beside lifetime evidence, edge states, a hysteretic lifecycle simulated causally,
+synthetic calibration and `market lab edge` queries (research only; nothing promoted) — in
+[docs/EDGE_LIFECYCLE.md](docs/EDGE_LIFECYCLE.md). Phase 21 adds fast prospective candidate incubation — frozen
+CONSERVATIVE / BALANCED / AGGRESSIVE exploratory-paper admission policies, shadow paper
+intents and episodes, opportunity-rate and long/short diagnostics, temporary-edge calibration
+and `market lab incubation` queries (exploratory paper only; no state authorizes real
+trading) — in [docs/CANDIDATE_INCUBATION.md](docs/CANDIDATE_INCUBATION.md).
