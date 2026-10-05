@@ -3859,6 +3859,65 @@ The full report is **docs/PHASE19_OI_PRICE.md**. For the Lab:
 | Governed run (scratch DB) | `srun_08a74900…` COMPLETED, 9.6 s / 0.30 GB |
 | Reproducibility | fresh-copy and explicit reruns reproduce digest `21abe032…` exactly |
 
+## 19f. Step 20 implemented: time-varying edge and strategy lifecycle
+
+> **Phase 20 does not lower Prism's evidence standards. It changes the hypothesis from
+> "timeless edge" to "currently credible edge" while retaining full historical context.**
+> **Temporary profitability is not assumed to be durable. Active status must continually be
+> re-earned.**
+
+The full reference is **docs/EDGE_LIFECYCLE.md**. For the Lab:
+
+- **A second evidence dimension, not a parallel scoring system.** `research/lifecycle/` builds
+  a causal outcome ledger from the Phase 3 compiler, `side_forward_returns` and `decluster`
+  (parity with the Phase 4 screen is tested) with a *causal trailing* baseline for excess,
+  then evaluates lifetime, rolling (30/90/180/365/730 d; latest 20/50/100 events),
+  recency-weighted (half-lives 30/90/180/365 d, Kish ESS, contribution by age), regime-local
+  (coarse BTC trend/vol/breadth/funding) and stress-split evidence side by side. Tiers, FDR,
+  full research and validation are untouched; an edge state is not a tier.
+- **Frozen policy** `lab_edge_lifecycle_policy` v1 (`lcpolicy_2fae77e8…`, pinned): windows,
+  gates (20 events, 3 assets, 80% evaluable), economic floor (0.40% per 10-day event),
+  time-block cluster-robust uncertainty, edge-state rules, activation (recent t ≥ 2, mean ≥
+  floor, 2 confirmations) and weaker continuation (mean ≥ 0, t ≥ 0.5; 4 failures → DORMANT),
+  weekly-block CUSUM, regime and stress definitions. Calibrated on synthetic data only, before
+  any real-data lifecycle run.
+- **Edge states** EMERGING / ACTIVE / STABLE / DECAYING / DORMANT / DEAD / INSUFFICIENT, a
+  first-class recent-versus-lifetime divergence pattern, descriptive decay metrics, the
+  chronological curve and continuous diagnostics.
+- **Lifecycle** DISCOVERED → WATCH → ACTIVE_CANDIDATE → PAPER_ACTIVE ⇄ DEGRADED → DORMANT →
+  RETIRED, reversible (reacquisition), append-only history, simulated walk-forward in static /
+  recent / regime modes. PAPER_ACTIVE is simulated and grants nothing.
+- **Governance:** the historical methodology study is a fourth kind (`edge_lifecycle_v1`) on
+  the Phase 17 study adapter (no new governance tables); data stop at 2026-10-01, so the Phase
+  9 validation window is never read. Migration 20 adds append-only `lab_edge_profiles`.
+- **Queries:** `market lab edge status|history|compare|lifecycle|list --json` read stored
+  profiles only; no window, threshold or date parameter exists. Profiles consume Phase 8
+  forward summaries read-only and do not weight them (v1).
+- **Results** (`sstudy_6c52cc92…`, run `srun_a5856bb8…`, 128 catalogue variants as
+  fixtures): Binance edge states DEAD 87, DORMANT 22, DECAYING 15, INSUFFICIENT 2, EMERGING 1,
+  STABLE 1; the recent lifecycle was active 2% of strategy-time (33 activations, 8
+  reacquisitions); static −0.10%/event vs +0.33% (recent) and +1.99% (regime) per
+  participating event on small samples; on Hyperliquid's short history the lifecycle lost
+  (−1.28% per participating event). Nothing is promoted.
+- **Synthetic calibration:** null participation 10.6% (0.22 false activations per
+  strategy-year); a planted 3%/event edge is detected after a median 180 days (68% captured)
+  and a decayed one deactivated after a median 156 days.
+- **Unchanged:** forward tracker, co-pilot, paper trader, `copilot_policy v1`,
+  `autotrader_policy v1`, `paper_risk_policy v1`, runtime schedule. No consumer reads
+  `research.lifecycle` or `lab_edge_profiles` (tested).
+
+### Step 20 verification
+
+| Check | Result |
+|---|---|
+| `pytest tests/test_edge_lifecycle.py` | **30 passed** |
+| `pytest` (full) | **824 passed, 1 failed** of 825 (before Phase 20: 795). The failure is `test_cli_copilot_lifecycle` ("status events must be recorded in time order"): a pre-existing WSL clock-step flake in `copilot/engine.py`, which compares raw `utcnow()` without the `ordered_now` tolerance. Phase 20 does not touch the co-pilot; the test passed on rerun (4 of 5 isolated runs) |
+| `pytest` Phase 17–20 studies + forward + co-pilot + paper + runtime + governance + intraday + evidence + validation | **380 passed** (including `test_cli_copilot_lifecycle`) |
+| `ruff check` / `ruff format --check` / `git diff --check` | Passed |
+| Synthetic calibration (1,660 runs) | 220 s with 8 workers; worker-count invariant |
+| Governed run (scratch DB) | `srun_a5856bb8…` COMPLETED, 183 s / 0.44 GB (concurrent with calibration) |
+| Reproducibility | explicit rerun `srun_b8f0ec91…` and a fresh-copy registration + run (`srun_2dc15907…`, same study ID, 179 s / 0.43 GB) reproduce digest `550c2ba1…` exactly |
+
 ## 20. Verification
 
 Baseline before changes: **173 tests passed**, repository Ruff checks passed, and all

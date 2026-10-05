@@ -281,4 +281,8 @@ nothing robust, no USD-directional or after-cost relative edge) is in
 [docs/PHASE18_RELATIVE_STRENGTH.md](docs/PHASE18_RELATIVE_STRENGTH.md). The Phase 19 preregistered
 study of open interest × price × funding (EXPLORATORY; 23 days of Binance OI; nothing robust,
 no OI information demonstrated beyond price, Hyperliquid OI insufficient) is in
-[docs/PHASE19_OI_PRICE.md](docs/PHASE19_OI_PRICE.md).
+[docs/PHASE19_OI_PRICE.md](docs/PHASE19_OI_PRICE.md). Phase 20 adds time-varying edge and
+strategy-lifecycle evidence — rolling, recency-weighted, regime-local and stress-split
+evidence beside lifetime evidence, edge states, a hysteretic lifecycle simulated causally,
+synthetic calibration and `market lab edge` queries (research only; nothing promoted) — in
+[docs/EDGE_LIFECYCLE.md](docs/EDGE_LIFECYCLE.md).
