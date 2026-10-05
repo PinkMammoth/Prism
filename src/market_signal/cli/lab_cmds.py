@@ -9,7 +9,9 @@ Phase 11 ``corroboration register``/``run``/``evidence`` are the only Lab writes
 terminal result -> one batch analysis). There are no promotion or AI-generation commands.
 The ``copilot`` sub-commands are a consumer of Lab evidence and write only co-pilot tables.
 The ``paper`` sub-commands (simulated auto-trader) are another consumer and write only
-``paper_*`` tables.
+``paper_*`` tables. The ``edge`` sub-commands (Phase 20 lifecycle evidence) are research
+only: their queries are read-only and their writes touch only the study registry and
+``lab_edge_profiles``.
 """
 
 from __future__ import annotations
@@ -822,6 +824,15 @@ def _paper() -> None:
 
 
 _paper()
+
+
+def _edge() -> None:
+    from market_signal.cli.edge_cmds import edge
+
+    lab.add_typer(edge, name="edge")
+
+
+_edge()
 
 
 def register(app: typer.Typer) -> None:

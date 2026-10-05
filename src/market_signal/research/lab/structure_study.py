@@ -29,11 +29,12 @@ Lifecycle (append-only; no update/delete API):
 
 No consumer reads these tables, and no field can mark a study validated.
 
-Phase 18 (relative strength / BTC dislocation) and Phase 19 (open interest x price x
-funding) studies use the same tables and lifecycle: the definition type is chosen by its
-``study_version`` (``RelativeStudyDefinition`` for ``relative_strength_v1``,
-``OiStudyDefinition`` for ``oi_price_v1``), and each kind brings its own manifest, dataset
-selections, loader and evaluation. Nothing else differs.
+Phase 18 (relative strength / BTC dislocation), Phase 19 (open interest x price x funding)
+and Phase 20 (edge lifecycle methodology) studies use the same tables and lifecycle: the
+definition type is chosen by its ``study_version`` (``RelativeStudyDefinition`` for
+``relative_strength_v1``, ``OiStudyDefinition`` for ``oi_price_v1``,
+``LifecycleStudyDefinition`` for ``edge_lifecycle_v1``), and each kind brings its own
+manifest, dataset selections, loader and evaluation. Nothing else differs.
 """
 
 from __future__ import annotations
@@ -76,11 +77,14 @@ def _rows(ledger: Ledger, sql: str, args: list) -> list[dict]:
 
 RELATIVE_VERSION = "relative_strength_v1"
 OI_PRICE_VERSION = "oi_price_v1"
+LIFECYCLE_VERSION = "edge_lifecycle_v1"
 
 
 def _kind(obj) -> str:
-    """``relative`` (Phase 18), ``oi_price`` (Phase 19) or ``structure`` (Phase 17) for a
-    manifest or a definition. Phases 18 and 19 carry their own dataset selections."""
+    """``relative`` (Phase 18), ``oi_price`` (Phase 19), ``lifecycle`` (Phase 20) or
+    ``structure`` (Phase 17) for a manifest or a definition. Phases 18-20 carry their own
+    dataset selections."""
+    from market_signal.research.lifecycle import study as lc
     from market_signal.research.oiprice.study import spec as oi
     from market_signal.research.relative.study import spec as rs
 
@@ -88,6 +92,8 @@ def _kind(obj) -> str:
         return "relative"
     if isinstance(obj, oi.OiStudyManifest | oi.OiStudyDefinition):
         return "oi_price"
+    if isinstance(obj, lc.LifecycleStudyManifest | lc.LifecycleStudyDefinition):
+        return "lifecycle"
     return "structure"
 
 
@@ -111,6 +117,10 @@ def _definition_class(definition_json: str):
         from market_signal.research.oiprice.study.spec import OiStudyDefinition
 
         return OiStudyDefinition
+    if version == LIFECYCLE_VERSION:
+        from market_signal.research.lifecycle.study import LifecycleStudyDefinition
+
+        return LifecycleStudyDefinition
     return StudyDefinition
 
 
@@ -166,8 +176,10 @@ def _latency(manifest) -> float:
 
 
 def register(ledger: Ledger, manifest, *, perps_cfg: dict, software: SoftwareIdentity,
-             origin: str, reason: str, max_rows: int = 250_000) -> StudyDefinition:  # fmt: skip
-    """Capture + register the datasets, then freeze the study. Evaluates nothing."""
+             origin: str, reason: str, max_rows: int = 250_000,
+             catalogue_dir=None) -> StudyDefinition:  # fmt: skip
+    """Capture + register the datasets, then freeze the study. Evaluates nothing.
+    ``catalogue_dir`` (Phase 20 only): the Lab family catalogue whose variants are frozen."""
     _require(ledger)
     if not reason.strip() or not origin.strip():
         raise StudyError("registration needs a reason and an origin")
@@ -191,6 +203,13 @@ def register(ledger: Ledger, manifest, *, perps_cfg: dict, software: SoftwareIde
         defn = oi.OiStudyDefinition(manifest=manifest, families=oi.families_spec(),
                                     costs=frozen_costs(manifest, perps_cfg),
                                     datasets=tuple(refs), semantics=oi.semantics())  # fmt: skip
+    elif _kind(manifest) == "lifecycle":
+        from market_signal.research.lifecycle import study as lc
+
+        if catalogue_dir is None:
+            raise StudyError("a lifecycle study needs the family catalogue directory")
+        defn = lc.definition(manifest, costs=frozen_costs(manifest, perps_cfg),
+                             datasets=tuple(refs), catalogue_dir=catalogue_dir)  # fmt: skip
     else:
         defn = StudyDefinition(manifest=manifest, costs=frozen_costs(manifest, perps_cfg),
                                datasets=tuple(refs), semantics=semantics())  # fmt: skip
@@ -239,6 +258,8 @@ def run(ledger: Ledger, study_id: str, *, software: SoftwareIdentity, rerun_of: 
             from market_signal.research.relative.study.run import evaluate
         elif kind == "oi_price":
             from market_signal.research.oiprice.study.run import evaluate
+        elif kind == "lifecycle":
+            from market_signal.research.lifecycle.run import evaluate
         else:
             from market_signal.research.structure.study.run import evaluate
     runs = _rows(
@@ -274,7 +295,13 @@ def run(ledger: Ledger, study_id: str, *, software: SoftwareIdentity, rerun_of: 
                 rerun_reason,
             ],
         )
-    if kind == "oi_price":
+    if kind == "lifecycle":
+        from market_signal.research.lab.compiler import Snapshot
+
+        def load(venue: str, coin: str):
+            return Snapshot.from_ledger(ledger, defn.dataset(venue, coin))
+
+    elif kind == "oi_price":
         from market_signal.research.oiprice.study.data import load_coin as load_oi_coin
 
         man = defn.manifest

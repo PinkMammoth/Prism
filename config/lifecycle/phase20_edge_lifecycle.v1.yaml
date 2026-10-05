@@ -1,0 +1,44 @@
+# Phase 20 historical lifecycle METHODOLOGY study (EXPLORATORY). Frozen before any lifecycle
+# computation on real data. Existing catalogue strategies are fixtures, not candidates.
+#
+# - Every lifecycle parameter (windows, gates, half-lives, floors, activation/continuation
+#   rules, CUSUM, regime and stress definitions, cadence) is the frozen lab_edge_lifecycle_policy
+#   v1 (src/market_signal/research/lifecycle/policy.py), embedded in the definition by content.
+# - Data stop at the cutoff: the Phase 9 validation window [2026-10-01, 2027-10-01) and the
+#   final holdout are never read.
+# - Binance is primary (longest daily perp + funding history, 2019-09 onwards, covering the
+#   2020-2022 stress periods). Hyperliquid is secondary (funding only from 2023-10-04).
+# - First evaluation dates are fixed calendar choices (Mondays), not chosen from outcomes.
+name: phase20_edge_lifecycle_v1
+description: >-
+  Causal walk-forward lifecycle methodology on all 128 perp variants of the nine v1 Lab
+  families: static versus recent-evidence versus regime-local lifecycle use, edge states and
+  recent-versus-lifetime divergence at the cutoff, stress-split reporting.
+policy_version: 1
+cutoff: "2026-10-01T00:00:00Z"
+horizon_bars: 10
+reference_coin: BTC
+assumed_latency_s: 0
+venues:
+  - venue: binance
+    role: primary
+    coins: [AAVE, BTC, ETH, LINK, SOL]
+    bars_start: "2019-09-01T00:00:00Z"
+    funding_start: "2019-09-01T00:00:00Z"
+    first_evaluation: "2020-07-06T00:00:00Z"
+  - venue: hyperliquid
+    role: secondary
+    coins: [AAVE, BTC, ETH, HYPE, LINK, SOL]
+    bars_start: "2022-08-01T00:00:00Z"
+    funding_start: "2023-10-01T00:00:00Z"
+    first_evaluation: "2024-04-01T00:00:00Z"
+families:
+  - {family: ma_trend, version: 1}
+  - {family: donchian_breakout, version: 1}
+  - {family: trend_pullback, version: 1}
+  - {family: rsi_exhaustion, version: 1}
+  - {family: ma_distance_reversion, version: 1}
+  - {family: vol_compression_breakout, version: 1}
+  - {family: volume_breakout, version: 1}
+  - {family: funding_extreme_fade, version: 1}
+  - {family: funding_momentum_exhaustion, version: 1}
