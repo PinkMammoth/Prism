@@ -8,6 +8,7 @@ import hashlib
 import json
 from pathlib import Path
 
+import pandas as pd
 import pytest
 from pydantic import ValidationError
 from typer.testing import CliRunner
@@ -524,6 +525,33 @@ def test_paused_watch_and_decision_window_check(cop):
             ["d", w["watch_id"], TEST_POLICY.policy_id, cop.ids["long"], "BTC", day(1), day(2, 1),
              out["run_id"], "SUPPRESS", None, None, SW.software_id, "{}"],
         )  # fmt: skip
+
+
+def test_watch_status_tolerates_small_host_clock_steps(cop, monkeypatch):
+    """WSL steps its wall clock back ~0.6 s every ~32 s. A status change read from the host
+    clock just after registration must not fail; a large regression or an explicit earlier
+    time is still refused."""
+    from datetime import timedelta
+
+    from market_signal.research.lab import ledger as lab_ledger
+
+    w = _watch(cop, at=day(0, 2))
+    registered = day(0, 2)
+    monkeypatch.setattr(lab_ledger, "utcnow", lambda: registered - timedelta(milliseconds=600))
+    monkeypatch.setattr(engine, "utcnow", lambda: registered - timedelta(milliseconds=600))
+    out = engine.set_watch_status(cop.store, w["watch_id"], "paused", reason="clock step")
+    # recorded just after the previous event (never earlier, never tied), and it is the status
+    assert (
+        out["recorded_at"] == (pd.Timestamp(registered) + pd.Timedelta(microseconds=1)).isoformat()
+    )
+    assert engine._watch(cop.store, w["watch_id"])["status"] == "paused"
+    monkeypatch.setattr(lab_ledger, "utcnow", lambda: registered - timedelta(seconds=30))
+    monkeypatch.setattr(engine, "utcnow", lambda: registered - timedelta(seconds=30))
+    with pytest.raises(CopilotError, match="time order"):
+        engine.set_watch_status(cop.store, w["watch_id"], "active", reason="large regression")
+    with pytest.raises(CopilotError, match="time order"):  # an explicit time is never adjusted
+        engine.set_watch_status(cop.store, w["watch_id"], "active", reason="explicit",
+                                now=registered - timedelta(milliseconds=1))  # fmt: skip
 
 
 # --------------------------------------------------------------------------- separation

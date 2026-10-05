@@ -48,7 +48,7 @@ from market_signal.research.lab.common import (
 )
 from market_signal.research.lab.compiler import COMPILER_VERSION, compile_strategy
 from market_signal.research.lab.evidence import EvidenceProfile
-from market_signal.research.lab.ledger import Ledger, LedgerError
+from market_signal.research.lab.ledger import Ledger, LedgerError, ordered_now
 from market_signal.research.lab.provenance import SoftwareIdentity
 from market_signal.research.lab.vocabulary import VOCABULARY_VERSION
 
@@ -287,6 +287,14 @@ def set_watch_status(
     if not reason or not reason.strip():
         raise CopilotError("a status change needs a reason")
     w = _watch(store, watch_id)
+    if now is None and w["events"]:
+        # Host clock: absorb the small backward steps WSL makes (ledger.ordered_now, <= 5 s). A
+        # clamped time would tie the previous event, and ties sort by a random event_id, so the
+        # event goes 1 us after it. A larger regression is still refused below.
+        last = _ts(w["events"][-1]["recorded_at"])
+        now = _ts(ordered_now(last.to_pydatetime()))
+        if now == last:  # clamped (or an exact tie); an earlier time stays earlier
+            now = last + pd.Timedelta(microseconds=1)
     now = _ts(now or utcnow())
     if w["status"] == "stopped":
         raise CopilotError("a stopped watch is final; register a new one")
