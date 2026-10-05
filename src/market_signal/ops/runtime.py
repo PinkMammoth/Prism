@@ -57,6 +57,9 @@ JOBS: dict[str, list[tuple[str, list[str]]]] = {
         ("copilot", ["lab", "copilot", "run", "--no-update"]),
         ("paper", ["lab", "paper", "run"]),
         ("brief", ["lab", "paper", "brief", "--send"]),  # snapshot + one brief per paper day
+        # Phase 21: candidate incubation (shadow records only; no-op until a freeze exists and
+        # after the day's bar is recorded). Last, so it can never delay paper or the brief.
+        ("incubation", ["lab", "incubation", "run"]),
     ],
     "oi": [("oi", ["oi", "collect"])],
     "daily": [("update", ["update"]), ("scan", ["scan"])],

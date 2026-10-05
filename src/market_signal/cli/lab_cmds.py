@@ -835,5 +835,14 @@ def _edge() -> None:
 _edge()
 
 
+def _incubation() -> None:
+    from market_signal.cli.incubation_cmds import incubation
+
+    lab.add_typer(incubation, name="incubation")
+
+
+_incubation()
+
+
 def register(app: typer.Typer) -> None:
     app.add_typer(lab, name="lab")

@@ -1013,6 +1013,100 @@ MIGRATIONS: list[str] = [
         CHECK (as_of <= data_cutoff)
     );
     """,
+    # 21 — Phase 21 candidate incubation: append-only via ``research/incubation/prospective.py``.
+    # A freeze fixes the candidate pool, the three policies, shadow execution, costs and
+    # cadence BEFORE prospective collection; only bars closing after ``registered_at`` are
+    # evaluated, each once (deterministic IDs + UNIQUE keys), and nothing is updated or
+    # deleted. Shadow intents are analytical records: no order, no account, no venue. No
+    # consumer (forward, co-pilot, paper) reads these tables and no column grants live use.
+    """
+    CREATE TABLE IF NOT EXISTS incubation_freezes (
+        freeze_id VARCHAR PRIMARY KEY,
+        name VARCHAR NOT NULL,
+        registered_at TIMESTAMPTZ NOT NULL,
+        reason VARCHAR NOT NULL,
+        origin VARCHAR NOT NULL,
+        software_id VARCHAR NOT NULL REFERENCES lab_software(software_id),
+        grants_live BOOLEAN NOT NULL CHECK (NOT grants_live),
+        definition JSON NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS incubation_runs (
+        run_id VARCHAR PRIMARY KEY,
+        started_at TIMESTAMPTZ NOT NULL,
+        completed_at TIMESTAMPTZ NOT NULL,
+        software_id VARCHAR NOT NULL REFERENCES lab_software(software_id),
+        summary JSON NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS incubation_evaluations (
+        evaluation_id VARCHAR PRIMARY KEY,
+        freeze_id VARCHAR NOT NULL REFERENCES incubation_freezes(freeze_id),
+        strategy_id VARCHAR NOT NULL,
+        strategy_name VARCHAR NOT NULL,
+        side VARCHAR NOT NULL CHECK (side IN ('long', 'short')),
+        venue VARCHAR NOT NULL,
+        bar_close TIMESTAMPTZ NOT NULL,
+        evaluated_at TIMESTAMPTZ NOT NULL,
+        run_id VARCHAR NOT NULL REFERENCES incubation_runs(run_id),
+        signals JSON NOT NULL,
+        evidence JSON NOT NULL,
+        UNIQUE (freeze_id, strategy_id, bar_close),
+        CHECK (evaluated_at >= bar_close)
+    );
+    CREATE TABLE IF NOT EXISTS incubation_decisions (
+        decision_id VARCHAR PRIMARY KEY,
+        evaluation_id VARCHAR NOT NULL REFERENCES incubation_evaluations(evaluation_id),
+        policy_id VARCHAR NOT NULL,
+        profile VARCHAR NOT NULL CHECK (profile IN ('CONSERVATIVE', 'BALANCED', 'AGGRESSIVE')),
+        level VARCHAR NOT NULL CHECK (level IN ('INSUFFICIENT', 'NEUTRAL', 'WATCH',
+            'EXPLORATORY_PAPER', 'CONFIRMED_PAPER', 'DORMANT', 'RETIRED')),
+        episode_id VARCHAR,
+        payload JSON NOT NULL,
+        UNIQUE (evaluation_id, policy_id),
+        CHECK ((level IN ('EXPLORATORY_PAPER', 'CONFIRMED_PAPER')) = (episode_id IS NOT NULL))
+    );
+    CREATE TABLE IF NOT EXISTS incubation_transitions (
+        transition_id VARCHAR PRIMARY KEY,
+        decision_id VARCHAR NOT NULL UNIQUE REFERENCES incubation_decisions(decision_id),
+        freeze_id VARCHAR NOT NULL REFERENCES incubation_freezes(freeze_id),
+        profile VARCHAR NOT NULL,
+        strategy_id VARCHAR NOT NULL,
+        bar_close TIMESTAMPTZ NOT NULL,
+        from_level VARCHAR NOT NULL,
+        to_level VARCHAR NOT NULL,
+        episode_id VARCHAR,
+        payload JSON NOT NULL,
+        CHECK (from_level <> to_level)
+    );
+    CREATE TABLE IF NOT EXISTS incubation_intents (
+        intent_id VARCHAR PRIMARY KEY,
+        decision_id VARCHAR NOT NULL REFERENCES incubation_decisions(decision_id),
+        freeze_id VARCHAR NOT NULL REFERENCES incubation_freezes(freeze_id),
+        profile VARCHAR NOT NULL,
+        episode_id VARCHAR NOT NULL,
+        strategy_id VARCHAR NOT NULL,
+        asset VARCHAR NOT NULL,
+        side VARCHAR NOT NULL CHECK (side IN ('long', 'short')),
+        signal_bar_close TIMESTAMPTZ NOT NULL,
+        recorded_at TIMESTAMPTZ NOT NULL,
+        status VARCHAR NOT NULL CHECK (status IN ('entered', 'missed_entry_window')),
+        level VARCHAR NOT NULL CHECK (level IN ('EXPLORATORY_PAPER', 'CONFIRMED_PAPER')),
+        payload JSON NOT NULL,
+        UNIQUE (freeze_id, profile, strategy_id, asset, signal_bar_close),
+        CHECK (recorded_at >= signal_bar_close)
+    );
+    CREATE TABLE IF NOT EXISTS incubation_outcomes (
+        intent_id VARCHAR PRIMARY KEY REFERENCES incubation_intents(intent_id),
+        status VARCHAR NOT NULL CHECK (status IN ('resolved', 'unavailable')),
+        exit_close TIMESTAMPTZ NOT NULL,
+        gross DOUBLE,
+        net DOUBLE,
+        pnl_usd DOUBLE,
+        recorded_at TIMESTAMPTZ NOT NULL,
+        payload JSON NOT NULL,
+        CHECK ((status = 'resolved') = (net IS NOT NULL)),
+        CHECK (recorded_at >= exit_close)
+    );
+    """,
 ]
 
 ROLE_ENV, RUNTIME_ID_ENV = "PRISM_RUNTIME_ROLE", "PRISM_RUNTIME_ID"
