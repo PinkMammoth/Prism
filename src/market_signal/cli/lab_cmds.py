@@ -844,5 +844,14 @@ def _incubation() -> None:
 _incubation()
 
 
+def _discovery() -> None:
+    from market_signal.cli.discovery_cmds import discovery
+
+    lab.add_typer(discovery, name="discovery")
+
+
+_discovery()
+
+
 def register(app: typer.Typer) -> None:
     app.add_typer(lab, name="lab")
