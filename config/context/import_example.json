@@ -1,0 +1,25 @@
+{
+  "schema": "context_import_v1",
+  "producer": "chatgpt_work",
+  "session": "example-monitoring-session",
+  "items": [
+    {
+      "event_time": "2026-10-06T00:00:00Z",
+      "first_seen_at": "2026-10-06T06:05:00Z",
+      "published_at": "2026-10-06T06:00:00Z",
+      "source": "Tokenomist unlock schedule",
+      "url": "https://tokenomist.ai/hyperliquid/unlock-events",
+      "assets": ["HYPE"],
+      "entities": ["hyperliquid"],
+      "category": "protocol",
+      "subcategory": "token_unlock",
+      "title": "HYPE core-contributor monthly unlock (~9.9M HYPE)",
+      "summary": "Recurring monthly core-contributor unlock on the 6th; amount per published schedule.",
+      "confidence": "REPORTED",
+      "scheduled": true,
+      "dedup_key": "unlock:HYPE:2026-10-06",
+      "attributes": {"kind": "unlock", "unlock_time": "2026-10-06T00:00:00Z", "amount": 9900000,
+                     "recipient_category": "core_contributors"}
+    }
+  ]
+}
