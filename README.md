@@ -293,4 +293,9 @@ trading) — in [docs/CANDIDATE_INCUBATION.md](docs/CANDIDATE_INCUBATION.md). Ph
 strategy-discovery catalogue — 125 simple, causal, long/short-symmetric 1H/15m hypotheses
 evaluated after costs with opportunity frequency as a first-class metric, synthetic null and
 planted-edge calibration and `market lab discovery` queries (exploratory; real-data run
-pending) — in [docs/PHASE22_INTRADAY_DISCOVERY.md](docs/PHASE22_INTRADAY_DISCOVERY.md).
+pending) — in [docs/PHASE22_INTRADAY_DISCOVERY.md](docs/PHASE22_INTRADAY_DISCOVERY.md). Phase 23 adds the context
+intelligence layer — an append-only market-event ledger with first-seen semantics, an official
+macro calendar with first prints and surprises, official status/regulator feeds, a validated
+ChatGPT Work import route, venue-separated positioning/crowding context, fixed-hour Hyperliquid
+OI capture, point-in-time context snapshots, research-only theses and `market context` queries
+(data and semantics only; nothing trades) — in [docs/CONTEXT_INTELLIGENCE.md](docs/CONTEXT_INTELLIGENCE.md).
