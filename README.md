@@ -289,4 +289,8 @@ synthetic calibration and `market lab edge` queries (research only; nothing prom
 CONSERVATIVE / BALANCED / AGGRESSIVE exploratory-paper admission policies, shadow paper
 intents and episodes, opportunity-rate and long/short diagnostics, temporary-edge calibration
 and `market lab incubation` queries (exploratory paper only; no state authorizes real
-trading) — in [docs/CANDIDATE_INCUBATION.md](docs/CANDIDATE_INCUBATION.md).
+trading) — in [docs/CANDIDATE_INCUBATION.md](docs/CANDIDATE_INCUBATION.md). Phase 22 adds the first intraday
+strategy-discovery catalogue — 125 simple, causal, long/short-symmetric 1H/15m hypotheses
+evaluated after costs with opportunity frequency as a first-class metric, synthetic null and
+planted-edge calibration and `market lab discovery` queries (exploratory; real-data run
+pending) — in [docs/PHASE22_INTRADAY_DISCOVERY.md](docs/PHASE22_INTRADAY_DISCOVERY.md).
