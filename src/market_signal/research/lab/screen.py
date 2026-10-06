@@ -81,6 +81,8 @@ class ScreenResult:
     metrics: dict
     p_values: tuple[PValue, ...]
     events: pd.DataFrame  # every evaluable in-period event, with independence flags
+    # the exact run_event_study inputs, so full research reuses them (never re-derived)
+    asset_events: tuple[AssetEvents, ...] = ()
 
 
 # --------------------------------------------------------------------------- returns
@@ -371,7 +373,7 @@ def screen(
         "aggregate": aggregate,
         "per_asset": per_asset,
     }
-    return ScreenResult(label, metrics, p_values, events)
+    return ScreenResult(label, metrics, p_values, events, tuple(asset_events))
 
 
 # --------------------------------------------------------------------------- governed path

@@ -242,6 +242,7 @@ Configured in `config/perps.yaml`. Stored apart from spot prices and never stitc
 | Dataset | Endpoint | Table | Point-in-time | Backtestable |
 |---|---|---|---|---|
 | Daily perp candles | `candleSnapshot` (coin = perp name, e.g. `BTC`) | `perp_bars` | Closed bars only (same rule as spot) | Yes (latest 5,000 candles) |
+| Intraday perp candles 15m/1h/4h (Phase 15) | `candleSnapshot`, interval `15m`/`1h`/`4h` | `perp_intraday_bars` | Closed bars only; `first_observed_at` = when Prism first held the bar; revisions kept | Values yes (newest 5,000 candles per interval: 15m ≈ 52 d, 1h ≈ 208 d, 4h ≈ 833 d); live availability only from collection start. See [INTRADAY.md](INTRADAY.md) |
 | Funding rates (hourly) | `fundingHistory`, paginated 500 rows per call | `perp_funding` | `available_at` = settlement time (`market_close`) | Yes |
 | Mark/oracle price, current funding, open interest, max leverage | `metaAndAssetCtxs` | `perp_snapshots` | Snapshot at capture time, on every run (irregular times) | **Prospective only.** Hyperliquid serves no OI history, so OI history starts with Prism's first snapshot and missed captures are lost. See [OPEN_INTEREST.md](OPEN_INTEREST.md). |
 
@@ -260,6 +261,7 @@ mixed with Hyperliquid series: every loader reads one venue.
 |---|---|---|
 | Daily candles | `/fapi/v1/klines` (1,500 per call) | closed bars only; validated like spot |
 | Funding | `/fapi/v1/fundingRate` (1,000 per call) | every 8h (some symbols switch to 4h at times); `available_at` = settlement time |
+| Intraday candles 15m/1h/4h (Phase 15) | `/fapi/v1/klines` (1,500 per call) | history only, manual `market bars backfill --venue binance`, never scheduled; `perp_intraday_bars` with `source = binance`; HYPE included. See [INTRADAY.md](INTRADAY.md) |
 | Open interest (1h) | `/futures/data/openInterestHist` (500 per call) | **latest ~30 days only**; rolling backfill into `perp_oi_history`, data only. HYPE included (`HYPEUSDT`). See [OPEN_INTEREST.md](OPEN_INTEREST.md) |
 
 Binance blocks some locations with HTTP 451 (notably the US). Prism reports that clearly and

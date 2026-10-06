@@ -4,10 +4,15 @@ Inspection date: 2026-10-03. This is a design grounded in the existing implement
 including the local database and generated reports. Only the representation foundation
 (section 6), research governance ledger (section 7), daily feature compiler (section 8),
 fast screen (section 9), preregistered search batches (section 10), structured
-strategy families (section 11), evidence profiles (section 12) and prospective forward
-tracking (section 13) are implemented. No production strategies, evaluation rules, paper
-records, scanners or Telegram paths were changed; the only schema changes are the additive
-Lab migrations described in sections 7, 10, 12 and 13.
+strategy families (section 11), evidence profiles (section 12), prospective forward
+tracking (section 13) and full research with independent validation (section 14) are
+implemented, plus the first consumer of that evidence, the perps co-pilot (section 15),
+cross-venue historical corroboration (section 16) and a second consumer, the paper-only
+auto-trader (section 17: a simulated account that can never place a real order), with
+read-only paper observability (section 18).
+No production strategies, evaluation rules, paper records or scanners were changed; the
+co-pilot and the paper trader reuse the existing Telegram client. The only schema changes
+are the additive migrations described in sections 7, 10, 12, 13, 14, 15, 16, 17 and 18.
 
 ## 1. Current architecture
 
@@ -371,9 +376,10 @@ not control data mining; BH does not repair invalid or adaptively selected p-val
 | 5a — Search batches and FDR (implemented, section 10) | Added `research/lab/batch.py`, migration 8, `market lab batch create/run/show`, `market lab batches` | Frozen testing families, BH over one primary test per strategy, family-aware statuses, holdout refusal, immutable analyses |
 | 6 — Structured strategy families (implemented, section 11) | Added `research/lab/families.py`, `config/lab/families/*.yaml`, `market lab families`, `family show`, `batch generate` | Versioned economic families with bounded grids generate deterministic Phase 1 variants and Phase 5 manifests without running them |
 | 7 — Evidence profiles (implemented, section 12) | Added `research/lab/evidence.py`, migration 9, `market lab evidence build/report/show` | Consumer-neutral, versioned, append-only profiles with stage provenance; VALIDATED reserved |
-| 5b — Full-research adapters and statistical gate | Extend spot/perp runners for explicit candidate injection; add `research/lab/validation.py`, `multiple_testing.py`; reuse reports/robustness/simulators | Existing strategies retain parity; trusted plan requires completed checks; address audit items with separate versioned methodology patches; holdout/family controls before large-scale claims; link old reports |
+| 5b/9 — Full research and independent validation (implemented for daily perps, section 14) | Added `research/lab/adapter.py`, `research/lab/validation.py`, migration 12, profile schema 4, `market lab research …` / `validation …` | Frozen registrations; adapter reuses the screen, event study and Prism robustness functions (parity-checked); validation only on plan-reserved periods, looked at once, exposure recorded; final holdout never read; completeness-gated statuses; VALIDATED reserved. Spot and portfolio simulation not yet supported |
 | 6 — Perp MTF and OI | Extend `perps/data.py`, `perps/binance.py`, provider loaders and dataset manifests; extend Lab features/alignment and research policy | Stored 1h/4h data with completeness/availability; settlement-level funding treatment; same-close/gap/stale/snapshot tests; portfolio timing validated before intraday execution claims |
 | 8 — Prospective forward tracking (implemented, section 13) | Added `research/lab/forward.py`, migration 11, profile schema 3, `market lab forward …` | Explicit enrollment freezing the evidence profile; live-only daily evaluations (no backfill); write-once T+1-open/T+h-close outcomes; descriptive `paper_forward` profiles; no execution |
+| 10 — Perps co-pilot (implemented, section 15) | Added `copilot/` (policy, engine, render), migration 13, `market lab copilot …`; shared live-window helpers in `research/lab/forward.py` | Versioned consumer policy over governed evidence; live-window-only decisions recorded once per policy/strategy/asset/bar; append-only delivery attempts; no Lab writes; no execution fields |
 | 7 — Paper and scanner eligibility | Add `research/lab/promotion.py`; additive versioned paper storage and opt-in adapters in `perps/paper.py`, `scoring/engine.py`, presenter/brief/CLI | Exact strategy + implementation + policy versions carry evidence; paper starts prospectively, no backfill; explicit scanner allowlist; existing strategies unchanged |
 | Later — Constrained hypothesis generation | Submission client only, reading the versioned catalog and writing proposals through ledger service | No AI dependency until separately requested; model cannot edit evaluator, plans, tests, data/results or promotion policy |
 
@@ -1381,7 +1387,8 @@ and never picks a winner.
 - **Long-horizon radar policy:** its own families, plans and horizons, consuming the same
   profile abstraction.
 
-Each is versioned independently and reads profiles. None writes to them.
+Each is versioned independently and reads profiles. None writes to them. The co-pilot
+policy is implemented in Phase 10 (section 15); the other two do not exist yet.
 
 ### Descriptive run (Phase 6 smoke batch, scratch DB)
 
@@ -1813,7 +1820,2135 @@ profile with an unchanged tier.
   retention is a possible future infrastructure improvement.
 - No outcome-correction mechanism; no automatic consumer action, alerting or promotion.
 
-## 14. Verification
+## 14. Step 9 implemented: full research and independent validation
+
+Modules: `research/lab/adapter.py` (pure computations) and `research/lab/validation.py`
+(governance). Also additive migration 12 (`lab_research_*` tables), evidence profile
+schema 4, and the CLI groups `market lab research reserve-plan | register | list | show |
+run | evidence` and `market lab validation preview | run`. This phase is research only:
+it has no auto-trading, simulated execution, position sizing or consumer policy.
+
+> Validation evidence tests a frozen historical hypothesis on untouched data. It does not
+> optimise the strategy.
+
+> Prospective forward evidence and historical validation are separate evidence sources and
+> must not be pooled as if they were the same experiment.
+
+### Discovery versus validation
+
+| Stage | Data | Question | Independence |
+|---|---|---|---|
+| Historical (Phases 4–7) | plan `discovery`/`development` role | Did this look interesting historically? | none: the data selected the strategy |
+| `full_research` (Stage A) | the **same** retained discovery snapshot | What do we know from discovery, examined with Prism's deeper methods? | none (recorded as `not_independent`) |
+| `validation` (Stage B) | a period the plan reserves as `validation` | Did the frozen strategy's expected-direction effect persist on unseen data? | intact only if nothing touched the window before registration |
+| `paper_forward` (Phase 8) | live bars after enrollment | Did it persist when Prism genuinely saw it live? | prospective; separate source |
+| `final_holdout` | reserved, never read in Phase 9 | future confirmatory testing | untouched |
+
+### Registration (explicit, frozen)
+
+`market lab research register <profile-id> --validation-plan <plan-id> --reason …` freezes
+a `ResearchRegistration`; its `registration_id` is a content hash. Eligibility:
+
+- The source must be a historical (schema 1/2) profile whose tier is `EXPLORATORY` or
+  `RESEARCH_SUPPORTED`. FDR survival is not required, but nothing is registered
+  automatically.
+- Extended profiles (schema 3/4) are refused.
+- Re-registering identical content is refused. `--label` creates a deliberate new
+  registration.
+
+The registration freezes:
+
+- the strategy ID, name, side, family, version and parameters;
+- the source profile, its tier and evidence policy;
+- the source plan, dataset, experiment, result, role, batch, batch run and analysis;
+- the assets;
+- the Phase 6/7 neighbour IDs (from the profile, so they cannot be re-chosen later);
+- the validation plan, the validation period and its warmup;
+- the full-research, validation and extension policy IDs;
+- the semantic versions (screen, compiler, vocabulary, adapter, validation).
+
+The row also stores the reason, origin, software identity and the recorded exposure state
+at registration time.
+
+**Frozen strategy.** Strategy definitions are immutable by ID, and the registration cites
+one. The validation plan must equal the source plan in every field except `name`,
+`version` and the extra reserved periods (`check_plan_compatibility`), so costs, horizons,
+the primary horizon, funding, statistics and warmup cannot change either. A "nearby better
+EMA", a changed threshold, side, horizon or stop is a different strategy ID: it needs its
+own lineage, history and registration. If the semantic versions change, runs are refused
+until a new registration is made, so incomparable results are never mixed.
+
+`market lab research reserve-plan <source-plan> --name … --validation-start …
+--validation-end … [--final-holdout-start … --final-holdout-end …]` builds such a plan by
+copying the source plan and appending the reserved periods. This makes it compatible by
+construction.
+
+### Validation period integrity
+
+Registration refuses:
+
+- a plan with no `validation` role;
+- a validation period that overlaps the source data region `[discovery start − warmup,
+  discovery end)` (the Phase 5 convention: warmup counts as touched);
+- a validation data region (warmup included) that would reach a `final_holdout` period.
+
+Validation datasets select `[validation start − warmup, validation end)` and nothing else.
+Warmup bars (which may lie in the discovery period) feed only features. Signals, baselines
+and outcomes are restricted to the window by the Phase 4 screen. An outcome whose exit
+would fall after the window is not evaluable. Tests show that rewriting every bar from the
+final holdout onwards, and every discovery bar before the warmup, leaves the validation
+result unchanged.
+
+**Looked at once.** Validation is evaluated only when the reserved period is **complete**:
+`now ≥ end` and stored bars reach `end − 1 day`. Before that, the attempt is recorded as
+`VALIDATION_INSUFFICIENT` (gate `pre_outcome`). The same happens when a capacity bound shows
+the stored bars could never reach the policy's sample: at most ⌈(bars − h)/h⌉ independent
+primary events per asset. In both cases no validation-window outcome is computed and no
+Phase 2 evaluation is started, so no exposure is consumed. `market lab validation preview`
+shows the same gates read-only, together with:
+
+- the period, the data region and the final holdout;
+- assets, horizons, strategy and source profile;
+- independence as recorded now;
+- the sample projected from the discovery event rate.
+
+This rule removes sequential peeking: nobody re-runs validation monthly until it "works".
+
+### Exposure
+
+An evaluated validation is a Phase 2 experiment with role `validation` and origin
+`lab_validation:<registration>`. The order is:
+
+1. preregister (committed; no exposure yet);
+2. insert the Phase 9 run row citing that experiment;
+3. Phase 4 `run_screen`, whose `Ledger.start` writes the permanent `evaluation_started`
+   record in `lab_inspections`.
+
+`Ledger.exposures(start, end, family_id=…)` therefore shows every look. Neighbour checks
+(below) are their own experiments, so their exposure is recorded too.
+
+`independence` labels each registration and evaluated run:
+
+| Label | Meaning |
+|---|---|
+| `untouched_on_record` | no recorded Lab exposure of the strategy or its ledger family to the window, and no forward outcome in the window, before the registration |
+| `compromised` | the strategy itself was exposed (any experiment), or forward outcomes in the window were recorded, before the registration |
+| `family_exposed` | another member of the same ledger family was exposed before the registration |
+
+Exposure recorded after the registration (including concurrent Phase 8 observation of the
+same days) is listed but does not compromise a registration frozen beforehand. An empty
+answer means no *recorded* exposure; direct market-table access is not observable.
+
+**Reruns never restore independence.**
+
+- A second evaluated validation needs `--rerun-of` and `--rerun-reason`. It reproduces the
+  same look, is linked as a Phase 2 rerun when the data are identical, and is marked
+  `first_look: false`.
+- A new registration of the same strategy after a look is `compromised`. So is any family
+  member whose own validation look already happened.
+- Descendants are new strategies in the same ledger family (lineage is fixed at
+  submission), so `family_id` exposure queries include them.
+
+### Adapter: which Prism research steps generic Lab strategies receive
+
+Every result stores this table (`steps`). The adapter reuses Prism code; it is not a
+second engine.
+
+| Step | Status | How |
+|---|---|---|
+| Event study | supported | Phase 4 `screen` = compiler + `perp_asset_events` semantics + `side_forward_returns` + `run_event_study` on the retained snapshot. **Parity** with the stored discovery result (aggregate, per-asset, triage) is checked bit for bit for the target and each neighbour. A test also recomputes it with Prism's own `perp_asset_events` → `run_event_study` |
+| Independent events | supported | `backtest.events.decluster` |
+| Costs/slippage | supported | per-asset values frozen in the plan |
+| Funding | adapted | Lab causal funding (`lab_causal_trailing_7d_median_v1`), not Prism's full-history cadence |
+| Random-entry baseline | supported | Phase 4 `random_entry_mean_excess_v1` (primary horizon, plan seed/draws) |
+| Walk-forward | adapted | Prism `walk_forward` with a **one-point grid** (the frozen strategy) and zero training length via `make_folds`. Consecutive 6-month blocks, block-local baselines (`window_excess`), no reselection (asserted) |
+| Sensitivity | adapted | the registered Phase 6 neighbours re-evaluated on the same data. Prism `plateau_verdict` classifies the target; the Phase 7 sign-agreement label is also reported. No winner is selected |
+| Cross-asset | supported | per-asset rows, breadth, concentration, leave-largest-out |
+| Horizon profile | supported | all plan horizons; only the primary is tested |
+| Regime splits | skipped | the perp runner has none; Lab snapshots hold no regime/benchmark series |
+| Portfolio simulation | **unsupported** | risk/sizing are not frozen in a governed policy; max leverage is the latest snapshot (not point-in-time); cross-symbol ordering is an open audit item |
+| Legacy `automatic_verdict` | skipped | can return a positive verdict with checks missing |
+
+The only change to existing code for reuse: `ScreenResult` now also carries the
+`AssetEvents` it passed to `run_event_study` (a defaulted field), so walk-forward uses
+exactly those inputs.
+
+**Walk-forward for a frozen strategy** means evaluating the same definition on
+consecutive chronological blocks of the role period, each with its own baseline, and
+counting how many adequate blocks (≥ 5 independent events) agree with the expected
+direction. A block's events are selected by signal time, so an outcome can end in the next
+block (Prism's convention). With nothing trained or selected, this cannot leak.
+
+**Sensitivity** answers "are nearby parameterisations similar?", not "which is best?".
+
+- Rows: each neighbour's events, excess, sign and hit rate.
+- Phase 7 label: sign-agreement share.
+- Prism `plateau_verdict` for the target: `PLATEAU` if at least 60% of neighbours keep at
+  least 50% of the target's excess; `FRAGILE` if at least 50% have the opposite sign. The
+  thresholds are frozen copies of `config/backtest.yaml`.
+- Effect dispersion (std and range).
+- A `knife_edge` flag: `FRAGILE`, or an isolated spike.
+
+The frozen target is always the row being judged.
+
+### Statuses
+
+**Full research** (`lab_full_research_policy` v1): positive only when every prescribed
+check completed.
+
+| Status | Rule |
+|---|---|
+| `FULL_RESEARCH_ERROR` | an exception (recorded with traceback), or parity with the stored discovery result failed |
+| `FULL_RESEARCH_INSUFFICIENT` | < 30 independent events or < 3 assets, < 3 adequate walk-forward blocks, or sensitivity undefined/insufficient |
+| `FULL_RESEARCH_INCONSISTENT` | excess ≤ 0, walk-forward inconsistent (≤ 34% of adequate blocks positive), or sensitivity `FRAGILE`/`NO_EDGE` |
+| `FULL_RESEARCH_CONSISTENT` | walk-forward consistent (≥ 67%), sensitivity `PLATEAU`, not asset-concentrated |
+| `FULL_RESEARCH_MIXED` | otherwise |
+
+**Validation** (`lab_validation_policy` v1): descriptive, never an action. The sample
+thresholds equal the discovery evidence policy's and are not loosened for a short window.
+
+| Status | Rule |
+|---|---|
+| `VALIDATION_INSUFFICIENT` | pre-outcome gate (incomplete period, capacity); or < 30 independent events, < 3 assets, < 80% of in-window primary signals evaluable, or < 80% of in-window bars eligible. Too few events is never a rejection |
+| `VALIDATION_SUPPORTIVE` | pooled net excess > 0 in the expected direction, ≥ 60% of assets agree, the sign survives dropping the largest contributor |
+| `VALIDATION_ADVERSE` | excess ≤ 0 and ≤ 50% of assets agree |
+| `VALIDATION_MIXED` | otherwise |
+| `VALIDATION_ERROR` | an exception after the start (recorded) |
+
+The p-value on the validation window is recorded as descriptive and never decides a
+status. Each result carries a historical-versus-validation comparison, with nothing
+pooled:
+
+- effect, net mean/median, hit rate, events, assets and positive-asset share;
+- historical raw p and q;
+- whether the direction agrees, and the effect ratio;
+- per-asset excess side by side.
+
+Each result also carries the independence assessment and, if neighbours were checked,
+`depends_on_single_parameterisation`.
+
+### Evidence extension and tiers
+
+`market lab research evidence <registration>` appends a **new** schema-4 profile:
+
+- `extends` the frozen historical profile;
+- cites the historical sources plus a `full_research` source and, if run, a `validation`
+  source;
+- copies the historical fields unchanged and adds `full_research` / `validation` blocks.
+
+Historical (Phase 7) and forward (Phase 8, schema 3) profiles are never modified, and older
+payloads stay byte-identical. Profiles are idempotent by identity.
+
+Tier rules (`lab_evidence_extension_policy` v1):
+
+- Full research alone never changes a tier: it re-reads the discovery data.
+- `EXPLORATORY → RESEARCH_SUPPORTED` requires all of:
+  - `VALIDATION_SUPPORTIVE`;
+  - `first_look`;
+  - `untouched_on_record`;
+  - `FULL_RESEARCH_CONSISTENT`.
+- `VALIDATION_ADVERSE` caps `EXPLORATORY`/`RESEARCH_SUPPORTED` at `INCONCLUSIVE`.
+- `INSUFFICIENT`/`MIXED` validation leaves the tier unchanged.
+
+**VALIDATED remains unreachable.** The extension policy's `validated_reachable` is the
+literal `False`, and the schema-4 model rejects a `VALIDATED` tier outright. The Phase 7
+contract only *represents* VALIDATED with a validation source; its existing test still
+passes. Running the validation adapter does not meet the future standard, which should
+include prospective/paper-forward evidence and probably final-holdout confirmation.
+Phase 8 enrollment refuses schema-4 profiles: tracking starts from historical evidence.
+
+### Interaction with Phase 8 forward evidence
+
+Forward tracking keeps running unchanged:
+
+- Phase 9 reads the forward tables only to report:
+  - the independence assessment (forward outcomes recorded before a registration
+    compromise it);
+  - a separate `forward` section in `research show`.
+- Forward rows never enter validation metrics. A test enrolls and tracks a strategy inside
+  its validation window, then shows the stored validation metrics equal a pure screen of
+  the validation snapshot.
+- When a validation window covers the same days as prospective tracking (as for the
+  current cohort), the two are **not** independent confirmations of each other. Each
+  result flags `concurrent_prospective_tracking`.
+
+### Audit items (section 2) and this phase
+
+| Item | Affects Phase 9? | Handling |
+|---|---|---|
+| Perp warmup eligibility | No | the Lab compiler's explicit eligibility (full feature warmup, defined conditions, funding known) is what the screen passes to the event study |
+| Funding cadence from full history | No | Lab plans freeze the causal trailing-7-day policy; Prism's `daily_funding` default path is untouched and unused here |
+| Portfolio event ordering | Would | portfolio simulation is **unsupported** rather than run on known-unaudited ordering |
+| Incomplete checks permitting positive verdicts | Would | `automatic_verdict` is not used; Phase 9 positive statuses require every prescribed check |
+| Name-based evidence matching | No | everything is keyed by content IDs; Phase 9 writes no `research_runs` rows, so the legacy latest-by-name reader can never mistake Lab results for validation |
+| Historical margin inputs not PIT | Would | only via simulation, which is unsupported |
+
+### Ledger clock fix
+
+While Phase 9 tests ran, `Ledger.start` intermittently raised "clock precedes
+preregistration". This is the same class of error as the intermittent `Ledger.record_result`
+failure ("completion clock precedes start") seen at Phase 8 closure. A wall-clock probe run
+beside the tests showed the cause: **this WSL2 host steps its wall clock back by about
+0.6 s every ~32 s** while it re-synchronises (47 steps of 592–685 ms during a
+25-minute probe on 2026-10-04 from 10:02 UTC).
+
+`ledger.ordered_now(not_before)` now handles the step:
+
+- a regression of at most 5 s (`CLOCK_STEP_TOLERANCE`) is recorded as the earlier record's
+  timestamp (equal, never earlier);
+- a larger regression is still refused as an impossible ordering.
+
+Program order already proves that a start follows its preregistration and a result follows
+its start. A test simulates both cases. Phase 9's own run/result timestamps use the same
+helper. Forward CHECKs compare against market close times far from "now" and are
+unaffected.
+
+### Real cohort
+
+Run on the live DB on 2026-10-04 at about 10:30 UTC, with code `b24ce83`. The DB was backed up
+first to `data/prism.pre_phase9.duckdb`. Candidates were the two active Phase 8 strategies,
+chosen by `plateau_centrality_v1` from historical evidence before any forward outcome
+existed. No forward data was used, and no third strategy was added.
+
+**Validation plan.** `hl_perp_smoke_validation` v1 (`plan_5b936985…`) was made with
+`research reserve-plan` from `hl_perp_smoke_discovery` v1. It is identical except for the
+reserved periods:
+
+| Role | Period |
+|---|---|
+| discovery (unchanged) | [2024-10-01, 2026-10-01) |
+| validation | [2026-10-01, 2027-10-01) |
+| final holdout | [2027-10-01, 2028-10-01) |
+
+The source plan reserved **no** validation period. Hyperliquid funding starts on
+2023-10-04, inside the discovery dataset's 400-day warmup. So the only untouched
+Hyperliquid data starts on 2026-10-01. The 12-month length was fixed before any validation
+outcome existed and will not be changed after this run.
+
+| | `ma_trend_10_50_long` | `ma_trend_20_100_short` |
+|---|---|---|
+| Registration | `research_b9c29c47…` | `research_32a1dcf6…` |
+| Historical profile / tier | `evidence_ac9120d8…` / EXPLORATORY | `evidence_168da1c0…` / EXPLORATORY |
+| Historical 10d excess / net / hit rate | +1.38% / +2.17% / 53% | +2.61% / +1.32% / 56% |
+| Historical sample / assets agreeing | 77 independent on 6 assets / 67% | 39 independent on 6 assets / 67% |
+| Raw p / q (batch) | 0.152 / 0.915 | 0.112 / 0.915 |
+| Parity with stored discovery result | exact (target and both neighbours) | exact (target and all three neighbours) |
+| Walk-forward (6-month blocks, frozen) | consistent: 3/4 blocks positive (+1.75%, +2.18%, **−6.04%**, +1.81%; 20/23/12/22 events) | consistent: 3/4 positive (+11.35%, +3.80%, **−4.48%**, +2.17%; 8/7/10/14 events) |
+| Sensitivity (Prism `plateau_verdict`) | PLATEAU: neighbours 20/50 (+1.90%) and 10/100 (+2.08%) agree and keep ≥ 50% | MIXED: neighbours 10/100 (+0.81%) and 20/50 (+0.49%) agree in sign but keep < 50% of the target's effect; 20/200 has too few events |
+| Knife-edge | no | no (but the target sits above its neighbours) |
+| Portfolio simulation | unsupported | unsupported |
+| **Full research** | **FULL_RESEARCH_CONSISTENT** | **FULL_RESEARCH_MIXED** (sensitivity) |
+| Validation independence | `untouched_on_record` | `untouched_on_record` |
+| Validation bars stored | 4 per asset (closes 2026-10-01 … 10-04) of 365 days | same |
+| Projected validation sample at completion | 38.5 independent 10d events (minimum 30) | **19.5 (below the minimum 30)** |
+| **Validation** | **VALIDATION_INSUFFICIENT** (pre-outcome: period incomplete, capacity 0) | **VALIDATION_INSUFFICIENT** (same) |
+| Validation exposure consumed | none (no Phase 2 experiment started) | none |
+| Extended profile (schema 4) | `evidence_4f05b80c…`, tier **EXPLORATORY (unchanged)** | `evidence_a3c4eacc…`, tier **EXPLORATORY (unchanged)** |
+
+Notes:
+
+- The 2025-10 → 2026-04 block is negative for both strategies: the historical effect is
+  not uniform in time.
+- The validation window coincides with Phase 8 forward tracking (first observable bar
+  2026-10-05). When it completes, validation and forward will describe the same market days
+  and must not be counted as two confirmations.
+- On the discovery event rate, the short strategy is unlikely to reach an adequate
+  validation sample in 12 months. It will then be reported as insufficient; the window
+  will not be stretched for it.
+
+After the run:
+
+- Phase 8 tracking definitions are unchanged (same content hash), with 0 forward
+  evaluations, 2 active trackings and 1 stopped.
+- All 40 historical profiles are byte-identical to the backup.
+- There are no validation-role experiments and no new `lab_inspections` rows.
+- `market lab forward check --dry-run` behaves as before.
+
+### Known limitations
+
+- **Short validation history.** On Hyperliquid the only data untouched by the discovery
+  batch (warmup included) starts on 2026-10-01. Hyperliquid funding starts on 2023-10-04,
+  inside the discovery warmup, so no earlier window is untouched. Binance pre-2023 history
+  is a different venue, and legacy perp research already used it for EMA-trend hypotheses,
+  so it is not a clean holdout for `ma_trend` without a separately justified cross-venue
+  design.
+- Daily perp strategies only. Spot registration, intraday data, OI and portfolio
+  simulation are not supported.
+- Neighbour checks during validation expose the neighbours' validation windows as well;
+  this is recorded and makes later validation of those neighbours `compromised`.
+- Recorded exposure is application-level, not tamper-proof; direct market-table access
+  cannot be observed.
+- Family exposure uses the ledger family; correlated strategies from other families are
+  not tracked as exposed.
+- Walk-forward blocks are 6 months, so a two-year discovery window gives four blocks with
+  modest per-block samples.
+
+## 15. Step 10 implemented: perps co-pilot
+
+Package `src/market_signal/copilot/` (`policy.py`, `engine.py`, `render.py`), additive
+migration 13 (`copilot_*` tables) and `market lab copilot …`. The co-pilot watches current
+daily perp bars, detects when a watched Strategy Lab setup fires, reads the latest governed
+evidence for it, applies a separately versioned **co-pilot policy**, and sends a short
+Telegram message through Prism's existing `portfolio/telegram.py` client.
+
+The message means: *this setup is happening now; here is what Prism knows historically,
+how strong or weak that evidence is, and why it may be worth looking at.* It does not
+mean "take this trade".
+
+> Prism's co-pilot policy is intentionally less strict than a future automated-execution
+> policy. This changes what is surfaced to a human, not what the research says.
+
+> No co-pilot alert can directly trigger an order.
+
+### Evidence versus consumer policy
+
+- **The co-pilot consumes evidence and never modifies it.** It reads strategies, evidence
+  profiles (historical, schema-4 full research/validation extensions) and the Phase 8
+  forward summary. It writes only `copilot_*` tables, including its own software registry
+  (`copilot_software`), so not even `lab_software` changes. No module under
+  `research/` imports `copilot` (tested). Screens, FDR analyses, tiers, forward
+  evidence and validation cannot depend on a co-pilot decision.
+- **Exploratory signals may be surfaced.** EXPLORATORY and RESEARCH_SUPPORTED are
+  eligible. VALIDATED is not required, nor are FDR survival, supportive validation or
+  mature forward evidence. Requiring those would keep the co-pilot silent for years. They
+  are shown as caveats instead.
+- **Co-pilot priority is not the evidence tier.** An alert can be `EXPLORATORY` evidence
+  with `STRONG WATCH` priority. Priority is a reading-order label for a human. The tier is
+  never changed to make an alert look stronger.
+- **An alert is not a trading recommendation.** The side is shown as LONG/SHORT BIAS: the
+  tested hypothesis, not an instruction. There are no BUY/SELL/APPROVED labels and no
+  probabilities.
+- **Auto-trader promotion will use a separate future policy.** It must be materially
+  stricter. Co-pilot eligibility never implies it. No co-pilot record has an
+  executable/approval/order/size/leverage/stop/target/risk field (tested by a key and
+  column scan). The compiled exit-intent stop is deliberately not copied into co-pilot
+  records.
+- **Validation and forward evidence are shown with their current maturity.** "Validation:
+  not mature / insufficient (reserved period runs to 01 Oct 2027)" and "Forward: TOO EARLY
+  (0 resolved, 0 prospective signals so far)" are printed instead of being omitted.
+
+### Policy `copilot_policy` v1 (`copolicy_e235b9de…`)
+
+The policy is a frozen model. Its content hash covers every threshold and rule, so changing
+anything is a new version and a new ID (`market lab copilot policy`). It decides only
+whether a **fired** signal is surfaced, and with what priority.
+
+**Suppress** (SUPPRESS is recorded with every failing rule) if any of these hold:
+
+| Rule | v1 condition |
+|---|---|
+| `versions_compatible` | the watch's frozen compiler/vocabulary versions equal the running code's, and every cited evidence source used the same versions |
+| `data_quality` | the largest gap between daily bars in the signal's lookback is above 24 h |
+| `signal_new` | this strategy/asset/bar was already surfaced (under any policy) |
+| `strategy_not_retired` | the strategy has forward trackings and every one is stopped |
+| `evidence_available` | no usable evidence profile |
+| `tier_eligible` | tier is not EXPLORATORY or RESEARCH_SUPPORTED (NEGATIVE, INSUFFICIENT, UNAVAILABLE and **INCONCLUSIVE** are blocked) |
+| `sample_adequate` | fewer than 30 independent primary-horizon events, or fewer than 3 assets |
+| `effect_positive` | primary-horizon net excess in the tested direction is ≤ 0 |
+| `breadth_ok` | one asset dominates (pooled sign flips without it) or holds > 50% of events |
+| `not_isolated_spike` | the parameter neighbourhood is an isolated spike |
+| `full_research_not_adverse` | full research is `FULL_RESEARCH_INCONSISTENT` |
+| `validation_not_adverse` | validation is `VALIDATION_ADVERSE` (Phase 9 also caps such a tier at INCONCLUSIVE) |
+| `forward_not_adverse_mature` | forward maturity is MATURE **and** forward net excess is ≤ 0 or points opposite to history |
+
+Not suppressed, shown as caveats: q above 0.10 ("did not survive family correction"),
+validation insufficient or not run, forward TOO_EARLY/EARLY (even if negative), full
+research MIXED/INSUFFICIENT/not run, and a non-plateau neighbourhood.
+
+**Priority** (ALERTs only, explicit rules, no weighted score):
+
+- `STRONG_WATCH` if at least one of these holds and no downgrade applies:
+  - tier RESEARCH_SUPPORTED;
+  - validation SUPPORTIVE;
+  - full research CONSISTENT, a plateau neighbourhood and broad support (≥ 5 assets with
+    events, ≥ 60% positive).
+- Downgrades to `WATCH`: validation MIXED, or DEVELOPING/MATURE forward evidence pointing
+  the other way.
+- Otherwise `WATCH`.
+
+Before outcomes are mature, `ma_trend_10_50_long` reads as STRONG WATCH (consistent full
+research, plateau, 6 assets) and `ma_trend_20_100_short` as WATCH (full research MIXED on
+sensitivity).
+
+### Watchlist
+
+A strategy is never alerted automatically. A **watch** registration (`market lab copilot
+watch <historical-profile-id> --reason …`) freezes these, and its ID is their content hash:
+
+- the strategy;
+- its historical baseline profile and tier;
+- the evidence policy and the co-pilot policy ID;
+- market, side, venue, assets, primary horizon and lookback (derived read-only from the
+  screening plan with Phase 8's `build_definition`);
+- the compiler/vocabulary versions.
+
+Statuses are `active`, `paused` or `stopped` (terminal), recorded as appended events. A
+strategy has at most one open watch.
+
+**Changing the policy** means stopping the watch and registering a new one. A new watch
+only evaluates bars that close **after** its registration, so historical signals are
+never replayed. The cross-policy `signal_new` rule is a second guard.
+
+### Signal semantics
+
+Live evaluation is the Phase 3 compiler on Phase 8's live window. Phase 8's helpers are
+now shared functions (`newest_bar`, `in_live_window`, `live_snapshot`,
+`funding_ready`), with behaviour unchanged and forward tests unchanged and passing.
+
+- Bar T is the newest completed daily bar. It is evaluated only while
+  `T <= now < T + 1 day`, from a snapshot of rows available at T's close: bars with
+  `close_time <= T`, funding judged to the minute, and the plan's lookback.
+  Edge-trigger and cooldown state is rebuilt from that snapshot.
+- Only `signal` (the rising edge, with cooldown) can alert. Conditions that merely remain
+  true do not. A bar outside its window is `OUTSIDE_WINDOW` and never alerts: there are no
+  "you missed this yesterday" messages.
+- If funding through T is not ingested yet, the state is `WAITING_FOR_DATA` and a later
+  run inside the window retries.
+- The co-pilot and the forward tracker observe the same signal with the same semantics.
+  They are separate consumers. A decision records what the tracker recorded for that bar,
+  if anything (`forward_tracker_recorded`), as a consistency check. The co-pilot never
+  writes forward records; `market lab forward run` stays responsible for them.
+
+### Evidence presentation
+
+For each signal the engine builds an evidence view from the governed records:
+
+- the newest schema-4 profile extending the watch's baseline, or the baseline itself;
+- plus a read-only `forward_summary` of the strategy's tracking.
+
+Each stage stays separate: historical (tier, primary-horizon excess/net/hit rate,
+independent events, asset breadth, neighbourhood), FDR (raw p, BH q, survivor status),
+full research (status, walk-forward blocks, sensitivity), validation (status, sample,
+window) and forward (maturity, prospective/resolved counts, and direction only once past
+TOO_EARLY). There is no combined confidence number. The decision stores this view, so
+"why did Prism alert me?" can be answered from the decision alone.
+
+### Telegram message
+
+Example: the live rendering check (`market lab copilot preview ma_trend_10_50_long --symbol
+ETH`) on the 2026-10-04 bar. It is labelled PREVIEW because that bar was **not** a new
+signal:
+
+```
+PREVIEW — no current signal. Rendering check only; not an alert.
+
+ETH · LONG BIAS
+MA Trend 10/50 · STRONG WATCH
+
+Setup (daily close 04 Oct 00:00 UTC)
+• Close above 50D EMA (2,687 vs 2,474)
+• 10D EMA above 50D EMA (2,678 vs 2,474)
+• Not a new signal on this close (10-bar cooldown)
+
+Evidence · EXPLORATORY
+10d excess in the tested direction vs same-asset baseline: +1.4% (net +2.2%, hit rate 53%)
+77 independent events · 6 assets (4 positive)
+Parameter neighbourhood: plateau
+Raw p 0.15 · BH q 0.91 (did not survive family correction)
+
+Research
+Full research: CONSISTENT · walk-forward 3/4 blocks positive · sensitivity plateau
+Validation: not mature / insufficient (reserved period runs to 01 Oct 2027)
+Forward: TOO EARLY (0 resolved, 0 prospective signals so far)
+
+Why surfaced: data current and complete, signal is new, evidence tier eligible,
+adequate sample, positive historical effect, broad asset support, full research not adverse
+Priority: consistent full research, plateau neighbourhood and broad asset support
+Exploratory evidence — human review only. Not an automated trade signal.
+```
+
+**Several signals in one run.** Up to 3 ALERTs are sent as individual messages. More are
+sent as one compact digest of 3 lines each, so no valid signal is dropped and Telegram is
+not flooded. A condition shown in a preview that is false is marked "— not met".
+
+### Audit trail
+
+| Table | What |
+|---|---|
+| `copilot_policies` | released policy payloads by content ID |
+| `copilot_watchlist`, `copilot_watch_status` | frozen watches and appended status events |
+| `copilot_runs` | every run, with a note per watched strategy/asset (`NO_SIGNAL`, `WAITING_FOR_DATA`, `OUTSIDE_WINDOW`, `BEFORE_REGISTRATION`, `ERROR` …), so non-firing days are auditable without a row per day |
+| `copilot_decisions` | one row per fired signal: `ALERT` (with priority) or `SUPPRESS` |
+| `copilot_deliveries` | append-only delivery attempts (`attempted`, then `sent` or `failed`) |
+| `copilot_software` | the co-pilot's own software registry |
+
+Each `copilot_decisions` row stores:
+
+- the evidence view and the profile ID used;
+- the signal (conditions, feature values, data cutoff, compile digest, input fingerprint);
+- every rule result, the caveats and the priority reasons;
+- the policy and software IDs and the engine/render versions;
+- the rendered message and its SHA-256.
+
+The decision row is `UNIQUE (policy_id, strategy_id, symbol, bar_close)`. It also has a
+CHECK that `evaluated_at` lies inside the bar's live window, and a CHECK that only ALERTs
+carry a priority.
+
+**Delivery.** Decisions are committed before anything is sent, so a Telegram failure cannot
+lose or alter them.
+
+- A failed attempt is retried by the next run while the bar is still live.
+- An `attempted` row with no outcome (the process died mid-send) is reported as `unknown`
+  and never resent automatically. Retries therefore cannot duplicate a message.
+- If Telegram is not configured, that is recorded as a failed delivery.
+- `market lab copilot run` exits 1 when a delivery failed.
+
+### CLI
+
+| Command | |
+|---|---|
+| `market lab copilot policy [--version N]` | the frozen policy and its ID |
+| `market lab copilot watch <profile-id> --reason … [--policy-version N] [--label] [--dry-run]` | WRITE: register a watch |
+| `market lab copilot watchlist` | watches, status, decision counts |
+| `market lab copilot pause/resume/stop <watch-id> --reason …` | WRITE: status events |
+| `market lab copilot candidates [--full] [--now ISO]` | read-only: each watched strategy/asset's state, conditions, new-signal flag, and the decision (for a live signal) or `if_it_fired` (inspection only) |
+| `market lab copilot preview <strategy> --symbol X` | read-only rendering check (labelled PREVIEW unless genuinely fired) |
+| `market lab copilot run [--dry-run] [--update]` | WRITE: evaluate → record decisions → send new ALERTs; `--dry-run` writes and sends nothing and prints the messages it would send |
+| `market lab copilot decisions [--limit]`, `show <decision-id> [--message]` | recorded decisions with delivery state; one decision in full |
+
+### Scheduling
+
+There is no new scheduler. `forward_run.sh`, which the installed **"Prism forward"** Task
+Scheduler task already runs at log-on (+5 min) and at 12:00 and 19:30, now runs:
+
+1. `market lab forward run` (perp update → check → resolve);
+2. then `market lab copilot run --no-update`.
+
+The co-pilot's exit code is logged as `copilot=` in `data/forward.log`. The wrapper exits
+with the forward code if that failed, otherwise with the co-pilot code. Both commands are
+idempotent. The first run after 00:00 UTC is the first chance to alert on the new bar.
+Later runs inside the day only retry failed deliveries or pick up late data.
+
+### Live setup (2026-10-04)
+
+The DB was backed up to `data/prism.pre_phase10.duckdb` first. Migration 13 was applied on
+the first writable open.
+
+**Rehearsal on a scratch copy.** Both watches were registered; `candidates`,
+`preview` and `run --dry-run` were checked. The results matched the live run below,
+including identical watch IDs.
+
+**Watchlist (live).** Both watches are active and were registered at about 11:52 UTC. The
+first alertable bar is the 2026-10-05 00:00 UTC close.
+
+| Strategy | Watch | Baseline | If it fired today |
+|---|---|---|---|
+| `ma_trend_10_50_long` | `copwatch_32cde88c…` | `evidence_ac9120d8…` EXPLORATORY | ALERT · STRONG WATCH (no rule blocks) |
+| `ma_trend_20_100_short` | `copwatch_c0e4e977…` | `evidence_168da1c0…` EXPLORATORY | ALERT · WATCH (full research mixed) |
+
+`donchian_breakout_55_long` is not watched. Its forward tracking was stopped, and the
+policy would block it (`strategy_not_retired`).
+
+**State on the 2026-10-04 00:00 UTC bar.**
+
+- `ma_trend_10_50_long`: both conditions hold on all 6 assets (close and EMA10 above
+  EMA50), but on none is it a **new** signal. The edge fired earlier and the cooldown or
+  continuation applies.
+- `ma_trend_20_100_short`: neither condition holds on any asset.
+- The bar also closed before registration, so it is `BEFORE_REGISTRATION` and could not
+  alert anyway.
+
+`run --dry-run` gave 0 decisions and 0 messages. One real `run` and one wrapper run
+recorded run summaries with 0 decisions and 0 deliveries. **No Telegram message was sent
+and no signal was manufactured.** The first real alert will be sent when the next genuine
+signal fires.
+
+### Known limitations
+
+- Daily perp strategies only: there are no intraday, OI or long-horizon families.
+  Cross-venue corroboration (section 16) exists, but co-pilot policy v1 does not read it.
+- Only two strategies are watched.
+- The forward sample is empty (TOO_EARLY). Validation is not mature until the reserved
+  period completes (2027-10-01), and the short strategy is projected to stay insufficient.
+- The alert window equals the forward window (one bar). If the PC is off all day, that
+  day's signals are never alerted, by design.
+- The `data_quality` rule checks only bar contiguity in the lookback and funding
+  readiness. Stale data appears as `OUTSIDE_WINDOW`/`WAITING_FOR_DATA` notes, not as
+  messages. The daily brief's freshness warnings remain the place to notice a broken
+  update.
+- Evidence profiles are read as recorded. A newer Phase 9 extension is picked up
+  automatically, but a new historical batch needs a new watch.
+- A crash between sending and recording leaves an `unknown` delivery that needs a manual
+  look (`market lab copilot show`).
+
+## 16. Step 11 implemented: cross-venue historical corroboration
+
+Module `research/lab/corroboration.py`, additive migration 14 (`lab_corroboration_*`
+tables), dataset role `corroboration`, evidence stage `cross_venue_corroboration`,
+evidence profile schema 5 and the CLI group
+`market lab corroboration register | run | show | list | evidence`. Research only: no
+consumer, eligibility or auto-trader field exists, and co-pilot policy v1 does not read it.
+
+> Binance historical corroboration is supporting historical evidence, not independent
+> validation, because parts of the Binance history have been used in prior Prism research.
+
+The question is narrow: *does the same frozen strategy show broadly similar behaviour on
+another major perp venue, in earlier market regimes?*
+
+| Evidence | Venue / data | Independence |
+|---|---|---|
+| Hyperliquid discovery + full research (Phases 4–9) | Hyperliquid 2024-10-01 → 2026-10-01 | none (selected the strategy) |
+| Hyperliquid reserved validation (Phase 9) | Hyperliquid 2026-10-01 → 2027-10-01 | **independent validation** (untouched on record) |
+| **Cross-venue corroboration (Phase 11)** | **Binance 2019-09-01 → 2024-10-01** | **none: historically exposed, non-independent** |
+| Prospective forward (Phase 8) | live Hyperliquid bars | prospective, separate |
+
+### Machinery (reused, not a second backtester)
+
+- **Plan.** The corroboration plan is the strategy's source plan with only three things
+  changed: `source` (the venue), the venue's per-asset costs, and one `corroboration`
+  period (`check_plan_compatibility`). Horizons, the primary horizon (10d), Lab causal
+  funding, statistics, warmup (400 days), T+1-open entry, T+h-close exit, the outcome
+  boundary and the gates are identical.
+- **Governed look.** The look is a Phase 2 experiment (role `corroboration`, origin
+  `lab_corroboration:<registration>`) run by Phase 4 `run_screen`. Its start is the
+  permanent `evaluation_started` record in `lab_inspections`, so `Ledger.exposures` shows
+  it. The pure screen is recomputed on the same retained snapshot and must match the
+  governed result exactly (parity) before the deeper summaries use its events.
+- **Deeper summaries.**
+  - Walk-forward: the Phase 9 `frozen_walk_forward`, 6-month blocks with no reselection.
+  - Neighbours: `neighbour_sensitivity` (Prism `plateau_verdict`). Each registered
+    neighbour is its own governed experiment. This is descriptive only and never
+    affects the status.
+  - Breadth and horizons: Phase 7 `asset_summary` / `horizon_summary`.
+  - Regime blocks: Prism `window_excess`.
+- **Only venue rows.** Dataset selections name the venue and nothing else. The evaluator
+  refuses a snapshot with any other source. A test rewrites Hyperliquid prices for the
+  same window and shows nothing changes.
+
+### Registration (explicit, frozen)
+
+`market lab corroboration register <profile> --start … --end … --reason …` accepts a
+historical (schema 1/2) or full-research (schema 4) profile. `--dry-run` writes nothing
+and shows:
+
+- the frozen strategy definition;
+- the period and its warmup-inclusive data region;
+- included and excluded assets;
+- per-asset coverage: first and last bar, bar gaps, funding settlements and irregular
+  settlement days;
+- venue costs and funding semantics;
+- the recorded historical exposure.
+
+The registration (content-hashed `xvenue_…`) freezes:
+
+- the strategy, side, family and parameters;
+- the base and historical profiles;
+- the source plan, dataset, experiment, result and period;
+- the batch;
+- the neighbours (taken from the profile, so they cannot be re-chosen);
+- the venue plan and period, the included and excluded assets;
+- the full-research and corroboration policy IDs;
+- the semantic versions.
+
+Rules:
+
+- **Earlier regimes only.** The period must end no later than the source discovery period
+  starts, so no market day contributes an outcome to both venues. Reserved Hyperliquid
+  validation and final-holdout windows are therefore never touched.
+- **Frozen strategy.** The strategy is cited by its immutable ID. There is no parameter
+  option, and changed semantics refuse the run.
+- **Looked at once.** A second run needs `--rerun-of` and `--rerun-reason`, is marked
+  `first_look: false`, and never replaces the earlier result.
+- **Never independent.** `independent` is the literal `False` in the registration model,
+  the policy (`satisfies_independent_validation: false`), every result, the profile
+  block, and a database `CHECK (NOT independent)`.
+
+### Historical window (frozen before evaluation)
+
+**Binance USD-M, [2019-09-01, 2024-10-01)**, primary horizon 10d. The data region with
+the plan's 400-day warmup is [2018-07-28, 2024-10-01). Only rows from 2019-09-09 exist.
+
+- **Start:** Prism's configured Binance history start (`venues.binance.history_start`,
+  the USD-M launch month). This keeps every stored year.
+- **End:** the Hyperliquid discovery start.
+
+Both boundaries were fixed from coverage alone, before any outcome was computed.
+
+| Asset | First Binance bar (close) | Bars in period | Gaps | Funding settlements | Notes |
+|---|---|---|---|---|---|
+| BTC | 2019-09-09 | 1,849 | 0 | 5,543 | 3/day (8-hourly) |
+| ETH | 2019-11-28 | 1,769 | 0 | 5,309 | 3/day |
+| LINK | 2020-01-18 | 1,718 | 0 | 5,156 | 3/day |
+| SOL | 2020-09-15 | 1,477 | 0 | 4,510 | 3/day; 2022-11-09 → 11-18 (FTX crash) up to 12/day |
+| AAVE | 2020-10-17 | 1,445 | 0 | 4,337 | 3/day |
+| HYPE | — | 0 | — | 0 | **excluded**: no Binance perp history stored (HYPE launched Nov 2024, after the period) |
+
+Each asset's first day also has a partial settlement count. Assets listed after the
+period start are included from their listing. Their features warm up from their own first
+bar, and nothing is back-filled. Asset composition therefore differs from Hyperliquid
+(no HYPE; fewer alts in 2019–2020).
+
+### Venue semantics
+
+| | Hyperliquid (source) | Binance (corroboration) |
+|---|---|---|
+| Fee per side | 4.5 bps | 5.0 bps (`venues.binance.taker_fee_bps`) |
+| Slippage per side | BTC/ETH 2, SOL 4, LINK 6, AAVE 8 (HYPE 6) | same per-coin table (`perp_costs(cfg, coin, "binance")`) |
+| Funding | hourly settlements | 8-hourly (shorter intervals in a few volatile episodes) |
+| Contract | USDC-margined perps | USDT-margined linear perps (last-price candles) |
+
+- Costs are frozen in the venue plan through Prism's own `perp_costs`. Stop slippage
+  does not apply because the event study has no stops.
+- Funding uses the same Lab causal policy on both venues. Each daily bar sums the settled
+  rates in (open, close], with the cadence inferred from the trailing 7 days. A full day
+  takes its actual sum, so the SOL 2022 episode is not scaled down. Both venues therefore
+  yield a daily funding fraction of notional.
+- Binance's baseline funding (about 0.01% per 8h) differs in level from Hyperliquid's.
+- Daily bars open at 00:00 UTC on both venues.
+
+A difference in outcome may reflect market structure, cost, funding or asset composition
+as well as strategy quality.
+
+### Exposure (recorded honestly)
+
+Recorded at registration, for both strategies:
+
+- **Legacy Prism research used this Binance history.** On 2026-10-03 at 12:32–12:44 UTC,
+  `perp_trend_ls@binance` (×2), `perp_funding_fade@binance` and
+  `perp_breakout_ls@binance` were run on Binance per-coin windows from 2019-09-11 to
+  2023-10-03. All were REJECT except the first `trend_ls` run (INSUFFICIENT_DATA).
+  `trend_ls` is a related moving-average trend rule (SMA 50/150 plus a 20-day breakout,
+  long and short), not the Lab's EMA `ma_trend` rule. Those windows cover **79.9% of the
+  corroboration period**.
+- The `ma_trend` family file was committed about seven hours later (2026-10-03 19:45
+  UTC), and both strategies were registered after the legacy runs
+  (`before_strategy_registered: true`).
+- **Not recorded:** which human design decisions (family design, parameter grids,
+  strategy choice) those results influenced. The record says only that they existed
+  first.
+- The last 20% of the period (2023-10-03 → 2024-10-01) was not in legacy Binance runs.
+  Those market days were, however, in legacy Hyperliquid runs and in the Hyperliquid
+  discovery warmup (features only).
+- There were no earlier Lab experiments on Binance. The two corroboration looks, plus 5
+  neighbour looks, are now recorded exposure of this window.
+
+### Statuses (`lab_cross_venue_corroboration_policy` v1, `xvpolicy_712462d8…`)
+
+Descriptive only; the p-value never decides a status. Sample thresholds equal the
+discovery evidence policy's.
+
+| Status | Rule |
+|---|---|
+| `CROSS_VENUE_INSUFFICIENT` | < 30 independent primary events or < 3 assets with events (never an adverse finding) |
+| `CROSS_VENUE_CORROBORATIVE` | excess > 0, ≥ 60% of assets positive, sign survives dropping the largest contributor, walk-forward `consistent`/`mixed`, regimes `broadly_persistent`/`unstable` |
+| `CROSS_VENUE_ADVERSE` | excess ≤ 0 and ≤ 50% of assets positive |
+| `CROSS_VENUE_MIXED` | otherwise (reasons listed) |
+| `CROSS_VENUE_ERROR` | exception or parity failure (recorded) |
+
+**Regimes:** the period is split into three equal-length chronological blocks:
+
+- early [2019-09-01, 2021-05-12);
+- middle [2021-05-12, 2023-01-21);
+- late [2023-01-21, 2024-10-01).
+
+Each block uses block-local baselines. A block is adequate with ≥ 5 independent events.
+Labels:
+
+| Label | Adequate blocks positive |
+|---|---|
+| `broadly_persistent` | all |
+| `unstable` | ≥ 2, but not all |
+| `concentrated` | exactly 1 |
+| `adverse` | none |
+| `insufficient` | fewer than 2 adequate blocks |
+
+### Real run (live DB, 2026-10-04 ~12:52 UTC)
+
+The DB was backed up first to `data/prism.pre_phase11.duckdb`. The candidates were the two
+active Phase 8/10 strategies, chosen by `plateau_centrality_v1` before any forward or
+co-pilot outcome existed. Nothing was tuned or added after the results.
+
+Plan: `hl_perp_smoke_discovery_xv_binance_20190901_20241001` v1 (`plan_a79e2b01…`).
+
+| | `ma_trend_10_50_long` | `ma_trend_20_100_short` |
+|---|---|---|
+| Registration | `xvenue_e77932f8…` | `xvenue_07cd8c5f…` |
+| Binance independent 10d events / assets | 142 / 5 | 86 / 5 |
+| Pooled net excess (expected direction) | **−0.34%** | **+1.08%** |
+| Median excess / net mean / net median | −1.47% / +1.75% / +1.10% | +3.50% / −1.26% / +0.84% |
+| Hit rate (net > 0) | 52% | 52% |
+| Per-asset excess | BTC +2.43%, ETH +0.58%, LINK +0.83%, SOL −3.10%, AAVE −3.26% | BTC +1.16%, ETH +2.90%, LINK +3.37%, SOL +1.64%, AAVE −2.40% |
+| Breadth | 3/5 positive; sign flips without AAVE (+0.44%): dominated | 4/5 positive; max event share 27%; survives leave-largest-out (+0.44%) |
+| Walk-forward (6-month blocks) | mixed: 4/9 adequate blocks positive | mixed: 3/7 adequate blocks positive |
+| Regimes early / middle / late | +0.19% (31) / −0.17% (52) / −0.75% (59): **concentrated** | −5.95% (6) / **+3.81% (40)** / −2.42% (40): **concentrated** |
+| Neighbours (descriptive) | NO_EDGE: 20/50 −2.24%, 10/100 −2.49% | PLATEAU: 10/100 +2.05%, 20/50 +2.45%, 20/200 +0.002% |
+| Horizons 1d/5d/10d/20d | −0.63 / −0.03 / −0.34 / −1.35% | +0.28 / +0.11 / +1.08 / +3.51% |
+| Random-entry p (descriptive) | 0.59 | 0.29 |
+| Parity (governed = recomputed) | exact | exact |
+| **Status** | **CROSS_VENUE_MIXED** (excess not positive; one-asset sign; regimes concentrated) | **CROSS_VENUE_MIXED** (regimes concentrated) |
+| Schema-5 profile | `evidence_73a008c2…`, tier **EXPLORATORY (unchanged)** | `evidence_124ab50f…`, tier **EXPLORATORY (unchanged)** |
+
+Notes:
+
+- **Excess versus absolute.** Excess is net return minus the same-asset, same-side
+  random-entry baseline. The long's positive absolute net mean (+1.75%) reflects a rising
+  market, not timing: random long entries did as well.
+- **The short's excess is relative.** Its gross and net absolute means are negative
+  (prices rose after signals on average) but less so than random short entries. Its
+  support comes almost entirely from 2021-05 → 2023-01 (the 2022 bear market).
+
+**Cross-venue comparison (side by side, never pooled).**
+
+| | Long HL | Long Binance | Short HL | Short Binance |
+|---|---|---|---|---|
+| Excess (10d) | +1.38% | −0.34% | +2.61% | +1.08% |
+| Events / assets | 77 / 6 | 142 / 5 | 39 / 6 | 86 / 5 |
+| Positive-asset share | 67% | 60% | 67% | 80% |
+| Breadth | broad | asset-specific | broad | broad |
+| Walk-forward | consistent (3/4) | mixed (4/9) | consistent (3/4) | mixed (3/7) |
+| Status | FULL_RESEARCH_CONSISTENT | CROSS_VENUE_MIXED | FULL_RESEARCH_MIXED | CROSS_VENUE_MIXED |
+
+- **Long:** opposite sign (ratio −0.25). Per-asset signs agree on only 1 of 5 common
+  assets (LINK). Hyperliquid on the common assets alone is +1.29%.
+- **Short:** same sign, smaller magnitude (ratio 0.42). Per-asset signs agree on 5 of 5
+  common assets (AAVE is negative on both). Hyperliquid on the common assets is +4.34%.
+- **Walk-forward:** consistent on Hyperliquid's two years, mixed across Binance's five.
+
+### Evidence integration and tiers
+
+`market lab corroboration evidence <registration>` appends a **schema-5** profile:
+
+- It `extends` the registered base: the Phase 9 schema-4 profile here, or a historical
+  profile.
+- It cites the base's sources plus a `cross_venue_corroboration` source.
+- It copies every existing field and block unchanged and adds a `corroboration` block:
+  - venue, period and assets;
+  - exposure summary;
+  - status, sample, effect and breadth;
+  - walk-forward, regimes and neighbours;
+  - comparison, policy and `independent: false`.
+- A `cross_venue_corroboration` component appears in `components`, with one line in
+  `supporting` (if CORROBORATIVE) or `limiting` (otherwise).
+
+Existing profiles stay unchanged. All 42 pre-existing profiles are byte-identical, and
+historical, Phase 9 and forward payloads omit the new block.
+
+**Tiers never change:**
+
+- The policy's `tier_effect` is the literal `"none"`, and the builder refuses a tier
+  different from the base's.
+- The schema-5 model rejects `VALIDATED` and any non-independent block.
+- A `cross_venue_corroboration` source cannot satisfy anything that requires a
+  `validation` source.
+- Corroboration therefore can neither create RESEARCH_SUPPORTED nor unlock VALIDATED. The
+  reason is that the data is historically exposed and not independent of the research
+  that led to these strategies.
+
+Phase 8 enrollment and Phase 9 registration refuse schema-5 profiles. The batch evidence
+report excludes them, so its output is identical to before.
+
+**Future consumers.** A future auto-trader promotion policy can read the block's
+`status`: cross-venue supportive, mixed or adverse. No eligibility, approval or
+readiness field is created here.
+
+### Co-pilot compatibility
+
+`copilot_policy` v1 (`copolicy_e235b9de…`) is unchanged. The co-pilot reads the newest
+**schema-4** extension, so schema 5 is invisible to it. On the live DB, after the run:
+
+- every `copilot_*` table (watchlist, status, runs, decisions, deliveries, policies,
+  software) is byte-identical to the backup;
+- the co-pilot `evidence_view` for both watches is identical;
+- `lab_forward_*` and `lab_research_*` are byte-identical.
+
+The only DB changes are migration 14 and:
+
+- +1 plan;
+- +2 schema-5 profiles;
+- the corroboration registrations, runs and results;
+- 7 corroboration experiments (2 targets + 5 neighbours), with their starts, results,
+  inspections, dataset and snapshot blobs.
+
+### Known limitations
+
+- **Not independent.** About 80% of the period was used by legacy Binance research on a
+  related trend rule before these strategies were defined. Which decisions it influenced
+  is not recorded. A positive result could never have counted as validation; neither
+  result here is positive.
+- Different asset composition (no HYPE), different costs and funding levels, and USDT
+  versus USDC quoting. Venue differences are confounded with regime differences: Binance
+  covers 2019–2024, Hyperliquid 2024–2026.
+- Regime blocks are equal calendar thirds, not economically defined regimes. The early
+  block is warmup-limited (the short has only 6 events there).
+- Daily perps and two strategies only. Neighbours are the registered Phase 6 neighbours.
+  No other family member was examined.
+- The Lab compiler's EMA warmup and the plan's 400-day warmup are reused unchanged.
+  Assets listed late contribute fewer events.
+- Recorded exposure is application-level. Direct market-table access is not observable.
+
+## 17. Step 12 implemented: paper auto-trader
+
+Package `src/market_signal/paper/` (`policy.py`, `execution.py`, `risk.py`, `account.py`,
+`engine.py`, `render.py`), additive migration 15 (`paper_*` tables) and
+`market lab paper …`. This is the **paper-only auto-trader foundation**: a stateful,
+prospective, simulated perp account that behaves as if Prism controlled an account, under
+frozen promotion, risk, execution and exit policies. It places **zero real orders**.
+
+> The paper auto-trader is structurally incapable of placing real orders.
+
+> Paper results are forward evidence. They do not automatically authorize real-money
+> execution.
+
+> Any future transition to real trading requires a separate explicit promotion phase after
+> sufficient paper-forward evidence.
+
+> Paper trading evaluates a trading-policy implementation built around the historical
+> signal, not merely the raw signal's forward-return statistic.
+
+### Purpose and architecture
+
+Phase 8 asks: *did the raw signal's forward outcome persist?* Phase 12 asks: *did an actual
+simulated trading system, with sizing, costs, funding, margin, risk limits and exits, make
+sensible decisions and survive operational constraints?* Both observe the same governed
+signals independently.
+
+```
+governed Lab signal + evidence (read only)
+  -> autotrader_policy   (promotion: may this strategy generate paper intent?)
+  -> paper_risk_policy   (account gates, sizing, exposure, conflicts, kill switches)
+  -> strategy intent     (one per fired signal)
+  -> PaperExecutionAdapter (simulated order lifecycle and fills; the ONLY adapter)
+  -> paper account       (replay of the append-only event ledger)
+  -> paper_execution evidence
+```
+
+A future live phase is meant to reuse the promotion policy, risk engine, intent logic,
+account semantics and order lifecycle, replacing only the execution adapter and adding
+much stronger safety controls. Nothing here was built as a throwaway simulator, and
+nothing here can be switched to live.
+
+| Module | Role |
+|---|---|
+| `policy.py` | Frozen, content-addressed policies: `AutotraderPolicy`, `RiskPolicy`, `ExecutionModel`, `ExitPolicy`, `PaperMaturityPolicy`, and the pure `evaluate_promotion` |
+| `risk.py` | Pure `allocate`: every intent of one bar against one account snapshot |
+| `execution.py` | `PaperOrder`, the order states, `PaperExecutionAdapter` (pure fills) and the `require_paper_adapter` guard |
+| `account.py` | `AccountState`, `apply`/`replay`: the account is a fold of the event ledger |
+| `engine.py` | Runs, the frozen daily cycle, evidence view, status changes, notifications and evidence summary |
+| `render.py` | PAPER/SIMULATED Telegram texts |
+
+### Inspection before building (what was reused, what was not)
+
+- **`perps/backtest.py` `simulate_perps`** is not reused as an engine. It sizes from a stop,
+  carries the last funding rate forward over missing days, and reads max leverage from the
+  latest snapshot. Its pure `liquidation_price` formula *is* reused.
+- **`perps/paper.py`** and **Phase 8** stay unchanged. Phase 8's live-window helpers
+  (`live_snapshot`, `in_live_window`) and the Phase 3 compiler are reused for signals, so
+  the paper trader sees exactly the signal the forward tracker and co-pilot see.
+- **Strategy exit intent.** Both cohort strategies carry the `ma_trend` *family template*
+  `ExitIntent` (3 × ATR stop, 30-bar hold). No Phase 4–11 evidence evaluated it: every
+  result is the fixed 10-bar horizon (T+1 open → T+10 close). Paper v1 therefore does
+  **not** use it (below).
+- **Phase 9 audit items** that made portfolio simulation unsupported are resolved for the
+  paper engine (the Phase 9 research adapter is unchanged and still reports portfolio
+  simulation as unsupported for *historical* research):
+
+  | Phase 9 concern | Paper engine |
+  |---|---|
+  | Risk settings not frozen in a governed policy | `paper_risk_policy` v1 is a content-hashed policy; any change is a new policy and a new run |
+  | Max leverage not point-in-time | leverage and per-asset maintenance rates are frozen constants in the policy; `perp_snapshots` is never read |
+  | Cross-symbol ordering | every intent of a bar is decided against the same snapshot; capacity is allocated by a hash lottery, notional by one proportional factor (below) |
+
+### Safety boundary
+
+There is no path in this phase that can place a real exchange order.
+
+- The `paper` package imports no network client (`httpx`, `requests`, `urllib`, `socket`, …),
+  no provider/registry/updater module, no exchange SDK and no Telegram client. It reads no
+  environment variable or secret (all tested by an AST scan).
+- Prism contains no order-placement code at all. It talks to Hyperliquid's public `/info`
+  endpoint only. A repo-wide test fails on `/exchange`, `ccxt`, `eth_account`,
+  `place_order`/`create_order`/`submit_order`, `api_secret`, and any
+  `READY_FOR_LIVE`/`APPROVED_LIVE`/`ENABLE_LIVE` string.
+- `PaperExecutionAdapter` is the only adapter. `transmits_orders` is the literal `False`,
+  fills are arithmetic on stored bars, and its public surface is exactly `mode`,
+  `transmits_orders`, `model`, `validate`, `fill`. The engine's `require_paper_adapter`
+  refuses any other type, including a subclass or a look-alike object.
+- Every policy and run has `mode: "paper"` as a literal. The DB CHECKs `paper_runs.mode =
+  'paper'`.
+- The CLI has no `--live`, `--real`, `--execute`, key or secret option, and no command for
+  real execution (tested over the whole command tree).
+- A full engine cycle runs with sockets disabled (tested).
+- Run statuses are `ACTIVE`, `PAUSED`, `STOPPED`, `KILLED`. No status, field or
+  transition expresses live readiness.
+
+### Promotion policy `autotrader_policy` v1 (`appolicy_1f0b69cf…`)
+
+The question it answers: *is this strategy allowed to generate **paper** trading intent?* It
+is separate from `copilot_policy` (different ID and content, no shared code path) and
+stricter. It is evaluated for every fired signal at decision time, on the evidence that
+exists then (the evidence chain is point-in-time by `recorded_at`).
+
+**Blocking rules** (every one must pass):
+
+| Rule | v1 condition |
+|---|---|
+| `strategy_enrolled` | the strategy is in the run's frozen, manually chosen cohort |
+| `versions_compatible` | compiler/vocabulary versions equal the run's and every evidence source's |
+| `forward_tracking_active` | the member's frozen Phase 8 tracking is active (a stopped/retired strategy cannot trade) |
+| `evidence_available` | a usable profile chain exists |
+| `tier_eligible` | `EXPLORATORY` or `RESEARCH_SUPPORTED` |
+| `sample_adequate` | ≥ 30 independent primary-horizon events on ≥ 3 assets |
+| `effect_positive` | expected-direction net excess > 0 |
+| `breadth_ok` | not dominated by one asset; largest asset share ≤ 50% |
+| `not_isolated_spike` | parameter neighbourhood is not an isolated spike |
+| `full_research_adequate` | full research **was run** and is `CONSISTENT` or `MIXED` (`INCONSISTENT`, `INSUFFICIENT`, `ERROR` or not run block) |
+| `validation_registered` | a Phase 9 validation registration exists |
+| `validation_not_adverse` | not `VALIDATION_ADVERSE` or `VALIDATION_ERROR` |
+| `corroboration_not_adverse` | Phase 11 status is not `CROSS_VENUE_ADVERSE` |
+| `forward_not_adverse` | forward maturity `DEVELOPING`/`MATURE` with excess ≤ 0 or opposite direction blocks |
+
+**Not required** (recorded as caveats): FDR survival, supportive validation, cross-venue
+corroboration (`MIXED`/`INSUFFICIENT`/not run), forward maturity, a plateau
+neighbourhood. Final validation is deliberately not required: paper trading is how
+stronger forward evidence is gathered. The corroboration choice is frozen: the Binance
+data is historically exposed, so it may only veto (`ADVERSE`), never qualify.
+
+Compared with `copilot_policy` v1, this policy additionally requires full research to have
+been run, a validation registration and an active forward tracking. It also blocks adverse
+corroboration and adverse forward evidence at `DEVELOPING` rather than only `MATURE`.
+
+### Risk policy `paper_risk_policy` v1 (`riskpolicy_e755fb81…`)
+
+All values are **arbitrary conservative research defaults**, fixed before any paper result
+existed. They are not optimised and must not be tuned on paper outcomes. Changing any of
+them is a new policy and a new paper run.
+
+| Setting | v1 |
+|---|---|
+| Starting equity | 10,000 USDC (a research account, unrelated to any real portfolio) |
+| Sizing | `fixed_equity_fraction_v1`: notional = 20% of current marked equity |
+| Minimum position (after scaling) | 5% of equity |
+| Margin | isolated, fixed 2× leverage (cap 2×), so margin = 10% of equity per position |
+| Max open positions (incl. unfilled entry orders) | 3 |
+| Max gross notional | 60% of equity |
+| Max per asset | 20% of equity (so one position per asset) |
+| Max per strategy | 40% of equity |
+| Cash reserve after margin + fees | 25% of equity |
+| Daily loss halt | bar-to-bar marked equity loss ≥ 3% → no new entries on that bar |
+| Drawdown kill | ≥ 15% below peak marked equity → run `KILLED` |
+| Repeated errors | 3 consecutive failed cycles → automatic `PAUSED` |
+| Signal data gap | a gap > 24 h between daily bars in the signal lookback blocks the entry |
+| Maintenance rates | 1 / (2 × venue max): BTC 1.25%, ETH 2%, SOL 2.5%, HYPE/LINK/AAVE 5% (frozen constants) |
+| Liquidation model | `isolated_full_margin_loss_v1` |
+| Conflicts | `one_position_per_asset_no_hedge_no_add_v1` |
+| Allocation | `same_snapshot_hash_lottery_proportional_v1` |
+
+**Why fixed-fraction, not stop-based risk.** The strategies carry no stop that their
+evidence evaluated. Inventing an ATR stop just to size positions would make the paper
+result depend on an untested component. There is no Kelly or volatility targeting. The
+per-trade loss is therefore bounded by notional, isolated margin and the kill switches,
+not by a stop.
+
+### Account model
+
+- A paper run has a frozen `PaperRunDefinition`: cohort, the five policy IDs, engine
+  version, the frozen cycle order, semantics and `created_at`. Its `run_id` is the content
+  hash. `continues` records lineage to a stopped/killed run. A new policy means a new
+  run; old runs are never overwritten.
+- Each cohort member is frozen from the strategy's **active Phase 8 tracking definition**:
+  baseline profile and tier, assets, venue, lookback, primary horizon and tracking ID.
+- Statuses are `ACTIVE`, `PAUSED` (no new entries), `STOPPED` (terminal, manual) and
+  `KILLED` (terminal, automatic). In every status, open positions are still managed to
+  their scheduled exits.
+- At most one non-terminal run exists at a time.
+- **State** is always `replay(paper_events)`. It holds cash, open positions (entry
+  reference/fill, side, units, notional, isolated margin and margin balance, accrued
+  funding, fees, last mark), unfilled orders, closed trades, daily marks, peak equity and
+  halted bars. Every account mark records equity, drawdown, day PnL, gross/per-asset/
+  per-strategy exposure and unrealised PnL. There is no mutable "current position" table.
+
+### Execution model `paper_execution_model` v1 (simulated fills)
+
+| | v1 |
+|---|---|
+| Venue / order type | Hyperliquid perp, market orders |
+| Entry reference | **the stored open of bar T+1** (the bar opening at T's close) |
+| Exit reference | the stored close of the scheduled exit bar |
+| Slippage | reference ± frozen per-asset slippage, always against the order (BTC/ETH 2, SOL 4, HYPE/LINK 6, AAVE 8 bps) |
+| Fee | 4.5 bps taker on filled notional |
+| Fills | `full_immediate_v1`: full, immediate. No partial fills, queue or order book |
+| Entry window | 12 h after T's close |
+| Funding | settled hourly rates, priced at the bar close (below) |
+
+Costs are frozen from the cohort's research plan, so paper costs equal the costs the
+evidence assumed. High/low are never used to produce a favourable fill. They are used only
+for the adverse liquidation check.
+
+Each fill records the reference price, slippage, fill price, units, notional, fee and
+execution-model ID.
+
+**Entry timing.** A daily signal at bar T is computed only from data available at T's
+close (bars with `close_time ≤ T`, funding to the minute, Phase 3 compiler). The intent is
+recorded **within 12 hours of T's close**. Its market order fills at T+1's open once that
+bar is stored: Prism stores only completed bars, so the fill is recorded the next day.
+It never fills at T's close; in live data T+1's open differs from T's close by up to
+~50 bps.
+
+**Missed execution window.** If the engine first sees bar T more than 12 hours after it
+closed (PC off, data late), the signal and intent are still recorded, and the risk
+decision is `REJECTED: missed_execution_window`. No order is created, and nothing ever fills
+retrospectively. With Prism's schedule (first run ~07:20 UK, retries 12:00 and 19:30 UK),
+the morning and midday runs are inside the window and the evening run is not.
+
+**Order lifecycle.** `SUBMITTED → FILLED | REJECTED | EXPIRED | CANCELLED`. `PARTIALLY_FILLED`
+exists in the vocabulary, but the v1 fill model never produces it. Exits use the same
+lifecycle as reduce-only orders. An entry order whose fill bar is still not stored 12 h
+after it closed `EXPIRES`.
+
+### Exit policy `paper_exit_policy` v1 (`exitpolicy_4ef7a1b2…`)
+
+`fixed_horizon_v1`: a position entered at T+1's open closes at **T+10's close** (the
+primary research horizon, 10 bars). This reproduces the evidence's return window exactly.
+
+- There is no protective stop, no take-profit and no opposite-signal exit
+  (`uses_strategy_exit_intent: false`).
+- The only other way a position ends is a simulated liquidation (risk policy).
+- Run creation refuses a cohort member whose primary horizon differs from the exit
+  policy's.
+- A time exit processed late (the engine was off) still fills at the scheduled close. Its
+  time was fixed in advance and does not depend on prices. The trade is flagged
+  `late_processing` and counted as a late exit in the evidence.
+
+### Funding
+
+For every open position and every processed bar B, the engine reads the funding
+settlements **actually stored** in (B − 1 day, B] (minute-snapped) and records one
+immutable `funding_accrued` event:
+
+- amount = Σ side × units × close(B) × rate (the research convention); a positive amount
+  is paid (longs pay positive funding), a negative amount is received;
+- the event lists every settlement, `present` versus `expected` (24) and `missing`.
+
+Funding is debited from or credited to the position's isolated margin balance, which moves
+its liquidation price. Nothing is estimated: a missing settlement is counted, never filled
+in, and it appears in the evidence as `funding_missing_settlements`. Event keys are per
+position and bar, so funding can never be charged twice.
+
+### Margin, leverage and liquidation
+
+- Isolated margin per position: margin = notional / 2. The margin and entry fee leave cash
+  at the fill.
+- Liquidation price: `perps.backtest.liquidation_price` with the frozen maintenance rate
+  and the current margin balance. At entry it is about −47% to −49% for a
+  long and +43% to +48% for a short.
+- Each bar, if the adverse extreme (low for longs, high for shorts) reaches the liquidation
+  price, the position is liquidated at that price, or at the open if the bar gapped
+  through it. If funding at the close exhausts the margin, it is liquidated at the close.
+- A liquidation loses the **whole remaining isolated margin** (proceeds 0). It records the
+  reference and liquidation prices, the margin lost and any theoretical loss beyond the
+  margin. Losses are not clamped silently: beyond-margin loss is recorded but not charged,
+  because isolated margin caps the account's loss at the posted margin.
+- This is an **approximation, not Hyperliquid liquidation parity**: there are no tiered
+  margin tables, no partial liquidation, no liquidation fee and no backstop model. The v1
+  sizing (2×, 20% notional) keeps normal operation far from liquidation.
+
+### Conflicts and simultaneous signals
+
+Frozen rules:
+
+- **One position per asset.** No hedged long and short on one asset.
+- **An existing position or unfilled order on the asset** blocks a new entry: the same side
+  is rejected as `duplicate_position_no_add` (size is never added), the other side as
+  `conflicting_position`.
+- **Same-bar long and short on one asset** reject each other
+  (`conflicting_signals_same_bar`).
+- **Several same-side strategies on one asset** keep one (the lottery winner); the others
+  are rejected as `duplicate_signal_same_bar`.
+
+All intents of one bar close are decided together against **the same pre-trade snapshot**:
+the account marked at that close, after exits.
+
+1. **Gates:** account ACTIVE, no daily-loss halt, signal inside the entry window, promotion
+   eligible, data contiguous, no conflict.
+2. **Capacity in lottery order:** free position slots, then per-strategy and per-asset
+   headroom. The lottery key is `SHA-256(run, bar, strategy, symbol)`: deterministic and
+   reproducible, unrelated to symbol names, input order or past profitability. Over 200
+   synthetic bars with 6 simultaneous signals and 3 slots, each asset won 60–140 times
+   (tested).
+3. **Notional:** the selected intents all request 20% of snapshot equity. If gross headroom
+   or free cash (after the 25% reserve) cannot fund them, **all are scaled by one common
+   factor**. If that leaves a position below 5% of equity, the last in lottery order is
+   dropped and the factor recomputed.
+
+Every rejection is recorded with all its reasons.
+
+### Daily cycle (`paper_engine_v1`, frozen in every run)
+
+For each bar close B after the last processed one, in time order:
+
+1. **validate_bar_data:** held assets need B's bar and funding through B, otherwise the
+   cycle waits (never invents). Signal assets that are merely lagging (yesterday's bar
+   exists) are waited for while the entry window is open. A stale asset (missing for more
+   than one bar) or a late bar proceeds without them, with a `data_issue` event.
+2. **fill_entry_orders_at_open:** orders submitted after B − 1 fill at B's open.
+3. **liquidation_check_on_bar_range**
+4. **accrue_settled_funding**
+5. **mark_at_close**
+6. **scheduled_exits_at_close**
+7. **account_state_and_kill_switches:** equity, drawdown and day PnL go into the
+   `account_mark`. Then impossible state → KILLED, drawdown ≥ 15% → KILLED, and day loss
+   ≥ 3% → halt for this bar.
+8. **read_signals:** Phase 3 compiler on the Phase 8 live snapshot for every cohort
+   strategy and asset. A `signals_evaluated` event records every state (SIGNAL, NO_SIGNAL,
+   INELIGIBLE_BAR, DATA_MISSING, ERROR); fired signals add `signal_consumed`.
+9. **intents_promotion_and_risk:** `intent_created` (with the promotion decision and
+   evidence view), then one `risk_decision` per intent from `allocate`.
+10. **submit_entry_orders:** these fill at B + 1's open, and the exit bar is B + 10.
+11. **persist_then_notify:** all of the cycle's events and its `paper_cycles` row commit in
+    one transaction. Telegram is attempted only after the commit.
+
+Only bars closing **strictly after the run's `created_at`** are ever processed. Terminal,
+flat runs stop processing.
+
+### Immutable event ledger
+
+`paper_events` is append-only, with `UNIQUE (run_id, seq)` and `UNIQUE (run_id,
+event_key)`. Event IDs are content hashes of `(run, key)`, and keys are deterministic, for
+example `funding:<position>:<bar>`, `filled:<order>` or `mark:<bar>`. A DB CHECK refuses
+any bar event whose market time is not after the run's creation.
+
+Event types: `run_created`, `status_changed`, `signals_evaluated`, `signal_consumed`,
+`intent_created`, `risk_decision`, `order_submitted`, `order_filled`, `order_rejected`,
+`order_expired`, `order_cancelled`, `position_opened`, `funding_accrued`, `liquidation`,
+`exit_intent`, `position_closed`, `account_mark`, `kill_switch`, `data_issue`.
+
+Other tables:
+
+| Table | Contents |
+|---|---|
+| `paper_runs` | frozen definitions |
+| `paper_policies` | released policy payloads by ID and kind |
+| `paper_cycles` | every engine pass, ok or error with traceback |
+| `paper_notifications` | delivery attempts |
+| `paper_evidence` | content-addressed `paper_execution` summaries |
+| `paper_software` | software identities |
+
+**Crash and restart.** A cycle is computed in memory and committed in one transaction. A
+crash therefore leaves nothing partial, and the next run recomputes the same bars. Re-runs
+are no-ops: a processed bar is never processed again, and event keys make a duplicate fill,
+funding charge, exit or position impossible. The state survives WSL/PC restarts because it
+*is* the database. Before committing, the engine checks that the cycle's in-memory state
+equals the replay of the old plus new events. Rehearsed with a real `SIGKILL` mid-cycle (see
+the verification section).
+
+**Manual intervention.** `pause`, `resume` and `stop` append `status_changed` events
+with a reason. Historical fills and PnL cannot be edited; there is no command that does.
+There is no manual close in v1: positions are short-lived, so a stop simply lets them reach
+their scheduled exits. A future manual close must be recorded as `manual paper close`.
+
+### Kill switches (paper mode)
+
+| Switch | Effect |
+|---|---|
+| Manual pause / stop | no new entries; positions managed |
+| Daily loss halt (≥ 3% bar-to-bar) | no entries on that bar |
+| Drawdown kill (≥ 15% from peak) | run `KILLED` (terminal) |
+| Stale/missing data | entries blocked for affected assets or bars; held positions wait for data |
+| Repeated errors (3 consecutive failed cycles) | automatic `PAUSED` |
+| Impossible account state (negative cash/margin, equity ≤ 0, replay contradiction) | `KILLED`, or the cycle fails and is recorded |
+
+No live-execution kill switch exists, because live execution does not.
+
+### Data outages
+
+- Prices and funding are never invented.
+- A held asset without B's bar or funding stops the account at B. The bar is not processed,
+  exits and marks wait, and once the entry window passes a single `data_issue` records the
+  unresolved state.
+- A lagging signal asset delays the bar inside the entry window only.
+- A stale asset (missing for more than one bar) no longer blocks the other assets. Its
+  signals are `DATA_MISSING`.
+- Signals first evaluated after the window are rejected `missed_execution_window`.
+- Missing funding settlements are counted on the funding event.
+
+### Relationship to Phase 8, the co-pilot and Phase 11
+
+| | Phase 8 forward | Co-pilot | Paper auto-trader |
+|---|---|---|---|
+| Question | did the raw signal's outcome persist? | is this worth a human look? | did the simulated trading system behave sensibly? |
+| Writes | `lab_forward_*` | `copilot_*` | `paper_*` only |
+| Depends on the others? | no | reads forward evidence | reads forward evidence and tracking status; **not** co-pilot alerts or Telegram delivery |
+
+- A signal can produce a co-pilot alert, a paper intent and a Phase 8 evaluation. Each
+  consumer records it independently.
+- A paper trade never causes a co-pilot alert, and Telegram failures cannot change a paper
+  decision.
+- `paper` imports nothing from `copilot`, and neither `copilot` nor `research/` imports
+  `paper` (tested).
+- After paper cycles, every `lab_*` and `copilot_*` table is byte-identical (tested), so
+  paper results can never change a Lab tier.
+- Phase 11 corroboration is shown in the evidence view and used only by the frozen
+  `corroboration_not_adverse` rule. It never alters a strategy definition.
+
+### Paper evidence (`paper_execution`) and maturity
+
+`market lab paper summary` (read-only) and `market lab paper evidence` (appends a
+content-addressed summary to `paper_evidence`) compute everything from the ledger:
+
+- trades, win rate, gross PnL, slippage cost, fees, funding, net PnL, liquidations, late
+  exits;
+- return on starting equity, max drawdown, average/max exposure, unrealised PnL;
+- signals, intents, accepted, rejections by reason, orders filled/expired/rejected;
+- average holding period, and contribution by strategy and by asset;
+- missing funding settlements and data issues;
+- `reconciles_with_ledger`: starting equity + Σ closed net + unrealised = marked equity.
+
+The stage is named `paper_execution`, distinct from Phase 8's `paper_forward`. It is
+descriptive only: no p-value or significance claim is computed. It never writes
+`lab_evidence_profiles`.
+
+**Maturity** (`paper_maturity` v1) needs closed trades **and** observed days. It describes
+sample size, never profitability.
+
+| Level | Rule |
+|---|---|
+| `WARMUP` | otherwise |
+| `EARLY` | ≥ 10 closed trades and ≥ 30 observed days |
+| `DEVELOPING` | ≥ 30 and ≥ 90 |
+| `MATURE` | ≥ 100 and ≥ 365 |
+
+### Telegram (PAPER notifications)
+
+Few messages, all starting `🧪 PAPER · SIMULATED — no real order was placed` and ending
+`Research account only. Not an instruction to trade.`:
+
+- paper position opened (sent when the T+1 open fill is recorded, i.e. the following day);
+- paper position closed (time exit or SIMULATED LIQUIDATION);
+- kill switch (daily loss halt, drawdown kill, impossible state);
+- automatic pause after repeated errors;
+- the start of an engine error streak (once per streak).
+
+There are no BUY/SELL words and no co-pilot wording. More than 4 pending messages are sent
+as one digest. Delivery follows the co-pilot's pattern: `attempted`, then `sent` or
+`failed`. A failure is retried on later runs for 24 h, and an attempt with an unknown
+outcome is never resent. Delivery is attempted only after the ledger commit and never
+affects trading.
+
+### CLI
+
+| Command | |
+|---|---|
+| `market lab paper policy` | the released promotion, risk, exit and maturity policies with IDs |
+| `market lab paper create <strategy>… --reason … [--label] [--continues RUN] [--dry-run] [--promotion-version/--risk-version/--exit-version N]` | WRITE: create a run (clock starts now) |
+| `market lab paper run [--dry-run [--full]] [--now ISO (dry-run only)]` | WRITE: process new bars of every open run (or one holding positions), then notify |
+| `market lab paper status [RUN]` / `positions` / `trades` / `events [--type] [--limit]` | read-only views (default: the newest run) |
+| `market lab paper pause/resume/stop RUN --reason …` | WRITE: status events |
+| `market lab paper summary [RUN]` / `evidence [RUN]` | `paper_execution` evidence (read-only / append) |
+
+### Scheduling
+
+There is no new scheduler. `forward_run.sh` is already run by the installed **"Prism forward"**
+task at log-on (+5 min) and at 12:00 and 19:30. It now runs:
+
+1. `market lab forward run`: perp update → Phase 8 check → resolve;
+2. `market lab copilot run --no-update`;
+3. `market lab paper run`.
+
+The paper cycle runs last because it needs the freshly ingested bar and funding. It reads
+forward tracking state, and it must not depend on the co-pilot's Telegram outcome. The log
+line is `=== done forward=… copilot=… paper=…`. The wrapper exits with the first non-zero
+code in that order. All three commands are idempotent.
+
+### Live setup (2026-10-04)
+
+The DB was backed up first to `data/prism.pre_phase12.duckdb`. Migration 15 was applied on
+the next writable open.
+
+**Rehearsals (scratch copies only, never evidence):**
+
+- *Creation:* dry-run create, create, dry-run cycle, two real cycles (idempotent), and a
+  refused second open run.
+- *Mechanics replay:* a back-dated account replayed day by day over 2026-06 → 2026-10 on real
+  Hyperliquid bars and hourly funding, with a scratch-only promotion variant (real tracking
+  only began 2026-10-04). 20 signals produced:
+  - 11 trades: every one held exactly 10 bars, with real funding (longs paid, shorts
+    received);
+  - rejections: 5 `conflicting_position`, 3 `max_strategy_allocation`, 1
+    `max_open_positions`;
+  - a reconciling ledger, and each retry run wrote nothing.
+
+  Its PnL is not evidence and is not reported.
+- *Crash:* a 60-day catch-up cycle was killed with `SIGKILL` mid-computation. Nothing was
+  written. The recovered run was then identical, in all 311 event keys, types and payloads,
+  to the same schedule without the kill. The catch-up recorded its 20 signals as
+  `missed_execution_window` with **0** positions: no retrospective fills.
+
+**Dry run against current data (live DB):**
+
+- Both members are `PAPER_ELIGIBLE` under `autotrader_policy` v1. Their evidence chain
+  tips are the schema-5 profiles `evidence_73a008c2…` (long) and `evidence_124ab50f…`
+  (short). Caveats:
+  - both: q 0.91 (no FDR survival), validation insufficient, cross-venue corroboration
+    mixed, forward evidence too early;
+  - short only: full research mixed.
+- **Newest bar (2026-10-04 00:00 UTC):** no new signal on any of the 12 strategy/asset pairs.
+  - Long conditions hold on all six assets, but the edge fired earlier (continuation or
+    cooldown). The last long signals were in August.
+  - Short conditions hold on none.
+  - The bar also closed before creation, so it can never be processed.
+- **Illustration (inspection only):** if all six longs fired on the first bar of the fresh
+  account, the lottery would accept AAVE and ETH at 2,000 USDC each, and the 40%
+  per-strategy cap would reject the other four.
+- A cycle ran with sockets disabled. Every `lab_*` and `copilot_*` table (40 tables, 492
+  rows) was byte-identical to the backup after creation and the first cycles.
+
+**The paper run:**
+
+| | |
+|---|---|
+| Run | `paperrun_27b0a336e707c389a3fb574cd9d09a7800b563f0691612bf4fb4f1fd97029279` |
+| Created (paper clock start) | 2026-10-04 14:59:39 UTC |
+| First processable bar | 2026-10-05 00:00 UTC (no earlier signal can ever trade) |
+| Starting equity | 10,000 USDC |
+| Cohort | `ma_trend_10_50_long` (`tracking_250f844a…`), `ma_trend_20_100_short` (`tracking_65febaad…`), both unchanged |
+| Promotion / risk / execution / exit / maturity | `appolicy_1f0b69cf…` / `riskpolicy_e755fb81…` / `execmodel_3a94bdf5…` / `exitpolicy_4ef7a1b2…` / `papermaturity_0b19dee3…` |
+| Status at activation | ACTIVE, flat (all cash), 0 positions, 0 orders; **no trade fired at activation** |
+
+No Donchian or other variant was added, and the strategies were not changed after the
+Phase 11 MIXED corroboration. A wrapper run (`forward_run.sh`) logged
+`forward=0 copilot=0 paper=0`.
+
+### Known limitations
+
+- **Daily cadence on a home PC.** Entries need a run within 12 h of the 00:00 UTC close.
+  A day the PC is off is a skipped entry (recorded), never a late fill. Exits processed
+  late still use the scheduled close and are flagged.
+- **Entry notifications lag a day.** Only completed bars are stored, so the T+1 open fill
+  is recorded when T+1 completes.
+- **Simplistic v1 execution:** full immediate fills at stored open/close ± frozen
+  slippage. There is no order book, queue, partial fill, latency model, venue size
+  increment or minimum notional, and fractional units are allowed.
+- **Approximate margin:** isolated margin with frozen maintenance rates, not Hyperliquid's
+  tiered tables. A liquidation loses the whole isolated margin, and there is no liquidation
+  parity. Funding is priced at the bar close, not at each settlement's oracle price.
+- **No stop.** The v1 exit is time-only, by design (above). The tail loss per position is
+  bounded by its isolated margin (10% of equity), and the kill switches act only at
+  daily marks.
+- **Small, slow sample.** At most 3 positions with 10-bar holds, from two strategies that
+  fire a few times a month in total. Maturity will take a long time, and early results
+  are noise.
+- Promotion decisions read the evidence as recorded at decision time. A later Lab record
+  never rewrites an earlier decision.
+- Telegram reuses the existing bot. Delivery problems are recorded but cannot affect the
+  account.
+
+## 18. Step 13 implemented: paper observability
+
+Module `src/market_signal/paper/observe.py`, additive migration 16 (`paper_snapshots`,
+`paper_briefs`), new and reworked `market lab paper …` views, and a top-level
+`market status`. The question this phase answers: *is the paper trader healthy, what is it
+doing, what has it missed, and how is the account evolving?*
+
+> Phase 13 is read-only with respect to paper trading policy and execution. It observes the
+> frozen Phase 12 experiment and does not adapt it.
+
+> Operational misses are distinguished from deliberate policy or risk rejections.
+
+No promotion, risk, exit, execution or maturity policy, no event semantics, sizing,
+cohort or signal rule changed. The v1 policy IDs are pinned in a test. There is no feedback
+loop: nothing reallocates, loosens a window or retunes a limit from results. The only
+engine change is an optional `alerts` flag on `run_all` (default on, behaviour unchanged),
+exposed as `market lab paper run --no-notify`.
+
+### One source of truth
+
+Every number is derived from the run's append-only `paper_events` (replayed with
+`account.replay`) and its recorded `paper_cycles` and `paper_notifications`. Nothing is
+cached or kept in a second account table. `account_summary` reports
+`reconciles_with_ledger`: starting equity + realised + unrealised = marked equity.
+
+### Views
+
+| Command | Shows |
+|---|---|
+| `market lab paper status [--json]` | Everything important on one screen (detailed below the table) |
+| `positions` | Per open position: asset, side, strategy, entry time, entry reference → simulated fill, current mark (last processed close), units, notional, leverage, margin committed and balance, unrealised PnL, funding to date, entry fee, **approximate** liquidation level and distance (model `isolated_full_margin_loss_v1`, not Hyperliquid parity), scheduled exit bar, bars remaining |
+| `risk` | Headroom against the frozen limits: positions `n / 3`, gross exposure `x% / 60%`, per asset `/ 20%`, per strategy `/ 40%`, free cash vs the 25% reserve, last bar return vs the −3% halt, drawdown `/ 15%` kill threshold, failed-cycle streak `/ 3`, whether new entries are permitted, free slots, near-liquidation assets. No risk score |
+| `trades` | Closed trades: strategy, asset, side, signal bar, entry/exit time, fills, bars held, gross, fees, funding, slippage, net, return on margin, exit reason, operational issues |
+| `intents [--skipped]` | Every signal acted on: promotion result, risk result, disposition, category, reason |
+| `gaps` | The operational gap audit plus notification lag |
+| `contributions` | Descriptive per-strategy and per-asset totals (below) |
+| `equity` | Daily equity curve: equity, peak, drawdown, exposure at each recorded close. No intraday values are inferred, and no plotting dependency was added |
+| `snapshot` / `brief [--record] [--send]` | Snapshots and the daily brief (below) |
+| `runs` | The Phase 12 JSON listing of all runs (`status` previously printed this) |
+
+`status` shows on one screen:
+
+- account: status and health, age, start/current equity, cash, free cash,
+  realised/unrealised/net PnL, return, peak, drawdown and max drawdown, gross exposure,
+  margin in use, open/pending/closed counts, maturity, observed days;
+- risk headroom;
+- coverage;
+- component health;
+- open positions;
+- intent dispositions.
+
+Every view has `--json`. Without a run ID, a view uses the open run, else the newest one;
+observation never creates a run.
+
+### Expected skip versus missed execution
+
+Every intent gets one disposition:
+
+| Disposition | Meaning |
+|---|---|
+| `ENTERED` | the entry order filled at T+1's open |
+| `PENDING_FILL` | the order was submitted; T+1 has not completed yet |
+| `EXPECTED_SKIP` | the system deliberately did not enter |
+| `MISSED_EXECUTION` | the system would have traded, but operational timing or data prevented it |
+
+Categories:
+
+- **Expected skip** (deliberate):
+  - `promotion_rejection`;
+  - `risk_rejection`: position, strategy, asset or headroom limits, or the daily-loss halt;
+  - `conflicting_position`: duplicate, conflict, or a same-bar conflict;
+  - `account_paused_or_killed`.
+- **Missed execution** (operational):
+  - `offline_gap`: no paper cycle at all inside the 12 h entry window, e.g. PC off;
+  - `data_late`: cycles ran inside the window but waited for a lagging asset;
+  - `engine_error`: every cycle inside the window failed;
+  - `stale_or_missing_data`: gapped signal data, or an entry order expired because its
+    fill bar never arrived;
+  - `execution_error`: an order rejected at fill.
+
+A policy or risk rejection is never counted as an operational miss.
+
+**Mixed reasons.** If any of an intent's reasons is deliberate, it is an expected skip, and
+the operational reasons are listed alongside.
+
+**Counterfactual.** An intent rejected *only* for operational reasons is re-decided once,
+read-only:
+
+- the run's frozen risk policy and execution model are applied to **the same pre-trade
+  snapshot** the engine used, rebuilt by replaying the ledger up to that bar's decisions;
+- timing and data are assumed fine;
+- if the counterfactual accepts the intent, it is `MISSED_EXECUTION`; otherwise it is an
+  `EXPECTED_SKIP` ("would have been rejected anyway").
+
+No hypothetical fill, price or PnL is ever constructed for a missed trade.
+
+### Coverage and the gap audit
+
+Expected bars are every daily close after the run's creation that has already happened.
+For each bar, the status comes only from recorded marks and cycles:
+
+| Status | Meaning |
+|---|---|
+| `ON_TIME` | processed within 12 h of its close |
+| `LATE` | processed after the window. The cause is `offline_gap`, `data_late` or `engine_error`, from the cycles recorded inside the window |
+| `PENDING` | not processed; the window is still open |
+| `UNPROCESSED` | not processed; the window has passed |
+
+Coverage also reports:
+
+- cycle counts: total, ok, error, consecutive ok;
+- the last ok cycle and the last cycle;
+- calendar days without any cycle (honest PC-off days);
+- the next bar and its entry window.
+
+`gaps` lists each late or unprocessed bar with:
+
+- the cycles inside its window;
+- the signals found once it was processed;
+- each intent's disposition, and how many trades became impossible;
+- the positions held through the gap;
+- whether marks and funding were recovered later, and how many settlements are missing;
+- data-issue events;
+- what is permanently unknowable. Signals on a bar stay unknown until it is processed,
+  and fills that were never placed are not reconstructed.
+
+**Notification lag** (from Phase 12, not "fixed" here). `gaps` and `trades` report, for
+each opened/closed position:
+
+- the execution time the simulated fill represents (T+1's open, or the exit close);
+- when it was recorded;
+- when Telegram delivered it.
+
+Opens are recorded about a day after the fill they represent, because only completed bars
+are stored.
+
+### Health
+
+| State | When |
+|---|---|
+| `KILLED` / `STOPPED` / `PAUSED` | from the run's status |
+| `STALE` | a bar is past its entry window and still unprocessed |
+| `DEGRADED` | any of: a failed-cycle streak; a recent (last 7 bars) bar processed late; a recent data issue; recently missing funding settlements; a position within 20% of its modelled liquidation level (display threshold only; the position is never touched) |
+| `HEALTHY` | otherwise |
+
+Failed or unknown Telegram deliveries are reported next to health. They never make the
+account unhealthy, because they cannot affect trading.
+
+Component freshness is read with SQL only, and `observe` imports nothing from the co-pilot.
+A component is `current` if it ran within 36 h:
+
+- newest Hyperliquid daily bar;
+- last forward check;
+- last co-pilot run.
+
+### Contributions (descriptive only)
+
+**Per strategy:**
+
+- signals, intents, entered;
+- closed trades, wins/losses, net PnL, fees, funding;
+- expected skips, missed executions, open positions.
+
+**Per asset:**
+
+- closed trades, net PnL, fees, funding;
+- average exposure (mean of daily per-asset notional / equity);
+- missed executions, and whether a position is open.
+
+These are totals, not a ranking: nothing is labelled best, and nothing is disabled.
+
+### Snapshots (`paper_snapshot_v1`)
+
+An immutable `paper_execution` snapshot is keyed by `(run, ledger sequence, version)`. It
+holds:
+
+- status, observed days;
+- closed and open trades, wins/losses;
+- gross, realised, unrealised and net PnL; fees, funding, slippage; equity;
+- return on starting equity, max drawdown, average exposure;
+- signals and intents; entered, pending, expected skips and missed executions, each by
+  category;
+- strategy and asset contributions;
+- maturity, ledger reconciliation, the events digest and the policy IDs.
+
+It is ledger-derived only, so it can be reproduced exactly from `events[:as_of_seq]`
+(tested). Recording again at the same sequence returns the stored row unchanged; nothing
+is recomputed in place.
+
+**Cadence:** the scheduled wrapper takes one snapshot after every paper cycle that appended
+events, so at least one per completed paper day. `market lab paper snapshot` takes one by
+hand. Snapshots are descriptive and change no eligibility or policy.
+
+### Daily brief
+
+`market lab paper brief` prints the compact brief, read-only:
+
+- **PAPER ACCOUNT:** equity, PnL, drawdown vs kill, positions vs limit, gross exposure vs
+  limit;
+- **TODAY:** signals, opened, closed, orders submitted, rejected, missed, for the last
+  completed paper day;
+- **POSITIONS** (when any exist): one line each, with uPnL, exit date, bars left and
+  approximate liquidation distance;
+- **HEALTH:** paper engine state, last cycle, data, forward tracking, co-pilot, maturity.
+
+It is labelled `PAPER · SIMULATED — no real order was placed` and ends with the research
+footer.
+
+`--record` takes a snapshot, then stores the brief **once per completed paper day**
+(`paper_briefs`, unique per run, bar and version). A stored brief is never rebuilt.
+Before the first completed day, nothing is stored.
+
+### Telegram brief
+
+The daily brief is **enabled**: the wrapper calls `brief --send`.
+
+- One message per completed paper day, sent only after the paper cycle has committed and
+  the snapshot is taken.
+- Delivery uses the Phase 12 pattern in `paper_notifications`: `attempted`, then `sent` or
+  `failed`. A failure is retried on later wrapper runs for 24 h. An attempt of unknown
+  outcome is never resent. Delivery can never affect the account.
+- It can be toggled independently of position alerts:
+  - remove `--send` from `forward_run.sh` for a CLI-only brief;
+  - use `market lab paper run --no-notify` to silence open/close/kill alerts.
+
+### `market status`
+
+One read-only table with five components:
+
+| Component | Source |
+|---|---|
+| Data | the existing `check_freshness` |
+| OI | the existing `oi_coverage` |
+| Forward tracker | last check, active trackings, newest evaluated bar |
+| Co-pilot | last run, active watches, alerts |
+| Paper trader | health, equity, return, positions, maturity |
+
+`market doctor` is unchanged and remains the detailed diagnostic.
+
+### Scheduling
+
+`forward_run.sh` (the installed "Prism forward" task) now runs:
+
+1. forward run;
+2. co-pilot;
+3. `market lab paper run`;
+4. `market lab paper brief --send`.
+
+The log line is `=== done forward=… copilot=… paper=… brief=…`. The brief step only
+reads committed state and writes observability rows.
+
+### Live application (2026-10-04)
+
+The DB was backed up first to `data/prism.pre_phase13.duckdb`, and migration 16 was
+applied. Observability is attached to the **existing** run
+`paperrun_27b0a336…`: no new run, no restarted clock, and the same balance and policies.
+
+- **First governed snapshot:** `papersnap_ce392529…` (sequence 1, before any processed bar).
+  It records exactly what exists: equity 10,000.00 USDC, 0 positions, 0 trades, 0 signals,
+  0 intents, 0 skips, 0 missed executions, `WARMUP`.
+- **Daily brief:** none stored, because no paper day has completed yet. The first is due
+  after the 2026-10-05 00:00 UTC bar is processed.
+- **Health:** `HEALTHY`. `market status` shows Data, OI, Forward tracker, Co-pilot and
+  Paper trader all OK.
+- **Immutability:** after migration, smoke tests, the snapshot and a wrapper run
+  (`forward=0 copilot=0 paper=0 brief=0`), every `lab_*`, `copilot_*`, `paper_events`,
+  `paper_runs`, `paper_policies`, `paper_evidence` and `paper_software` table (45 tables)
+  was byte-identical to the backup.
+
+### Known limitations
+
+- **Home-PC uptime.** Coverage reports offline days honestly but cannot prevent them; a day
+  without a run inside 00:00–12:00 UTC is a missed entry window.
+- **Notification lag.** Open notifications still arrive about a day after the fill they
+  represent. This is reported, not changed.
+- **Daily granularity only.** Marks, the equity curve and liquidation distance use daily
+  closes; there are no intraday marks.
+- The counterfactual for operational misses uses the recorded snapshot and the frozen risk
+  policy. It says whether an order *would have been submitted*, never what it would have
+  earned.
+- Component freshness uses a fixed 36 h threshold (display only).
+- No chart: the equity history is a table. The Streamlit dashboard was not extended.
+
+## 19. Step 14 implemented: always-on runtime
+
+> **Exactly one runtime is permitted to write the live prospective Prism database.**
+>
+> **Moving hosts does not restart or alter any prospective research or paper-trading experiment.**
+
+Phase 14 moved the live prospective runtime off the home PC, which had been the main cause of
+missed evaluations, missed entry windows and coverage gaps. It now runs on an always-on
+Railway service, `prism-runtime`, with the authoritative database on its `/data` volume. The
+full operations guide is **docs/OPERATIONS.md**. It covers the architecture, scheduler,
+backups, health, deploys, rollback, secrets and troubleshooting.
+
+This phase is infrastructure only:
+
+- **Same experiments.** Same paper run `paperrun_27b0a336…`, same balance, peak, maturity
+  clock and event sequence, same trackings, same watches, same `copilot_policy v1`,
+  `autotrader_policy v1`, `paper_risk_policy v1`, exit policy and execution model. No new
+  run and no backfill.
+- **Same commands, same order.** `market ops cycle prospective` runs `lab forward run` →
+  `lab copilot run --no-update` → `lab paper run` → `lab paper brief --send` as child
+  processes, exactly like `forward_run.sh` did. The business logic is untouched.
+- **Migration 17** adds `runtime_events` (authority claims, deployments, verified backups) and
+  `runtime_cycles` (one row per job run). These are deployment facts, never evidence.
+  `market ops continuity` fingerprints every `lab_*`, `copilot_*` and `paper_*` table, and
+  excludes these two.
+- **Provenance.** `software_id` remains per-run provenance. The deployed image has no `.git`,
+  so the commit comes from a `REVISION` file written by `deploy.sh`. The host name is recorded
+  only in runtime rows and never enters research identity, so changing hardware creates no
+  new evidence.
+- **Authority guard.** The live database is claimed for `railway-prism-runtime`. Any other
+  process (the home PC, a laptop with a pulled copy) can read it but cannot write it.
+- **Schedule (UTC).** Prospective at 00:10, 00:45, 03:00, 06:00, 11:00 and 17:00, plus a boot
+  catch-up; backup at 01:30; OI at 02:30, 08:30, 14:30 and 20:30; daily update/scan at 09:00.
+  00:10 is the first run after each daily close, well inside the paper 12 h entry window.
+- **Live application (2026-10-04).** Cut over at 17:46–17:48 UTC: home tasks disabled, the DB
+  claimed and transferred (hash-verified), and continuity identical apart from the schema
+  version (16 → 17). The service was then moved to eu-west, because Binance Futures blocks US
+  IPs. Deployment recorded as `rtev_e767cf57…` (commit `34ab752`). The full timeline and
+  baselines are in docs/OPERATIONS.md, "Phase 14 cutover log".
+- **Unchanged.** Bar semantics: an "opened" notification can still arrive a bar after the
+  fill it describes (section 18, Known limitations). The always-on host removes the scheduler
+  delay, not the daily-bar design.
+
+## 19a. Step 15 implemented: intraday market-data foundation
+
+> **Phase 15 introduces intraday market data but does not introduce intraday strategy signals.**
+>
+> **The existing daily paper account continues using its frozen Phase 12 execution semantics;
+> intraday execution data is observational/shadow-only in this phase.**
+
+The full reference is **docs/INTRADAY.md**. For the Lab:
+
+- **Data:** provider-native Hyperliquid 15m/1h/4h perp bars, collected live every 15 minutes,
+  plus Binance USD-M history (research only). One table (`perp_intraday_bars`, migration 18)
+  with UTC half-open `[open_time, close_time)` bars on the epoch grid. Bars are stored only
+  once closed, carry `first_observed_at` (availability) and `observed_live`, and keep
+  revisions in `perp_intraday_revisions`.
+- **Causal access:** `intraday.align` returns, at any instant, only bars that were closed and
+  available by then (observed availability by default; an explicit assumed latency for
+  backfilled history). `load_bars(..., known_at=t)` reconstructs the values Prism held at `t`.
+- **Datasets:** `SeriesSelection` kinds `perp_intraday_bars` and `perp_intraday_revisions`
+  (15m/1h/4h) use the existing compressed SHA-256 row snapshots. Evaluation plans still
+  preregister daily inputs only, so no confirmatory claim can rest on intraday data yet.
+- **Unchanged:** every strategy, the compiler/vocabulary, the evidence and promotion policies,
+  `copilot_policy v1`, `autotrader_policy v1`, `paper_risk_policy v1`, the exit policy, the
+  execution model, the paper run and its events. The shadow table `intraday_execution_shadow`
+  is not paper evidence, and the paper engine never reads it.
+- **Not implemented (Phases 16–18):** swing/sweep/rejection/structure/retest primitives,
+  relative strength, OI features, intraday signals and intraday backtests. (Phase 16 has
+  since added the structural primitives; see section 19b.)
+
+## 19b. Step 16 implemented: structural-price and trade-path primitives
+
+> **These primitives are descriptive infrastructure. Phase 16 does not claim that any of them
+> predict returns.**
+>
+> **Prism uses the term "sweep" only as shorthand for an objectively defined failed-breakout
+> event. It does not imply knowledge of stop locations, manipulation or institutional intent.**
+
+The full reference is **docs/STRUCTURE.md**. For the Lab:
+
+- **Three layers:** state (`swing_v1`, `prior_extreme_v1`, `level_cluster_v1`,
+  `level_touch_v1`, continuous rejection metrics), events (`level_breach_v1`,
+  `breakout_outcome_v1`, `failed_breakout_v1`, `rejection_v1`, `structure_shift_v1`,
+  `retest_v1`), and paths (`trade_path_v1`: MFE/MAE, thresholds, R, explicit
+  `AMBIGUOUS_INTRABAR_ORDER`, optional nested-timeframe resolution). Code:
+  `research/structure/`, registry `structure_primitives_v1`.
+- **Causality:** every value carries the time it could be known (`ready_at` = cumulative
+  bar availability). A swing exists only after its right-side bars close. A level is
+  referenceable only by bars opening after its price was formed. Unresolved windows emit
+  no event. Appending bars never changes an earlier event (tested on every stage).
+- **Declarative chains:** `ChainSpec` (structure/event/confirmation timeframes + optional
+  stages) and `run_chain` give Phase 17's ablation ladder (A breach → B failed breakout → C
+  rejection → D structure shift → E retest) from shared detectors, with entry-delay
+  analytics per stage. `StrategyDefinition` and `lab_features_v1` are unchanged. Wiring
+  chains into a strategy schema is left to Phase 17's preregistration.
+- **Provenance:** availability mode and assumed latency are part of every event's identity.
+  Historical events on backfilled bars are labelled `assumed`. IDs are deterministic
+  content hashes, independent of later data.
+- **Storage:** generated on demand (a pure function, benchmarked near-linear: ~5 s for a full
+  chain on 400k 15m bars). Optional immutable Parquet export with a build manifest. No new
+  table, no migration.
+- **Unchanged:** forward tracker, co-pilot, paper trader, runtime schedule, every policy and
+  every Lab table. No live consumer imports `research.structure` (tested).
+
+### Step 16 verification
+
+| Check | Result |
+|---|---|
+| `pytest tests/test_structure.py tests/test_trade_path.py` | **45 passed** (34 + 11) |
+| `pytest` (full, committed code) | **710 passed** in 24 m 56 s; before Step 16: 665 |
+| `ruff check src tests dashboard` / `ruff format --check src tests` / `git diff --check` | Passed |
+| `market structure smoke` (scratch DB; HL all history, BN 2026-04 → 10) | counts in docs/STRUCTURE.md; HL 5.6 s / 234 MB, BN 7.1 s / 275 MB |
+| Benchmark (synthetic 15m, full chain + paths) | 400k bars: swing chain 5.0 s, paths 1.4 s; near-linear (docs/STRUCTURE.md) |
+
+## 19c. Step 17 implemented: structural falsification study
+
+> **EXPLORATORY.** Historical intraday availability is reconstructed under an explicit
+> latency assumption rather than observed in real time.
+
+The full report is **docs/PHASE17_FALSIFICATION.md**. For the Lab:
+
+- **Governance adapter, not a parallel framework.**
+  - `research/lab/structure_study.py` and migration 19 (`lab_structure_studies`,
+    `lab_structure_study_datasets`, `lab_structure_runs`, `lab_structure_results`) follow
+    the Phase 9/11 pattern: a frozen, content-addressed definition (`sstudy_…`), a run row
+    committed before evaluation, one terminal result per run, and explicit reruns.
+  - Evidence class is CHECKed `EXPLORATORY`.
+  - Reused: retained Lab datasets (`perp_intraday_bars` 4h/1h/15m + `perp_funding`) read
+    only from hash-verified snapshots, `SoftwareIdentity`, `ordered_now`, Phase 5 BH,
+    `decluster`, `plateau_verdict` and `perp_costs`.
+- **Why not a `StrategyDefinition`.** Lab strategies are daily, one-sided condition trees,
+  and plans preregister daily inputs only. `StrategyDefinition` and `lab_features_v1` are
+  unchanged.
+- **Study.** `config/structure/phase17_falsification.v1.yaml`:
+  - primary architecture: 4h levels → 1h events; secondary: 1h → 15m;
+  - 3 level types × A→E ladder + held breakout + stretch control, reversal and
+    continuation;
+  - matched (coin/direction/vol-tercile) random-entry nulls and per-venue BH families
+    (38 / 6 / 54; secondary 36);
+  - one-at-a-time neighbours (17 chain variants per level type);
+  - Hyperliquid and Binance never pooled.
+- **Result** (`sstudy_908e4387…`): no hypothesis survives correction on either venue, and
+  nothing is PROMISING or ROBUST. Structure confirmation's apparent edge is a non-executable
+  selection: +105 to +243 bps from the sweep entry versus −6 to −78 bps from the
+  confirmation entry.
+- **Unchanged:** forward tracker, co-pilot, paper trader, runtime schedule and every
+  policy. No consumer reads `lab_structure_*` (tested).
+
+### Step 17 verification
+
+| Check | Result |
+|---|---|
+| `pytest tests/test_structure_study.py` | **27 passed** |
+| `pytest` structure + trade-path + intraday + Lab governance/batch + Phase 17 | **167 passed** |
+| `pytest` (full) | **737 passed** in 22 m 52 s; before Step 17: 710 |
+| `ruff check` / `ruff format --check` / `git diff --check` | Passed |
+| Governed run (scratch DB) | `srun_b2a805a9…` COMPLETED, 209 s / 2.4 GB |
+| Reproducibility | the first rerun differed only in leaked timing fields (fixed in `b060f82`); both later reruns reproduce digest `4ac47837…` exactly |
+
+## 19d. Step 18 implemented: relative-strength / BTC-dislocation study
+
+> **EXPLORATORY.** Historical intraday availability is reconstructed under an explicit
+> latency assumption rather than observed in real time.
+
+The full report is **docs/PHASE18_RELATIVE_STRENGTH.md**. For the Lab:
+
+- **Same governance adapter, no migration.** `research/lab/structure_study.py` now
+  dispatches on `study_version`: Phase 18 definitions (`RelativeStudyDefinition`,
+  `relative_strength_v1`) live in the `lab_structure_*` tables with the same lifecycle
+  (frozen content-addressed definition, run row before evaluation, explicit reruns,
+  `EXPLORATORY` CHECK). Family membership is hashed into the definition.
+- **Primitives** (`research/relative/primitives.py`, `relative_strength_primitives_v1`):
+  BTC-grid panel, BTC-relative / market-relative / beta-adjusted residual returns, exact
+  causal rolling beta and correlation, prior-window z-scores, edge triggers, correlation
+  breakdown, eligible-universe ranks. Raw, BTC-relative and market-relative ranks are
+  identical by construction; only the residual reorders the cross-section.
+- **Study.** `config/relative/phase18_relative_strength.v1.yaml`: 4h primary (13
+  one-at-a-time variants) and 1h secondary (central only); Hyperliquid 2024-11 → 2026-10
+  and Binance 2021-03 → 2024-11 (HYPE excluded: not listed); six families of 30
+  two-sided members per venue and timeframe, each family with one declared target
+  (BTC-relative spread, beta-neutral residual, or USD).
+- **Inference** (`relative_inference_v1`): a block-clustered t-test, because co-timed
+  cross-asset signals make Phase 17's independent-draw null anti-conservative (synthetic
+  null: 6.3% vs 1.9% at p < 0.05). The Phase 17 p is still reported.
+- **Result** (`sstudy_1fd9f727…`): nothing ROBUST. The only PROMISING cell is a 1h
+  Hyperliquid leader-persistence probability (+5.3 pp, q = 0.022). It is untradeable after
+  costs and not reproduced on Binance. No relative signal is a USD-directional trade.
+- **Unchanged:** forward tracker, co-pilot, paper trader, runtime schedule, every policy and
+  `lab_features_v1`. No consumer reads `research.relative` (tested).
+
+### Step 18 verification
+
+| Check | Result |
+|---|---|
+| `pytest tests/test_relative_strength.py` | **28 passed** |
+| `pytest` (full) | **765 passed** (exit 0); before Phase 18: 737 |
+| `ruff check` / `ruff format --check` / `git diff --check` | Passed |
+| Null calibration (4 seeds, 477 tests) | 1.9% / 5.9% at p < 0.05 / 0.10; 3 BH discoveries |
+| Governed run (scratch DB) | `srun_265b35bd…` COMPLETED, 54 s / 0.92 GB |
+| Reproducibility | fresh-copy rerun reproduces digest `e22f8a0a…` exactly |
+
+## 19e. Step 19 implemented: open interest × price × funding study
+
+> **EXPLORATORY.** Historical OI availability is reconstructed under an explicit latency
+> assumption: every Binance OI row in the window was backfilled.
+
+The full report is **docs/PHASE19_OI_PRICE.md**. For the Lab:
+
+- **Same governance adapter, no migration.** `structure_study.py` also dispatches
+  `oi_price_v1` (`OiStudyDefinition`): the same `lab_structure_*` tables, lifecycle and
+  `EXPLORATORY` CHECK. Family membership is hashed into the definition.
+- **Two new dataset kinds** in `research/lab/datasets.py`: `perp_oi_history` (Binance OI
+  statistics, selection filters `period`) and `perp_snapshots` (Hyperliquid captures). The
+  existing kinds are unchanged.
+- **Primitives** (`research/oiprice/primitives.py`, `oi_price_primitives_v1`):
+  - one-venue hourly grid; OI matched to the bar whose close it is stamped at, never filled;
+  - assumed OI availability; coin and USD OI kept separate;
+  - prior-window scaled change and z-score, percentile, acceleration and trend;
+  - cadence-free trailing funding;
+  - Hyperliquid alignment by elapsed time with a staleness limit.
+- **Study** (`config/oiprice/phase19_oi_price.v1.yaml`): Binance 1h,
+  2026-09-08 → 2026-10-01 (all available pre-cutoff OI), primary horizon 6 h,
+  16 one-at-a-time variants. 11 families / 57 two-sided members, including price-only,
+  funding-only and volatility controls. Hyperliquid is a coverage-gated comparison venue.
+- **Inference:** Phase 18's block-clustered t-test (time blocks shared across assets).
+  Synthetic null: 2.0% at p < 0.05 (event-level iid 5.8%).
+- **Result** (`sstudy_da3df235…`): nothing ROBUST; 3 PROMISING, all weaker against the
+  price-only control. No OI information is demonstrated beyond price. Hyperliquid OI:
+  INSUFFICIENT (no snapshots in the window).
+- **Unchanged:** OI collection, forward tracker, co-pilot, paper trader, runtime schedule
+  and every policy. No consumer reads `research.oiprice` (tested).
+
+### Step 19 verification
+
+| Check | Result |
+|---|---|
+| `pytest tests/test_oi_price.py` | **30 passed** |
+| `pytest` (full) | **795 passed**, 0 failed; before Phase 19: 765 |
+| `ruff check` / `ruff format --check` / `git diff --check` | Passed |
+| Null calibration (20 seeds, 612 tests) | 2.0% / 4.6% at p < 0.05 / 0.10; 8 BH discoveries |
+| Governed run (scratch DB) | `srun_08a74900…` COMPLETED, 9.6 s / 0.30 GB |
+| Reproducibility | fresh-copy and explicit reruns reproduce digest `21abe032…` exactly |
+
+## 19f. Step 20 implemented: time-varying edge and strategy lifecycle
+
+> **Phase 20 does not lower Prism's evidence standards. It changes the hypothesis from
+> "timeless edge" to "currently credible edge" while retaining full historical context.**
+> **Temporary profitability is not assumed to be durable. Active status must continually be
+> re-earned.**
+
+The full reference is **docs/EDGE_LIFECYCLE.md**. For the Lab:
+
+- **A second evidence dimension, not a parallel scoring system.** `research/lifecycle/` builds
+  a causal outcome ledger from the Phase 3 compiler, `side_forward_returns` and `decluster`
+  (parity with the Phase 4 screen is tested) with a *causal trailing* baseline for excess,
+  then evaluates lifetime, rolling (30/90/180/365/730 d; latest 20/50/100 events),
+  recency-weighted (half-lives 30/90/180/365 d, Kish ESS, contribution by age), regime-local
+  (coarse BTC trend/vol/breadth/funding) and stress-split evidence side by side. Tiers, FDR,
+  full research and validation are untouched; an edge state is not a tier.
+- **Frozen policy** `lab_edge_lifecycle_policy` v1 (`lcpolicy_2fae77e8…`, pinned): windows,
+  gates (20 events, 3 assets, 80% evaluable), economic floor (0.40% per 10-day event),
+  time-block cluster-robust uncertainty, edge-state rules, activation (recent t ≥ 2, mean ≥
+  floor, 2 confirmations) and weaker continuation (mean ≥ 0, t ≥ 0.5; 4 failures → DORMANT),
+  weekly-block CUSUM, regime and stress definitions. Calibrated on synthetic data only, before
+  any real-data lifecycle run.
+- **Edge states** EMERGING / ACTIVE / STABLE / DECAYING / DORMANT / DEAD / INSUFFICIENT, a
+  first-class recent-versus-lifetime divergence pattern, descriptive decay metrics, the
+  chronological curve and continuous diagnostics.
+- **Lifecycle** DISCOVERED → WATCH → ACTIVE_CANDIDATE → PAPER_ACTIVE ⇄ DEGRADED → DORMANT →
+  RETIRED, reversible (reacquisition), append-only history, simulated walk-forward in static /
+  recent / regime modes. PAPER_ACTIVE is simulated and grants nothing.
+- **Governance:** the historical methodology study is a fourth kind (`edge_lifecycle_v1`) on
+  the Phase 17 study adapter (no new governance tables); data stop at 2026-10-01, so the Phase
+  9 validation window is never read. Migration 20 adds append-only `lab_edge_profiles`.
+- **Queries:** `market lab edge status|history|compare|lifecycle|list --json` read stored
+  profiles only; no window, threshold or date parameter exists. Profiles consume Phase 8
+  forward summaries read-only and do not weight them (v1).
+- **Results** (`sstudy_6c52cc92…`, run `srun_a5856bb8…`, 128 catalogue variants as
+  fixtures): Binance edge states DEAD 87, DORMANT 22, DECAYING 15, INSUFFICIENT 2, EMERGING 1,
+  STABLE 1; the recent lifecycle was active 2% of strategy-time (33 activations, 8
+  reacquisitions); static −0.10%/event vs +0.33% (recent) and +1.99% (regime) per
+  participating event on small samples; on Hyperliquid's short history the lifecycle lost
+  (−1.28% per participating event). Nothing is promoted.
+- **Synthetic calibration:** null participation 10.6% (0.22 false activations per
+  strategy-year); a planted 3%/event edge is detected after a median 180 days (68% captured)
+  and a decayed one deactivated after a median 156 days.
+- **Unchanged:** forward tracker, co-pilot, paper trader, `copilot_policy v1`,
+  `autotrader_policy v1`, `paper_risk_policy v1`, runtime schedule. No consumer reads
+  `research.lifecycle` or `lab_edge_profiles` (tested).
+
+### Step 20 verification
+
+| Check | Result |
+|---|---|
+| `pytest tests/test_edge_lifecycle.py` | **30 passed** |
+| `pytest` (full) | **824 passed, 1 failed** of 825 (before Phase 20: 795). The failure is `test_cli_copilot_lifecycle` ("status events must be recorded in time order"): a pre-existing WSL clock-step flake in `copilot/engine.py`, which compares raw `utcnow()` without the `ordered_now` tolerance. Phase 20 does not touch the co-pilot; the test passed on rerun (4 of 5 isolated runs) |
+| `pytest` Phase 17–20 studies + forward + co-pilot + paper + runtime + governance + intraday + evidence + validation | **380 passed** (including `test_cli_copilot_lifecycle`) |
+| `ruff check` / `ruff format --check` / `git diff --check` | Passed |
+| Synthetic calibration (1,660 runs) | 220 s with 8 workers; worker-count invariant |
+| Governed run (scratch DB) | `srun_a5856bb8…` COMPLETED, 183 s / 0.44 GB (concurrent with calibration) |
+| Reproducibility | explicit rerun `srun_b8f0ec91…` and a fresh-copy registration + run (`srun_2dc15907…`, same study ID, 179 s / 0.43 GB) reproduce digest `550c2ba1…` exactly |
+
+## 19g. Step 21 implemented: fast prospective candidate incubation
+
+> **Exploratory paper admission is intentionally permissive. False candidate activations cost
+> no capital and are useful observations. No Phase 21 state authorizes real trading.**
+
+The full reference is **docs/CANDIDATE_INCUBATION.md**. For the Lab:
+
+- **Separate bars, never one threshold:** research evidence (unchanged) / exploratory paper /
+  confirmed paper (designed, unconnected) / future live eligibility (untouched).
+- **Frozen policies** (`research/incubation/policy.py`, IDs pinned): CONSERVATIVE = the
+  unchanged Phase 20 lifecycle `lcpolicy_2fae77e8…` as benchmark (its replay reproduces Phase
+  20's published numbers); BALANCED / AGGRESSIVE = one rule set on a 21-day window (≥ 4
+  outcomes, ≥ 2 assets, mean ≥ floor, not one asset, not worse than random timing) admitting at
+  t ≥ 2.0 / 1.0 at a single daily evaluation, deactivating at t ≤ 1.0 / 0.0. Chosen on synthetic
+  data by pre-declared rules (the grid was extended in t once, disclosed).
+- **Levels** INSUFFICIENT / NEUTRAL / WATCH / EXPLORATORY_PAPER / CONFIRMED_PAPER / DORMANT;
+  fast dormancy, reactivation as new episodes with deterministic IDs; no LIVE state.
+- **Synthetic:** useful detection in 15–33 days (CONSERVATIVE 50–180+); 14-day edges are
+  uncapturable at the catalogue's information rate; null participation 8% / 14% / 33% and
+  0.2 / 3.5 / 5.0 false admissions per strategy-year (C / B / A).
+- **Retrospective replay** (diagnostics only, digest `c649db93…`): no policy finds an edge in
+  the catalogue; the pool fires ≈ 0.06 signals per strategy-day, so the fast policies are
+  data-limited (AGGRESSIVE active 6% of strategy-time on HL).
+- **Prospective:** migration 21 (append-only `incubation_*`), `market lab incubation freeze`
+  then `run` (runtime prospective job, last step): live-window-only daily snapshots,
+  decisions, transitions, shadow intents ($1,000 fixed notional, frozen costs, T+1 open →
+  T+10 close) and write-once outcomes. Not yet frozen on the live database.
+- **Unchanged:** forward tracker, co-pilot, paper trader and their policies, Phase 20
+  lifecycle; no consumer reads `research.incubation` (tested).
+
+## 20. Verification
 
 Baseline before changes: **173 tests passed**, repository Ruff checks passed, and all
 89 existing source/test Python files passed format checking. New focused tests cover
@@ -1942,3 +4077,208 @@ was triggered.
 - maturity levels;
 - the candidate rule ignores effect size;
 - the CLI lifecycle.
+
+### Step 9 verification
+
+| Check | Result |
+|---|---|
+| `.venv/bin/python -m pytest` | **497 passed** (607 s); before Step 9: 473 |
+| `.venv/bin/python -m pytest tests/test_lab_validation.py` | **24 passed** (see list below) |
+| Lab, perp, paper, OI and lock suites (`test_lab_*`, `test_perp_*`, `test_perps`, `test_binance`, `test_open_interest`, `test_store_lock`, `test_macro_shock`) | **368 passed**; Phase 7/8 identities and payloads unchanged |
+| `.venv/bin/ruff check src tests dashboard` / `ruff format --check src tests` | Passed / 121 files formatted |
+| `git diff --check` | Passed |
+| CLI | `research reserve-plan/register (--dry-run)/list/show/run/evidence`, `validation preview/run`, rerun refusal; full lifecycle in the CLI test, rehearsed on a scratch copy and run on the live DB |
+| Live DB | Backed up to `data/prism.pre_phase9.duckdb`; migration 12 additive; 2 registrations, 2 full-research and 2 pre-outcome validation results, 2 schema-4 profiles; Phase 8 untouched |
+
+`test_lab_validation.py` covers:
+
+- registration freezing and eligibility (explicit; INSUFFICIENT refused; re-registration
+  refused);
+- period separation: no reserved period, a period inside the discovery data region, a
+  changed methodology, or a final-holdout clash are all refused;
+- the final holdout is never read: rewriting rows from it onwards (and discovery rows
+  before the warmup) leaves validation unchanged;
+- parity with Prism's `perp_asset_events` → `run_event_study`;
+- frozen walk-forward equals a direct one-point `walk_forward`;
+- sensitivity describes neighbours without selecting one;
+- explicit reruns keep earlier results;
+- incomplete and capacity gates give INSUFFICIENT with no exposure;
+- post-outcome too-few-events is INSUFFICIENT, not a rejection;
+- hand-built supportive and adverse toy markets;
+- exposure is permanent for the strategy and its neighbours, and reruns never restore
+  independence (later registrations are compromised);
+- a semantic change stops the run;
+- forward records never enter validation metrics, while forward outcomes before a
+  registration compromise it;
+- evidence extension: full research alone does not change the tier, supportive
+  independent validation promotes, the historical profile is byte-identical, idempotent;
+- VALIDATED is unreachable; compromised or non-first-look validation cannot promote;
+- extended profiles cannot be enrolled for forward tracking;
+- errors are recorded;
+- the CLI lifecycle;
+- the ledger orders events through small backward clock steps.
+
+### Step 10 verification
+
+| Check | Result |
+|---|---|
+| `.venv/bin/python -m pytest` | **527 passed**; before Step 10: 497 |
+| `.venv/bin/python -m pytest tests/test_copilot.py` | **30 passed** (see list below) |
+| Scanner/Telegram/co-pilot/forward suites (`test_brief`, `test_portfolio`, `test_presenter`, `test_setups`, `test_scoring_hype`, `test_copilot`, `test_lab_forward`) | **104 passed**; forward tests unchanged after the live-window helper extraction |
+| `.venv/bin/ruff check src tests dashboard` / `ruff format --check src tests` | Passed / 127 files formatted |
+| `git diff --check` | Passed |
+| CLI | `copilot policy/watch (--dry-run)/watchlist/candidates/preview/run --dry-run/run/decisions/show/pause/resume/stop`; full lifecycle in the CLI test, rehearsed on a scratch copy, then live |
+| Live DB | Backed up to `data/prism.pre_phase10.duckdb`; migration 13 additive; 2 watches; 1 CLI run and 1 `forward_run.sh` run: 0 decisions, 0 deliveries. 28 of 30 `lab_*` tables byte-identical to the backup; the other two (`lab_forward_runs` +2, `lab_software` +1) are the forward tracker's own check/resolve rows from the wrapper run |
+
+`test_copilot.py` covers:
+
+- EXPLORATORY evidence alerts with q 0.91, and the message says it did not survive family
+  correction;
+- stronger evidence (consistent full research + plateau + breadth, RESEARCH_SUPPORTED, or
+  supportive validation) maps to STRONG WATCH, while the evidence tier is unchanged;
+- adverse validation suppresses, and mixed validation holds the priority at WATCH;
+- insufficient validation and TOO_EARLY or EARLY forward evidence do not suppress;
+- mature adverse forward evidence suppresses, and developing adverse forward evidence
+  downgrades;
+- NEGATIVE, INSUFFICIENT, UNAVAILABLE and INCONCLUSIVE suppress;
+- each blocking rule is tested in isolation;
+- policy identity and strictness (extra fields rejected);
+- message wording (no BUY/SELL/APPROVED/probability) and the digest;
+- watch registration rules;
+- no signal means no decision and no send, with the state recorded in the run summary;
+- an alert is recorded and sent once; re-runs are idempotent;
+- bars outside their window never alert;
+- a dry run writes nothing and sends nothing;
+- consumer neutrality: every `lab_*` table is byte-identical, and the forward tracker
+  agrees on the signal;
+- Telegram failure: recorded, retried once inside the window, never duplicated; "not
+  configured" is a recorded failure;
+- an unknown delivery outcome is never resent;
+- a digest is sent when many alerts fire;
+- a policy change never replays old bars, and cross-policy duplicates are suppressed;
+- a version mismatch suppresses;
+- the newest schema-4 extension is used (INCONCLUSIVE + adverse validation → SUPPRESS,
+  baseline untouched);
+- a paused watch is respected, and the DB CHECK on the decision window holds;
+- no auto-trader field or column exists anywhere in co-pilot records;
+- `research/` never imports `copilot`;
+- the CLI lifecycle.
+
+### Step 11 verification
+
+| Check | Result |
+|---|---|
+| `pytest` (full) | **545 passed**; before Step 11: 527 |
+| `pytest tests/test_lab_corroboration.py` | **18 passed** |
+| Lab + co-pilot + Binance/perp/OI suites (`test_lab_*`, `test_copilot`, `test_binance`, `test_perps`, `test_perp_*`, `test_open_interest`), on the final code | **404 passed** |
+| `ruff check src tests dashboard` / `ruff format --check src tests` | Passed / 129 files formatted |
+| `git diff --check` | Passed |
+| CLI | `corroboration register --dry-run/register/run/show/list/evidence`; full lifecycle in the CLI test, dry-run rehearsed on a scratch copy, then live. `copilot policy/candidates`, `forward check --dry-run` and `evidence report` behave as before (report identical to the backup) |
+| Live DB | Backed up to `data/prism.pre_phase11.duckdb`; migration 14 additive; 2 registrations, 2 runs (both CROSS_VENUE_MIXED), 2 schema-5 profiles; every `copilot_*`, `lab_forward_*`, `lab_research_*` table and all 42 earlier profiles byte-identical to the backup |
+
+`test_lab_corroboration.py` covers:
+
+- terminology: never independent (model, policy, DB CHECK); no status says VALID; the
+  corroboration plan is refused as a Phase 9 validation plan;
+- the frozen strategy, period, assets and venue costs; only venue, costs and period may
+  differ from the source plan;
+- the period must end before the source discovery starts;
+- missing listing history: excluded with a reason or reported per asset, never
+  fabricated; too few venue assets refuses registration;
+- historical exposure: venue-specific legacy runs, their share of the period, the
+  unrecorded caveat, and the governed look recorded as exposure;
+- only venue rows: Hyperliquid rows in the same window change nothing; parity between
+  the governed and recomputed screens;
+- T+1-open entry and T+h-close exit; Binance fee and slippage; 8-hourly funding summed
+  per day; the exact cost difference from Hyperliquid costs;
+- adverse and insufficient results are recorded, never hidden; reruns are explicit;
+  semantic changes are refused; errors are recorded;
+- no pooling: the comparison is side by side and asset composition is reported;
+- evidence extension: earlier profiles byte-identical; the tier is copied; idempotent;
+  no consumer or approval field;
+- tier safety: VALIDATED and an independent block are rejected; Phase 8 enrollment and
+  Phase 9 registration refuse schema 5;
+- co-pilot isolation: policy v1 ID, `latest_extension` and all `copilot_*` rows are
+  unchanged; the batch report is unchanged;
+- the CLI lifecycle.
+
+### Step 12 verification
+
+| Check | Result |
+|---|---|
+| `pytest` (full) | **585 passed**; before Step 12: 545 |
+| `pytest tests/test_paper.py` | **40 passed** |
+| `ruff check src tests dashboard` / `ruff format --check src tests` | Passed / 138 files formatted |
+| `git diff --check` (+ trailing-whitespace scan of new files) | Passed |
+| CLI | `paper policy/create (--dry-run)/run (--dry-run)/status/positions/trades/events/pause/resume/stop/summary/evidence`; full lifecycle in the CLI test, rehearsed on scratch copies, then live |
+| Restart/idempotency | `SIGKILL` mid-cycle on a scratch copy: nothing written; recovery identical to the uninterrupted schedule (311 events); retry runs write nothing |
+| Live DB | Backed up to `data/prism.pre_phase12.duckdb`; migration 15 additive; 1 paper run created (flat, no trade at activation); all 40 `lab_*`/`copilot_*` tables byte-identical to the backup after creation and first cycles; `forward_run.sh` logged `forward=0 copilot=0 paper=0` |
+
+`test_paper.py` covers:
+
+- **safety:** the paper package imports no network/provider/exchange/Telegram/co-pilot
+  module and reads no secret or environment variable; repo-wide, no order-placement path
+  and no live-readiness status; the adapter's public surface is exactly the five members
+  and the guard refuses subclasses and look-alikes; policies reject `mode: live`; no
+  live/real/execute/key option in the paper CLI and no real-trading command anywhere; a
+  full cycle with sockets disabled; DB CHECKs refuse a non-paper run and a pre-creation
+  event;
+- **policies:** v1 admits the live cohort's evidence shape with MIXED corroboration as a
+  caveat, and is stricter than the co-pilot rule by rule; identities and versions; frozen
+  risk values; maturity counts only trades and days;
+- **risk engine (pure):** fixed-fraction sizing; same-snapshot lottery allocation that is
+  invariant to input order and gives no name advantage over 200 bars; proportional scaling
+  and minimum-size drop; every gate and limit; conflict rules;
+- **account (integration):**
+  - creation freezes identity, refuses ineligible/second runs and allows lineage;
+  - prospective only;
+  - one intent per signal; T+1-open fills (with a T+1 open made to differ from T's close);
+    fees and slippage; hand-calculated long and short trades;
+  - funding: settled once with the right sign; missing settlements counted, never
+    estimated;
+  - stale data waits, never invents; a dead asset does not block other assets; a signal
+    after the window is skipped;
+  - pause/resume without replay; stop manages positions to exit; daily-loss halt;
+    drawdown kill; liquidation; auto-pause after repeated errors;
+  - reruns idempotent; crash mid-commit leaves nothing and recovers identically;
+- **notifications:** PAPER-labelled, retried once, never resent, an unknown outcome never
+  resent;
+- **evidence and neutrality:** evidence reconciles with the ledger; the evidence chain is
+  point-in-time; `lab_*`/`copilot_*` byte-identical and the forward tracker unaffected;
+  the consumers never import each other; the fast funding-readiness check equals Phase 8's.
+
+### Step 13 verification
+
+| Check | Result |
+|---|---|
+| `pytest` (full) | **605 passed**; before Step 13: 585 |
+| `pytest tests/test_paper_observe.py` | **20 passed** |
+| Paper, co-pilot and CLI suites on the final code | Passed (the Phase 12 CLI test now reads `runs` / `--json`, since `status`, `positions` and `trades` render tables) |
+| `ruff check src tests dashboard` / `ruff format --check src tests` | Passed / 141 files formatted |
+| `git diff --check` (+ trailing-whitespace scan of new files) | Passed |
+| CLI against the live run | `status`, `positions`, `risk`, `trades`, `intents [--skipped]`, `gaps`, `contributions`, `equity`, `brief`, `snapshot` (repeat is a no-op), `market status` |
+| Live DB | Backed up to `data/prism.pre_phase13.duckdb`; migration 16 additive; first snapshot `papersnap_ce392529…` (10,000 USDC, 0 positions, 0 trades); no brief yet (no completed day); `forward_run.sh` logged `forward=0 copilot=0 paper=0 brief=0`; 45 `lab_*`/`copilot_*`/paper ledger and policy tables byte-identical to the backup |
+
+`test_paper_observe.py` covers:
+
+- **identity and reconciliation:** the v1 policy IDs are pinned; the account summary
+  reconciles with replay and the Phase 12 summary;
+- **views:** position metrics (marks, uPnL, margin, approximate liquidation distance, bars
+  left); near-liquidation surfaced and the position untouched; risk headroom, and a pause
+  blocks entries; trade history costs; strategy and asset attribution;
+- **dispositions:** paused/risk rejections are expected skips; an offline gap is a missed
+  execution, with an accepted counterfactual and no backfill; late data is `data_late`, not
+  offline;
+- **coverage:** missed cycles become unprocessed → `STALE`, then late → `DEGRADED`, with the
+  PC-off days listed; error streaks are reported;
+- **notification lag** timestamps;
+- **snapshots:** immutable, idempotent, reproducible from the ledger prefix;
+- **brief:** matches the account, is stored once, sent once, retried on failure; an
+  unknown outcome is never resent; nothing is stored before the first completed day; a
+  crash mid-brief leaves no partial row;
+- **read-only guarantee:** every view, snapshot and brief leaves the ledger, policies,
+  cycles and the Lab/co-pilot tables byte-identical, creates no run, and the next cycle is
+  unaffected;
+- **no feedback path:** the observe module calls no engine write path and constructs no
+  policy;
+- `market status`, and the CLI observability commands.

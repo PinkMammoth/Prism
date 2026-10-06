@@ -11,6 +11,7 @@ from __future__ import annotations
 import gzip
 import hashlib
 import json
+import os
 import re
 import time
 import uuid
@@ -567,7 +568,548 @@ MIGRATIONS: list[str] = [
         recorded_at TIMESTAMPTZ NOT NULL
     );
     """,
+    # 12 — Strategy Lab full research and independent validation: append-only via the Lab
+    # API. A registration freezes the strategy, source profile and reserved validation
+    # period; each run has at most one terminal result. Validation exposure itself is the
+    # Phase 2 start/inspection of the linked experiment.
+    """
+    CREATE TABLE IF NOT EXISTS lab_research_policies (
+        policy_id VARCHAR PRIMARY KEY,
+        payload JSON NOT NULL,
+        recorded_at TIMESTAMPTZ NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS lab_research_registrations (
+        registration_id VARCHAR PRIMARY KEY,
+        strategy_id VARCHAR NOT NULL REFERENCES lab_strategies(strategy_id),
+        source_profile_id VARCHAR NOT NULL REFERENCES lab_evidence_profiles(profile_id),
+        historical_tier VARCHAR NOT NULL CHECK (historical_tier IN ('EXPLORATORY','RESEARCH_SUPPORTED')),
+        validation_plan_id VARCHAR NOT NULL REFERENCES lab_plans(plan_id),
+        registered_at TIMESTAMPTZ NOT NULL,
+        reason VARCHAR NOT NULL,
+        origin VARCHAR NOT NULL,
+        software_id VARCHAR NOT NULL REFERENCES lab_software(software_id),
+        definition JSON NOT NULL,
+        independence JSON NOT NULL         -- recorded exposure state at registration time
+    );
+    CREATE TABLE IF NOT EXISTS lab_research_runs (
+        run_id VARCHAR PRIMARY KEY,
+        registration_id VARCHAR NOT NULL REFERENCES lab_research_registrations(registration_id),
+        stage VARCHAR NOT NULL CHECK (stage IN ('full_research','validation')),
+        attempt INTEGER NOT NULL CHECK (attempt > 0),
+        software_id VARCHAR NOT NULL REFERENCES lab_software(software_id),
+        started_at TIMESTAMPTZ NOT NULL,
+        experiment_id VARCHAR REFERENCES lab_experiments(experiment_id),
+        rerun_of VARCHAR REFERENCES lab_research_runs(run_id),
+        rerun_reason VARCHAR,
+        UNIQUE (registration_id, stage, attempt),
+        CHECK (stage = 'validation' OR experiment_id IS NULL)
+    );
+    CREATE TABLE IF NOT EXISTS lab_research_results (
+        result_id VARCHAR PRIMARY KEY,
+        run_id VARCHAR NOT NULL UNIQUE REFERENCES lab_research_runs(run_id),
+        completed_at TIMESTAMPTZ NOT NULL,
+        status VARCHAR NOT NULL CHECK (status IN (
+            'FULL_RESEARCH_CONSISTENT','FULL_RESEARCH_MIXED','FULL_RESEARCH_INCONSISTENT',
+            'FULL_RESEARCH_INSUFFICIENT','FULL_RESEARCH_ERROR',
+            'VALIDATION_SUPPORTIVE','VALIDATION_MIXED','VALIDATION_ADVERSE',
+            'VALIDATION_INSUFFICIENT','VALIDATION_ERROR')),
+        payload JSON NOT NULL
+    );
+    """,
+    # 13 — perps co-pilot: a CONSUMER of Lab evidence (human alerts only). Reads lab_*
+    # tables, never writes them (not even lab_software). Decisions are recorded once per
+    # policy, strategy, symbol and signal bar, only inside the bar's live window (CHECK).
+    # Deliveries are separate append-only attempts, so "policy said ALERT" and "message
+    # delivered" stay distinct.
+    """
+    CREATE TABLE IF NOT EXISTS copilot_software (
+        software_id VARCHAR PRIMARY KEY,
+        payload JSON NOT NULL,
+        recorded_at TIMESTAMPTZ NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS copilot_policies (
+        policy_id VARCHAR PRIMARY KEY,
+        payload JSON NOT NULL,
+        recorded_at TIMESTAMPTZ NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS copilot_watchlist (
+        watch_id VARCHAR PRIMARY KEY,
+        strategy_id VARCHAR NOT NULL REFERENCES lab_strategies(strategy_id),
+        baseline_profile_id VARCHAR NOT NULL REFERENCES lab_evidence_profiles(profile_id),
+        policy_id VARCHAR NOT NULL REFERENCES copilot_policies(policy_id),
+        registered_at TIMESTAMPTZ NOT NULL,
+        reason VARCHAR NOT NULL,
+        origin VARCHAR NOT NULL,
+        software_id VARCHAR NOT NULL REFERENCES copilot_software(software_id),
+        definition JSON NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS copilot_watch_status (
+        event_id VARCHAR PRIMARY KEY,
+        watch_id VARCHAR NOT NULL REFERENCES copilot_watchlist(watch_id),
+        status VARCHAR NOT NULL CHECK (status IN ('active','paused','stopped')),
+        reason VARCHAR NOT NULL,
+        recorded_at TIMESTAMPTZ NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS copilot_runs (
+        run_id VARCHAR PRIMARY KEY,
+        started_at TIMESTAMPTZ NOT NULL,
+        finished_at TIMESTAMPTZ NOT NULL,
+        software_id VARCHAR NOT NULL REFERENCES copilot_software(software_id),
+        summary JSON NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS copilot_decisions (
+        decision_id VARCHAR PRIMARY KEY,
+        watch_id VARCHAR NOT NULL REFERENCES copilot_watchlist(watch_id),
+        policy_id VARCHAR NOT NULL REFERENCES copilot_policies(policy_id),
+        strategy_id VARCHAR NOT NULL REFERENCES lab_strategies(strategy_id),
+        symbol VARCHAR NOT NULL,
+        bar_close TIMESTAMPTZ NOT NULL,
+        evaluated_at TIMESTAMPTZ NOT NULL,
+        run_id VARCHAR NOT NULL REFERENCES copilot_runs(run_id),
+        decision VARCHAR NOT NULL CHECK (decision IN ('ALERT','SUPPRESS')),
+        priority VARCHAR CHECK (priority IN ('WATCH','STRONG_WATCH')),
+        profile_id VARCHAR REFERENCES lab_evidence_profiles(profile_id),
+        software_id VARCHAR NOT NULL REFERENCES copilot_software(software_id),
+        payload JSON NOT NULL,
+        UNIQUE (policy_id, strategy_id, symbol, bar_close),
+        CHECK (evaluated_at >= bar_close AND evaluated_at < bar_close + INTERVAL 1 DAY),
+        CHECK ((decision = 'ALERT') = (priority IS NOT NULL))
+    );
+    CREATE TABLE IF NOT EXISTS copilot_deliveries (
+        delivery_id VARCHAR PRIMARY KEY,
+        decision_id VARCHAR NOT NULL REFERENCES copilot_decisions(decision_id),
+        attempt INTEGER NOT NULL CHECK (attempt > 0),
+        status VARCHAR NOT NULL CHECK (status IN ('attempted','sent','failed')),
+        channel VARCHAR NOT NULL,
+        message_kind VARCHAR NOT NULL CHECK (message_kind IN ('single','digest')),
+        message_sha256 VARCHAR NOT NULL,
+        error VARCHAR,
+        recorded_at TIMESTAMPTZ NOT NULL,
+        UNIQUE (decision_id, attempt, status)
+    );
+    """,
+    # 14 — Strategy Lab cross-venue historical corroboration: append-only via the Lab API.
+    # A registration freezes the strategy, the profile it extends, the venue plan/period and
+    # the recorded historical exposure. It is never independent (CHECK). The look itself is
+    # the Phase 2 start/inspection of the linked experiment (role 'corroboration').
+    """
+    CREATE TABLE IF NOT EXISTS lab_corroboration_registrations (
+        registration_id VARCHAR PRIMARY KEY,
+        strategy_id VARCHAR NOT NULL REFERENCES lab_strategies(strategy_id),
+        base_profile_id VARCHAR NOT NULL REFERENCES lab_evidence_profiles(profile_id),
+        venue VARCHAR NOT NULL,
+        plan_id VARCHAR NOT NULL REFERENCES lab_plans(plan_id),
+        registered_at TIMESTAMPTZ NOT NULL,
+        reason VARCHAR NOT NULL,
+        origin VARCHAR NOT NULL,
+        software_id VARCHAR NOT NULL REFERENCES lab_software(software_id),
+        independent BOOLEAN NOT NULL CHECK (NOT independent),
+        definition JSON NOT NULL,
+        exposure JSON NOT NULL             -- recorded prior exposure at registration time
+    );
+    CREATE TABLE IF NOT EXISTS lab_corroboration_runs (
+        run_id VARCHAR PRIMARY KEY,
+        registration_id VARCHAR NOT NULL REFERENCES lab_corroboration_registrations(registration_id),
+        attempt INTEGER NOT NULL CHECK (attempt > 0),
+        software_id VARCHAR NOT NULL REFERENCES lab_software(software_id),
+        started_at TIMESTAMPTZ NOT NULL,
+        experiment_id VARCHAR NOT NULL REFERENCES lab_experiments(experiment_id),
+        rerun_of VARCHAR REFERENCES lab_corroboration_runs(run_id),
+        rerun_reason VARCHAR,
+        UNIQUE (registration_id, attempt)
+    );
+    CREATE TABLE IF NOT EXISTS lab_corroboration_results (
+        result_id VARCHAR PRIMARY KEY,
+        run_id VARCHAR NOT NULL UNIQUE REFERENCES lab_corroboration_runs(run_id),
+        completed_at TIMESTAMPTZ NOT NULL,
+        status VARCHAR NOT NULL CHECK (status IN (
+            'CROSS_VENUE_CORROBORATIVE','CROSS_VENUE_MIXED','CROSS_VENUE_ADVERSE',
+            'CROSS_VENUE_INSUFFICIENT','CROSS_VENUE_ERROR')),
+        payload JSON NOT NULL
+    );
+    """,
+    # 15 — paper auto-trader: a SIMULATED account (mode 'paper' only, CHECKed). A CONSUMER of
+    # Lab evidence: reads lab_* tables, writes only paper_*. The account is the replay of the
+    # append-only paper_events ledger (idempotent event keys; bar events must be strictly after
+    # the run's creation). Notifications are separate attempts, never part of the ledger.
+    """
+    CREATE TABLE IF NOT EXISTS paper_software (
+        software_id VARCHAR PRIMARY KEY,
+        payload JSON NOT NULL,
+        recorded_at TIMESTAMPTZ NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS paper_policies (
+        policy_id VARCHAR PRIMARY KEY,
+        kind VARCHAR NOT NULL CHECK (kind IN ('promotion','risk','execution','exit','maturity')),
+        payload JSON NOT NULL,
+        recorded_at TIMESTAMPTZ NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS paper_runs (
+        run_id VARCHAR PRIMARY KEY,
+        created_at TIMESTAMPTZ NOT NULL,
+        mode VARCHAR NOT NULL CHECK (mode = 'paper'),
+        label VARCHAR,
+        continues VARCHAR REFERENCES paper_runs(run_id),
+        promotion_policy_id VARCHAR NOT NULL REFERENCES paper_policies(policy_id),
+        risk_policy_id VARCHAR NOT NULL REFERENCES paper_policies(policy_id),
+        execution_model_id VARCHAR NOT NULL REFERENCES paper_policies(policy_id),
+        exit_policy_id VARCHAR NOT NULL REFERENCES paper_policies(policy_id),
+        maturity_policy_id VARCHAR NOT NULL REFERENCES paper_policies(policy_id),
+        engine_version VARCHAR NOT NULL,
+        reason VARCHAR NOT NULL,
+        origin VARCHAR NOT NULL,
+        software_id VARCHAR NOT NULL REFERENCES paper_software(software_id),
+        definition JSON NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS paper_cycles (
+        cycle_id VARCHAR PRIMARY KEY,
+        run_id VARCHAR NOT NULL REFERENCES paper_runs(run_id),
+        started_at TIMESTAMPTZ NOT NULL,
+        finished_at TIMESTAMPTZ NOT NULL,
+        status VARCHAR NOT NULL CHECK (status IN ('ok','error')),
+        software_id VARCHAR NOT NULL REFERENCES paper_software(software_id),
+        events_written INTEGER NOT NULL,
+        summary JSON NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS paper_events (
+        event_id VARCHAR PRIMARY KEY,
+        run_id VARCHAR NOT NULL REFERENCES paper_runs(run_id),
+        seq INTEGER NOT NULL CHECK (seq > 0),
+        event_key VARCHAR NOT NULL,
+        event_type VARCHAR NOT NULL CHECK (event_type IN (
+            'run_created','status_changed','signals_evaluated','signal_consumed',
+            'intent_created','risk_decision','order_submitted','order_filled','order_rejected',
+            'order_expired','order_cancelled','position_opened','funding_accrued','liquidation',
+            'exit_intent','position_closed','account_mark','kill_switch','data_issue')),
+        market_time TIMESTAMPTZ,
+        run_created_at TIMESTAMPTZ NOT NULL,
+        recorded_at TIMESTAMPTZ NOT NULL,
+        cycle_id VARCHAR,
+        payload JSON NOT NULL,
+        UNIQUE (run_id, seq),
+        UNIQUE (run_id, event_key),
+        CHECK (event_type IN ('run_created','status_changed') OR market_time > run_created_at)
+    );
+    CREATE TABLE IF NOT EXISTS paper_notifications (
+        notification_id VARCHAR PRIMARY KEY,
+        run_id VARCHAR NOT NULL REFERENCES paper_runs(run_id),
+        subject_id VARCHAR NOT NULL,
+        attempt INTEGER NOT NULL CHECK (attempt > 0),
+        status VARCHAR NOT NULL CHECK (status IN ('attempted','sent','failed')),
+        channel VARCHAR NOT NULL,
+        message_sha256 VARCHAR NOT NULL,
+        error VARCHAR,
+        recorded_at TIMESTAMPTZ NOT NULL,
+        UNIQUE (subject_id, attempt, status)
+    );
+    CREATE TABLE IF NOT EXISTS paper_evidence (
+        summary_id VARCHAR PRIMARY KEY,
+        run_id VARCHAR NOT NULL REFERENCES paper_runs(run_id),
+        stage VARCHAR NOT NULL CHECK (stage = 'paper_execution'),
+        recorded_at TIMESTAMPTZ NOT NULL,
+        payload JSON NOT NULL
+    );
+    """,  # 16 — paper observability (read-only w.r.t. trading): immutable snapshots of the
+    # paper_execution evidence (one per run, ledger sequence and version) and one stored daily
+    # brief per completed paper day. Delivery attempts reuse paper_notifications.
+    """
+    CREATE TABLE IF NOT EXISTS paper_snapshots (
+        snapshot_id VARCHAR PRIMARY KEY,
+        run_id VARCHAR NOT NULL REFERENCES paper_runs(run_id),
+        snapshot_version VARCHAR NOT NULL,
+        as_of_seq INTEGER NOT NULL CHECK (as_of_seq > 0),
+        as_of_bar TIMESTAMPTZ,
+        recorded_at TIMESTAMPTZ NOT NULL,
+        payload JSON NOT NULL,
+        UNIQUE (run_id, as_of_seq, snapshot_version)
+    );
+    CREATE TABLE IF NOT EXISTS paper_briefs (
+        brief_id VARCHAR PRIMARY KEY,
+        run_id VARCHAR NOT NULL REFERENCES paper_runs(run_id),
+        bar_close TIMESTAMPTZ NOT NULL,
+        brief_version VARCHAR NOT NULL,
+        recorded_at TIMESTAMPTZ NOT NULL,
+        text_sha256 VARCHAR NOT NULL,
+        text VARCHAR NOT NULL,
+        payload JSON NOT NULL,
+        UNIQUE (run_id, bar_close, brief_version)
+    );
+    """,  # 17 — always-on runtime (infrastructure only; never research or paper evidence):
+    # who may write this database (latest ``authority_claimed`` wins), deployments, verified
+    # backups, and one row per scheduled/manual pipeline cycle.
+    """
+    CREATE TABLE IF NOT EXISTS runtime_events (
+        event_id VARCHAR PRIMARY KEY,
+        event_type VARCHAR NOT NULL,
+        runtime_id VARCHAR NOT NULL,
+        recorded_at TIMESTAMPTZ NOT NULL,
+        git_commit VARCHAR,
+        payload JSON NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS runtime_cycles (
+        cycle_id VARCHAR PRIMARY KEY,
+        job VARCHAR NOT NULL,
+        runtime_id VARCHAR NOT NULL,
+        trigger VARCHAR NOT NULL,
+        git_commit VARCHAR,
+        started_at TIMESTAMPTZ NOT NULL,
+        finished_at TIMESTAMPTZ,
+        status VARCHAR NOT NULL,
+        payload JSON
+    );
+    """,  # 18 — intraday perp bars (Phase 15; market data only, never a signal). One table for
+    # every intraday timeframe, keyed by venue/coin/timeframe/open. Bars are UTC half-open
+    # [open_time, close_time) and stored only once closed (CHECK). ``first_observed_at`` is when
+    # Prism first held the closed bar (its availability); value changes after that bump
+    # ``revision`` and keep the superseded values in ``perp_intraday_revisions`` so what Prism
+    # knew at any instant is reconstructible. ``perp_intraday_coverage`` holds the merged
+    # open-time ranges a provider was successfully asked for after they closed (gap triage).
+    # ``intraday_execution_shadow`` is observational timing around paper orders: it is never
+    # read by the paper engine and is not paper evidence.
+    """
+    CREATE TABLE IF NOT EXISTS perp_intraday_bars (
+        source VARCHAR NOT NULL,
+        coin VARCHAR NOT NULL,
+        timeframe VARCHAR NOT NULL CHECK (timeframe IN ('15m', '1h', '4h')),
+        open_time TIMESTAMPTZ NOT NULL,
+        close_time TIMESTAMPTZ NOT NULL,
+        open DOUBLE NOT NULL, high DOUBLE NOT NULL, low DOUBLE NOT NULL, close DOUBLE NOT NULL,
+        volume DOUBLE,
+        trades BIGINT,
+        derivation VARCHAR NOT NULL,
+        first_observed_at TIMESTAMPTZ NOT NULL,
+        first_run_id VARCHAR NOT NULL,
+        observed_live BOOLEAN NOT NULL,
+        revision INTEGER NOT NULL CHECK (revision >= 0),
+        updated_at TIMESTAMPTZ NOT NULL,
+        ingest_run_id VARCHAR NOT NULL,
+        -- unique (source, coin, timeframe, open_time) by the single writer's upsert (checked in
+        -- its transaction); no PRIMARY KEY: its ART index would be ~73% of the table's bytes
+        CHECK (close_time > open_time),
+        CHECK (first_observed_at >= close_time),
+        CHECK (updated_at >= first_observed_at)
+    );
+    CREATE TABLE IF NOT EXISTS perp_intraday_revisions (
+        source VARCHAR NOT NULL,
+        coin VARCHAR NOT NULL,
+        timeframe VARCHAR NOT NULL,
+        open_time TIMESTAMPTZ NOT NULL,
+        close_time TIMESTAMPTZ NOT NULL,
+        revision INTEGER NOT NULL CHECK (revision > 0),
+        old_open DOUBLE, old_high DOUBLE, old_low DOUBLE, old_close DOUBLE, old_volume DOUBLE,
+        old_trades BIGINT,
+        new_open DOUBLE, new_high DOUBLE, new_low DOUBLE, new_close DOUBLE, new_volume DOUBLE,
+        new_trades BIGINT,
+        old_observed_at TIMESTAMPTZ NOT NULL,
+        old_run_id VARCHAR NOT NULL,
+        revised_at TIMESTAMPTZ NOT NULL,
+        ingest_run_id VARCHAR NOT NULL,
+        PRIMARY KEY (source, coin, timeframe, open_time, revision),
+        CHECK (revised_at > old_observed_at)
+    );
+    CREATE TABLE IF NOT EXISTS perp_intraday_coverage (
+        source VARCHAR NOT NULL,
+        coin VARCHAR NOT NULL,
+        timeframe VARCHAR NOT NULL,
+        covered_from TIMESTAMPTZ NOT NULL,
+        covered_to TIMESTAMPTZ NOT NULL,
+        updated_at TIMESTAMPTZ NOT NULL,
+        PRIMARY KEY (source, coin, timeframe, covered_from),
+        CHECK (covered_to > covered_from)
+    );
+    CREATE TABLE IF NOT EXISTS intraday_execution_shadow (
+        shadow_id VARCHAR PRIMARY KEY,
+        rule_version VARCHAR NOT NULL,
+        paper_run_id VARCHAR NOT NULL,
+        order_id VARCHAR NOT NULL,
+        symbol VARCHAR NOT NULL,
+        source VARCHAR NOT NULL,
+        side INTEGER NOT NULL CHECK (side IN (1, -1)),
+        intended_entry_at TIMESTAMPTZ NOT NULL,
+        decision_at TIMESTAMPTZ NOT NULL,
+        ref_open_time TIMESTAMPTZ NOT NULL,
+        ref_price DOUBLE NOT NULL CHECK (ref_price > 0),
+        ref_observed_at TIMESTAMPTZ NOT NULL,
+        latency_seconds DOUBLE NOT NULL,
+        timely BOOLEAN NOT NULL,
+        recorded_at TIMESTAMPTZ NOT NULL,
+        payload JSON NOT NULL,
+        UNIQUE (paper_run_id, order_id, rule_version),
+        CHECK (ref_open_time >= intended_entry_at),
+        CHECK (recorded_at >= ref_observed_at)
+    );
+    """,
+    # 19 — Phase 17 structural falsification studies: append-only via the Lab API
+    # (``research/lab/structure_study.py``). A study freezes its full definition (windows,
+    # grids, horizons, families, gates, verdict policy, costs, retained Lab dataset IDs)
+    # BEFORE any run; a run row is committed before evaluation starts (the exposure record);
+    # each run has at most one terminal result. Studies are EXPLORATORY (CHECK): backfilled
+    # intraday history with assumed-latency availability is never validation. No consumer
+    # (forward, co-pilot, paper) reads these tables.
+    """
+    CREATE TABLE IF NOT EXISTS lab_structure_studies (
+        study_id VARCHAR PRIMARY KEY,
+        name VARCHAR NOT NULL UNIQUE,
+        evidence_class VARCHAR NOT NULL CHECK (evidence_class = 'EXPLORATORY'),
+        availability_mode VARCHAR NOT NULL CHECK (availability_mode = 'assumed'),
+        assumed_latency_s DOUBLE NOT NULL,
+        registered_at TIMESTAMPTZ NOT NULL,
+        reason VARCHAR NOT NULL,
+        origin VARCHAR NOT NULL,
+        software_id VARCHAR NOT NULL REFERENCES lab_software(software_id),
+        definition JSON NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS lab_structure_study_datasets (
+        study_id VARCHAR NOT NULL REFERENCES lab_structure_studies(study_id),
+        venue VARCHAR NOT NULL,
+        coin VARCHAR NOT NULL,
+        dataset_id VARCHAR NOT NULL REFERENCES lab_datasets(dataset_id),
+        PRIMARY KEY (study_id, venue, coin)
+    );
+    CREATE TABLE IF NOT EXISTS lab_structure_runs (
+        run_id VARCHAR PRIMARY KEY,
+        study_id VARCHAR NOT NULL REFERENCES lab_structure_studies(study_id),
+        attempt INTEGER NOT NULL CHECK (attempt > 0),
+        software_id VARCHAR NOT NULL REFERENCES lab_software(software_id),
+        started_at TIMESTAMPTZ NOT NULL,
+        rerun_of VARCHAR REFERENCES lab_structure_runs(run_id),
+        rerun_reason VARCHAR,
+        UNIQUE (study_id, attempt),
+        CHECK ((rerun_of IS NULL) = (rerun_reason IS NULL))
+    );
+    CREATE TABLE IF NOT EXISTS lab_structure_results (
+        result_id VARCHAR PRIMARY KEY,
+        run_id VARCHAR NOT NULL UNIQUE REFERENCES lab_structure_runs(run_id),
+        completed_at TIMESTAMPTZ NOT NULL,
+        status VARCHAR NOT NULL CHECK (status IN ('COMPLETED', 'FAILED')),
+        evidence_class VARCHAR NOT NULL CHECK (evidence_class = 'EXPLORATORY'),
+        result_digest VARCHAR,
+        payload JSON NOT NULL,
+        meta JSON NOT NULL,
+        CHECK ((status = 'COMPLETED') = (result_digest IS NOT NULL))
+    );
+    """,
+    # 20 — Phase 20 edge profiles: append-only via ``research/lifecycle/profile.py``. One row
+    # per immutable, content-addressed profile (strategy, venue, evaluation time, data cutoff,
+    # lifecycle policy and methodology version). A later evaluation is a new row; nothing is
+    # updated or deleted. EXPLORATORY research records: no consumer (forward, co-pilot, paper)
+    # reads this table, and no column grants any permission.
+    """
+    CREATE TABLE IF NOT EXISTS lab_edge_profiles (
+        profile_id VARCHAR PRIMARY KEY,
+        strategy_id VARCHAR NOT NULL,
+        strategy_name VARCHAR NOT NULL,
+        venue VARCHAR NOT NULL,
+        as_of TIMESTAMPTZ NOT NULL,
+        data_cutoff TIMESTAMPTZ NOT NULL,
+        policy_id VARCHAR NOT NULL,
+        methodology_version VARCHAR NOT NULL,
+        edge_state VARCHAR NOT NULL CHECK (edge_state IN ('EMERGING', 'ACTIVE', 'STABLE',
+            'DECAYING', 'DORMANT', 'DEAD', 'INSUFFICIENT')),
+        source_id VARCHAR NOT NULL,
+        recorded_at TIMESTAMPTZ NOT NULL,
+        software_id VARCHAR NOT NULL REFERENCES lab_software(software_id),
+        payload JSON NOT NULL,
+        CHECK (as_of <= data_cutoff)
+    );
+    """,
+    # 21 — Phase 21 candidate incubation: append-only via ``research/incubation/prospective.py``.
+    # A freeze fixes the candidate pool, the three policies, shadow execution, costs and
+    # cadence BEFORE prospective collection; only bars closing after ``registered_at`` are
+    # evaluated, each once (deterministic IDs + UNIQUE keys), and nothing is updated or
+    # deleted. Shadow intents are analytical records: no order, no account, no venue. No
+    # consumer (forward, co-pilot, paper) reads these tables and no column grants live use.
+    """
+    CREATE TABLE IF NOT EXISTS incubation_freezes (
+        freeze_id VARCHAR PRIMARY KEY,
+        name VARCHAR NOT NULL,
+        registered_at TIMESTAMPTZ NOT NULL,
+        reason VARCHAR NOT NULL,
+        origin VARCHAR NOT NULL,
+        software_id VARCHAR NOT NULL REFERENCES lab_software(software_id),
+        grants_live BOOLEAN NOT NULL CHECK (NOT grants_live),
+        definition JSON NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS incubation_runs (
+        run_id VARCHAR PRIMARY KEY,
+        started_at TIMESTAMPTZ NOT NULL,
+        completed_at TIMESTAMPTZ NOT NULL,
+        software_id VARCHAR NOT NULL REFERENCES lab_software(software_id),
+        summary JSON NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS incubation_evaluations (
+        evaluation_id VARCHAR PRIMARY KEY,
+        freeze_id VARCHAR NOT NULL REFERENCES incubation_freezes(freeze_id),
+        strategy_id VARCHAR NOT NULL,
+        strategy_name VARCHAR NOT NULL,
+        side VARCHAR NOT NULL CHECK (side IN ('long', 'short')),
+        venue VARCHAR NOT NULL,
+        bar_close TIMESTAMPTZ NOT NULL,
+        evaluated_at TIMESTAMPTZ NOT NULL,
+        run_id VARCHAR NOT NULL REFERENCES incubation_runs(run_id),
+        signals JSON NOT NULL,
+        evidence JSON NOT NULL,
+        UNIQUE (freeze_id, strategy_id, bar_close),
+        CHECK (evaluated_at >= bar_close)
+    );
+    CREATE TABLE IF NOT EXISTS incubation_decisions (
+        decision_id VARCHAR PRIMARY KEY,
+        evaluation_id VARCHAR NOT NULL REFERENCES incubation_evaluations(evaluation_id),
+        policy_id VARCHAR NOT NULL,
+        profile VARCHAR NOT NULL CHECK (profile IN ('CONSERVATIVE', 'BALANCED', 'AGGRESSIVE')),
+        level VARCHAR NOT NULL CHECK (level IN ('INSUFFICIENT', 'NEUTRAL', 'WATCH',
+            'EXPLORATORY_PAPER', 'CONFIRMED_PAPER', 'DORMANT', 'RETIRED')),
+        episode_id VARCHAR,
+        payload JSON NOT NULL,
+        UNIQUE (evaluation_id, policy_id),
+        CHECK ((level IN ('EXPLORATORY_PAPER', 'CONFIRMED_PAPER')) = (episode_id IS NOT NULL))
+    );
+    CREATE TABLE IF NOT EXISTS incubation_transitions (
+        transition_id VARCHAR PRIMARY KEY,
+        decision_id VARCHAR NOT NULL UNIQUE REFERENCES incubation_decisions(decision_id),
+        freeze_id VARCHAR NOT NULL REFERENCES incubation_freezes(freeze_id),
+        profile VARCHAR NOT NULL,
+        strategy_id VARCHAR NOT NULL,
+        bar_close TIMESTAMPTZ NOT NULL,
+        from_level VARCHAR NOT NULL,
+        to_level VARCHAR NOT NULL,
+        episode_id VARCHAR,
+        payload JSON NOT NULL,
+        CHECK (from_level <> to_level)
+    );
+    CREATE TABLE IF NOT EXISTS incubation_intents (
+        intent_id VARCHAR PRIMARY KEY,
+        decision_id VARCHAR NOT NULL REFERENCES incubation_decisions(decision_id),
+        freeze_id VARCHAR NOT NULL REFERENCES incubation_freezes(freeze_id),
+        profile VARCHAR NOT NULL,
+        episode_id VARCHAR NOT NULL,
+        strategy_id VARCHAR NOT NULL,
+        asset VARCHAR NOT NULL,
+        side VARCHAR NOT NULL CHECK (side IN ('long', 'short')),
+        signal_bar_close TIMESTAMPTZ NOT NULL,
+        recorded_at TIMESTAMPTZ NOT NULL,
+        status VARCHAR NOT NULL CHECK (status IN ('entered', 'missed_entry_window')),
+        level VARCHAR NOT NULL CHECK (level IN ('EXPLORATORY_PAPER', 'CONFIRMED_PAPER')),
+        payload JSON NOT NULL,
+        UNIQUE (freeze_id, profile, strategy_id, asset, signal_bar_close),
+        CHECK (recorded_at >= signal_bar_close)
+    );
+    CREATE TABLE IF NOT EXISTS incubation_outcomes (
+        intent_id VARCHAR PRIMARY KEY REFERENCES incubation_intents(intent_id),
+        status VARCHAR NOT NULL CHECK (status IN ('resolved', 'unavailable')),
+        exit_close TIMESTAMPTZ NOT NULL,
+        gross DOUBLE,
+        net DOUBLE,
+        pnl_usd DOUBLE,
+        recorded_at TIMESTAMPTZ NOT NULL,
+        payload JSON NOT NULL,
+        CHECK ((status = 'resolved') = (net IS NOT NULL)),
+        CHECK (recorded_at >= exit_close)
+    );
+    """,
 ]
+
+ROLE_ENV, RUNTIME_ID_ENV = "PRISM_RUNTIME_ROLE", "PRISM_RUNTIME_ID"
 
 
 def new_id(prefix: str = "") -> str:
@@ -598,6 +1140,49 @@ class DatabaseBusy(RuntimeError):
         return f"another process (PID {self.pid})" if self.pid else "another process"
 
 
+class NotAuthoritative(RuntimeError):
+    """This process may not write this database: it carries an authority claim for another
+    runtime (exactly one runtime writes the live prospective database), or this process
+    claims to be authoritative for a database that was never claimed."""
+
+
+def authority_claim(con: duckdb.DuckDBPyConnection) -> tuple[str, Any] | None:
+    """(runtime_id, claimed_at) of the newest ``authority_claimed`` event, or None."""
+    try:
+        return con.execute(
+            "SELECT runtime_id, recorded_at FROM runtime_events WHERE event_type="
+            "'authority_claimed' ORDER BY recorded_at DESC, event_id DESC LIMIT 1"
+        ).fetchone()
+    except duckdb.CatalogException:  # before migration 17: never claimed
+        return None
+
+
+def check_authority(claim: tuple[str, Any] | None, path: Path) -> None:
+    """Allow a writable open, or raise ``NotAuthoritative``.
+
+    Unclaimed databases (development, tests, scratch) are unaffected unless this process says
+    it is the authoritative runtime. A claimed database is writable only by the runtime named
+    in the claim (``PRISM_RUNTIME_ROLE=authoritative`` + matching ``PRISM_RUNTIME_ID``) or by a
+    process that explicitly declares it is working on a copy (``PRISM_RUNTIME_ROLE=scratch``).
+    """
+    role = os.environ.get(ROLE_ENV, "").strip().lower()
+    rid = os.environ.get(RUNTIME_ID_ENV, "").strip()
+    if claim is None:
+        if role == "authoritative":
+            raise NotAuthoritative(
+                f"{path} has no authority claim; the authoritative runtime only writes a claimed "
+                "live database (`market ops claim-authority`)"
+            )
+        return
+    if role == "scratch" or (role == "authoritative" and rid == claim[0]):
+        return
+    raise NotAuthoritative(
+        f"{path.name} is the live database of runtime {claim[0]!r} (claimed {str(claim[1])[:19]} UTC); "
+        f"this process (role={role or 'unset'}, id={rid or 'unset'}) may only read it. "
+        f"Set {ROLE_ENV}=scratch only if this file is a copy you are deliberately modifying."
+    )
+
+
 def _is_lock_error(exc: Exception) -> bool:
     msg = str(exc)
     return isinstance(exc, duckdb.IOException) and (
@@ -620,13 +1205,23 @@ class Store:
         read_only: bool = False,
         lock_timeout: float = 0.0,
         on_wait: Callable[[str], None] | None = None,
+        authority_check: bool = True,
     ):
         self.path = Path(path)
         self.raw_dir = Path(raw_dir) if raw_dir else self.path.parent / "raw"
+        guarded = authority_check and not read_only and str(path) != ":memory:"
+        if guarded and not self.path.exists():
+            check_authority(None, self.path)  # never create a fresh "live" database
         if str(path) != ":memory:":
             self.path.parent.mkdir(parents=True, exist_ok=True)
         self.con = self._connect(read_only, lock_timeout, on_wait)
         self.con.execute("SET TimeZone='UTC'")
+        if guarded:
+            try:
+                check_authority(authority_claim(self.con), self.path)
+            except NotAuthoritative:
+                self.con.close()
+                raise
         if not read_only:
             self.migrate()
 

@@ -31,7 +31,21 @@ from market_signal.research.lab.common import (
     revalidate,
 )
 
-DatasetKind = Literal["bars", "corporate_actions", "perp_bars", "perp_funding"]
+DatasetKind = Literal[
+    "bars",
+    "corporate_actions",
+    "perp_bars",
+    "perp_funding",
+    "perp_intraday_bars",
+    "perp_intraday_revisions",
+    "perp_oi_history",
+    "perp_snapshots",
+]
+INTRADAY_KINDS = ("perp_intraday_bars", "perp_intraday_revisions")
+# Open interest (Phase 19). Binance statistics keep their provider timestamp and period
+# (``timeframe`` selects ``period``); Hyperliquid OI lives in Prism's own snapshots, whose
+# capture time is the timestamp. The two venues are separate kinds and never merged.
+OI_KINDS = ("perp_oi_history", "perp_snapshots")
 FingerprintStrength = Literal["content_sha256", "metadata_only", "unavailable"]
 
 # Identifiers are code-owned; only values are interpolated through SQL parameters.
@@ -40,14 +54,24 @@ _TABLES = {
     "corporate_actions": ("symbol", "CAST(date AS TIMESTAMPTZ)", "date"),
     "perp_bars": ("coin", "close_time", "close_time, ts"),
     "perp_funding": ("coin", "available_at", "available_at, time"),
+    # Intraday rows carry their own availability (first_observed_at, observed_live) and
+    # revision state, so a snapshot freezes what was known as well as the final values; the
+    # revisions kind freezes the superseded values needed to reconstruct earlier knowledge.
+    "perp_intraday_bars": ("coin", "close_time", "close_time, open_time"),
+    "perp_intraday_revisions": ("coin", "close_time", "close_time, open_time, revision"),
+    "perp_oi_history": ("coin", "observed_at", "observed_at"),
+    "perp_snapshots": ("coin", "snapshot_at", "snapshot_at"),
 }
+# The column a selection's ``timeframe`` filters on (bars: candle interval; OI: period).
+_PERIOD_COLUMN = {"perp_oi_history": "period"}
 MAX_SNAPSHOT_BYTES = 64 * 1024 * 1024
 
 
 class SeriesSelection(LabModel):
     """Exact source selection in [start, end).
 
-    Bars use close_time, funding uses available_at, actions use their effective date
+    Bars use close_time, funding uses available_at, Binance OI its statistics timestamp
+    (observed_at), Hyperliquid snapshots their capture time, actions use their effective date
     at UTC midnight (not a claim of publication availability). No synthetic fallback.
     """
 
@@ -63,8 +87,14 @@ class SeriesSelection(LabModel):
         if self.start >= self.end:
             raise ValueError("selection start must precede end")
         if self.kind in ("bars", "perp_bars"):
-            if self.timeframe is None or self.timeframe == Timeframe.W1:
+            if self.timeframe is None or self.timeframe in (Timeframe.W1, Timeframe.M15):
                 raise ValueError("stored bars require a native 1h, 4h or 1d timeframe")
+        elif self.kind in INTRADAY_KINDS:
+            if self.timeframe not in (Timeframe.M15, Timeframe.H1, Timeframe.H4):
+                raise ValueError("intraday bars require a 15m, 1h or 4h timeframe")
+        elif self.kind == "perp_oi_history":
+            if self.timeframe != Timeframe.H1:
+                raise ValueError("Binance OI history is stored at the 1h statistics period")
         elif self.timeframe is not None:
             raise ValueError("non-bar series do not have a candle timeframe")
         return self
@@ -194,7 +224,7 @@ def capture_dataset(
             sql = f"SELECT * FROM {selection.kind} WHERE {symbol_col}=? AND source=? AND {time_col}>=? AND {time_col}<?"
             args = [selection.symbol, selection.source, selection.start, selection.end]
             if selection.timeframe is not None:
-                sql += " AND timeframe=?"
+                sql += f" AND {_PERIOD_COLUMN.get(selection.kind, 'timeframe')}=?"
                 args.append(selection.timeframe.value)
             cursor = store.con.execute(sql + f" ORDER BY {ordering}", args)
             columns = tuple((d[0], str(d[1])) for d in cursor.description)

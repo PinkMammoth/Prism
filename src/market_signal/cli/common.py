@@ -10,7 +10,7 @@ import typer
 from rich.console import Console
 
 from market_signal.config import Settings, get_settings
-from market_signal.data.store import DatabaseBusy, Store
+from market_signal.data.store import DatabaseBusy, NotAuthoritative, Store
 
 console = Console()
 
@@ -30,6 +30,9 @@ def open_store(read_only: bool = False) -> Iterator[tuple[Settings, Store]]:
         console.print(f"[red]Gave up after {exc.waited:.0f}s: {exc.holder} still has the database open. "
                       + (f"If nothing should be running, check it with `ps -fp {exc.pid}`.[/]" if exc.pid else "[/]"))  # fmt: skip
         raise typer.Exit(1) from None
+    except NotAuthoritative as exc:
+        console.print(f"Refused (not the authoritative runtime): {exc}", style="red", markup=False)
+        raise typer.Exit(2) from None
     try:
         yield settings, store
     finally:

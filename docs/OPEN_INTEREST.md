@@ -1,8 +1,11 @@
 # Perp open interest (OI): collection and storage
 
 **Data collection only.** Stored OI is infrastructure for later research. It is not a
-feature, not a Strategy Lab input and not a trading signal. Nothing in scanning, research,
-paper-tracking or alerts reads it.
+feature, not a Strategy Lab input and not a trading signal. Nothing in scanning,
+paper-tracking, the co-pilot or alerts reads it. The only reader is the Phase 19
+exploratory study ([PHASE19_OI_PRICE.md](PHASE19_OI_PRICE.md)), which reads retained Lab
+snapshots of these tables (`perp_oi_history`, `perp_snapshots`), never the live tables
+during evaluation.
 
 Two venues are collected. They are stored separately and never merged:
 
