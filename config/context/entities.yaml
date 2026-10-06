@@ -1,0 +1,41 @@
+# Canonical asset/entity map for the context layer (Phase 23). EXPLICIT ONLY.
+#
+# Every relationship Prism uses between an event and an asset is listed here. Nothing is
+# inferred: an entity not listed resolves to nothing (the event keeps its raw names and is
+# linked to no asset). Matching is exact on whole words/phrases (case-insensitive), never
+# fuzzy. The file's SHA-256 is the mapping version recorded on every asset link.
+#
+#   kind:       asset | protocol | exchange | chain | stablecoin | issuer | sector
+#   assets:     tokens DIRECTLY affected by an event about this entity (link_type=direct)
+#   ecosystem:  tokens of the wider ecosystem (link_type=ecosystem)
+#   aliases:    names/tickers that refer to this entity (whole-word match)
+#   ticker_aliases: short tickers that are only matched in upper case (e.g. "ETH", not "eth")
+#   An alias must be unambiguous on its own (no bare common words: 'circle', 'base').
+version: entities_v1
+market_wide_assets: [BTC, ETH, SOL, HYPE, LINK, AAVE, XMR, ZEC, BNB]   # linked by market-wide events
+entities:
+  bitcoin:     {kind: asset, assets: [BTC], aliases: [bitcoin], ticker_aliases: [BTC, XBT]}
+  ethereum:    {kind: chain, assets: [ETH], aliases: [ethereum, ether], ticker_aliases: [ETH]}
+  solana:      {kind: chain, assets: [SOL], aliases: [solana], ticker_aliases: [SOL]}
+  hyperliquid: {kind: protocol, assets: [HYPE], aliases: [hyperliquid, hyperevm, hypercore], ticker_aliases: [HYPE]}
+  chainlink:   {kind: protocol, assets: [LINK], aliases: [chainlink], ticker_aliases: []}
+  aave:        {kind: protocol, assets: [AAVE], ecosystem: [ETH], aliases: [aave], ticker_aliases: [AAVE]}
+  monero:      {kind: asset, assets: [XMR], aliases: [monero], ticker_aliases: [XMR], sectors: [privacy]}
+  zcash:       {kind: asset, assets: [ZEC], aliases: [zcash], ticker_aliases: [ZEC], sectors: [privacy]}
+  binance:     {kind: exchange, assets: [BNB], aliases: [binance], ticker_aliases: [BNB]}
+  coinbase:    {kind: exchange, assets: [], aliases: [coinbase], ticker_aliases: []}
+  kraken:      {kind: exchange, assets: [], aliases: [kraken], ticker_aliases: []}
+  okx:         {kind: exchange, assets: [], aliases: [okx], ticker_aliases: []}
+  bybit:       {kind: exchange, assets: [], aliases: [bybit], ticker_aliases: []}
+  lido:        {kind: protocol, assets: [], ecosystem: [ETH], aliases: [lido], ticker_aliases: [LDO]}
+  tether:      {kind: stablecoin, assets: [USDT], aliases: [tether], ticker_aliases: [USDT]}
+  circle:      {kind: issuer, assets: [USDC], aliases: [circle internet, usd coin], ticker_aliases: [USDC]}   # not bare 'circle' (e.g. 'Banking Circle')
+  ethena:      {kind: stablecoin, assets: [USDE], aliases: [ethena], ticker_aliases: [USDE]}
+  arbitrum:    {kind: chain, assets: [], ecosystem: [ETH], aliases: [arbitrum], ticker_aliases: []}
+  base:        {kind: chain, assets: [], ecosystem: [ETH], aliases: [base chain, base network], ticker_aliases: []}
+  privacy:     {kind: sector, assets: [], ecosystem: [XMR, ZEC], aliases: [privacy coin, privacy coins, privacy token, privacy tokens, tornado cash, coin mixer, crypto mixer], ticker_aliases: []}
+# Sectors: sets for research grouping (e.g. "privacy" -> XMR, ZEC). A sector link is never
+# created by an event unless the event names the sector entity itself.
+sectors:
+  privacy: [XMR, ZEC]
+  stablecoins: [USDT, USDC, USDE]
