@@ -3948,6 +3948,31 @@ The full reference is **docs/CANDIDATE_INCUBATION.md**. For the Lab:
 - **Unchanged:** forward tracker, co-pilot, paper trader and their policies, Phase 20
   lifecycle; no consumer reads `research.incubation` (tested).
 
+## 19h. Step 22 implemented: intraday strategy discovery
+
+> **Discovery is exploratory: the best verdict is an incubation candidate. Nothing here is
+> validated or live-ready, and the real-data run is pending (no database access when built).**
+
+The full reference is **docs/PHASE22_INTRADAY_DISCOVERY.md**. For the Lab:
+
+- **Second catalogue, daily untouched:** `intraday_catalogue_v1` (`research/discovery/`,
+  `istrat_…` IDs): 125 simple 1H / 15m-trigger variants, 61 long / 64 short (mirrored rules
+  + 3 short-specific), 4H/1H context only where declared, frozen horizons (1–24 h; 30 m–4 h),
+  frozen BH families, complexity scores and simpler baselines; 5 volatility-forecast tests.
+- **Features** `intraday_features_v1`: causal, gap-aware, log-space range width/position,
+  compression percentile, realised-vol percentile, relative volume, volume slope/acceleration,
+  close location, efficiency (exact long/short mirror symmetry is tested).
+- **Governed study** `intraday_discovery_v1` through the Phase 17 adapter: 15m next-open
+  entry after availability, fixed-horizon exits, fees + slippage + funding, day-block
+  clustered inference, BH within families, contemporary / recent-180/90/30 routes, Phase 20
+  edge states and stress (read-only), duplicate clustering, ensemble opportunity rate,
+  Phase 21 BALANCED/AGGRESSIVE replay (read-only diagnostics), `market lab discovery cook`.
+- **Calibration (synthetic):** costed null → 0.33 false candidates and 0 false STRONG per
+  catalogue run; planted 30-day 15m breakout found 3/4, short-only edge 2/2, compression →
+  volatility t ≈ 4, dead-recent edge never admitted; 51 s / 716 MB at full scale.
+- **Unchanged:** the Phase 21 freeze definition `incfreeze_f34b719a…`, pool and policy IDs
+  (pinned), daily catalogue, forward tracker, co-pilot, paper trader, risk policies.
+
 ## 20. Verification
 
 Baseline before changes: **173 tests passed**, repository Ruff checks passed, and all

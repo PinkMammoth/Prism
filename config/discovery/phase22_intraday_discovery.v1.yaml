@@ -1,0 +1,54 @@
+# Phase 22: preregistered intraday strategy DISCOVERY (intraday_catalogue_v1). EXPLORATORY.
+# Historical intraday availability is reconstructed under an explicit latency assumption
+# rather than observed in real time. Frozen by `market lab discovery register`; the study_id is
+# the content hash of this manifest, the frozen catalogue (every strategy ID), the frozen
+# costs and the retained dataset IDs.
+#
+# Every value below was fixed from the CALENDAR and DATA COVERAGE (docs/INTRADAY.md, the
+# production coverage table of 2026-10-05) before any real outcome was computed:
+#   Execution grid: every strategy enters at the open of the first 15m bar opening at/after
+#     the signal's availability (close + 60 s), so the evaluable span is bounded by 15m
+#     coverage. Binance USD-M 15m history starts 2024-10-01 (the Phase 15 backfill), so the
+#     discovery window starts 2024-11-01 (one month of 15m warm-up; the 30-day percentile
+#     features need it) and ends at the Phase 17-21 cutoff 2026-10-01 (nothing later read).
+#   Contemporary = the whole discovery window (23 months, inside "latest 1-2 years").
+#   Recent-180 / recent-90 / recent-30 = the last 180 / 90 / 30 calendar days before the cutoff.
+#   Long context (Binance, 1H strategies only, 1h execution grid, context only): 2021-01-01
+#     (every coin but HYPE has >= 2 months of 1h history: SOL 2020-09-14, AAVE 2020-10-16)
+#     to 2024-11-01, where discovery begins.
+#   Hyperliquid (the future execution venue) is a descriptive replication only: it retains
+#     5,000 15m bars (from 2026-08-14) and 5,000 1h bars (from 2026-03-11), so its events run
+#     2026-08-15 -> 2026-10-01 (15m-trigger percentile features are still warming up there).
+#   Binance HYPE exists from 2025-05-30; it joins when it has history (nothing fabricated).
+name: phase22_intraday_discovery_v1
+description: >-
+  First intraday strategy-discovery catalogue for the active auto-perp mandate: simple,
+  causal, long/short-symmetric 1H (and 15m-trigger) hypotheses across momentum, pullback,
+  breakout, range mean reversion, compression/expansion, volume, abnormal-range expansion,
+  exhaustion, funding and minimal BTC context, evaluated after fees, slippage and funding at
+  fixed preregistered horizons, with opportunity frequency as a first-class metric.
+venues:
+  - venue: binance
+    role: discovery
+    coins: [BTC, ETH, SOL, HYPE, LINK, AAVE]
+    data_start: {15m: "2024-10-01T00:00:00Z", 1h: "2020-11-01T00:00:00Z", 4h: "2020-11-01T00:00:00Z"}
+    funding_start: "2020-10-01T00:00:00Z"
+    event_start: "2024-11-01T00:00:00Z"
+    event_end: "2026-10-01T00:00:00Z"
+    long_context:
+      event_start: "2021-01-01T00:00:00Z"
+      event_end: "2024-11-01T00:00:00Z"
+    notes: "HYPE listed on Binance USD-M 2025-05-30; absent from the long context."
+  - venue: hyperliquid
+    role: replication
+    coins: [BTC, ETH, SOL, HYPE, LINK, AAVE]
+    data_start: {15m: "2026-08-14T00:00:00Z", 1h: "2026-03-10T00:00:00Z", 4h: "2026-01-01T00:00:00Z"}
+    funding_start: "2025-12-01T00:00:00Z"
+    event_start: "2026-08-15T00:00:00Z"
+    event_end: "2026-10-01T00:00:00Z"
+windows:
+  contemporary_start: "2024-11-01T00:00:00Z"
+  recent_180_start: "2026-04-04T00:00:00Z"
+  recent_90_start: "2026-07-03T00:00:00Z"
+  recent_30_start: "2026-09-01T00:00:00Z"
+  end: "2026-10-01T00:00:00Z"
