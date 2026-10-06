@@ -59,6 +59,7 @@ def system_status(store, settings, now=None) -> list[dict]:
         rows.append({"component": "OI", "state": "ATTENTION", "detail": f"unavailable: {exc}"})
 
     rows.extend(intraday_rows(store, settings, now))
+    rows.extend(context_rows(store, settings, now))
 
     last = _one(store, "SELECT max(finished_at) FROM lab_forward_runs WHERE kind='check'")
     active = _one(store, "SELECT count(*) FROM lab_forward_trackings t WHERE (SELECT status FROM "
@@ -105,6 +106,34 @@ def system_status(store, settings, now=None) -> list[dict]:
             {"component": "Runtime (infra)", "state": "ATTENTION", "detail": f"unavailable: {exc}"}
         )
     return rows
+
+
+def context_rows(store, settings, now) -> list[dict]:
+    """Phase 23 context providers and the fixed-hour HL OI capture (data only)."""
+    try:
+        store.con.execute("SELECT 1 FROM context_provider_runs LIMIT 1")
+    except Exception:
+        return [{"component": "Context", "state": "NOT SET UP", "detail": "schema < 22"}]
+    try:
+        from market_signal.context.providers.base import provider_health
+        from market_signal.context.service import stale_hours
+
+        health = provider_health(store, stale_hours(settings), now=now.to_pydatetime())
+        bad = [h for h in health if h["state"] != "OK"]
+        last = _one(store, "SELECT max(grid_hour) FROM context_hl_oi_hourly")
+        age = _age_h(now, last)
+        hl = (
+            "HL hourly OI: none yet"
+            if last is None
+            else f"HL hourly OI last grid hour {fmt_age(age)}"
+        )
+        state = ("NOT SET UP" if all(h["state"] == "NEVER_RUN" for h in health)
+                 else "ATTENTION" if bad or (age is not None and age > 3) else "OK")  # fmt: skip
+        detail = (", ".join(f"{h['provider']} {h['state']}" for h in bad) or
+                  f"{len(health)} providers OK") + f"; {hl}"  # fmt: skip
+        return [{"component": "Context", "state": state, "detail": detail}]
+    except Exception as exc:
+        return [{"component": "Context", "state": "ATTENTION", "detail": f"unavailable: {exc}"}]
 
 
 def intraday_rows(store, settings, now) -> list[dict]:
