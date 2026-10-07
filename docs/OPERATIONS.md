@@ -151,7 +151,8 @@ These are infrastructure only, not trading policy.
 - A backup refuses to start unless the copy fits above the critical line.
 - Logs cannot fill the disk: Railway retains stdout, and the file log rotates at 5 × 5 MB.
 - Railway also has native usage alerts on the volume at 80%, 95% and 100%, independent of
-  Prism. The volume is 4.5 GiB; grow it in the dashboard if backups approach the warning line.
+  Prism. The volume is 5 GB (Hobby plan: fixed; resizing needs Pro). If backups approach the
+  warning line, upgrade and grow it, or reduce `BACKUP_KEEP` further.
 
 ## Backups
 
@@ -163,9 +164,10 @@ These are infrastructure only, not trading policy.
 - **Verified every time:** the copy is opened read-only, and its schema version, paper run,
   ledger head, latest snapshot and every evidence-table digest must equal the live database
   at copy time. A `backup_verified` runtime event records the path, sha256 and size.
-- **Retention:** daily 7, weekly 5 (a hard link to the daily copy, taken at most once per
-  ~week), manual 6. Pruning touches only `backups/*/prism-*.duckdb` and never the live file.
-  About 11 copies × ~135 MB. Intraday bars live in the database, so they are in every backup
+- **Retention:** daily 3, weekly 2 (a hard link to the daily copy, taken at most once per
+  ~week), manual 3 (reduced 2026-10-07 from 7/5/6: the Railway Hobby volume is fixed at
+  5 GB and Phase 24A microstructure grows the database ~0.14 GiB/month). Pruning touches only
+  `backups/*/prism-*.duckdb` and never the live file. At most 8 copies, usually ~6. Intraday bars live in the database, so they are in every backup
   (~18 B per bar; see docs/INTRADAY.md for the footprint). Raw provider archives
   (`/data/raw`, including `*_intraday/`) are provenance and are not copied into backups.
 - **Off-host copy:** `deploy/railway/pull_backup.sh` (home PC) downloads the newest daily

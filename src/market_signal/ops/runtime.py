@@ -111,7 +111,9 @@ QUIET_JOBS = {"intraday", "context_news", "positioning", "microstructure"}
 STEP_TIMEOUT = float(os.environ.get("PRISM_STEP_TIMEOUT", str(45 * 60)))
 
 DISK_WARN, DISK_CRITICAL = 0.15, 0.05  # free fraction of the database filesystem
-BACKUP_KEEP = {"daily": 7, "weekly": 5, "manual": 6}
+# Reduced 2026-10-07 (was 7/5/6): every copy is a full database, the Railway Hobby volume is
+# fixed at 5 GB, and Phase 24A microstructure grows the database ~0.14 GiB/month.
+BACKUP_KEEP = {"daily": 3, "weekly": 2, "manual": 3}
 
 EXIT_FAILED, EXIT_REFUSED, EXIT_DISK, EXIT_BUSY = 1, 2, 3, 75
 

@@ -74,8 +74,8 @@ def collect(
     coins: str = typer.Option(",".join(("BTC", "ETH", "SOL", "HYPE", "LINK", "AAVE")), help="Comma-separated coins"),
     duration: float = typer.Option(0, help="Stop after N seconds (0 = run until SIGTERM); for smoke tests"),
     no_raw: bool = typer.Option(False, "--no-raw", help="Do not keep the short-retention raw journal"),
-    raw_days: int = typer.Option(int(os.environ.get("PRISM_MICRO_RAW_DAYS", "3")), help="Raw journal retention (days)"),
-    spool_days: int = typer.Option(int(os.environ.get("PRISM_MICRO_SPOOL_DAYS", "10")), help="Spool retention (days, >= 8 for large-print calibration)"),
+    raw_days: int = typer.Option(int(os.environ.get("PRISM_MICRO_RAW_DAYS", "1")), help="Raw journal retention (days)"),
+    spool_days: int = typer.Option(int(os.environ.get("PRISM_MICRO_SPOOL_DAYS", "8")), help="Spool retention (days, >= 8 for large-print calibration)"),
 ) -> None:  # fmt: skip
     """Run the persistent collector. Refuses unless this is the authoritative runtime or an
     explicit scratch environment (PRISM_RUNTIME_ROLE=scratch). Public data only."""

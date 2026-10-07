@@ -115,7 +115,7 @@ class Collector:
     def __init__(self, spool: Spool, coins: tuple[str, ...] = d.COINS, *, url: str = d.WS_URL,
                  role: str = "", runtime_id: str = "", git_commit: str | None = None,
                  raw: bool = True, duration_s: float | None = None,
-                 spool_days: int = 10, raw_days: int = 3):  # fmt: skip
+                 spool_days: int = 8, raw_days: int = 1):  # fmt: skip
         self.spool = spool
         self.coins = tuple(coins)
         self.url = url

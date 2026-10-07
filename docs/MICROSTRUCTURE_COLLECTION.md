@@ -261,8 +261,8 @@ to 60 s (±20% jitter), reset after a connection that lasted 60 s.
 | data | where | retention |
 |---|---|---|
 | finalized 1-minute aggregates, revisions, late events, thresholds, runs, cutover | `prism.duckdb` (backed up daily) | indefinite |
-| spool (JSONL, incl. fine histograms) | `/data/microstructure/spool` | 10 days (`PRISM_MICRO_SPOOL_DAYS`, ≥ 8), and never before ingested |
-| raw event journal (normalized fills without addresses, book summaries, ctx, acks, ticks; gzip) | `/data/microstructure/raw` | 3 days (`PRISM_MICRO_RAW_DAYS`); paused automatically below 15% free disk |
+| spool (JSONL, incl. fine histograms) | `/data/microstructure/spool` | 8 days (`PRISM_MICRO_SPOOL_DAYS`, ≥ 8), and never before ingested |
+| raw event journal (normalized fills without addresses, book summaries, ctx, acks, ticks; gzip) | `/data/microstructure/raw` | 1 day (`PRISM_MICRO_RAW_DAYS`); paused automatically below 15% free disk |
 | completed-day fine print histograms | `/data/microstructure/lp` | 10 days |
 | raw WebSocket JSON / full order books | — | **not kept** (≈ 10 KB/s, ~0.9 GB/day uncompressed; no justification) |
 
@@ -278,16 +278,19 @@ cycles = 10 days × 6 assets):
 | `microstructure_minutes` column data (8,640 rows/day, ~310 B/row compressed) | ~2.6 MiB | ~80 MiB | ~0.95 GiB |
 | live DB file growth incl. DuckDB checkpoint slack at 15-min appends (measured, 10 days) | **~4.6 MiB** | **~0.14 GiB** | **~1.6 GiB** |
 | other microstructure tables (runs, thresholds, late events, revisions) | < 0.05 MiB | — | — |
-| spool (1.8 KB per minute record incl. fine histograms) | ~15.6 MB | rolling 10 days ≈ 0.16 GB | — |
-| raw journal (gzip, ~38 KB/min) | ~55 MB | rolling 3 days ≈ 0.17 GB | — |
+| spool (1.8 KB per minute record incl. fine histograms) | ~15.6 MB | rolling 8 days ≈ 0.13 GB | — |
+| raw journal (gzip, ~38 KB/min) | ~55 MB | rolling 1 day ≈ 0.06 GB | — |
 
-So the collector's own files level off at ≈ 0.35 GB; the database grows by ≈ 0.14 GiB per
-month **and every verified backup is a full copy** (7 daily + 5 weekly, Phase 14). With
-today's ~0.14 GiB database that is already ~1.8 GiB of backups; adding ~0.14 GiB/month means
-the 4.5 GiB volume reaches the 15% free warning within roughly two months and the 5% critical
-line (where *every* job, including `prospective`, refuses to run) soon after. **Deployment
-prerequisite: grow the Railway volume (e.g. to 20 GiB) when deploying Phase 24A**, and watch
-`market status` Disk. Decisions taken to keep growth down: primitives only (ratios derived),
+So the collector's own files level off at ≈ 0.2 GB; the database grows by ≈ 0.14 GiB per
+month **and every verified backup is a full copy**. The volume is a fixed 5 GB (Railway Hobby
+plan; resizing needs Pro), with ~1.46 GB used on 2026-10-07. To make room, backup retention
+was reduced on 2026-10-07 from 7 daily / 5 weekly / 6 manual to **3 daily / 2 weekly /
+3 manual** (at most 8 copies, usually ~6, instead of up to 18), and the collector defaults to
+1 day of raw journal and 8 days of spool. With ~6 copies, total usage grows roughly
+0.9 GB/month after deploy, so the 15%-free warning (~4.25 GB used) is about 3 months away.
+Watch `market status` Disk; before the warning, either upgrade to Pro and grow the volume or
+cut retention further. The 5% critical line stops *every* job, including `prospective`.
+Decisions taken to keep growth down: primitives only (ratios derived),
 REAL for depth/spread, integer counts, a 14-int histogram instead of raw sizes, no addresses,
 no raw book, and no PRIMARY KEY on `microstructure_minutes` (its ART index measured ~120
 B/row, +50%; uniqueness is enforced by the single ingest writer and checked by health).
@@ -389,13 +392,13 @@ market microstructure collect  [--duration S] [--no-raw]   (supervised process)
 
 ### Deploying to Railway
 
-0. **Grow the Railway volume first** (dashboard → service → volume; e.g. 4.5 → 20 GiB):
-   see §12, backups multiply the database growth.
+0. Check disk headroom (`railway volume list --json`): see §12. The Hobby volume cannot be
+   resized; backup retention was reduced instead.
 1. Merge, push, then `deploy/railway/deploy.sh <commit>` as for any revision (pre-deploy
    backup, `git archive` upload). No new service, volume, secret or variable is required:
    the collector uses the existing `PRISM_RUNTIME_ROLE=authoritative` and `PRISM_RUNTIME_ID`.
    Optional variables: `PRISM_MICROSTRUCTURE=off` (disable), `PRISM_MICRO_DIR` (default
-   `/data/microstructure`), `PRISM_MICRO_RAW_DAYS` (3), `PRISM_MICRO_SPOOL_DAYS` (10).
+   `/data/microstructure`), `PRISM_MICRO_RAW_DAYS` (1), `PRISM_MICRO_SPOOL_DAYS` (8).
 2. Boot applies migration 23 on the first writable open (the boot catch-up cycle).
 3. Watch: `railway logs --service prism-runtime` (collector start, `run_start`, no
    reconnect storm); `railway ssh --service prism-runtime -- market microstructure health`.
