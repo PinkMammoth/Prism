@@ -1253,6 +1253,117 @@ MIGRATIONS: list[str] = [
         PRIMARY KEY (source, coin, metric, period, observed_at)
     );
     """,
+    # 23 — Phase 24A Hyperliquid microstructure (data only; docs/MICROSTRUCTURE_COLLECTION.md).
+    # Written ONLY by ``microstructure/ingest.py`` (the runtime's scheduled ingest job) from the
+    # collector's append-only spool: the persistent collector never opens this database. One
+    # row per (feature_version, coin, UTC minute); every row is versioned. A late-trade revision
+    # bumps ``revision`` and the superseded row is kept in ``microstructure_revisions``, so what
+    # Prism knew at any instant is reconstructible. Availability = ``finalized_at`` (collector
+    # clock, after the spool fsync), never the exchange time. ``microstructure_cutover`` holds
+    # the immutable production start (first COMPLETE minute ingested from the authoritative
+    # collector), one row per feature version, never updated. No consumer reads these tables.
+    # ``microstructure_minutes`` deliberately has no PRIMARY KEY: its ART index measured ~120
+    # bytes/row (+50%) on the volume and in every backup. (feature_version, coin, minute_open)
+    # uniqueness is enforced by the single ingest writer (key lookup before insert, under the
+    # runtime lock), tested, and checked by `market microstructure health`.
+    """
+    CREATE TABLE IF NOT EXISTS microstructure_minutes (
+        feature_version VARCHAR NOT NULL,
+        coin VARCHAR NOT NULL,
+        minute_open TIMESTAMPTZ NOT NULL,
+        revision SMALLINT NOT NULL CHECK (revision >= 0),
+        status VARCHAR NOT NULL CHECK (status IN ('COMPLETE', 'PARTIAL', 'TRADE_ONLY',
+            'BOOK_ONLY', 'GAP')),
+        flags VARCHAR,
+        trade_cov REAL NOT NULL,
+        book_samples SMALLINT NOT NULL,
+        depth20_samples SMALLINT NOT NULL,
+        n_buy INTEGER, n_sell INTEGER, n_buy_prints INTEGER, n_sell_prints INTEGER,
+        buy_vol DOUBLE, sell_vol DOUBLE, buy_ntl DOUBLE, sell_ntl DOUBLE,
+        first_px DOUBLE, last_px DOUBLE, high_px DOUBLE, low_px DOUBLE,
+        max_print_ntl DOUBLE, med_print_ntl DOUBLE,
+        size_hist INTEGER[],
+        lp_threshold DOUBLE, lp_n INTEGER, lp_buy_n INTEGER, lp_ntl DOUBLE, lp_buy_ntl DOUBLE,
+        bid_end DOUBLE, ask_end DOUBLE,
+        spread_mean REAL, spread_bps_mean REAL, spread_bps_med REAL, spread_bps_min REAL,
+        spread_bps_max REAL,
+        bid5_mean REAL, ask5_mean REAL, bid5_end REAL, ask5_end REAL,
+        bid20_mean REAL, ask20_mean REAL, bid20_end REAL, ask20_end REAL,
+        book_updates SMALLINT, bid_changes SMALLINT, ask_changes SMALLINT, mid_changes SMALLINT,
+        bid_replenish REAL, ask_replenish REAL,
+        oi_end DOUBLE, mark_end DOUBLE, oracle_end DOUBLE, funding_end DOUBLE,
+        impact_bid_end DOUBLE, impact_ask_end DOUBLE,
+        lat_p50_ms INTEGER, lat_max_ms INTEGER,
+        n_dup INTEGER NOT NULL, n_late INTEGER NOT NULL,
+        first_recv_at TIMESTAMPTZ, last_recv_at TIMESTAMPTZ,
+        finalized_at TIMESTAMPTZ NOT NULL,
+        ingested_at TIMESTAMPTZ NOT NULL,
+        session_id VARCHAR NOT NULL,
+        content_sha VARCHAR NOT NULL,
+        CHECK (finalized_at >= minute_open + INTERVAL 1 MINUTE)
+    );
+    CREATE TABLE IF NOT EXISTS microstructure_revisions (
+        feature_version VARCHAR NOT NULL,
+        coin VARCHAR NOT NULL,
+        minute_open TIMESTAMPTZ NOT NULL,
+        revision SMALLINT NOT NULL,
+        superseded_at TIMESTAMPTZ NOT NULL,
+        superseded_by SMALLINT NOT NULL,
+        row_json JSON NOT NULL,
+        PRIMARY KEY (feature_version, coin, minute_open, revision)
+    );
+    CREATE TABLE IF NOT EXISTS microstructure_late_events (
+        feature_version VARCHAR NOT NULL,
+        coin VARCHAR NOT NULL,
+        tid BIGINT NOT NULL,
+        trade_time TIMESTAMPTZ NOT NULL,
+        received_at TIMESTAMPTZ NOT NULL,
+        minute_open TIMESTAMPTZ NOT NULL,
+        px DOUBLE NOT NULL,
+        sz DOUBLE NOT NULL,
+        is_buy BOOLEAN NOT NULL,
+        disposition VARCHAR NOT NULL CHECK (disposition IN ('revised', 'rejected')),
+        PRIMARY KEY (feature_version, coin, tid)
+    );
+    CREATE TABLE IF NOT EXISTS microstructure_provider_runs (
+        run_id VARCHAR PRIMARY KEY,
+        kind VARCHAR NOT NULL CHECK (kind IN ('process', 'connection')),
+        parent_run_id VARCHAR,
+        runtime_id VARCHAR,
+        role VARCHAR,
+        git_commit VARCHAR,
+        started_at TIMESTAMPTZ NOT NULL,
+        ended_at TIMESTAMPTZ,
+        end_reason VARCHAR,
+        payload JSON NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS microstructure_lp_thresholds (
+        lp_version VARCHAR NOT NULL,
+        coin VARCHAR NOT NULL,
+        day DATE NOT NULL,
+        status VARCHAR NOT NULL CHECK (status IN ('ok', 'warmup')),
+        threshold_ntl DOUBLE,
+        n_prints BIGINT NOT NULL,
+        days_used INTEGER NOT NULL,
+        computed_at TIMESTAMPTZ NOT NULL,
+        PRIMARY KEY (lp_version, coin, day),
+        CHECK ((status = 'ok') = (threshold_ntl IS NOT NULL))
+    );
+    CREATE TABLE IF NOT EXISTS microstructure_cutover (
+        feature_version VARCHAR PRIMARY KEY,
+        runtime_id VARCHAR NOT NULL,
+        first_minute TIMESTAMPTZ NOT NULL,
+        first_coin VARCHAR NOT NULL,
+        first_finalized_at TIMESTAMPTZ NOT NULL,
+        session_id VARCHAR NOT NULL,
+        recorded_at TIMESTAMPTZ NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS microstructure_ingest_offsets (
+        path VARCHAR PRIMARY KEY,
+        bytes BIGINT NOT NULL,
+        updated_at TIMESTAMPTZ NOT NULL
+    );
+    """,
 ]
 
 ROLE_ENV, RUNTIME_ID_ENV = "PRISM_RUNTIME_ROLE", "PRISM_RUNTIME_ID"
