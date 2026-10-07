@@ -72,6 +72,13 @@ JOBS: dict[str, list[tuple[str, list[str]]]] = {
     "context_macro": [("macro", ["context", "refresh", "--group", "macro"])],
     "context_news": [("news", ["context", "refresh", "--group", "news"])],
     "positioning": [("positioning", ["context", "refresh", "--group", "positioning"])],
+    # Phase 24A: ingest the persistent microstructure collector's spool (the collector itself
+    # never opens the database), then judge collector + data health (exit 1 = unhealthy, which
+    # alerts once on the transition). Data only; no consumer reads microstructure_*.
+    "microstructure": [
+        ("ingest", ["microstructure", "ingest"]),
+        ("health", ["microstructure", "health", "--check"]),
+    ],
 }
 
 # UTC. Daily bars close at 00:00 UTC and Hyperliquid serves the closed candle and the settled
@@ -92,14 +99,15 @@ SCHEDULE: dict[str, list[str]] = {
     "context_news": ["*:08", "*:38"],  # official RSS/status feeds + HL universe: cheap
     # Fixed-hour Hyperliquid OI capture (one per coin per UTC hour) + Binance ratio top-up.
     "positioning": ["*:04"],
+    "microstructure": ["*:06", "*:21", "*:36", "*:51"],  # spool -> DB every 15 min
 }
 SCHEDULED_WAIT = 3600  # a scheduled job queues behind a running one for up to this long
 # a late intraday run is pointless (the next is 15 minutes away); a positioning capture must land
 # inside its own UTC hour, so it never queues past :54
-JOB_WAIT = {"intraday": 600, "context_news": 900, "positioning": 1500}
+JOB_WAIT = {"intraday": 600, "context_news": 900, "positioning": 1500, "microstructure": 600}
 # alert on the first failure after a success only (no 15-minute/hourly spam); persistent
 # provider failure also shows as FAILING in `market context providers` / `market status`
-QUIET_JOBS = {"intraday", "context_news", "positioning"}
+QUIET_JOBS = {"intraday", "context_news", "positioning", "microstructure"}
 STEP_TIMEOUT = float(os.environ.get("PRISM_STEP_TIMEOUT", str(45 * 60)))
 
 DISK_WARN, DISK_CRITICAL = 0.15, 0.05  # free fraction of the database filesystem
