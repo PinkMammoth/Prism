@@ -298,4 +298,10 @@ intelligence layer — an append-only market-event ledger with first-seen semant
 macro calendar with first prints and surprises, official status/regulator feeds, a validated
 ChatGPT Work import route, venue-separated positioning/crowding context, fixed-hour Hyperliquid
 OI capture, point-in-time context snapshots, research-only theses and `market context` queries
-(data and semantics only; nothing trades) — in [docs/CONTEXT_INTELLIGENCE.md](docs/CONTEXT_INTELLIGENCE.md).
+(data and semantics only; nothing trades) — in [docs/CONTEXT_INTELLIGENCE.md](docs/CONTEXT_INTELLIGENCE.md). Phase 24A adds
+an always-on Hyperliquid WebSocket microstructure collector — deterministic, versioned
+1-minute aggregates (`microstructure_1m_v1`: taker-signed flow, prints, causal large prints,
+time-weighted spread/depth/imbalance, book dynamics, minute-end OI/funding) with explicit
+COMPLETE/PARTIAL/GAP quality, bounded revisions, a single-writer spool → DuckDB ingest, a
+causal research loader and `market microstructure` queries (data only; prospective from its
+production cutover) — in [docs/MICROSTRUCTURE_COLLECTION.md](docs/MICROSTRUCTURE_COLLECTION.md).
