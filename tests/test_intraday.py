@@ -756,7 +756,7 @@ def test_migration_18_is_market_data_only():
     from market_signal.data.store import MIGRATIONS
 
     ddl = MIGRATIONS[17]
-    assert len(MIGRATIONS) == 22  # Phase 23 appended migration 22 (context_*)
+    assert len(MIGRATIONS) == 23  # Phase 24A appended migration 23 (microstructure_*)
     created = re.findall(r"CREATE TABLE IF NOT EXISTS (\w+)", ddl)
     assert created == ["perp_intraday_bars", "perp_intraday_revisions", "perp_intraday_coverage",
                        "intraday_execution_shadow"]  # fmt: skip
