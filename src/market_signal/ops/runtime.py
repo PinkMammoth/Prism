@@ -67,6 +67,11 @@ JOBS: dict[str, list[tuple[str, list[str]]]] = {
     # Phase 15: intraday perp bars (data only) + observational shadow timing. Never strategy,
     # co-pilot or paper evaluation: those stay on the daily prospective cadence above.
     "intraday": [("bars", ["bars", "update"]), ("shadow", ["bars", "shadow", "--record"])],
+    # Phase 23: context intelligence (data only; nothing here is read by forward, co-pilot,
+    # paper or incubation). Every step is idempotent and preserves first_seen_at.
+    "context_macro": [("macro", ["context", "refresh", "--group", "macro"])],
+    "context_news": [("news", ["context", "refresh", "--group", "news"])],
+    "positioning": [("positioning", ["context", "refresh", "--group", "positioning"])],
 }
 
 # UTC. Daily bars close at 00:00 UTC and Hyperliquid serves the closed candle and the settled
@@ -81,10 +86,20 @@ SCHEDULE: dict[str, list[str]] = {
     # "*:MM" = every hour at MM. One minute after each 15m close; 1h/4h bars are fetched by the
     # same run only once a new one has closed. A missed run is recovered by the next one.
     "intraday": ["*:01", "*:16", "*:31", "*:46"],
+    # Calendar + first prints: shortly after 08:30 New York (12:30 UTC in EDT, 13:30 in EST),
+    # after FOMC statements (18:00/19:00 UTC), and a daily refresh. Low frequency on purpose.
+    "context_macro": ["00:20", "12:42", "13:42", "19:12"],
+    "context_news": ["*:08", "*:38"],  # official RSS/status feeds + HL universe: cheap
+    # Fixed-hour Hyperliquid OI capture (one per coin per UTC hour) + Binance ratio top-up.
+    "positioning": ["*:04"],
 }
 SCHEDULED_WAIT = 3600  # a scheduled job queues behind a running one for up to this long
-JOB_WAIT = {"intraday": 600}  # a late intraday run is pointless: the next one is 15 minutes away
-QUIET_JOBS = {"intraday"}  # alert on the first failure after a success only (no 15-minute spam)
+# a late intraday run is pointless (the next is 15 minutes away); a positioning capture must land
+# inside its own UTC hour, so it never queues past :54
+JOB_WAIT = {"intraday": 600, "context_news": 900, "positioning": 1500}
+# alert on the first failure after a success only (no 15-minute/hourly spam); persistent
+# provider failure also shows as FAILING in `market context providers` / `market status`
+QUIET_JOBS = {"intraday", "context_news", "positioning"}
 STEP_TIMEOUT = float(os.environ.get("PRISM_STEP_TIMEOUT", str(45 * 60)))
 
 DISK_WARN, DISK_CRITICAL = 0.15, 0.05  # free fraction of the database filesystem

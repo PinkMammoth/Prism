@@ -433,5 +433,7 @@ class HyperliquidProvider(HttpProvider):
                 "premium": num(c.get("premium")), "open_interest": oi,
                 "oi_notional": None if mark is None or oi is None else mark * oi,
                 "day_ntl_vlm": num(c.get("dayNtlVlm")),
+                "impact_bid_px": num((c.get("impactPxs") or [None, None])[0]),
+                "impact_ask_px": num((c.get("impactPxs") or [None, None])[-1]),
             })  # fmt: skip
         return pd.DataFrame(rows)

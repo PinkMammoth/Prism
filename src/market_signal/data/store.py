@@ -1107,6 +1107,152 @@ MIGRATIONS: list[str] = [
         CHECK (recorded_at >= exit_close)
     );
     """,
+    # 22 — Phase 23 context intelligence: append-only via ``context/ledger.py`` and
+    # ``context/positioning.py``. An event row is its FIRST observation, never edited; later
+    # reports are ``context_event_updates`` rows (observed_at = when Prism saw them). Research
+    # may use an event only from ``first_seen_at`` (Prism's own clock). Positioning tables are
+    # data only (no consumer: forward, co-pilot, paper and incubation never read context_*).
+    """
+    CREATE TABLE IF NOT EXISTS context_sources (
+        source_id VARCHAR PRIMARY KEY,
+        source_type VARCHAR NOT NULL,
+        tier INTEGER NOT NULL CHECK (tier IN (1, 2, 3)),
+        payload JSON NOT NULL,
+        recorded_at TIMESTAMPTZ NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS context_provider_runs (
+        run_id VARCHAR PRIMARY KEY,
+        provider VARCHAR NOT NULL,
+        started_at TIMESTAMPTZ NOT NULL,
+        finished_at TIMESTAMPTZ NOT NULL,
+        status VARCHAR NOT NULL CHECK (status IN ('ok', 'partial', 'failed', 'skipped')),
+        received INTEGER NOT NULL,
+        new_events INTEGER NOT NULL,
+        new_updates INTEGER NOT NULL,
+        duplicates INTEGER NOT NULL,
+        rejected INTEGER NOT NULL,
+        filtered INTEGER NOT NULL,
+        latency_ms DOUBLE,
+        error VARCHAR,
+        payload JSON NOT NULL,
+        CHECK (finished_at >= started_at)
+    );
+    CREATE TABLE IF NOT EXISTS context_events (
+        event_id VARCHAR PRIMARY KEY,
+        dedup_key VARCHAR NOT NULL UNIQUE,
+        schema_version VARCHAR NOT NULL,
+        taxonomy_version VARCHAR NOT NULL,
+        category VARCHAR NOT NULL,
+        subcategory VARCHAR NOT NULL,
+        title VARCHAR NOT NULL,
+        summary VARCHAR NOT NULL,
+        scheduled BOOLEAN NOT NULL,
+        event_time TIMESTAMPTZ,
+        published_at TIMESTAMPTZ,
+        provider_time TIMESTAMPTZ,
+        reported_first_seen_at TIMESTAMPTZ,
+        first_seen_at TIMESTAMPTZ NOT NULL,
+        processed_at TIMESTAMPTZ NOT NULL,
+        source_id VARCHAR NOT NULL REFERENCES context_sources(source_id),
+        source_ref VARCHAR,
+        confidence VARCHAR NOT NULL,
+        scope VARCHAR NOT NULL,
+        country VARCHAR,
+        region VARCHAR,
+        relevance_end TIMESTAMPTZ,
+        observation_mode VARCHAR NOT NULL CHECK (observation_mode IN ('live', 'historical')),
+        attributes JSON NOT NULL,
+        entities JSON NOT NULL,
+        provenance_hash VARCHAR NOT NULL,
+        raw_sha256 VARCHAR,
+        observation JSON NOT NULL,
+        run_id VARCHAR,
+        CHECK (processed_at >= first_seen_at)
+    );
+    CREATE TABLE IF NOT EXISTS context_event_updates (
+        update_id VARCHAR PRIMARY KEY,
+        event_id VARCHAR NOT NULL REFERENCES context_events(event_id),
+        seq INTEGER NOT NULL CHECK (seq >= 1),
+        kind VARCHAR NOT NULL,
+        observed_at TIMESTAMPTZ NOT NULL,
+        processed_at TIMESTAMPTZ NOT NULL,
+        published_at TIMESTAMPTZ,
+        source_id VARCHAR NOT NULL REFERENCES context_sources(source_id),
+        source_ref VARCHAR,
+        confidence VARCHAR NOT NULL,
+        changes JSON NOT NULL,
+        observation_mode VARCHAR NOT NULL CHECK (observation_mode IN ('live', 'historical')),
+        provenance_hash VARCHAR NOT NULL,
+        observation JSON NOT NULL,
+        run_id VARCHAR,
+        UNIQUE (event_id, seq),
+        UNIQUE (event_id, provenance_hash),
+        CHECK (processed_at >= observed_at)
+    );
+    CREATE TABLE IF NOT EXISTS context_asset_links (
+        event_id VARCHAR NOT NULL REFERENCES context_events(event_id),
+        asset VARCHAR NOT NULL,
+        link_type VARCHAR NOT NULL CHECK (link_type IN ('direct', 'ecosystem', 'market_wide')),
+        entity VARCHAR NOT NULL,
+        mapping_version VARCHAR NOT NULL,
+        linked_at TIMESTAMPTZ NOT NULL,
+        PRIMARY KEY (event_id, asset, link_type)
+    );
+    CREATE TABLE IF NOT EXISTS context_snapshots (
+        snapshot_id VARCHAR PRIMARY KEY,
+        asset VARCHAR NOT NULL,
+        as_of TIMESTAMPTZ NOT NULL,
+        recorded_at TIMESTAMPTZ NOT NULL,
+        version VARCHAR NOT NULL,
+        payload JSON NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS context_theses (
+        thesis_id VARCHAR PRIMARY KEY,
+        asset VARCHAR NOT NULL,
+        as_of TIMESTAMPTZ NOT NULL,
+        recorded_at TIMESTAMPTZ NOT NULL,
+        status VARCHAR NOT NULL CHECK (status = 'research_only'),
+        snapshot_id VARCHAR NOT NULL REFERENCES context_snapshots(snapshot_id),
+        payload JSON NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS context_hl_oi_hourly (
+        coin VARCHAR NOT NULL,
+        grid_hour TIMESTAMPTZ NOT NULL,
+        captured_at TIMESTAMPTZ NOT NULL,
+        open_interest DOUBLE,
+        oi_notional DOUBLE,
+        mark_px DOUBLE,
+        oracle_px DOUBLE,
+        mid_px DOUBLE,
+        funding_rate DOUBLE,
+        premium DOUBLE,
+        impact_bid_px DOUBLE,
+        impact_ask_px DOUBLE,
+        day_ntl_vlm DOUBLE,
+        cadence_version VARCHAR NOT NULL,
+        run_id VARCHAR NOT NULL,
+        PRIMARY KEY (coin, grid_hour),
+        CHECK (captured_at >= grid_hour),
+        CHECK (captured_at < grid_hour + INTERVAL 1 HOUR)
+    );
+    CREATE TABLE IF NOT EXISTS context_ls_ratios (
+        source VARCHAR NOT NULL,
+        coin VARCHAR NOT NULL,
+        provider_symbol VARCHAR NOT NULL,
+        metric VARCHAR NOT NULL CHECK (metric IN ('global_account', 'top_account',
+            'top_position', 'taker_volume')),
+        period VARCHAR NOT NULL,
+        observed_at TIMESTAMPTZ NOT NULL,
+        long_share DOUBLE,
+        short_share DOUBLE,
+        ratio DOUBLE,
+        buy_volume DOUBLE,
+        sell_volume DOUBLE,
+        ingested_at TIMESTAMPTZ NOT NULL,
+        run_id VARCHAR NOT NULL,
+        PRIMARY KEY (source, coin, metric, period, observed_at)
+    );
+    """,
 ]
 
 ROLE_ENV, RUNTIME_ID_ENV = "PRISM_RUNTIME_ROLE", "PRISM_RUNTIME_ID"

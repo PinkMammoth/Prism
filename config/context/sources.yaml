@@ -1,0 +1,24 @@
+# Context providers (Phase 23). Only sources that are official/structured and were checked
+# reachable on 2026-10-06 are enabled. Each provider has a health stale threshold.
+# Tier 1 = official/structured, 2 = news/RSS, 3 = AI/social monitoring (see taxonomy).
+version: context_sources_v1
+user_agent: "Prism/0.1 (personal research; context monitor)"
+providers:
+  fred_calendar:      {enabled: true, stale_hours: 30}     # FRED release dates (official schedule)
+  central_bank_calendar: {enabled: true, stale_hours: 30}  # config/context/macro_calendar.yaml
+  fred_actuals:       {enabled: true, stale_hours: 30}     # ALFRED first prints after each release
+  hyperliquid_universe: {enabled: true, stale_hours: 3}    # perp listings/delistings (universe diff)
+  rss:                {enabled: true, stale_hours: 3}
+feeds:
+  # Statuspage feeds: one item per incident (stable id in the link); updates re-poll the same id.
+  coinbase_status: {url: "https://status.coinbase.com/history.rss", kind: statuspage, exchange: coinbase,
+                    source_type: exchange_notice}
+  kraken_status:   {url: "https://status.kraken.com/history.rss", kind: statuspage, exchange: kraken,
+                    source_type: exchange_notice}
+  # Official press feeds: most items are irrelevant, so only rule matches are kept.
+  fed_press:       {url: "https://www.federalreserve.gov/feeds/press_all.xml", kind: central_bank,
+                    source_type: central_bank, country: US}
+  sec_press:       {url: "https://www.sec.gov/news/pressreleases.rss", kind: regulator,
+                    source_type: regulator, country: US}
+  cftc_press:      {url: "https://www.cftc.gov/RSS/RSSGP/rssgp.xml", kind: regulator,
+                    source_type: regulator, country: US}

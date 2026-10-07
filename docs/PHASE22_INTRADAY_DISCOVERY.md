@@ -11,11 +11,12 @@ CLI `market lab discovery …` (`cli/discovery_cmds.py`), tests `tests/test_intr
 (33 tests). Governed through the Phase 17 study adapter (`research/lab/structure_study.py`,
 study version `intraday_discovery_v1`); no migration.
 
-**The real-data discovery run has NOT been executed yet** (§14): this session had no access
-to the Prism database, the Railway runtime or the market-data hosts. Everything that can be
-fixed before outcomes is frozen and committed — catalogue, windows, statistics, verdict rules —
-and the harness is calibrated on synthetic nulls and planted temporary edges. All numbers in
-§6–§12 are **synthetic** unless stated otherwise.
+**Real-data result (2026-10-06, §14): NULL.** The frozen study ran unchanged on a scratch
+copy of the production database: 0 STRONG / 0 INCUBATION_CANDIDATE, 7 INTERESTING, 12
+NO_EVIDENCE, 106 REJECTED; zero BH discoveries; the incubation shortlist is empty. Everything
+was frozen and committed before outcomes — catalogue, windows, statistics, verdict rules — and
+the harness was calibrated on synthetic nulls and planted temporary edges. All numbers in
+§6–§12 are **synthetic** unless stated otherwise; the real numbers are in §14.
 
 ## 0. Phase 21 baseline (housekeeping)
 
@@ -29,9 +30,11 @@ and the harness is calibrated on synthetic nulls and planted temporary edges. Al
   - CONSERVATIVE `incpolicy_4356148786bda18d98916ca14b53caf48bd1a0d31d3e63d51cc4ea5d8048d76b`,
     BALANCED `incpolicy_aaec7841f4b18d5222c6c50a0f34ced1c86e7c1decb77aa91da0d5608228a042`,
     AGGRESSIVE `incpolicy_c2f2fe3583daa7203ff0e80a3d73966c192cdf5ccfdb0dda5691bd93c72f35f6`
-- **Runtime freeze: not verified and not performed from this session** (no Railway CLI or
-  token in the container). `docs/CANDIDATE_INCUBATION.md` §11 recorded it as not yet frozen.
-  The operator step, unchanged:
+- **Runtime freeze: verified 2026-10-06** (§14.2): registered on the Railway runtime at
+  2026-10-05T23:13:02Z with exactly the definition hash, pool and policy IDs above; not
+  re-frozen. (The implementation session had no Railway access, and
+  `docs/CANDIDATE_INCUBATION.md` §11 recorded it as not yet frozen at that time.)
+  The operator step, kept for reference:
 
   ```text
   railway ssh --service prism-runtime -- market lab incubation freeze \
@@ -223,7 +226,7 @@ Signal rates depend mostly on market texture, so the synthetic market indicates 
 The whole catalogue: ≈ 500 independent signals/day; after (coin, side, 4 h) dedup ≈ **56
 opportunities/day** (28 long / 28 short; zero-opportunity days 0%) — a *ceiling*, not a plan
 (Phase 21's daily pool: ≈ 8 raw / 0.46 admissible per day). 9 variants are below 1/week, 3
-below 1/month (flagged; the rare exhaustion/blow-off rules). Real rates: §14.
+below 1/month (flagged; the rare exhaustion/blow-off rules). Real rates: §14.4.
 
 ## 10. Costs
 
@@ -275,7 +278,9 @@ effect, long-context, gross/cost/net, evidence state, edge state, pattern, rule-
 caveats, overlap cluster, and the recommended policy (STRONG → BALANCED, CANDIDATE →
 AGGRESSIVE; INTERESTING → none). No command accepts a threshold, window or date.
 
-## 14. Running the real study (not yet done)
+## 14. The real study (executed 2026-10-06: null result)
+
+### 14.1 Procedure
 
 On a **scratch copy** of the production database (never the live file):
 
@@ -293,9 +298,95 @@ uv run market --db data/remote/<copy> lab discovery report|cook|shortlist <run_i
 Known data facts: Binance HYPE has no retained funding, so its events are non-evaluable
 (never zero-filled); Hyperliquid 15m starts 2026-08-14, so the replication window is short.
 
+### 14.2 Provenance
+
+Executed exactly as §14.1 — no code, catalogue, window, cost, horizon, threshold or verdict
+change before or after outcomes; nothing outside the scratch copies was written.
+
+- Phase 21 freeze verified first on the Railway runtime (`lab incubation status`): registered
+  2026-10-05T23:13:02Z, ID equal to the §0 definition hash, same pool and policy IDs; not
+  re-frozen. Runtime preflight `ready_for_jobs: true`, schema 21, all intraday/OI/forward/
+  co-pilot/paper/incubation/backup components OK (equity daily prices stale, unused here).
+- Source: Railway backup `prism-20261006T013000Z.duckdb` (164 MiB, sha256 `ddecd4a0…5a424a2`,
+  server and local hashes equal, `ops verify-backup` passed), schema 21; the study ran on
+  scratch copies of it (`PRISM_RUNTIME_ROLE=scratch`).
+- Coverage matched the manifest: no bar gaps and no zero-volume bars inside any window;
+  Binance 15m from 2024-10-01, 1h/4h from 2019–2020, HYPE from 2025-05-30 without funding;
+  Hyperliquid 15m from 2026-08-14, 1h from 2026-03-10.
+- Study `sstudy_f60a05a62799548cd444753c8de7c5d7b3d9bdd17a6b5fe8b5c9a08b0d790c45`, run
+  `srun_aae119662306468ab358ea5256f8a0e0`, software `software_0599adce…` (git `726b7de`),
+  12 retained datasets, 32 s wall, 1.66 GB peak RSS.
+- Result digest `d6c9e4a060b69b02da40c3a260a40a337aaa8a3007e6ac382ce87ca089b7c4ad`, reproduced
+  exactly by a fresh copy + fresh registration (same study ID, run `srun_45faa9fa…`), by the
+  in-place `--rerun-of` (`srun_83957956…`) and by a read-only in-memory re-evaluation.
+
+### 14.3 Findings
+
+| verdict | variants | long | short |
+|---|---|---|---|
+| STRONG_INCUBATION_CANDIDATE | 0 | 0 | 0 |
+| INCUBATION_CANDIDATE | 0 | 0 | 0 |
+| INTERESTING | 7 | 7 | 0 |
+| NO_EVIDENCE | 12 | 5 | 7 |
+| REJECTED | 106 | 49 | 57 |
+
+- **No variant reached a candidate route** (none even reached a route and then failed a
+  guard); zero BH discoveries in all nine families. Shortlist record
+  `ielig_0dda541825b6e8d522a8821f0a81c428d8477a77b1581411d09d2d48c81a78ab` has no members,
+  so the Phase 21 replay (`incubation_replay`) is empty by construction.
+- **Gross ≈ 0, costs decide.** Median contemporary gross ≈ +0.01%/event against ≈ 0.18–0.19%
+  fees + slippage (funding ≈ ±0.003%); 65/125 variants gross-positive, 11 above the floor
+  before costs, 5 net-positive, none significant. Signal destroyed by costs:
+  `funding_reversal:long` (gross +0.22%, t 1.65 → net +0.04%),
+  `compression_volume_breakout:short` (gross +0.22% → net +0.03%). The only sizeable gross
+  effects (`exhaustion[z=3]`, +0.4–0.6%) are too sparse (n 14–210, t < 1.7).
+- **Momentum and breakout fail on both sides**: every 1h variant net −0.08% to −0.26%, every
+  15m variant t −7 to −15. Shorts did not outperform longs (mean net −0.21% vs −0.16%).
+  Short-specific rules: failed-bounce breakdown REJECTED (−0.18%, t −2.3); high-volume downside
+  expansion NO_EVIDENCE (−0.12%; recent-90 −0.80%, t −3.9); blow-off short fired twice in 23
+  months.
+- **Compression does not predict expansion**: compressed states precede *smaller* moves
+  (1h −0.20%, t −3.7; 15m −0.11%, t −9.2 — volatility clustering, as in the synthetic null);
+  rising volume removes the shrinkage (−0.06%, t −0.9) but adds no direction; no directional
+  clue helps. Non-directional states that do precede larger moves: range expansion
+  (+0.28%, t 4.6) and volume spikes (+0.26%, t 4.9) — volatility, not directional edge.
+- **Contemporary vs lifetime**: edge states 118 DEAD, 3 EMERGING, 4 INSUFFICIENT; no lifetime
+  edge was lost (best long-context t +1.45). The EMERGING/recently positive variants are
+  all long, few-event and coincide with the Apr–Sep 2026 rally (BTC +25%, alts +31–156%):
+  `expansion_continuation[k=3]` r30 +1.21% (t 2.94, n 19 — below the 30-event minimum),
+  `ema_stretch_fade[k=3]` r90 +0.46% (t 2.07, n 22), `expansion_fade[k=3]` r180 +0.26%
+  (t 1.81).
+- **INTERESTING** (all 1h long, net-negative or flat over the contemporary window, 7
+  singleton clusters, pairwise overlap 7–23%): paths are symmetric — median MFE +0.7–1.25%,
+  MAE −0.7–1.5%, favourable-first 44–52% — so no stop/target research is indicated. Two
+  contemporary stress episodes (2024-11-12…19, 2026-02-06…19) hold 0–55 events per variant
+  and explain nothing.
+- **Hyperliquid replication** (2026-08-15 → 10-01): median gross −0.01% vs 0.18% cost; long
+  mean net +0.02%, short −0.49%; no candidate to replicate.
+
+### 14.4 Real opportunity rate
+
+Deduplicated by (coin, side, 4 h) as §11 specifies; contemporary window, per calendar day.
+
+| set | raw/day | independent/day | long / short | median | days 0 / ≥1 / ≥3 / ≥5 / ≥10 |
+|---|---|---|---|---|---|
+| shortlist | 0 | 0 | 0 / 0 | 0 | 100% / 0 / 0 / 0 / 0 |
+| INTERESTING representatives (not eligible) | 6.0 | 4.8 | 4.8 / 0 | 4 | 4% / 96% / 77% / 49% / 6% |
+| whole catalogue (ceiling) | 360 | 43.4 | 21.6 / 21.8 | 43 | 0% / 100% / 100% / 100% / 100% |
+
+The ≈ 5/day exploratory reference is unmet (0/day). The bottleneck is edge, not throughput:
+the catalogue fires at 8.7× the reference, but no rule clears costs.
+
+### 14.5 Disclosed observations (not changed)
+
+- The INTERESTING rule has no minimum-event requirement (`ema_stretch_fade[k=4]` is
+  INTERESTING on 7 recent-180 events) and considers contemporary/recent-180/recent-90 but not
+  recent-30, while the candidate routes include recent-30. Neither affects candidate status;
+  any change would be a new verdict version, never a retune of this run.
+
 ## 15. Phase 21 compatibility and prospective eligibility
 
-The shortlist is **eligible, not active**. The Phase 21 prospective runner is daily-only
+The shortlist is **eligible, not active** (and the real shortlist is empty, §14). The Phase 21 prospective runner is daily-only
 (compiler strategies, daily bars, 10-bar horizon), so intraday candidates cannot be added to
 it — and must not be: the Phase 21 freeze is immutable. Safe procedure for a later phase:
 
@@ -318,8 +409,9 @@ append-only `lab_structure_*` and dataset tables via the Phase 17 adapter.
 
 ## 17. Limitations
 
-- **No real-data discovery result yet** (§14); family results, the real shortlist, real
-  opportunity rates and the BALANCED/AGGRESSIVE replay on real candidates are pending.
+- The real run (§14) is a single preregistered look on one discovery venue over 23 months;
+  a null here is a null for *this* catalogue, cost model and horizon set, not for intraday
+  trading in general.
 - Assumed-latency backfilled availability; 15m execution grid limits the evaluable span to
   23 months; long context uses a coarser 1h grid.
 - Synthetic calibration uses one market model; ~2 seeds per planted scenario.
@@ -329,8 +421,10 @@ append-only `lab_structure_*` and dataset tables via the Phase 17 adapter.
 
 ## 18. Next recommended phase
 
-First complete Phase 22 itself: execute the frozen study on a production data copy (§14) —
-no code or threshold changes. Then **Phase 23 — intraday shadow incubation of the Phase 22
-shortlist**: a new, versioned intraday incubation runner and a separate prospective freeze
-for the shortlist (Phase 21 untouched), collecting shadow outcomes with no threshold changes.
-Not begun.
+Phase 22 is closed as a **null result** (§14): the shortlist is empty, so the planned
+Phase 23 — intraday shadow incubation of the shortlist (§15) — has nothing to incubate and is
+**not recommended** on this catalogue. The Phase 21 freeze keeps collecting unchanged. Any
+later intraday work should be a new, separately preregistered study (never a retune of
+`intraday_catalogue_v1` or `phase22_verdicts_v1` after these outcomes); the only robust real
+effects seen here are non-directional (range-expansion and volume-spike states precede larger
+moves). Not begun.

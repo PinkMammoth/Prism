@@ -1,0 +1,81 @@
+# Scheduled macro calendar (Phase 23). Two sources, both official:
+#
+# 1. fred_releases: release DATES come live from the FRED release calendar
+#    (GET /fred/release/dates, include_release_dates_with_no_data=true serves future dates).
+#    The time of day is the agency's standing release time (local, with timezone). Actual
+#    values come from ALFRED vintages (first print as of the release date, never revised
+#    values). Consensus has no free official source: import it (`market context import`).
+# 2. central_banks: meeting schedules published by each central bank, copied verbatim and
+#    dated. The decision day is the LAST day of a multi-day meeting. Re-verify yearly.
+#
+# importance: 1 = tier-1 (used for "next tier-1 catalyst"), 2, 3.
+version: macro_calendar_v1
+fred_releases:
+  - {release_id: 10, name: "Consumer Price Index", time: "08:30", tz: America/New_York,
+     events: [{subcategory: us_cpi, series_key: us_cpi_mom, fred_series: CPIAUCSL, transform: pct_change, unit: pct_mom, importance: 1},
+              {subcategory: us_core_cpi, series_key: us_core_cpi_mom, fred_series: CPILFESL, transform: pct_change, unit: pct_mom, importance: 1}]}
+  - {release_id: 50, name: "Employment Situation", time: "08:30", tz: America/New_York,
+     events: [{subcategory: us_nfp, series_key: us_nfp_change, fred_series: PAYEMS, transform: diff, unit: k_jobs, importance: 1},
+              {subcategory: us_unemployment, series_key: us_unrate, fred_series: UNRATE, transform: level, unit: pct, importance: 2}]}
+  - {release_id: 54, name: "Personal Income and Outlays", time: "08:30", tz: America/New_York,
+     events: [{subcategory: us_pce, series_key: us_pce_mom, fred_series: PCEPI, transform: pct_change, unit: pct_mom, importance: 1},
+              {subcategory: us_core_pce, series_key: us_core_pce_mom, fred_series: PCEPILFE, transform: pct_change, unit: pct_mom, importance: 1}]}
+  - {release_id: 53, name: "Gross Domestic Product", time: "08:30", tz: America/New_York,
+     events: [{subcategory: us_gdp, series_key: us_gdp_qoq_saar, fred_series: A191RL1Q225SBEA, transform: level, unit: pct_saar, importance: 2}]}
+  - {release_id: 46, name: "Producer Price Index", time: "08:30", tz: America/New_York,
+     events: [{subcategory: us_ppi, series_key: us_ppi_mom, fred_series: PPIFIS, transform: pct_change, unit: pct_mom, importance: 2}]}
+  - {release_id: 9, name: "Advance Monthly Retail Sales", time: "08:30", tz: America/New_York,
+     events: [{subcategory: us_retail_sales, series_key: us_retail_mom, fred_series: RSAFS, transform: pct_change, unit: pct_mom, importance: 2}]}
+
+central_banks:
+  fomc:
+    subcategory: fomc_decision
+    series_key: fed_funds_upper
+    time: "14:00"
+    tz: America/New_York
+    time_precision: exact
+    country: US
+    markets: [USD, rates]
+    source: "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm"
+    verified: "2026-10-06"
+    decision_dates: [2026-01-28, 2026-03-18, 2026-04-29, 2026-06-17, 2026-07-29, 2026-09-16,
+                     2026-10-28, 2026-12-09, 2027-01-27, 2027-03-17, 2027-04-28, 2027-06-09,
+                     2027-07-28, 2027-09-15, 2027-10-27, 2027-12-08]
+  boj:
+    subcategory: boj_decision
+    series_key: boj_policy_rate
+    time: "12:00"                 # no fixed announcement time; typically around midday JST
+    tz: Asia/Tokyo
+    time_precision: approximate
+    country: JP
+    markets: [JPY, rates]
+    source: "https://www.boj.or.jp/en/mopo/mpmsche_minu/index.htm"
+    verified: "2026-10-06"
+    decision_dates: [2026-01-23, 2026-03-19, 2026-04-28, 2026-06-16, 2026-07-31, 2026-09-18,
+                     2026-10-30, 2026-12-18, 2027-01-22, 2027-03-18, 2027-04-28, 2027-06-11,
+                     2027-07-22, 2027-09-22, 2027-10-29, 2027-12-17]
+  ecb:
+    subcategory: ecb_decision
+    series_key: ecb_deposit_rate
+    time: "14:15"
+    tz: Europe/Berlin
+    time_precision: exact
+    region: EU
+    markets: [EUR, rates]
+    source: "https://www.ecb.europa.eu/press/calendars/mgcgc/html/index.en.html"
+    verified: "2026-10-06"
+    decision_dates: [2026-10-29, 2026-12-17, 2027-02-04, 2027-03-18, 2027-04-29, 2027-06-10,
+                     2027-07-22, 2027-09-09, 2027-10-28, 2027-12-16]
+  boe:
+    subcategory: boe_decision
+    series_key: boe_bank_rate
+    time: "12:00"
+    tz: Europe/London
+    time_precision: exact
+    country: GB
+    markets: [GBP, rates]
+    source: "https://www.bankofengland.co.uk/monetary-policy/upcoming-mpc-dates"
+    verified: "2026-10-06"
+    decision_dates: [2026-02-05, 2026-03-19, 2026-04-30, 2026-06-18, 2026-07-30, 2026-09-17,
+                     2026-11-05, 2026-12-17, 2027-02-04, 2027-03-18, 2027-04-29, 2027-06-17,
+                     2027-07-29, 2027-09-16, 2027-11-04, 2027-12-16]

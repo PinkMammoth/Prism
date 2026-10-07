@@ -20,6 +20,10 @@ series:
     lag_days: 2
     purpose: "broad trade-weighted USD (regime, gold, oil)"
     caveat: "FX rates are market prices, but index trade weights are revised annually and the series was introduced in 2019; pre-2019 levels are a reconstruction. Used only for trend sign, not level."
+  # Phase 23 context layer (market-wide context only; daily, next-day availability)
+  DEXJPUS:      {provider: fred, pit_policy: market_close, lag_days: 2, purpose: "USDJPY noon NY rate (BOJ/JPY context)"}
+  SP500:        {provider: fred, pit_policy: market_close, lag_days: 2, purpose: "S&P 500 close (risk context; FRED keeps 10y only)"}
+  DCOILWTICO:   {provider: fred, pit_policy: market_close, lag_days: 3, purpose: "WTI spot (risk/inflation context; posted with a lag)"}
   BAMLH0A0HYM2: {provider: fred, pit_policy: display_only, lag_days: 2, purpose: "HY OAS (display only: FRED serves 3y history since 2026)"}
   NFCI:         {provider: fred, pit_policy: vintage, purpose: "Chicago Fed financial conditions (weekly, revised)"}
   CPIAUCSL:     {provider: fred, pit_policy: vintage, purpose: "CPI (monthly, revised)"}
