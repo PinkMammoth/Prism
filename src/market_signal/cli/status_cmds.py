@@ -60,6 +60,7 @@ def system_status(store, settings, now=None) -> list[dict]:
 
     rows.extend(intraday_rows(store, settings, now))
     rows.extend(context_rows(store, settings, now))
+    rows.extend(microstructure_rows(store, now))
 
     last = _one(store, "SELECT max(finished_at) FROM lab_forward_runs WHERE kind='check'")
     active = _one(store, "SELECT count(*) FROM lab_forward_trackings t WHERE (SELECT status FROM "
@@ -134,6 +135,24 @@ def context_rows(store, settings, now) -> list[dict]:
         return [{"component": "Context", "state": state, "detail": detail}]
     except Exception as exc:
         return [{"component": "Context", "state": "ATTENTION", "detail": f"unavailable: {exc}"}]
+
+
+def microstructure_rows(store, now) -> list[dict]:
+    """Phase 24A collector row, present only once the capability is deployed (a collector
+    status file or stored minutes exist). Healthy/stale, latest minute, assets, gaps."""
+    try:
+        store.con.execute("SELECT 1 FROM microstructure_minutes LIMIT 1")
+    except Exception:
+        return []
+    try:
+        from market_signal.microstructure.health import status_row
+        from market_signal.microstructure.spool import Spool, default_root
+
+        return status_row(store, Spool(default_root(store.path)), now.to_pydatetime())
+    except Exception as exc:
+        return [
+            {"component": "Microstructure", "state": "ATTENTION", "detail": f"unavailable: {exc}"}
+        ]
 
 
 def intraday_rows(store, settings, now) -> list[dict]:

@@ -853,5 +853,14 @@ def _discovery() -> None:
 _discovery()
 
 
+def _microdir() -> None:
+    from market_signal.cli.microdir_cmds import microdir
+
+    lab.add_typer(microdir, name="microstructure")
+
+
+_microdir()
+
+
 def register(app: typer.Typer) -> None:
     app.add_typer(lab, name="lab")

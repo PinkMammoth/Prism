@@ -357,7 +357,7 @@ Hyperliquid (the execution venue), checked live:
 | large prints, trade-flow imbalance, CVD | derived from WS trades | yes with a WS collector |
 | taker buy/sell ratio | Binance `takerlongshortRatio` (~30 d) | **implemented** (hourly) |
 
-**Recommended next (not built):** a small always-on Hyperliquid WS collector for the six
+**Built in Phase 24A** (docs/MICROSTRUCTURE_COLLECTION.md). Original recommendation: a small always-on Hyperliquid WS collector for the six
 perps. It would store 1-minute aggregates (aggressor-signed volume, large-print counts, CVD)
 and top-5 bbo/depth snapshots every 10–60 s, not raw ticks. The current runtime is cron-style
 (one-shot jobs) and cannot hold a WebSocket open, which is why this is a separate step.

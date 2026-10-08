@@ -392,8 +392,12 @@ def test_retention_keeps_the_newest_and_never_touches_the_live_db(tmp_path):
     removed = rt.prune_backups(root)
     assert len(list((root / "daily").glob("prism-*"))) == rt.BACKUP_KEEP["daily"]
     assert len(list((root / "weekly").glob("prism-*"))) == rt.BACKUP_KEEP["weekly"]
-    assert len(list((root / "manual").glob("prism-*"))) == 3
-    assert sorted((root / "daily").glob("prism-*"))[0].name == "prism-20260113T000000Z.duckdb"
+    assert len(list((root / "manual").glob("prism-*"))) == min(3, rt.BACKUP_KEEP["manual"])
+    first_kept = 10 + 10 - rt.BACKUP_KEEP["daily"]  # the newest BACKUP_KEEP["daily"] of 10
+    assert (
+        sorted((root / "daily").glob("prism-*"))[0].name
+        == f"prism-202601{first_kept}T000000Z.duckdb"
+    )
     assert live.exists() and all(Path(r).name != "prism.duckdb" for r in removed)
 
 

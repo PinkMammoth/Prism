@@ -740,6 +740,7 @@ dependencies = [
     { name = "rich" },
     { name = "streamlit" },
     { name = "typer" },
+    { name = "websockets" },
 ]
 
 [package.dev-dependencies]
@@ -763,6 +764,7 @@ requires-dist = [
     { name = "rich", specifier = ">=13.7" },
     { name = "streamlit", specifier = ">=1.38" },
     { name = "typer", specifier = ">=0.12" },
+    { name = "websockets", specifier = ">=13" },
 ]
 
 [package.metadata.requires-dev]

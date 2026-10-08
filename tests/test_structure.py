@@ -6,6 +6,7 @@ Fixtures are hand-built and small enough to audit by eye. A flat base of 20 bars
 
 from __future__ import annotations
 
+import re
 from pathlib import Path
 
 import numpy as np
@@ -734,6 +735,8 @@ def test_live_consumers_never_use_structural_primitives():
             assert banned not in text, (f, banned)
     from market_signal.ops import runtime as rt
 
-    assert not any(
-        "structure" in " ".join(map(str, args)) for job in rt.JOBS.values() for _, args in job
+    assert not any(  # word match: Phase 24A's `microstructure` job is unrelated market data
+        re.search(r"\bstructure\b", " ".join(map(str, args)))
+        for job in rt.JOBS.values()
+        for _, args in job
     )
