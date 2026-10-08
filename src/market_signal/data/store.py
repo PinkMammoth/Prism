@@ -1364,6 +1364,51 @@ MIGRATIONS: list[str] = [
         updated_at TIMESTAMPTZ NOT NULL
     );
     """,
+    # 24 — Phase 24B prospective, sequentially evaluated research studies
+    # (docs/MICROSTRUCTURE_DIRECTION_STUDY.md). The Phase 17 ``lab_structure_*`` tables pin
+    # availability_mode='assumed' and one evaluation per study; a prospective study on
+    # observed receipt-time data is frozen once and then evaluated at fixed checkpoints
+    # (as_of times on a calendar grid). Append-only: every checkpoint and its one terminal
+    # result are kept, including those whose verdict later reversed (no optional stopping).
+    # No consumer reads these tables, and no field can mark a study validated or live.
+    """
+    CREATE TABLE IF NOT EXISTS lab_prospective_studies (
+        study_id VARCHAR PRIMARY KEY,
+        name VARCHAR NOT NULL UNIQUE,
+        study_version VARCHAR NOT NULL,
+        evidence_class VARCHAR NOT NULL CHECK (evidence_class = 'PROSPECTIVE_EXPLORATORY'),
+        availability_mode VARCHAR NOT NULL CHECK (availability_mode = 'observed'),
+        registered_at TIMESTAMPTZ NOT NULL,
+        reason VARCHAR NOT NULL,
+        origin VARCHAR NOT NULL,
+        software_id VARCHAR NOT NULL REFERENCES lab_software(software_id),
+        definition JSON NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS lab_prospective_checkpoints (
+        checkpoint_id VARCHAR PRIMARY KEY,
+        study_id VARCHAR NOT NULL REFERENCES lab_prospective_studies(study_id),
+        seq INTEGER NOT NULL CHECK (seq > 0),
+        cadence VARCHAR NOT NULL CHECK (cadence IN ('daily', 'weekly')),
+        as_of TIMESTAMPTZ NOT NULL,
+        started_at TIMESTAMPTZ NOT NULL,
+        software_id VARCHAR NOT NULL REFERENCES lab_software(software_id),
+        reproduces VARCHAR REFERENCES lab_prospective_checkpoints(checkpoint_id),
+        reason VARCHAR,
+        UNIQUE (study_id, seq),
+        CHECK ((reproduces IS NULL) = (reason IS NULL)),
+        CHECK (as_of <= started_at)
+    );
+    CREATE TABLE IF NOT EXISTS lab_prospective_results (
+        result_id VARCHAR PRIMARY KEY,
+        checkpoint_id VARCHAR NOT NULL UNIQUE REFERENCES lab_prospective_checkpoints(checkpoint_id),
+        completed_at TIMESTAMPTZ NOT NULL,
+        status VARCHAR NOT NULL CHECK (status IN ('COMPLETED', 'FAILED')),
+        result_digest VARCHAR,
+        payload JSON NOT NULL,
+        meta JSON NOT NULL,
+        CHECK ((status = 'COMPLETED') = (result_digest IS NOT NULL))
+    );
+    """,
 ]
 
 ROLE_ENV, RUNTIME_ID_ENV = "PRISM_RUNTIME_ROLE", "PRISM_RUNTIME_ID"
