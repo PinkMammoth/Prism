@@ -262,6 +262,21 @@ market lab microstructure checkpoint --cadence weekly    # every owed Monday 00:
 market lab microstructure history --json                 # every checkpoint, each member's path
 ```
 
+* **Scheduled on the runtime** (no SSH needed): the existing supercronic jobs
+  `microdir_daily` (01:10 UTC) and `microdir_weekly` (Monday 01:20 UTC) run the two
+  `checkpoint` commands above through `market ops cycle`. They therefore use the runtime lock,
+  the authoritative-writer check, cycle records and the infra alerts. The run time never
+  defines a checkpoint: each run evaluates every **owed** grid instant (`as_of` 00:00 UTC, or
+  Monday 00:00 UTC) and does nothing when none is owed. A duplicate or manual run is
+  therefore harmless, and downtime is caught up in order by the next run. The two jobs
+  queue behind each other on the lock (`--wait 3600`). A daily failure alerts only when the
+  next day's run fails too; a weekly failure alerts at once. `status --json` has a
+  `schedule` section: last success, owed and next instants, the overdue count (owed for
+  more than 3 h) and the latest failure.
+* **A FAILED or interrupted checkpoint is kept, and its instant stays owed** until a
+  COMPLETED checkpoint exists for that same `as_of`. The next run retries that fixed
+  instant first; later instants wait behind it, and the command exits 1, so the runtime
+  cycle is recorded as failed. Nothing is re-dated or skipped.
 * Checkpoints sit on a fixed UTC grid, starting at the first grid instant after
   registration. They are evaluated **in order without skipping**; missed ones are caught up
   in order.

@@ -79,6 +79,16 @@ JOBS: dict[str, list[tuple[str, list[str]]]] = {
         ("ingest", ["microstructure", "ingest"]),
         ("health", ["microstructure", "health", "--check"]),
     ],
+    # Phase 24B: checkpoints of the frozen prospective study (research records only; nothing
+    # reads them). The command evaluates every OWED grid instant in order (daily: 00:00 UTC,
+    # weekly: Monday 00:00 UTC) and is a no-op when none is owed, so the run time never
+    # defines a checkpoint, a duplicate run does nothing, and downtime is caught up.
+    "microdir_daily": [
+        ("checkpoint", ["lab", "microstructure", "checkpoint", "--cadence", "daily"])
+    ],
+    "microdir_weekly": [
+        ("checkpoint", ["lab", "microstructure", "checkpoint", "--cadence", "weekly"])
+    ],
 }
 
 # UTC. Daily bars close at 00:00 UTC and Hyperliquid serves the closed candle and the settled
@@ -100,14 +110,22 @@ SCHEDULE: dict[str, list[str]] = {
     # Fixed-hour Hyperliquid OI capture (one per coin per UTC hour) + Binance ratio top-up.
     "positioning": ["*:04"],
     "microstructure": ["*:06", "*:21", "*:36", "*:51"],  # spool -> DB every 15 min
+    # "Dow HH:MM" = weekly. After the 00:00 grid instant has settled (>= 1 h); 10 minutes apart
+    # so the two rarely queue behind each other, and before the 01:30 backup.
+    "microdir_daily": ["01:10"],
+    "microdir_weekly": ["Mon 01:20"],
 }
+DOW = {"Mon": 1, "Tue": 2, "Wed": 3, "Thu": 4, "Fri": 5, "Sat": 6, "Sun": 0}  # cron day-of-week
 SCHEDULED_WAIT = 3600  # a scheduled job queues behind a running one for up to this long
 # a late intraday run is pointless (the next is 15 minutes away); a positioning capture must land
 # inside its own UTC hour, so it never queues past :54
 JOB_WAIT = {"intraday": 600, "context_news": 900, "positioning": 1500, "microstructure": 600}
 # alert on the first failure after a success only (no 15-minute/hourly spam); persistent
 # provider failure also shows as FAILING in `market context providers` / `market status`
-QUIET_JOBS = {"intraday", "context_news", "positioning", "microstructure"}
+QUIET_JOBS = {"intraday", "context_news", "positioning", "microstructure", "microdir_weekly"}
+# alert only once a failure streak reaches this length (one alert per streak): a single
+# transient daily-checkpoint failure is retried by the next day's run without a message
+ALERT_STREAK = {"microdir_daily": 2}
 STEP_TIMEOUT = float(os.environ.get("PRISM_STEP_TIMEOUT", str(45 * 60)))
 
 DISK_WARN, DISK_CRITICAL = 0.15, 0.05  # free fraction of the database filesystem
@@ -419,12 +437,33 @@ def run_job(job: str, *, trigger: str, wait: float,
              " ".join(f"{st['step']}={st['exit']}" for st in steps))  # fmt: skip
     if job == "prospective":
         heartbeat(ok)
-    if not ok and (job not in QUIET_JOBS or _previous_ok(db, job, cycle_id)):
+    if not ok and _should_alert(db, job, cycle_id):
         infra_alert(f"{job} cycle FAILED on {runtime_id()} ({trigger}): "
                     + ", ".join(f"{st['step']}={st['exit']}" for st in steps)
                     + ". Steps are idempotent; the next scheduled run retries.")  # fmt: skip
     return {"job": job, "cycle_id": cycle_id, "status": status,
             "exit": 0 if ok else EXIT_FAILED, **summary}  # fmt: skip
+
+
+def _should_alert(db: Path, job: str, cycle_id: str) -> bool:
+    """Every failure for ordinary jobs; the first of a streak for quiet jobs; exactly the
+    ``ALERT_STREAK``-th consecutive failure for streak jobs (one alert per streak)."""
+    if job in ALERT_STREAK:
+        return _failure_streak(db, job) == ALERT_STREAK[job]
+    return job not in QUIET_JOBS or _previous_ok(db, job, cycle_id)
+
+
+def _failure_streak(db: Path, job: str) -> int:
+    """Consecutive failed finished cycles of ``job``, newest first (including the current)."""
+    with _store(db) as s:
+        rows = s.con.execute("SELECT status FROM runtime_cycles WHERE job=? AND finished_at IS "
+                             "NOT NULL ORDER BY started_at DESC LIMIT 50", [job]).fetchall()  # fmt: skip
+    n = 0
+    for (status,) in rows:
+        if status != "failed":
+            break
+        n += 1
+    return n
 
 
 def _previous_ok(db: Path, job: str, cycle_id: str) -> bool:
@@ -452,23 +491,38 @@ def crontab(executable: str = "market") -> str:
     ]
     for job, times in SCHEDULE.items():
         for t in times:
-            h, m = t.split(":")
-            lines.append(f"{int(m)} {'*' if h == '*' else int(h)} * * * {executable} ops cycle {job} "
+            dow, h, m = _parse(t)
+            lines.append(f"{m} {'*' if h is None else h} * * {'*' if dow is None else DOW[dow]} "
+                         f"{executable} ops cycle {job} "
                          f"--trigger schedule --wait {JOB_WAIT.get(job, SCHEDULED_WAIT)}")  # fmt: skip
     return "\n".join(lines) + "\n"
+
+
+def _parse(t: str) -> tuple[str | None, int | None, int]:
+    """ "HH:MM" daily, "*:MM" hourly, "Dow HH:MM" weekly -> (dow, hour or None, minute)."""
+    dow, _, hm = t.rpartition(" ")
+    if dow and dow not in DOW:
+        raise ValueError(f"bad schedule entry {t!r}")
+    hh, mm = hm.split(":")
+    return dow or None, None if hh == "*" else int(hh), int(mm)
 
 
 def next_run(job: str, now: datetime) -> datetime:
     now = now.astimezone(utcnow().tzinfo)
     cands = []
     for t in SCHEDULE[job]:
-        hh, mm = t.split(":")
-        if hh == "*":  # hourly at :MM
-            c = now.replace(minute=int(mm), second=0, microsecond=0)
+        dow, hh, mm = _parse(t)
+        if hh is None:  # hourly at :MM
+            c = now.replace(minute=mm, second=0, microsecond=0)
             cands.append(c if c > now else c + timedelta(hours=1))
             continue
-        c = now.replace(hour=int(hh), minute=int(mm), second=0, microsecond=0)
-        cands.append(c if c > now else c + timedelta(days=1))
+        c = now.replace(hour=hh, minute=mm, second=0, microsecond=0)
+        if dow is None:
+            cands.append(c if c > now else c + timedelta(days=1))
+            continue
+        target = (DOW[dow] - 1) % 7  # python weekday: Monday = 0
+        c += timedelta(days=(target - c.weekday()) % 7)
+        cands.append(c if c > now else c + timedelta(days=7))
     return min(cands)
 
 

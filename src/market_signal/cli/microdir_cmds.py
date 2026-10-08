@@ -121,7 +121,32 @@ def status_cmd(as_json: bool = JSON) -> None:
                                             "verdicts": (p.get("summary") or {}).get("verdicts")}  # fmt: skip
             out["due"] = {c: [t.isoformat() for t in gv.due(store, row["study_id"], c)]
                           for c in gv.CADENCES}  # fmt: skip
+            out["schedule"] = _schedule(store, row["study_id"])
     _out(out, as_json)
+
+
+def _schedule(store, study_id: str) -> dict:
+    """Checkpoint schedule health: grid state per cadence + the runtime jobs that drive it."""
+    from contextlib import suppress
+
+    from market_signal.models.domain import utcnow
+    from market_signal.ops import runtime as rt
+    from market_signal.research.microdir import governance as gv
+
+    now = utcnow()
+    st = gv.schedule_state(store, study_id, now)
+    for cad, job in (("daily", "microdir_daily"), ("weekly", "microdir_weekly")):
+        last = None
+        with suppress(Exception):
+            r = store.con.execute("SELECT status, started_at, finished_at, trigger FROM "
+                                  "runtime_cycles WHERE job=? ORDER BY started_at DESC LIMIT 1",
+                                  [job]).fetchone()  # fmt: skip
+            if r:
+                last = {"status": r[0], "started_at": r[1], "finished_at": r[2], "trigger": r[3]}
+        st[cad]["runtime_job"] = {"job": job, "schedule_utc": rt.SCHEDULE[job],
+                                  "next_run": rt.next_run(job, now), "last_cycle": last}  # fmt: skip
+    st["overdue_total"] = st["daily"]["overdue"] + st["weekly"]["overdue"]
+    return st
 
 
 @microdir.command("definition")
@@ -200,6 +225,13 @@ def checkpoint_cmd(
                               f"maturity={(p.get('maturity') or {}).get('study_level')} "
                               f"verdicts={(p.get('summary') or {}).get('verdicts')} "
                               f"digest={r['result_digest']}")  # fmt: skip
+                if r["status"] != "COMPLETED":
+                    # recorded; the instant stays owed and later ones wait behind it (in order)
+                    err = p.get("error") or {}
+                    console.print(f"checkpoint FAILED ({err.get('kind')}: "
+                                  f"{(err.get('message') or '')[:300]}); retried next run",
+                                  style="red", markup=False)  # fmt: skip
+                    raise typer.Exit(1)
         except (gv.MicroStudyError, StopIteration) as exc:
             _fail(exc)
 

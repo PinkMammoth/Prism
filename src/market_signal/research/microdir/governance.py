@@ -119,11 +119,16 @@ def checkpoints(store: Store, study_id: str) -> list[dict]:
 
 
 def due(store: Store, study_id: str, cadence: str, now=None) -> list[pd.Timestamp]:
-    """Grid instants owed (in order) for ``cadence`` up to ``now - SETTLE``."""
+    """Grid instants owed (in order) for ``cadence`` up to ``now - SETTLE``.
+
+    An instant is settled only by a COMPLETED checkpoint: a FAILED (or interrupted, result-
+    less) one stays recorded and its instant stays owed, so the next run retries that same
+    fixed ``as_of`` before any later one (never skipped, never re-dated)."""
     _, row = get_study(store, study_id)
     now = _ts(now or utcnow())
     done = [c["as_of"] for c in checkpoints(store, study_id)
-            if c["cadence"] == cadence and c["reproduces"] is None]  # fmt: skip
+            if c["cadence"] == cadence and c["reproduces"] is None
+            and c["status"] == "COMPLETED"]  # fmt: skip
     nxt = grid_after(max(done) if done else _ts(row["registered_at"]), cadence)
     out = []
     while nxt <= now - SETTLE:
@@ -271,3 +276,49 @@ def history(store: Store, study_id: str) -> dict:
         members[k] = {"path": p, "best": best, "current": cur,
                       "fell_back": RANK.get(cur["verdict"], -1) < RANK.get(best["verdict"], -1)}  # fmt: skip
     return {"study_id": study_id, "checkpoints": rows, "members": members}
+
+
+OVERDUE_AFTER = pd.Timedelta(hours=3)  # the 01:10/01:20 UTC schedule plus generous slack
+
+
+def schedule_state(store: Store, study_id: str, now=None) -> dict:
+    """Per cadence: last success, owed instants, the next instant, overdue count and the latest
+    failure (``resolved`` once its instant later COMPLETED). Read-only."""
+    _, row = get_study(store, study_id)
+    now = _ts(now or utcnow())
+    cps = [c for c in checkpoints(store, study_id) if c["reproduces"] is None]
+    out = {}
+    for cad in CADENCES:
+        mine = [c for c in cps if c["cadence"] == cad]
+        ok = [c for c in mine if c["status"] == "COMPLETED"]
+        owed = due(store, study_id, cad, now)
+        last_ok = max(ok, key=lambda c: c["as_of"]) if ok else None
+        anchors = [last_ok["as_of"], *owed] if last_ok else owed
+        nxt = grid_after(max(anchors) if anchors else _ts(row["registered_at"]), cad)
+        fails = [c for c in mine if c["status"] != "COMPLETED"]
+        last_fail = max(fails, key=lambda c: c["seq"]) if fails else None
+        fail = None
+        if last_fail is not None:
+            err = None
+            if last_fail["status"] == "FAILED":
+                err = result(store, last_fail["checkpoint_id"])["payload"].get("error") or {}
+                err = {"kind": err.get("kind"), "message": (err.get("message") or "")[:300]}
+            fail = {"checkpoint_id": last_fail["checkpoint_id"],
+                    "as_of": last_fail["as_of"].isoformat(),
+                    "status": last_fail["status"] or "INTERRUPTED (no result)",
+                    "started_at": _ts(last_fail["started_at"]).isoformat(), "error": err,
+                    "resolved": any(c["as_of"] == last_fail["as_of"] for c in ok)}  # fmt: skip
+        out[cad] = {
+            "last_success": None if last_ok is None else {
+                "as_of": last_ok["as_of"].isoformat(),
+                "completed_at": _ts(last_ok["completed_at"]).isoformat(),
+                "checkpoint_id": last_ok["checkpoint_id"]},
+            "owed": [t.isoformat() for t in owed],
+            "next_owed_as_of": owed[0].isoformat() if owed else None,
+            "last_owed_as_of": owed[-1].isoformat() if owed else None,
+            "next_grid_as_of": nxt.isoformat(),
+            "next_eligible_at": (nxt + SETTLE).isoformat(),
+            "overdue": sum(1 for t in owed if t + OVERDUE_AFTER < now),
+            "latest_failure": fail,
+        }  # fmt: skip
+    return out
