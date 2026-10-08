@@ -83,6 +83,8 @@ and history are not left to it. They live in Prism (below).
 | `daily` | 09:00 | `update` → `scan` (the old 10:00 UK "Prism daily" task) |
 | `intraday` | every hour at :01, :16, :31, :46 (`--wait 600`) | `bars update` (Hyperliquid 15m/1h/4h; 1h/4h only once a new bar has closed) → `bars shadow --record` (Phase 15; data and observational timing only, docs/INTRADAY.md) |
 | `microstructure` | every hour at :06, :21, :36, :51 (`--wait 600`, quiet alerts) | `microstructure ingest` (collector spool → DB, idempotent) → `microstructure health --check` (Phase 24A; data only) |
+| `microdir_daily` | 01:10 | `lab microstructure checkpoint --cadence daily`: every owed 00:00 UTC checkpoint of the frozen Phase 24B study, in order (a no-op when none is owed); alerts only on the 2nd consecutive failure |
+| `microdir_weekly` | Monday 01:20 | `lab microstructure checkpoint --cadence weekly`: every owed Monday 00:00 UTC governed checkpoint, in order; quiet alerts (first failure of a streak) |
 | boot | 60 s after every container start | one `prospective` cycle (catch-up after restart, reboot or deploy) |
 
 **Provider timing (checked 2026-10-04).** Hyperliquid's daily candle closes at 23:59:59.999 UTC
