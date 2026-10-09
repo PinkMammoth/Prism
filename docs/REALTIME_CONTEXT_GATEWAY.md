@@ -1,8 +1,11 @@
 # Phase 26A — real-time Context Gateway
 
 Implemented from `main` **4de48bd** (Paper v2 cutover serialization fix merged).
-Gateway activation defaults **off**. No public domain, credentials, production event,
-paper hypothesis, admission rule, or production deployment was changed by this work.
+Gateway activation defaults **off**. The implementation initially changed no public
+domain, credentials, production event, paper hypothesis, admission rule, or deployment.
+Production activation on 2026-10-09 is recorded separately in
+[`REALTIME_CONTEXT_GATEWAY_ACTIVATION.md`](REALTIME_CONTEXT_GATEWAY_ACTIVATION.md),
+including the remaining personal Work installation boundary.
 
 External AI discovery is treated as an information source, never an execution authority.
 
@@ -462,7 +465,8 @@ HTTP client timeout. The table reports the successful final rerun after that ful
 finished. Host I/O contention can exceed the target; production lock/I/O load and bounded
 identical retries must be measured before claiming a deployment SLA.
 
-No new infrastructure was activated, so actual incremental billed cost so far is **$0**.
+At implementation completion, no new infrastructure had been activated and incremental
+billed cost was **$0**. See the activation record for subsequent production measurements.
 Projected activated cost, using [Railway resource rates](https://docs.railway.com/pricing/plans):
 351 MiB combined measured resident memory ≈ **$3.68/month** at $10/GB monthly RAM (decimal GB);
 allow 0.01–0.03 average vCPU ≈ **$0.20–$0.60/month** (CPU usage is a planning assumption,
