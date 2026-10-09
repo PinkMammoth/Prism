@@ -5,7 +5,7 @@ Gateway activation defaults **off**. The implementation initially changed no pub
 domain, credentials, production event, paper hypothesis, admission rule, or deployment.
 Production activation on 2026-10-09 is recorded separately in
 [`REALTIME_CONTEXT_GATEWAY_ACTIVATION.md`](REALTIME_CONTEXT_GATEWAY_ACTIVATION.md),
-including the remaining personal Work installation boundary.
+including the completed OAuth/Work connection and measured genuine Work submissions.
 
 External AI discovery is treated as an information source, never an execution authority.
 
@@ -118,6 +118,9 @@ The example is illustrative and timestamp-bound: **never send it as live news**.
 It becomes `reported_first_seen_at`, never authoritative context `first_seen_at`.
 Sender identity is `auth_identity`, derived from the verified connection; version is
 `sender_version`. Publisher identity and provider identity remain separate.
+`submission_id`, `external_event_id` and `sender_version` are 1–128 characters matching
+`^[A-Za-z0-9_.:-]{1,128}$`. A GitHub path containing `/` is not a valid identifier; use
+e.g. `geth-release-407043450` and place the complete source path in `item.url`.
 `external_event_id`, factual claims, provenance and corroborating URLs are retained in
 the immutable receipt. Main source URL, source-reported summary, generic scalar facts,
 country and region enter the context observation. Extra claims/URLs do not automatically

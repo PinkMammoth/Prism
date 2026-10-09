@@ -1,60 +1,49 @@
 # Phase 26A production activation — 2026-10-09
 
-## State and remaining boundary
+## Completed production activation
 
 The HTTPS gateway and five-second authoritative worker are active in the existing
-`prism-runtime` Railway production service. Durable REST transport, context ingestion,
-snapshot knowledge time, corroboration and targeted crash recovery are verified.
-Auth0 OAuth is now configured, restricted to the verified Google account and the
-predefined Prism client. Public authenticated MCP `initialize` and `tools/list` both
-returned 200 and exposed exactly one write tool, `submit_market_event` (idempotent,
-non-destructive). Missing/invalid OAuth and the valid REST service credential returned
-401 on `/mcp`. **No Work-origin production call has occurred.** Only the personal
-ChatGPT Work plugin installation remains interactive.
+`prism-runtime` Railway production service. Durable transport, context ingestion,
+snapshot knowledge time, corroboration, targeted crash recovery, full Railway restart,
+public OAuth MCP discovery and **genuine personal Work-origin submissions are verified**.
+No manual activation action remains. Phase 26B was not started.
 
-The account owner created an Auth0 tenant and approved Auth0 CLI access. Sol created the
+Auth0 OAuth is restricted to the verified Google account and the predefined Prism
+client. Authenticated MCP `initialize` and `tools/list` returned 200 and exposed exactly
+one information write tool, `submit_market_event` (idempotent, non-destructive).
+Missing/invalid OAuth and the valid REST service credential returned 401 on `/mcp`.
+
+The account owner created the Auth0 tenant and approved CLI access. Sol created the
 RS256 API with only `context:submit`, a public PKCE client, and a strict subject-plus-client
-allowlist after independently verifying the owner's signed Google login token. The
-identity verification device grant has been removed: only authorization-code and
-refresh-token grants remain. No client secret is needed by Work. Management credentials
-were never provided to the gateway or Work. The account owner need not configure Railway
-variables, routing or server processes manually.
+allowlist after verifying the owner's signed Google identity. The temporary device
+grant was removed; only authorization-code and refresh-token grants remain. No client
+secret is needed by Work. Management credentials were never given to the gateway or Work.
 
-The subsequent personal Work installation is:
+Personal Work connection configuration, completed by the account owner:
 
-1. ChatGPT **Plugins → + Add custom MCP server**.
-2. Name **Prism Context Gateway**; URL
-   `https://prism-runtime-production.up.railway.app/mcp`; authentication **OAuth**.
-3. Enter predefined Client ID **`8ldi21f0ajUqhQUqLvy7g5tbS7a0GfI6`**; leave Client
-   Secret blank. Create/install the plugin, sign in with the same verified **Google**
-   account, and authorize **`context:submit`**. No Railway, database, shell or trading permission is requested.
+- Name: **Prism Context Gateway**.
+- MCP URL: `https://prism-runtime-production.up.railway.app/mcp`.
+- Authentication: OAuth, predefined client **`8ldi21f0ajUqhQUqLvy7g5tbS7a0GfI6`**,
+  blank client secret, same verified Google account, `context:submit` permission.
+- Registered callback: `https://chatgpt.com/connector_platform_oauth_redirect`.
+- Issuer metadata advertises S256 and RFC 9207; resource-parameter profile is
+  `compatibility`. The successful Work authorization-code exchange at
+  **2026-10-09T18:03:01.699Z** matched the exact allowlisted subject/client and MCP audience.
 
-The issuer advertises S256 and RFC 9207 support; the registered stable callback is
-`https://chatgpt.com/connector_platform_oauth_redirect`. Its resource-parameter profile
-is `compatibility`, mapping MCP resource requests to the registered API audience. If
-the UI advertises another callback, Sol will register that exact callback. Do not guess a callback or disable resource audience checking to make a connection work.
+The CLI session did not expose the installed personal plugin or a Work-task creation
+capability. The user initiated the two tool calls in a Work chat. Sol verified the
+resulting production receipts and snapshots directly; no files were copied/imported.
+The receipts use `chatgpt_work_personal_v1`, distinct from `prism_activation_cli_v1`.
+Railway HTTP logs corroborate OpenAI MCP requests (`openai-mcp/1.0.0 (Codex)`); that
+user-agent is descriptive evidence, while authorization comes from the verified JWT.
 
-After connection, Sol will verify a real Work-origin submission of the sourced Geth release below. The already-known
-release can safely exercise corroboration while preserving its first-seen time. The
-Work call must use a fresh submission ID/send timestamp, `test=false`, `REPORTED`, its
-actual source publication time, factual summary and explicit verification metadata.
-Work's synthetic smoke call can instead use `test=true`, which is always excluded.
-If the release's original relevance window has expired when Work is connected, use a
-different real recent low-risk event for an active-snapshot test; do not extend the old
-event's window or backdate knowledge. Auth0's resource-parameter compatibility profile
-must map MCP's `resource` to this API's audience; confirm the resulting token audience.
-
-Operator checks after the Work call:
+Operator checks:
 
 ```sh
 railway ssh --service prism-runtime --environment production -- 'market context gateway receipts --json'
 railway ssh --service prism-runtime --environment production -- 'market context gateway inspect RECEIPT_ID --json'
 railway ssh --service prism-runtime --environment production -- 'market context snapshot ETH --json'
 ```
-
-Confirm the allowlisted Work identity, rather than `prism_activation_cli_v1`; preserve
-the receipt and payload; report sender-reported send/discovery time separately from
-server receipt, durable, ingest and available times. Do not label CLI tests as Work calls.
 
 ## Revision, deployment and activation time
 
@@ -79,6 +68,9 @@ durably recorded at **2026-10-09T17:58:52.260342Z** in
 remained unchanged during this Railway redeployment.
 Runtime deployment audits: original `rtev_723c5b38d687421398372d1dc109ef59`;
 OAuth activation `rtev_9e8587f233b04ccfabe42245ac5058f5`.
+Work end-to-end verification completed at **2026-10-09T18:14:07.837434Z**; audit
+verified at **2026-10-09T18:16:18.587822Z**, durably stored in
+`/data/context_gateway/activation_work_20261009T181618.json`.
 
 Railway project `3c479387-0ddf-40a5-b065-52e49cf3e2cd`, environment `production`, service
 `f7f02159-bcaa-423b-8db1-ee60342724e8`, one authoritative replica, existing `/data` volume.
@@ -121,10 +113,11 @@ is confined to the observed ingress subnet rather than all private/CGNAT ranges 
 A future ingress network change fails closed and requires operational review. These
 are production observations, not an undocumented guarantee of permanently fixed peers.
 
-## Measured production transport and knowledge time
+## Measured CLI production transport and knowledge time
 
-All submissions in this record originated from the CLI with the dedicated service
-identity. No synthetic event entered the Phase 23 event ledger.
+The following initial submissions originated from the CLI with its dedicated service
+identity. The later genuine Work measurements are recorded separately below. No
+synthetic event entered the Phase 23 event ledger.
 
 ### Synthetic smoke receipt
 
@@ -196,6 +189,64 @@ Original `first_seen_at` remained `2026-10-08T03:38:02.929325Z`, first source re
 `rss_coinbase_status`, `OFFICIAL` confidence remained intact, and `chatgpt_work_v1`
 was added to its source history. This receipt's auth identity still records CLI origin.
 
+## Genuine Work end-to-end verification
+
+The synthetic `test=true` smoke call was accepted as receipt
+`ctxgw_5c4fdb2ea6bfd311677ce368ee46394c07e14706e1a818f80f27527755edbd87`. Work reported sending at
+`2026-10-09T18:08:12.900Z`; gateway receipt was
+`2026-10-09T18:08:14.436357+00:00`; durable time was `2026-10-09T18:08:14.457575+00:00`;
+worker completion was `2026-10-09T18:08:17.886182+00:00`.
+It completed **TEST_EXCLUDED**, with no logical event or active context entry, in
+**3.449825 seconds** from gateway receipt.
+The completion field is called `context_available_at` in the receipt format; for a
+TEST receipt it indicates completion only, never availability of a synthetic event.
+
+The initial real candidate was rejected with `schema_rejected`; it created no durable
+receipt or context event. The user supplied the rejected arguments from Work. Its
+`external_event_id` was `github:ethereum/go-ethereum:release:v1.17.8`, containing `/`,
+which fails the advertised `^[A-Za-z0-9_.:-]{1,128}$` identifier pattern. The failure was
+reproduced locally as `external_event_id: string_pattern_mismatch`. Work did not retain
+the original dynamically generated `sent_at`, so that value cannot be independently
+reconstructed. No gateway schema or security rule was loosened. Sol validated a
+canonical retry template locally; Work retried with a new submission ID/send timestamp.
+
+The corrected real Work call was accepted. Submission ID
+`91a389e0-1852-4b47-9c15-75a8b298bf6f`; sender version
+`chatgpt_work_phase26a_verification_v1`; auth integration `chatgpt_work_personal_v1`.
+It reported the real sourced Geth release above at `REPORTED`, with explicit transport
+verification facts and no trading instructions.
+
+Receipt: `ctxgw_657a432202b1f9dd66ccf6aa38eaaf9fd57327c5dda9dcc741964b71d734dc49`.
+Logical event: `ctxev_052577876d84c9053c5acfc2c8c6de093dc6980710ff8c37fc940a123992688a`.
+
+| Timestamp / duration | Measured value |
+|---|---|
+| Work-reported send/discovery | `2026-10-09T18:14:04.778Z` |
+| Gateway receipt / new observation knowledge time | `2026-10-09T18:14:06.331268Z` |
+| Durable spool | `2026-10-09T18:14:06.341960Z` |
+| Ingest started | `2026-10-09T18:14:07.770306Z` |
+| Ingest recorded | `2026-10-09T18:14:07.830489Z` |
+| Context available, post-commit | `2026-10-09T18:14:07.837434Z` |
+| Gateway → durable | **0.010692 seconds** |
+| Gateway → context | **1.506166 seconds** |
+| Work-reported send → context | **3.059434 seconds** |
+| Source publication → receipt processing availability | 92311.837434 seconds |
+
+The source-to-availability value includes the historical release's age, not fresh
+real-time discovery. The sender clock is a claim; only gateway and later Prism clocks
+are authoritative. This receipt appended **one corroboration, zero new logical events**.
+Original event `first_seen_at` remained **2026-10-09T17:11:07.001186Z**. The acknowledgement's
+`logical_event_id=null` was correct before authoritative ingest; the completion supplies
+the resolved logical event ID.
+
+The ETH snapshot after ingest includes the event. It was already known before the Work
+receipt, so it also correctly appears in that earlier snapshot. Its **new Work
+corroboration** is absent from the pre-receipt history and present post-ingest, with
+`observed_at=2026-10-09T18:14:06.331268Z`, sequence 1, confidence `REPORTED`.
+The initial CLI new-event verification separately proved whole-event exclusion before
+its first gateway receipt and inclusion afterward. Later Work corroboration did not
+backdate that event or revise its original content.
+
 ## Failure/recovery and exposure checks
 
 Only the gateway listener and gateway ingest-worker processes were restarted. The
@@ -220,14 +271,15 @@ No DB/query/debug/general API route was exposed.
 
 ## Health, cost and experiment boundary
 
-Final observed status: running/worker running, `OAUTH_CONFIGURED`, five accepted receipts
-(two synthetic), two retries, zero backlog, no alerts, zero error attempts. Observed
-real-receipt p50 1.728604 seconds and p95 2.740731 seconds are based on **three** CLI
-samples, not a statistically established SLA. Deliberate TLS/auth/schema negative
+Final observed status: running/worker running, `OAUTH_CONFIGURED`, **seven** accepted
+receipts (three synthetic), two retries, zero backlog, no alerts, zero error attempts.
+Observed real-receipt p50 1.728604 seconds and p95 2.740731 seconds are based on **four**
+samples (three CLI, one genuine Work), not a statistically established SLA. Deliberate TLS/auth/schema negative
 checks account for rejection counters; they are not ordinary production provider traffic.
 
 Measured gateway RSS: listener 158636 KiB, worker 334100 KiB; combined PSS 396951 KiB.
-Spool including audit and activation record: 31281 bytes for these verification receipts.
+Before the personal Work connection, spool including audit and initial activation
+record was 31281 bytes; later Work receipts and audits add only small JSON records.
 At [documented Railway resource rates](https://docs.railway.com/pricing/plans), combined RSS is approximately $5.05/month RAM,
 plus an assumed $0.20–$0.60/month CPU; budget **$5–$7/month** pending actual billing
 and existing-plan credits. No additional service/base subscription, relay or OpenAI API
@@ -256,9 +308,9 @@ Starlette deprecation warning. Ruff check, format check
 retry idempotency, snapshot timing, existing-event corroboration, targeted process-crash
 recovery and experiment identity checks passed as recorded above.
 
-OAuth acceptance and public authenticated MCP tool listing passed in production. A
-genuine Work-origin call remains pending personal plugin installation. No Phase 26B
-source expansion was started.
+OAuth acceptance, public authenticated MCP tool listing, genuine Work smoke and real
+event delivery, durable acknowledgement, authoritative ingest and point-in-time
+context/corroboration checks all passed in production. No Phase 26B expansion was started.
 
 Personal installation follows the [official OpenAI plugin quickstart](https://developers.openai.com/plugins/quickstart);
 OAuth uses the [documented predefined-client PKCE contract](https://developers.openai.com/plugins/build/auth).
