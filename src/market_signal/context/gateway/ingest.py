@@ -48,7 +48,7 @@ def drain(store, spool: Spool, *, limit: int = 50) -> dict:
                 }
                 # TEST receipts exercise durable transport and transactions, but never the ledger.
                 with store.transaction():
-                    if rec["payload"]["test"]:
+                    if rec["payload"].get("test", False):
                         result["ingest_status"] = "TEST_EXCLUDED"
                     else:
                         obs = Observation.model_validate(rec["observation"]).model_copy(

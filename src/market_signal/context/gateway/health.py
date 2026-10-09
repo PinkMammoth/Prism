@@ -60,7 +60,7 @@ def status(spool: Spool) -> dict:
     values = sorted(
         latencies(r, c)["gateway_to_available_s"]
         for r, c in zip(records, completed, strict=True)
-        if c and not r["payload"]["test"]
+        if c and not r["payload"].get("test", False)
     )
     counts = {
         kind: sum(a["kind"] == kind for a in audit)

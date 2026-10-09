@@ -334,6 +334,18 @@ def test_test_category_excluded(client, sp, tmp_path):
         assert sp.read("done", sp.records()[0]["receipt_id"])["ingest_status"] == "TEST_EXCLUDED"
 
 
+def test_optional_test_flag_defaults_to_a_normal_context_event(client, sp, tmp_path):
+    raw = sample(test=False)
+    del raw["test"]
+    ack = post(client, raw).json()
+    with closing(Store(tmp_path / "ctx.duckdb")) as store:
+        assert drain(store, sp)["ingested"] == 1
+        detail = inspect(sp, ack["receipt_id"])
+        assert detail["completion"]["ingest_status"] == "INGESTED"
+        assert detail["completion"]["logical_event_id"]
+        assert status(sp)["p50_ingest_latency_s"] is not None
+
+
 def test_ingest_failure_catchup_and_commit_recovery(client, sp, tmp_path, monkeypatch):
     ack = post(client, sample(test=False)).json()
     with closing(Store(tmp_path / "ctx.duckdb")) as store:
