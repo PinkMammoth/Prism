@@ -507,3 +507,43 @@ prospective exploratory activity, explainable participation/misses, symmetric ne
 and evidence from losses as well as wins. Implementation/tests alone cannot establish that
 activity has begun. Later graduation separately assesses statistical evidence, costs,
 replication, forward stability and execution quality; none is inferred from paper profit.
+
+## Production cutover: 2026-10-09
+
+The deployed `b9bcb7cc3399241884d8d780cc1aeab1f59dad9f` release was cut over explicitly
+under the authoritative runtime writer lock, after a verified manual backup:
+`/data/backups/manual/prism-20261009T101859Z-pre-phase25a-paper-cutover.duckdb`.
+Its SHA-256 is `faec2c3de92ea8bcdd785a71844dbef7008e318a11a3d35a0ef786a283a24e9c`.
+
+The known v1 run was retired at **2026-10-09T10:19:06.801183Z**, flat, with final
+equity **10,000 simulated USDC** and zero trades. Its original definition and every
+pre-existing historical row were preserved; the retirement adds its explicit lifecycle
+event and immutable archive. All seven per-run table digests were verified. Runtime
+step selection omits v1 `paper`, `brief` and `shadow` while retaining shared work.
+
+The released **paper_exploratory_v2_2**, 28 hypotheses (14 long / 14 short), was registered.
+The fresh **100 simulated USDC** account is:
+`paperrun_v2_3811cccc40db4fbe6413ebd018c129d1026748f3cd72e619ec80ba88e47ada95`.
+Its exact activation is **2026-10-09T10:19:06.981566Z**. The first evaluation succeeded
+at 10:20:43.584323Z; the installed scheduler also evaluated it successfully at
+10:22:03.427724Z. Initial source windows preceding activation were correctly skipped.
+The production audit is `/data/reports/phase25a-paper-cutover.json`.
+
+Subsequent operational checks found two serialization failures: the existing shared
+microstructure revision archiver could not encode NumPy float32 NULL values, and
+context vulnerability components could contain NumPy booleans that JSON rejected.
+The repair preserves missing archived fields as JSON null and emits native booleans
+for the same component truth values. Regression tests reproduce both production
+errors. These fixes change neither feature definitions nor hypothesis/policy identities,
+scientific verdicts, admission, sizing, costs, horizons or cooldown. Recovery must use
+the existing run and activation; it must not recreate the account, rewrite earlier
+evaluations, backdate ingest availability or fabricate missed trades. Check the latest
+production status rather than treating the initial successful evaluations as proof of
+continuing health or trading activity.
+
+The repair's [validation artifact](evidence/phase25a/cutover-repair-validation.json)
+records **1,071 passed**, zero failures/errors/skips, across four disjoint full-suite
+shards covering all 46 files, with local WebSocket access enabled. The original 1,069
+test identities are retained, with precisely the two new regression cases added.
+Ruff, formatting (341 files) and `git diff --check` passed; Phase 22 evidence file hashes
+and all frozen paper identities match the original release.

@@ -401,6 +401,8 @@ def vulnerability(block: dict, catalyst_24h: bool | None) -> dict:
             "ratio_skew": None if lsp is None else (lsp >= FUNDING_HIGH if sign > 0 else lsp <= FUNDING_LOW),
             "catalyst_within_24h": catalyst_24h,
         }  # fmt: skip
+        # Comparisons with NumPy-backed prices yield numpy.bool_, which JSON rejects.
+        comp = {k: None if v is None else bool(v) for k, v in comp.items()}
         avail = [v for v in comp.values() if v is not None]
         score = sum(bool(v) for v in avail)
         level = (
