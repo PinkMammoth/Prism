@@ -703,6 +703,8 @@ def test_phase21_baseline_is_unchanged():
 def test_no_live_consumer_or_order_path_reads_discovery():
     for pkg in ("paper", "copilot", "ops", "perps", "intraday"):
         for f in (SRC / pkg).rglob("*.py"):
+            if pkg == "paper" and "v2" in f.parts:  # Phase 25A explicitly consumes frozen probes
+                continue
             assert "research.discovery" not in f.read_text(), f
     for f in (SRC / "research" / "lab").rglob("*.py"):
         if f.name != "structure_study.py":

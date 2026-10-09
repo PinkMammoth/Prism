@@ -1,0 +1,145 @@
+{
+  "source": "original Phase 22 result; evidence unchanged",
+  "study_id": "sstudy_f60a05a62799548cd444753c8de7c5d7b3d9bdd17a6b5fe8b5c9a08b0d790c45",
+  "baseline_digest": "d6c9e4a060b69b02da40c3a260a40a337aaa8a3007e6ac382ce87ca089b7c4ad",
+  "period": [
+    "2024-11-01T00:00:00+00:00",
+    "2026-10-01T00:00:00+00:00"
+  ],
+  "tag": "EXPLORATORY_TECHNICAL_CONTROL",
+  "controls": [
+    {
+      "key": "ema_cross_trend[n=20]:1h:short",
+      "strategy_id": "istrat_893dc65d6b31db4def124a2953e054fac19f29357180390e50242231781dc578",
+      "symmetric": true,
+      "primary_horizon_minutes": 480,
+      "verdict": "REJECTED",
+      "verdict_reasons": [
+        "contemporary net effect credibly negative"
+      ],
+      "frequency": {
+        "independent": 2017,
+        "independent_per_day": 2.8855507868383405,
+        "median_hours_between": 5.0,
+        "per_asset_per_day": 0.4809251311397234,
+        "raw": 2481,
+        "raw_per_day": 3.5493562231759657,
+        "zero_signal_day_share": 0.09585121602288982
+      }
+    },
+    {
+      "key": "ema_stretch_fade[k=3.0]:1h:short",
+      "strategy_id": "istrat_9bfccf528ac976522d0a5e38ad4ee813b85e34e5e387a8341650ea1cf9896f9d",
+      "symmetric": true,
+      "primary_horizon_minutes": 240,
+      "verdict": "REJECTED",
+      "verdict_reasons": [
+        "contemporary net effect credibly negative"
+      ],
+      "frequency": {
+        "independent": 512,
+        "independent_per_day": 0.7324749642346209,
+        "median_hours_between": 4.0,
+        "per_asset_per_day": 0.12207916070577014,
+        "raw": 571,
+        "raw_per_day": 0.8168812589413448,
+        "zero_signal_day_share": 0.7153075822603719
+      }
+    },
+    {
+      "key": "ema_stretch_fade[k=4.0]:1h:short",
+      "strategy_id": "istrat_922bc3404d7eaf8044967a258217134803ace6eac5b8ac3730f0493080c8504f",
+      "symmetric": true,
+      "primary_horizon_minutes": 240,
+      "verdict": "REJECTED",
+      "verdict_reasons": [
+        "contemporary net effect credibly negative"
+      ],
+      "frequency": {
+        "independent": 133,
+        "independent_per_day": 0.19027181688125894,
+        "median_hours_between": 10.5,
+        "per_asset_per_day": 0.03171196948020982,
+        "raw": 140,
+        "raw_per_day": 0.20028612303290416,
+        "zero_signal_day_share": 0.9012875536480687
+      }
+    },
+    {
+      "key": "compression_breakout[n=24,pct=0.35]:1h:short",
+      "strategy_id": "istrat_9e255e3fd5a28936679d2a0e6d63799acb1c94db4eff931829fe31ee22823018",
+      "symmetric": true,
+      "primary_horizon_minutes": 240,
+      "verdict": "REJECTED",
+      "verdict_reasons": [
+        "contemporary net effect credibly negative"
+      ],
+      "frequency": {
+        "independent": 1125,
+        "independent_per_day": 1.609442060085837,
+        "median_hours_between": 3.0,
+        "per_asset_per_day": 0.2682403433476395,
+        "raw": 1224,
+        "raw_per_day": 1.7510729613733906,
+        "zero_signal_day_share": 0.4878397711015737
+      }
+    },
+    {
+      "key": "expansion_continuation[k=3.0]:1h:short",
+      "strategy_id": "istrat_e507ad0e30b8d5a2cccedad58fa07a9e89a0eb93f50c343474bb70ede0dc56d6",
+      "symmetric": true,
+      "primary_horizon_minutes": 240,
+      "verdict": "REJECTED",
+      "verdict_reasons": [
+        "contemporary net effect credibly negative"
+      ],
+      "frequency": {
+        "independent": 412,
+        "independent_per_day": 0.5894134477825465,
+        "median_hours_between": 0.0,
+        "per_asset_per_day": 0.09823557463042441,
+        "raw": 415,
+        "raw_per_day": 0.5937052932761088,
+        "zero_signal_day_share": 0.7610872675250357
+      }
+    },
+    {
+      "key": "expansion_fade[k=3.0]:1h:short",
+      "strategy_id": "istrat_85d676c644398ed5618866230cb96ed1196c04e12640500a5185d0466ebbed0c",
+      "symmetric": true,
+      "primary_horizon_minutes": 240,
+      "verdict": "REJECTED",
+      "verdict_reasons": [
+        "contemporary net effect credibly negative"
+      ],
+      "frequency": {
+        "independent": 365,
+        "independent_per_day": 0.5221745350500715,
+        "median_hours_between": 9.0,
+        "per_asset_per_day": 0.08702908917501191,
+        "raw": 373,
+        "raw_per_day": 0.5336194563662375,
+        "zero_signal_day_share": 0.7467811158798283
+      }
+    },
+    {
+      "key": "exhaustion[n=24,z=3.0,strong_close=no]:1h:short",
+      "strategy_id": "istrat_2d01d0221012a7b4593cb1e2e69ccc4ce817e1976758b18799e2b765455697ca",
+      "symmetric": true,
+      "primary_horizon_minutes": 240,
+      "verdict": "REJECTED",
+      "verdict_reasons": [
+        "contemporary net effect credibly negative"
+      ],
+      "frequency": {
+        "independent": 192,
+        "independent_per_day": 0.27467811158798283,
+        "median_hours_between": 7.0,
+        "per_asset_per_day": 0.045779685264663805,
+        "raw": 220,
+        "raw_per_day": 0.3147353361945637,
+        "zero_signal_day_share": 0.8698140200286123
+      }
+    }
+  ]
+}

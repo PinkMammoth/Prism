@@ -724,6 +724,8 @@ def test_minimal_regime_primitives():
 def test_live_consumers_never_use_structural_primitives():
     for pkg in ("paper", "copilot"):
         for f in (SRC / pkg).rglob("*.py"):
+            if pkg == "paper" and "v2" in f.parts:  # Phase 25A reuses causal BarSeries only
+                continue
             assert "structure" not in f.read_text(), f
     for f in (SRC / "research" / "lab" / "forward.py", SRC / "ops" / "runtime.py",
               SRC / "research" / "lab" / "corroboration.py"):  # fmt: skip

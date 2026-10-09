@@ -2,6 +2,13 @@
 
 The ordering reflects what is most likely to change a decision.
 
+Phase 25A implements [Exploratory Paper Trader v2](EXPLORATORY_PAPER_V2.md), with a
+separate 100 simulated USDC account and an immutable v1 retirement path. Production
+cutover and the first prospective evaluation remain operational steps; paper PnL is
+separate from scientific evidence and never authorizes live execution.
+The frozen universe is 14 long / 14 short, including seven exact Phase 22 short mirrors
+tagged EXPLORATORY_TECHNICAL_CONTROL with their original REJECTED verdicts preserved.
+
 ## Immediately (before any real capital)
 
 1. **Run the real research.** On a networked machine:

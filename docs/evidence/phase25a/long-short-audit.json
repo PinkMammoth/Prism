@@ -1,0 +1,76 @@
+{
+  "kind": "FROZEN_DEFINITION_AND_HISTORICAL_SANITY_SIDE_AUDIT_NOT_PRODUCTION_ACTIVITY",
+  "version": "paper_exploratory_v2_2",
+  "universe_id": "paperuniverse_v2_5c0ca1f65dcef5d531fb01dffd764ae471ebcb45611ad16c244f7bfd44090d9a",
+  "hypotheses": {
+    "long": 14,
+    "short": 14
+  },
+  "source_phase_counts": {
+    "22": {
+      "long": 7,
+      "short": 7
+    },
+    "23": {
+      "long": 3,
+      "short": 3
+    },
+    "24": {
+      "long": 4,
+      "short": 4
+    }
+  },
+  "technical_science": {
+    "long": {
+      "verdict": "INTERESTING",
+      "count": 7
+    },
+    "short": {
+      "tag": "EXPLORATORY_TECHNICAL_CONTROL",
+      "verdict": "REJECTED",
+      "reason": "contemporary net effect credibly negative",
+      "count": 7
+    }
+  },
+  "identical_mechanics": [
+    "admission",
+    "sizing",
+    "leverage",
+    "exposure",
+    "costs",
+    "primary_horizon",
+    "cadence",
+    "cooldown",
+    "episode",
+    "conflict",
+    "degradation"
+  ],
+  "historical_technical_side_audit": {
+    "long": {
+      "signals": 5342,
+      "admissions": 1768,
+      "support_events": 37,
+      "rejections": {
+        "CONFLICT": 1888,
+        "COOLDOWN": 97,
+        "DUPLICATE_EPISODE": 533,
+        "MAX_POSITIONS": 681,
+        "FUNDING_OR_PATH_UNAVAILABLE": 338
+      }
+    },
+    "short": {
+      "signals": 5424,
+      "admissions": 1816,
+      "support_events": 36,
+      "rejections": {
+        "CONFLICT": 1804,
+        "DUPLICATE_EPISODE": 547,
+        "MAX_POSITIONS": 689,
+        "COOLDOWN": 126,
+        "FUNDING_OR_PATH_UNAVAILABLE": 406
+      }
+    }
+  },
+  "historical_days": 699,
+  "production_signals_or_trades": "Not measured: implementation has not deployed or activated production v2; historical replay creates no account trades."
+}

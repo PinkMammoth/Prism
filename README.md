@@ -1,5 +1,12 @@
 # Prism: local multi-asset trading research & signal platform
 
+Phase 25A adds a separate prospective, deterministic **Exploratory Paper Trader v2**.
+Its frozen universe has 28 hypotheses, split 14 long / 14 short; seven exact Phase 22
+short controls retain their REJECTED scientific verdicts.
+See [the design and production cutover](docs/EXPLORATORY_PAPER_V2.md) and
+[the production v1 audit](docs/PHASE25A_V1_AUDIT.md). Implementation does not activate
+production accounts or real-money execution.
+
 Prism is a **personal, local, £0/month** research system for slow, conservative capital
 accumulation across crypto, US equities/ETFs and commodity proxies. It does the
 following:

@@ -704,6 +704,11 @@ def record_snapshot(store, run_id: str, now=None) -> dict:
     An existing snapshot for the same (run, sequence, version) is returned unchanged; it is
     never recomputed in place.
     """
+    from market_signal.paper.retirement import frozen
+
+    retired = frozen(store, run_id)
+    if retired:
+        return {"snapshot_id": None, "recorded": False, **retired}
     v = RunView(store, run_id, now)
     payload = snapshot_payload(v)
     row = store.con.execute(
@@ -797,6 +802,10 @@ def record_brief(
     never rebuilt; delivery is attempted only for unsent briefs recorded in the last 24 h,
     and an attempt of unknown outcome is never retried.
     """
+    from market_signal.paper.retirement import frozen
+
+    if frozen(store, run_id):
+        return {"brief": None, "recorded": False, "state": "RETIRED"}
     snap = record_snapshot(store, run_id, now)
     v = RunView(store, run_id, now)
     out: dict = {"snapshot_id": snap["snapshot_id"], "snapshot_recorded": snap["recorded"]}

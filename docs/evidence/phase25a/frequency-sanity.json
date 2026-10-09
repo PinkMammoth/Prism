@@ -1,0 +1,134 @@
+{
+  "kind": "HISTORICAL_TECHNICAL_ONLY_MECHANICAL_FREQUENCY_SANITY_NOT_V2_TRADES",
+  "baseline_digest": "d6c9e4a060b69b02da40c3a260a40a337aaa8a3007e6ac382ce87ca089b7c4ad",
+  "study_id": "sstudy_f60a05a62799548cd444753c8de7c5d7b3d9bdd17a6b5fe8b5c9a08b0d790c45",
+  "universe_id": "paperuniverse_v2_5c0ca1f65dcef5d531fb01dffd764ae471ebcb45611ad16c244f7bfd44090d9a",
+  "version": "paper_exploratory_v2_2",
+  "venue": "binance",
+  "period": [
+    "2024-11-01T00:00:00+00:00",
+    "2026-10-01T00:00:00+00:00"
+  ],
+  "days": 699,
+  "frozen_keys": [
+    "ema_cross_trend[n=20]:1h:long",
+    "ema_stretch_fade[k=3.0]:1h:long",
+    "ema_stretch_fade[k=4.0]:1h:long",
+    "compression_breakout[n=24,pct=0.35]:1h:long",
+    "expansion_continuation[k=3.0]:1h:long",
+    "expansion_fade[k=3.0]:1h:long",
+    "exhaustion[n=24,z=3.0,strong_close=no]:1h:long",
+    "ema_cross_trend[n=20]:1h:short",
+    "ema_stretch_fade[k=3.0]:1h:short",
+    "ema_stretch_fade[k=4.0]:1h:short",
+    "compression_breakout[n=24,pct=0.35]:1h:short",
+    "expansion_continuation[k=3.0]:1h:short",
+    "expansion_fade[k=3.0]:1h:short",
+    "exhaustion[n=24,z=3.0,strong_close=no]:1h:short"
+  ],
+  "raw_signals": 10766,
+  "signals_per_day": 15.40200286123033,
+  "signal_sides": {
+    "long": 5342,
+    "short": 5424
+  },
+  "occupancy_admissions": 3584,
+  "occupancy_admissions_per_day": 5.127324749642346,
+  "long_per_day": 2.5293276108726754,
+  "short_per_day": 2.5979971387696708,
+  "support_events": 73,
+  "rejection_reasons": {
+    "CONFLICT": 3692,
+    "DUPLICATE_EPISODE": 1080,
+    "MAX_POSITIONS": 1370,
+    "COOLDOWN": 223,
+    "FUNDING_OR_PATH_UNAVAILABLE": 744
+  },
+  "side_audit": {
+    "long": {
+      "signals": 5342,
+      "admissions": 1768,
+      "support_events": 37,
+      "rejections": {
+        "CONFLICT": 1888,
+        "COOLDOWN": 97,
+        "DUPLICATE_EPISODE": 533,
+        "MAX_POSITIONS": 681,
+        "FUNDING_OR_PATH_UNAVAILABLE": 338
+      }
+    },
+    "short": {
+      "signals": 5424,
+      "admissions": 1816,
+      "support_events": 36,
+      "rejections": {
+        "CONFLICT": 1804,
+        "DUPLICATE_EPISODE": 547,
+        "MAX_POSITIONS": 689,
+        "COOLDOWN": 126,
+        "FUNDING_OR_PATH_UNAVAILABLE": 406
+      }
+    }
+  },
+  "zero_day_share": 0.004291845493562232,
+  "days_ge_share": {
+    "1": 0.9957081545064378,
+    "3": 0.9284692417739628,
+    "5": 0.6380543633762518,
+    "10": 0.00715307582260372
+  },
+  "previous_long_only_sanity": {
+    "raw_signals": 5342,
+    "signals_per_day": 7.642346208869814,
+    "signal_sides": {
+      "long": 5342,
+      "short": 0
+    },
+    "occupancy_admissions": 2635,
+    "occupancy_admissions_per_day": 3.7696709585121604,
+    "long_per_day": 3.7696709585121604,
+    "short_per_day": 0.0,
+    "support_events": 242,
+    "rejection_reasons": {
+      "DUPLICATE_EPISODE": 1041,
+      "MAX_POSITIONS": 863,
+      "COOLDOWN": 134,
+      "FUNDING_OR_PATH_UNAVAILABLE": 427
+    },
+    "side_audit": {
+      "long": {
+        "signals": 5342,
+        "admissions": 2635,
+        "support_events": 242,
+        "rejections": {
+          "DUPLICATE_EPISODE": 1041,
+          "MAX_POSITIONS": 863,
+          "COOLDOWN": 134,
+          "FUNDING_OR_PATH_UNAVAILABLE": 427
+        }
+      },
+      "short": {
+        "signals": 0,
+        "admissions": 0,
+        "support_events": 0,
+        "rejections": {}
+      }
+    },
+    "zero_day_share": 0.044349070100143065,
+    "days_ge_share": {
+      "1": 0.9556509298998569,
+      "3": 0.7510729613733905,
+      "5": 0.3290414878397711,
+      "10": 0.002861230329041488
+    }
+  },
+  "limitations": [
+    "Binance historical assumed latency, not current Hyperliquid activity",
+    "Occupancy only: no equity/lot/catastrophe simulation",
+    "No positioning/microstructure frequency estimate: young data",
+    "Historical path and funding availability exclude incomplete outcomes; no profitability selection",
+    "Original key ordering retained; approximates rather than reproduces engine hashed priority",
+    "Existing cancel-both and occupied opposite-side conflict rules applied symmetrically",
+    "No parameters were tuned; no paper or Phase 22 tables written"
+  ]
+}

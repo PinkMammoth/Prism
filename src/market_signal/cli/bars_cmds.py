@@ -323,3 +323,16 @@ def shadow_cmd(
 
 def register(app: typer.Typer) -> None:
     app.add_typer(bars, name="bars")
+
+
+@bars.command("funding")
+def funding() -> None:
+    """WRITE: bounded hourly public settled funding, for intraday paper accounting."""
+    from market_signal.perps.data import update_settled_funding
+    from market_signal.research.lab.common import canonical_json
+
+    with open_store() as (settings, store):
+        out = update_settled_funding(settings, store)
+    console.print_json(canonical_json(out))
+    if any(r["status"] == "failed" for r in out):
+        raise typer.Exit(1)

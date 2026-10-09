@@ -41,6 +41,7 @@ def _register_optional() -> None:
         "oiprice_cmds",
         "context_cmds",
         "micro_cmds",
+        "paper_v2_cmds",
     ):
         try:
             m = importlib.import_module(f"market_signal.cli.{mod}")

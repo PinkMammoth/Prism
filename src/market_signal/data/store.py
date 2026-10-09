@@ -1409,6 +1409,99 @@ MIGRATIONS: list[str] = [
         CHECK ((status = 'COMPLETED') = (result_digest IS NOT NULL))
     );
     """,
+    # 25 — Phase 25A. Separate identities and append-only paper execution/opportunity evidence.
+    """
+    CREATE TABLE IF NOT EXISTS paper_retirements (
+        run_id VARCHAR PRIMARY KEY REFERENCES paper_runs(run_id),
+        retired_at TIMESTAMPTZ NOT NULL,
+        reason VARCHAR NOT NULL,
+        payload JSON NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS paper_v2_universes (
+        universe_id VARCHAR PRIMARY KEY,
+        registered_at TIMESTAMPTZ NOT NULL,
+        definition JSON NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS paper_v2_policies (
+        policy_id VARCHAR PRIMARY KEY,
+        kind VARCHAR NOT NULL CHECK (kind IN ('admission','risk','execution')),
+        definition JSON NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS paper_v2_runs (
+        run_id VARCHAR PRIMARY KEY,
+        universe_id VARCHAR NOT NULL REFERENCES paper_v2_universes(universe_id),
+        activated_at TIMESTAMPTZ NOT NULL,
+        mode VARCHAR NOT NULL CHECK (mode = 'paper'),
+        admission_policy_id VARCHAR NOT NULL REFERENCES paper_v2_policies(policy_id),
+        risk_policy_id VARCHAR NOT NULL REFERENCES paper_v2_policies(policy_id),
+        execution_policy_id VARCHAR NOT NULL REFERENCES paper_v2_policies(policy_id),
+        definition JSON NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS paper_v2_context_snapshots (
+        snapshot_id VARCHAR PRIMARY KEY,
+        payload JSON NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS paper_v2_evaluations (
+        evaluation_id VARCHAR PRIMARY KEY,
+        run_id VARCHAR NOT NULL REFERENCES paper_v2_runs(run_id),
+        evaluated_at TIMESTAMPTZ NOT NULL,
+        status VARCHAR NOT NULL CHECK (status IN ('ok','error')),
+        payload JSON NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS paper_v2_opportunities (
+        opportunity_id VARCHAR PRIMARY KEY,
+        run_id VARCHAR NOT NULL REFERENCES paper_v2_runs(run_id),
+        hypothesis_id VARCHAR NOT NULL,
+        asset VARCHAR NOT NULL,
+        side VARCHAR NOT NULL CHECK (side IN ('long','short')),
+        signal_at TIMESTAMPTZ NOT NULL,
+        available_at TIMESTAMPTZ NOT NULL,
+        evaluated_at TIMESTAMPTZ NOT NULL,
+        activated_at TIMESTAMPTZ NOT NULL,
+        fired BOOLEAN NOT NULL,
+        admission VARCHAR NOT NULL CHECK (admission IN ('ADMITTED','SUPPORTED','REJECTED','NO_SIGNAL')),
+        rejection_reason VARCHAR,
+        trade_id VARCHAR,
+        payload JSON NOT NULL,
+        UNIQUE (run_id,hypothesis_id,asset,signal_at),
+        CHECK (signal_at > activated_at),
+        CHECK (available_at >= signal_at OR rejection_reason='INVALID_TIMING'),
+        CHECK (evaluated_at >= activated_at),
+        CHECK ((admission IN ('ADMITTED','SUPPORTED')) = (trade_id IS NOT NULL))
+    );
+    CREATE TABLE IF NOT EXISTS paper_v2_outcomes (
+        opportunity_id VARCHAR PRIMARY KEY REFERENCES paper_v2_opportunities(opportunity_id),
+        recorded_at TIMESTAMPTZ NOT NULL,
+        payload JSON NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS paper_v2_events (
+        event_id VARCHAR PRIMARY KEY,
+        run_id VARCHAR NOT NULL REFERENCES paper_v2_runs(run_id),
+        seq INTEGER NOT NULL CHECK (seq > 0),
+        event_key VARCHAR NOT NULL,
+        event_type VARCHAR NOT NULL CHECK (event_type IN ('pending','opened','closed','mark',
+            'support','expired','run_state','hypothesis_state')),
+        recorded_at TIMESTAMPTZ NOT NULL,
+        payload JSON NOT NULL,
+        UNIQUE (run_id,seq),
+        UNIQUE (run_id,event_key)
+    );
+    CREATE TABLE IF NOT EXISTS paper_v2_reports (
+        report_id VARCHAR PRIMARY KEY,
+        run_id VARCHAR NOT NULL REFERENCES paper_v2_runs(run_id),
+        day DATE NOT NULL,
+        recorded_at TIMESTAMPTZ NOT NULL,
+        payload JSON NOT NULL,
+        UNIQUE (run_id,day)
+    );
+    CREATE TABLE IF NOT EXISTS paper_v2_deliveries (
+        report_id VARCHAR NOT NULL REFERENCES paper_v2_reports(report_id),
+        state VARCHAR NOT NULL CHECK (state IN ('attempted','sent','failed')),
+        recorded_at TIMESTAMPTZ NOT NULL,
+        detail VARCHAR,
+        PRIMARY KEY (report_id,state)
+    );
+    """,
 ]
 
 ROLE_ENV, RUNTIME_ID_ENV = "PRISM_RUNTIME_ROLE", "PRISM_RUNTIME_ID"

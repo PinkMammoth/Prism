@@ -576,6 +576,8 @@ def _event(run_id: str, seq: int, event_type: str, key: str, market_time, payloa
 
 
 def _insert(store, run_id: str, run_created_at, cycle_id: str | None, new: list[dict], now) -> None:
+    if store.con.execute("SELECT 1 FROM paper_retirements WHERE run_id=?", [run_id]).fetchone():
+        raise PaperError("v1 is RETIRED: historical ledger is immutable")
     for e in new:
         store.con.execute(
             "INSERT INTO paper_events VALUES (?,?,?,?,?,?,?,?,?,?)",
@@ -1100,6 +1102,10 @@ def cycle(
     """
     store = ledger.store
     _require_tables(store)
+    from market_signal.paper.retirement import frozen
+
+    if frozen(store, run_id):
+        return {"run_id": run_id, "status": "ok", "run_status": "RETIRED", "events_written": 0}
     ctx = load_run(store, run_id)
     now = _ts(now or utcnow())
     started = _ts(utcnow())
@@ -1216,6 +1222,8 @@ def _pending_notifications(store, now) -> list[dict]:
             )
     out = []
     for sid, run_id, text in subjects:
+        if store.con.execute("SELECT 1 FROM paper_retirements WHERE run_id=?", [run_id]).fetchone():
+            continue
         states: dict[int, set] = {}
         for a, s in store.con.execute(
             "SELECT attempt, status FROM paper_notifications WHERE subject_id=?", [sid]
@@ -1454,6 +1462,11 @@ def paper_summary(store, run_id: str) -> dict:
 
 def record_evidence(store, run_id: str, now: datetime | None = None) -> dict:
     """Append the current ``paper_execution`` summary (content-addressed, idempotent)."""
+    from market_signal.paper.retirement import frozen
+
+    retired = frozen(store, run_id)
+    if retired:
+        return {"summary_id": None, **retired}
     now = _ts(now or utcnow())
     s = paper_summary(store, run_id)
     sid = content_id("paperevidence_", s)

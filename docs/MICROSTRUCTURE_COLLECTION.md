@@ -362,10 +362,10 @@ development; `market microstructure status` shows it once it exists.
 ```python
 from market_signal.microstructure.query import load_microstructure, cvd, align_asof
 
-m1 = load_microstructure(store, "BTC", start, end, known_at=t)                 # 1-min, causal
+m1 = load_microstructure(store, "BTC", start, end, known_at=t)  # 1-min, causal
 q = load_microstructure(store, "BTC", start, end, known_at=t, freq="15min", complete_only=True)
-c = cvd(m1, reset="daily")                                                      # or window="1h"
-x = align_asof(q, context_frame, right_time="recorded_at")                      # no lookahead
+c = cvd(m1, reset="daily")  # or window="1h"
+x = align_asof(q, context_frame, right_time="recorded_at")  # no lookahead
 ```
 
 * Context (`context_snapshot(asset, t)`), positioning (OI/funding/crowding, Binance taker

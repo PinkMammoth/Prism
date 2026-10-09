@@ -283,3 +283,63 @@ def load_perp_bars(store: Store, coin: str, venue: str = SOURCE) -> pd.DataFrame
         )
     except Exception:
         return pd.DataFrame()
+
+
+def update_settled_funding(
+    settings: Settings, store: Store, provider=None, *, now=None
+) -> list[dict]:
+    """Phase 25A: bounded hourly public funding refresh; no candles or account API.
+
+    Reuses the public research provider and existing data tables. At most one small
+    request per coin per hour in steady state; funding already captured by forward
+    is skipped. Missing settlement hours are retried with a two-day overlap.
+    """
+    at = pd.Timestamp(now or utcnow()).tz_convert("UTC")
+    if provider is None:
+        from market_signal.data.registry import ProviderRegistry
+
+        provider = ProviderRegistry(settings).market("hyperliquid")
+    out = []
+    for coin in perp_config(settings).get("coins", []):
+        floor = at.floor("h")
+        newest = _last(
+            store, "SELECT max(time) FROM perp_funding WHERE source=? AND coin=?", [SOURCE, coin]
+        )
+        if newest is not None and pd.Timestamp(newest) >= floor:
+            out.append({"coin": coin, "status": "current", "new_rows": 0})
+            continue
+        start = (at - pd.Timedelta(days=2)).to_pydatetime()
+        run_id = store.start_run(SOURCE, "perp_funding_hourly_v2", coin, {"start": str(start)})
+        try:
+            df = provider.funding_history(coin, start, at.to_pydatetime(), page_size=500)
+            # Keep existing history; do not change its provenance on an overlap fetch.
+            known = store.con.execute(
+                "SELECT time FROM perp_funding WHERE source=? AND coin=? AND time >= ?",
+                [SOURCE, coin, start],
+            ).fetchall()
+            existing = {pd.Timestamp(t).value for (t,) in known}
+            if len(df):
+                df = df[
+                    ~pd.to_datetime(df["time"], utc=True).map(
+                        lambda t, existing=existing: t.value in existing
+                    )
+                ]
+                df = df[pd.to_datetime(df["time"], utc=True) <= at]
+            written = upsert_funding(store, coin, df, SOURCE, run_id)
+            store.finish_run(
+                run_id,
+                status="ok",
+                rows_received=len(df),
+                rows_written=written,
+                archived=store.archive_raw(provider.drain_raw(), run_id),
+            )
+            out.append({"coin": coin, "status": "ok", "new_rows": written})
+        except (ProviderError, BatchRejected) as exc:
+            store.finish_run(
+                run_id,
+                status="failed",
+                error=str(exc)[:500],
+                archived=store.archive_raw(provider.drain_raw(), run_id),
+            )
+            out.append({"coin": coin, "status": "failed", "error": str(exc)[:120]})
+    return out
