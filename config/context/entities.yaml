@@ -23,6 +23,9 @@ entities:
   monero:      {kind: asset, assets: [XMR], aliases: [monero], ticker_aliases: [XMR], sectors: [privacy]}
   zcash:       {kind: asset, assets: [ZEC], aliases: [zcash], ticker_aliases: [ZEC], sectors: [privacy]}
   binance:     {kind: exchange, assets: [BNB], aliases: [binance], ticker_aliases: [BNB]}
+  ethereum_foundation: {kind: issuer, assets: [ETH], aliases: [ethereum foundation], ticker_aliases: []}
+  us_treasury: {kind: issuer, assets: [], aliases: [us treasury, united states treasury], ticker_aliases: []}
+  federal_reserve: {kind: issuer, assets: [], aliases: [federal reserve], ticker_aliases: []}
   coinbase:    {kind: exchange, assets: [], aliases: [coinbase], ticker_aliases: []}
   kraken:      {kind: exchange, assets: [], aliases: [kraken], ticker_aliases: []}
   okx:         {kind: exchange, assets: [], aliases: [okx], ticker_aliases: []}

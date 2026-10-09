@@ -8,6 +8,10 @@ echo "prism runtime: revision $(cat REVISION) role=${PRISM_RUNTIME_ROLE:-unset} 
 mkdir -p /data/logs /data/backups
 market ops preflight || echo "preflight: not ready for jobs (expected only before the database is installed)"
 market ops crontab > /tmp/prism.crontab
+# Independent watchdog catches a dead worker as well as a dead HTTP listener. No DB open.
+if [ "${PRISM_CONTEXT_GATEWAY:-off}" = on ]; then
+  echo '* * * * * market context gateway health --check --json' >> /tmp/prism.crontab
+fi
 cat /tmp/prism.crontab
 # Phase 24A: the persistent Hyperliquid microstructure collector (public market data only).
 # It never opens the database (it appends to /data/microstructure; the scheduled
@@ -17,6 +21,19 @@ if [ "${PRISM_RUNTIME_ROLE:-}" = authoritative ] && [ "${PRISM_MICROSTRUCTURE:-o
   mkdir -p /data/microstructure
   ( while true; do
       market microstructure collect || echo "microstructure collector exited ($?); restarting in 10s"
+      sleep 10
+    done ) &
+fi
+# Phase 26A: opt-in only. Both processes share /data; HTTP never opens DuckDB.
+# Public Railway routing, OAuth, allowlists and TLS proxy trust are configured separately.
+if [ "${PRISM_RUNTIME_ROLE:-}" = authoritative ] && [ "${PRISM_CONTEXT_GATEWAY:-off}" = on ]; then
+  mkdir -p /data/context_gateway
+  ( while true; do
+      python -m market_signal.context.gateway.launch || echo "context gateway exited; restarting in 10s"
+      sleep 10
+    done ) &
+  ( while true; do
+      python -m market_signal.context.gateway.worker || echo "context ingest worker exited; restarting in 10s"
       sleep 10
     done ) &
 fi

@@ -91,7 +91,11 @@ def status(as_json: bool = JSON) -> None:
             "SELECT max(ingested_at), count(*) FROM context_ls_ratios"
         ).fetchone()
         cutover = hl_cutover(store)
-    obj = {"providers": health, "events": counts.to_dict("records"), "updates": int(ups),
+    from market_signal.context.gateway.health import status as gateway_status
+    from market_signal.context.gateway.spool import Spool, default_root
+
+    gh = gateway_status(Spool(default_root()))
+    obj = {"gateway": {k: gh[k] for k in ("running", "auth_state", "spool_backlog", "oldest_uningested_age_s")}, "providers": health, "events": counts.to_dict("records"), "updates": int(ups),
            "positioning": {"hl_hourly_cutover": cutover,
                            "hl_last_grid_hour": None if hl[0] is None else str(hl[0]),
                            "hl_grid_hours": int(hl[1] or 0),
@@ -100,6 +104,7 @@ def status(as_json: bool = JSON) -> None:
     if _out(obj, as_json):
         return
     _providers_table(health)
+    console.print(f"gateway: {json.dumps(obj['gateway'])}")
     console.print(f"events: {', '.join(f'{r['category']}={r['n']}' for r in obj['events']) or 'none'}; "
                   f"updates: {ups}")  # fmt: skip
     console.print(f"positioning: {json.dumps(obj['positioning'], default=str)}")
@@ -393,4 +398,7 @@ def thesis(snapshot_id: str,
 
 
 def register(app: typer.Typer) -> None:
+    from market_signal.cli.context_gateway_cmds import app as gateway
+
+    context.add_typer(gateway, name="gateway")
     app.add_typer(context, name="context")

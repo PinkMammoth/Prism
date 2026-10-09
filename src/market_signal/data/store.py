@@ -1502,6 +1502,14 @@ MIGRATIONS: list[str] = [
         PRIMARY KEY (report_id,state)
     );
     """,
+    # 26 — Phase 26A transport receipt commit. Only the authoritative ingest writes here.
+    """
+    CREATE TABLE IF NOT EXISTS context_gateway_ingests (
+        receipt_id VARCHAR PRIMARY KEY,
+        recorded_at TIMESTAMPTZ NOT NULL,
+        result VARCHAR NOT NULL
+    );
+    """,
 ]
 
 ROLE_ENV, RUNTIME_ID_ENV = "PRISM_RUNTIME_ROLE", "PRISM_RUNTIME_ID"

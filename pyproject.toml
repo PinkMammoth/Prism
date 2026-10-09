@@ -19,6 +19,9 @@ dependencies = [
     "plotly>=5.22",
     "pytz>=2026.4",
     "websockets>=13",
+    "mcp>=1.26,<2",
+    "pyjwt[crypto]>=2.10,<3",
+    "uvicorn>=0.34,<1",
 ]
 
 [project.scripts]

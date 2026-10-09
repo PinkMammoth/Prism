@@ -1,0 +1,362 @@
+{
+  "name": "submit_market_event",
+  "inputSchema": {
+    "type": "object",
+    "$defs": {
+      "GatewayItem": {
+        "additionalProperties": false,
+        "properties": {
+          "event_time": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Event Time"
+          },
+          "published_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Published At"
+          },
+          "first_seen_at": {
+            "description": "Sender discovery time only. Prism independently stamps authoritative knowledge time.",
+            "format": "date-time",
+            "title": "First Seen At",
+            "type": "string"
+          },
+          "source": {
+            "maxLength": 500,
+            "minLength": 1,
+            "title": "Source",
+            "type": "string"
+          },
+          "url": {
+            "pattern": "^https?://[^\\s]{3,2000}$",
+            "title": "Url",
+            "type": "string"
+          },
+          "assets": {
+            "default": [],
+            "items": {
+              "maxLength": 500,
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxItems": 16,
+            "title": "Assets",
+            "type": "array"
+          },
+          "entities": {
+            "default": [],
+            "items": {
+              "maxLength": 500,
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxItems": 16,
+            "title": "Entities",
+            "type": "array"
+          },
+          "market_wide": {
+            "default": false,
+            "title": "Market Wide",
+            "type": "boolean"
+          },
+          "category": {
+            "enum": [
+              "macro",
+              "market_structure",
+              "protocol",
+              "security"
+            ],
+            "title": "Category",
+            "type": "string"
+          },
+          "subcategory": {
+            "enum": [
+              "boe_decision",
+              "boj_decision",
+              "bridge_exploit",
+              "central_bank_statement",
+              "chain_halt",
+              "custody_disruption",
+              "delisting",
+              "ecb_decision",
+              "emergency_pause",
+              "etf_flow",
+              "exchange_deposit_withdrawal_disruption",
+              "exchange_insolvency",
+              "exchange_maintenance",
+              "exchange_outage",
+              "exploit_confirmed",
+              "exploit_suspected",
+              "fed_speech",
+              "fomc_decision",
+              "governance_proposal",
+              "governance_result",
+              "inflation_release_other",
+              "key_compromise",
+              "lawsuit",
+              "liquidity_fixture",
+              "listing",
+              "partnership",
+              "protocol_upgrade",
+              "rate_decision_other",
+              "regulatory_action",
+              "risk_parameter_change",
+              "stablecoin_depeg",
+              "stolen_funds_movement",
+              "token_unlock",
+              "tokenomics_change",
+              "treasury_action",
+              "treasury_auction",
+              "treasury_flow",
+              "us_core_cpi",
+              "us_core_pce",
+              "us_cpi",
+              "us_gdp",
+              "us_ism_pmi",
+              "us_nfp",
+              "us_pce",
+              "us_ppi",
+              "us_retail_sales",
+              "us_unemployment",
+              "validator_issue"
+            ],
+            "pattern": "^[a-z][a-z0-9_]{0,79}$",
+            "title": "Subcategory",
+            "type": "string"
+          },
+          "title": {
+            "maxLength": 500,
+            "minLength": 1,
+            "title": "Title",
+            "type": "string"
+          },
+          "summary": {
+            "default": "",
+            "maxLength": 4000,
+            "title": "Summary",
+            "type": "string"
+          },
+          "confidence": {
+            "enum": [
+              "UNCONFIRMED",
+              "REPORTED"
+            ],
+            "title": "Confidence",
+            "type": "string"
+          },
+          "scheduled": {
+            "default": false,
+            "title": "Scheduled",
+            "type": "boolean"
+          },
+          "update_kind": {
+            "default": null,
+            "title": "Update Kind",
+            "type": "null"
+          },
+          "dedup_key": {
+            "default": null,
+            "title": "Dedup Key",
+            "type": "null"
+          },
+          "relevance_end": {
+            "default": null,
+            "title": "Relevance End",
+            "type": "null"
+          },
+          "attributes": {
+            "$ref": "#/$defs/GenericAttrs"
+          },
+          "source_type": {
+            "const": "ai_monitor",
+            "default": "ai_monitor",
+            "title": "Source Type",
+            "type": "string"
+          },
+          "country": {
+            "anyOf": [
+              {
+                "pattern": "^[A-Z]{2}$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Country"
+          },
+          "region": {
+            "anyOf": [
+              {
+                "maxLength": 500,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Region"
+          },
+          "factual_claims": {
+            "default": [],
+            "items": {
+              "maxLength": 500,
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxItems": 16,
+            "title": "Factual Claims",
+            "type": "array"
+          },
+          "provenance": {
+            "default": [],
+            "items": {
+              "maxLength": 500,
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxItems": 8,
+            "title": "Provenance",
+            "type": "array"
+          },
+          "corroborating_urls": {
+            "default": [],
+            "items": {
+              "pattern": "^https?://[^\\s]{3,2000}$",
+              "type": "string"
+            },
+            "maxItems": 8,
+            "title": "Corroborating Urls",
+            "type": "array"
+          }
+        },
+        "required": [
+          "first_seen_at",
+          "source",
+          "url",
+          "category",
+          "subcategory",
+          "title",
+          "confidence"
+        ],
+        "title": "GatewayItem",
+        "type": "object"
+      },
+      "GenericAttrs": {
+        "additionalProperties": false,
+        "description": "Flat scalar facts for everything else (no nested free-form structures).",
+        "properties": {
+          "kind": {
+            "const": "generic",
+            "default": "generic",
+            "title": "Kind",
+            "type": "string"
+          },
+          "facts": {
+            "patternProperties": {
+              "^[a-z][a-z0-9_]{0,79}$": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "title": "Facts",
+            "type": "object"
+          }
+        },
+        "title": "GenericAttrs",
+        "type": "object"
+      }
+    },
+    "properties": {
+      "payload": {
+        "additionalProperties": false,
+        "properties": {
+          "schema": {
+            "const": "context_import_v1",
+            "title": "Schema",
+            "type": "string"
+          },
+          "submission_id": {
+            "pattern": "^[A-Za-z0-9_.:-]{1,128}$",
+            "title": "Submission Id",
+            "type": "string"
+          },
+          "external_event_id": {
+            "pattern": "^[A-Za-z0-9_.:-]{1,128}$",
+            "title": "External Event Id",
+            "type": "string"
+          },
+          "sent_at": {
+            "description": "Actual UTC send time; preserve unchanged on retries.",
+            "format": "date-time",
+            "title": "Sent At",
+            "type": "string"
+          },
+          "sender_version": {
+            "pattern": "^[A-Za-z0-9_.:-]{1,128}$",
+            "title": "Sender Version",
+            "type": "string"
+          },
+          "test": {
+            "default": false,
+            "description": "True excludes this receipt from active context.",
+            "title": "Test",
+            "type": "boolean"
+          },
+          "item": {
+            "$ref": "#/$defs/GatewayItem"
+          }
+        },
+        "required": [
+          "schema",
+          "submission_id",
+          "external_event_id",
+          "sent_at",
+          "sender_version",
+          "item"
+        ],
+        "title": "Submission",
+        "type": "object"
+      }
+    },
+    "required": [
+      "payload"
+    ],
+    "additionalProperties": false
+  }
+}

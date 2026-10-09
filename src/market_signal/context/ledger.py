@@ -318,9 +318,11 @@ def resolved_entities(obs: Observation, em: EntityMap) -> list[str]:
 
 
 def ingest(store: Store, observations: list[Observation | dict], *, run_id: str | None = None,
-           now: datetime | None = None, entity_map: EntityMap | None = None) -> IngestResult:  # fmt: skip
+           now: datetime | None = None, entity_map: EntityMap | None = None,
+           corroboration_only: bool = False) -> IngestResult:  # fmt: skip
     """Validate, deduplicate and append. ``now`` is Prism's receipt time (tests inject it);
-    it becomes ``first_seen_at`` / ``observed_at``. Each observation commits atomically."""
+    it becomes ``first_seen_at`` / ``observed_at``. Each observation commits atomically.
+    ``corroboration_only`` preserves existing event content while appending the report/provenance."""
     em = entity_map or load_entities()
     res = IngestResult()
     for raw in observations:
@@ -370,7 +372,7 @@ def ingest(store: Store, observations: list[Observation | dict], *, run_id: str 
             # update before the event's own first sighting or before an earlier update
             observed_at = max(observed_at, _ts(st["last_updated_at"]).to_pydatetime())
             processed_at = max(processed_at, observed_at)
-            changes = changed_fields(st, obs)
+            changes = {} if corroboration_only else changed_fields(st, obs)
             new_ents = sorted(set(obs.entities) - set(st["entities"]))
             if new_ents:
                 changes["entities"] = new_ents
@@ -378,7 +380,11 @@ def ingest(store: Store, observations: list[Observation | dict], *, run_id: str 
             if not changes and same_source and obs.update_kind is None:
                 res.duplicates += 1  # same source, nothing new (e.g. re-worded re-poll)
                 continue
-            conf = _next_confidence(store, st, obs)
+            conf = (
+                st["confidence"]
+                if corroboration_only and st["confidence"] == Confidence.DENIED.value
+                else _next_confidence(store, st, obs)
+            )
             kind = obs.update_kind or (
                 "confidence_change" if conf != st["confidence"] and not changes
                 else "status_change" if "subcategory" in changes

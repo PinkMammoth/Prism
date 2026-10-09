@@ -758,7 +758,7 @@ def test_migration_18_is_market_data_only():
     from market_signal.data.store import MIGRATIONS
 
     ddl = MIGRATIONS[17]
-    assert len(MIGRATIONS) == 25  # Phase 25A appends isolated paper v2/retirement tables
+    assert len(MIGRATIONS) == 26  # Phase 26A appends only the authoritative context receipt commit
     created = re.findall(r"CREATE TABLE IF NOT EXISTS (\w+)", ddl)
     assert created == ["perp_intraday_bars", "perp_intraday_revisions", "perp_intraday_coverage",
                        "intraday_execution_shadow"]  # fmt: skip
