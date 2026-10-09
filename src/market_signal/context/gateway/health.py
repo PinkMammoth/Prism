@@ -107,6 +107,7 @@ def status(spool: Spool) -> dict:
     attempts = len(list((spool.root / "attempts").glob("*.json")))
     return {
         "running": running,
+        "started_at": live.get("started_at"),
         "auth_state": live.get("auth_state", "UNCONFIGURED"),
         "provider": "chatgpt_work_v1",
         "accepted_24h": accepted_count,

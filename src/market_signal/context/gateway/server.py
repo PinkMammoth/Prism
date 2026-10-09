@@ -176,6 +176,8 @@ def create_app(spool: Spool, verifier: Verifier, *, dev=False):
 
     @asynccontextmanager
     async def lifespan(server):
+        started_at = now().isoformat()
+
         async def beat():
             while True:
                 publish_live(
@@ -183,6 +185,7 @@ def create_app(spool: Spool, verifier: Verifier, *, dev=False):
                     "server.json",
                     {
                         "heartbeat_at": now().isoformat(),
+                        "started_at": started_at,
                         "auth_state": "OAUTH_CONFIGURED" if verifier.jwks else "SERVICE_ONLY",
                         "last_spool_failure_at": getattr(spool, "last_failure_at", None),
                     },

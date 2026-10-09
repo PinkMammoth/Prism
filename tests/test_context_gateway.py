@@ -394,6 +394,7 @@ def test_gateway_health(client, sp):
     for _ in range(10):
         post(client, token="invalid")
     h = status(sp)
+    assert datetime.fromisoformat(h["started_at"]).tzinfo is not None
     assert h["running"] and h["accepted_24h"] == 1 and h["duplicates_24h"] == 1
     assert h["rejected_24h"] == 10 and h["spool_backlog"] == 1
     assert "auth_rejected_spike" in h["alerts"]
