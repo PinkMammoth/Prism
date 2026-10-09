@@ -461,8 +461,9 @@ five-second worker. It used the real runtime lock, DB authority guard and fsync 
 | Typical retained spool bytes/receipt | 3,082 bytes |
 
 OAuth MCP was separately exercised end to end with a signed local issuer test, synchronous
-structured receipt, identical retry, ingest and snapshot. **These are local engineering
-measurements. No Work-origin or production Railway latency has yet been measured.**
+structured receipt, identical retry, ingest and snapshot. **These are implementation-time
+local engineering measurements.** Subsequent production Railway and genuine Work-origin
+measurements are in [the production activation record](REALTIME_CONTEXT_GATEWAY_ACTIVATION.md).
 An attempted benchmark during the full concurrent regression run hit its five-second
 HTTP client timeout. The table reports the successful final rerun after that full suite
 finished. Host I/O contention can exceed the target; production lock/I/O load and bounded
@@ -470,7 +471,7 @@ identical retries must be measured before claiming a deployment SLA.
 
 At implementation completion, no new infrastructure had been activated and incremental
 billed cost was **$0**. See the activation record for subsequent production measurements.
-Projected activated cost, using [Railway resource rates](https://docs.railway.com/pricing/plans):
+Implementation-time cost projection, using [Railway resource rates](https://docs.railway.com/pricing/plans):
 351 MiB combined measured resident memory ≈ **$3.68/month** at $10/GB monthly RAM (decimal GB);
 allow 0.01–0.03 average vCPU ≈ **$0.20–$0.60/month** (CPU usage is a planning assumption,
 not a measured production average). Budget **$4–$5/month**, allowing watcher/SDK/DB overhead;
@@ -519,7 +520,7 @@ rollback; death after DB commit; a real independent DuckDB lock and catch-up; ru
 safety; existing-official dedupe; later corroboration/denial; snapshot causality; and both
 static and dynamic imports proving the public entrypoint cannot reach execution/paper/CLI/DB.
 
-Verification completed on 2026-10-09:
+Implementation-branch verification completed on 2026-10-09 (before production hardening):
 
 - Full pytest: **1,151 passed**, four warnings, **1,502.28 s**. Executed with four local
   pytest-xdist workers (`-o addopts='' -q -n 4 --dist loadfile`), including Phase 25A,
@@ -532,8 +533,11 @@ Verification completed on 2026-10-09:
 
 Starlette currently warns that its
 httpx-based TestClient adapter is deprecated; this affects the test harness, not uvicorn or
-production transport. Production restart/exposure and Work linking require the activation
-checks above; local crash/restart tests are not a claimed Railway restart.
+production transport. Subsequent production hardening passed 70 Phase 26A tests and
+1,141 full deployed-source regression tests. Production exposure, Railway restart and
+genuine Work delivery passed the activation checks recorded in
+[the production activation report](REALTIME_CONTEXT_GATEWAY_ACTIVATION.md). The earlier
+local crash/restart tests remain separate from the measured Railway verification.
 
 Limitations deliberately retained: no source URL fetching/verification, interpretation,
 moderation UI, dynamic taxonomy, guaranteed Work retry/schedule, guaranteed lock-free p95,
