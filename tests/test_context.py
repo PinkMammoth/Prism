@@ -401,6 +401,23 @@ def test_vulnerability_counts_observable_ingredients():
     assert vulnerability({}, None)["long_side"]["level"] == "unknown"
 
 
+def test_vulnerability_numpy_inputs_produce_native_json_booleans():
+    block = {
+        "funding_pct_90d": 0.95,
+        "oi_change_24h_z": 2.0,
+        "price_change_24h_pct": 0.1,
+        "ls_account_pct_30d": None,
+    }
+    expected = vulnerability(block, catalyst_24h=True)
+    actual = vulnerability(
+        {k: np.float64(v) if v is not None else None for k, v in block.items()},
+        catalyst_24h=np.bool_(True),
+    )
+    assert json.loads(json.dumps(actual, allow_nan=False)) == expected
+    for side in ("long_side", "short_side"):
+        assert all(v is None or type(v) is bool for v in actual[side]["components"].values())
+
+
 def test_binance_ratio_parsing():
     df = parse_ratio("global_account", [{"symbol": "BTCUSDT", "longAccount": "0.49", "shortAccount": "0.51",
                                          "longShortRatio": "0.96", "timestamp": 1791295200000}])  # fmt: skip

@@ -594,6 +594,32 @@ def test_revision_is_kept_and_known_at_reconstructs_what_prism_knew(store, tmp_p
     assert store.con.execute("SELECT count(*) FROM microstructure_revisions").fetchone()[0] == 1
 
 
+def test_revision_archives_missing_book_values_without_blocking_ingest(store, tmp_path):
+    eng, out = mk()
+    late = ("T", M + MIN + 8_000, "BTC", M + 30_000, 100.0, 2.0, True, 21, None)
+    events = (
+        acks(M - 10_000)
+        + stream(M - 10_000, M + 3 * MIN, book5=False, book20=False)
+        + [trade(M + 1000, 100.0, 1.0, True, 1), late]
+    )
+    run(eng, events, start=M - 10_000)
+    sp = _spool_from(out, tmp_path)
+    result = ingest(store, sp)
+    assert result["status"] == "ok" and result["revisions"] == 1
+    archived = json.loads(
+        store.con.execute("SELECT row_json FROM microstructure_revisions").fetchone()[0]
+    )
+    assert archived["buy_vol"] == 1.0 and archived["revision"] == 0
+    for field in ("bid5_end", "ask5_end", "bid20_end", "ask20_end"):
+        assert archived[field] is None
+    current = store.con.execute(
+        "SELECT revision,buy_vol,bid5_end FROM microstructure_minutes WHERE minute_open=?",
+        [pd.Timestamp(M, unit="ms", tz="UTC").to_pydatetime()],
+    ).fetchone()
+    assert current == (1, 3.0, None)
+    assert ingest(store, sp).get("revisions", 0) == 0
+
+
 def test_loader_marks_missing_minutes_and_production_only(store, tmp_path):
     _, out = healthy(end=M + 3 * MIN)
     ingest(store, _spool_from(out, tmp_path))

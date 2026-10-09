@@ -1,0 +1,72 @@
+{
+  "method": "complete pytest suite across four disjoint file shards; local socket access enabled",
+  "passed": 1071,
+  "failed": 0,
+  "errors": 0,
+  "skipped": 0,
+  "test_files": 46,
+  "shards": [
+    {
+      "shard": 0,
+      "name": "pytest",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "tests": "228",
+      "time": "947.453",
+      "timestamp": "2026-10-09T12:35:28.632435+01:00",
+      "hostname": "DESKTOP-J65KFB9"
+    },
+    {
+      "shard": 1,
+      "name": "pytest",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "tests": "271",
+      "time": "957.000",
+      "timestamp": "2026-10-09T12:35:28.668271+01:00",
+      "hostname": "DESKTOP-J65KFB9"
+    },
+    {
+      "shard": 2,
+      "name": "pytest",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "tests": "292",
+      "time": "975.330",
+      "timestamp": "2026-10-09T12:35:28.641701+01:00",
+      "hostname": "DESKTOP-J65KFB9"
+    },
+    {
+      "shard": 3,
+      "name": "pytest",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "tests": "280",
+      "time": "1013.267",
+      "timestamp": "2026-10-09T12:35:28.604549+01:00",
+      "hostname": "DESKTOP-J65KFB9"
+    }
+  ],
+  "new_regressions": [
+    "test_revision_archives_missing_book_values_without_blocking_ingest",
+    "test_vulnerability_numpy_inputs_produce_native_json_booleans"
+  ],
+  "original_tests_preserved": true,
+  "phase22_file_hashes_unchanged": true,
+  "universe_id_unchanged": "paperuniverse_v2_5c0ca1f65dcef5d531fb01dffd764ae471ebcb45611ad16c244f7bfd44090d9a",
+  "policy_ids_unchanged": [
+    "paperadmission_v2_f756f122a75360aeb58bcac27b38f5e72ee911011edf1944138f160d0c28d39e",
+    "paperrisk_v2_475b7c1e87fc2934eba4bb288f07cc818ed7dadb9fc8b9ab8d24a594a772e8b9",
+    "paperexecution_v2_1d468dd57dd04acf3389bf67cb48c5353eb03e0d919fe744993d2ce21742f08d"
+  ],
+  "checks": {
+    "ruff": "passed",
+    "format": "341 files passed",
+    "git_diff_check": "passed"
+  },
+  "scope": "NULL normalization for microstructure revision archiving and native boolean context components; no methodology change"
+}

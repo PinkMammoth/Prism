@@ -195,7 +195,10 @@ class _Ingest:
         old = self.con.execute(
             "SELECT * FROM microstructure_minutes WHERE feature_version=? AND coin=? AND minute_open=?",
             [fv, coin, _ts(m)]).df()  # fmt: skip
-        old_row = json.loads(old.iloc[0].to_json(date_format="iso"))
+        # DuckDB can return FLOAT NULLs as numpy.float32 NaNs in this mixed row.
+        # Pandas' JSON encoder rejects those; missing fields must remain JSON null.
+        archived = old.iloc[0]
+        old_row = json.loads(archived.where(archived.notna(), None).to_json(date_format="iso"))
         self.con.execute("INSERT INTO microstructure_revisions VALUES (?, ?, ?, ?, ?, ?, ?) "
                          "ON CONFLICT DO NOTHING",
                          [fv, coin, _ts(m), int(old_row["revision"]), _ts(r["finalized_ms"]),
