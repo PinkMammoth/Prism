@@ -63,6 +63,9 @@ JOBS: dict[str, list[tuple[str, list[str]]]] = {
     ],
     "oi": [("oi", ["oi", "collect"])],
     "daily": [("update", ["update"]), ("scan", ["scan"])],
+    "paper_v2_funding": [("funding", ["bars", "funding"])],
+    "paper_v2": [("evaluate", ["paper", "v2", "evaluate"])],
+    "paper_v2_brief": [("brief", ["paper", "v2", "brief", "--send"])],
     "backup": [],  # in-process: ``backup_live``
     # Phase 15: intraday perp bars (data only) + observational shadow timing. Never strategy,
     # co-pilot or paper evaluation: those stay on the daily prospective cadence above.
@@ -91,12 +94,38 @@ JOBS: dict[str, list[tuple[str, list[str]]]] = {
     ],
 }
 
+
+def active_steps(store, job: str) -> list[tuple[str, list[str]]]:
+    """No child processes/DB writes for retired v1 or an unactivated v2.
+
+    Keep shared data/research jobs. Draining v1 retains management until flat.
+    """
+    if (
+        job in ("paper_v2", "paper_v2_brief", "paper_v2_funding")
+        and not store.con.execute("SELECT 1 FROM paper_v2_runs").fetchone()
+    ):
+        return []
+    if job in ("prospective", "intraday"):
+        from market_signal.paper.retirement import v1_work_needed
+
+        needed = v1_work_needed(store)
+        return [
+            (name, args)
+            for name, args in JOBS[job]
+            if needed or name not in ("paper", "brief", "shadow")
+        ]
+    return JOBS[job]
+
+
 # UTC. Daily bars close at 00:00 UTC and Hyperliquid serves the closed candle and the settled
 # funding hour within seconds, so 00:10 is the main run. The rest are retries inside the
 # forward 1-day live window / paper 12 h entry window (all no-ops when nothing is new), and
 # keep the gap between prospective runs ≤ 7 h 10 m for the external heartbeat.
 SCHEDULE: dict[str, list[str]] = {
     "prospective": ["00:10", "00:45", "03:00", "06:00", "11:00", "17:00"],
+    "paper_v2_funding": ["*:05"],
+    "paper_v2": ["*:07", "*:22", "*:37", "*:52"],
+    "paper_v2_brief": ["00:12"],
     "backup": ["01:30"],
     "oi": ["02:30", "08:30", "14:30", "20:30"],  # Binance backfill + HL snapshot (data only)
     "daily": ["09:00"],  # broad market update + scan (was the 10:00 UK "Prism daily" task)
@@ -119,13 +148,26 @@ DOW = {"Mon": 1, "Tue": 2, "Wed": 3, "Thu": 4, "Fri": 5, "Sat": 6, "Sun": 0}  # 
 SCHEDULED_WAIT = 3600  # a scheduled job queues behind a running one for up to this long
 # a late intraday run is pointless (the next is 15 minutes away); a positioning capture must land
 # inside its own UTC hour, so it never queues past :54
-JOB_WAIT = {"intraday": 600, "context_news": 900, "positioning": 1500, "microstructure": 600}
+JOB_WAIT = {
+    "paper_v2": 600,
+    "intraday": 600,
+    "context_news": 900,
+    "positioning": 1500,
+    "microstructure": 600,
+}
 # alert on the first failure after a success only (no 15-minute/hourly spam); persistent
 # provider failure also shows as FAILING in `market context providers` / `market status`
-QUIET_JOBS = {"intraday", "context_news", "positioning", "microstructure", "microdir_weekly"}
+QUIET_JOBS = {
+    "intraday",
+    "context_news",
+    "positioning",
+    "microstructure",
+    "microdir_weekly",
+    "paper_v2",
+}
 # alert only once a failure streak reaches this length (one alert per streak): a single
 # transient daily-checkpoint failure is retried by the next day's run without a message
-ALERT_STREAK = {"microdir_daily": 2}
+ALERT_STREAK = {"microdir_daily": 2, "paper_v2": 3, "paper_v2_funding": 3}
 STEP_TIMEOUT = float(os.environ.get("PRISM_STEP_TIMEOUT", str(45 * 60)))
 
 DISK_WARN, DISK_CRITICAL = 0.15, 0.05  # free fraction of the database filesystem
@@ -421,7 +463,9 @@ def run_job(job: str, *, trigger: str, wait: float,
                 log.error("[backup] failed: %s", exc)
                 steps.append({"step": "backup", "exit": EXIT_FAILED, "error": str(exc)[:500]})
         else:
-            for name, args in JOBS[job]:
+            with _store(db) as s:
+                planned = active_steps(s, job)
+            for name, args in planned:
                 steps.append(step_runner(job, name, args))
         ok = all(st["exit"] == 0 for st in steps)
         status = "ok" if ok else "failed"

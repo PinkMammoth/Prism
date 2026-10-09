@@ -484,18 +484,26 @@ No existing module imports the Lab, and nothing here evaluates a strategy.
 ### Workflow
 
 ```python
-ledger = Ledger(store)                                   # requires migration 7
+ledger = Ledger(store)  # requires migration 7
 receipt = ledger.submit(raw_json, family_id="trend_family", origin="manual")
-plan_id = ledger.register_plan(plan)                     # EvaluationPlan, frozen name+version
+plan_id = ledger.register_plan(plan)  # EvaluationPlan, frozen name+version
 dataset_id = ledger.register_dataset(capture_dataset(store, selections))
 software = capture_software(Path("."))
-exp = ledger.preregister(receipt.submission_id, plan_id, dataset_id, role="discovery",
-                         assets=("BTC",), software=software, origin="manual",
-                         batch_id="trend_batch_1")       # committed before evaluation
-ledger.start(exp.experiment_id, software=software)       # records data exposure
+exp = ledger.preregister(
+    receipt.submission_id,
+    plan_id,
+    dataset_id,
+    role="discovery",
+    assets=("BTC",),
+    software=software,
+    origin="manual",
+    batch_id="trend_batch_1",
+)  # committed before evaluation
+ledger.start(exp.experiment_id, software=software)  # records data exposure
 # ... evaluation happens elsewhere (not implemented in the Lab yet) ...
-ledger.record_result(exp.experiment_id, status="rejected", verdict="NO_EDGE",
-                     metrics={...}, p_values=(PValue(...),))
+ledger.record_result(
+    exp.experiment_id, status="rejected", verdict="NO_EDGE", metrics={...}, p_values=(PValue(...),)
+)
 ```
 
 Every mutation runs in its own transaction and commits before returning; do not wrap Lab

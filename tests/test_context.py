@@ -811,6 +811,8 @@ def test_no_live_execution_and_no_consumers():
     assert not re.search(r"/exchange\"|\"type\":\s*\"order\"|action.*order", ctx_src)
     for consumer in ("paper", "copilot", "research/incubation", "perps"):
         for p in (SRC / consumer).rglob("*.py"):
+            if consumer == "paper" and "v2" in p.parts:  # Phase 25A causal attribution consumer
+                continue
             assert "market_signal.context" not in p.read_text(), p
     assert "market_signal.context" not in (SRC / "research" / "lab" / "forward.py").read_text()
     ddl = MIGRATIONS[21]

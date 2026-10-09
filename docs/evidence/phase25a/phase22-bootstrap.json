@@ -1,0 +1,65 @@
+{
+  "study_id": "sstudy_f60a05a62799548cd444753c8de7c5d7b3d9bdd17a6b5fe8b5c9a08b0d790c45",
+  "digest": "d6c9e4a060b69b02da40c3a260a40a337aaa8a3007e6ac382ce87ca089b7c4ad",
+  "interesting": [
+    {
+      "key": "ema_cross_trend[n=20]:1h:long",
+      "strategy_id": "istrat_f8d8df3e68fc541806d0242ab1b041f6d5ed5c011c857824078780a2354a86d9",
+      "primary_horizon_minutes": 480,
+      "verdict": "INTERESTING"
+    },
+    {
+      "key": "ema_stretch_fade[k=3.0]:1h:long",
+      "strategy_id": "istrat_446cfc83f79f695e56a05862e5b1132c586d61d8cbb459957d226771e077e5dd",
+      "primary_horizon_minutes": 240,
+      "verdict": "INTERESTING"
+    },
+    {
+      "key": "ema_stretch_fade[k=4.0]:1h:long",
+      "strategy_id": "istrat_2802eae87127a19e265e5261665f1cee0dcf5e78863f71fa31a1806a93cbc690",
+      "primary_horizon_minutes": 240,
+      "verdict": "INTERESTING"
+    },
+    {
+      "key": "compression_breakout[n=24,pct=0.35]:1h:long",
+      "strategy_id": "istrat_168729004dba077e08c523c97b707a593958fd8894c5bfdd7e7dafea19e83f04",
+      "primary_horizon_minutes": 240,
+      "verdict": "INTERESTING"
+    },
+    {
+      "key": "expansion_continuation[k=3.0]:1h:long",
+      "strategy_id": "istrat_b34d8eb52691f31d320a1015fbe9d902d0ee01a0227847ccfe408a98a8f2e5ed",
+      "primary_horizon_minutes": 240,
+      "verdict": "INTERESTING"
+    },
+    {
+      "key": "expansion_fade[k=3.0]:1h:long",
+      "strategy_id": "istrat_d3f505b175f53c39654e125714b7591115453866146efe8b2b2e4d908bc15cfb",
+      "primary_horizon_minutes": 240,
+      "verdict": "INTERESTING"
+    },
+    {
+      "key": "exhaustion[n=24,z=3.0,strong_close=no]:1h:long",
+      "strategy_id": "istrat_e5197126cabee8e15e8ee0320e342a30cec27c55ed0e1bb1d90f5c3614cacf73",
+      "primary_horizon_minutes": 240,
+      "verdict": "INTERESTING"
+    }
+  ],
+  "ensemble": {
+    "contemporary": {
+      "days_ge1_share": 0.9570815450643777,
+      "days_ge5_share": 0.4949928469241774,
+      "independent": 3349,
+      "independent_per_day": 4.791130185979972,
+      "long_per_day": 4.791130185979972,
+      "median_per_day": 4.0,
+      "raw": 4201,
+      "raw_per_day": 6.010014306151645,
+      "share_of_target": 0.9582260371959943,
+      "short_per_day": 0.0,
+      "strategies": 7,
+      "target_per_day": 5.0,
+      "zero_day_share": 0.04291845493562232
+    }
+  }
+}

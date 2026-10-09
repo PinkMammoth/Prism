@@ -1,0 +1,110 @@
+{
+  "kind": "READ_ONLY_SOURCE_BENCHMARK_NO_ACCOUNT_NO_TRADES",
+  "backup_sha256": "87dd7c929f19c7df492417df766de5ae6d88237dec468e413052e21370b0e3c0",
+  "source_as_of": "2026-10-09T01:22:02.585225+00:00",
+  "host": "local workspace, not Railway",
+  "wall_seconds": 1.7255889420000585,
+  "cpu_seconds": 2.104407249,
+  "peak_rss_mb": 371.734375,
+  "quotes": 13476,
+  "funding_rows": 282,
+  "observations": 126,
+  "healthy": 84,
+  "warm": 78,
+  "fired": 0,
+  "dependencies": {
+    "sources": {
+      "AAVE:phase22": {
+        "healthy": false,
+        "warm": true,
+        "available_at": "2026-10-09T01:01:08.325222+00:00"
+      },
+      "AAVE:phase23": {
+        "healthy": true,
+        "warm": true,
+        "available_at": "2026-10-09T01:22:02.585225+00:00"
+      },
+      "AAVE:phase24": {
+        "healthy": true,
+        "warm": false,
+        "available_at": "2026-10-09T01:21:02.585225+00:00"
+      },
+      "BTC:phase22": {
+        "healthy": false,
+        "warm": true,
+        "available_at": "2026-10-09T01:01:03.315887+00:00"
+      },
+      "BTC:phase23": {
+        "healthy": true,
+        "warm": true,
+        "available_at": "2026-10-09T01:22:02.585225+00:00"
+      },
+      "BTC:phase24": {
+        "healthy": true,
+        "warm": false,
+        "available_at": "2026-10-09T01:21:02.585225+00:00"
+      },
+      "ETH:phase22": {
+        "healthy": false,
+        "warm": true,
+        "available_at": "2026-10-09T01:01:04.316352+00:00"
+      },
+      "ETH:phase23": {
+        "healthy": true,
+        "warm": true,
+        "available_at": "2026-10-09T01:22:02.585225+00:00"
+      },
+      "ETH:phase24": {
+        "healthy": true,
+        "warm": false,
+        "available_at": "2026-10-09T01:21:02.585225+00:00"
+      },
+      "HYPE:phase22": {
+        "healthy": false,
+        "warm": true,
+        "available_at": "2026-10-09T01:01:06.453557+00:00"
+      },
+      "HYPE:phase23": {
+        "healthy": true,
+        "warm": true,
+        "available_at": "2026-10-09T01:22:02.585225+00:00"
+      },
+      "HYPE:phase24": {
+        "healthy": true,
+        "warm": false,
+        "available_at": "2026-10-09T01:21:02.585225+00:00"
+      },
+      "LINK:phase22": {
+        "healthy": false,
+        "warm": true,
+        "available_at": "2026-10-09T01:01:07.321948+00:00"
+      },
+      "LINK:phase23": {
+        "healthy": true,
+        "warm": true,
+        "available_at": "2026-10-09T01:22:02.585225+00:00"
+      },
+      "LINK:phase24": {
+        "healthy": true,
+        "warm": false,
+        "available_at": "2026-10-09T01:21:02.585225+00:00"
+      },
+      "SOL:phase22": {
+        "healthy": false,
+        "warm": true,
+        "available_at": "2026-10-09T01:01:05.328492+00:00"
+      },
+      "SOL:phase23": {
+        "healthy": true,
+        "warm": true,
+        "available_at": "2026-10-09T01:22:02.585225+00:00"
+      },
+      "SOL:phase24": {
+        "healthy": true,
+        "warm": false,
+        "available_at": "2026-10-09T01:21:02.585225+00:00"
+      }
+    },
+    "context": {}
+  }
+}

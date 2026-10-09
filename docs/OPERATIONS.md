@@ -85,6 +85,9 @@ and history are not left to it. They live in Prism (below).
 | `microstructure` | every hour at :06, :21, :36, :51 (`--wait 600`, quiet alerts) | `microstructure ingest` (collector spool → DB, idempotent) → `microstructure health --check` (Phase 24A; data only) |
 | `microdir_daily` | 01:10 | `lab microstructure checkpoint --cadence daily`: every owed 00:00 UTC checkpoint of the frozen Phase 24B study, in order (a no-op when none is owed); alerts only on the 2nd consecutive failure |
 | `microdir_weekly` | Monday 01:20 | `lab microstructure checkpoint --cadence weekly`: every owed Monday 00:00 UTC governed checkpoint, in order; quiet alerts (first failure of a streak) |
+| `paper_v2_funding` | hourly :05 | `bars funding`: six-asset bounded public settled-funding refresh; no subprocess before v2 activation |
+| `paper_v2` | hourly :07, :22, :37, :52 | `paper v2 evaluate`: causal features, opportunity ledger and fixed-horizon paper management; no subprocess before v2 activation |
+| `paper_v2_brief` | 00:12 | `paper v2 brief --send`: one stored PAPER summary for the previous UTC day |
 | boot | 60 s after every container start | one `prospective` cycle (catch-up after restart, reboot or deploy) |
 
 **Provider timing (checked 2026-10-04).** Hyperliquid's daily candle closes at 23:59:59.999 UTC
@@ -97,8 +100,12 @@ at 7 h 10 m, for the heartbeat. Every run after the first is a no-op when nothin
 before, steps run even if an earlier one failed; the job fails if any step failed.
 
 The schedule is defined once, in `market_signal.ops.runtime.SCHEDULE` (`"*:MM"` means every
-hour at MM). The intraday job only collects data: strategy, co-pilot and paper evaluation stay
-on the daily `prospective` cadence. A failed intraday cycle sends one infra alert on the first
+hour at MM). The intraday job collects data. Legacy paper and co-pilot evaluation remain
+on `prospective`; its paper/brief steps and intraday's v1 shadow step are skipped when all
+v1 accounts are terminal and flat. Open v1 positions retain deterministic management
+until flat. The separate exploratory paper v2 uses the jobs above and reuses the existing
+service and writer lock. See [the exact cutover](EXPLORATORY_PAPER_V2.md#production-deployment-and-cutover-sequence)
+before registering or activating an account. A failed intraday cycle sends one infra alert on the first
 failure after a success, not one every 15 minutes, and the next run recovers missed bars from
 its overlap window.
 

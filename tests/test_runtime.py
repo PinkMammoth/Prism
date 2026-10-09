@@ -163,11 +163,9 @@ def test_prospective_sequence_runs_in_order_and_is_recorded(live, monkeypatch):
     calls = []
     out = rt.run_job("prospective", trigger="schedule", wait=0, step_runner=_fake_steps(calls))
     assert out["exit"] == 0 and out["status"] == "ok"
-    assert [c[1] for c in calls] == ["forward", "copilot", "paper", "brief", "incubation"]
+    assert [c[1] for c in calls] == ["forward", "copilot", "incubation"]
     assert [c[2] for c in calls] == [["lab", "forward", "run"],
                                      ["lab", "copilot", "run", "--no-update"],
-                                     ["lab", "paper", "run"],
-                                     ["lab", "paper", "brief", "--send"],
                                      ["lab", "incubation", "run"]]  # fmt: skip
     s = Store(live, read_only=True)
     row = s.con.execute("SELECT job, trigger, status, runtime_id FROM runtime_cycles").fetchall()
@@ -183,7 +181,7 @@ def test_a_failed_step_does_not_skip_later_steps_and_alerts(live, monkeypatch):
     calls = []
     out = rt.run_job("prospective", trigger="schedule", wait=0,
                      step_runner=_fake_steps(calls, fail={"copilot"}))  # fmt: skip
-    assert out["exit"] == rt.EXIT_FAILED and len(calls) == 5
+    assert out["exit"] == rt.EXIT_FAILED and len(calls) == 3
     assert beats == [False] and "copilot=1" in alerts[0]
 
 
@@ -265,7 +263,7 @@ def test_crash_mid_cycle_then_retry(live, monkeypatch):
     _as_runtime(monkeypatch)
 
     def boom(job, name, args):
-        if name == "paper":
+        if name == "copilot":
             raise KeyboardInterrupt  # stands in for SIGKILL/OOM mid-step
         return {"step": name, "exit": 0, "seconds": 0}
 

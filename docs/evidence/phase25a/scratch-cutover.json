@@ -1,0 +1,189 @@
+{
+  "kind": "SCRATCH_ONLY_CUTOVER_REHEARSAL_NO_PRODUCTION_DEPLOYMENT_OR_ACTIVATION",
+  "source_backup_sha256": "87dd7c929f19c7df492417df766de5ae6d88237dec468e413052e21370b0e3c0",
+  "no_historical_trades_or_opportunities": true,
+  "v1_original_run_row_unchanged": true,
+  "v1_frozen_digests_verified": true,
+  "v1_retirement": {
+    "state": "RETIRED",
+    "equity": 10000.0,
+    "reason": "Retired because the conservative daily strategy/admission design produced no useful exploratory trading activity and is superseded by Paper Trader v2."
+  },
+  "v1_steps_remaining": {
+    "prospective": [
+      "forward",
+      "copilot",
+      "incubation"
+    ],
+    "intraday": [
+      "bars"
+    ]
+  },
+  "v2_local_scratch_run": {
+    "run_id": "paperrun_v2_7454df02ce884bcba4455cd34c1d9a339d9a66a5cf15711fc4bd860ebc9f2858",
+    "universe_id": "paperuniverse_v2_dd3c5b954cce4ef19f3a416db755f22e39661b8738284a4c866d77e89edd6a09",
+    "activated_at": "2026-10-09T07:25:27.651851+00:00",
+    "mode": "paper",
+    "nonce": "27e0ed354b4b439e8c6adff90d8cdda1",
+    "version": "paper_exploratory_v2",
+    "admission_policy_id": "paperadmission_v2_f756f122a75360aeb58bcac27b38f5e72ee911011edf1944138f160d0c28d39e",
+    "risk_policy_id": "paperrisk_v2_475b7c1e87fc2934eba4bb288f07cc818ed7dadb9fc8b9ab8d24a594a772e8b9",
+    "execution_policy_id": "paperexecution_v2_1d468dd57dd04acf3389bf67cb48c5353eb03e0d919fe744993d2ce21742f08d",
+    "starting_equity": 100.0
+  },
+  "first_scratch_evaluation": {
+    "run_id": "paperrun_v2_7454df02ce884bcba4455cd34c1d9a339d9a66a5cf15711fc4bd860ebc9f2858",
+    "evaluated_at": "2026-10-09T07:25:27.725170+00:00",
+    "status": "ok",
+    "dependencies": {
+      "sources": {},
+      "context": {}
+    },
+    "wall_seconds": 0.370588362000035,
+    "cpu_seconds": 0.4141725719999998,
+    "peak_rss_mb": 346.1796875
+  },
+  "status": {
+    "run_id": "paperrun_v2_7454df02ce884bcba4455cd34c1d9a339d9a66a5cf15711fc4bd860ebc9f2858",
+    "mode": "paper",
+    "active": true,
+    "state": "ACTIVE",
+    "healthy": true,
+    "dependency_health": "HEALTHY",
+    "failure_count": 0,
+    "last_evaluation": "2026-10-09T07:25:27.725170+00:00",
+    "last_trade": null,
+    "activation_at": "2026-10-09T07:25:27.651851+00:00",
+    "equity": 100.0,
+    "starting_equity": 100,
+    "realised_pnl": 0,
+    "unrealised_pnl": 0,
+    "max_drawdown": 0.0,
+    "exposure": {
+      "gross_notional": 0.0,
+      "net_notional": 0.0,
+      "long_notional": 0.0,
+      "short_notional": 0.0,
+      "directional_concentration": 0
+    },
+    "btc_beta_concentration": null,
+    "concentration_note": "no causal beta estimate in this paper model; same-direction gross is visible",
+    "open_positions": [],
+    "pending": [],
+    "hypotheses_active": 21,
+    "data_dependencies": {},
+    "stale_dependencies": [],
+    "missing_funding": [],
+    "provisional_equity": false,
+    "last_24h": {
+      "signals": 0,
+      "trades": 0,
+      "long": 0,
+      "short": 0,
+      "admissions": 0,
+      "support_events": 0,
+      "rejected": 0,
+      "rejections": {},
+      "no_signal": 0,
+      "realised_pnl": 0,
+      "fees": 0,
+      "funding": 0,
+      "win": 0,
+      "loss": 0,
+      "mfe_mean": null,
+      "mae_mean": null,
+      "families": {},
+      "regimes": {},
+      "side_audit": {
+        "long": {
+          "signals": 0,
+          "admissions": 0,
+          "rejections": {}
+        },
+        "short": {
+          "signals": 0,
+          "admissions": 0,
+          "rejections": {}
+        }
+      }
+    },
+    "runtime": {
+      "wall_seconds": 0.370588362000035,
+      "cpu_seconds": 0.4141725719999998,
+      "peak_rss_mb": 346.1796875
+    },
+    "db_rows": {
+      "paper_v2_opportunities": 0,
+      "paper_v2_events": 1,
+      "paper_v2_evaluations": 1
+    },
+    "db_storage": {
+      "shared_database_bytes": 233582592,
+      "shared_wal_bytes": 34678,
+      "run_payload_bytes": 539,
+      "note": "shared file sizes include all research; payload bytes exclude indexes and shared contexts"
+    }
+  },
+  "comparison": {
+    "v1": {
+      "run_id": "paperrun_27b0a336e707c389a3fb574cd9d09a7800b563f0691612bf4fb4f1fd97029279",
+      "state": "RETIRED",
+      "days_running": 4.684583891273149,
+      "signals": 0,
+      "trades": 0,
+      "trades_per_day": 0.0,
+      "long": 0,
+      "short": 0,
+      "opportunity_participation": null,
+      "equity": 10000.0,
+      "realised_pnl": 0,
+      "unrealised_pnl": 0,
+      "fees": 0,
+      "max_drawdown": 0.0,
+      "avg_exposure": 0.0
+    },
+    "v2": {
+      "run_id": "paperrun_v2_7454df02ce884bcba4455cd34c1d9a339d9a66a5cf15711fc4bd860ebc9f2858",
+      "days_running": 5.708530092592593e-06,
+      "signals": 0,
+      "trades": 0,
+      "long": 0,
+      "short": 0,
+      "opportunity_participation": 0.0,
+      "fees": 0,
+      "equity": 100.0,
+      "realised_pnl": 0,
+      "unrealised_pnl": 0,
+      "max_drawdown": 0.0,
+      "exposure": {
+        "gross_notional": 0.0,
+        "net_notional": 0.0,
+        "long_notional": 0.0,
+        "short_notional": 0.0,
+        "directional_concentration": 0
+      },
+      "calendar_days_including_partial": 1,
+      "signals_per_day": 0.0,
+      "trades_per_day": 0.0,
+      "long_per_day": 0.0,
+      "short_per_day": 0.0,
+      "zero_trade_day_share": 1.0,
+      "days_ge_share": {
+        "1": 0.0,
+        "3": 0.0,
+        "5": 0.0,
+        "10": 0.0
+      },
+      "diagnostic_target": 5,
+      "target_is_quota": false,
+      "bottleneck": "inspect no_signal, dependency health and rejection counts"
+    },
+    "scientific_evidence": "separate from execution; neither return proves alpha"
+  },
+  "wall_seconds": 1.25003133600012,
+  "cpu_seconds": 1.217926352,
+  "peak_rss_mb": 348.6796875,
+  "database_bytes_before": 233582592,
+  "database_bytes_after_checkpoint": 233582592,
+  "database_delta_bytes": 0
+}

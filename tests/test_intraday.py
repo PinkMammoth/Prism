@@ -609,7 +609,7 @@ def test_runtime_intraday_job_lock_and_quiet_alerts(project, monkeypatch):
     assert (
         rt.run_job("intraday", trigger="test", wait=0, step_runner=steps(False))["status"] == "ok"
     )
-    assert calls == [["bars", "update"], ["bars", "shadow", "--record"]]
+    assert calls == [["bars", "update"]]  # no active v1 run needs a shadow subprocess
     rt.run_job("intraday", trigger="test", wait=0, step_runner=steps(True))
     rt.run_job("intraday", trigger="test", wait=0, step_runner=steps(True))
     assert len(alerts) == 1  # only the first failure after a success alerts
@@ -744,6 +744,8 @@ def test_shadow_waits_for_the_true_first_bar_rather_than_substituting(pap):
 def test_paper_and_copilot_never_read_intraday_data():
     for pkg in ("paper", "copilot"):
         for f in (SRC / pkg).rglob("*.py"):
+            if pkg == "paper" and "v2" in f.parts:  # separate Phase 25A intraday consumer
+                continue
             text = f.read_text()
             assert "intraday" not in text and "perp_intraday" not in text, f
     engine_src = (SRC / "paper" / "engine.py").read_text()
@@ -756,7 +758,7 @@ def test_migration_18_is_market_data_only():
     from market_signal.data.store import MIGRATIONS
 
     ddl = MIGRATIONS[17]
-    assert len(MIGRATIONS) == 24  # Phase 24B appended migration 24 (lab_prospective_*)
+    assert len(MIGRATIONS) == 25  # Phase 25A appends isolated paper v2/retirement tables
     created = re.findall(r"CREATE TABLE IF NOT EXISTS (\w+)", ddl)
     assert created == ["perp_intraday_bars", "perp_intraday_revisions", "perp_intraday_coverage",
                        "intraday_execution_shadow"]  # fmt: skip
