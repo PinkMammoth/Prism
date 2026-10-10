@@ -279,3 +279,25 @@ def test_gapped_minutes_cannot_supply_geometry_or_two_minute_flow(store, monkeyp
     monkeypatch.setattr(data, "load_microstructure", lambda *args, **kwargs: df.tail(2))
     monkeypatch.setattr(source, "context", lambda asset: {})
     assert source.updates(["BTC"]) == []
+
+
+def test_summary_delivery_failure_fails_scheduler_command(store, monkeypatch):
+    from types import SimpleNamespace
+
+    from typer.testing import CliRunner
+
+    from market_signal.cli.main import app
+    from market_signal.paper.nimble import report
+    from market_signal.portfolio.telegram import TelegramClient
+
+    engine.register(store, now=T0)
+    engine.create(store, now=T0)
+    path = store.path
+    store.close()
+    monkeypatch.setenv("PRISM_DB_PATH", str(path))
+    monkeypatch.setattr(
+        TelegramClient, "from_settings", lambda settings: SimpleNamespace(send=lambda text: None)
+    )
+    monkeypatch.setattr(report, "record_daily", lambda *args, **kwargs: {"delivery": "failed"})
+    result = CliRunner().invoke(app, ["paper", "nimble", "brief", "--send"])
+    assert result.exit_code == 1

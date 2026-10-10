@@ -530,10 +530,11 @@ def _mark(store, rid, qs, rates, updates, contexts, now):
         px = q.mid if q else p.get("mark_ref", p["entry_ref"])
         rate = _predicted(p["asset"], contexts, updates, p) or 0.0
         fs = funding(p, rates, now, rate)
-        unrealised = (
-            max(-p["margin"], sign(p["side"]) * p["units"] * (px - p["entry_fill"]))
+        unrealised = max(
+            -p["margin"],
+            sign(p["side"]) * p["units"] * (px - p["entry_fill"])
             - fs["known_funding"]
-            - fs["adverse_reserve"]
+            - fs["adverse_reserve"],
         )
         floating += unrealised
         gross += p["units"] * px

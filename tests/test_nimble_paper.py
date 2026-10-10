@@ -633,3 +633,17 @@ def test_state_invalidation_queues_without_fill_quote(store, run):
     assert position["state"] == "EXIT_PENDING" and position["exit_detail"] == "FLOW_REVERSAL"
     engine.monitor(store, run, [quote(4, 2)], now=time(4, 2))
     assert engine.state(store, run)["closed"][0]["exit_reason"] == "INVALIDATED"
+
+
+def test_unavailable_quote_funding_cannot_exceed_isolated_marked_loss(store, run):
+    admit(store, run)
+    engine.monitor(store, run, [quote(1, 2)], now=time(1, 2))
+    position = engine.positions(store, run)[0]
+    settlement = Funding("BTC", time(60).isoformat(), time(60).isoformat(), 1.0)
+    engine.monitor(store, run, [], rates=[settlement], now=time(61))
+    current = engine.positions(store, run)[0]
+    assert current["state"] == "EXIT_PENDING"
+    assert current["unrealised"] == pytest.approx(-position["margin"])
+    assert engine.account(store, run)["equity"] == pytest.approx(
+        100 - position["entry_fee"] - position["margin"]
+    )

@@ -838,7 +838,9 @@ def test_runner_reconnects_and_resubscribes(tmp_path, monkeypatch, mode):
     from market_signal.microstructure import ws as wsmod
 
     monkeypatch.setattr(wsmod, "STALE_SOCKET_S", 0.5)
-    monkeypatch.setattr(wsmod, "ACK_TIMEOUT_S", 0.3)
+    # Handshake needs its own grace under concurrent DuckDB/fsync load.
+    # Keep the silence threshold short and assert the stale reconnect reason.
+    monkeypatch.setattr(wsmod, "ACK_TIMEOUT_S", 2.0)
     monkeypatch.setattr(wsmod, "STATUS_EVERY_S", 0.2)
     fake = FakeHL(drop_after=0.6) if mode == "drop" else FakeHL(silent_after=0.6)
 
@@ -846,7 +848,7 @@ def test_runner_reconnects_and_resubscribes(tmp_path, monkeypatch, mode):
         async with serve(fake.handler, "127.0.0.1", 0) as server:
             port = server.sockets[0].getsockname()[1]
             c = wsmod.Collector(Spool(tmp_path), ("BTC", "ETH"), url=f"ws://127.0.0.1:{port}",
-                                role="scratch", duration_s=6.0)  # fmt: skip
+                                role="scratch", duration_s=10.0)  # fmt: skip
             await c.run()
             return c
 

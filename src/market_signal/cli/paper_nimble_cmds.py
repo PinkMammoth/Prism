@@ -111,7 +111,9 @@ def brief(
             sender = TelegramClient.from_settings(get_settings()).send
         return report.record_daily(s, engine.current(s), sender=sender, trade_details=trade_details)
 
-    call(go, write=True)
+    result = call(go, write=True)
+    if result.get("delivery") == "failed":
+        raise typer.Exit(1)
 
 
 def register(app):

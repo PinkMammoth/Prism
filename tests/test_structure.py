@@ -726,6 +726,10 @@ def test_live_consumers_never_use_structural_primitives():
         for f in (SRC / pkg).rglob("*.py"):
             if pkg == "paper" and "v2" in f.parts:  # Phase 25A reuses causal BarSeries only
                 continue
+            if pkg == "paper" and "nimble" in f.parts:
+                # Public microstructure and causal local geometry are not Phase 16 primitives.
+                assert "research.structure" not in f.read_text(), f
+                continue
             assert "structure" not in f.read_text(), f
     for f in (SRC / "research" / "lab" / "forward.py", SRC / "ops" / "runtime.py",
               SRC / "research" / "lab" / "corroboration.py"):  # fmt: skip
