@@ -27,6 +27,7 @@ pages = {
         st.Page("views/perps.py", title="Perps", icon=":material/swap_vert:"),
     ],
     "Records": [
+        st.Page("views/paper.py", title="Paper traders", icon=":material/compare_arrows:"),
         st.Page("views/event_reactions.py", title="Event reactions", icon=":material/bolt:"),
         st.Page("views/track.py", title="Track record", icon=":material/fact_check:"),
         st.Page("views/portfolio.py", title="Portfolio / Journal", icon=":material/book:"),
