@@ -882,6 +882,37 @@ def test_protocol_mapping_never_uses_host_chain_or_broad_mentions():
     assert events.classify(p, time(1))[2] == "ASSET_OUTSIDE_UNIVERSE"
 
 
+def test_batched_transition_starts_at_its_own_context_availability(store, cohorts, source):
+    initial = venue(impact="minor")
+    t1, eid = enroll(store, initial)
+    updated = venue().model_copy(
+        update={
+            "attributes": GenericAttrs(
+                facts={
+                    **venue().attributes.facts,
+                    "information_time": time(40).isoformat(),
+                    "source_revision_at": time(40).isoformat(),
+                }
+            )
+        }
+    )
+    t2, same = enroll(store, updated, time(40))
+    assert eid == same
+    # Both receipts were drained late: availability alone cannot identify the report.
+    t1["available_at"] = time(40, 1).isoformat()
+    t1["metadata"]["gateway_received_at"] = time(1).isoformat()
+    t2["available_at"] = time(40, 2).isoformat()
+    t2["metadata"]["gateway_received_at"] = time(40).isoformat()
+    rid = cohorts["immediate"]
+    assert evaluate(store, rid, source, [t1, t2], minute=40, second=2) == {"ADMITTED": 1}
+    p = engine.positions(store, rid)[0]
+    assert p["evidence_available_at"] == time(40, 2).isoformat()
+    assert (
+        p["thesis"]["context_snapshot"]["event_entry"]["state"]["first_seen_at"]
+        == time(1).isoformat()
+    )
+
+
 def test_cohort_pair_atomic_activation_and_rollback(store):
     engine.register(store, events=True, now=T0)
     existing = engine.create(store, events=True, variant="confirmed", now=T0)

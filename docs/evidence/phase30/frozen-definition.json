@@ -1,5 +1,5 @@
 {
-  "event_policy_id": "paperexecution_event_82920446103d0b5e33c4b6bd9c1bbe5d84562a4e0caa23a6be0f5696829ef375",
+  "event_policy_id": "paperexecution_event_12208f088bec2bcfaa8dfe10af41ccac81975d012cd2e5b0919ec5918712c885",
   "baseline_policy_id": "paperexecution_nimble_ec40a2968bcc33f7c7654a1c8d7dcc200361e88bca99079cb4f45738ba785501",
   "definition": {
     "version": "paper_nimble_event_v1",
@@ -1786,6 +1786,7 @@
       120,
       240
     ],
+    "availability": "selected_report_receipt_matched_context_outbox_clock; legacy_missing_receipt_uses_first_notice_not_before_report_observation",
     "confirmation": "first_fully_post_availability_complete_minute_signed_return_gt_0_and_signed_taker_fraction_ge_0.10; latest_signal_at_most_90s_old",
     "objective": "pre_event_mid_plus_side_half_pre_event_15m_volatility_sqrt_window_over_15",
     "reference": "latest_complete_production_bid_ask_known_before_first_seen; age_at_most_120s",
@@ -1794,7 +1795,7 @@
     "cohorts": "independent_100usd_immediate_and_confirmed_accounts_no_pooled_evidence"
   },
   "universes": {
-    "immediate": "paperuniverse_event_034495acbea55406842ddeebf225d29ed607cdb971edbdb367dcb1245f44a2a2",
-    "confirmed": "paperuniverse_event_22cffc742555b639476a00656193835750f72b3f5a4274f5155069caacbb2be9"
+    "immediate": "paperuniverse_event_1caa53ff64e6f2afe727bbf1c9df485acccac8ea9054eb292292175f2ba7324f",
+    "confirmed": "paperuniverse_event_4a76847cbd314501804511b4278e4a878c8ac0e79454683cd7514339f0cb180a"
   }
 }

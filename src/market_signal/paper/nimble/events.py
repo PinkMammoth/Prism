@@ -682,7 +682,24 @@ def evaluate(
                             now,
                         )
                         continue
-                    relevant = [t for t in triggers if eid in t["event_ids"]]
+                    # A batch can contain the initial minor report and a later eligible
+                    # transition. Its reaction clock starts when THAT report is available.
+                    relevant = [
+                        t
+                        for t in triggers
+                        if eid in t["event_ids"] and ts(t["available_at"]) >= ts(r["observed_at"])
+                    ]
+                    matched = [
+                        t
+                        for t in relevant
+                        if t["metadata"].get("gateway_received_at")
+                        and ts(t["metadata"]["gateway_received_at"]) == ts(r["observed_at"])
+                    ]
+                    relevant = matched or [
+                        t for t in relevant if not t["metadata"].get("gateway_received_at")
+                    ]
+                    if not relevant:
+                        continue
                     available = min(ts(t["available_at"]) for t in relevant)
                     try:
                         ref = reference(source, asset, st["first_seen_at"])

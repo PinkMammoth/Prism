@@ -125,7 +125,7 @@ to a continuous preceding minute. Confirmation must be ingested and ≤90s old a
 Both signals are causal; no OI or six-filter stack is added. Retry only until information
 freshness or the cohort reaction window expires. Missing confirmation is retained once
 per observed minute as `CONFIRMATION_MISSING`; terminal expiry is `STALE_EVENT`.
-Store confirmation observed/available times and extra availability delay in seconds.
+Match a selected report to its own receipt/outbox availability; an initial minor notice cannot start a later escalation window. Legacy notices without receipt clocks must be available no earlier than the report observation. Store confirmation observed/available times and extra availability delay in seconds.
 
 Pre-event reference is the latest COMPLETE production minute bid/ask mid **known before
 Prism first_seen**, with quote time ≤availability <first_seen and quote age ≤120s.

@@ -171,6 +171,7 @@ def definition():
             "venue_safety": "active_major_or_critical_official_Hyperliquid_exchange_incident_blocks_successor_entry_and_exit_fills_until_official_recovery",
         },
         "event_research_horizons": HORIZONS,
+        "availability": "selected_report_receipt_matched_context_outbox_clock; legacy_missing_receipt_uses_first_notice_not_before_report_observation",
         "confirmation": "first_fully_post_availability_complete_minute_signed_return_gt_0_and_signed_taker_fraction_ge_0.10; latest_signal_at_most_90s_old",
         "objective": "pre_event_mid_plus_side_half_pre_event_15m_volatility_sqrt_window_over_15",
         "reference": "latest_complete_production_bid_ask_known_before_first_seen; age_at_most_120s",

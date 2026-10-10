@@ -12,11 +12,11 @@ Source speed matters only insofar as a viable tradeable move remains when Prism 
 
 Adding hypotheses changes the frozen policy/universe, so the existing active run is preserved. `paper_nimble_event_v1` has six new identities plus the unchanged original 28. Two independent cohorts each select 31 identities: original 28 plus their three immediate or confirmed event hypotheses. Each starts at $100, unchanged 20% notional, 2x isolated leverage, $10 minimum, three-position/60% gross caps and lot rounding. Separate accounts prevent an immediate position from mechanically blocking its paired confirmed experiment. Their actual dispatch delay and capital conflicts remain observable, and evidence is never pooled.
 
-Frozen event policy: `paperexecution_event_82920446103d0b5e33c4b6bd9c1bbe5d84562a4e0caa23a6be0f5696829ef375`.
+Frozen event policy: `paperexecution_event_12208f088bec2bcfaa8dfe10af41ccac81975d012cd2e5b0919ec5918712c885`.
 
-Immediate universe: `paperuniverse_event_034495acbea55406842ddeebf225d29ed607cdb971edbdb367dcb1245f44a2a2`.
+Immediate universe: `paperuniverse_event_1caa53ff64e6f2afe727bbf1c9df485acccac8ea9054eb292292175f2ba7324f`.
 
-Confirmed universe: `paperuniverse_event_22cffc742555b639476a00656193835750f72b3f5a4274f5155069caacbb2be9`.
+Confirmed universe: `paperuniverse_event_4a76847cbd314501804511b4278e4a878c8ac0e79454683cd7514339f0cb180a`.
 
 Preserved baseline policy: `paperexecution_nimble_ec40a2968bcc33f7c7654a1c8d7dcc200361e88bca99079cb4f45738ba785501`.
 
@@ -107,12 +107,12 @@ The [frozen engineering benchmark](evidence/phase30/benchmark.json) measured two
 
 | Scenario | Wall s | CPU s | Peak process RSS MiB | Event evidence rows | Execution ledger rows | Payload bytes | DB bytes |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| quiet: 60 active minutes | 2.874 | 3.451 | 210.43 | 0 | 122 | 18,696 | 6,828,032 |
-| 10 events/day | 5.633 | 6.844 | 262.48 | 60 | 182 | 640,114 | 13,905,920 |
-| 100 events/day | 48.868 | 62.777 | 326.09 | 600 | 1802 | 6,464,388 | 42,741,760 |
-| 100 duplicate reports | 16.713 | 21.569 | 326.09 | 10 | 406 | 169,134 | 15,740,928 |
+| quiet: 60 active minutes | 2.435 | 2.922 | 212.54 | 0 | 122 | 18,696 | 6,828,032 |
+| 10 events/day | 4.268 | 5.419 | 263.75 | 60 | 182 | 640,114 | 13,905,920 |
+| 100 events/day | 43.706 | 56.104 | 318.15 | 600 | 1802 | 6,464,458 | 43,266,048 |
+| 100 duplicate reports | 14.338 | 18.503 | 318.15 | 10 | 406 | 169,134 | 15,740,928 |
 
-Quiet 1,000 unactivated filesystem polls: 0.040s wall / 0.039s CPU, zero DB writes. Quiet active-event CPU extrapolation from 60 sampled minutes: 82.81 CPU seconds/day across both cohorts, before technical adapters. Quiet execution rows include two activations and 120 account marks; duplicate-burst execution rows include explicit monitoring/account marks. RSS is cumulative process peak, not incremental cohort memory. Database allocations include schema/checkpoint overhead. No synthetic PnL tuning.
+Quiet 1,000 unactivated filesystem polls: 0.027s wall / 0.026s CPU, zero DB writes. Quiet active-event CPU extrapolation from 60 sampled minutes: 70.13 CPU seconds/day across both cohorts, before technical adapters. Quiet execution rows include two activations and 120 account marks; duplicate-burst execution rows include explicit monitoring/account marks. RSS is cumulative process peak, not incremental cohort memory. Database allocations include schema/checkpoint overhead. No synthetic PnL tuning.
 
 Benchmark excludes network, writer contention, existing technical adapters and steady billing; it is not a production latency SLA. Existing infrastructure and all 18 free sources remain; additional data/API subscription cost **£0/month**. Actual combined-worker production sampling is recorded after activation.
 
@@ -126,7 +126,7 @@ Initial authoritative production state will be recorded after activation. A lack
 
 ## Tests
 
-Final validation is in progress. The final Phase 30 plus runtime suite passed **55 tests**, one pre-existing Starlette deprecation warning, in **16.59s**. Separate worker/intent-clock integration checks passed **2 tests in 3.94s**. Ruff and formatting passed (361 files), and git diff --check passed. The prior requested regression run had one obsolete Phase 23 blanket consumer assertion; it now exempts only the authorized Phase 30 paper consumer, preserving source-side/live-execution prohibitions. An under-load gateway heartbeat failure passed in isolation and is being rechecked in final suites.
+Final validation is in progress. The final Phase 30 plus runtime suite passed **56 tests**, one pre-existing Starlette deprecation warning, in **16.01s**. Separate worker/intent-clock integration checks passed **2 tests in 3.94s**. Ruff and formatting passed (361 files), and git diff --check passed. The prior requested regression run had one obsolete Phase 23 blanket consumer assertion; it now exempts only the authorized Phase 30 paper consumer, preserving source-side/live-execution prohibitions. An under-load gateway heartbeat failure passed in isolation and is being rechecked in final suites.
 
 Deterministic synthetic scenarios cover all requested families' immediate/no/delayed/failed reactions, confirmation help/delay/missed target, entry clocks, reference, move missed, episode updates/corroboration, TP, price/flow/resolution invalidation, expiry, funding cost/credit/decay, conflict/exposure, post-exit research and Hyperliquid entry/exit outage. Historical sanity is restricted to the frozen Solana 2024 outage and SEC 2024 approval mechanics, with unknown historical Prism discovery/executable prices left null; no profitability inference or parameter fitting.
 
