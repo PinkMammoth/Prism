@@ -1,7 +1,8 @@
 # Paper trader dashboard
 
-Prism has a read-only Streamlit dashboard for the Paper v2 fixed-horizon baseline and
-`paper_nimble_v1`. It displays descriptive paper-execution performance. It does not
+Prism has a read-only Streamlit dashboard for the retired Paper v2 fixed-horizon baseline,
+original `paper_nimble_v1`, and Phase 30's immediate and confirmed event cohorts.
+It displays descriptive paper-execution performance. It does not
 establish scientific validity, graduate hypotheses, or establish statistical superiority.
 
 ## Open the dashboard
@@ -40,6 +41,7 @@ All values come from the configured DuckDB; the frontend contains no trading mat
 | V2 current equity/marks/status | Latest `mark` and `run_state`; latest evaluation from `paper_v2_evaluations` |
 | Nimble current account and positions | `paper_nimble_accounts`, `paper_nimble_positions`; frozen levels from `paper_nimble_theses` |
 | Signals/admissions/rejections | SQL aggregation of fired `paper_*_opportunities`, bounded activity/rejection queries |
+| Event classifications, waits, source gates and decisions | `paper_event_evidence` append-only records; `paper_event_pending` current wait projection, where present |
 | Cash curves | Original `opened`, `closed`, and nimble `funding_adjustment` ledger events, ordered by `seq` |
 | MTM and drawdown | Recorded `mark` / `account_mark` events; no new quotes or marks are generated |
 | Capture/avoidance | Original primary `paper_nimble_research` path joined by opportunity and its frozen `research_primary_minutes` |
@@ -52,14 +54,31 @@ shared `capture_metrics` helper with unchanged behavior so the dashboard and CLI
 
 ## Run selection and comparison
 
-Each selector lists real runs and defaults to its newest active run. It shows stored run
+Four distinct selectors list Paper v2, original nimble, immediate events and confirmed
+events. Each defaults to its newest active run, or latest historical run when none are
+active. V2 remains selectable after retirement; its stored status is displayed exactly,
+even if a snapshot predates retirement. No dashboard action retires or pauses a run.
+It shows stored run
 name/version, complete ID, status, activation time, observed equity, and last evaluation
 or ledger update. Historical runs remain selectable. Missing systems are explicitly absent.
 
+Run metadata includes execution version, event variant, execution/risk policy IDs,
+entry universe, registered v2 baseline, preserved nimble baseline IDs, thesis/exit
+policy versions, review time, and hypothesis counts. These come from frozen stored
+definitions. Event policies contain both variants; each cohort shows only its own
+three event hypotheses plus the original 28. Event IDs use the canonical
+`eventhyp_v1_` identity prefix; original hypotheses retain `paperhyp_v2_`.
+Independent accounts are never pooled. The four overview columns and equity traces
+are distinct. Event trade/open-position rows include event ID/class and entry variant;
+closed trade rows also show provider, confirmation delay, event age at entry, pre-fill
+movement missed and confluence where stored. Hypothesis names/families resolve against
+that run's frozen registry.
+
 The overview shows each run's own selected window. The concise comparison uses their
-common prospective interval, starting at the later activation/window start, and includes
+common prospective interval for the selected **Comparator** and **Compared run**,
+starting at the later activation/window start, and includes
 only trades entered in that interval. Outcomes require a close by its end. Differences
-are **nimble minus baseline**: net PnL, average hold, observed drawdown, notional capital
+are **compared run minus comparator**: net PnL, average hold, observed drawdown, notional capital
 utilization, trades/day, cost drag, and MFE capture where both sources exist. Selecting a
 baseline other than nimble's frozen `baseline.run.run_id` produces an explicit notice.
 
@@ -68,6 +87,48 @@ Fewer than 30 closed trades in either common entry cohort displays exactly:
 significance test. At larger counts the page still says statistical superiority has not
 been established. Different fills, activation times, costs and unpaired admissions can
 confound simple differences. No paired experiment or hypothesis validity is inferred.
+
+## Decision analysis and event cohorts
+
+**Decisions / event cohorts** lets you inspect any selected account, including the
+retired v2 history. `src/market_signal/paper/dashboard/decisions.py` uses deterministic
+SELECT queries with parameterized filters and stable timestamp/source/ID ordering.
+The three stages remain distinct:
+
+- Fired opportunity evaluations: persisted signal/availability/evaluation timestamps,
+  admission/support/rejection and engine reason from `paper_*_opportunities`.
+- Execution ledger: pending intents, entries, exit intents, closes, support, expiries,
+  cancellations and funding corrections from `paper_*_events`.
+- Event evidence: classifications, enrollment, confirmation waits, terminal decisions,
+  source viability and duplicate observations from `paper_event_evidence`.
+
+Filter by stage, exact asset/reason, logical event ID or trade ID. SQL counts matches
+and fetches 50 rows per page (maximum query page size 200). Only a selected record's
+payload is fetched. The inspector presents saved admission/input gates and source
+timing as readable fields, plus expandable complete evidence, frozen entry thesis,
+latest trade state and related event/execution timelines. Related timelines are limited
+to 50 recent rows; applying their event/trade filter exposes all pages.
+Latest trade state can postdate the selected decision and is labeled separately.
+No later state is substituted for entry-time evidence, and missing context or gates
+are not reconstructed. Publication, collector, gateway, context and evaluator clocks
+are displayed where persisted, without counterfactual source/fill claims.
+
+Event overview counts distinct logical events **within that cohort/window**;
+classification rejections, enrollment, confirmation waits and terminal decisions are
+counts of evidence records at their respective stages. A wait is not a rejected trade.
+An unsupported classification has no assigned hypothesis and remains in the ledger;
+it is not falsely attributed to every event hypothesis. Pending count describes the
+current snapshot, regardless of historical window. Top reasons show 30 stage/reason
+combinations. The three cohort-specific event hypotheses are listed even without trades;
+outcome metrics remain N/A. Original-vs-event contribution aggregates the existing
+report metrics separately inside that account, with no extra or duplicated PnL.
+
+Older snapshots can contain event run metadata/trades but omit event evidence tables.
+The page warns explicitly and preserves available performance. Retrieve a newer
+artifact with the updated snapshot script to inspect those decisions; local reread
+cannot add missing tables. Compact snapshots retain fired opportunities only;
+this ledger does not claim to show every non-fired evaluation or an unstored/retriable
+engine decision.
 
 ## Windows and metric definitions
 
@@ -212,12 +273,15 @@ to `prism-runtime-volume` for optional full downloads. The script:
 3. By default, opens that backup **read-only**, in a consistent read transaction, and
    transfers compressed paper-table data. Only fired opportunities and relevant nimble
    account/entry/exit/funding events are needed; repetitive `position_mark` events are
-   omitted because current position projections supply those fields. No raw market,
-   scientific or Phase 30 tables are retrieved.
+   omitted because current position projections supply those fields. The allowlist also
+   includes Phase 30's `paper_event_evidence` and `paper_event_pending` when present.
+   Older backups may omit those optional tables and remain valid for historical reporting.
+   No raw market, context histories, research registry or scientific verdict tables are retrieved.
 4. Verifies transfer integrity, reconstructs **local-only** reporting tables, verifies
    required paper schemas, and atomically replaces the local snapshot.
 5. Writes `<database>.snapshot.json`: original backup timestamp/path/checksum, transfer
-   checksum, local file checksum/size/mtime binding, scope, and UTC download timestamp.
+   checksum, local file checksum/size/mtime binding, scope, event-evidence availability,
+   and UTC download timestamp.
 
 The compact copy is a reporting artifact, not a writable execution database or complete
 backup. Policies, definitions and run identities are copied verbatim. File replacement
@@ -257,7 +321,9 @@ Run the scoped frontend/report type check with:
 uvx --from pyright pyright --project pyrightconfig.paper.json
 ```
 
-The stress fixture uses 3,001 closed trades and bounds charts across 1,500 observations.
+The stress fixtures use 3,001 closed trades, 3,001 event evidence rows, and bounded
+charts across 1,500 observations. Decision-page cache entries are limited to 64;
+selected payload/event overview caches to 24, all with 30-second TTLs.
 
 **No backend runtime deployment or database migration is required.** Do not redeploy or
 restart the trading runtime to use this dashboard. Deploy the frontend checkout/package,
