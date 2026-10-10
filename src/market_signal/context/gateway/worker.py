@@ -29,13 +29,15 @@ def tick(db: Path, spool: Spool) -> dict:
 
 def quality_tick(db: Path):
     from market_signal.context.gateway.quality import describe
+    from market_signal.context.work_research import collect
     from market_signal.data.store import Store
     from market_signal.ops.runtime import require_authoritative, runtime_lock
 
     with runtime_lock(db, "context_gateway_quality", wait=0):
         require_authoritative(db)
         with closing(Store(db, lock_timeout=0)) as store:
-            return describe(store)
+            research = collect(store, now=now())
+            return {**describe(store, Spool(default_root())), "reaction_collection": research}
 
 
 def run(db: Path):

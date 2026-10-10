@@ -9,6 +9,7 @@ from datetime import datetime
 from market_signal.context import ledger
 from market_signal.context.gateway.spool import Spool, now
 from market_signal.context.model import Observation
+from market_signal.context.work_monitors import PROVIDER_IDS
 from market_signal.research.lab.common import content_id
 
 
@@ -45,6 +46,7 @@ def drain(store, spool: Spool, *, limit: int = 50) -> dict:
                     **seal,
                     "ingest_started_at": started.isoformat(),
                     "logical_event_id": None,
+                    "provider": rec["observation"]["source_id"],
                 }
                 # TEST receipts exercise durable transport and transactions, but never the ledger.
                 with store.transaction():
@@ -54,22 +56,34 @@ def drain(store, spool: Spool, *, limit: int = 50) -> dict:
                         obs = Observation.model_validate(rec["observation"]).model_copy(
                             update={"update_kind": "corroboration"}
                         )
+                        specialist = obs.source_id in PROVIDER_IDS
+                        protected, duplicate, prior_eid = True, False, None
+                        if specialist:
+                            from market_signal.context.work_ingest import prepare
+
+                            obs, protected, duplicate, prior_eid = prepare(
+                                store, obs, rec["payload"]
+                            )
                         ledger.register_source(
                             _InTransaction(store),
-                            "chatgpt_work_v1",
+                            obs.source_id,
                             obs.source_type,
                             payload={
-                                "provider_version": "chatgpt_work_v1",
+                                "provider_version": obs.source_id,
                                 "gateway_version": "context_gateway_v1",
                             },
                             now=received,
                         )
-                        out = ledger.ingest(
-                            _InTransaction(store),
-                            [obs],
-                            run_id=rid,
-                            now=received,
-                            corroboration_only=True,
+                        out = (
+                            ledger.IngestResult(duplicates=1)
+                            if duplicate
+                            else ledger.ingest(
+                                _InTransaction(store),
+                                [obs],
+                                run_id=rid,
+                                now=received,
+                                corroboration_only=protected,
+                            )
                         )
                         if out.rejected:
                             raise ValueError("ledger rejected validated observation")
@@ -80,6 +94,8 @@ def drain(store, spool: Spool, *, limit: int = 50) -> dict:
                                 "SELECT event_id FROM context_event_updates WHERE update_id=?",
                                 [out.new_updates[0]],
                             ).fetchone()[0]
+                        elif prior_eid:
+                            eid = prior_eid
                         else:
                             obs = obs.model_copy(
                                 update={
@@ -92,9 +108,13 @@ def drain(store, spool: Spool, *, limit: int = 50) -> dict:
                         result.update(
                             ingest_status="INGESTED", logical_event_id=eid, **out.as_dict()
                         )
+                        if specialist:
+                            from market_signal.context.work_ingest import record
+
+                            record(store, rec, eid)
                         ledger.record_run(
                             _InTransaction(store),
-                            "chatgpt_work_v1",
+                            obs.source_id,
                             received,
                             result=out,
                             received=1,
@@ -128,6 +148,10 @@ def drain(store, spool: Spool, *, limit: int = 50) -> dict:
             from market_signal.ops.evaluation_triggers import gateway_wakeup
 
             gateway_wakeup(store, result, rec["payload"])
+            if result.get("provider") in PROVIDER_IDS and result["ingest_status"] == "INGESTED":
+                from market_signal.context.work_research import enroll
+
+                enroll(store, result, rec)
             spool.complete(rid, result)
             count += 1
         except Exception as exc:

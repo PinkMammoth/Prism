@@ -21,6 +21,7 @@ from market_signal.context.entities import load_entities
 from market_signal.context.gateway.auth import SCOPE, Verifier
 from market_signal.context.gateway.contract import action_schema, validate
 from market_signal.context.gateway.spool import GatewayError, Spool, now
+from market_signal.context.work_monitors import PROVIDER_IDS
 from market_signal.research.lab.common import canonical_json, strict_json
 
 MAX_BODY = 32 * 1024
@@ -34,14 +35,19 @@ def publish_live(spool, name, data):
 
 
 def submit(spool, raw, identity, received):
+    pid = raw.get("sender_version") if isinstance(raw, dict) else None
+    pid = pid if pid in PROVIDER_IDS else None
     try:
         em = load_entities()
         sub, observation = validate(raw, received, em)
         return spool.accept(raw, sub, observation, identity, received, em.version)
-    except GatewayError:
+    except GatewayError as exc:
+        exc.provider = pid
         raise
     except ValueError:
-        raise GatewayError(422, "schema_rejected") from None
+        exc = GatewayError(422, "schema_rejected")
+        exc.provider = pid
+        raise exc from None
     except OSError:
         spool.last_failure_at = now().isoformat()
         raise GatewayError(503, "spool_failure") from None
@@ -239,7 +245,8 @@ def create_app(spool: Spool, verifier: Verifier, *, dev=False):
         except GatewayError as exc:
             with suppress(OSError), spool.lock():
                 spool.audit(
-                    exc.code if exc.code in ("schema_rejected", "spool_failure") else "rejected"
+                    exc.code if exc.code in ("schema_rejected", "spool_failure") else "rejected",
+                    provider=getattr(exc, "provider", None),
                 )
             return {"status": "REJECTED", "error": exc.code}
 
@@ -260,7 +267,8 @@ def create_app(spool: Spool, verifier: Verifier, *, dev=False):
         except GatewayError as exc:
             with suppress(OSError), spool.lock():
                 spool.audit(
-                    exc.code if exc.code in ("schema_rejected", "spool_failure") else "rejected"
+                    exc.code if exc.code in ("schema_rejected", "spool_failure") else "rejected",
+                    provider=getattr(exc, "provider", None),
                 )
             return JSONResponse({"status": "REJECTED", "error": exc.code}, status_code=exc.status)
 

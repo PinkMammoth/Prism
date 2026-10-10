@@ -93,6 +93,7 @@
               "bridge_exploit",
               "central_bank_statement",
               "chain_halt",
+              "critical_vulnerability",
               "custody_disruption",
               "delisting",
               "ecb_decision",
@@ -106,6 +107,7 @@
               "exploit_suspected",
               "fed_speech",
               "fomc_decision",
+              "global_risk_shock",
               "governance_proposal",
               "governance_result",
               "inflation_release_other",
@@ -300,6 +302,62 @@
         },
         "title": "GenericAttrs",
         "type": "object"
+      },
+      "MonitorEvidence": {
+        "additionalProperties": false,
+        "description": "Sender assertions, never a materiality override or verified truth.",
+        "properties": {
+          "policy_version": {
+            "const": "work_sensor_policy_v1",
+            "title": "Policy Version",
+            "type": "string"
+          },
+          "novelty": {
+            "enum": [
+              "new",
+              "update",
+              "corroboration"
+            ],
+            "title": "Novelty",
+            "type": "string"
+          },
+          "information_time": {
+            "description": "Time of this new fact/publication, not old episode start.",
+            "format": "date-time",
+            "title": "Information Time",
+            "type": "string"
+          },
+          "immediate_impact": {
+            "const": true,
+            "title": "Immediate Impact",
+            "type": "boolean"
+          },
+          "impact_reason": {
+            "maxLength": 500,
+            "minLength": 1,
+            "title": "Impact Reason",
+            "type": "string"
+          },
+          "evidence": {
+            "enum": [
+              "primary",
+              "direct_evidence",
+              "credible_reporting"
+            ],
+            "title": "Evidence",
+            "type": "string"
+          }
+        },
+        "required": [
+          "policy_version",
+          "novelty",
+          "information_time",
+          "immediate_impact",
+          "impact_reason",
+          "evidence"
+        ],
+        "title": "MonitorEvidence",
+        "type": "object"
       }
     },
     "properties": {
@@ -331,6 +389,17 @@
             "pattern": "^[A-Za-z0-9_.:-]{1,128}$",
             "title": "Sender Version",
             "type": "string"
+          },
+          "monitor": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/MonitorEvidence"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
           },
           "test": {
             "default": false,

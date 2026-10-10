@@ -20,6 +20,54 @@ def out(obj, as_json):
     print(json.dumps(obj, indent=2 if not as_json else None, default=str, sort_keys=True))
 
 
+@app.command("monitors")
+def monitors(provider: str = typer.Option(None), as_json: bool = JSON):
+    """Exact installable prompts; this command does not install a Work schedule."""
+    from market_signal.context.work_monitors import definitions, prompt
+
+    config = definitions()
+    if provider:
+        if provider not in config["monitors"]:
+            raise typer.BadParameter("unknown monitor")
+        print(prompt(config, provider))
+    else:
+        out(config, as_json)
+
+
+@app.command("monitor-metrics")
+def monitor_metrics(as_json: bool = JSON):
+    from contextlib import closing
+
+    from market_signal.config import get_settings
+    from market_signal.context.gateway.quality import monitor_metrics as get
+    from market_signal.data.store import Store
+
+    with closing(Store(get_settings().paths.db, read_only=True)) as store:
+        out(get(store, Spool(default_root())), as_json)
+
+
+@app.command("reactions")
+def reactions(limit: int = typer.Option(20, min=1, max=100), as_json: bool = JSON):
+    from contextlib import closing
+
+    from market_signal.config import get_settings
+    from market_signal.data.store import Store
+
+    with closing(Store(get_settings().paths.db, read_only=True)) as store:
+        rows = store.con.execute(
+            "SELECT event_id,asset,horizon_minutes,recorded_at,payload FROM context_work_reactions "
+            "ORDER BY recorded_at DESC,event_id,asset,horizon_minutes LIMIT ?",
+            [limit],
+        ).fetchall()
+        out(
+            [
+                dict(event_id=e, asset=a, horizon_minutes=h, recorded_at=t, **json.loads(p))
+                for e, a, h, t, p in rows
+            ],
+            as_json,
+        )
+
+
 @app.command("status")
 def status(as_json: bool = JSON):
     from market_signal.context.gateway.health import status as get

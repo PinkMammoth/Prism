@@ -1571,6 +1571,23 @@ MIGRATIONS: list[str] = [
     CREATE INDEX IF NOT EXISTS nimble_open ON paper_nimble_positions(run_id,state);
     CREATE INDEX IF NOT EXISTS nimble_signal ON paper_nimble_opportunities(run_id,asset,signal_at);
     """,
+    # 28 — Work semantic sensor attribution and causal descriptive reactions. No paper FK.
+    """
+    CREATE TABLE IF NOT EXISTS context_work_observations (
+        receipt_id VARCHAR PRIMARY KEY, provider VARCHAR NOT NULL,
+        external_event_id VARCHAR NOT NULL, event_id VARCHAR NOT NULL,
+        observed_at TIMESTAMPTZ NOT NULL, auth_identity VARCHAR NOT NULL, payload JSON NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS context_work_research_pending (
+        event_id VARCHAR NOT NULL, asset VARCHAR NOT NULL, available_at TIMESTAMPTZ NOT NULL,
+        receipt_id VARCHAR NOT NULL, payload JSON NOT NULL, PRIMARY KEY(event_id,asset)
+    );
+    CREATE TABLE IF NOT EXISTS context_work_reactions (
+        event_id VARCHAR NOT NULL, asset VARCHAR NOT NULL, horizon_minutes INTEGER NOT NULL,
+        recorded_at TIMESTAMPTZ NOT NULL, payload JSON NOT NULL,
+        PRIMARY KEY(event_id,asset,horizon_minutes)
+    );
+    """,
 ]
 
 ROLE_ENV, RUNTIME_ID_ENV = "PRISM_RUNTIME_ROLE", "PRISM_RUNTIME_ID"
