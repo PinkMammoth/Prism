@@ -1,0 +1,579 @@
+{
+  "version": "phase28a_production_verification_v1",
+  "verified_at": "2026-10-10T12:38:30Z",
+  "deployed_revision": "92e61f7de8c9a2df157fcdd9a002fabb6717f0d1",
+  "deployment_id": "43997392-f8f5-4ccc-9946-3c254bfc9ba9",
+  "state": "prism_support_deployed_work_activation_pending",
+  "preflight": {
+    "revision": "92e61f7de8c9a2df157fcdd9a002fabb6717f0d1",
+    "python": "3.12.3",
+    "platform": "Linux-6.18.15+deb13-cloud-amd64-x86_64-with-glibc2.36",
+    "role": "authoritative",
+    "runtime_id": "railway-prism-runtime",
+    "db": "/data/prism.duckdb",
+    "db_exists": true,
+    "disk": {
+      "level": "OK",
+      "detail": "1.89 GiB free of 4.51 GiB (42.0%; warn < 15%, critical < 5%)"
+    },
+    "schema_version": 28,
+    "claim": {
+      "runtime_id": "railway-prism-runtime",
+      "since": "2026-10-04 17:46:19.092023+00:00"
+    },
+    "ready_for_jobs": true
+  },
+  "backup": {
+    "path": "/data/backups/manual/prism-20261010T100813Z-pre-deploy-92e61f7de8c9.duckdb",
+    "sha256": "61d948cd1c06c00c16ecb631200af3dd62ab025977b883b532102bd7b5632eb7",
+    "bytes": 385626112,
+    "schema_version": 27,
+    "paper_runs": [
+      {
+        "run_id": "paperrun_27b0a336e707c389a3fb574cd9d09a7800b563f0691612bf4fb4f1fd97029279",
+        "event_count": 12,
+        "last_event": {
+          "seq": 12,
+          "event_id": "paperevt_15f65540b2e8cef70023b77f593a869c0cf8643c294e5f2fa86134424f06af3e",
+          "event_type": "status_changed"
+        },
+        "latest_snapshot_id": "papersnap_37d668beb3a21d0a4d3c43513f01d624eac4a9c82be345788e8e286867818f91"
+      }
+    ],
+    "weekly": null,
+    "pruned": [
+      "/data/backups/manual/prism-20261010T080004Z-paper-dashboard.duckdb"
+    ]
+  },
+  "nimble_comparison": {
+    "run_id": {
+      "before": "paperrun_nimble_a8aef8be36c02700688053a1e57d2f908573fe8898860450b00b889d4f98f54c",
+      "after": "paperrun_nimble_a8aef8be36c02700688053a1e57d2f908573fe8898860450b00b889d4f98f54c",
+      "unchanged": true
+    },
+    "activation_at": {
+      "before": "2026-10-10T08:08:42.616803+00:00",
+      "after": "2026-10-10T08:08:42.616803+00:00",
+      "unchanged": true
+    },
+    "entry_universe_id": {
+      "before": "paperuniverse_v2_5c0ca1f65dcef5d531fb01dffd764ae471ebcb45611ad16c244f7bfd44090d9a",
+      "after": "paperuniverse_v2_5c0ca1f65dcef5d531fb01dffd764ae471ebcb45611ad16c244f7bfd44090d9a",
+      "unchanged": true
+    },
+    "execution_policy_id": {
+      "before": "paperexecution_nimble_ec40a2968bcc33f7c7654a1c8d7dcc200361e88bca99079cb4f45738ba785501",
+      "after": "paperexecution_nimble_ec40a2968bcc33f7c7654a1c8d7dcc200361e88bca99079cb4f45738ba785501",
+      "unchanged": true
+    },
+    "risk_policy_id": {
+      "before": "paperrisk_v2_475b7c1e87fc2934eba4bb288f07cc818ed7dadb9fc8b9ab8d24a594a772e8b9",
+      "after": "paperrisk_v2_475b7c1e87fc2934eba4bb288f07cc818ed7dadb9fc8b9ab8d24a594a772e8b9",
+      "unchanged": true
+    },
+    "thesis_policy_version": {
+      "before": "execution_thesis_v1",
+      "after": "execution_thesis_v1",
+      "unchanged": true
+    },
+    "exit_policy_version": {
+      "before": "thesis_exit_v1",
+      "after": "thesis_exit_v1",
+      "unchanged": true
+    },
+    "hypotheses": {
+      "before": 28,
+      "after": 28,
+      "unchanged": true
+    },
+    "mode": {
+      "before": "paper",
+      "after": "paper",
+      "unchanged": true
+    }
+  },
+  "v2": {
+    "run_id": "paperrun_v2_3811cccc40db4fbe6413ebd018c129d1026748f3cd72e619ec80ba88e47ada95",
+    "activation_at": "2026-10-09T10:19:06.981566+00:00",
+    "run_identity_unchanged": true,
+    "mode": "paper",
+    "state": "ACTIVE",
+    "active": true,
+    "healthy": true,
+    "hypotheses": 28
+  },
+  "gateway_before_smoke": {
+    "running": true,
+    "worker_running": true,
+    "backlog": 0,
+    "alerts": []
+  },
+  "specialist_metrics": {
+    "chatgpt_work_crypto_breaking_v1": {
+      "accepted": 0,
+      "affected_direct_asset_count_distribution": {},
+      "affected_resolved_asset_count_distribution": {},
+      "corroborations": 0,
+      "descriptive_only": true,
+      "duplicates": 0,
+      "gateway_statistics_available": true,
+      "latency_s": {
+        "discovery_to_gateway_s": {
+          "median": null,
+          "n": 0
+        },
+        "discovery_to_send_s": {
+          "median": null,
+          "n": 0
+        },
+        "event_to_discovery_s": {
+          "median": null,
+          "n": 0
+        },
+        "gateway_to_available_s": {
+          "median": null,
+          "n": 0
+        },
+        "information_to_discovery_s": {
+          "median": null,
+          "n": 0
+        },
+        "information_to_gateway_s": {
+          "median": null,
+          "n": 0
+        },
+        "publication_to_gateway_s": {
+          "median": null,
+          "n": 0
+        },
+        "send_to_gateway_s": {
+          "median": null,
+          "n": 0
+        },
+        "source_event_to_gateway_s": {
+          "median": null,
+          "n": 0
+        },
+        "source_to_discovery_s": {
+          "median": null,
+          "n": 0
+        }
+      },
+      "later_denied_invalidated": 0,
+      "later_independently_corroborated": 0,
+      "logical_events_observed": 0,
+      "materiality_distribution": {},
+      "new_logical_events": 0,
+      "rejected": 0,
+      "sender_times_are_claims": true,
+      "submissions": 0,
+      "test_receipts": 0,
+      "transport_retries": 0,
+      "updates": 0,
+      "window": "all_time"
+    },
+    "chatgpt_work_exchange_structure_v1": {
+      "accepted": 0,
+      "affected_direct_asset_count_distribution": {},
+      "affected_resolved_asset_count_distribution": {},
+      "corroborations": 0,
+      "descriptive_only": true,
+      "duplicates": 0,
+      "gateway_statistics_available": true,
+      "latency_s": {
+        "discovery_to_gateway_s": {
+          "median": null,
+          "n": 0
+        },
+        "discovery_to_send_s": {
+          "median": null,
+          "n": 0
+        },
+        "event_to_discovery_s": {
+          "median": null,
+          "n": 0
+        },
+        "gateway_to_available_s": {
+          "median": null,
+          "n": 0
+        },
+        "information_to_discovery_s": {
+          "median": null,
+          "n": 0
+        },
+        "information_to_gateway_s": {
+          "median": null,
+          "n": 0
+        },
+        "publication_to_gateway_s": {
+          "median": null,
+          "n": 0
+        },
+        "send_to_gateway_s": {
+          "median": null,
+          "n": 0
+        },
+        "source_event_to_gateway_s": {
+          "median": null,
+          "n": 0
+        },
+        "source_to_discovery_s": {
+          "median": null,
+          "n": 0
+        }
+      },
+      "later_denied_invalidated": 0,
+      "later_independently_corroborated": 0,
+      "logical_events_observed": 0,
+      "materiality_distribution": {},
+      "new_logical_events": 0,
+      "rejected": 0,
+      "sender_times_are_claims": true,
+      "submissions": 0,
+      "test_receipts": 0,
+      "transport_retries": 0,
+      "updates": 0,
+      "window": "all_time"
+    },
+    "chatgpt_work_macro_risk_v1": {
+      "accepted": 0,
+      "affected_direct_asset_count_distribution": {},
+      "affected_resolved_asset_count_distribution": {},
+      "corroborations": 0,
+      "descriptive_only": true,
+      "duplicates": 0,
+      "gateway_statistics_available": true,
+      "latency_s": {
+        "discovery_to_gateway_s": {
+          "median": null,
+          "n": 0
+        },
+        "discovery_to_send_s": {
+          "median": null,
+          "n": 0
+        },
+        "event_to_discovery_s": {
+          "median": null,
+          "n": 0
+        },
+        "gateway_to_available_s": {
+          "median": null,
+          "n": 0
+        },
+        "information_to_discovery_s": {
+          "median": null,
+          "n": 0
+        },
+        "information_to_gateway_s": {
+          "median": null,
+          "n": 0
+        },
+        "publication_to_gateway_s": {
+          "median": null,
+          "n": 0
+        },
+        "send_to_gateway_s": {
+          "median": null,
+          "n": 0
+        },
+        "source_event_to_gateway_s": {
+          "median": null,
+          "n": 0
+        },
+        "source_to_discovery_s": {
+          "median": null,
+          "n": 0
+        }
+      },
+      "later_denied_invalidated": 0,
+      "later_independently_corroborated": 0,
+      "logical_events_observed": 0,
+      "materiality_distribution": {},
+      "new_logical_events": 0,
+      "rejected": 0,
+      "sender_times_are_claims": true,
+      "submissions": 0,
+      "test_receipts": 0,
+      "transport_retries": 0,
+      "updates": 0,
+      "window": "all_time"
+    },
+    "chatgpt_work_regulatory_institutional_v1": {
+      "accepted": 0,
+      "affected_direct_asset_count_distribution": {},
+      "affected_resolved_asset_count_distribution": {},
+      "corroborations": 0,
+      "descriptive_only": true,
+      "duplicates": 0,
+      "gateway_statistics_available": true,
+      "latency_s": {
+        "discovery_to_gateway_s": {
+          "median": null,
+          "n": 0
+        },
+        "discovery_to_send_s": {
+          "median": null,
+          "n": 0
+        },
+        "event_to_discovery_s": {
+          "median": null,
+          "n": 0
+        },
+        "gateway_to_available_s": {
+          "median": null,
+          "n": 0
+        },
+        "information_to_discovery_s": {
+          "median": null,
+          "n": 0
+        },
+        "information_to_gateway_s": {
+          "median": null,
+          "n": 0
+        },
+        "publication_to_gateway_s": {
+          "median": null,
+          "n": 0
+        },
+        "send_to_gateway_s": {
+          "median": null,
+          "n": 0
+        },
+        "source_event_to_gateway_s": {
+          "median": null,
+          "n": 0
+        },
+        "source_to_discovery_s": {
+          "median": null,
+          "n": 0
+        }
+      },
+      "later_denied_invalidated": 0,
+      "later_independently_corroborated": 0,
+      "logical_events_observed": 0,
+      "materiality_distribution": {},
+      "new_logical_events": 0,
+      "rejected": 0,
+      "sender_times_are_claims": true,
+      "submissions": 0,
+      "test_receipts": 0,
+      "transport_retries": 0,
+      "updates": 0,
+      "window": "all_time"
+    },
+    "chatgpt_work_technical_tailrisk_v1": {
+      "accepted": 0,
+      "affected_direct_asset_count_distribution": {},
+      "affected_resolved_asset_count_distribution": {},
+      "corroborations": 0,
+      "descriptive_only": true,
+      "duplicates": 0,
+      "gateway_statistics_available": true,
+      "latency_s": {
+        "discovery_to_gateway_s": {
+          "median": null,
+          "n": 0
+        },
+        "discovery_to_send_s": {
+          "median": null,
+          "n": 0
+        },
+        "event_to_discovery_s": {
+          "median": null,
+          "n": 0
+        },
+        "gateway_to_available_s": {
+          "median": null,
+          "n": 0
+        },
+        "information_to_discovery_s": {
+          "median": null,
+          "n": 0
+        },
+        "information_to_gateway_s": {
+          "median": null,
+          "n": 0
+        },
+        "publication_to_gateway_s": {
+          "median": null,
+          "n": 0
+        },
+        "send_to_gateway_s": {
+          "median": null,
+          "n": 0
+        },
+        "source_event_to_gateway_s": {
+          "median": null,
+          "n": 0
+        },
+        "source_to_discovery_s": {
+          "median": null,
+          "n": 0
+        }
+      },
+      "later_denied_invalidated": 0,
+      "later_independently_corroborated": 0,
+      "logical_events_observed": 0,
+      "materiality_distribution": {},
+      "new_logical_events": 0,
+      "rejected": 0,
+      "sender_times_are_claims": true,
+      "submissions": 0,
+      "test_receipts": 0,
+      "transport_retries": 0,
+      "updates": 0,
+      "window": "all_time"
+    }
+  },
+  "specialist_connector_attempt": {
+    "test": true,
+    "result": "client_schema_rejected_before_gateway",
+    "message": "payload.monitor: Additional property 'monitor' is not allowed",
+    "cached_schema_missing": [
+      "monitor",
+      "macro/global_risk_shock",
+      "security/critical_vulnerability"
+    ],
+    "server_advertises_new_schema": true
+  },
+  "legacy_connected_oauth_smoke": {
+    "attempts": [],
+    "auth_identity": "chatgpt_work_personal_v1",
+    "completion": {
+      "context_available_at": "2026-10-10T12:35:11.317475+00:00",
+      "gateway_received_at": "2026-10-10T12:35:10.003890+00:00",
+      "ingest_recorded_at": "2026-10-10T12:35:11.312445+00:00",
+      "ingest_started_at": "2026-10-10T12:35:11.312239+00:00",
+      "ingest_status": "TEST_EXCLUDED",
+      "logical_event_id": null,
+      "provider": "chatgpt_work_v1",
+      "receipt_id": "ctxgw_ebdf80dde97ec60d1e387e5df0ad3d89074707415dc755ce31b924d4e867b3d5",
+      "spool_fsynced_at": "2026-10-10T12:35:10.245824+00:00"
+    },
+    "durability": {
+      "receipt_id": "ctxgw_ebdf80dde97ec60d1e387e5df0ad3d89074707415dc755ce31b924d4e867b3d5",
+      "spool_fsynced_at": "2026-10-10T12:35:10.245824+00:00"
+    },
+    "entity_map_version": "entities_v1:bf7ad7177b389192",
+    "gateway_received_at": "2026-10-10T12:35:10.003890+00:00",
+    "latency": {
+      "discovery_to_gateway_s": 2.00389,
+      "discovery_to_send_s": 0,
+      "durable_to_available_s": 1.071651,
+      "end_to_end_s": null,
+      "event_to_discovery_s": null,
+      "gateway_to_available_s": 1.313585,
+      "gateway_to_durable_s": 0.241934,
+      "information_to_discovery_s": null,
+      "information_to_gateway_s": null,
+      "publication_to_gateway_s": null,
+      "send_to_gateway_s": 2.00389,
+      "source_event_to_gateway_s": null,
+      "source_to_discovery_s": null
+    },
+    "observation": {
+      "assets": [
+        "ETH"
+      ],
+      "attributes": {
+        "facts": {
+          "reported_source": "Prism Phase 28A synthetic transport fixture",
+          "synthetic": true
+        },
+        "kind": "generic"
+      },
+      "confidence": "REPORTED",
+      "country": null,
+      "dedup_key": null,
+      "entities": [
+        "ethereum"
+      ],
+      "event_time": null,
+      "market_wide": false,
+      "observation_mode": "live",
+      "provider_time": null,
+      "published_at": null,
+      "raw_sha256": "ac2953f1a66f548070289800b89ef9693226a0356fd4104fcd2fb82413b01844",
+      "region": null,
+      "relevance_end": null,
+      "reported_first_seen_at": "2026-10-10T12:35:08Z",
+      "scheduled": false,
+      "schema_version": "context_observation_v1",
+      "scope": "asset",
+      "source_id": "chatgpt_work_v1",
+      "source_ref": "https://example.com/prism-phase28a-isolated-smoke",
+      "source_type": "ai_monitor",
+      "subcategory": "chain_halt",
+      "summary": "Synthetic fixture only. test=true must exclude this from active context and research.",
+      "taxonomy_version": "context_taxonomy_v2",
+      "title": "SYNTHETIC Phase 28A transport smoke — not a market event",
+      "update_kind": null
+    },
+    "payload": {
+      "external_event_id": "phase28a_legacy_transport_smoke",
+      "item": {
+        "assets": [
+          "ETH"
+        ],
+        "attributes": {
+          "facts": {
+            "synthetic": true
+          },
+          "kind": "generic"
+        },
+        "category": "protocol",
+        "confidence": "REPORTED",
+        "entities": [
+          "ethereum"
+        ],
+        "event_time": null,
+        "factual_claims": [
+          "This is a synthetic transport test; no chain halt or real market development occurred."
+        ],
+        "first_seen_at": "2026-10-10T12:35:08.000Z",
+        "market_wide": false,
+        "provenance": [
+          "Phase 28A safe connected-action verification"
+        ],
+        "published_at": null,
+        "scheduled": false,
+        "source": "Prism Phase 28A synthetic transport fixture",
+        "source_type": "ai_monitor",
+        "subcategory": "chain_halt",
+        "summary": "Synthetic fixture only. test=true must exclude this from active context and research.",
+        "title": "SYNTHETIC Phase 28A transport smoke — not a market event",
+        "url": "https://example.com/prism-phase28a-isolated-smoke"
+      },
+      "schema": "context_import_v1",
+      "sender_version": "chatgpt_work_v1",
+      "sent_at": "2026-10-10T12:35:08.000Z",
+      "submission_id": "phase28a_legacy_transport_smoke_1791635708000",
+      "test": true
+    },
+    "payload_sha256": "ac2953f1a66f548070289800b89ef9693226a0356fd4104fcd2fb82413b01844",
+    "provider": "chatgpt_work_v1",
+    "receipt_id": "ctxgw_ebdf80dde97ec60d1e387e5df0ad3d89074707415dc755ce31b924d4e867b3d5",
+    "schema_version": "context_import_v1"
+  },
+  "legacy_retry": "DUPLICATE_same_receipt",
+  "genuine_framework_event_verified": false,
+  "production_reactions": [],
+  "work_saved_tasks_verified": false,
+  "work_cadence_observed": false,
+  "discovery_latency_measured": false,
+  "openai_work_cost_measured": false,
+  "deployment_record": {
+    "event_id": "rtev_5e43c829abcb48129155b5e697b207e7",
+    "git_commit": "92e61f7de8c9a2df157fcdd9a002fabb6717f0d1"
+  },
+  "source_branch": "codex/phase28a-work-monitors",
+  "github_push": "blocked_missing_https_credentials",
+  "final_gateway_after_smoke": {"running":true,"worker_running":true,"spool_backlog":0,"alerts":[],"accepted_24h":8,"duplicates_24h":3,"reaction_collection":{"descriptive_only":true,"examined_event_assets":0,"recorded":0},"specialist_live_accepted":{"chatgpt_work_crypto_breaking_v1":0,"chatgpt_work_exchange_structure_v1":0,"chatgpt_work_macro_risk_v1":0,"chatgpt_work_regulatory_institutional_v1":0,"chatgpt_work_technical_tailrisk_v1":0}},
+  "read_only_audit_note": "One reaction CLI read encountered DatabaseBusy while an existing writer held the database. Lock was respected; no bypass or mutation was attempted.",
+  "remaining_gates": [
+    "User refreshes/reviews the existing Work MCP app action schema (UI varies by plan); no removal performed.",
+    "Verify a new specialist test=true receipt and excluded state after refresh.",
+    "Install only the crypto pilot task and measure at least three run times and usage.",
+    "Wait for a naturally qualifying genuine event, then verify context/research and attribution before enabling remaining specialists."
+  ]
+}

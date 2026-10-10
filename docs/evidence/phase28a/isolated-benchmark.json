@@ -1,0 +1,12 @@
+{
+  "mode": "isolated_synthetic_benchmark",
+  "production_modified": false,
+  "concurrent_full_tests_running": true,
+  "sample_event_assets": 1,
+  "ingest_ms": 207.502358,
+  "seven_horizon_research_ms": 376.447518,
+  "quiet_collection_ms": 3.216901,
+  "spool_bytes": 3389,
+  "reaction_payload_bytes": 10681,
+  "limitations": "One synthetic event/asset in a temporary store, excluding DuckDB page/index overhead and initial schema/data setup. Not a production load or billing estimate."
+}

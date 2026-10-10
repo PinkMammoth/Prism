@@ -13,7 +13,7 @@ from dataclasses import dataclass
 from datetime import timedelta
 from enum import StrEnum
 
-TAXONOMY_VERSION = "context_taxonomy_v1"
+TAXONOMY_VERSION = "context_taxonomy_v2"
 MATERIALITY_VERSION = "materiality_v1"
 RELEVANCE_VERSION = "relevance_windows_v1"
 
@@ -27,6 +27,9 @@ class Category(StrEnum):
 
 # subcategory -> category. Bounded v1 vocabulary; anything else is rejected at validation.
 SUBCATEGORIES: dict[str, Category] = {
+    # Phase 28A additive types. Existing v1 classification/materiality tables are unchanged.
+    "global_risk_shock": Category.MACRO,
+    "critical_vulnerability": Category.SECURITY,
     # macro (scheduled)
     "us_cpi": Category.MACRO, "us_core_cpi": Category.MACRO, "us_pce": Category.MACRO,
     "us_core_pce": Category.MACRO, "us_nfp": Category.MACRO, "us_unemployment": Category.MACRO,
@@ -126,6 +129,8 @@ class Window:
 
 H, D = timedelta(hours=1), timedelta(days=1)
 RELEVANCE: dict[str, Window] = {
+    "global_risk_shock": Window(0 * H, 4 * H),
+    "critical_vulnerability": Window(0 * H, 72 * H),
     "us_cpi": Window(24 * H, 4 * H), "us_core_cpi": Window(24 * H, 4 * H),
     "us_pce": Window(24 * H, 4 * H), "us_core_pce": Window(24 * H, 4 * H),
     "us_nfp": Window(24 * H, 4 * H), "us_unemployment": Window(24 * H, 4 * H),
@@ -164,6 +169,7 @@ LINK_WINDOW: dict[Category, timedelta] = {
 
 # Base importance of the event type (0-100), before confidence, scope and asset relevance.
 BASE_IMPORTANCE: dict[str, int] = {
+    "global_risk_shock": 80, "critical_vulnerability": 80,
     "us_cpi": 90, "us_core_cpi": 85, "fomc_decision": 95, "us_nfp": 85, "us_pce": 75,
     "us_core_pce": 80, "us_unemployment": 70, "us_gdp": 65, "us_ppi": 55, "us_retail_sales": 50,
     "us_ism_pmi": 50, "fed_speech": 40, "treasury_auction": 35, "boj_decision": 80,
@@ -203,7 +209,12 @@ def materiality(subcategory: str, confidence: Confidence, *, link: str = "direct
     base = BASE_IMPORTANCE[subcategory]
     raw = min(100, base + SCOPE_BONUS.get(scope, 0) + loss_bonus(loss_usd))
     score = round(raw * CONFIDENCE_WEIGHT[confidence] * LINK_WEIGHT[link])
-    return {"version": MATERIALITY_VERSION, "score": int(score), "base": base,
+    version = (
+        "work_materiality_v1"
+        if subcategory in {"global_risk_shock", "critical_vulnerability"}
+        else MATERIALITY_VERSION
+    )
+    return {"version": version, "score": int(score), "base": base,
             "scope": scope, "loss_bonus": loss_bonus(loss_usd),
             "confidence_weight": CONFIDENCE_WEIGHT[confidence],
             "link": link, "link_weight": LINK_WEIGHT[link],

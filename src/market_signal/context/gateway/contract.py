@@ -13,6 +13,7 @@ from market_signal.context.entities import EntityMap
 from market_signal.context.model import GenericAttrs, Observation, Short
 from market_signal.context.providers.importer import URL, ImportItem, _forbidden, validate_item
 from market_signal.context.taxonomy import SUBCATEGORIES
+from market_signal.context.work_monitors import MonitorEvidence, check, provider
 from market_signal.research.lab.common import (
     LabModel,
     Name,
@@ -50,6 +51,7 @@ class Submission(LabModel):
     external_event_id: ID
     sent_at: UTCDateTime = Field(description="Actual UTC send time; preserve unchanged on retries.")
     sender_version: ID
+    monitor: MonitorEvidence | None = None
     test: bool = Field(default=False, description="True excludes this receipt from active context.")
     item: GatewayItem
 
@@ -116,12 +118,20 @@ def validate(raw: dict, received: datetime, em: EntityMap) -> tuple[Submission, 
     for field in ("first_seen_at", "published_at", "event_time", "relevance_end"):
         if raw["item"].get(field) is not None and not isinstance(raw["item"][field], str):
             raise ValueError("timestamps must be timezone-aware ISO strings")
+    if raw.get("monitor") is not None:
+        if not isinstance(raw["monitor"], dict) or not isinstance(
+            raw["monitor"].get("information_time"), str
+        ):
+            raise ValueError("monitor timestamp must be a timezone-aware ISO string")
+        if type(raw["monitor"].get("immediate_impact")) is not bool:
+            raise ValueError("immediate_impact must be a JSON boolean")
     for obj, fields in ((raw, ("test",)), (raw["item"], ("market_wide", "scheduled"))):
         if any(field in obj and type(obj[field]) is not bool for field in fields):
             raise ValueError("flags must be JSON booleans")
     if _forbidden(raw) or forbidden_extra(raw):
         raise ValueError("AI boundary: forbidden trade/sentiment field")
     sub = Submission.model_validate(raw)
+    check(sub, received)
     it = sub.item
     if it.update_kind is not None or it.dedup_key is not None or it.relevance_end is not None:
         raise ValueError("external updates, dedup keys and relevance overrides are not accepted")
@@ -172,12 +182,17 @@ def validate(raw: dict, received: datetime, em: EntityMap) -> tuple[Submission, 
     }
     item = it.model_dump(mode="json", exclude=extra)
     item.update(assets=assets, entities=entities)
+    if sub.monitor is not None:
+        item["attributes"]["facts"]["reported_factual_claims"] = canonical_json(it.factual_claims)
+        item["attributes"]["facts"]["reported_corroborating_urls"] = canonical_json(
+            it.corroborating_urls
+        )
     obs = validate_item(item, "chatgpt_work", received, em)
     if not assets and not entities and not it.market_wide:
         raise ValueError("an event needs a known asset/entity or market_wide=true")
     return sub, obs.model_copy(
         update={
-            "source_id": "chatgpt_work_v1",
+            "source_id": provider(sub.sender_version),
             "country": it.country,
             "region": it.region,
             "raw_sha256": content_id("", raw),

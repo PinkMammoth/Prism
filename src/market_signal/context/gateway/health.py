@@ -15,12 +15,23 @@ def latencies(receipt: dict, completion: dict | None) -> dict:
         "source": p["item"].get("published_at")
         or (None if p["item"].get("scheduled") else p["item"].get("event_time")),
         "discovery": p["item"]["first_seen_at"],
+        "event": p["item"].get("event_time"),
+        "publication": p["item"].get("published_at"),
+        "sent": p["sent_at"],
+        "information": (p.get("monitor") or {}).get("information_time"),
         "gateway": r["gateway_received_at"],
         "durable": (completion or {}).get("spool_fsynced_at"),
         "available": (completion or {}).get("context_available_at"),
     }
     pairs = {
         "source_to_discovery_s": ("source", "discovery"),
+        "event_to_discovery_s": ("event", "discovery"),
+        "information_to_discovery_s": ("information", "discovery"),
+        "information_to_gateway_s": ("information", "gateway"),
+        "source_event_to_gateway_s": ("event", "gateway"),
+        "publication_to_gateway_s": ("publication", "gateway"),
+        "discovery_to_send_s": ("discovery", "sent"),
+        "send_to_gateway_s": ("sent", "gateway"),
         "discovery_to_gateway_s": ("discovery", "gateway"),
         "gateway_to_durable_s": ("gateway", "durable"),
         "durable_to_available_s": ("durable", "available"),

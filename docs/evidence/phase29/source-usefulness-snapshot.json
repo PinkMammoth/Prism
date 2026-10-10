@@ -1,0 +1,616 @@
+{
+  "descriptive_only": true,
+  "providers": [
+    {
+      "provider": "hyperliquid_status_v1",
+      "poll_counts": {
+        "accepted": 0,
+        "cpu_seconds": 0.034853755,
+        "decoded_bytes": 49772,
+        "detected": 10,
+        "duplicates": 0,
+        "rejected": 10,
+        "requests": 9,
+        "wire_bytes": 10882
+      },
+      "accepted_observations": 0,
+      "new_logical_events": 0,
+      "duplicate": 0,
+      "corroboration_or_update": 0,
+      "median_publication_to_receipt_seconds": null,
+      "publication_latency_n": 0,
+      "median_availability_to_receipt_seconds": null,
+      "later_corroboration_observations": 0,
+      "later_corroboration_rate": null,
+      "reaction_samples": 0,
+      "median_absolute_forward_return_pct": null,
+      "outside_execution_universe_assets": [],
+      "false_report_rate": null,
+      "noise_rate": 1.0
+    },
+    {
+      "provider": "coinbase_status_v1",
+      "poll_counts": {
+        "accepted": 0,
+        "cpu_seconds": 0.06747218099999999,
+        "decoded_bytes": 109778,
+        "detected": 50,
+        "duplicates": 0,
+        "rejected": 50,
+        "requests": 10,
+        "wire_bytes": 12340
+      },
+      "accepted_observations": 0,
+      "new_logical_events": 0,
+      "duplicate": 0,
+      "corroboration_or_update": 0,
+      "median_publication_to_receipt_seconds": null,
+      "publication_latency_n": 0,
+      "median_availability_to_receipt_seconds": null,
+      "later_corroboration_observations": 0,
+      "later_corroboration_rate": null,
+      "reaction_samples": 0,
+      "median_absolute_forward_return_pct": null,
+      "outside_execution_universe_assets": [],
+      "false_report_rate": null,
+      "noise_rate": 1.0
+    },
+    {
+      "provider": "kraken_status_v1",
+      "poll_counts": {
+        "accepted": 1,
+        "cpu_seconds": 0.11136080299999998,
+        "decoded_bytes": 1782710,
+        "detected": 100,
+        "duplicates": 1,
+        "rejected": 98,
+        "requests": 9,
+        "wire_bytes": 199220
+      },
+      "accepted_observations": 1,
+      "new_logical_events": 1,
+      "duplicate": 0,
+      "corroboration_or_update": 0,
+      "median_publication_to_receipt_seconds": 82259.796622,
+      "publication_latency_n": 1,
+      "median_availability_to_receipt_seconds": null,
+      "later_corroboration_observations": 0,
+      "later_corroboration_rate": 0.0,
+      "reaction_samples": 0,
+      "median_absolute_forward_return_pct": null,
+      "outside_execution_universe_assets": [
+        "BNB",
+        "XMR",
+        "ZEC"
+      ],
+      "false_report_rate": null,
+      "noise_rate": 0.98
+    },
+    {
+      "provider": "solana_status_v1",
+      "poll_counts": {
+        "accepted": 0,
+        "cpu_seconds": 0.04503947900000001,
+        "decoded_bytes": 320275,
+        "detected": 30,
+        "duplicates": 0,
+        "rejected": 30,
+        "requests": 8,
+        "wire_bytes": 48536
+      },
+      "accepted_observations": 0,
+      "new_logical_events": 0,
+      "duplicate": 0,
+      "corroboration_or_update": 0,
+      "median_publication_to_receipt_seconds": null,
+      "publication_latency_n": 0,
+      "median_availability_to_receipt_seconds": null,
+      "later_corroboration_observations": 0,
+      "later_corroboration_rate": null,
+      "reaction_samples": 0,
+      "median_absolute_forward_return_pct": null,
+      "outside_execution_universe_assets": [],
+      "false_report_rate": null,
+      "noise_rate": 1.0
+    },
+    {
+      "provider": "circle_status_v1",
+      "poll_counts": {
+        "accepted": 1,
+        "cpu_seconds": 0.032320149,
+        "decoded_bytes": 406971,
+        "detected": 50,
+        "duplicates": 0,
+        "rejected": 49,
+        "requests": 4,
+        "wire_bytes": 57703
+      },
+      "accepted_observations": 1,
+      "new_logical_events": 1,
+      "duplicate": 0,
+      "corroboration_or_update": 0,
+      "median_publication_to_receipt_seconds": 81498.402629,
+      "publication_latency_n": 1,
+      "median_availability_to_receipt_seconds": null,
+      "later_corroboration_observations": 0,
+      "later_corroboration_rate": 0.0,
+      "reaction_samples": 6,
+      "median_absolute_forward_return_pct": 0.07582576933448104,
+      "outside_execution_universe_assets": [
+        "BNB",
+        "USDC",
+        "XMR",
+        "ZEC"
+      ],
+      "false_report_rate": null,
+      "noise_rate": 0.98
+    },
+    {
+      "provider": "base_status_v1",
+      "poll_counts": {
+        "accepted": 0,
+        "cpu_seconds": 0.059504474999999994,
+        "decoded_bytes": 145827,
+        "detected": 50,
+        "duplicates": 0,
+        "rejected": 50,
+        "requests": 4,
+        "wire_bytes": 24317
+      },
+      "accepted_observations": 0,
+      "new_logical_events": 0,
+      "duplicate": 0,
+      "corroboration_or_update": 0,
+      "median_publication_to_receipt_seconds": null,
+      "publication_latency_n": 0,
+      "median_availability_to_receipt_seconds": null,
+      "later_corroboration_observations": 0,
+      "later_corroboration_rate": null,
+      "reaction_samples": 0,
+      "median_absolute_forward_return_pct": null,
+      "outside_execution_universe_assets": [],
+      "false_report_rate": null,
+      "noise_rate": 1.0
+    },
+    {
+      "provider": "sec_rss_v1",
+      "poll_counts": {
+        "accepted": 0,
+        "cpu_seconds": 0.015129855000000001,
+        "decoded_bytes": 18535,
+        "detected": 25,
+        "duplicates": 0,
+        "rejected": 25,
+        "requests": 2,
+        "wire_bytes": 5742
+      },
+      "accepted_observations": 0,
+      "new_logical_events": 0,
+      "duplicate": 0,
+      "corroboration_or_update": 0,
+      "median_publication_to_receipt_seconds": null,
+      "publication_latency_n": 0,
+      "median_availability_to_receipt_seconds": null,
+      "later_corroboration_observations": 0,
+      "later_corroboration_rate": null,
+      "reaction_samples": 0,
+      "median_absolute_forward_return_pct": null,
+      "outside_execution_universe_assets": [],
+      "false_report_rate": null,
+      "noise_rate": 1.0
+    },
+    {
+      "provider": "fed_rss_v1",
+      "poll_counts": {
+        "accepted": 0,
+        "cpu_seconds": 0.012857068000000001,
+        "decoded_bytes": 14897,
+        "detected": 20,
+        "duplicates": 0,
+        "rejected": 20,
+        "requests": 2,
+        "wire_bytes": 1892
+      },
+      "accepted_observations": 0,
+      "new_logical_events": 0,
+      "duplicate": 0,
+      "corroboration_or_update": 0,
+      "median_publication_to_receipt_seconds": null,
+      "publication_latency_n": 0,
+      "median_availability_to_receipt_seconds": null,
+      "later_corroboration_observations": 0,
+      "later_corroboration_rate": null,
+      "reaction_samples": 0,
+      "median_absolute_forward_return_pct": null,
+      "outside_execution_universe_assets": [],
+      "false_report_rate": null,
+      "noise_rate": 1.0
+    },
+    {
+      "provider": "cftc_rss_v1",
+      "poll_counts": {
+        "accepted": 0,
+        "cpu_seconds": 0.010840569999999999,
+        "decoded_bytes": 4724,
+        "detected": 10,
+        "duplicates": 0,
+        "rejected": 10,
+        "requests": 2,
+        "wire_bytes": 1139
+      },
+      "accepted_observations": 0,
+      "new_logical_events": 0,
+      "duplicate": 0,
+      "corroboration_or_update": 0,
+      "median_publication_to_receipt_seconds": null,
+      "publication_latency_n": 0,
+      "median_availability_to_receipt_seconds": null,
+      "later_corroboration_observations": 0,
+      "later_corroboration_rate": null,
+      "reaction_samples": 0,
+      "median_absolute_forward_return_pct": null,
+      "outside_execution_universe_assets": [],
+      "false_report_rate": null,
+      "noise_rate": 1.0
+    },
+    {
+      "provider": "sec_trading_suspensions_rss_v1",
+      "poll_counts": {
+        "accepted": 0,
+        "cpu_seconds": 0.009878468,
+        "decoded_bytes": 9523,
+        "detected": 25,
+        "duplicates": 0,
+        "rejected": 25,
+        "requests": 2,
+        "wire_bytes": 2017
+      },
+      "accepted_observations": 0,
+      "new_logical_events": 0,
+      "duplicate": 0,
+      "corroboration_or_update": 0,
+      "median_publication_to_receipt_seconds": null,
+      "publication_latency_n": 0,
+      "median_availability_to_receipt_seconds": null,
+      "later_corroboration_observations": 0,
+      "later_corroboration_rate": null,
+      "reaction_samples": 0,
+      "median_absolute_forward_return_pct": null,
+      "outside_execution_universe_assets": [],
+      "false_report_rate": null,
+      "noise_rate": 1.0
+    },
+    {
+      "provider": "sec_administrative_proceedings_rss_v1",
+      "poll_counts": {
+        "accepted": 0,
+        "cpu_seconds": 0.012628457999999999,
+        "decoded_bytes": 9333,
+        "detected": 25,
+        "duplicates": 0,
+        "rejected": 25,
+        "requests": 2,
+        "wire_bytes": 2033
+      },
+      "accepted_observations": 0,
+      "new_logical_events": 0,
+      "duplicate": 0,
+      "corroboration_or_update": 0,
+      "median_publication_to_receipt_seconds": null,
+      "publication_latency_n": 0,
+      "median_availability_to_receipt_seconds": null,
+      "later_corroboration_observations": 0,
+      "later_corroboration_rate": null,
+      "reaction_samples": 0,
+      "median_absolute_forward_return_pct": null,
+      "outside_execution_universe_assets": [],
+      "false_report_rate": null,
+      "noise_rate": 1.0
+    },
+    {
+      "provider": "sec_litigation_releases_rss_v1",
+      "poll_counts": {
+        "accepted": 0,
+        "cpu_seconds": 0.012032637999999998,
+        "decoded_bytes": 10828,
+        "detected": 25,
+        "duplicates": 0,
+        "rejected": 25,
+        "requests": 2,
+        "wire_bytes": 2418
+      },
+      "accepted_observations": 0,
+      "new_logical_events": 0,
+      "duplicate": 0,
+      "corroboration_or_update": 0,
+      "median_publication_to_receipt_seconds": null,
+      "publication_latency_n": 0,
+      "median_availability_to_receipt_seconds": null,
+      "later_corroboration_observations": 0,
+      "later_corroboration_rate": null,
+      "reaction_samples": 0,
+      "median_absolute_forward_return_pct": null,
+      "outside_execution_universe_assets": [],
+      "false_report_rate": null,
+      "noise_rate": 1.0
+    },
+    {
+      "provider": "github_geth_releases_v1",
+      "poll_counts": {
+        "accepted": 0,
+        "cpu_seconds": 0.013097499,
+        "decoded_bytes": 64261,
+        "detected": 10,
+        "duplicates": 0,
+        "rejected": 10,
+        "requests": 2,
+        "wire_bytes": 19401
+      },
+      "accepted_observations": 0,
+      "new_logical_events": 0,
+      "duplicate": 0,
+      "corroboration_or_update": 0,
+      "median_publication_to_receipt_seconds": null,
+      "publication_latency_n": 0,
+      "median_availability_to_receipt_seconds": null,
+      "later_corroboration_observations": 0,
+      "later_corroboration_rate": null,
+      "reaction_samples": 0,
+      "median_absolute_forward_return_pct": null,
+      "outside_execution_universe_assets": [],
+      "false_report_rate": null,
+      "noise_rate": 1.0
+    },
+    {
+      "provider": "github_geth_security_advisories_v1",
+      "poll_counts": {
+        "accepted": 0,
+        "cpu_seconds": 0.011154348000000001,
+        "decoded_bytes": 36078,
+        "detected": 10,
+        "duplicates": 0,
+        "rejected": 10,
+        "requests": 2,
+        "wire_bytes": 6383
+      },
+      "accepted_observations": 0,
+      "new_logical_events": 0,
+      "duplicate": 0,
+      "corroboration_or_update": 0,
+      "median_publication_to_receipt_seconds": null,
+      "publication_latency_n": 0,
+      "median_availability_to_receipt_seconds": null,
+      "later_corroboration_observations": 0,
+      "later_corroboration_rate": null,
+      "reaction_samples": 0,
+      "median_absolute_forward_return_pct": null,
+      "outside_execution_universe_assets": [],
+      "false_report_rate": null,
+      "noise_rate": 1.0
+    },
+    {
+      "provider": "github_bitcoin_releases_v1",
+      "poll_counts": {
+        "accepted": 0,
+        "cpu_seconds": 0.010026837,
+        "decoded_bytes": 23213,
+        "detected": 10,
+        "duplicates": 0,
+        "rejected": 10,
+        "requests": 2,
+        "wire_bytes": 2421
+      },
+      "accepted_observations": 0,
+      "new_logical_events": 0,
+      "duplicate": 0,
+      "corroboration_or_update": 0,
+      "median_publication_to_receipt_seconds": null,
+      "publication_latency_n": 0,
+      "median_availability_to_receipt_seconds": null,
+      "later_corroboration_observations": 0,
+      "later_corroboration_rate": null,
+      "reaction_samples": 0,
+      "median_absolute_forward_return_pct": null,
+      "outside_execution_universe_assets": [],
+      "false_report_rate": null,
+      "noise_rate": 1.0
+    },
+    {
+      "provider": "github_bitcoin_security_advisories_v1",
+      "poll_counts": {
+        "accepted": 0,
+        "cpu_seconds": 0.008583076999999998,
+        "decoded_bytes": 2,
+        "detected": 0,
+        "duplicates": 0,
+        "rejected": 0,
+        "requests": 2,
+        "wire_bytes": 2
+      },
+      "accepted_observations": 0,
+      "new_logical_events": 0,
+      "duplicate": 0,
+      "corroboration_or_update": 0,
+      "median_publication_to_receipt_seconds": null,
+      "publication_latency_n": 0,
+      "median_availability_to_receipt_seconds": null,
+      "later_corroboration_observations": 0,
+      "later_corroboration_rate": null,
+      "reaction_samples": 0,
+      "median_absolute_forward_return_pct": null,
+      "outside_execution_universe_assets": [],
+      "false_report_rate": null,
+      "noise_rate": null
+    },
+    {
+      "provider": "ethereum_official_rss_v1",
+      "poll_counts": {
+        "accepted": 0,
+        "cpu_seconds": 0.034789418999999995,
+        "decoded_bytes": 530294,
+        "detected": 100,
+        "duplicates": 0,
+        "rejected": 100,
+        "requests": 2,
+        "wire_bytes": 105884
+      },
+      "accepted_observations": 0,
+      "new_logical_events": 0,
+      "duplicate": 0,
+      "corroboration_or_update": 0,
+      "median_publication_to_receipt_seconds": null,
+      "publication_latency_n": 0,
+      "median_availability_to_receipt_seconds": null,
+      "later_corroboration_observations": 0,
+      "later_corroboration_rate": null,
+      "reaction_samples": 0,
+      "median_absolute_forward_return_pct": null,
+      "outside_execution_universe_assets": [],
+      "false_report_rate": null,
+      "noise_rate": 1.0
+    },
+    {
+      "provider": "bitcoin_official_rss_v1",
+      "poll_counts": {
+        "accepted": 0,
+        "cpu_seconds": 0.07680985,
+        "decoded_bytes": 593118,
+        "detected": 100,
+        "duplicates": 0,
+        "rejected": 100,
+        "requests": 2,
+        "wire_bytes": 593118
+      },
+      "accepted_observations": 0,
+      "new_logical_events": 0,
+      "duplicate": 0,
+      "corroboration_or_update": 0,
+      "median_publication_to_receipt_seconds": null,
+      "publication_latency_n": 0,
+      "median_availability_to_receipt_seconds": null,
+      "later_corroboration_observations": 0,
+      "later_corroboration_rate": null,
+      "reaction_samples": 0,
+      "median_absolute_forward_return_pct": null,
+      "outside_execution_universe_assets": [],
+      "false_report_rate": null,
+      "noise_rate": 1.0
+    },
+    {
+      "provider": "gdelt_crypto_discovery_v1",
+      "poll_counts": {},
+      "accepted_observations": 0,
+      "new_logical_events": 0,
+      "duplicate": 0,
+      "corroboration_or_update": 0,
+      "median_publication_to_receipt_seconds": null,
+      "publication_latency_n": 0,
+      "median_availability_to_receipt_seconds": null,
+      "later_corroboration_observations": 0,
+      "later_corroboration_rate": null,
+      "reaction_samples": 0,
+      "median_absolute_forward_return_pct": null,
+      "outside_execution_universe_assets": [],
+      "false_report_rate": null,
+      "noise_rate": null
+    }
+  ],
+  "discovery_comparisons": [
+    {
+      "event_id": "ctxev_9878a626f1bb21c9e802073407572d531fdab2c5975af64b54f6d42ff7a2eedf",
+      "first_provider": "fred_release_calendar",
+      "order": [
+        {
+          "provider": "fred_release_calendar",
+          "receipt_at": "2026-10-07T19:12:05.865879+00:00",
+          "delay_from_first_seconds": 0.0
+        },
+        {
+          "provider": "fred_alfred",
+          "receipt_at": "2026-10-07T19:12:13.556050+00:00",
+          "delay_from_first_seconds": 7.690171
+        }
+      ]
+    },
+    {
+      "event_id": "ctxev_363866194602028e443f5b63e8a3bb2aaf166ea75eacd9a5ed750ca39693d989",
+      "first_provider": "fred_release_calendar",
+      "order": [
+        {
+          "provider": "fred_release_calendar",
+          "receipt_at": "2026-10-07T19:12:05.886759+00:00",
+          "delay_from_first_seconds": 0.0
+        },
+        {
+          "provider": "fred_alfred",
+          "receipt_at": "2026-10-07T19:12:13.592632+00:00",
+          "delay_from_first_seconds": 7.705873
+        }
+      ]
+    },
+    {
+      "event_id": "ctxev_cb70ab34299249254879783a549a35cb7b4be59f87ceb4423fc496c653b85e62",
+      "first_provider": "fred_release_calendar",
+      "order": [
+        {
+          "provider": "fred_release_calendar",
+          "receipt_at": "2026-10-07T19:12:06.021284+00:00",
+          "delay_from_first_seconds": 0.0
+        },
+        {
+          "provider": "fred_alfred",
+          "receipt_at": "2026-10-07T19:12:13.625130+00:00",
+          "delay_from_first_seconds": 7.603846
+        }
+      ]
+    },
+    {
+      "event_id": "ctxev_9573ae688f439e3230faf7a5881dac4e69e4d5a33352de2d6966508ffe1c4fe0",
+      "first_provider": "fred_release_calendar",
+      "order": [
+        {
+          "provider": "fred_release_calendar",
+          "receipt_at": "2026-10-07T19:12:06.044511+00:00",
+          "delay_from_first_seconds": 0.0
+        },
+        {
+          "provider": "fred_alfred",
+          "receipt_at": "2026-10-07T19:12:13.655412+00:00",
+          "delay_from_first_seconds": 7.610901
+        }
+      ]
+    },
+    {
+      "event_id": "ctxev_32c244611e9aace3b8bfe589ebdcee1981724bd6e636b0545bc2149116661a8a",
+      "first_provider": "rss_coinbase_status",
+      "order": [
+        {
+          "provider": "rss_coinbase_status",
+          "receipt_at": "2026-10-08T03:38:02.929325+00:00",
+          "delay_from_first_seconds": 0.0
+        },
+        {
+          "provider": "chatgpt_work_v1",
+          "receipt_at": "2026-10-09T17:14:53.421102+00:00",
+          "delay_from_first_seconds": 135410.491777
+        }
+      ]
+    },
+    {
+      "event_id": "ctxev_427b379d030695259c1ac3aced3cbc7ebd1c1dc1a66d0d99eb09583d4b59d667",
+      "first_provider": "rss_fed_press",
+      "order": [
+        {
+          "provider": "rss_fed_press",
+          "receipt_at": "2026-10-09T17:08:05.146595+00:00",
+          "delay_from_first_seconds": 0.0
+        },
+        {
+          "provider": "rss_sec_press",
+          "receipt_at": "2026-10-09T17:08:05.968675+00:00",
+          "delay_from_first_seconds": 0.82208
+        }
+      ]
+    }
+  ]
+}

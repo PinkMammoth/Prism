@@ -1,0 +1,35 @@
+{
+  "full": {
+    "command": ".venv/bin/pytest -n 4 -o addopts='' -q",
+    "passed": 1226,
+    "warnings": 4,
+    "seconds": 1607.98,
+    "note": "Launched before final metrics/text-guard refinements; final committed gateway/context code rerun below."
+  },
+  "final_context": {
+    "command": ".venv/bin/pytest tests/test_work_monitors.py tests/test_context_gateway.py tests/test_context.py -o addopts='' -q",
+    "passed": 135,
+    "warnings": 1,
+    "seconds": 327.48
+  },
+  "phase_cohort": {
+    "passed": 360,
+    "seconds": 1035.69,
+    "phase_tests": "Phase 23, 24A, 24B, 25A, 26A, 27, 28A, runtime",
+    "note": "18 Phase 28A cases at launch; final 26-case Phase 28A suite included in 135-test rerun."
+  },
+  "ruff": "passed",
+  "format": "344 files already formatted",
+  "diff_check": "passed",
+  "final_phase_counts": {
+    "tests/test_work_monitors.py": 26,
+    "tests/test_context_gateway.py": 70,
+    "tests/test_context.py": 39,
+    "tests/test_nimble_paper.py": 47,
+    "tests/test_nimble_runtime.py": 11,
+    "tests/test_microstructure.py": 47,
+    "tests/test_microstructure_direction.py": 18,
+    "tests/test_exploratory_paper_v2.py": 78,
+    "tests/test_runtime.py": 32
+  }
+}

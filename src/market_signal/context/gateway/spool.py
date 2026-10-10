@@ -95,7 +95,14 @@ class Spool:
         ):
             raise OSError("gateway spool capacity exhausted")
 
-    def audit(self, kind: str, *, identity: str | None = None, receipt_id: str | None = None):
+    def audit(
+        self,
+        kind: str,
+        *,
+        identity: str | None = None,
+        receipt_id: str | None = None,
+        provider: str | None = None,
+    ):
         # Only predefined reason codes and identities. No tokens, bodies or validation echoes.
         # Reject traffic must not bypass the spool bound and fill the runtime volume.
         self.check_capacity()
@@ -104,6 +111,7 @@ class Spool:
             "kind": kind,
             "identity": identity,
             "receipt_id": receipt_id,
+            "provider": provider,
         }
         path = self.root / "audit.jsonl"
         # A crash can leave a partial final diagnostic line. Discard only that uncommitted
@@ -195,7 +203,7 @@ class Spool:
                     "payload_sha256": ph,
                     "gateway_received_at": received.isoformat(),
                     "auth_identity": identity,
-                    "provider": "chatgpt_work_v1",
+                    "provider": observation.source_id,
                     "schema_version": "context_import_v1",
                     "payload": raw,
                     "observation": observation.model_dump(mode="json"),
@@ -206,7 +214,10 @@ class Spool:
             timing = self.seal(rid)
             try:
                 self.audit(
-                    "duplicate" if duplicate else "accepted", identity=identity, receipt_id=rid
+                    "duplicate" if duplicate else "accepted",
+                    identity=identity,
+                    receipt_id=rid,
+                    provider=rec["provider"],
                 )
             except OSError:
                 # The receipt and seal are already durable. Diagnostic capacity must

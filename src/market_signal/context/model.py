@@ -123,7 +123,7 @@ class Observation(LabModel):
     """One normalised report. Built by a provider or the validated external importer."""
 
     schema_version: Literal["context_observation_v1"] = OBSERVATION_SCHEMA
-    taxonomy_version: Literal["context_taxonomy_v1"] = TAXONOMY_VERSION
+    taxonomy_version: Literal["context_taxonomy_v1", "context_taxonomy_v2"] = TAXONOMY_VERSION
     source_id: Name
     source_type: SourceType
     source_ref: Short | None = None  # URL or the source's own identifier

@@ -1,0 +1,723 @@
+{
+  "descriptive_only": true,
+  "enrollments": [
+    [
+      "BNB",
+      2
+    ],
+    [
+      "LINK",
+      2
+    ],
+    [
+      "SOL",
+      2
+    ],
+    [
+      "XMR",
+      2
+    ],
+    [
+      "ZEC",
+      2
+    ],
+    [
+      "AAVE",
+      2
+    ],
+    [
+      "BTC",
+      2
+    ],
+    [
+      "ETH",
+      2
+    ],
+    [
+      "HYPE",
+      2
+    ],
+    [
+      "USDC",
+      1
+    ]
+  ],
+  "outcomes": [
+    {
+      "event_id": "ctxev_b3e056824072cdbfc8ba13b90a9beaefce5c1975c1d08b18fccfe34c36f7dc31",
+      "asset": "AAVE",
+      "horizon_minutes": 1,
+      "recorded_at": "2026-10-10 14:13:45.697055+00:00",
+      "payload": {
+        "ask5_endpoint": 9605.6591796875,
+        "attribution": "first_free_availability_not_proof_of_market_causation",
+        "auth_identity": "public_free_source",
+        "available_at": "2026-10-10T14:11:38.802404+00:00",
+        "bid5_endpoint": 5271.2646484375,
+        "direct_assets": [],
+        "down_excursion_pct": null,
+        "endpoint_delay_s": 21.197596,
+        "full_post_minutes": 0,
+        "funding_endpoint": 1.25e-05,
+        "funding_reference": 1.25e-05,
+        "gateway_received_at": "2026-10-10T14:11:14.868629+00:00",
+        "horizon_minutes": 1,
+        "link_types": [
+          "market_wide"
+        ],
+        "mae_long_pct": null,
+        "mae_short_pct": null,
+        "market_data_available_at": "2026-10-10T14:13:06.056985+00:00",
+        "market_wide": true,
+        "mfe_long_pct": null,
+        "mfe_short_pct": null,
+        "minute_revisions": [
+          0,
+          0,
+          0
+        ],
+        "oi_change_pct": -0.005969849695319773,
+        "outcome_close_at": "2026-10-10T14:13:00+00:00",
+        "outcome_price": 172.51,
+        "partial_first_minute_excluded": true,
+        "price_basis": "hyperliquid_complete_minute_last_trade",
+        "provider": "circle_status_v1",
+        "realized_vol_pct": null,
+        "receipt_id": "ctxgw_b62373e955d676b86d53e4dde89e79ba917054d2ddcf2ce0ca9fc4ec58aa09d8:0",
+        "reference_age_s": 38.802404,
+        "reference_close_at": "2026-10-10T14:11:00+00:00",
+        "reference_price": 172.39,
+        "research_only": true,
+        "return_pct": 0.06960960612565348,
+        "spread_endpoint_bps": 1.0626509189605713,
+        "spread_reference_bps": 0.995692253112793,
+        "status": "ok",
+        "subcategory": "custody_disruption",
+        "truth_evolution_does_not_erase_reaction": true,
+        "up_excursion_pct": null,
+        "version": "free_event_reaction_v1",
+        "volume_ratio": null
+      }
+    },
+    {
+      "event_id": "ctxev_b3e056824072cdbfc8ba13b90a9beaefce5c1975c1d08b18fccfe34c36f7dc31",
+      "asset": "SOL",
+      "horizon_minutes": 1,
+      "recorded_at": "2026-10-10 14:13:45.697055+00:00",
+      "payload": {
+        "ask5_endpoint": 775197.5625,
+        "attribution": "first_free_availability_not_proof_of_market_causation",
+        "auth_identity": "public_free_source",
+        "available_at": "2026-10-10T14:11:38.802404+00:00",
+        "bid5_endpoint": 640925.25,
+        "direct_assets": [],
+        "down_excursion_pct": null,
+        "endpoint_delay_s": 21.197596,
+        "full_post_minutes": 0,
+        "funding_endpoint": 1.25e-05,
+        "funding_reference": 1.25e-05,
+        "gateway_received_at": "2026-10-10T14:11:14.868629+00:00",
+        "horizon_minutes": 1,
+        "link_types": [
+          "market_wide"
+        ],
+        "mae_long_pct": null,
+        "mae_short_pct": null,
+        "market_data_available_at": "2026-10-10T14:13:06.056985+00:00",
+        "market_wide": true,
+        "mfe_long_pct": null,
+        "mfe_short_pct": null,
+        "minute_revisions": [
+          0,
+          0,
+          0
+        ],
+        "oi_change_pct": -0.0018852553112513881,
+        "outcome_close_at": "2026-10-10T14:13:00+00:00",
+        "outcome_price": 109.79,
+        "partial_first_minute_excluded": true,
+        "price_basis": "hyperliquid_complete_minute_last_trade",
+        "provider": "circle_status_v1",
+        "realized_vol_pct": null,
+        "receipt_id": "ctxgw_b62373e955d676b86d53e4dde89e79ba917054d2ddcf2ce0ca9fc4ec58aa09d8:0",
+        "reference_age_s": 38.802404,
+        "reference_close_at": "2026-10-10T14:11:00+00:00",
+        "reference_price": 109.7,
+        "research_only": true,
+        "return_pct": 0.0820419325433086,
+        "spread_endpoint_bps": 0.9108753800392151,
+        "spread_reference_bps": 0.9115355014801025,
+        "status": "ok",
+        "subcategory": "custody_disruption",
+        "truth_evolution_does_not_erase_reaction": true,
+        "up_excursion_pct": null,
+        "version": "free_event_reaction_v1",
+        "volume_ratio": null
+      }
+    },
+    {
+      "event_id": "ctxev_b3e056824072cdbfc8ba13b90a9beaefce5c1975c1d08b18fccfe34c36f7dc31",
+      "asset": "ETH",
+      "horizon_minutes": 1,
+      "recorded_at": "2026-10-10 14:13:45.697055+00:00",
+      "payload": {
+        "ask5_endpoint": 346849.03125,
+        "attribution": "first_free_availability_not_proof_of_market_causation",
+        "auth_identity": "public_free_source",
+        "available_at": "2026-10-10T14:11:38.802404+00:00",
+        "bid5_endpoint": 3104183.5,
+        "direct_assets": [],
+        "down_excursion_pct": null,
+        "endpoint_delay_s": 21.197596,
+        "full_post_minutes": 0,
+        "funding_endpoint": 7.2526e-06,
+        "funding_reference": 8.8034e-06,
+        "gateway_received_at": "2026-10-10T14:11:14.868629+00:00",
+        "horizon_minutes": 1,
+        "link_types": [
+          "market_wide"
+        ],
+        "mae_long_pct": null,
+        "mae_short_pct": null,
+        "market_data_available_at": "2026-10-10T14:13:06.056985+00:00",
+        "market_wide": true,
+        "mfe_long_pct": null,
+        "mfe_short_pct": null,
+        "minute_revisions": [
+          0,
+          0,
+          0
+        ],
+        "oi_change_pct": 0.0014890455725113938,
+        "outcome_close_at": "2026-10-10T14:13:00+00:00",
+        "outcome_price": 2496.1,
+        "partial_first_minute_excluded": true,
+        "price_basis": "hyperliquid_complete_minute_last_trade",
+        "provider": "circle_status_v1",
+        "realized_vol_pct": null,
+        "receipt_id": "ctxgw_b62373e955d676b86d53e4dde89e79ba917054d2ddcf2ce0ca9fc4ec58aa09d8:0",
+        "reference_age_s": 38.802404,
+        "reference_close_at": "2026-10-10T14:11:00+00:00",
+        "reference_price": 2495.5,
+        "research_only": true,
+        "return_pct": 0.024043277900220872,
+        "spread_endpoint_bps": 0.40064263343811035,
+        "spread_reference_bps": 0.4007028341293335,
+        "status": "ok",
+        "subcategory": "custody_disruption",
+        "truth_evolution_does_not_erase_reaction": true,
+        "up_excursion_pct": null,
+        "version": "free_event_reaction_v1",
+        "volume_ratio": null
+      }
+    },
+    {
+      "event_id": "ctxev_b3e056824072cdbfc8ba13b90a9beaefce5c1975c1d08b18fccfe34c36f7dc31",
+      "asset": "LINK",
+      "horizon_minutes": 1,
+      "recorded_at": "2026-10-10 14:13:45.697055+00:00",
+      "payload": {
+        "ask5_endpoint": 30508.02734375,
+        "attribution": "first_free_availability_not_proof_of_market_causation",
+        "auth_identity": "public_free_source",
+        "available_at": "2026-10-10T14:11:38.802404+00:00",
+        "bid5_endpoint": 17661.97265625,
+        "direct_assets": [],
+        "down_excursion_pct": null,
+        "endpoint_delay_s": 21.197596,
+        "full_post_minutes": 0,
+        "funding_endpoint": 1.25e-05,
+        "funding_reference": 1.25e-05,
+        "gateway_received_at": "2026-10-10T14:11:14.868629+00:00",
+        "horizon_minutes": 1,
+        "link_types": [
+          "market_wide"
+        ],
+        "mae_long_pct": null,
+        "mae_short_pct": null,
+        "market_data_available_at": "2026-10-10T14:13:06.056985+00:00",
+        "market_wide": true,
+        "mfe_long_pct": null,
+        "mfe_short_pct": null,
+        "minute_revisions": [
+          0,
+          0,
+          0
+        ],
+        "oi_change_pct": 0.0037821874200760774,
+        "outcome_close_at": "2026-10-10T14:13:00+00:00",
+        "outcome_price": 13.081,
+        "partial_first_minute_excluded": true,
+        "price_basis": "hyperliquid_complete_minute_last_trade",
+        "provider": "circle_status_v1",
+        "realized_vol_pct": null,
+        "receipt_id": "ctxgw_b62373e955d676b86d53e4dde89e79ba917054d2ddcf2ce0ca9fc4ec58aa09d8:0",
+        "reference_age_s": 38.802404,
+        "reference_close_at": "2026-10-10T14:11:00+00:00",
+        "reference_price": 13.059,
+        "research_only": true,
+        "return_pct": 0.1684661918983199,
+        "spread_endpoint_bps": 1.147484302520752,
+        "spread_reference_bps": 1.3151085376739502,
+        "status": "ok",
+        "subcategory": "custody_disruption",
+        "truth_evolution_does_not_erase_reaction": true,
+        "up_excursion_pct": null,
+        "version": "free_event_reaction_v1",
+        "volume_ratio": null
+      }
+    },
+    {
+      "event_id": "ctxev_b3e056824072cdbfc8ba13b90a9beaefce5c1975c1d08b18fccfe34c36f7dc31",
+      "asset": "BTC",
+      "horizon_minutes": 1,
+      "recorded_at": "2026-10-10 14:13:45.697055+00:00",
+      "payload": {
+        "ask5_endpoint": 1710253.0,
+        "attribution": "first_free_availability_not_proof_of_market_causation",
+        "auth_identity": "public_free_source",
+        "available_at": "2026-10-10T14:11:38.802404+00:00",
+        "bid5_endpoint": 634247.75,
+        "direct_assets": [],
+        "down_excursion_pct": null,
+        "endpoint_delay_s": 21.197596,
+        "full_post_minutes": 0,
+        "funding_endpoint": -6.627e-06,
+        "funding_reference": -8.7256e-06,
+        "gateway_received_at": "2026-10-10T14:11:14.868629+00:00",
+        "horizon_minutes": 1,
+        "link_types": [
+          "market_wide"
+        ],
+        "mae_long_pct": null,
+        "mae_short_pct": null,
+        "market_data_available_at": "2026-10-10T14:13:06.056985+00:00",
+        "market_wide": true,
+        "mfe_long_pct": null,
+        "mfe_short_pct": null,
+        "minute_revisions": [
+          0,
+          0,
+          0
+        ],
+        "oi_change_pct": 0.09510216769645918,
+        "outcome_close_at": "2026-10-10T14:13:00+00:00",
+        "outcome_price": 82764.0,
+        "partial_first_minute_excluded": true,
+        "price_basis": "hyperliquid_complete_minute_last_trade",
+        "provider": "circle_status_v1",
+        "realized_vol_pct": null,
+        "receipt_id": "ctxgw_b62373e955d676b86d53e4dde89e79ba917054d2ddcf2ce0ca9fc4ec58aa09d8:0",
+        "reference_age_s": 38.802404,
+        "reference_close_at": "2026-10-10T14:11:00+00:00",
+        "reference_price": 82740.0,
+        "research_only": true,
+        "return_pct": 0.029006526468444704,
+        "spread_endpoint_bps": 0.12082849442958832,
+        "spread_reference_bps": 0.12087367475032806,
+        "status": "ok",
+        "subcategory": "custody_disruption",
+        "truth_evolution_does_not_erase_reaction": true,
+        "up_excursion_pct": null,
+        "version": "free_event_reaction_v1",
+        "volume_ratio": null
+      }
+    },
+    {
+      "event_id": "ctxev_b3e056824072cdbfc8ba13b90a9beaefce5c1975c1d08b18fccfe34c36f7dc31",
+      "asset": "HYPE",
+      "horizon_minutes": 1,
+      "recorded_at": "2026-10-10 14:13:45.697055+00:00",
+      "payload": {
+        "ask5_endpoint": 15001.3515625,
+        "attribution": "first_free_availability_not_proof_of_market_causation",
+        "auth_identity": "public_free_source",
+        "available_at": "2026-10-10T14:11:38.802404+00:00",
+        "bid5_endpoint": 25244.544921875,
+        "direct_assets": [],
+        "down_excursion_pct": null,
+        "endpoint_delay_s": 21.197596,
+        "full_post_minutes": 0,
+        "funding_endpoint": 1.25e-05,
+        "funding_reference": 1.25e-05,
+        "gateway_received_at": "2026-10-10T14:11:14.868629+00:00",
+        "horizon_minutes": 1,
+        "link_types": [
+          "market_wide"
+        ],
+        "mae_long_pct": null,
+        "mae_short_pct": null,
+        "market_data_available_at": "2026-10-10T14:13:06.056985+00:00",
+        "market_wide": true,
+        "mfe_long_pct": null,
+        "mfe_short_pct": null,
+        "minute_revisions": [
+          0,
+          0,
+          0
+        ],
+        "oi_change_pct": 0.12494434199912252,
+        "outcome_close_at": "2026-10-10T14:13:00+00:00",
+        "outcome_price": 84.599,
+        "partial_first_minute_excluded": true,
+        "price_basis": "hyperliquid_complete_minute_last_trade",
+        "provider": "circle_status_v1",
+        "realized_vol_pct": null,
+        "receipt_id": "ctxgw_b62373e955d676b86d53e4dde89e79ba917054d2ddcf2ce0ca9fc4ec58aa09d8:0",
+        "reference_age_s": 38.802404,
+        "reference_close_at": "2026-10-10T14:11:00+00:00",
+        "reference_price": 84.403,
+        "research_only": true,
+        "return_pct": 0.23221923391347765,
+        "spread_endpoint_bps": 0.26414933800697327,
+        "spread_reference_bps": 0.11848472058773041,
+        "status": "ok",
+        "subcategory": "custody_disruption",
+        "truth_evolution_does_not_erase_reaction": true,
+        "up_excursion_pct": null,
+        "version": "free_event_reaction_v1",
+        "volume_ratio": null
+      }
+    }
+  ],
+  "diagnostics": [
+    {
+      "event_id": "ctxev_8eec7b2c19b95abaf4fc3a64084207de026d8cead4578d6317c6b1ebe16af7dc",
+      "asset": "AAVE",
+      "available_at": "2026-10-10 14:10:15.107606+00:00",
+      "one_minute": {
+        "status": "minute_coverage_gap"
+      }
+    },
+    {
+      "event_id": "ctxev_8eec7b2c19b95abaf4fc3a64084207de026d8cead4578d6317c6b1ebe16af7dc",
+      "asset": "BNB",
+      "available_at": "2026-10-10 14:10:15.107606+00:00",
+      "one_minute": {
+        "status": "no_minute_data"
+      }
+    },
+    {
+      "event_id": "ctxev_8eec7b2c19b95abaf4fc3a64084207de026d8cead4578d6317c6b1ebe16af7dc",
+      "asset": "BTC",
+      "available_at": "2026-10-10 14:10:15.107606+00:00",
+      "one_minute": {
+        "status": "minute_coverage_gap"
+      }
+    },
+    {
+      "event_id": "ctxev_8eec7b2c19b95abaf4fc3a64084207de026d8cead4578d6317c6b1ebe16af7dc",
+      "asset": "ETH",
+      "available_at": "2026-10-10 14:10:15.107606+00:00",
+      "one_minute": {
+        "status": "minute_coverage_gap"
+      }
+    },
+    {
+      "event_id": "ctxev_8eec7b2c19b95abaf4fc3a64084207de026d8cead4578d6317c6b1ebe16af7dc",
+      "asset": "HYPE",
+      "available_at": "2026-10-10 14:10:15.107606+00:00",
+      "one_minute": {
+        "status": "minute_coverage_gap"
+      }
+    },
+    {
+      "event_id": "ctxev_8eec7b2c19b95abaf4fc3a64084207de026d8cead4578d6317c6b1ebe16af7dc",
+      "asset": "LINK",
+      "available_at": "2026-10-10 14:10:15.107606+00:00",
+      "one_minute": {
+        "status": "minute_coverage_gap"
+      }
+    },
+    {
+      "event_id": "ctxev_8eec7b2c19b95abaf4fc3a64084207de026d8cead4578d6317c6b1ebe16af7dc",
+      "asset": "SOL",
+      "available_at": "2026-10-10 14:10:15.107606+00:00",
+      "one_minute": {
+        "status": "minute_coverage_gap"
+      }
+    },
+    {
+      "event_id": "ctxev_8eec7b2c19b95abaf4fc3a64084207de026d8cead4578d6317c6b1ebe16af7dc",
+      "asset": "XMR",
+      "available_at": "2026-10-10 14:10:15.107606+00:00",
+      "one_minute": {
+        "status": "no_minute_data"
+      }
+    },
+    {
+      "event_id": "ctxev_8eec7b2c19b95abaf4fc3a64084207de026d8cead4578d6317c6b1ebe16af7dc",
+      "asset": "ZEC",
+      "available_at": "2026-10-10 14:10:15.107606+00:00",
+      "one_minute": {
+        "status": "no_minute_data"
+      }
+    },
+    {
+      "event_id": "ctxev_b3e056824072cdbfc8ba13b90a9beaefce5c1975c1d08b18fccfe34c36f7dc31",
+      "asset": "AAVE",
+      "available_at": "2026-10-10 14:11:38.802404+00:00",
+      "one_minute": {
+        "status": "ok",
+        "price_basis": "hyperliquid_complete_minute_last_trade",
+        "reference_price": 172.39,
+        "reference_close_at": "2026-10-10T14:11:00+00:00",
+        "outcome_price": 172.51,
+        "outcome_close_at": "2026-10-10T14:13:00+00:00",
+        "endpoint_delay_s": 21.197596,
+        "reference_age_s": 38.802404,
+        "return_pct": 0.06960960612565348,
+        "up_excursion_pct": null,
+        "down_excursion_pct": null,
+        "mfe_long_pct": null,
+        "mae_long_pct": null,
+        "mfe_short_pct": null,
+        "mae_short_pct": null,
+        "realized_vol_pct": null,
+        "full_post_minutes": 0,
+        "partial_first_minute_excluded": true,
+        "volume_ratio": null,
+        "oi_change_pct": -0.005969849695319773,
+        "funding_reference": 1.25e-05,
+        "funding_endpoint": 1.25e-05,
+        "spread_reference_bps": 0.995692253112793,
+        "spread_endpoint_bps": 1.0626509189605713,
+        "bid5_endpoint": 5271.2646484375,
+        "ask5_endpoint": 9605.6591796875,
+        "market_data_available_at": "2026-10-10T14:13:06.056985+00:00",
+        "minute_revisions": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "event_id": "ctxev_b3e056824072cdbfc8ba13b90a9beaefce5c1975c1d08b18fccfe34c36f7dc31",
+      "asset": "BNB",
+      "available_at": "2026-10-10 14:11:38.802404+00:00",
+      "one_minute": {
+        "status": "no_minute_data"
+      }
+    },
+    {
+      "event_id": "ctxev_b3e056824072cdbfc8ba13b90a9beaefce5c1975c1d08b18fccfe34c36f7dc31",
+      "asset": "BTC",
+      "available_at": "2026-10-10 14:11:38.802404+00:00",
+      "one_minute": {
+        "status": "ok",
+        "price_basis": "hyperliquid_complete_minute_last_trade",
+        "reference_price": 82740.0,
+        "reference_close_at": "2026-10-10T14:11:00+00:00",
+        "outcome_price": 82764.0,
+        "outcome_close_at": "2026-10-10T14:13:00+00:00",
+        "endpoint_delay_s": 21.197596,
+        "reference_age_s": 38.802404,
+        "return_pct": 0.029006526468444704,
+        "up_excursion_pct": null,
+        "down_excursion_pct": null,
+        "mfe_long_pct": null,
+        "mae_long_pct": null,
+        "mfe_short_pct": null,
+        "mae_short_pct": null,
+        "realized_vol_pct": null,
+        "full_post_minutes": 0,
+        "partial_first_minute_excluded": true,
+        "volume_ratio": null,
+        "oi_change_pct": 0.09510216769645918,
+        "funding_reference": -8.7256e-06,
+        "funding_endpoint": -6.627e-06,
+        "spread_reference_bps": 0.12087367475032806,
+        "spread_endpoint_bps": 0.12082849442958832,
+        "bid5_endpoint": 634247.75,
+        "ask5_endpoint": 1710253.0,
+        "market_data_available_at": "2026-10-10T14:13:06.056985+00:00",
+        "minute_revisions": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "event_id": "ctxev_b3e056824072cdbfc8ba13b90a9beaefce5c1975c1d08b18fccfe34c36f7dc31",
+      "asset": "ETH",
+      "available_at": "2026-10-10 14:11:38.802404+00:00",
+      "one_minute": {
+        "status": "ok",
+        "price_basis": "hyperliquid_complete_minute_last_trade",
+        "reference_price": 2495.5,
+        "reference_close_at": "2026-10-10T14:11:00+00:00",
+        "outcome_price": 2496.1,
+        "outcome_close_at": "2026-10-10T14:13:00+00:00",
+        "endpoint_delay_s": 21.197596,
+        "reference_age_s": 38.802404,
+        "return_pct": 0.024043277900220872,
+        "up_excursion_pct": null,
+        "down_excursion_pct": null,
+        "mfe_long_pct": null,
+        "mae_long_pct": null,
+        "mfe_short_pct": null,
+        "mae_short_pct": null,
+        "realized_vol_pct": null,
+        "full_post_minutes": 0,
+        "partial_first_minute_excluded": true,
+        "volume_ratio": null,
+        "oi_change_pct": 0.0014890455725113938,
+        "funding_reference": 8.8034e-06,
+        "funding_endpoint": 7.2526e-06,
+        "spread_reference_bps": 0.4007028341293335,
+        "spread_endpoint_bps": 0.40064263343811035,
+        "bid5_endpoint": 3104183.5,
+        "ask5_endpoint": 346849.03125,
+        "market_data_available_at": "2026-10-10T14:13:06.056985+00:00",
+        "minute_revisions": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "event_id": "ctxev_b3e056824072cdbfc8ba13b90a9beaefce5c1975c1d08b18fccfe34c36f7dc31",
+      "asset": "HYPE",
+      "available_at": "2026-10-10 14:11:38.802404+00:00",
+      "one_minute": {
+        "status": "ok",
+        "price_basis": "hyperliquid_complete_minute_last_trade",
+        "reference_price": 84.403,
+        "reference_close_at": "2026-10-10T14:11:00+00:00",
+        "outcome_price": 84.599,
+        "outcome_close_at": "2026-10-10T14:13:00+00:00",
+        "endpoint_delay_s": 21.197596,
+        "reference_age_s": 38.802404,
+        "return_pct": 0.23221923391347765,
+        "up_excursion_pct": null,
+        "down_excursion_pct": null,
+        "mfe_long_pct": null,
+        "mae_long_pct": null,
+        "mfe_short_pct": null,
+        "mae_short_pct": null,
+        "realized_vol_pct": null,
+        "full_post_minutes": 0,
+        "partial_first_minute_excluded": true,
+        "volume_ratio": null,
+        "oi_change_pct": 0.12494434199912252,
+        "funding_reference": 1.25e-05,
+        "funding_endpoint": 1.25e-05,
+        "spread_reference_bps": 0.11848472058773041,
+        "spread_endpoint_bps": 0.26414933800697327,
+        "bid5_endpoint": 25244.544921875,
+        "ask5_endpoint": 15001.3515625,
+        "market_data_available_at": "2026-10-10T14:13:06.056985+00:00",
+        "minute_revisions": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "event_id": "ctxev_b3e056824072cdbfc8ba13b90a9beaefce5c1975c1d08b18fccfe34c36f7dc31",
+      "asset": "LINK",
+      "available_at": "2026-10-10 14:11:38.802404+00:00",
+      "one_minute": {
+        "status": "ok",
+        "price_basis": "hyperliquid_complete_minute_last_trade",
+        "reference_price": 13.059,
+        "reference_close_at": "2026-10-10T14:11:00+00:00",
+        "outcome_price": 13.081,
+        "outcome_close_at": "2026-10-10T14:13:00+00:00",
+        "endpoint_delay_s": 21.197596,
+        "reference_age_s": 38.802404,
+        "return_pct": 0.1684661918983199,
+        "up_excursion_pct": null,
+        "down_excursion_pct": null,
+        "mfe_long_pct": null,
+        "mae_long_pct": null,
+        "mfe_short_pct": null,
+        "mae_short_pct": null,
+        "realized_vol_pct": null,
+        "full_post_minutes": 0,
+        "partial_first_minute_excluded": true,
+        "volume_ratio": null,
+        "oi_change_pct": 0.0037821874200760774,
+        "funding_reference": 1.25e-05,
+        "funding_endpoint": 1.25e-05,
+        "spread_reference_bps": 1.3151085376739502,
+        "spread_endpoint_bps": 1.147484302520752,
+        "bid5_endpoint": 17661.97265625,
+        "ask5_endpoint": 30508.02734375,
+        "market_data_available_at": "2026-10-10T14:13:06.056985+00:00",
+        "minute_revisions": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "event_id": "ctxev_b3e056824072cdbfc8ba13b90a9beaefce5c1975c1d08b18fccfe34c36f7dc31",
+      "asset": "SOL",
+      "available_at": "2026-10-10 14:11:38.802404+00:00",
+      "one_minute": {
+        "status": "ok",
+        "price_basis": "hyperliquid_complete_minute_last_trade",
+        "reference_price": 109.7,
+        "reference_close_at": "2026-10-10T14:11:00+00:00",
+        "outcome_price": 109.79,
+        "outcome_close_at": "2026-10-10T14:13:00+00:00",
+        "endpoint_delay_s": 21.197596,
+        "reference_age_s": 38.802404,
+        "return_pct": 0.0820419325433086,
+        "up_excursion_pct": null,
+        "down_excursion_pct": null,
+        "mfe_long_pct": null,
+        "mae_long_pct": null,
+        "mfe_short_pct": null,
+        "mae_short_pct": null,
+        "realized_vol_pct": null,
+        "full_post_minutes": 0,
+        "partial_first_minute_excluded": true,
+        "volume_ratio": null,
+        "oi_change_pct": -0.0018852553112513881,
+        "funding_reference": 1.25e-05,
+        "funding_endpoint": 1.25e-05,
+        "spread_reference_bps": 0.9115355014801025,
+        "spread_endpoint_bps": 0.9108753800392151,
+        "bid5_endpoint": 640925.25,
+        "ask5_endpoint": 775197.5625,
+        "market_data_available_at": "2026-10-10T14:13:06.056985+00:00",
+        "minute_revisions": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "event_id": "ctxev_b3e056824072cdbfc8ba13b90a9beaefce5c1975c1d08b18fccfe34c36f7dc31",
+      "asset": "USDC",
+      "available_at": "2026-10-10 14:11:38.802404+00:00",
+      "one_minute": {
+        "status": "no_minute_data"
+      }
+    },
+    {
+      "event_id": "ctxev_b3e056824072cdbfc8ba13b90a9beaefce5c1975c1d08b18fccfe34c36f7dc31",
+      "asset": "XMR",
+      "available_at": "2026-10-10 14:11:38.802404+00:00",
+      "one_minute": {
+        "status": "no_minute_data"
+      }
+    },
+    {
+      "event_id": "ctxev_b3e056824072cdbfc8ba13b90a9beaefce5c1975c1d08b18fccfe34c36f7dc31",
+      "asset": "ZEC",
+      "available_at": "2026-10-10 14:11:38.802404+00:00",
+      "one_minute": {
+        "status": "no_minute_data"
+      }
+    }
+  ]
+}

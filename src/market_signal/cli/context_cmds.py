@@ -95,12 +95,18 @@ def status(as_json: bool = JSON) -> None:
     from market_signal.context.gateway.spool import Spool, default_root
 
     gh = gateway_status(Spool(default_root()))
+    from market_signal.context.free_sources.health import status as free_status
+    from market_signal.context.free_sources.spool import Spool as FreeSpool
+    from market_signal.context.free_sources.spool import default_root as free_root
+
+    free_sources = free_status(FreeSpool(free_root()))
     obj = {"gateway": {k: gh[k] for k in ("running", "auth_state", "spool_backlog", "oldest_uningested_age_s")}, "providers": health, "events": counts.to_dict("records"), "updates": int(ups),
            "positioning": {"hl_hourly_cutover": cutover,
                            "hl_last_grid_hour": None if hl[0] is None else str(hl[0]),
                            "hl_grid_hours": int(hl[1] or 0),
                            "binance_ratios_last_ingest": None if lsr[0] is None else str(lsr[0]),
                            "binance_ratio_rows": int(lsr[1] or 0)}}  # fmt: skip
+    obj["free_event_sources"] = free_sources
     if _out(obj, as_json):
         return
     _providers_table(health)
@@ -399,6 +405,8 @@ def thesis(snapshot_id: str,
 
 def register(app: typer.Typer) -> None:
     from market_signal.cli.context_gateway_cmds import app as gateway
+    from market_signal.cli.free_source_cmds import app as sources
 
+    context.add_typer(sources, name="sources")
     context.add_typer(gateway, name="gateway")
     app.add_typer(context, name="context")

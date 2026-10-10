@@ -8,6 +8,11 @@ See [the nimble execution design](docs/NIMBLE_PERP_EXECUTION.md),
 [the Phase 27 report](docs/PHASE27_EXECUTION_REPORT.md), and
 [Paper v2](docs/EXPLORATORY_PAPER_V2.md). All automated execution remains paper-only.
 
+Phase 28A adds [five specialist Work semantic sensors](docs/WORK_INTELLIGENCE_MONITORS.md),
+independent provider metrics and causal reaction research. Prism support is deployed;
+Work schema refresh, saved-task activation and a qualifying live-event pilot remain gated.
+Work is a semantic sensor, not a trader; Phase 27 execution is unchanged.
+
 Prism is a **personal, local, £0/month** research system for slow, conservative capital
 accumulation across crypto, US equities/ETFs and commodity proxies. It does the
 following:
@@ -313,3 +318,5 @@ time-weighted spread/depth/imbalance, book dynamics, minute-end OI/funding) with
 COMPLETE/PARTIAL/GAP quality, bounded revisions, a single-writer spool → DuckDB ingest, a
 causal research loader and `market microstructure` queries (data only; prospective from its
 production cutover) — in [docs/MICROSTRUCTURE_COLLECTION.md](docs/MICROSTRUCTURE_COLLECTION.md).
+
+Phase 29 adds [free public event acquisition](docs/FREE_EVENT_SOURCES.md): causal status/RSS/GitHub collection through the existing context/outbox boundary, with £0 new data subscriptions.

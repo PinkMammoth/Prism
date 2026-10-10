@@ -1,0 +1,22 @@
+{
+  "version": "work_historical_rubric_review_v1",
+  "mode": "manual_prompt_rubric_review_not_blind_live_work_evaluation",
+  "reviewed_at": "2026-10-10",
+  "freeze": "Retain this corpus unchanged for the first live Work classification evaluation. Initial prompts existed before this review; no return/PnL tuning or paid model calls.",
+  "cases": [
+    {"id":"bnb-bridge-new", "monitor":"crypto_breaking", "url":"https://www.bnbchain.org/en/blog/bnb-chain-ecosystem-update", "facts":"Native BSC Token Hub bridge exploit and network disruption, when first discovered.", "expected":"submit", "review_decision":"submit"},
+    {"id":"bnb-bridge-update", "monitor":"crypto_breaking", "url":"https://www.bnbchain.org/en/blog/bnb-chain-ecosystem-update", "facts":"Earlier state is suspected disruption; official bridge exploit explanation is now newly available.", "expected":"update", "review_decision":"update"},
+    {"id":"coinbase-interac-limited", "monitor":"exchange_structure", "url":"https://coinbase.statuspage.io/", "facts":"October 9 2026 Interac deposits/withdrawals delayed for Canadian customers, resolved; no broad trading disruption. Review at contemporaneous discovery.", "expected":"ignore", "review_decision":"ignore"},
+    {"id":"coinbase-india-maintenance", "monitor":"exchange_structure", "url":"https://coinbase.statuspage.io/", "facts":"Planned 15-minute INR bank maintenance; crypto trading unaffected.", "expected":"ignore", "review_decision":"ignore"},
+    {"id":"fed-emergency-new", "monitor":"macro_risk", "url":"https://www.federalreserve.gov/newsevents/pressreleases/monetary20200315a.htm", "facts":"March 15 2020 emergency policy action reducing federal funds range to 0–0.25%, first notice.", "expected":"submit", "review_decision":"submit"},
+    {"id":"fed-rewrite", "monitor":"macro_risk", "url":"https://www.federalreserve.gov/newsevents/pressreleases/monetary20200315a.htm", "facts":"Same policy decision, same facts and source; later rewritten headline.", "expected":"ignore", "review_decision":"ignore"},
+    {"id":"sec-etf-new", "monitor":"regulatory_institutional", "url":"https://www.sec.gov/newsroom/speeches-statements/gensler-statement-spot-bitcoin-011023", "facts":"January 10 2024 actual spot Bitcoin ETP approval decision becomes public.", "expected":"submit", "review_decision":"submit"},
+    {"id":"sec-etf-wire", "monitor":"regulatory_institutional", "url":"https://apnews.com/article/76c873b7abb6aac299f6eae101fd38d3", "facts":"AP independently reports the decision already known from the SEC, with direct reporting; same episode.", "expected":"corroborate", "review_decision":"corroborate"},
+    {"id":"bitcoin-critical-new", "monitor":"technical_tailrisk", "url":"https://bitcoincore.org/en/2018/09/20/notice/", "facts":"Critical Bitcoin Core inflation vulnerability disclosed; no known exploitation. First discovery.", "expected":"submit", "review_decision":"submit"},
+    {"id":"bitcoin-critical-update", "monitor":"technical_tailrisk", "url":"https://bitcoincore.org/en/2018/09/20/notice/", "facts":"Earlier report describes DoS only; full disclosure newly establishes critical inflation exposure.", "expected":"update", "review_decision":"update"},
+    {"id":"dencun-routine-planned", "monitor":"crypto_breaking", "url":"https://blog.ethereum.org/2024/02/27/dencun-mainnet-announcement", "facts":"Previously scheduled network upgrade, no unexpected failure or urgent economic change.", "expected":"ignore", "review_decision":"ignore"},
+    {"id":"geth-routine-release", "monitor":"technical_tailrisk", "url":"https://github.com/ethereum/go-ethereum/releases/tag/v1.17.8", "facts":"Routine release used in Phase 26A delivery verification, no sourced critical hidden vulnerability established.", "expected":"ignore", "review_decision":"ignore"}
+  ],
+  "review_results": {"n":12, "agreement":12, "false_positives_vs_curated_labels":0, "false_negatives_vs_curated_labels":0, "update_corroboration_errors":0, "empirical_work_false_positive_rate":null, "empirical_work_false_negative_rate":null},
+  "limitations": ["Small hand-selected sample; not blind; decisions and labels reviewed by the implementing agent.", "No historical timestamp is fabricated as new production information.", "Zero rubric disagreements is not evidence of zero production errors or measured Work prompt performance.", "Fresh-event and stale-event versions must remain distinct; technical severity alone is insufficient on a routine release."]
+}

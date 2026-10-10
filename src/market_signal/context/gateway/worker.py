@@ -16,26 +16,50 @@ def tick(db: Path, spool: Spool) -> dict:
     from market_signal.data.store import Store
     from market_signal.ops.runtime import RuntimeBusy, require_authoritative, runtime_lock
 
-    if not spool.pending():
+    free_spool = None
+    if os.environ.get("PRISM_FREE_SOURCES", "off") == "on":
+        from market_signal.context.free_sources.spool import Spool as FreeSpool
+        from market_signal.context.free_sources.spool import default_root as free_root
+
+        free_spool = FreeSpool(free_root())
+    if not spool.pending() and not (free_spool and free_spool.pending()):
+        if free_spool:
+            from market_signal.context.free_sources.spool import replace_durable
+
+            replace_durable(
+                free_spool.root / "worker.json", {"heartbeat_at": now().isoformat(), "backlog": 0}
+            )
         return {"ingested": 0, "errors": 0, "backlog": 0}
     try:
         with runtime_lock(db, "context_gateway", wait=0):
             require_authoritative(db)
             with closing(Store(db, lock_timeout=0)) as store:
-                return drain(store, spool)
+                result = drain(store, spool)
+                if free_spool:
+                    from market_signal.context.free_sources.ingest import drain as free_drain
+                    from market_signal.context.free_sources.spool import replace_durable
+
+                    result["free_sources"] = free_drain(store, free_spool)
+                    replace_durable(
+                        free_spool.root / "worker.json",
+                        {"heartbeat_at": now().isoformat(), **result["free_sources"]},
+                    )
+                return result
     except RuntimeBusy:
         return {"ingested": 0, "errors": 0, "backlog": len(spool.pending()), "busy": True}
 
 
 def quality_tick(db: Path):
     from market_signal.context.gateway.quality import describe
+    from market_signal.context.work_research import collect
     from market_signal.data.store import Store
     from market_signal.ops.runtime import require_authoritative, runtime_lock
 
     with runtime_lock(db, "context_gateway_quality", wait=0):
         require_authoritative(db)
         with closing(Store(db, lock_timeout=0)) as store:
-            return describe(store)
+            research = collect(store, now=now())
+            return {**describe(store, Spool(default_root())), "reaction_collection": research}
 
 
 def run(db: Path):
