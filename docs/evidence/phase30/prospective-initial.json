@@ -1,0 +1,620 @@
+{
+  "as_of": "2026-10-10T19:20:15.073936+00:00",
+  "revision": "57e7a01fabcce940da00a370410dfd33a12ac4c7",
+  "schema_version": 30,
+  "event_policy_id": "paperexecution_event_12208f088bec2bcfaa8dfe10af41ccac81975d012cd2e5b0919ec5918712c885",
+  "baseline_policy_id": "paperexecution_nimble_ec40a2968bcc33f7c7654a1c8d7dcc200361e88bca99079cb4f45738ba785501",
+  "risk_policy_id": "paperrisk_v2_475b7c1e87fc2934eba4bb288f07cc818ed7dadb9fc8b9ab8d24a594a772e8b9",
+  "runs": [
+    {
+      "run_id": "paperrun_nimble_a8aef8be36c02700688053a1e57d2f908573fe8898860450b00b889d4f98f54c",
+      "activated_at": "2026-10-10 08:08:42.616803+00:00",
+      "policy_id": "paperexecution_nimble_ec40a2968bcc33f7c7654a1c8d7dcc200361e88bca99079cb4f45738ba785501",
+      "risk_policy_id": "paperrisk_v2_475b7c1e87fc2934eba4bb288f07cc818ed7dadb9fc8b9ab8d24a594a772e8b9",
+      "variant": null,
+      "universe_id": "paperuniverse_v2_5c0ca1f65dcef5d531fb01dffd764ae471ebcb45611ad16c244f7bfd44090d9a",
+      "hypotheses": 28,
+      "original_hypotheses_unchanged": true,
+      "account": {
+        "status": "ACTIVE",
+        "cash": 99.86085910241158,
+        "equity": 99.86085910241158,
+        "seq": 746,
+        "gross_notional": 0.0
+      },
+      "positions": 0,
+      "baseline_integrity": {
+        "verified": true,
+        "baseline_run_id": "paperrun_v2_3811cccc40db4fbe6413ebd018c129d1026748f3cd72e619ec80ba88e47ada95",
+        "classification": "EXPLORATORY_FIXED_HORIZON_BASELINE"
+      }
+    },
+    {
+      "run_id": "paperrun_nimble_a5fafb2cf008686ad99d2e1e039d428cd95349423d2e31778409810be6cce3d3",
+      "activated_at": "2026-10-10 16:15:55.610293+00:00",
+      "policy_id": "paperexecution_event_12208f088bec2bcfaa8dfe10af41ccac81975d012cd2e5b0919ec5918712c885",
+      "risk_policy_id": "paperrisk_v2_475b7c1e87fc2934eba4bb288f07cc818ed7dadb9fc8b9ab8d24a594a772e8b9",
+      "variant": "immediate",
+      "universe_id": "paperuniverse_event_1caa53ff64e6f2afe727bbf1c9df485acccac8ea9054eb292292175f2ba7324f",
+      "hypotheses": 31,
+      "original_hypotheses_unchanged": true,
+      "account": {
+        "status": "ACTIVE",
+        "cash": 100.0,
+        "equity": 100.0,
+        "seq": 189,
+        "gross_notional": 0.0
+      },
+      "positions": 0,
+      "baseline_integrity": {
+        "verified": true,
+        "baseline_run_id": "paperrun_v2_3811cccc40db4fbe6413ebd018c129d1026748f3cd72e619ec80ba88e47ada95",
+        "classification": "EXPLORATORY_FIXED_HORIZON_BASELINE"
+      }
+    },
+    {
+      "run_id": "paperrun_nimble_981fac864a79b04053e1ca081731a692db95b5e69cec9f29e74618e6e84e0528",
+      "activated_at": "2026-10-10 16:15:55.610293+00:00",
+      "policy_id": "paperexecution_event_12208f088bec2bcfaa8dfe10af41ccac81975d012cd2e5b0919ec5918712c885",
+      "risk_policy_id": "paperrisk_v2_475b7c1e87fc2934eba4bb288f07cc818ed7dadb9fc8b9ab8d24a594a772e8b9",
+      "variant": "confirmed",
+      "universe_id": "paperuniverse_event_4a76847cbd314501804511b4278e4a878c8ac0e79454683cd7514339f0cb180a",
+      "hypotheses": 31,
+      "original_hypotheses_unchanged": true,
+      "account": {
+        "status": "ACTIVE",
+        "cash": 100.0,
+        "equity": 100.0,
+        "seq": 189,
+        "gross_notional": 0.0
+      },
+      "positions": 0,
+      "baseline_integrity": {
+        "verified": true,
+        "baseline_run_id": "paperrun_v2_3811cccc40db4fbe6413ebd018c129d1026748f3cd72e619ec80ba88e47ada95",
+        "classification": "EXPLORATORY_FIXED_HORIZON_BASELINE"
+      }
+    }
+  ],
+  "event_cohorts": [
+    {
+      "run_id": "paperrun_nimble_a5fafb2cf008686ad99d2e1e039d428cd95349423d2e31778409810be6cce3d3",
+      "variant": "immediate",
+      "hypotheses": [
+        {
+          "events": 0,
+          "classification_rejections": {},
+          "hypothesis_id": "eventhyp_v1_2e7602d4b3bce745eb03b8f073abfc936148db62891360f0005e83100aa10dfc",
+          "hypothesis": "venue_disruption_immediate_v1",
+          "variant": "immediate",
+          "event_class": "venue_disruption",
+          "eligible_events": 0,
+          "decisions": 0,
+          "entries": 0,
+          "rejections": {},
+          "confirmation_missing_attempts": 0,
+          "confirmation_delay_seconds": {
+            "samples": 0,
+            "median": null,
+            "p95": null,
+            "max": null
+          },
+          "move_missed_before_fill_mean": null,
+          "event_age_seconds": {
+            "samples": 0,
+            "median": null,
+            "p95": null,
+            "max": null
+          },
+          "mfe_mean": null,
+          "mae_mean": null,
+          "false_positive_proxy_no_reaction": 0,
+          "trades": 0,
+          "price_pnl": 0,
+          "gross_pnl": 0,
+          "net_pnl": 0,
+          "liquidation_adjustment": 0,
+          "fees": 0,
+          "slippage": 0,
+          "funding": 0,
+          "unsettled_adverse_reserve": 0,
+          "provisional_trades": 0,
+          "win_rate": null,
+          "profit_factor": null,
+          "expectancy_per_trade": null,
+          "expectancy_per_day": 0.0,
+          "average_hold_minutes": null,
+          "turnover_notional": 0,
+          "capital_utilization": 0.0,
+          "exit_reasons": {},
+          "mfe_capture_ratio_mean": null,
+          "mae_avoidance_mean": null,
+          "entry_latency_seconds": {
+            "samples": 0,
+            "median": null,
+            "p95": null,
+            "max": null
+          },
+          "exit_latency_seconds": {
+            "samples": 0,
+            "median": null,
+            "p95": null,
+            "max": null
+          }
+        },
+        {
+          "events": 0,
+          "classification_rejections": {},
+          "hypothesis_id": "eventhyp_v1_6c05496f3f3de01d531e395f5c41a8a8f59879c3ef499064af54ba0b0b4a468a",
+          "hypothesis": "protocol_stress_immediate_v1",
+          "variant": "immediate",
+          "event_class": "protocol_stress",
+          "eligible_events": 0,
+          "decisions": 0,
+          "entries": 0,
+          "rejections": {},
+          "confirmation_missing_attempts": 0,
+          "confirmation_delay_seconds": {
+            "samples": 0,
+            "median": null,
+            "p95": null,
+            "max": null
+          },
+          "move_missed_before_fill_mean": null,
+          "event_age_seconds": {
+            "samples": 0,
+            "median": null,
+            "p95": null,
+            "max": null
+          },
+          "mfe_mean": null,
+          "mae_mean": null,
+          "false_positive_proxy_no_reaction": 0,
+          "trades": 0,
+          "price_pnl": 0,
+          "gross_pnl": 0,
+          "net_pnl": 0,
+          "liquidation_adjustment": 0,
+          "fees": 0,
+          "slippage": 0,
+          "funding": 0,
+          "unsettled_adverse_reserve": 0,
+          "provisional_trades": 0,
+          "win_rate": null,
+          "profit_factor": null,
+          "expectancy_per_trade": null,
+          "expectancy_per_day": 0.0,
+          "average_hold_minutes": null,
+          "turnover_notional": 0,
+          "capital_utilization": 0.0,
+          "exit_reasons": {},
+          "mfe_capture_ratio_mean": null,
+          "mae_avoidance_mean": null,
+          "entry_latency_seconds": {
+            "samples": 0,
+            "median": null,
+            "p95": null,
+            "max": null
+          },
+          "exit_latency_seconds": {
+            "samples": 0,
+            "median": null,
+            "p95": null,
+            "max": null
+          }
+        },
+        {
+          "events": 0,
+          "classification_rejections": {},
+          "hypothesis_id": "eventhyp_v1_71e29e619ed3413f528ccf76d5d82fe14647d262e03b23bec23b5d07d8363b88",
+          "hypothesis": "sec_spot_etf_approval_surprise_immediate_v1",
+          "variant": "immediate",
+          "event_class": "sec_spot_etf_approval_surprise",
+          "eligible_events": 0,
+          "decisions": 0,
+          "entries": 0,
+          "rejections": {},
+          "confirmation_missing_attempts": 0,
+          "confirmation_delay_seconds": {
+            "samples": 0,
+            "median": null,
+            "p95": null,
+            "max": null
+          },
+          "move_missed_before_fill_mean": null,
+          "event_age_seconds": {
+            "samples": 0,
+            "median": null,
+            "p95": null,
+            "max": null
+          },
+          "mfe_mean": null,
+          "mae_mean": null,
+          "false_positive_proxy_no_reaction": 0,
+          "trades": 0,
+          "price_pnl": 0,
+          "gross_pnl": 0,
+          "net_pnl": 0,
+          "liquidation_adjustment": 0,
+          "fees": 0,
+          "slippage": 0,
+          "funding": 0,
+          "unsettled_adverse_reserve": 0,
+          "provisional_trades": 0,
+          "win_rate": null,
+          "profit_factor": null,
+          "expectancy_per_trade": null,
+          "expectancy_per_day": 0.0,
+          "average_hold_minutes": null,
+          "turnover_notional": 0,
+          "capital_utilization": 0.0,
+          "exit_reasons": {},
+          "mfe_capture_ratio_mean": null,
+          "mae_avoidance_mean": null,
+          "entry_latency_seconds": {
+            "samples": 0,
+            "median": null,
+            "p95": null,
+            "max": null
+          },
+          "exit_latency_seconds": {
+            "samples": 0,
+            "median": null,
+            "p95": null,
+            "max": null
+          }
+        }
+      ],
+      "events": 1,
+      "classification_rejections": {
+        "UNSUPPORTED_EVENT_CLASS": 1
+      },
+      "evidence_rows": 1,
+      "source_comparison": [
+        {
+          "logical_event_id": "ctxev_02c2733f76fd421fd8b6c5bf1aa416f270048e5696a2f3899ac33dc58530b92a",
+          "first_provider": "kraken_status_v1",
+          "providers": [
+            {
+              "collector_observed_at": "2026-10-10T17:22:19.333037+00:00",
+              "context_available_at": "2026-10-10T17:22:24.798575+00:00",
+              "prism_first_seen_at": "2026-10-10T17:22:19.333037+00:00",
+              "provider": "kraken_status_v1",
+              "source_publication_at": "2026-10-06T13:09:02.885000Z",
+              "source_revision_at": "2026-10-10T17:21:49.565Z",
+              "later_than_first_seconds": 0.0,
+              "publication_age_seconds": 360796.448037,
+              "freshness_viable": false,
+              "remaining_execution_viable": null,
+              "observed_gate_evidence": null,
+              "viability_note": "freshness alone insufficient; no unobserved quote/confirmation counterfactual fill"
+            }
+          ],
+          "reference": null
+        }
+      ],
+      "graduation": "NONE_PROSPECTIVE_OBSERVATION_ONLY"
+    },
+    {
+      "run_id": "paperrun_nimble_981fac864a79b04053e1ca081731a692db95b5e69cec9f29e74618e6e84e0528",
+      "variant": "confirmed",
+      "hypotheses": [
+        {
+          "events": 0,
+          "classification_rejections": {},
+          "hypothesis_id": "eventhyp_v1_18f5cc1cc3438ce6e1c38c9485e80b984b83b1176bf9dc52e0ac5f78c9f8faba",
+          "hypothesis": "venue_disruption_confirmed_v1",
+          "variant": "confirmed",
+          "event_class": "venue_disruption",
+          "eligible_events": 0,
+          "decisions": 0,
+          "entries": 0,
+          "rejections": {},
+          "confirmation_missing_attempts": 0,
+          "confirmation_delay_seconds": {
+            "samples": 0,
+            "median": null,
+            "p95": null,
+            "max": null
+          },
+          "move_missed_before_fill_mean": null,
+          "event_age_seconds": {
+            "samples": 0,
+            "median": null,
+            "p95": null,
+            "max": null
+          },
+          "mfe_mean": null,
+          "mae_mean": null,
+          "false_positive_proxy_no_reaction": 0,
+          "trades": 0,
+          "price_pnl": 0,
+          "gross_pnl": 0,
+          "net_pnl": 0,
+          "liquidation_adjustment": 0,
+          "fees": 0,
+          "slippage": 0,
+          "funding": 0,
+          "unsettled_adverse_reserve": 0,
+          "provisional_trades": 0,
+          "win_rate": null,
+          "profit_factor": null,
+          "expectancy_per_trade": null,
+          "expectancy_per_day": 0.0,
+          "average_hold_minutes": null,
+          "turnover_notional": 0,
+          "capital_utilization": 0.0,
+          "exit_reasons": {},
+          "mfe_capture_ratio_mean": null,
+          "mae_avoidance_mean": null,
+          "entry_latency_seconds": {
+            "samples": 0,
+            "median": null,
+            "p95": null,
+            "max": null
+          },
+          "exit_latency_seconds": {
+            "samples": 0,
+            "median": null,
+            "p95": null,
+            "max": null
+          }
+        },
+        {
+          "events": 0,
+          "classification_rejections": {},
+          "hypothesis_id": "eventhyp_v1_4ed381762e6c23442d3f96a3601d104b820a90cb5166d77454c6491ba47d633c",
+          "hypothesis": "protocol_stress_confirmed_v1",
+          "variant": "confirmed",
+          "event_class": "protocol_stress",
+          "eligible_events": 0,
+          "decisions": 0,
+          "entries": 0,
+          "rejections": {},
+          "confirmation_missing_attempts": 0,
+          "confirmation_delay_seconds": {
+            "samples": 0,
+            "median": null,
+            "p95": null,
+            "max": null
+          },
+          "move_missed_before_fill_mean": null,
+          "event_age_seconds": {
+            "samples": 0,
+            "median": null,
+            "p95": null,
+            "max": null
+          },
+          "mfe_mean": null,
+          "mae_mean": null,
+          "false_positive_proxy_no_reaction": 0,
+          "trades": 0,
+          "price_pnl": 0,
+          "gross_pnl": 0,
+          "net_pnl": 0,
+          "liquidation_adjustment": 0,
+          "fees": 0,
+          "slippage": 0,
+          "funding": 0,
+          "unsettled_adverse_reserve": 0,
+          "provisional_trades": 0,
+          "win_rate": null,
+          "profit_factor": null,
+          "expectancy_per_trade": null,
+          "expectancy_per_day": 0.0,
+          "average_hold_minutes": null,
+          "turnover_notional": 0,
+          "capital_utilization": 0.0,
+          "exit_reasons": {},
+          "mfe_capture_ratio_mean": null,
+          "mae_avoidance_mean": null,
+          "entry_latency_seconds": {
+            "samples": 0,
+            "median": null,
+            "p95": null,
+            "max": null
+          },
+          "exit_latency_seconds": {
+            "samples": 0,
+            "median": null,
+            "p95": null,
+            "max": null
+          }
+        },
+        {
+          "events": 0,
+          "classification_rejections": {},
+          "hypothesis_id": "eventhyp_v1_5fe63ecd1111d82541f304c39e474fbf31cec9006bffd645823f49e6365596b0",
+          "hypothesis": "sec_spot_etf_approval_surprise_confirmed_v1",
+          "variant": "confirmed",
+          "event_class": "sec_spot_etf_approval_surprise",
+          "eligible_events": 0,
+          "decisions": 0,
+          "entries": 0,
+          "rejections": {},
+          "confirmation_missing_attempts": 0,
+          "confirmation_delay_seconds": {
+            "samples": 0,
+            "median": null,
+            "p95": null,
+            "max": null
+          },
+          "move_missed_before_fill_mean": null,
+          "event_age_seconds": {
+            "samples": 0,
+            "median": null,
+            "p95": null,
+            "max": null
+          },
+          "mfe_mean": null,
+          "mae_mean": null,
+          "false_positive_proxy_no_reaction": 0,
+          "trades": 0,
+          "price_pnl": 0,
+          "gross_pnl": 0,
+          "net_pnl": 0,
+          "liquidation_adjustment": 0,
+          "fees": 0,
+          "slippage": 0,
+          "funding": 0,
+          "unsettled_adverse_reserve": 0,
+          "provisional_trades": 0,
+          "win_rate": null,
+          "profit_factor": null,
+          "expectancy_per_trade": null,
+          "expectancy_per_day": 0.0,
+          "average_hold_minutes": null,
+          "turnover_notional": 0,
+          "capital_utilization": 0.0,
+          "exit_reasons": {},
+          "mfe_capture_ratio_mean": null,
+          "mae_avoidance_mean": null,
+          "entry_latency_seconds": {
+            "samples": 0,
+            "median": null,
+            "p95": null,
+            "max": null
+          },
+          "exit_latency_seconds": {
+            "samples": 0,
+            "median": null,
+            "p95": null,
+            "max": null
+          }
+        }
+      ],
+      "events": 1,
+      "classification_rejections": {
+        "UNSUPPORTED_EVENT_CLASS": 1
+      },
+      "evidence_rows": 1,
+      "source_comparison": [
+        {
+          "logical_event_id": "ctxev_02c2733f76fd421fd8b6c5bf1aa416f270048e5696a2f3899ac33dc58530b92a",
+          "first_provider": "kraken_status_v1",
+          "providers": [
+            {
+              "collector_observed_at": "2026-10-10T17:22:19.333037+00:00",
+              "context_available_at": "2026-10-10T17:22:24.798575+00:00",
+              "prism_first_seen_at": "2026-10-10T17:22:19.333037+00:00",
+              "provider": "kraken_status_v1",
+              "source_publication_at": "2026-10-06T13:09:02.885000Z",
+              "source_revision_at": "2026-10-10T17:21:49.565Z",
+              "later_than_first_seconds": 0.0,
+              "publication_age_seconds": 360796.448037,
+              "freshness_viable": false,
+              "remaining_execution_viable": null,
+              "observed_gate_evidence": null,
+              "viability_note": "freshness alone insufficient; no unobserved quote/confirmation counterfactual fill"
+            }
+          ],
+          "reference": null
+        }
+      ],
+      "graduation": "NONE_PROSPECTIVE_OBSERVATION_ONLY"
+    }
+  ],
+  "ledger_counts": [
+    {
+      "run_id": "paperrun_nimble_a5fafb2cf008686ad99d2e1e039d428cd95349423d2e31778409810be6cce3d3",
+      "kind": "cancelled",
+      "count": 1
+    },
+    {
+      "run_id": "paperrun_nimble_981fac864a79b04053e1ca081731a692db95b5e69cec9f29e74618e6e84e0528",
+      "kind": "cancelled",
+      "count": 1
+    },
+    {
+      "run_id": "paperrun_nimble_a5fafb2cf008686ad99d2e1e039d428cd95349423d2e31778409810be6cce3d3",
+      "kind": "pending",
+      "count": 1
+    },
+    {
+      "run_id": "paperrun_nimble_981fac864a79b04053e1ca081731a692db95b5e69cec9f29e74618e6e84e0528",
+      "kind": "pending",
+      "count": 1
+    },
+    {
+      "run_id": "paperrun_nimble_a8aef8be36c02700688053a1e57d2f908573fe8898860450b00b889d4f98f54c",
+      "kind": "position_mark",
+      "count": 58
+    },
+    {
+      "run_id": "paperrun_nimble_a8aef8be36c02700688053a1e57d2f908573fe8898860450b00b889d4f98f54c",
+      "kind": "exit_intent",
+      "count": 1
+    },
+    {
+      "run_id": "paperrun_nimble_a8aef8be36c02700688053a1e57d2f908573fe8898860450b00b889d4f98f54c",
+      "kind": "closed",
+      "count": 1
+    },
+    {
+      "run_id": "paperrun_nimble_a8aef8be36c02700688053a1e57d2f908573fe8898860450b00b889d4f98f54c",
+      "kind": "pending",
+      "count": 2
+    },
+    {
+      "run_id": "paperrun_nimble_a8aef8be36c02700688053a1e57d2f908573fe8898860450b00b889d4f98f54c",
+      "kind": "activation",
+      "count": 1
+    },
+    {
+      "run_id": "paperrun_nimble_a8aef8be36c02700688053a1e57d2f908573fe8898860450b00b889d4f98f54c",
+      "kind": "opened",
+      "count": 1
+    },
+    {
+      "run_id": "paperrun_nimble_a5fafb2cf008686ad99d2e1e039d428cd95349423d2e31778409810be6cce3d3",
+      "kind": "account_mark",
+      "count": 186
+    },
+    {
+      "run_id": "paperrun_nimble_981fac864a79b04053e1ca081731a692db95b5e69cec9f29e74618e6e84e0528",
+      "kind": "account_mark",
+      "count": 186
+    },
+    {
+      "run_id": "paperrun_nimble_a8aef8be36c02700688053a1e57d2f908573fe8898860450b00b889d4f98f54c",
+      "kind": "account_mark",
+      "count": 681
+    },
+    {
+      "run_id": "paperrun_nimble_a5fafb2cf008686ad99d2e1e039d428cd95349423d2e31778409810be6cce3d3",
+      "kind": "activation",
+      "count": 1
+    },
+    {
+      "run_id": "paperrun_nimble_981fac864a79b04053e1ca081731a692db95b5e69cec9f29e74618e6e84e0528",
+      "kind": "activation",
+      "count": 1
+    },
+    {
+      "run_id": "paperrun_nimble_a8aef8be36c02700688053a1e57d2f908573fe8898860450b00b889d4f98f54c",
+      "kind": "cancelled",
+      "count": 1
+    }
+  ],
+  "event_evidence_counts": [
+    {
+      "run_id": "paperrun_nimble_a5fafb2cf008686ad99d2e1e039d428cd95349423d2e31778409810be6cce3d3",
+      "kind": "classification",
+      "count": 1
+    },
+    {
+      "run_id": "paperrun_nimble_981fac864a79b04053e1ca081731a692db95b5e69cec9f29e74618e6e84e0528",
+      "kind": "classification",
+      "count": 1
+    }
+  ],
+  "manifest": {
+    "activated_at": "2026-10-10T16:15:55.610293+00:00",
+    "run_id": "paperrun_nimble_981fac864a79b04053e1ca081731a692db95b5e69cec9f29e74618e6e84e0528",
+    "run_ids": [
+      "paperrun_nimble_a8aef8be36c02700688053a1e57d2f908573fe8898860450b00b889d4f98f54c",
+      "paperrun_nimble_a5fafb2cf008686ad99d2e1e039d428cd95349423d2e31778409810be6cce3d3",
+      "paperrun_nimble_981fac864a79b04053e1ca081731a692db95b5e69cec9f29e74618e6e84e0528"
+    ]
+  }
+}
