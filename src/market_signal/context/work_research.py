@@ -19,8 +19,8 @@ VERSION = "work_event_reaction_v1"
 HORIZONS = (1, 5, 15, 30, 60, 120, 240)
 
 
-def enroll(store, completion, receipt):
-    """Freeze the first Work availability per logical event/asset, including prior-known events."""
+def enroll(store, completion, receipt, *, origin="work"):
+    """Freeze first enrolled availability per logical event/asset (Work or free feed)."""
     eid, at = completion["logical_event_id"], completion["context_available_at"]
     links = store.con.execute(
         "SELECT asset,link_type FROM context_asset_links WHERE event_id=? AND linked_at<=?",
@@ -30,7 +30,7 @@ def enroll(store, completion, receipt):
     with store.transaction():
         for asset in sorted({a for a, _ in links}):
             payload = {
-                "version": VERSION,
+                "version": VERSION if origin == "work" else "free_event_reaction_v1",
                 "provider": completion["provider"],
                 "direct_assets": p["item"].get("assets", []),
                 "market_wide": p["item"].get("market_wide", False),
@@ -38,7 +38,7 @@ def enroll(store, completion, receipt):
                 "subcategory": p["item"]["subcategory"],
                 "auth_identity": receipt["auth_identity"],
                 "gateway_received_at": receipt["gateway_received_at"],
-                "attribution": "first_work_availability_not_proof_of_market_causation",
+                "attribution": f"first_{origin}_availability_not_proof_of_market_causation",
             }
             store.con.execute(
                 "INSERT INTO context_work_research_pending VALUES (?,?,?,?,?) ON CONFLICT DO NOTHING",

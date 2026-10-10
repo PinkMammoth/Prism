@@ -1588,6 +1588,17 @@ MIGRATIONS: list[str] = [
         PRIMARY KEY(event_id,asset,horizon_minutes)
     );
     """,
+    # 29 — Free acquisition attribution; all event semantics remain Phase 23.
+    """
+    CREATE TABLE IF NOT EXISTS context_free_ingests (
+        receipt_id VARCHAR PRIMARY KEY, recorded_at TIMESTAMPTZ NOT NULL, result JSON NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS context_free_observations (
+        observation_id VARCHAR PRIMARY KEY, provider VARCHAR NOT NULL, event_id VARCHAR NOT NULL,
+        received_at TIMESTAMPTZ NOT NULL, payload JSON NOT NULL, outcome JSON NOT NULL
+    );
+    CREATE INDEX IF NOT EXISTS context_free_event ON context_free_observations(event_id,received_at);
+    """,
 ]
 
 ROLE_ENV, RUNTIME_ID_ENV = "PRISM_RUNTIME_ROLE", "PRISM_RUNTIME_ID"

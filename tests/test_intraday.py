@@ -760,7 +760,7 @@ def test_migration_18_is_market_data_only():
     from market_signal.data.store import MIGRATIONS
 
     ddl = MIGRATIONS[17]
-    assert len(MIGRATIONS) == 28  # Phase 28A appends information-only Work reaction ledgers
+    assert len(MIGRATIONS) == 29  # Phase 29 appends free-source attribution only
     created = re.findall(r"CREATE TABLE IF NOT EXISTS (\w+)", ddl)
     assert created == ["perp_intraday_bars", "perp_intraday_revisions", "perp_intraday_coverage",
                        "intraday_execution_shadow"]  # fmt: skip

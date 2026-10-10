@@ -1,0 +1,1481 @@
+{
+  "report": "FREE_SOURCE_COST_REPORT",
+  "version": "phase29_cost_v1",
+  "generated_at": "2026-10-10T13:46:46.798761+00:00",
+  "registry_sources_sha256": "7b0a60c8199b4e6eef4f2a2d23ade68177d1e6483e98779b351bc16324270b10",
+  "total_incremental_subscription_gbp_month": 0,
+  "total_incremental_api_gbp_month": 0,
+  "sources": [
+    {
+      "provider": "hyperliquid_status_v1",
+      "canonical_provider": "hyperliquid_status_v1",
+      "enabled": true,
+      "url": "https://hyperliquid.statuspage.io/api/v2/incidents.json",
+      "parser": "statuspage",
+      "DATA_COST": "\u00a30",
+      "subscription_gbp_month": 0,
+      "api_gbp_month": 0,
+      "requires_payment": false,
+      "requires_credit_card": false,
+      "authentication": "none",
+      "access_review": "public_automated",
+      "terms_url": "https://hyperliquid.statuspage.io/api",
+      "rate_limit": "Published consumer endpoint; numeric limit undisclosed. Prism cap is cadence; honor Retry-After and exponential backoff.",
+      "cadence_seconds": 60,
+      "requests_day_ceiling": 1440.0,
+      "http_status": 200,
+      "conditional_status": 304,
+      "compressed_initial_body_bytes": 2718,
+      "compressed_unchanged_body_bytes": 0,
+      "infrastructure_impact": "Shared existing ingester; collector memory/CPU shared across source set. No unchanged bodies retained. Durable accepted observations only."
+    },
+    {
+      "provider": "coinbase_status_v1",
+      "canonical_provider": "coinbase_status_v1",
+      "enabled": true,
+      "url": "https://status.coinbase.com/api/v2/incidents.json",
+      "parser": "statuspage",
+      "DATA_COST": "\u00a30",
+      "subscription_gbp_month": 0,
+      "api_gbp_month": 0,
+      "requires_payment": false,
+      "requires_credit_card": false,
+      "authentication": "none",
+      "access_review": "public_automated",
+      "terms_url": "https://status.coinbase.com/api",
+      "rate_limit": "Published consumer endpoint; numeric limit undisclosed. Prism cap is cadence; honor Retry-After and exponential backoff.",
+      "cadence_seconds": 60,
+      "requests_day_ceiling": 1440.0,
+      "http_status": 200,
+      "conditional_status": 304,
+      "compressed_initial_body_bytes": 12340,
+      "compressed_unchanged_body_bytes": 0,
+      "infrastructure_impact": "Shared existing ingester; collector memory/CPU shared across source set. No unchanged bodies retained. Durable accepted observations only."
+    },
+    {
+      "provider": "kraken_status_v1",
+      "canonical_provider": "kraken_status_v1",
+      "enabled": true,
+      "url": "https://status.kraken.com/api/v2/incidents.json",
+      "parser": "statuspage",
+      "DATA_COST": "\u00a30",
+      "subscription_gbp_month": 0,
+      "api_gbp_month": 0,
+      "requires_payment": false,
+      "requires_credit_card": false,
+      "authentication": "none",
+      "access_review": "public_automated",
+      "terms_url": "https://status.kraken.com/api",
+      "rate_limit": "Published consumer endpoint; numeric limit undisclosed. Prism cap is cadence; honor Retry-After and exponential backoff.",
+      "cadence_seconds": 60,
+      "requests_day_ceiling": 1440.0,
+      "http_status": 200,
+      "conditional_status": 304,
+      "compressed_initial_body_bytes": 39781,
+      "compressed_unchanged_body_bytes": 0,
+      "infrastructure_impact": "Shared existing ingester; collector memory/CPU shared across source set. No unchanged bodies retained. Durable accepted observations only."
+    },
+    {
+      "provider": "solana_status_v1",
+      "canonical_provider": "solana_status_v1",
+      "enabled": true,
+      "url": "https://status.solana.com/api/v2/incidents.json",
+      "parser": "statuspage",
+      "DATA_COST": "\u00a30",
+      "subscription_gbp_month": 0,
+      "api_gbp_month": 0,
+      "requires_payment": false,
+      "requires_credit_card": false,
+      "authentication": "none",
+      "access_review": "public_automated",
+      "terms_url": "https://status.solana.com/api",
+      "rate_limit": "Published consumer endpoint; numeric limit undisclosed. Prism cap is cadence; honor Retry-After and exponential backoff.",
+      "cadence_seconds": 60,
+      "requests_day_ceiling": 1440.0,
+      "http_status": 200,
+      "conditional_status": 304,
+      "compressed_initial_body_bytes": 9679,
+      "compressed_unchanged_body_bytes": 0,
+      "infrastructure_impact": "Shared existing ingester; collector memory/CPU shared across source set. No unchanged bodies retained. Durable accepted observations only."
+    },
+    {
+      "provider": "circle_status_v1",
+      "canonical_provider": "circle_status_v1",
+      "enabled": true,
+      "url": "https://status.circle.com/api/v2/incidents.json",
+      "parser": "statuspage",
+      "DATA_COST": "\u00a30",
+      "subscription_gbp_month": 0,
+      "api_gbp_month": 0,
+      "requires_payment": false,
+      "requires_credit_card": false,
+      "authentication": "none",
+      "access_review": "public_automated",
+      "terms_url": "https://status.circle.com/api",
+      "rate_limit": "Published consumer endpoint; numeric limit undisclosed. Prism cap is cadence; honor Retry-After and exponential backoff.",
+      "cadence_seconds": 120,
+      "requests_day_ceiling": 720.0,
+      "http_status": 200,
+      "conditional_status": 304,
+      "compressed_initial_body_bytes": 19295,
+      "compressed_unchanged_body_bytes": 0,
+      "infrastructure_impact": "Shared existing ingester; collector memory/CPU shared across source set. No unchanged bodies retained. Durable accepted observations only."
+    },
+    {
+      "provider": "base_status_v1",
+      "canonical_provider": "base_status_v1",
+      "enabled": true,
+      "url": "https://status.base.org/api/v2/incidents.json",
+      "parser": "statuspage",
+      "DATA_COST": "\u00a30",
+      "subscription_gbp_month": 0,
+      "api_gbp_month": 0,
+      "requires_payment": false,
+      "requires_credit_card": false,
+      "authentication": "none",
+      "access_review": "public_automated",
+      "terms_url": "https://status.base.org/api",
+      "rate_limit": "Published consumer endpoint; numeric limit undisclosed. Prism cap is cadence; honor Retry-After and exponential backoff.",
+      "cadence_seconds": 120,
+      "requests_day_ceiling": 720.0,
+      "http_status": 200,
+      "conditional_status": 304,
+      "compressed_initial_body_bytes": 24287,
+      "compressed_unchanged_body_bytes": 0,
+      "infrastructure_impact": "Shared existing ingester; collector memory/CPU shared across source set. No unchanged bodies retained. Durable accepted observations only."
+    },
+    {
+      "provider": "sec_rss_v1",
+      "canonical_provider": "sec_rss_v1",
+      "enabled": true,
+      "url": "https://www.sec.gov/news/pressreleases.rss",
+      "parser": "rss",
+      "DATA_COST": "\u00a30",
+      "subscription_gbp_month": 0,
+      "api_gbp_month": 0,
+      "requires_payment": false,
+      "requires_credit_card": false,
+      "authentication": "none",
+      "access_review": "public_automated",
+      "terms_url": "https://www.sec.gov/about/developer-resources",
+      "rate_limit": "Published consumer endpoint; numeric limit undisclosed. Prism cap is cadence; honor Retry-After and exponential backoff.",
+      "cadence_seconds": 300,
+      "requests_day_ceiling": 288.0,
+      "http_status": 200,
+      "conditional_status": 304,
+      "compressed_initial_body_bytes": 5742,
+      "compressed_unchanged_body_bytes": 0,
+      "infrastructure_impact": "Shared existing ingester; collector memory/CPU shared across source set. No unchanged bodies retained. Durable accepted observations only."
+    },
+    {
+      "provider": "fed_rss_v1",
+      "canonical_provider": "fed_rss_v1",
+      "enabled": true,
+      "url": "https://www.federalreserve.gov/feeds/press_all.xml",
+      "parser": "rss",
+      "DATA_COST": "\u00a30",
+      "subscription_gbp_month": 0,
+      "api_gbp_month": 0,
+      "requires_payment": false,
+      "requires_credit_card": false,
+      "authentication": "none",
+      "access_review": "public_automated",
+      "terms_url": "https://www.federalreserve.gov/feeds/press_all.xml",
+      "rate_limit": "Published consumer endpoint; numeric limit undisclosed. Prism cap is cadence; honor Retry-After and exponential backoff.",
+      "cadence_seconds": 300,
+      "requests_day_ceiling": 288.0,
+      "http_status": 200,
+      "conditional_status": 304,
+      "compressed_initial_body_bytes": 1872,
+      "compressed_unchanged_body_bytes": 0,
+      "infrastructure_impact": "Shared existing ingester; collector memory/CPU shared across source set. No unchanged bodies retained. Durable accepted observations only."
+    },
+    {
+      "provider": "cftc_rss_v1",
+      "canonical_provider": "cftc_rss_v1",
+      "enabled": true,
+      "url": "https://www.cftc.gov/RSS/RSSGP/rssgp.xml",
+      "parser": "rss",
+      "DATA_COST": "\u00a30",
+      "subscription_gbp_month": 0,
+      "api_gbp_month": 0,
+      "requires_payment": false,
+      "requires_credit_card": false,
+      "authentication": "none",
+      "access_review": "public_automated",
+      "terms_url": "https://www.cftc.gov/RSS/RSSGP/rssgp.xml",
+      "rate_limit": "Published consumer endpoint; numeric limit undisclosed. Prism cap is cadence; honor Retry-After and exponential backoff.",
+      "cadence_seconds": 300,
+      "requests_day_ceiling": 288.0,
+      "http_status": 200,
+      "conditional_status": 304,
+      "compressed_initial_body_bytes": 1139,
+      "compressed_unchanged_body_bytes": 0,
+      "infrastructure_impact": "Shared existing ingester; collector memory/CPU shared across source set. No unchanged bodies retained. Durable accepted observations only."
+    },
+    {
+      "provider": "sec_trading_suspensions_rss_v1",
+      "canonical_provider": "sec_rss_v1",
+      "enabled": true,
+      "url": "https://www.sec.gov/enforcement-litigation/trading-suspensions/rss",
+      "parser": "rss",
+      "DATA_COST": "\u00a30",
+      "subscription_gbp_month": 0,
+      "api_gbp_month": 0,
+      "requires_payment": false,
+      "requires_credit_card": false,
+      "authentication": "none",
+      "access_review": "public_automated",
+      "terms_url": "https://www.sec.gov/about/developer-resources",
+      "rate_limit": "Published consumer endpoint; numeric limit undisclosed. Prism cap is cadence; honor Retry-After and exponential backoff.",
+      "cadence_seconds": 300,
+      "requests_day_ceiling": 288.0,
+      "http_status": 200,
+      "conditional_status": 304,
+      "compressed_initial_body_bytes": 2017,
+      "compressed_unchanged_body_bytes": 0,
+      "infrastructure_impact": "Shared existing ingester; collector memory/CPU shared across source set. No unchanged bodies retained. Durable accepted observations only."
+    },
+    {
+      "provider": "sec_administrative_proceedings_rss_v1",
+      "canonical_provider": "sec_rss_v1",
+      "enabled": true,
+      "url": "https://www.sec.gov/enforcement-litigation/administrative-proceedings/rss",
+      "parser": "rss",
+      "DATA_COST": "\u00a30",
+      "subscription_gbp_month": 0,
+      "api_gbp_month": 0,
+      "requires_payment": false,
+      "requires_credit_card": false,
+      "authentication": "none",
+      "access_review": "public_automated",
+      "terms_url": "https://www.sec.gov/about/developer-resources",
+      "rate_limit": "Published consumer endpoint; numeric limit undisclosed. Prism cap is cadence; honor Retry-After and exponential backoff.",
+      "cadence_seconds": 300,
+      "requests_day_ceiling": 288.0,
+      "http_status": 200,
+      "conditional_status": 304,
+      "compressed_initial_body_bytes": 2033,
+      "compressed_unchanged_body_bytes": 0,
+      "infrastructure_impact": "Shared existing ingester; collector memory/CPU shared across source set. No unchanged bodies retained. Durable accepted observations only."
+    },
+    {
+      "provider": "sec_litigation_releases_rss_v1",
+      "canonical_provider": "sec_rss_v1",
+      "enabled": true,
+      "url": "https://www.sec.gov/enforcement-litigation/litigation-releases/rss",
+      "parser": "rss",
+      "DATA_COST": "\u00a30",
+      "subscription_gbp_month": 0,
+      "api_gbp_month": 0,
+      "requires_payment": false,
+      "requires_credit_card": false,
+      "authentication": "none",
+      "access_review": "public_automated",
+      "terms_url": "https://www.sec.gov/about/developer-resources",
+      "rate_limit": "Published consumer endpoint; numeric limit undisclosed. Prism cap is cadence; honor Retry-After and exponential backoff.",
+      "cadence_seconds": 300,
+      "requests_day_ceiling": 288.0,
+      "http_status": 200,
+      "conditional_status": 304,
+      "compressed_initial_body_bytes": 2418,
+      "compressed_unchanged_body_bytes": 0,
+      "infrastructure_impact": "Shared existing ingester; collector memory/CPU shared across source set. No unchanged bodies retained. Durable accepted observations only."
+    },
+    {
+      "provider": "github_geth_releases_v1",
+      "canonical_provider": "github_geth_releases_v1",
+      "enabled": true,
+      "url": "https://api.github.com/repos/ethereum/go-ethereum/releases?per_page=10",
+      "parser": "github_releases",
+      "DATA_COST": "\u00a30",
+      "subscription_gbp_month": 0,
+      "api_gbp_month": 0,
+      "requires_payment": false,
+      "requires_credit_card": false,
+      "authentication": "optional existing PRISM_FREE_GITHUB_TOKEN",
+      "access_review": "public_automated",
+      "terms_url": "https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api",
+      "rate_limit": "60 requests/hour/shared IP unauthenticated; 5000/hour authenticated. Four feeds at 300s consume <=48/hour; 304 authenticated requests do not use primary quota. Honor remaining/reset/Retry-After.",
+      "cadence_seconds": 300,
+      "requests_day_ceiling": 288.0,
+      "http_status": 200,
+      "conditional_status": 304,
+      "compressed_initial_body_bytes": 19401,
+      "compressed_unchanged_body_bytes": 0,
+      "infrastructure_impact": "Shared existing ingester; collector memory/CPU shared across source set. No unchanged bodies retained. Durable accepted observations only."
+    },
+    {
+      "provider": "github_geth_security_advisories_v1",
+      "canonical_provider": "github_geth_security_advisories_v1",
+      "enabled": true,
+      "url": "https://api.github.com/repos/ethereum/go-ethereum/security-advisories?per_page=10",
+      "parser": "github_advisories",
+      "DATA_COST": "\u00a30",
+      "subscription_gbp_month": 0,
+      "api_gbp_month": 0,
+      "requires_payment": false,
+      "requires_credit_card": false,
+      "authentication": "optional existing PRISM_FREE_GITHUB_TOKEN",
+      "access_review": "public_automated",
+      "terms_url": "https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api",
+      "rate_limit": "60 requests/hour/shared IP unauthenticated; 5000/hour authenticated. Four feeds at 300s consume <=48/hour; 304 authenticated requests do not use primary quota. Honor remaining/reset/Retry-After.",
+      "cadence_seconds": 300,
+      "requests_day_ceiling": 288.0,
+      "http_status": 200,
+      "conditional_status": 304,
+      "compressed_initial_body_bytes": 6383,
+      "compressed_unchanged_body_bytes": 0,
+      "infrastructure_impact": "Shared existing ingester; collector memory/CPU shared across source set. No unchanged bodies retained. Durable accepted observations only."
+    },
+    {
+      "provider": "github_bitcoin_releases_v1",
+      "canonical_provider": "github_bitcoin_releases_v1",
+      "enabled": true,
+      "url": "https://api.github.com/repos/bitcoin/bitcoin/releases?per_page=10",
+      "parser": "github_releases",
+      "DATA_COST": "\u00a30",
+      "subscription_gbp_month": 0,
+      "api_gbp_month": 0,
+      "requires_payment": false,
+      "requires_credit_card": false,
+      "authentication": "optional existing PRISM_FREE_GITHUB_TOKEN",
+      "access_review": "public_automated",
+      "terms_url": "https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api",
+      "rate_limit": "60 requests/hour/shared IP unauthenticated; 5000/hour authenticated. Four feeds at 300s consume <=48/hour; 304 authenticated requests do not use primary quota. Honor remaining/reset/Retry-After.",
+      "cadence_seconds": 300,
+      "requests_day_ceiling": 288.0,
+      "http_status": 200,
+      "conditional_status": 304,
+      "compressed_initial_body_bytes": 2421,
+      "compressed_unchanged_body_bytes": 0,
+      "infrastructure_impact": "Shared existing ingester; collector memory/CPU shared across source set. No unchanged bodies retained. Durable accepted observations only."
+    },
+    {
+      "provider": "github_bitcoin_security_advisories_v1",
+      "canonical_provider": "github_bitcoin_security_advisories_v1",
+      "enabled": true,
+      "url": "https://api.github.com/repos/bitcoin/bitcoin/security-advisories?per_page=10",
+      "parser": "github_advisories",
+      "DATA_COST": "\u00a30",
+      "subscription_gbp_month": 0,
+      "api_gbp_month": 0,
+      "requires_payment": false,
+      "requires_credit_card": false,
+      "authentication": "optional existing PRISM_FREE_GITHUB_TOKEN",
+      "access_review": "public_automated",
+      "terms_url": "https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api",
+      "rate_limit": "60 requests/hour/shared IP unauthenticated; 5000/hour authenticated. Four feeds at 300s consume <=48/hour; 304 authenticated requests do not use primary quota. Honor remaining/reset/Retry-After.",
+      "cadence_seconds": 300,
+      "requests_day_ceiling": 288.0,
+      "http_status": 200,
+      "conditional_status": 304,
+      "compressed_initial_body_bytes": 2,
+      "compressed_unchanged_body_bytes": 0,
+      "infrastructure_impact": "Shared existing ingester; collector memory/CPU shared across source set. No unchanged bodies retained. Durable accepted observations only."
+    },
+    {
+      "provider": "ethereum_official_rss_v1",
+      "canonical_provider": "ethereum_official_rss_v1",
+      "enabled": true,
+      "url": "https://blog.ethereum.org/en/feed.xml",
+      "parser": "rss",
+      "DATA_COST": "\u00a30",
+      "subscription_gbp_month": 0,
+      "api_gbp_month": 0,
+      "requires_payment": false,
+      "requires_credit_card": false,
+      "authentication": "none",
+      "access_review": "public_automated",
+      "terms_url": "https://blog.ethereum.org",
+      "rate_limit": "Published consumer endpoint; numeric limit undisclosed. Prism cap is cadence; honor Retry-After and exponential backoff.",
+      "cadence_seconds": 300,
+      "requests_day_ceiling": 288.0,
+      "http_status": 200,
+      "conditional_status": 304,
+      "compressed_initial_body_bytes": 105877,
+      "compressed_unchanged_body_bytes": 0,
+      "infrastructure_impact": "Shared existing ingester; collector memory/CPU shared across source set. No unchanged bodies retained. Durable accepted observations only."
+    },
+    {
+      "provider": "bitcoin_official_rss_v1",
+      "canonical_provider": "bitcoin_official_rss_v1",
+      "enabled": true,
+      "url": "https://bitcoincore.org/en/rss.xml",
+      "parser": "rss",
+      "DATA_COST": "\u00a30",
+      "subscription_gbp_month": 0,
+      "api_gbp_month": 0,
+      "requires_payment": false,
+      "requires_credit_card": false,
+      "authentication": "none",
+      "access_review": "public_automated",
+      "terms_url": "https://bitcoincore.org/en/security-advisories/",
+      "rate_limit": "Published consumer endpoint; numeric limit undisclosed. Prism cap is cadence; honor Retry-After and exponential backoff.",
+      "cadence_seconds": 300,
+      "requests_day_ceiling": 288.0,
+      "http_status": 200,
+      "conditional_status": 304,
+      "compressed_initial_body_bytes": 593118,
+      "compressed_unchanged_body_bytes": 0,
+      "infrastructure_impact": "Shared existing ingester; collector memory/CPU shared across source set. No unchanged bodies retained. Durable accepted observations only."
+    },
+    {
+      "provider": "gdelt_crypto_discovery_v1",
+      "canonical_provider": "gdelt_crypto_discovery_v1",
+      "enabled": false,
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=(bitcoin%20OR%20ethereum%20OR%20crypto)&mode=ArtList&format=json&timespan=1h&maxrecords=20&sort=DateDesc",
+      "parser": "gdelt",
+      "DATA_COST": "\u00a30",
+      "subscription_gbp_month": 0,
+      "api_gbp_month": 0,
+      "requires_payment": false,
+      "requires_credit_card": false,
+      "authentication": "none",
+      "access_review": "availability_unverified",
+      "terms_url": "https://blog.gdeltproject.org/gdelt-doc-2-0-api-debuts/",
+      "rate_limit": "No reliable current numeric contract verified; probe returned 429. Disabled pending access and availability-delay measurements.",
+      "cadence_seconds": 900,
+      "requests_day_ceiling": 0,
+      "http_status": 429,
+      "conditional_status": null,
+      "compressed_initial_body_bytes": null,
+      "compressed_unchanged_body_bytes": null,
+      "infrastructure_impact": "Shared existing ingester; collector memory/CPU shared across source set. No unchanged bodies retained. Durable accepted observations only."
+    }
+  ],
+  "candidates_excluded": [
+    {
+      "candidate": "Binance status/announcements",
+      "reason": "Public announcement page returned 202 without a usable structured feed. Unofficial/internal CMS routes are fragile and not integrated.",
+      "free_alternative": "Work semantic coverage; Coinbase/Kraken/Hyperliquid direct status."
+    },
+    {
+      "candidate": "Arbitrum status",
+      "reason": "Candidate incidents.json returned 404. No verified current machine endpoint.",
+      "free_alternative": "Base/Solana status; Work chain monitoring."
+    },
+    {
+      "candidate": "Chainlink status/CCIP",
+      "reason": "status.chain.link DNS failed. Official CCIP lane UI exists; no documented public machine endpoint verified.",
+      "free_alternative": "Work critical-infrastructure monitor."
+    },
+    {
+      "candidate": "Hyperliquid Python SDK releases",
+      "reason": "Free API works; SDK updates are developer-tool noise rather than consensus/chain-stability notices.",
+      "free_alternative": "Hyperliquid official status."
+    },
+    {
+      "candidate": "Old SEC litigation/admin/suspension RSS routes",
+      "reason": "404; replaced by verified /enforcement-litigation/*/rss routes.",
+      "free_alternative": "Current official routes enabled."
+    },
+    {
+      "candidate": "Treasury press feed",
+      "reason": "Candidate /news/press-releases/feed returned 404; official feed directory timed out. No fragile scraping.",
+      "free_alternative": "Existing official macro calendar and Fed press; Work unscheduled macro."
+    },
+    {
+      "candidate": "GDELT DOC API",
+      "reason": "Two independent bounded probes returned 429 without Retry-After. Current availability/update cadence/publication delay cannot be verified. Disabled.",
+      "free_alternative": "Primary-source RSS/status; Work broader discovery."
+    },
+    {
+      "candidate": "Cointelegraph RSS",
+      "reason": "Endpoint 200 and conditional 304, but current terms prohibit independent automated content pipelines without permission.",
+      "terms_url": "https://cointelegraph.com/terms-and-privacy",
+      "free_alternative": "Ethereum/Bitcoin official RSS."
+    },
+    {
+      "candidate": "Decrypt RSS",
+      "reason": "Endpoint works; current terms prohibit automated collection/caching without written consent.",
+      "terms_url": "https://decrypt.co/terms-of-service",
+      "free_alternative": "Official project RSS and Work."
+    },
+    {
+      "candidate": "CoinDesk RSS",
+      "reason": "Endpoint works, no cache validators; publicly promoted licensing products. Current free automated-use rights not established. Excluded rather than relying on an assumed licence.",
+      "free_alternative": "Official project RSS and Work."
+    },
+    {
+      "candidate": "BBC business RSS",
+      "reason": "Endpoint works; current automated-reuse terms were not retrievable. Excluded from production pending rights review.",
+      "free_alternative": "Official macro/Fed sources and Work."
+    },
+    {
+      "candidate": "CryptoPanic API/free tier",
+      "reason": "Developer route did not expose a usable current free contract. No verified no-payment/no-card rate allowance/terms. No architecture dependency.",
+      "free_alternative": "Primary RSS/status; Work."
+    },
+    {
+      "candidate": "Paid news/social/on-chain/exchange alerts (Reuters/Bloomberg/paid X/premium crypto intelligence)",
+      "reason": "Excluded by hard \u00a30 economic constraint; no credentials, subscription or commercial API integrated.",
+      "free_alternative": "Curated public feeds plus existing Work account."
+    },
+    {
+      "candidate": "Selected public on-chain event polling",
+      "reason": "Deferred. No canonical transaction/log identity or bounded no-key reliable transport validated for this phase; existing OI/funding/microstructure remains active.",
+      "free_alternative": "Official exploit/incident notices plus Work."
+    },
+    {
+      "candidate": "BOJ/ECB/BOE/FOMC scheduled calendars and official sources",
+      "reason": "Already Phase 23 territory; audited existing calendar/providers, no duplicate scheduler or calendar ingestion.",
+      "free_alternative": "Existing Phase 23 macro collection."
+    }
+  ],
+  "live_endpoint_audit": [
+    {
+      "id": "hyperliquid_status",
+      "url": "https://hyperliquid.statuspage.io/api/v2/incidents.json",
+      "at": "2026-10-10T13:27:20.724997+00:00",
+      "http_status": 200,
+      "bytes": 12443,
+      "seconds": 0.550020657999994,
+      "final_url": "https://hyperliquid.statuspage.io/api/v2/incidents.json",
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "content-encoding": "gzip",
+        "etag": "W/\"be11945bea87869e52473509ce948565\""
+      },
+      "format": "json",
+      "shape": [
+        "page",
+        "incidents"
+      ],
+      "items": 10,
+      "conditional_status": 200,
+      "conditional_bytes": 12443
+    },
+    {
+      "id": "coinbase_status",
+      "url": "https://status.coinbase.com/api/v2/incidents.json",
+      "at": "2026-10-10T13:27:20.725591+00:00",
+      "http_status": 200,
+      "bytes": 109778,
+      "seconds": 0.6550418879996869,
+      "final_url": "https://status.coinbase.com/api/v2/incidents.json",
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "etag": "W/\"e2dd975eca2985d3d2f2ecfb43a04ae4\"",
+        "content-encoding": "gzip"
+      },
+      "format": "json",
+      "shape": [
+        "page",
+        "incidents"
+      ],
+      "items": 50,
+      "conditional_status": 304,
+      "conditional_bytes": 0
+    },
+    {
+      "id": "kraken_status",
+      "url": "https://status.kraken.com/api/v2/incidents.json",
+      "at": "2026-10-10T13:27:20.725971+00:00",
+      "http_status": 200,
+      "bytes": 356542,
+      "seconds": 0.6256014549981046,
+      "final_url": "https://status.kraken.com/api/v2/incidents.json",
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "content-encoding": "gzip",
+        "etag": "W/\"9592a3ca751528c4174f3e3f0d3bf17f\""
+      },
+      "format": "json",
+      "shape": [
+        "page",
+        "incidents"
+      ],
+      "items": 50,
+      "conditional_status": 304,
+      "conditional_bytes": 0
+    },
+    {
+      "id": "solana_status",
+      "url": "https://status.solana.com/api/v2/incidents.json",
+      "at": "2026-10-10T13:27:20.726566+00:00",
+      "http_status": 200,
+      "bytes": 64055,
+      "seconds": 0.7933787519978068,
+      "final_url": "https://status.solana.com/api/v2/incidents.json",
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "content-encoding": "gzip",
+        "etag": "W/\"1f2c458e623abb7cf95c44eacea9e481\""
+      },
+      "format": "json",
+      "shape": [
+        "page",
+        "incidents"
+      ],
+      "items": 30,
+      "conditional_status": 304,
+      "conditional_bytes": 0
+    },
+    {
+      "id": "circle_status",
+      "url": "https://status.circle.com/api/v2/incidents.json",
+      "at": "2026-10-10T13:27:20.726942+00:00",
+      "http_status": 200,
+      "bytes": 135657,
+      "seconds": 0.7660160920022463,
+      "final_url": "https://status.circle.com/api/v2/incidents.json",
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "content-encoding": "gzip",
+        "etag": "W/\"e79ea4e1256548b8ea88365b94dc22e8\""
+      },
+      "format": "json",
+      "shape": [
+        "page",
+        "incidents"
+      ],
+      "items": 50,
+      "conditional_status": 200,
+      "conditional_bytes": 135657
+    },
+    {
+      "id": "base_status",
+      "url": "https://status.base.org/api/v2/incidents.json",
+      "at": "2026-10-10T13:27:20.727458+00:00",
+      "http_status": 200,
+      "bytes": 145827,
+      "seconds": 0.7168097130015667,
+      "final_url": "https://status.base.org/api/v2/incidents.json",
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "etag": "W/\"c54cdb23f4f8accf8b60cf60676cab71\"",
+        "content-encoding": "gzip"
+      },
+      "format": "json",
+      "shape": [
+        "page",
+        "incidents"
+      ],
+      "items": 50,
+      "conditional_status": 304,
+      "conditional_bytes": 0
+    },
+    {
+      "id": "arbitrum_status",
+      "url": "https://status.arbitrum.io/api/v2/incidents.json",
+      "at": "2026-10-10T13:27:21.370381+00:00",
+      "http_status": 404,
+      "bytes": 7094,
+      "seconds": 0.6347987260014634,
+      "final_url": "https://status.arbitrum.io/api/v2/incidents.json",
+      "headers": {
+        "content-encoding": "gzip",
+        "content-type": "text/html; charset=utf-8",
+        "etag": "W/\"d54be9936d2ebd316f1387db73e4f582\"",
+        "last-modified": "Sat, 10 Oct 2026 02:11:20 GMT"
+      }
+    },
+    {
+      "id": "chainlink_status",
+      "url": "https://status.chain.link/api/v2/incidents.json",
+      "at": "2026-10-10T13:27:21.448494+00:00",
+      "error": "ConnectError"
+    },
+    {
+      "id": "binance_status",
+      "url": "https://www.binance.com/en/support/announcement",
+      "at": "2026-10-10T13:27:21.605001+00:00",
+      "http_status": 202,
+      "bytes": 0,
+      "seconds": 0.409978002000571,
+      "final_url": "https://www.binance.com/en/support/announcement",
+      "headers": {
+        "content-type": "text/html; charset=UTF-8"
+      }
+    },
+    {
+      "id": "sec_press",
+      "url": "https://www.sec.gov/news/pressreleases.rss",
+      "at": "2026-10-10T13:27:21.614764+00:00",
+      "http_status": 200,
+      "bytes": 18535,
+      "seconds": 0.9053327510009694,
+      "final_url": "https://www.sec.gov/news/pressreleases.rss",
+      "headers": {
+        "content-type": "application/rss+xml; charset=utf-8",
+        "last-modified": "Sat, 10 Oct 2026 13:24:00 GMT",
+        "etag": "\"1791638640\"",
+        "content-encoding": "gzip"
+      },
+      "format": "xml",
+      "root": "rss",
+      "items": 25,
+      "conditional_status": 304,
+      "conditional_bytes": 0
+    },
+    {
+      "id": "sec_litigation",
+      "url": "https://www.sec.gov/litigation/litreleases.rss",
+      "at": "2026-10-10T13:27:21.627459+00:00",
+      "http_status": 404,
+      "bytes": 53435,
+      "seconds": 1.515020167997136,
+      "final_url": "https://www.sec.gov/litigation/litreleases.rss",
+      "headers": {
+        "content-type": "text/html; charset=utf-8"
+      }
+    },
+    {
+      "id": "sec_admin",
+      "url": "https://www.sec.gov/litigation/admin.rss",
+      "at": "2026-10-10T13:27:21.732533+00:00",
+      "http_status": 404,
+      "bytes": 53435,
+      "seconds": 1.3509223440014466,
+      "final_url": "https://www.sec.gov/litigation/admin.rss",
+      "headers": {
+        "content-type": "text/html; charset=utf-8"
+      }
+    },
+    {
+      "id": "sec_suspensions",
+      "url": "https://www.sec.gov/litigation/suspensions.rss",
+      "at": "2026-10-10T13:27:22.005347+00:00",
+      "http_status": 404,
+      "bytes": 53435,
+      "seconds": 1.4730090659977577,
+      "final_url": "https://www.sec.gov/litigation/suspensions.rss",
+      "headers": {
+        "content-type": "text/html; charset=utf-8"
+      }
+    },
+    {
+      "id": "fed_press",
+      "url": "https://www.federalreserve.gov/feeds/press_all.xml",
+      "at": "2026-10-10T13:27:22.015112+00:00",
+      "http_status": 200,
+      "bytes": 14897,
+      "seconds": 0.46792704399922513,
+      "final_url": "https://www.federalreserve.gov/feeds/press_all.xml",
+      "headers": {
+        "content-type": "text/xml",
+        "etag": "W/\"65ea5b0f657dd1:0\"",
+        "last-modified": "Fri, 09 Oct 2026 14:01:31 GMT",
+        "content-encoding": "gzip"
+      },
+      "format": "xml",
+      "root": "rss",
+      "items": 20,
+      "conditional_status": 304,
+      "conditional_bytes": 0
+    },
+    {
+      "id": "cftc_press",
+      "url": "https://www.cftc.gov/RSS/RSSGP/rssgp.xml",
+      "at": "2026-10-10T13:27:22.596801+00:00",
+      "http_status": 200,
+      "bytes": 4724,
+      "seconds": 0.5169271420018049,
+      "final_url": "https://www.cftc.gov/RSS/RSSGP/rssgp.xml",
+      "headers": {
+        "content-type": "application/rss+xml; charset=utf-8",
+        "last-modified": "Sat, 10 Oct 2026 11:51:02 GMT",
+        "etag": "W/\"1791633062\"",
+        "content-encoding": "gzip"
+      },
+      "format": "xml",
+      "root": "rss",
+      "items": 10,
+      "conditional_status": 304,
+      "conditional_bytes": 0
+    },
+    {
+      "id": "treasury_press",
+      "url": "https://home.treasury.gov/news/press-releases/feed",
+      "at": "2026-10-10T13:27:22.676460+00:00",
+      "http_status": 404,
+      "bytes": 96286,
+      "seconds": 0.9262670089992753,
+      "final_url": "https://home.treasury.gov/news/press-releases/feed",
+      "headers": {
+        "content-type": "text/html; charset=UTF-8"
+      }
+    },
+    {
+      "id": "geth_releases",
+      "url": "https://api.github.com/repos/ethereum/go-ethereum/releases?per_page=10",
+      "at": "2026-10-10T13:27:23.083651+00:00",
+      "http_status": 200,
+      "bytes": 64261,
+      "seconds": 0.6135136320008314,
+      "final_url": "https://api.github.com/repos/ethereum/go-ethereum/releases?per_page=10",
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "etag": "W/\"77345d34c5901f16ecc5aa0fa964e37d9403c0ad54fefdf8d04df35227ec6f2f\"",
+        "content-encoding": "gzip",
+        "x-ratelimit-limit": "60",
+        "x-ratelimit-remaining": "59",
+        "x-ratelimit-used": "1",
+        "x-ratelimit-resource": "core",
+        "x-ratelimit-reset": "1791642442"
+      },
+      "format": "json",
+      "shape": "list",
+      "items": 10,
+      "conditional_status": 304,
+      "conditional_bytes": 0
+    },
+    {
+      "id": "geth_advisories",
+      "url": "https://api.github.com/repos/ethereum/go-ethereum/security-advisories?per_page=10",
+      "at": "2026-10-10T13:27:23.142686+00:00",
+      "http_status": 200,
+      "bytes": 36078,
+      "seconds": 0.6979458940004406,
+      "final_url": "https://api.github.com/repos/ethereum/go-ethereum/security-advisories?per_page=10",
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "etag": "W/\"da4b44888e8b5afa6809bc56abbb2c3899dd7774282341ebcab7dab722fab31b\"",
+        "last-modified": "Tue, 17 Feb 2026 16:23:56 GMT",
+        "content-encoding": "gzip",
+        "x-ratelimit-limit": "60",
+        "x-ratelimit-remaining": "58",
+        "x-ratelimit-used": "2",
+        "x-ratelimit-resource": "core",
+        "x-ratelimit-reset": "1791642442"
+      },
+      "format": "json",
+      "shape": "list",
+      "items": 10,
+      "conditional_status": 304,
+      "conditional_bytes": 0
+    },
+    {
+      "id": "bitcoin_releases",
+      "url": "https://api.github.com/repos/bitcoin/bitcoin/releases?per_page=10",
+      "at": "2026-10-10T13:27:23.198010+00:00",
+      "http_status": 200,
+      "bytes": 23213,
+      "seconds": 0.5712968309999269,
+      "final_url": "https://api.github.com/repos/bitcoin/bitcoin/releases?per_page=10",
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "etag": "W/\"87eff0ae9fdaf86eb0f4f93d2cc7011d1a338692371ef0407784587da89e2c0e\"",
+        "content-encoding": "gzip",
+        "x-ratelimit-limit": "60",
+        "x-ratelimit-remaining": "57",
+        "x-ratelimit-used": "3",
+        "x-ratelimit-resource": "core",
+        "x-ratelimit-reset": "1791642442"
+      },
+      "format": "json",
+      "shape": "list",
+      "items": 10,
+      "conditional_status": 304,
+      "conditional_bytes": 0
+    },
+    {
+      "id": "bitcoin_advisories",
+      "url": "https://api.github.com/repos/bitcoin/bitcoin/security-advisories?per_page=10",
+      "at": "2026-10-10T13:27:23.478540+00:00",
+      "http_status": 200,
+      "bytes": 2,
+      "seconds": 0.548990457002219,
+      "final_url": "https://api.github.com/repos/bitcoin/bitcoin/security-advisories?per_page=10",
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "etag": "\"992aaf92b487506974e4305db4a64326866f3ed48b2ba424cef8fbe4e28f72b0\"",
+        "x-ratelimit-limit": "60",
+        "x-ratelimit-remaining": "55",
+        "x-ratelimit-used": "5",
+        "x-ratelimit-resource": "core",
+        "x-ratelimit-reset": "1791642442"
+      },
+      "format": "json",
+      "shape": "list",
+      "items": 0,
+      "conditional_status": 304,
+      "conditional_bytes": 0
+    },
+    {
+      "id": "hyperliquid_releases",
+      "url": "https://api.github.com/repos/hyperliquid-dex/hyperliquid-python-sdk/releases?per_page=10",
+      "at": "2026-10-10T13:27:23.602908+00:00",
+      "http_status": 200,
+      "bytes": 19877,
+      "seconds": 0.5740473100013332,
+      "final_url": "https://api.github.com/repos/hyperliquid-dex/hyperliquid-python-sdk/releases?per_page=10",
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "etag": "W/\"56e915b6a91424f2780e573882b6a009bed90536814d55584b30ff3c67a66cfb\"",
+        "content-encoding": "gzip",
+        "x-ratelimit-limit": "60",
+        "x-ratelimit-remaining": "52",
+        "x-ratelimit-used": "8",
+        "x-ratelimit-resource": "core",
+        "x-ratelimit-reset": "1791642442"
+      },
+      "format": "json",
+      "shape": "list",
+      "items": 10,
+      "conditional_status": 304,
+      "conditional_bytes": 0
+    },
+    {
+      "id": "ethereum_blog",
+      "url": "https://blog.ethereum.org/feed.xml",
+      "at": "2026-10-10T13:27:23.790924+00:00",
+      "http_status": 200,
+      "bytes": 530294,
+      "seconds": 0.8256993350005359,
+      "final_url": "https://blog.ethereum.org/en/feed.xml",
+      "headers": {
+        "content-type": "application/xml",
+        "etag": "W/\"a4980d38e85f54871adb9b907ed0a43b-ssl-df\"",
+        "content-encoding": "gzip"
+      },
+      "format": "xml",
+      "root": "rss",
+      "items": 642,
+      "conditional_status": 304,
+      "conditional_bytes": 0
+    },
+    {
+      "id": "coindesk_rss",
+      "url": "https://www.coindesk.com/arc/outboundfeeds/rss/",
+      "at": "2026-10-10T13:27:23.863720+00:00",
+      "http_status": 200,
+      "bytes": 30268,
+      "seconds": 0.5660712890021387,
+      "final_url": "https://www.coindesk.com/arc/outboundfeeds/rss",
+      "headers": {
+        "content-encoding": "gzip",
+        "content-type": "application/xml"
+      },
+      "format": "xml",
+      "root": "rss",
+      "items": 25
+    },
+    {
+      "id": "cointelegraph_rss",
+      "url": "https://cointelegraph.com/rss",
+      "at": "2026-10-10T13:27:23.935890+00:00",
+      "http_status": 200,
+      "bytes": 52599,
+      "seconds": 0.48253343300166307,
+      "final_url": "https://cointelegraph.com/rss",
+      "headers": {
+        "content-type": "application/xml; charset=utf-8",
+        "last-modified": "Sat, 10 Oct 2026 13:26:12 GMT",
+        "content-encoding": "gzip"
+      },
+      "format": "xml",
+      "root": "rss",
+      "items": 30,
+      "conditional_status": 304,
+      "conditional_bytes": 0
+    },
+    {
+      "id": "decrypt_rss",
+      "url": "https://decrypt.co/feed",
+      "at": "2026-10-10T13:27:24.120437+00:00",
+      "http_status": 200,
+      "bytes": 42388,
+      "seconds": 1.448120895998727,
+      "final_url": "https://decrypt.co/feed",
+      "headers": {
+        "content-type": "application/xml",
+        "content-encoding": "gzip",
+        "last-modified": "Sat, 10 Oct 2026 13:27:21 GMT"
+      },
+      "format": "xml",
+      "root": "rss",
+      "items": 38,
+      "conditional_status": 304,
+      "conditional_bytes": 0
+    },
+    {
+      "id": "gdelt_crypto",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=(bitcoin%20OR%20ethereum%20OR%20crypto)&mode=ArtList&format=json&timespan=1h&maxrecords=20&sort=DateDesc",
+      "at": "2026-10-10T13:27:24.272902+00:00",
+      "http_status": 429,
+      "bytes": 444,
+      "seconds": 8.067282238000189,
+      "final_url": "https://api.gdeltproject.org/api/v2/doc/doc?query=(bitcoin%20OR%20ethereum%20OR%20crypto)&mode=ArtList&format=json&timespan=1h&maxrecords=20&sort=DateDesc",
+      "headers": {}
+    },
+    {
+      "id": "sec_litigation_current",
+      "url": "https://www.sec.gov/enforcement-litigation/litigation-releases/rss",
+      "at": "2026-10-10T13:29:15.218821+00:00",
+      "http_status": 200,
+      "bytes": 10828,
+      "seconds": 0.4433199820014124,
+      "final_url": "https://www.sec.gov/enforcement-litigation/litigation-releases/rss",
+      "headers": {
+        "content-type": "application/rss+xml; charset=utf-8",
+        "last-modified": "Fri, 09 Oct 2026 22:17:23 GMT",
+        "etag": "\"1791584243\"",
+        "content-encoding": "gzip"
+      },
+      "format": "xml",
+      "root": "rss",
+      "items": 25,
+      "conditional_status": 304,
+      "conditional_bytes": 0
+    },
+    {
+      "id": "sec_admin_current",
+      "url": "https://www.sec.gov/enforcement-litigation/administrative-proceedings/rss",
+      "at": "2026-10-10T13:29:15.773843+00:00",
+      "http_status": 200,
+      "bytes": 9333,
+      "seconds": 0.29804983899884974,
+      "final_url": "https://www.sec.gov/enforcement-litigation/administrative-proceedings/rss",
+      "headers": {
+        "content-type": "application/rss+xml; charset=utf-8",
+        "last-modified": "Fri, 09 Oct 2026 22:17:19 GMT",
+        "etag": "\"1791584239\"",
+        "content-encoding": "gzip"
+      },
+      "format": "xml",
+      "root": "rss",
+      "items": 25,
+      "conditional_status": 304,
+      "conditional_bytes": 0
+    },
+    {
+      "id": "sec_suspensions_current",
+      "url": "https://www.sec.gov/enforcement-litigation/trading-suspensions/rss",
+      "at": "2026-10-10T13:29:16.166617+00:00",
+      "http_status": 200,
+      "bytes": 9523,
+      "seconds": 0.48593286300092586,
+      "final_url": "https://www.sec.gov/enforcement-litigation/trading-suspensions/rss",
+      "headers": {
+        "content-type": "application/rss+xml; charset=utf-8",
+        "last-modified": "Fri, 09 Oct 2026 22:17:23 GMT",
+        "etag": "\"1791584243\"",
+        "content-encoding": "gzip"
+      },
+      "format": "xml",
+      "root": "rss",
+      "items": 25,
+      "conditional_status": 304,
+      "conditional_bytes": 0
+    },
+    {
+      "id": "bitcoin_blog",
+      "url": "https://bitcoincore.org/en/rss.xml",
+      "at": "2026-10-10T13:29:16.748245+00:00",
+      "http_status": 200,
+      "bytes": 593118,
+      "seconds": 1.7639972920005675,
+      "final_url": "https://bitcoincore.org/en/rss.xml",
+      "headers": {
+        "content-type": "text/xml",
+        "last-modified": "Wed, 22 Jul 2026 10:56:18 GMT",
+        "etag": "\"6a60a1d2-90cde\""
+      },
+      "format": "xml",
+      "root": "rss",
+      "items": 112,
+      "conditional_status": 304,
+      "conditional_bytes": 0
+    },
+    {
+      "id": "bbc_business",
+      "url": "https://feeds.bbci.co.uk/news/business/rss.xml",
+      "at": "2026-10-10T13:29:18.763610+00:00",
+      "http_status": 200,
+      "bytes": 38258,
+      "seconds": 0.4117453290018602,
+      "final_url": "https://feeds.bbci.co.uk/news/business/rss.xml",
+      "headers": {
+        "content-type": "text/xml; charset=utf-8",
+        "content-encoding": "gzip"
+      },
+      "format": "xml",
+      "root": "rss",
+      "items": 52
+    },
+    {
+      "id": "gdelt_retry",
+      "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=bitcoin&mode=ArtList&format=json&timespan=1h&maxrecords=20&sort=DateDesc",
+      "at": "2026-10-10T13:29:19.176627+00:00",
+      "http_status": 429,
+      "bytes": 444,
+      "seconds": 8.801904597999965,
+      "final_url": "https://api.gdeltproject.org/api/v2/doc/doc?query=bitcoin&mode=ArtList&format=json&timespan=1h&maxrecords=20&sort=DateDesc",
+      "headers": {}
+    }
+  ],
+  "runtime": {
+    "measured_on": "existing Railway prism-runtime in temporary directory with scratch DB; preactivation",
+    "measurement": {
+      "version": "free_source_benchmark_v1",
+      "environment": "Railway prism-runtime temporary directory, scratch DB; production untouched",
+      "started_at": "2026-10-10T13:44:10.915086+00:00",
+      "finished_at": "2026-10-10T13:44:14.269058+00:00",
+      "sources": [
+        {
+          "provider": "hyperliquid_status_v1",
+          "url": "https://hyperliquid.statuspage.io/api/v2/incidents.json",
+          "cadence_seconds": 60,
+          "requests_day_ceiling": 1440.0,
+          "cold_status": 200,
+          "warm_status": 304,
+          "cold_wire_bytes": 2718,
+          "warm_wire_bytes": 0,
+          "cold_poll_seconds": 0.13475757278501987,
+          "validators": {
+            "etag": "W/\"be11945bea87869e52473509ce948565\"",
+            "last_modified": null
+          },
+          "error": null
+        },
+        {
+          "provider": "coinbase_status_v1",
+          "url": "https://status.coinbase.com/api/v2/incidents.json",
+          "cadence_seconds": 60,
+          "requests_day_ceiling": 1440.0,
+          "cold_status": 200,
+          "warm_status": 304,
+          "cold_wire_bytes": 12340,
+          "warm_wire_bytes": 0,
+          "cold_poll_seconds": 0.26815816666930914,
+          "validators": {
+            "etag": "W/\"e2dd975eca2985d3d2f2ecfb43a04ae4\"",
+            "last_modified": null
+          },
+          "error": null
+        },
+        {
+          "provider": "kraken_status_v1",
+          "url": "https://status.kraken.com/api/v2/incidents.json",
+          "cadence_seconds": 60,
+          "requests_day_ceiling": 1440.0,
+          "cold_status": 200,
+          "warm_status": 304,
+          "cold_wire_bytes": 39781,
+          "warm_wire_bytes": 0,
+          "cold_poll_seconds": 0.09893448278307915,
+          "validators": {
+            "etag": "W/\"d98fc3fe75ef4faa2a265c41d6dd9e47\"",
+            "last_modified": null
+          },
+          "error": null
+        },
+        {
+          "provider": "solana_status_v1",
+          "url": "https://status.solana.com/api/v2/incidents.json",
+          "cadence_seconds": 60,
+          "requests_day_ceiling": 1440.0,
+          "cold_status": 200,
+          "warm_status": 304,
+          "cold_wire_bytes": 9679,
+          "warm_wire_bytes": 0,
+          "cold_poll_seconds": 0.07005652599036694,
+          "validators": {
+            "etag": "W/\"edfc6b9912c6d99305d2ab5fbe797d47\"",
+            "last_modified": null
+          },
+          "error": null
+        },
+        {
+          "provider": "circle_status_v1",
+          "url": "https://status.circle.com/api/v2/incidents.json",
+          "cadence_seconds": 120,
+          "requests_day_ceiling": 720.0,
+          "cold_status": 200,
+          "warm_status": 304,
+          "cold_wire_bytes": 19295,
+          "warm_wire_bytes": 0,
+          "cold_poll_seconds": 0.0798411350697279,
+          "validators": {
+            "etag": "W/\"5247f7f67f5d511861db5c284b3107c9\"",
+            "last_modified": null
+          },
+          "error": null
+        },
+        {
+          "provider": "base_status_v1",
+          "url": "https://status.base.org/api/v2/incidents.json",
+          "cadence_seconds": 120,
+          "requests_day_ceiling": 720.0,
+          "cold_status": 200,
+          "warm_status": 304,
+          "cold_wire_bytes": 24287,
+          "warm_wire_bytes": 0,
+          "cold_poll_seconds": 0.26989518105983734,
+          "validators": {
+            "etag": "W/\"c54cdb23f4f8accf8b60cf60676cab71\"",
+            "last_modified": null
+          },
+          "error": null
+        },
+        {
+          "provider": "sec_rss_v1",
+          "url": "https://www.sec.gov/news/pressreleases.rss",
+          "cadence_seconds": 300,
+          "requests_day_ceiling": 288.0,
+          "cold_status": 200,
+          "warm_status": 304,
+          "cold_wire_bytes": 5742,
+          "warm_wire_bytes": 0,
+          "cold_poll_seconds": 0.13983322586864233,
+          "validators": {
+            "etag": "\"1791584239\"",
+            "last_modified": "Fri, 09 Oct 2026 22:17:19 GMT"
+          },
+          "error": null
+        },
+        {
+          "provider": "fed_rss_v1",
+          "url": "https://www.federalreserve.gov/feeds/press_all.xml",
+          "cadence_seconds": 300,
+          "requests_day_ceiling": 288.0,
+          "cold_status": 200,
+          "warm_status": 304,
+          "cold_wire_bytes": 1872,
+          "warm_wire_bytes": 0,
+          "cold_poll_seconds": 0.04590369574725628,
+          "validators": {
+            "etag": "W/\"65ea5b0f657dd1:0\"",
+            "last_modified": "Fri, 09 Oct 2026 14:01:31 GMT"
+          },
+          "error": null
+        },
+        {
+          "provider": "cftc_rss_v1",
+          "url": "https://www.cftc.gov/RSS/RSSGP/rssgp.xml",
+          "cadence_seconds": 300,
+          "requests_day_ceiling": 288.0,
+          "cold_status": 200,
+          "warm_status": 304,
+          "cold_wire_bytes": 1139,
+          "warm_wire_bytes": 0,
+          "cold_poll_seconds": 0.08275457099080086,
+          "validators": {
+            "etag": "W/\"1791633062\"",
+            "last_modified": "Sat, 10 Oct 2026 11:51:02 GMT"
+          },
+          "error": null
+        },
+        {
+          "provider": "sec_trading_suspensions_rss_v1",
+          "url": "https://www.sec.gov/enforcement-litigation/trading-suspensions/rss",
+          "cadence_seconds": 300,
+          "requests_day_ceiling": 288.0,
+          "cold_status": 200,
+          "warm_status": 304,
+          "cold_wire_bytes": 2017,
+          "warm_wire_bytes": 0,
+          "cold_poll_seconds": 0.03471038769930601,
+          "validators": {
+            "etag": "\"1791584243\"",
+            "last_modified": "Fri, 09 Oct 2026 22:17:23 GMT"
+          },
+          "error": null
+        },
+        {
+          "provider": "sec_administrative_proceedings_rss_v1",
+          "url": "https://www.sec.gov/enforcement-litigation/administrative-proceedings/rss",
+          "cadence_seconds": 300,
+          "requests_day_ceiling": 288.0,
+          "cold_status": 200,
+          "warm_status": 304,
+          "cold_wire_bytes": 2033,
+          "warm_wire_bytes": 0,
+          "cold_poll_seconds": 0.020962239243090153,
+          "validators": {
+            "etag": "\"1791584239\"",
+            "last_modified": "Fri, 09 Oct 2026 22:17:19 GMT"
+          },
+          "error": null
+        },
+        {
+          "provider": "sec_litigation_releases_rss_v1",
+          "url": "https://www.sec.gov/enforcement-litigation/litigation-releases/rss",
+          "cadence_seconds": 300,
+          "requests_day_ceiling": 288.0,
+          "cold_status": 200,
+          "warm_status": 304,
+          "cold_wire_bytes": 2418,
+          "warm_wire_bytes": 0,
+          "cold_poll_seconds": 0.2157104816287756,
+          "validators": {
+            "etag": "\"1791584243\"",
+            "last_modified": "Fri, 09 Oct 2026 22:17:23 GMT"
+          },
+          "error": null
+        },
+        {
+          "provider": "github_geth_releases_v1",
+          "url": "https://api.github.com/repos/ethereum/go-ethereum/releases?per_page=10",
+          "cadence_seconds": 300,
+          "requests_day_ceiling": 288.0,
+          "cold_status": 200,
+          "warm_status": 304,
+          "cold_wire_bytes": 19401,
+          "warm_wire_bytes": 0,
+          "cold_poll_seconds": 0.04132987651973963,
+          "validators": {
+            "etag": "W/\"fd2fe81c4639f85e233ebaad1ec48d4aa7172aa201be5c867c23a429b5b2de37\"",
+            "last_modified": null
+          },
+          "error": null
+        },
+        {
+          "provider": "github_geth_security_advisories_v1",
+          "url": "https://api.github.com/repos/ethereum/go-ethereum/security-advisories?per_page=10",
+          "cadence_seconds": 300,
+          "requests_day_ceiling": 288.0,
+          "cold_status": 200,
+          "warm_status": 304,
+          "cold_wire_bytes": 6383,
+          "warm_wire_bytes": 0,
+          "cold_poll_seconds": 0.3269479665905237,
+          "validators": {
+            "etag": "W/\"42b4cae888ad5beaaabf78a720e120b31ef9b22c7aa4aebccbbccb373604ca66\"",
+            "last_modified": "Tue, 17 Feb 2026 16:23:56 GMT"
+          },
+          "error": null
+        },
+        {
+          "provider": "github_bitcoin_releases_v1",
+          "url": "https://api.github.com/repos/bitcoin/bitcoin/releases?per_page=10",
+          "cadence_seconds": 300,
+          "requests_day_ceiling": 288.0,
+          "cold_status": 200,
+          "warm_status": 304,
+          "cold_wire_bytes": 2421,
+          "warm_wire_bytes": 0,
+          "cold_poll_seconds": 0.017083298414945602,
+          "validators": {
+            "etag": "W/\"2537a53832e03b56723bd971a5193b4c6672422565f2fdcd5fe53f9fabad1732\"",
+            "last_modified": null
+          },
+          "error": null
+        },
+        {
+          "provider": "github_bitcoin_security_advisories_v1",
+          "url": "https://api.github.com/repos/bitcoin/bitcoin/security-advisories?per_page=10",
+          "cadence_seconds": 300,
+          "requests_day_ceiling": 288.0,
+          "cold_status": 200,
+          "warm_status": 304,
+          "cold_wire_bytes": 2,
+          "warm_wire_bytes": 0,
+          "cold_poll_seconds": 0.1944835353642702,
+          "validators": {
+            "etag": "\"74d1db57f0fec3481bb6b4d9bcdc020d656635ec6c53ee589d27a8831cbbe280\"",
+            "last_modified": null
+          },
+          "error": null
+        },
+        {
+          "provider": "ethereum_official_rss_v1",
+          "url": "https://blog.ethereum.org/en/feed.xml",
+          "cadence_seconds": 300,
+          "requests_day_ceiling": 288.0,
+          "cold_status": 200,
+          "warm_status": 304,
+          "cold_wire_bytes": 105877,
+          "warm_wire_bytes": 0,
+          "cold_poll_seconds": 0.1261328849941492,
+          "validators": {
+            "etag": "W/\"a4980d38e85f54871adb9b907ed0a43b-ssl-df\"",
+            "last_modified": null
+          },
+          "error": null
+        },
+        {
+          "provider": "bitcoin_official_rss_v1",
+          "url": "https://bitcoincore.org/en/rss.xml",
+          "cadence_seconds": 300,
+          "requests_day_ceiling": 288.0,
+          "cold_status": 200,
+          "warm_status": 304,
+          "cold_wire_bytes": 593118,
+          "warm_wire_bytes": 0,
+          "cold_poll_seconds": 1.5034987917169929,
+          "validators": {
+            "etag": "\"6a60a1d2-90cde\"",
+            "last_modified": "Wed, 22 Jul 2026 10:56:18 GMT"
+          },
+          "error": null
+        }
+      ],
+      "collector_peak_rss_bytes": 182259712,
+      "collector_current_rss_bytes": 182259712,
+      "collector_process_cpu_seconds": 0.48007281300000004,
+      "idle_cpu_seconds_per_tick": 2.9016120000000535e-05,
+      "ingest_cpu_seconds": 0.1945488110000002,
+      "spool_bytes": 22616,
+      "scratch_db_bytes": 9449472,
+      "publication_to_receipt_seconds": [
+        80717.002822,
+        79874.63925
+      ],
+      "information_time_to_receipt_seconds": [
+        3254.906822,
+        3542.21325
+      ],
+      "measured_availability_to_receipt_seconds": null,
+      "receipt_to_context_seconds": [
+        3.109262,
+        3.093904
+      ],
+      "drain": {
+        "ingested": 2,
+        "errors": 0,
+        "backlog": 0
+      },
+      "research": {
+        "recorded": 0,
+        "examined_event_assets": 19,
+        "descriptive_only": true
+      },
+      "counts": {
+        "context_events": 2,
+        "context_event_updates": 0,
+        "paper_nimble_triggers": 2,
+        "paper_nimble_positions": 0,
+        "context_work_research_pending": 19
+      },
+      "notes": [
+        "Cold and warm fetches are short samples, not a 24h bandwidth measurement.",
+        "Source publication/update times do not establish first public availability.",
+        "Initial accepted items are prospective Prism receipts, never backdated."
+      ]
+    },
+    "requests_day_ceiling": 10656.0,
+    "requests_day_expected_with_positive_jitter": 10148.571428571428,
+    "collector_cpu_seconds_day_conservative_extrapolation": 144.60854541600008,
+    "collector_average_vcpu_estimate": 0.00167371001638889,
+    "collector_rss_bytes": 182259712,
+    "collector_peak_rss_bytes": 182259712,
+    "unchanged_response_body_bytes_day_short_sample_extrapolation": 0,
+    "cold_bodies_bytes": 850523,
+    "network_notes": "Incoming payload is not Railway billable egress. HTTP/TLS headers are excluded from body counters. Use 0.1 GB/month outbound allowance, not claimed measured.",
+    "accepted_event_storage_bytes_sample": 22616,
+    "spool_capacity_bytes": 134217728,
+    "storage_projection_assumption": "100 accepted observations/day at 25KB combined receipt/ledger =75 MB/month; illustrative upper scenario, not a measured event arrival rate.",
+    "tariff": {
+      "cpu_usd_vcpu_month": 20,
+      "memory_usd_gb_month": 10,
+      "volume_usd_gb_month": 0.15,
+      "egress_usd_gb": 0.05,
+      "url": "https://docs.railway.com/guides/right-size-cpu-memory"
+    },
+    "incremental_usd_month_estimate": 1.8723213203277775,
+    "cost_gate": "PASS: \u00a30 data subscriptions; expected incremental resources below $2.50/month in existing service.",
+    "limitations": [
+      "Short live benchmark rather than billed month or steady-state deployment delta.",
+      "Existing ingester reused; no new permanent DB process.",
+      "Peak import/shared-memory accounting differs from Railway billable memory.",
+      "Event-driven DB and reaction overhead varies with event arrival; budget enforced by existing 2-second collector."
+    ]
+  },
+  "design_principles": [
+    "Fast deterministic/public feeds are the primary event-discovery layer.",
+    "Work is a slower semantic layer, not the primary trigger for short-horizon execution."
+  ]
+}

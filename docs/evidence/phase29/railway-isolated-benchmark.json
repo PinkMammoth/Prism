@@ -1,0 +1,338 @@
+{
+  "version": "free_source_benchmark_v1",
+  "environment": "Railway prism-runtime temporary directory, scratch DB; production untouched",
+  "started_at": "2026-10-10T13:44:10.915086+00:00",
+  "finished_at": "2026-10-10T13:44:14.269058+00:00",
+  "sources": [
+    {
+      "provider": "hyperliquid_status_v1",
+      "url": "https://hyperliquid.statuspage.io/api/v2/incidents.json",
+      "cadence_seconds": 60,
+      "requests_day_ceiling": 1440.0,
+      "cold_status": 200,
+      "warm_status": 304,
+      "cold_wire_bytes": 2718,
+      "warm_wire_bytes": 0,
+      "cold_poll_seconds": 0.13475757278501987,
+      "validators": {
+        "etag": "W/\"be11945bea87869e52473509ce948565\"",
+        "last_modified": null
+      },
+      "error": null
+    },
+    {
+      "provider": "coinbase_status_v1",
+      "url": "https://status.coinbase.com/api/v2/incidents.json",
+      "cadence_seconds": 60,
+      "requests_day_ceiling": 1440.0,
+      "cold_status": 200,
+      "warm_status": 304,
+      "cold_wire_bytes": 12340,
+      "warm_wire_bytes": 0,
+      "cold_poll_seconds": 0.26815816666930914,
+      "validators": {
+        "etag": "W/\"e2dd975eca2985d3d2f2ecfb43a04ae4\"",
+        "last_modified": null
+      },
+      "error": null
+    },
+    {
+      "provider": "kraken_status_v1",
+      "url": "https://status.kraken.com/api/v2/incidents.json",
+      "cadence_seconds": 60,
+      "requests_day_ceiling": 1440.0,
+      "cold_status": 200,
+      "warm_status": 304,
+      "cold_wire_bytes": 39781,
+      "warm_wire_bytes": 0,
+      "cold_poll_seconds": 0.09893448278307915,
+      "validators": {
+        "etag": "W/\"d98fc3fe75ef4faa2a265c41d6dd9e47\"",
+        "last_modified": null
+      },
+      "error": null
+    },
+    {
+      "provider": "solana_status_v1",
+      "url": "https://status.solana.com/api/v2/incidents.json",
+      "cadence_seconds": 60,
+      "requests_day_ceiling": 1440.0,
+      "cold_status": 200,
+      "warm_status": 304,
+      "cold_wire_bytes": 9679,
+      "warm_wire_bytes": 0,
+      "cold_poll_seconds": 0.07005652599036694,
+      "validators": {
+        "etag": "W/\"edfc6b9912c6d99305d2ab5fbe797d47\"",
+        "last_modified": null
+      },
+      "error": null
+    },
+    {
+      "provider": "circle_status_v1",
+      "url": "https://status.circle.com/api/v2/incidents.json",
+      "cadence_seconds": 120,
+      "requests_day_ceiling": 720.0,
+      "cold_status": 200,
+      "warm_status": 304,
+      "cold_wire_bytes": 19295,
+      "warm_wire_bytes": 0,
+      "cold_poll_seconds": 0.0798411350697279,
+      "validators": {
+        "etag": "W/\"5247f7f67f5d511861db5c284b3107c9\"",
+        "last_modified": null
+      },
+      "error": null
+    },
+    {
+      "provider": "base_status_v1",
+      "url": "https://status.base.org/api/v2/incidents.json",
+      "cadence_seconds": 120,
+      "requests_day_ceiling": 720.0,
+      "cold_status": 200,
+      "warm_status": 304,
+      "cold_wire_bytes": 24287,
+      "warm_wire_bytes": 0,
+      "cold_poll_seconds": 0.26989518105983734,
+      "validators": {
+        "etag": "W/\"c54cdb23f4f8accf8b60cf60676cab71\"",
+        "last_modified": null
+      },
+      "error": null
+    },
+    {
+      "provider": "sec_rss_v1",
+      "url": "https://www.sec.gov/news/pressreleases.rss",
+      "cadence_seconds": 300,
+      "requests_day_ceiling": 288.0,
+      "cold_status": 200,
+      "warm_status": 304,
+      "cold_wire_bytes": 5742,
+      "warm_wire_bytes": 0,
+      "cold_poll_seconds": 0.13983322586864233,
+      "validators": {
+        "etag": "\"1791584239\"",
+        "last_modified": "Fri, 09 Oct 2026 22:17:19 GMT"
+      },
+      "error": null
+    },
+    {
+      "provider": "fed_rss_v1",
+      "url": "https://www.federalreserve.gov/feeds/press_all.xml",
+      "cadence_seconds": 300,
+      "requests_day_ceiling": 288.0,
+      "cold_status": 200,
+      "warm_status": 304,
+      "cold_wire_bytes": 1872,
+      "warm_wire_bytes": 0,
+      "cold_poll_seconds": 0.04590369574725628,
+      "validators": {
+        "etag": "W/\"65ea5b0f657dd1:0\"",
+        "last_modified": "Fri, 09 Oct 2026 14:01:31 GMT"
+      },
+      "error": null
+    },
+    {
+      "provider": "cftc_rss_v1",
+      "url": "https://www.cftc.gov/RSS/RSSGP/rssgp.xml",
+      "cadence_seconds": 300,
+      "requests_day_ceiling": 288.0,
+      "cold_status": 200,
+      "warm_status": 304,
+      "cold_wire_bytes": 1139,
+      "warm_wire_bytes": 0,
+      "cold_poll_seconds": 0.08275457099080086,
+      "validators": {
+        "etag": "W/\"1791633062\"",
+        "last_modified": "Sat, 10 Oct 2026 11:51:02 GMT"
+      },
+      "error": null
+    },
+    {
+      "provider": "sec_trading_suspensions_rss_v1",
+      "url": "https://www.sec.gov/enforcement-litigation/trading-suspensions/rss",
+      "cadence_seconds": 300,
+      "requests_day_ceiling": 288.0,
+      "cold_status": 200,
+      "warm_status": 304,
+      "cold_wire_bytes": 2017,
+      "warm_wire_bytes": 0,
+      "cold_poll_seconds": 0.03471038769930601,
+      "validators": {
+        "etag": "\"1791584243\"",
+        "last_modified": "Fri, 09 Oct 2026 22:17:23 GMT"
+      },
+      "error": null
+    },
+    {
+      "provider": "sec_administrative_proceedings_rss_v1",
+      "url": "https://www.sec.gov/enforcement-litigation/administrative-proceedings/rss",
+      "cadence_seconds": 300,
+      "requests_day_ceiling": 288.0,
+      "cold_status": 200,
+      "warm_status": 304,
+      "cold_wire_bytes": 2033,
+      "warm_wire_bytes": 0,
+      "cold_poll_seconds": 0.020962239243090153,
+      "validators": {
+        "etag": "\"1791584239\"",
+        "last_modified": "Fri, 09 Oct 2026 22:17:19 GMT"
+      },
+      "error": null
+    },
+    {
+      "provider": "sec_litigation_releases_rss_v1",
+      "url": "https://www.sec.gov/enforcement-litigation/litigation-releases/rss",
+      "cadence_seconds": 300,
+      "requests_day_ceiling": 288.0,
+      "cold_status": 200,
+      "warm_status": 304,
+      "cold_wire_bytes": 2418,
+      "warm_wire_bytes": 0,
+      "cold_poll_seconds": 0.2157104816287756,
+      "validators": {
+        "etag": "\"1791584243\"",
+        "last_modified": "Fri, 09 Oct 2026 22:17:23 GMT"
+      },
+      "error": null
+    },
+    {
+      "provider": "github_geth_releases_v1",
+      "url": "https://api.github.com/repos/ethereum/go-ethereum/releases?per_page=10",
+      "cadence_seconds": 300,
+      "requests_day_ceiling": 288.0,
+      "cold_status": 200,
+      "warm_status": 304,
+      "cold_wire_bytes": 19401,
+      "warm_wire_bytes": 0,
+      "cold_poll_seconds": 0.04132987651973963,
+      "validators": {
+        "etag": "W/\"fd2fe81c4639f85e233ebaad1ec48d4aa7172aa201be5c867c23a429b5b2de37\"",
+        "last_modified": null
+      },
+      "error": null
+    },
+    {
+      "provider": "github_geth_security_advisories_v1",
+      "url": "https://api.github.com/repos/ethereum/go-ethereum/security-advisories?per_page=10",
+      "cadence_seconds": 300,
+      "requests_day_ceiling": 288.0,
+      "cold_status": 200,
+      "warm_status": 304,
+      "cold_wire_bytes": 6383,
+      "warm_wire_bytes": 0,
+      "cold_poll_seconds": 0.3269479665905237,
+      "validators": {
+        "etag": "W/\"42b4cae888ad5beaaabf78a720e120b31ef9b22c7aa4aebccbbccb373604ca66\"",
+        "last_modified": "Tue, 17 Feb 2026 16:23:56 GMT"
+      },
+      "error": null
+    },
+    {
+      "provider": "github_bitcoin_releases_v1",
+      "url": "https://api.github.com/repos/bitcoin/bitcoin/releases?per_page=10",
+      "cadence_seconds": 300,
+      "requests_day_ceiling": 288.0,
+      "cold_status": 200,
+      "warm_status": 304,
+      "cold_wire_bytes": 2421,
+      "warm_wire_bytes": 0,
+      "cold_poll_seconds": 0.017083298414945602,
+      "validators": {
+        "etag": "W/\"2537a53832e03b56723bd971a5193b4c6672422565f2fdcd5fe53f9fabad1732\"",
+        "last_modified": null
+      },
+      "error": null
+    },
+    {
+      "provider": "github_bitcoin_security_advisories_v1",
+      "url": "https://api.github.com/repos/bitcoin/bitcoin/security-advisories?per_page=10",
+      "cadence_seconds": 300,
+      "requests_day_ceiling": 288.0,
+      "cold_status": 200,
+      "warm_status": 304,
+      "cold_wire_bytes": 2,
+      "warm_wire_bytes": 0,
+      "cold_poll_seconds": 0.1944835353642702,
+      "validators": {
+        "etag": "\"74d1db57f0fec3481bb6b4d9bcdc020d656635ec6c53ee589d27a8831cbbe280\"",
+        "last_modified": null
+      },
+      "error": null
+    },
+    {
+      "provider": "ethereum_official_rss_v1",
+      "url": "https://blog.ethereum.org/en/feed.xml",
+      "cadence_seconds": 300,
+      "requests_day_ceiling": 288.0,
+      "cold_status": 200,
+      "warm_status": 304,
+      "cold_wire_bytes": 105877,
+      "warm_wire_bytes": 0,
+      "cold_poll_seconds": 0.1261328849941492,
+      "validators": {
+        "etag": "W/\"a4980d38e85f54871adb9b907ed0a43b-ssl-df\"",
+        "last_modified": null
+      },
+      "error": null
+    },
+    {
+      "provider": "bitcoin_official_rss_v1",
+      "url": "https://bitcoincore.org/en/rss.xml",
+      "cadence_seconds": 300,
+      "requests_day_ceiling": 288.0,
+      "cold_status": 200,
+      "warm_status": 304,
+      "cold_wire_bytes": 593118,
+      "warm_wire_bytes": 0,
+      "cold_poll_seconds": 1.5034987917169929,
+      "validators": {
+        "etag": "\"6a60a1d2-90cde\"",
+        "last_modified": "Wed, 22 Jul 2026 10:56:18 GMT"
+      },
+      "error": null
+    }
+  ],
+  "collector_peak_rss_bytes": 182259712,
+  "collector_current_rss_bytes": 182259712,
+  "collector_process_cpu_seconds": 0.48007281300000004,
+  "idle_cpu_seconds_per_tick": 2.9016120000000535e-05,
+  "ingest_cpu_seconds": 0.1945488110000002,
+  "spool_bytes": 22616,
+  "scratch_db_bytes": 9449472,
+  "publication_to_receipt_seconds": [
+    80717.002822,
+    79874.63925
+  ],
+  "information_time_to_receipt_seconds": [
+    3254.906822,
+    3542.21325
+  ],
+  "measured_availability_to_receipt_seconds": null,
+  "receipt_to_context_seconds": [
+    3.109262,
+    3.093904
+  ],
+  "drain": {
+    "ingested": 2,
+    "errors": 0,
+    "backlog": 0
+  },
+  "research": {
+    "recorded": 0,
+    "examined_event_assets": 19,
+    "descriptive_only": true
+  },
+  "counts": {
+    "context_events": 2,
+    "context_event_updates": 0,
+    "paper_nimble_triggers": 2,
+    "paper_nimble_positions": 0,
+    "context_work_research_pending": 19
+  },
+  "notes": [
+    "Cold and warm fetches are short samples, not a 24h bandwidth measurement.",
+    "Source publication/update times do not establish first public availability.",
+    "Initial accepted items are prospective Prism receipts, never backdated."
+  ]
+}

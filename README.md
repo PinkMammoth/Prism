@@ -318,3 +318,5 @@ time-weighted spread/depth/imbalance, book dynamics, minute-end OI/funding) with
 COMPLETE/PARTIAL/GAP quality, bounded revisions, a single-writer spool → DuckDB ingest, a
 causal research loader and `market microstructure` queries (data only; prospective from its
 production cutover) — in [docs/MICROSTRUCTURE_COLLECTION.md](docs/MICROSTRUCTURE_COLLECTION.md).
+
+Phase 29 adds [free public event acquisition](docs/FREE_EVENT_SOURCES.md): causal status/RSS/GitHub collection through the existing context/outbox boundary, with £0 new data subscriptions.

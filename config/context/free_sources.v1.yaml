@@ -1,0 +1,393 @@
+version: free_event_sources_v1
+user_agent: Prism/0.1 (personal research; public context monitor)
+principles:
+- Fast deterministic/public feeds are the primary event-discovery layer.
+- Work is a slower semantic layer, not the primary trigger for short-horizon execution.
+sources:
+- id: hyperliquid_status_v1
+  url: https://hyperliquid.statuspage.io/api/v2/incidents.json
+  parser: statuspage
+  source_class: exchange_status
+  source_type: exchange_notice
+  cadence_seconds: 60
+  freshness_seconds: 7200
+  enabled: true
+  stage: 1
+  canonical_provider: hyperliquid_status_v1
+  expected_relevance_domain: hyperliquid
+  subscription_gbp_month: 0
+  api_gbp_month: 0
+  authentication: none
+  access_review: public_automated
+  rate_limit_policy: Published consumer endpoint; numeric limit undisclosed. Prism
+    cap is cadence; honor Retry-After and exponential backoff.
+  terms_url: https://hyperliquid.statuspage.io/api
+  entity: hyperliquid
+- id: coinbase_status_v1
+  url: https://status.coinbase.com/api/v2/incidents.json
+  parser: statuspage
+  source_class: exchange_status
+  source_type: exchange_notice
+  cadence_seconds: 60
+  freshness_seconds: 7200
+  enabled: true
+  stage: 1
+  canonical_provider: coinbase_status_v1
+  expected_relevance_domain: coinbase
+  subscription_gbp_month: 0
+  api_gbp_month: 0
+  authentication: none
+  access_review: public_automated
+  rate_limit_policy: Published consumer endpoint; numeric limit undisclosed. Prism
+    cap is cadence; honor Retry-After and exponential backoff.
+  terms_url: https://status.coinbase.com/api
+  entity: coinbase
+  legacy_feed_id: coinbase_status
+- id: kraken_status_v1
+  url: https://status.kraken.com/api/v2/incidents.json
+  parser: statuspage
+  source_class: exchange_status
+  source_type: exchange_notice
+  cadence_seconds: 60
+  freshness_seconds: 7200
+  enabled: true
+  stage: 1
+  canonical_provider: kraken_status_v1
+  expected_relevance_domain: kraken
+  subscription_gbp_month: 0
+  api_gbp_month: 0
+  authentication: none
+  access_review: public_automated
+  rate_limit_policy: Published consumer endpoint; numeric limit undisclosed. Prism
+    cap is cadence; honor Retry-After and exponential backoff.
+  terms_url: https://status.kraken.com/api
+  entity: kraken
+  legacy_feed_id: kraken_status
+- id: solana_status_v1
+  url: https://status.solana.com/api/v2/incidents.json
+  parser: statuspage
+  source_class: protocol_status
+  source_type: protocol_announcement
+  cadence_seconds: 60
+  freshness_seconds: 7200
+  enabled: true
+  stage: 2
+  canonical_provider: solana_status_v1
+  expected_relevance_domain: solana
+  subscription_gbp_month: 0
+  api_gbp_month: 0
+  authentication: none
+  access_review: public_automated
+  rate_limit_policy: Published consumer endpoint; numeric limit undisclosed. Prism
+    cap is cadence; honor Retry-After and exponential backoff.
+  terms_url: https://status.solana.com/api
+  entity: solana
+- id: circle_status_v1
+  url: https://status.circle.com/api/v2/incidents.json
+  parser: statuspage
+  source_class: infrastructure_status
+  source_type: protocol_announcement
+  cadence_seconds: 120
+  freshness_seconds: 7200
+  enabled: true
+  stage: 2
+  canonical_provider: circle_status_v1
+  expected_relevance_domain: circle
+  subscription_gbp_month: 0
+  api_gbp_month: 0
+  authentication: none
+  access_review: public_automated
+  rate_limit_policy: Published consumer endpoint; numeric limit undisclosed. Prism
+    cap is cadence; honor Retry-After and exponential backoff.
+  terms_url: https://status.circle.com/api
+  entity: circle
+- id: base_status_v1
+  url: https://status.base.org/api/v2/incidents.json
+  parser: statuspage
+  source_class: protocol_status
+  source_type: protocol_announcement
+  cadence_seconds: 120
+  freshness_seconds: 7200
+  enabled: true
+  stage: 2
+  canonical_provider: base_status_v1
+  expected_relevance_domain: base
+  subscription_gbp_month: 0
+  api_gbp_month: 0
+  authentication: none
+  access_review: public_automated
+  rate_limit_policy: Published consumer endpoint; numeric limit undisclosed. Prism
+    cap is cadence; honor Retry-After and exponential backoff.
+  terms_url: https://status.base.org/api
+  entity: base
+- id: sec_rss_v1
+  url: https://www.sec.gov/news/pressreleases.rss
+  parser: rss
+  source_class: official_rss
+  source_type: regulator
+  cadence_seconds: 300
+  freshness_seconds: 21600
+  enabled: true
+  stage: 3
+  canonical_provider: sec_rss_v1
+  expected_relevance_domain: crypto regulation and systemic macro
+  subscription_gbp_month: 0
+  api_gbp_month: 0
+  authentication: none
+  access_review: public_automated
+  rate_limit_policy: Published consumer endpoint; numeric limit undisclosed. Prism
+    cap is cadence; honor Retry-After and exponential backoff.
+  terms_url: https://www.sec.gov/about/developer-resources
+  kind: regulator
+  country: US
+  legacy_feed_id: sec_press
+- id: fed_rss_v1
+  url: https://www.federalreserve.gov/feeds/press_all.xml
+  parser: rss
+  source_class: official_rss
+  source_type: central_bank
+  cadence_seconds: 300
+  freshness_seconds: 21600
+  enabled: true
+  stage: 3
+  canonical_provider: fed_rss_v1
+  expected_relevance_domain: crypto regulation and systemic macro
+  subscription_gbp_month: 0
+  api_gbp_month: 0
+  authentication: none
+  access_review: public_automated
+  rate_limit_policy: Published consumer endpoint; numeric limit undisclosed. Prism
+    cap is cadence; honor Retry-After and exponential backoff.
+  terms_url: https://www.federalreserve.gov/feeds/press_all.xml
+  kind: central_bank
+  country: US
+  legacy_feed_id: fed_press
+- id: cftc_rss_v1
+  url: https://www.cftc.gov/RSS/RSSGP/rssgp.xml
+  parser: rss
+  source_class: official_rss
+  source_type: regulator
+  cadence_seconds: 300
+  freshness_seconds: 21600
+  enabled: true
+  stage: 3
+  canonical_provider: cftc_rss_v1
+  expected_relevance_domain: crypto regulation and systemic macro
+  subscription_gbp_month: 0
+  api_gbp_month: 0
+  authentication: none
+  access_review: public_automated
+  rate_limit_policy: Published consumer endpoint; numeric limit undisclosed. Prism
+    cap is cadence; honor Retry-After and exponential backoff.
+  terms_url: https://www.cftc.gov/RSS/RSSGP/rssgp.xml
+  kind: regulator
+  country: US
+  legacy_feed_id: cftc_press
+- id: sec_trading_suspensions_rss_v1
+  url: https://www.sec.gov/enforcement-litigation/trading-suspensions/rss
+  parser: rss
+  source_class: official_rss
+  source_type: regulator
+  cadence_seconds: 300
+  freshness_seconds: 21600
+  enabled: true
+  stage: 3
+  canonical_provider: sec_rss_v1
+  expected_relevance_domain: crypto regulation and systemic macro
+  subscription_gbp_month: 0
+  api_gbp_month: 0
+  authentication: none
+  access_review: public_automated
+  rate_limit_policy: Published consumer endpoint; numeric limit undisclosed. Prism
+    cap is cadence; honor Retry-After and exponential backoff.
+  terms_url: https://www.sec.gov/about/developer-resources
+  kind: regulator
+  country: US
+- id: sec_administrative_proceedings_rss_v1
+  url: https://www.sec.gov/enforcement-litigation/administrative-proceedings/rss
+  parser: rss
+  source_class: official_rss
+  source_type: regulator
+  cadence_seconds: 300
+  freshness_seconds: 21600
+  enabled: true
+  stage: 3
+  canonical_provider: sec_rss_v1
+  expected_relevance_domain: crypto regulation and systemic macro
+  subscription_gbp_month: 0
+  api_gbp_month: 0
+  authentication: none
+  access_review: public_automated
+  rate_limit_policy: Published consumer endpoint; numeric limit undisclosed. Prism
+    cap is cadence; honor Retry-After and exponential backoff.
+  terms_url: https://www.sec.gov/about/developer-resources
+  kind: regulator
+  country: US
+- id: sec_litigation_releases_rss_v1
+  url: https://www.sec.gov/enforcement-litigation/litigation-releases/rss
+  parser: rss
+  source_class: official_rss
+  source_type: regulator
+  cadence_seconds: 300
+  freshness_seconds: 21600
+  enabled: true
+  stage: 3
+  canonical_provider: sec_rss_v1
+  expected_relevance_domain: crypto regulation and systemic macro
+  subscription_gbp_month: 0
+  api_gbp_month: 0
+  authentication: none
+  access_review: public_automated
+  rate_limit_policy: Published consumer endpoint; numeric limit undisclosed. Prism
+    cap is cadence; honor Retry-After and exponential backoff.
+  terms_url: https://www.sec.gov/about/developer-resources
+  kind: regulator
+  country: US
+- id: github_geth_releases_v1
+  url: https://api.github.com/repos/ethereum/go-ethereum/releases?per_page=10
+  parser: github_releases
+  source_class: github
+  source_type: security_advisory
+  cadence_seconds: 300
+  freshness_seconds: 86400
+  enabled: true
+  stage: 4
+  canonical_provider: github_geth_releases_v1
+  expected_relevance_domain: ethereum
+  subscription_gbp_month: 0
+  api_gbp_month: 0
+  authentication: optional existing PRISM_FREE_GITHUB_TOKEN
+  access_review: public_automated
+  rate_limit_policy: 60 requests/hour/shared IP unauthenticated; 5000/hour authenticated.
+    Four feeds at 300s consume <=48/hour; 304 authenticated requests do not use primary
+    quota. Honor remaining/reset/Retry-After.
+  terms_url: https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api
+  entity: ethereum
+  repository: ethereum/go-ethereum
+- id: github_geth_security_advisories_v1
+  url: https://api.github.com/repos/ethereum/go-ethereum/security-advisories?per_page=10
+  parser: github_advisories
+  source_class: github
+  source_type: security_advisory
+  cadence_seconds: 300
+  freshness_seconds: 86400
+  enabled: true
+  stage: 4
+  canonical_provider: github_geth_security_advisories_v1
+  expected_relevance_domain: ethereum
+  subscription_gbp_month: 0
+  api_gbp_month: 0
+  authentication: optional existing PRISM_FREE_GITHUB_TOKEN
+  access_review: public_automated
+  rate_limit_policy: 60 requests/hour/shared IP unauthenticated; 5000/hour authenticated.
+    Four feeds at 300s consume <=48/hour; 304 authenticated requests do not use primary
+    quota. Honor remaining/reset/Retry-After.
+  terms_url: https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api
+  entity: ethereum
+  repository: ethereum/go-ethereum
+- id: github_bitcoin_releases_v1
+  url: https://api.github.com/repos/bitcoin/bitcoin/releases?per_page=10
+  parser: github_releases
+  source_class: github
+  source_type: security_advisory
+  cadence_seconds: 300
+  freshness_seconds: 86400
+  enabled: true
+  stage: 4
+  canonical_provider: github_bitcoin_releases_v1
+  expected_relevance_domain: bitcoin
+  subscription_gbp_month: 0
+  api_gbp_month: 0
+  authentication: optional existing PRISM_FREE_GITHUB_TOKEN
+  access_review: public_automated
+  rate_limit_policy: 60 requests/hour/shared IP unauthenticated; 5000/hour authenticated.
+    Four feeds at 300s consume <=48/hour; 304 authenticated requests do not use primary
+    quota. Honor remaining/reset/Retry-After.
+  terms_url: https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api
+  entity: bitcoin
+  repository: bitcoin/bitcoin
+- id: github_bitcoin_security_advisories_v1
+  url: https://api.github.com/repos/bitcoin/bitcoin/security-advisories?per_page=10
+  parser: github_advisories
+  source_class: github
+  source_type: security_advisory
+  cadence_seconds: 300
+  freshness_seconds: 86400
+  enabled: true
+  stage: 4
+  canonical_provider: github_bitcoin_security_advisories_v1
+  expected_relevance_domain: bitcoin
+  subscription_gbp_month: 0
+  api_gbp_month: 0
+  authentication: optional existing PRISM_FREE_GITHUB_TOKEN
+  access_review: public_automated
+  rate_limit_policy: 60 requests/hour/shared IP unauthenticated; 5000/hour authenticated.
+    Four feeds at 300s consume <=48/hour; 304 authenticated requests do not use primary
+    quota. Honor remaining/reset/Retry-After.
+  terms_url: https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api
+  entity: bitcoin
+  repository: bitcoin/bitcoin
+- id: ethereum_official_rss_v1
+  url: https://blog.ethereum.org/en/feed.xml
+  parser: rss
+  source_class: official_rss
+  source_type: protocol_announcement
+  cadence_seconds: 300
+  freshness_seconds: 21600
+  enabled: true
+  stage: 3
+  canonical_provider: ethereum_official_rss_v1
+  expected_relevance_domain: ethereum
+  subscription_gbp_month: 0
+  api_gbp_month: 0
+  authentication: none
+  access_review: public_automated
+  rate_limit_policy: Published consumer endpoint; numeric limit undisclosed. Prism
+    cap is cadence; honor Retry-After and exponential backoff.
+  terms_url: https://blog.ethereum.org
+  entity: ethereum
+  kind: technical
+- id: bitcoin_official_rss_v1
+  url: https://bitcoincore.org/en/rss.xml
+  parser: rss
+  source_class: official_rss
+  source_type: security_advisory
+  cadence_seconds: 300
+  freshness_seconds: 21600
+  enabled: true
+  stage: 3
+  canonical_provider: bitcoin_official_rss_v1
+  expected_relevance_domain: bitcoin
+  subscription_gbp_month: 0
+  api_gbp_month: 0
+  authentication: none
+  access_review: public_automated
+  rate_limit_policy: Published consumer endpoint; numeric limit undisclosed. Prism
+    cap is cadence; honor Retry-After and exponential backoff.
+  terms_url: https://bitcoincore.org/en/security-advisories/
+  entity: bitcoin
+  kind: technical
+- id: gdelt_crypto_discovery_v1
+  url: https://api.gdeltproject.org/api/v2/doc/doc?query=(bitcoin%20OR%20ethereum%20OR%20crypto)&mode=ArtList&format=json&timespan=1h&maxrecords=20&sort=DateDesc
+  parser: gdelt
+  source_class: broad_discovery
+  source_type: news_api
+  cadence_seconds: 900
+  freshness_seconds: 21600
+  enabled: false
+  stage: 5
+  canonical_provider: gdelt_crypto_discovery_v1
+  expected_relevance_domain: crypto regulation and systemic macro
+  subscription_gbp_month: 0
+  api_gbp_month: 0
+  authentication: none
+  access_review: availability_unverified
+  rate_limit_policy: No reliable current numeric contract verified; probe returned
+    429. Disabled pending access and availability-delay measurements.
+  terms_url: https://blog.gdeltproject.org/gdelt-doc-2-0-api-debuts/
+  kind: news
+  allowed_domains:
+  - reuters.com
+  - www.reuters.com
+  - apnews.com
+  - www.bbc.com

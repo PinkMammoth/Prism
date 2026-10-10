@@ -12,6 +12,9 @@ market ops crontab > /tmp/prism.crontab
 if [ "${PRISM_CONTEXT_GATEWAY:-off}" = on ]; then
   echo '* * * * * market context gateway health --check --json' >> /tmp/prism.crontab
 fi
+if [ "${PRISM_FREE_SOURCES:-off}" = on ]; then
+  echo '* * * * * market context sources status --check --json' >> /tmp/prism.crontab
+fi
 cat /tmp/prism.crontab
 # Phase 24A: the persistent Hyperliquid microstructure collector (public market data only).
 # It never opens the database (it appends to /data/microstructure; the scheduled
@@ -36,6 +39,21 @@ if [ "${PRISM_RUNTIME_ROLE:-}" = authoritative ] && [ "${PRISM_CONTEXT_GATEWAY:-
       python -m market_signal.context.gateway.worker || echo "context ingest worker exited; restarting in 10s"
       sleep 10
     done ) &
+fi
+# Phase 29: opt-in zero-subscription public acquisition; no DB in the poller.
+if [ "${PRISM_RUNTIME_ROLE:-}" = authoritative ] && [ "${PRISM_FREE_SOURCES:-off}" = on ]; then
+  mkdir -p /data/free_event_sources
+  ( while true; do
+      python -m market_signal.context.free_sources.collector || echo "free source collector exited; restarting in 10s"
+      sleep 10
+    done ) &
+  # Reuse the existing authoritative gateway worker when it is already running.
+  if [ "${PRISM_CONTEXT_GATEWAY:-off}" != on ]; then
+    ( while true; do
+        python -m market_signal.context.free_sources.worker || echo "free source ingest exited; restarting in 10s"
+        sleep 10
+      done ) &
+  fi
 fi
 # Phase 27: deterministic PAPER worker, idle until a separate run is registered/activated.
 # It releases DuckDB/runtime locks between ticks; quotes come from the existing public collector.

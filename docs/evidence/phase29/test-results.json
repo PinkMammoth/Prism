@@ -1,0 +1,38 @@
+{
+  "full_pytest": {
+    "passed": 1260,
+    "failed": 0,
+    "warnings": 4,
+    "duration_seconds": 521.12,
+    "command": "PYTHONPATH=src OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 pytest -o addopts= -o tmp_path_retention_policy=failed -q -n 4 --dist loadfile --basetemp=/dev/shm/prism-phase29-validated"
+  },
+  "requested_cohorts_in_full_suite": {
+    "tests/test_free_event_sources.py": 33,
+    "tests/test_work_monitors.py": 26,
+    "tests/test_context_gateway.py": 70,
+    "tests/test_nimble_paper.py": 47,
+    "tests/test_nimble_runtime.py": 11,
+    "tests/test_exploratory_paper_v2.py": 78,
+    "tests/test_microstructure_direction.py": 18,
+    "tests/test_microdir_scheduling.py": 9,
+    "tests/test_microstructure.py": 47,
+    "tests/test_context.py": 39,
+    "tests/test_runtime.py": 32
+  },
+  "phase29_separate_run": {
+    "passed": 33,
+    "duration_seconds": 9.56
+  },
+  "checks": {
+    "ruff": "passed",
+    "ruff_format": "355 files already formatted",
+    "git_diff_check": "passed",
+    "railway_entrypoint_shell_syntax": "passed",
+    "source_status_json": "passed"
+  },
+  "notes": [
+    "Final full run outside restricted sandbox to permit Starlette test event-loop sockets.",
+    "Earlier complete run had two failures: stale migration count corrected; gateway snapshot test passed isolated recheck and final full suite.",
+    "Four warnings are existing Starlette TestClient deprecation warnings."
+  ]
+}

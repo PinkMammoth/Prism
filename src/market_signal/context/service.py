@@ -24,8 +24,20 @@ def sources_config(settings: Settings) -> dict:
 
 def stale_hours(settings: Settings) -> dict[str, float]:
     cfg = sources_config(settings)
-    return {k: float(v.get("stale_hours", 24)) for k, v in (cfg.get("providers") or {}).items()
-            if v.get("enabled", True)}  # fmt: skip
+    health = {
+        k: float(v.get("stale_hours", 24))
+        for k, v in (cfg.get("providers") or {}).items()
+        if v.get("enabled", True)
+    }
+    import os
+
+    if os.environ.get("PRISM_FREE_SOURCES", "off") == "on":
+        from market_signal.context.free_sources.registry import active, load
+
+        owned = {s.get("legacy_feed_id") for s in active(load())}
+        if not set(cfg.get("feeds", {})) - owned:
+            health.pop("rss", None)  # Poll health now comes from durable source states.
+    return health
 
 
 def _enabled(cfg: dict, name: str) -> bool:
@@ -60,7 +72,16 @@ def build(settings: Settings, store: Store, group: str, transport: Any = None) -
         if _enabled(cfg, "hyperliquid_universe"):
             out.append(HyperliquidUniverseProvider(reg.http("hyperliquid")))
         if _enabled(cfg, "rss"):
-            out.append(RssProvider(cfg.get("feeds") or {}, load_entities(),
+            feeds = cfg.get("feeds") or {}
+            import os
+
+            if os.environ.get("PRISM_FREE_SOURCES", "off") == "on":
+                from market_signal.context.free_sources.registry import active, load
+
+                owned = {s.get("legacy_feed_id") for s in active(load())}
+                feeds = {k: v for k, v in feeds.items() if k not in owned}
+            if feeds:
+                out.append(RssProvider(feeds, load_entities(),
                                    cfg.get("user_agent", "Prism/0.1"), transport=transport))  # fmt: skip
     else:
         raise ValueError(f"unknown provider group {group!r}")

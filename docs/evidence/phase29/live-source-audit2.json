@@ -1,0 +1,107 @@
+[
+  {
+    "id": "sec_litigation_current",
+    "url": "https://www.sec.gov/enforcement-litigation/litigation-releases/rss",
+    "at": "2026-10-10T13:29:15.218821+00:00",
+    "http_status": 200,
+    "bytes": 10828,
+    "seconds": 0.4433199820014124,
+    "final_url": "https://www.sec.gov/enforcement-litigation/litigation-releases/rss",
+    "headers": {
+      "content-type": "application/rss+xml; charset=utf-8",
+      "last-modified": "Fri, 09 Oct 2026 22:17:23 GMT",
+      "etag": "\"1791584243\"",
+      "content-encoding": "gzip"
+    },
+    "format": "xml",
+    "root": "rss",
+    "items": 25,
+    "conditional_status": 304,
+    "conditional_bytes": 0
+  },
+  {
+    "id": "sec_admin_current",
+    "url": "https://www.sec.gov/enforcement-litigation/administrative-proceedings/rss",
+    "at": "2026-10-10T13:29:15.773843+00:00",
+    "http_status": 200,
+    "bytes": 9333,
+    "seconds": 0.29804983899884974,
+    "final_url": "https://www.sec.gov/enforcement-litigation/administrative-proceedings/rss",
+    "headers": {
+      "content-type": "application/rss+xml; charset=utf-8",
+      "last-modified": "Fri, 09 Oct 2026 22:17:19 GMT",
+      "etag": "\"1791584239\"",
+      "content-encoding": "gzip"
+    },
+    "format": "xml",
+    "root": "rss",
+    "items": 25,
+    "conditional_status": 304,
+    "conditional_bytes": 0
+  },
+  {
+    "id": "sec_suspensions_current",
+    "url": "https://www.sec.gov/enforcement-litigation/trading-suspensions/rss",
+    "at": "2026-10-10T13:29:16.166617+00:00",
+    "http_status": 200,
+    "bytes": 9523,
+    "seconds": 0.48593286300092586,
+    "final_url": "https://www.sec.gov/enforcement-litigation/trading-suspensions/rss",
+    "headers": {
+      "content-type": "application/rss+xml; charset=utf-8",
+      "last-modified": "Fri, 09 Oct 2026 22:17:23 GMT",
+      "etag": "\"1791584243\"",
+      "content-encoding": "gzip"
+    },
+    "format": "xml",
+    "root": "rss",
+    "items": 25,
+    "conditional_status": 304,
+    "conditional_bytes": 0
+  },
+  {
+    "id": "bitcoin_blog",
+    "url": "https://bitcoincore.org/en/rss.xml",
+    "at": "2026-10-10T13:29:16.748245+00:00",
+    "http_status": 200,
+    "bytes": 593118,
+    "seconds": 1.7639972920005675,
+    "final_url": "https://bitcoincore.org/en/rss.xml",
+    "headers": {
+      "content-type": "text/xml",
+      "last-modified": "Wed, 22 Jul 2026 10:56:18 GMT",
+      "etag": "\"6a60a1d2-90cde\""
+    },
+    "format": "xml",
+    "root": "rss",
+    "items": 112,
+    "conditional_status": 304,
+    "conditional_bytes": 0
+  },
+  {
+    "id": "bbc_business",
+    "url": "https://feeds.bbci.co.uk/news/business/rss.xml",
+    "at": "2026-10-10T13:29:18.763610+00:00",
+    "http_status": 200,
+    "bytes": 38258,
+    "seconds": 0.4117453290018602,
+    "final_url": "https://feeds.bbci.co.uk/news/business/rss.xml",
+    "headers": {
+      "content-type": "text/xml; charset=utf-8",
+      "content-encoding": "gzip"
+    },
+    "format": "xml",
+    "root": "rss",
+    "items": 52
+  },
+  {
+    "id": "gdelt_retry",
+    "url": "https://api.gdeltproject.org/api/v2/doc/doc?query=bitcoin&mode=ArtList&format=json&timespan=1h&maxrecords=20&sort=DateDesc",
+    "at": "2026-10-10T13:29:19.176627+00:00",
+    "http_status": 429,
+    "bytes": 444,
+    "seconds": 8.801904597999965,
+    "final_url": "https://api.gdeltproject.org/api/v2/doc/doc?query=bitcoin&mode=ArtList&format=json&timespan=1h&maxrecords=20&sort=DateDesc",
+    "headers": {}
+  }
+]
