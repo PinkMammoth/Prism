@@ -89,10 +89,20 @@ def postmortem(
     run_id: str = typer.Option(None),
     as_json: bool = JSON,
 ) -> None:
-    call(
-        lambda s: report.postmortem(s, _rid(s, run_id), start=start, end=end, asset=asset.upper()),
-        as_json=as_json,
-    )
+    def go(store):
+        result = report.postmortem(
+            store, _rid(store, run_id), start=start, end=end, asset=asset.upper()
+        )
+        from market_signal.paper.nimble import engine as nimble_engine
+        from market_signal.paper.nimble import report as nimble_report
+
+        if nimble_engine.runs(store):
+            result["nimble_execution"] = nimble_report.postmortem(
+                store, nimble_engine.current(store), start=start, end=end, asset=asset.upper()
+            )
+        return result
+
+    call(go, as_json=as_json)
 
 
 @v2.command("compare-v1")

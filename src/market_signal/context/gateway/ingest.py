@@ -124,6 +124,10 @@ def drain(store, spool: Spool, *, limit: int = 50) -> dict:
                     ).isoformat(),
                     recovered_after_commit=True,
                 )
+            # Information-only outbox; the public server cannot reach a paper evaluator.
+            from market_signal.ops.evaluation_triggers import gateway_wakeup
+
+            gateway_wakeup(store, result, rec["payload"])
             spool.complete(rid, result)
             count += 1
         except Exception as exc:

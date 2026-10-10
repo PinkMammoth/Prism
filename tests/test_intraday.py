@@ -744,7 +744,9 @@ def test_shadow_waits_for_the_true_first_bar_rather_than_substituting(pap):
 def test_paper_and_copilot_never_read_intraday_data():
     for pkg in ("paper", "copilot"):
         for f in (SRC / pkg).rglob("*.py"):
-            if pkg == "paper" and "v2" in f.parts:  # separate Phase 25A intraday consumer
+            if pkg == "paper" and (
+                {"v2", "nimble"} & set(f.parts)
+            ):  # Phase 25A/27 intraday consumers
                 continue
             text = f.read_text()
             assert "intraday" not in text and "perp_intraday" not in text, f
@@ -758,7 +760,7 @@ def test_migration_18_is_market_data_only():
     from market_signal.data.store import MIGRATIONS
 
     ddl = MIGRATIONS[17]
-    assert len(MIGRATIONS) == 26  # Phase 26A appends only the authoritative context receipt commit
+    assert len(MIGRATIONS) == 27  # Phase 27 appends a separate paper execution/outbox ledger
     created = re.findall(r"CREATE TABLE IF NOT EXISTS (\w+)", ddl)
     assert created == ["perp_intraday_bars", "perp_intraday_revisions", "perp_intraday_coverage",
                        "intraday_execution_shadow"]  # fmt: skip

@@ -964,7 +964,9 @@ def test_collector_never_opens_the_database_and_never_reaches_execution():
     for consumer in ("paper", "copilot", "perps", "portfolio", "scoring", "context",
                      "research/incubation", "research/lab", "research/lifecycle"):  # fmt: skip
         for p in (SRC / consumer).rglob("*.py"):
-            if consumer == "paper" and "v2" in p.parts:  # Phase 25A paper-only causal consumer
+            if consumer == "paper" and (
+                {"v2", "nimble"} & set(p.parts)
+            ):  # Phase 25A/27 causal paper consumers
                 continue
             assert "market_signal.microstructure" not in p.read_text(), p
     for p in pkg.rglob("*.py"):  # only ingest writes, and only microstructure_* tables
