@@ -1599,6 +1599,20 @@ MIGRATIONS: list[str] = [
     );
     CREATE INDEX IF NOT EXISTS context_free_event ON context_free_observations(event_id,received_at);
     """,
+    # 30 — Reaction wait projection and append-only eligibility/source evidence.
+    """
+    CREATE TABLE IF NOT EXISTS paper_event_pending (
+        run_id VARCHAR NOT NULL, event_id VARCHAR NOT NULL, hypothesis_id VARCHAR NOT NULL,
+        asset VARCHAR NOT NULL, payload JSON NOT NULL,
+        PRIMARY KEY(run_id,event_id,hypothesis_id,asset)
+    );
+    CREATE TABLE IF NOT EXISTS paper_event_evidence (
+        evidence_id VARCHAR PRIMARY KEY, run_id VARCHAR NOT NULL, event_id VARCHAR NOT NULL,
+        hypothesis_id VARCHAR NOT NULL, asset VARCHAR NOT NULL, recorded_at TIMESTAMPTZ NOT NULL,
+        kind VARCHAR NOT NULL, payload JSON NOT NULL
+    );
+    CREATE INDEX IF NOT EXISTS paper_event_run ON paper_event_evidence(run_id,recorded_at);
+    """,
 ]
 
 ROLE_ENV, RUNTIME_ID_ENV = "PRISM_RUNTIME_ROLE", "PRISM_RUNTIME_ID"

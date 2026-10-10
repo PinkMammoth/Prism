@@ -29,7 +29,7 @@ def trades(store, rid):
         rs = {h: json.loads(v) for h, v in curves}
         primary = next(
             h.horizon_minutes
-            for h in spec.baseline.bootstrap()
+            for h in engine.hypotheses(store, rid)
             if h.hypothesis_id == p["hypothesis_id"]
         )
         reference = rs.get(primary)
@@ -134,13 +134,13 @@ def status(store, rid):
             "run_id": rid,
             "activation_at": r["activated_at"],
             "mode": "paper",
-            "version": spec.VERSION,
+            "version": json.loads(r["definition"])["version"],
             "execution_policy_id": r["policy_id"],
             "risk_policy_id": r["risk_policy_id"],
             "thesis_policy_version": spec.THESIS_VERSION,
             "exit_policy_version": spec.EXIT_VERSION,
-            "hypotheses": 28,
-            "entry_universe_id": spec.baseline.universe_id(),
+            "hypotheses": len(engine.hypotheses(store, rid)),
+            "entry_universe_id": json.loads(r["definition"])["entry_universe_id"],
             **ac,
             "positions": ps,
             "baseline": engine.verify_baseline(store, rid),
@@ -209,7 +209,7 @@ def compare(store, rid):
         "nimble_drawdown": engine.account(store, rid).get(
             "max_drawdown", engine.account(store, rid)["drawdown"]
         ),
-        "comparison_note": "same 28 entry definitions; latency/fill/cost/exit treatment differ; descriptive prospective execution evidence",
+        "comparison_note": "original 28 entry definitions preserved; successor adds separate event cohort where present; descriptive prospective execution evidence",
         "baseline_run_id": base["run_id"] if base else None,
     }
 

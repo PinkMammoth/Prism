@@ -1,0 +1,42 @@
+{
+  "frozen_set_version": "phase30_historical_mechanics_v1",
+  "audited_at": "2026-10-10T15:06:49.092515+00:00",
+  "purpose": "classification/provenance sanity only; no threshold fitting or historical profitability",
+  "cases": [
+    {
+      "name": "solana_2024_02_06_halt",
+      "official_url": "https://status.solana.com/api/v2/incidents/n5kcgs8dl9pj.json",
+      "published_at": "2024-02-06T10:22:42.053Z",
+      "current_status": "resolved",
+      "impact": "critical",
+      "components": [
+        {
+          "id": "qxs6x3yc9cxg",
+          "name": "Mainnet Beta - Cluster",
+          "status": "operational"
+        }
+      ],
+      "update_states": [
+        {
+          "status": "resolved",
+          "created_at": "2024-02-06T15:09:24.842Z"
+        },
+        {
+          "status": "investigating",
+          "created_at": "2024-02-06T10:22:42.114Z"
+        }
+      ],
+      "frozen_mapping": "SOL short only if live severe structured cluster outage; current resolved historical import cannot trade",
+      "historical_prism_first_seen_at": null,
+      "historical_executable_quote": null
+    },
+    {
+      "name": "sec_2024_01_10_spot_btc_approval",
+      "official_url": "https://www.sec.gov/newsroom/speeches-statements/gensler-statement-spot-bitcoin-011023",
+      "event_date": "2024-01-10",
+      "frozen_mapping": "AMBIGUOUS_DIRECTION absent prior Prism-known official contrary expectation and structured docket facts",
+      "historical_prism_first_seen_at": null,
+      "historical_executable_quote": null
+    }
+  ]
+}

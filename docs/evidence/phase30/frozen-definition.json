@@ -1,0 +1,1800 @@
+{
+  "event_policy_id": "paperexecution_event_82920446103d0b5e33c4b6bd9c1bbe5d84562a4e0caa23a6be0f5696829ef375",
+  "baseline_policy_id": "paperexecution_nimble_ec40a2968bcc33f7c7654a1c8d7dcc200361e88bca99079cb4f45738ba785501",
+  "definition": {
+    "version": "paper_nimble_event_v1",
+    "thesis_version": "execution_thesis_v1",
+    "exit_version": "thesis_exit_v1",
+    "entry_universe_id": "paperuniverse_event_registry_d73e94d5343a85e4e8bc7919de3efbbf9f9bd5d7ff2eac8816274785199b40bb",
+    "hypotheses": [
+      {
+        "name": "ema_cross_trend[n=20]:1h:long",
+        "family": "EXPLORATORY_TECHNICAL:momentum",
+        "source_phase": 22,
+        "side": "long",
+        "source_key": "ema_cross_trend[n=20]:1h:long",
+        "horizon_minutes": 480,
+        "cadence_minutes": 60,
+        "feature_version": "intraday_features_v1",
+        "scientific_verdict": "INTERESTING",
+        "parameters": {
+          "strategy": {
+            "catalogue": "intraday_catalogue_v1",
+            "family": "a_momentum",
+            "bh_family": "momentum",
+            "rule": "ema_cross_trend",
+            "side": "long",
+            "timeframe": "1h",
+            "context_timeframe": "none",
+            "params": [
+              [
+                "n",
+                20
+              ]
+            ],
+            "horizons": [
+              4,
+              8,
+              24
+            ],
+            "primary_horizon": 8,
+            "entry": "next_15m_open_after_availability_v1",
+            "exit": "fixed_horizon_close_v1",
+            "feature_version": "intraday_features_v1",
+            "universe": "all",
+            "symmetric": true,
+            "hypothesis": "A cross above the n-bar EMA while that EMA is rising continues.",
+            "baseline": "ema_cross[n=20]:1h:long",
+            "complexity": {
+              "conditions": 2,
+              "thresholds": 1,
+              "timeframes": 1,
+              "feature_families": 1,
+              "score": 4
+            }
+          },
+          "strategy_id": "istrat_f8d8df3e68fc541806d0242ab1b041f6d5ed5c011c857824078780a2354a86d9",
+          "warmup_rule": "required_primitives_finite_current_and_previous_v1",
+          "baseline_digest": "d6c9e4a060b69b02da40c3a260a40a337aaa8a3007e6ac382ce87ca089b7c4ad"
+        },
+        "definition_version": "paper_hypothesis_v2_1"
+      },
+      {
+        "name": "ema_stretch_fade[k=3.0]:1h:long",
+        "family": "EXPLORATORY_TECHNICAL:mean_reversion",
+        "source_phase": 22,
+        "side": "long",
+        "source_key": "ema_stretch_fade[k=3.0]:1h:long",
+        "horizon_minutes": 240,
+        "cadence_minutes": 60,
+        "feature_version": "intraday_features_v1",
+        "scientific_verdict": "INTERESTING",
+        "parameters": {
+          "strategy": {
+            "catalogue": "intraday_catalogue_v1",
+            "family": "i_exhaustion",
+            "bh_family": "mean_reversion",
+            "rule": "ema_stretch_fade",
+            "side": "long",
+            "timeframe": "1h",
+            "context_timeframe": "none",
+            "params": [
+              [
+                "k",
+                3.0
+              ]
+            ],
+            "horizons": [
+              1,
+              4,
+              12
+            ],
+            "primary_horizon": 4,
+            "entry": "next_15m_open_after_availability_v1",
+            "exit": "fixed_horizon_close_v1",
+            "feature_version": "intraday_features_v1",
+            "universe": "all",
+            "symmetric": true,
+            "hypothesis": "Price stretched k ATR below its 20-bar EMA snaps back.",
+            "baseline": null,
+            "complexity": {
+              "conditions": 1,
+              "thresholds": 1,
+              "timeframes": 1,
+              "feature_families": 2,
+              "score": 4
+            }
+          },
+          "strategy_id": "istrat_446cfc83f79f695e56a05862e5b1132c586d61d8cbb459957d226771e077e5dd",
+          "warmup_rule": "required_primitives_finite_current_and_previous_v1",
+          "baseline_digest": "d6c9e4a060b69b02da40c3a260a40a337aaa8a3007e6ac382ce87ca089b7c4ad"
+        },
+        "definition_version": "paper_hypothesis_v2_1"
+      },
+      {
+        "name": "ema_stretch_fade[k=4.0]:1h:long",
+        "family": "EXPLORATORY_TECHNICAL:mean_reversion",
+        "source_phase": 22,
+        "side": "long",
+        "source_key": "ema_stretch_fade[k=4.0]:1h:long",
+        "horizon_minutes": 240,
+        "cadence_minutes": 60,
+        "feature_version": "intraday_features_v1",
+        "scientific_verdict": "INTERESTING",
+        "parameters": {
+          "strategy": {
+            "catalogue": "intraday_catalogue_v1",
+            "family": "i_exhaustion",
+            "bh_family": "mean_reversion",
+            "rule": "ema_stretch_fade",
+            "side": "long",
+            "timeframe": "1h",
+            "context_timeframe": "none",
+            "params": [
+              [
+                "k",
+                4.0
+              ]
+            ],
+            "horizons": [
+              1,
+              4,
+              12
+            ],
+            "primary_horizon": 4,
+            "entry": "next_15m_open_after_availability_v1",
+            "exit": "fixed_horizon_close_v1",
+            "feature_version": "intraday_features_v1",
+            "universe": "all",
+            "symmetric": true,
+            "hypothesis": "Price stretched k ATR below its 20-bar EMA snaps back.",
+            "baseline": null,
+            "complexity": {
+              "conditions": 1,
+              "thresholds": 1,
+              "timeframes": 1,
+              "feature_families": 2,
+              "score": 4
+            }
+          },
+          "strategy_id": "istrat_2802eae87127a19e265e5261665f1cee0dcf5e78863f71fa31a1806a93cbc690",
+          "warmup_rule": "required_primitives_finite_current_and_previous_v1",
+          "baseline_digest": "d6c9e4a060b69b02da40c3a260a40a337aaa8a3007e6ac382ce87ca089b7c4ad"
+        },
+        "definition_version": "paper_hypothesis_v2_1"
+      },
+      {
+        "name": "compression_breakout[n=24,pct=0.35]:1h:long",
+        "family": "EXPLORATORY_TECHNICAL:compression",
+        "source_phase": 22,
+        "side": "long",
+        "source_key": "compression_breakout[n=24,pct=0.35]:1h:long",
+        "horizon_minutes": 240,
+        "cadence_minutes": 60,
+        "feature_version": "intraday_features_v1",
+        "scientific_verdict": "INTERESTING",
+        "parameters": {
+          "strategy": {
+            "catalogue": "intraday_catalogue_v1",
+            "family": "e_compression",
+            "bh_family": "compression",
+            "rule": "compression_breakout",
+            "side": "long",
+            "timeframe": "1h",
+            "context_timeframe": "none",
+            "params": [
+              [
+                "n",
+                24
+              ],
+              [
+                "pct",
+                0.35
+              ]
+            ],
+            "horizons": [
+              1,
+              4,
+              12
+            ],
+            "primary_horizon": 4,
+            "entry": "next_15m_open_after_availability_v1",
+            "exit": "fixed_horizon_close_v1",
+            "feature_version": "intraday_features_v1",
+            "universe": "all",
+            "symmetric": true,
+            "hypothesis": "A breakout from a compressed range continues.",
+            "baseline": "breakout[n=24]:1h:long",
+            "complexity": {
+              "conditions": 2,
+              "thresholds": 2,
+              "timeframes": 1,
+              "feature_families": 2,
+              "score": 6
+            }
+          },
+          "strategy_id": "istrat_168729004dba077e08c523c97b707a593958fd8894c5bfdd7e7dafea19e83f04",
+          "warmup_rule": "required_primitives_finite_current_and_previous_v1",
+          "baseline_digest": "d6c9e4a060b69b02da40c3a260a40a337aaa8a3007e6ac382ce87ca089b7c4ad"
+        },
+        "definition_version": "paper_hypothesis_v2_1"
+      },
+      {
+        "name": "expansion_continuation[k=3.0]:1h:long",
+        "family": "EXPLORATORY_TECHNICAL:expansion_exhaustion",
+        "source_phase": 22,
+        "side": "long",
+        "source_key": "expansion_continuation[k=3.0]:1h:long",
+        "horizon_minutes": 240,
+        "cadence_minutes": 60,
+        "feature_version": "intraday_features_v1",
+        "scientific_verdict": "INTERESTING",
+        "parameters": {
+          "strategy": {
+            "catalogue": "intraday_catalogue_v1",
+            "family": "h_expansion",
+            "bh_family": "expansion_exhaustion",
+            "rule": "expansion_continuation",
+            "side": "long",
+            "timeframe": "1h",
+            "context_timeframe": "none",
+            "params": [
+              [
+                "k",
+                3.0
+              ]
+            ],
+            "horizons": [
+              1,
+              4,
+              12
+            ],
+            "primary_horizon": 4,
+            "entry": "next_15m_open_after_availability_v1",
+            "exit": "fixed_horizon_close_v1",
+            "feature_version": "intraday_features_v1",
+            "universe": "all",
+            "symmetric": true,
+            "hypothesis": "An abnormally large up-bar closing near its high continues.",
+            "baseline": null,
+            "complexity": {
+              "conditions": 3,
+              "thresholds": 1,
+              "timeframes": 1,
+              "feature_families": 2,
+              "score": 6
+            }
+          },
+          "strategy_id": "istrat_b34d8eb52691f31d320a1015fbe9d902d0ee01a0227847ccfe408a98a8f2e5ed",
+          "warmup_rule": "required_primitives_finite_current_and_previous_v1",
+          "baseline_digest": "d6c9e4a060b69b02da40c3a260a40a337aaa8a3007e6ac382ce87ca089b7c4ad"
+        },
+        "definition_version": "paper_hypothesis_v2_1"
+      },
+      {
+        "name": "expansion_fade[k=3.0]:1h:long",
+        "family": "EXPLORATORY_TECHNICAL:expansion_exhaustion",
+        "source_phase": 22,
+        "side": "long",
+        "source_key": "expansion_fade[k=3.0]:1h:long",
+        "horizon_minutes": 240,
+        "cadence_minutes": 60,
+        "feature_version": "intraday_features_v1",
+        "scientific_verdict": "INTERESTING",
+        "parameters": {
+          "strategy": {
+            "catalogue": "intraday_catalogue_v1",
+            "family": "h_expansion",
+            "bh_family": "expansion_exhaustion",
+            "rule": "expansion_fade",
+            "side": "long",
+            "timeframe": "1h",
+            "context_timeframe": "none",
+            "params": [
+              [
+                "k",
+                3.0
+              ]
+            ],
+            "horizons": [
+              1,
+              4,
+              12
+            ],
+            "primary_horizon": 4,
+            "entry": "next_15m_open_after_availability_v1",
+            "exit": "fixed_horizon_close_v1",
+            "feature_version": "intraday_features_v1",
+            "universe": "all",
+            "symmetric": true,
+            "hypothesis": "An abnormally large down-bar closing near its low reverts upward.",
+            "baseline": null,
+            "complexity": {
+              "conditions": 3,
+              "thresholds": 1,
+              "timeframes": 1,
+              "feature_families": 2,
+              "score": 6
+            }
+          },
+          "strategy_id": "istrat_d3f505b175f53c39654e125714b7591115453866146efe8b2b2e4d908bc15cfb",
+          "warmup_rule": "required_primitives_finite_current_and_previous_v1",
+          "baseline_digest": "d6c9e4a060b69b02da40c3a260a40a337aaa8a3007e6ac382ce87ca089b7c4ad"
+        },
+        "definition_version": "paper_hypothesis_v2_1"
+      },
+      {
+        "name": "exhaustion[n=24,z=3.0,strong_close=no]:1h:long",
+        "family": "EXPLORATORY_TECHNICAL:expansion_exhaustion",
+        "source_phase": 22,
+        "side": "long",
+        "source_key": "exhaustion[n=24,z=3.0,strong_close=no]:1h:long",
+        "horizon_minutes": 240,
+        "cadence_minutes": 60,
+        "feature_version": "intraday_features_v1",
+        "scientific_verdict": "INTERESTING",
+        "parameters": {
+          "strategy": {
+            "catalogue": "intraday_catalogue_v1",
+            "family": "i_exhaustion",
+            "bh_family": "expansion_exhaustion",
+            "rule": "exhaustion",
+            "side": "long",
+            "timeframe": "1h",
+            "context_timeframe": "none",
+            "params": [
+              [
+                "n",
+                24
+              ],
+              [
+                "z",
+                3.0
+              ],
+              [
+                "strong_close",
+                "no"
+              ]
+            ],
+            "horizons": [
+              1,
+              4,
+              12
+            ],
+            "primary_horizon": 4,
+            "entry": "next_15m_open_after_availability_v1",
+            "exit": "fixed_horizon_close_v1",
+            "feature_version": "intraday_features_v1",
+            "universe": "all",
+            "symmetric": true,
+            "hypothesis": "After an extreme n-bar decline (optionally with a strong close) price rebounds.",
+            "baseline": null,
+            "complexity": {
+              "conditions": 2,
+              "thresholds": 2,
+              "timeframes": 1,
+              "feature_families": 2,
+              "score": 6
+            }
+          },
+          "strategy_id": "istrat_e5197126cabee8e15e8ee0320e342a30cec27c55ed0e1bb1d90f5c3614cacf73",
+          "warmup_rule": "required_primitives_finite_current_and_previous_v1",
+          "baseline_digest": "d6c9e4a060b69b02da40c3a260a40a337aaa8a3007e6ac382ce87ca089b7c4ad"
+        },
+        "definition_version": "paper_hypothesis_v2_1"
+      },
+      {
+        "name": "ema_cross_trend[n=20]:1h:short",
+        "family": "EXPLORATORY_TECHNICAL_CONTROL:momentum",
+        "source_phase": 22,
+        "side": "short",
+        "source_key": "ema_cross_trend[n=20]:1h:short",
+        "horizon_minutes": 480,
+        "cadence_minutes": 60,
+        "feature_version": "intraday_features_v1",
+        "scientific_verdict": "REJECTED",
+        "parameters": {
+          "strategy": {
+            "catalogue": "intraday_catalogue_v1",
+            "family": "a_momentum",
+            "bh_family": "momentum",
+            "rule": "ema_cross_trend",
+            "side": "short",
+            "timeframe": "1h",
+            "context_timeframe": "none",
+            "params": [
+              [
+                "n",
+                20
+              ]
+            ],
+            "horizons": [
+              4,
+              8,
+              24
+            ],
+            "primary_horizon": 8,
+            "entry": "next_15m_open_after_availability_v1",
+            "exit": "fixed_horizon_close_v1",
+            "feature_version": "intraday_features_v1",
+            "universe": "all",
+            "symmetric": true,
+            "hypothesis": "[mirror] A cross above the n-bar EMA while that EMA is rising continues.",
+            "baseline": "ema_cross[n=20]:1h:short",
+            "complexity": {
+              "conditions": 2,
+              "thresholds": 1,
+              "timeframes": 1,
+              "feature_families": 1,
+              "score": 4
+            }
+          },
+          "strategy_id": "istrat_893dc65d6b31db4def124a2953e054fac19f29357180390e50242231781dc578",
+          "warmup_rule": "required_primitives_finite_current_and_previous_v1",
+          "baseline_digest": "d6c9e4a060b69b02da40c3a260a40a337aaa8a3007e6ac382ce87ca089b7c4ad",
+          "scientific_verdict_reasons": [
+            "contemporary net effect credibly negative"
+          ]
+        },
+        "definition_version": "paper_hypothesis_v2_1"
+      },
+      {
+        "name": "ema_stretch_fade[k=3.0]:1h:short",
+        "family": "EXPLORATORY_TECHNICAL_CONTROL:mean_reversion",
+        "source_phase": 22,
+        "side": "short",
+        "source_key": "ema_stretch_fade[k=3.0]:1h:short",
+        "horizon_minutes": 240,
+        "cadence_minutes": 60,
+        "feature_version": "intraday_features_v1",
+        "scientific_verdict": "REJECTED",
+        "parameters": {
+          "strategy": {
+            "catalogue": "intraday_catalogue_v1",
+            "family": "i_exhaustion",
+            "bh_family": "mean_reversion",
+            "rule": "ema_stretch_fade",
+            "side": "short",
+            "timeframe": "1h",
+            "context_timeframe": "none",
+            "params": [
+              [
+                "k",
+                3.0
+              ]
+            ],
+            "horizons": [
+              1,
+              4,
+              12
+            ],
+            "primary_horizon": 4,
+            "entry": "next_15m_open_after_availability_v1",
+            "exit": "fixed_horizon_close_v1",
+            "feature_version": "intraday_features_v1",
+            "universe": "all",
+            "symmetric": true,
+            "hypothesis": "[mirror] Price stretched k ATR below its 20-bar EMA snaps back.",
+            "baseline": null,
+            "complexity": {
+              "conditions": 1,
+              "thresholds": 1,
+              "timeframes": 1,
+              "feature_families": 2,
+              "score": 4
+            }
+          },
+          "strategy_id": "istrat_9bfccf528ac976522d0a5e38ad4ee813b85e34e5e387a8341650ea1cf9896f9d",
+          "warmup_rule": "required_primitives_finite_current_and_previous_v1",
+          "baseline_digest": "d6c9e4a060b69b02da40c3a260a40a337aaa8a3007e6ac382ce87ca089b7c4ad",
+          "scientific_verdict_reasons": [
+            "contemporary net effect credibly negative"
+          ]
+        },
+        "definition_version": "paper_hypothesis_v2_1"
+      },
+      {
+        "name": "ema_stretch_fade[k=4.0]:1h:short",
+        "family": "EXPLORATORY_TECHNICAL_CONTROL:mean_reversion",
+        "source_phase": 22,
+        "side": "short",
+        "source_key": "ema_stretch_fade[k=4.0]:1h:short",
+        "horizon_minutes": 240,
+        "cadence_minutes": 60,
+        "feature_version": "intraday_features_v1",
+        "scientific_verdict": "REJECTED",
+        "parameters": {
+          "strategy": {
+            "catalogue": "intraday_catalogue_v1",
+            "family": "i_exhaustion",
+            "bh_family": "mean_reversion",
+            "rule": "ema_stretch_fade",
+            "side": "short",
+            "timeframe": "1h",
+            "context_timeframe": "none",
+            "params": [
+              [
+                "k",
+                4.0
+              ]
+            ],
+            "horizons": [
+              1,
+              4,
+              12
+            ],
+            "primary_horizon": 4,
+            "entry": "next_15m_open_after_availability_v1",
+            "exit": "fixed_horizon_close_v1",
+            "feature_version": "intraday_features_v1",
+            "universe": "all",
+            "symmetric": true,
+            "hypothesis": "[mirror] Price stretched k ATR below its 20-bar EMA snaps back.",
+            "baseline": null,
+            "complexity": {
+              "conditions": 1,
+              "thresholds": 1,
+              "timeframes": 1,
+              "feature_families": 2,
+              "score": 4
+            }
+          },
+          "strategy_id": "istrat_922bc3404d7eaf8044967a258217134803ace6eac5b8ac3730f0493080c8504f",
+          "warmup_rule": "required_primitives_finite_current_and_previous_v1",
+          "baseline_digest": "d6c9e4a060b69b02da40c3a260a40a337aaa8a3007e6ac382ce87ca089b7c4ad",
+          "scientific_verdict_reasons": [
+            "contemporary net effect credibly negative"
+          ]
+        },
+        "definition_version": "paper_hypothesis_v2_1"
+      },
+      {
+        "name": "compression_breakout[n=24,pct=0.35]:1h:short",
+        "family": "EXPLORATORY_TECHNICAL_CONTROL:compression",
+        "source_phase": 22,
+        "side": "short",
+        "source_key": "compression_breakout[n=24,pct=0.35]:1h:short",
+        "horizon_minutes": 240,
+        "cadence_minutes": 60,
+        "feature_version": "intraday_features_v1",
+        "scientific_verdict": "REJECTED",
+        "parameters": {
+          "strategy": {
+            "catalogue": "intraday_catalogue_v1",
+            "family": "e_compression",
+            "bh_family": "compression",
+            "rule": "compression_breakout",
+            "side": "short",
+            "timeframe": "1h",
+            "context_timeframe": "none",
+            "params": [
+              [
+                "n",
+                24
+              ],
+              [
+                "pct",
+                0.35
+              ]
+            ],
+            "horizons": [
+              1,
+              4,
+              12
+            ],
+            "primary_horizon": 4,
+            "entry": "next_15m_open_after_availability_v1",
+            "exit": "fixed_horizon_close_v1",
+            "feature_version": "intraday_features_v1",
+            "universe": "all",
+            "symmetric": true,
+            "hypothesis": "[mirror] A breakout from a compressed range continues.",
+            "baseline": "breakout[n=24]:1h:short",
+            "complexity": {
+              "conditions": 2,
+              "thresholds": 2,
+              "timeframes": 1,
+              "feature_families": 2,
+              "score": 6
+            }
+          },
+          "strategy_id": "istrat_9e255e3fd5a28936679d2a0e6d63799acb1c94db4eff931829fe31ee22823018",
+          "warmup_rule": "required_primitives_finite_current_and_previous_v1",
+          "baseline_digest": "d6c9e4a060b69b02da40c3a260a40a337aaa8a3007e6ac382ce87ca089b7c4ad",
+          "scientific_verdict_reasons": [
+            "contemporary net effect credibly negative"
+          ]
+        },
+        "definition_version": "paper_hypothesis_v2_1"
+      },
+      {
+        "name": "expansion_continuation[k=3.0]:1h:short",
+        "family": "EXPLORATORY_TECHNICAL_CONTROL:expansion_exhaustion",
+        "source_phase": 22,
+        "side": "short",
+        "source_key": "expansion_continuation[k=3.0]:1h:short",
+        "horizon_minutes": 240,
+        "cadence_minutes": 60,
+        "feature_version": "intraday_features_v1",
+        "scientific_verdict": "REJECTED",
+        "parameters": {
+          "strategy": {
+            "catalogue": "intraday_catalogue_v1",
+            "family": "h_expansion",
+            "bh_family": "expansion_exhaustion",
+            "rule": "expansion_continuation",
+            "side": "short",
+            "timeframe": "1h",
+            "context_timeframe": "none",
+            "params": [
+              [
+                "k",
+                3.0
+              ]
+            ],
+            "horizons": [
+              1,
+              4,
+              12
+            ],
+            "primary_horizon": 4,
+            "entry": "next_15m_open_after_availability_v1",
+            "exit": "fixed_horizon_close_v1",
+            "feature_version": "intraday_features_v1",
+            "universe": "all",
+            "symmetric": true,
+            "hypothesis": "[mirror] An abnormally large up-bar closing near its high continues.",
+            "baseline": null,
+            "complexity": {
+              "conditions": 3,
+              "thresholds": 1,
+              "timeframes": 1,
+              "feature_families": 2,
+              "score": 6
+            }
+          },
+          "strategy_id": "istrat_e507ad0e30b8d5a2cccedad58fa07a9e89a0eb93f50c343474bb70ede0dc56d6",
+          "warmup_rule": "required_primitives_finite_current_and_previous_v1",
+          "baseline_digest": "d6c9e4a060b69b02da40c3a260a40a337aaa8a3007e6ac382ce87ca089b7c4ad",
+          "scientific_verdict_reasons": [
+            "contemporary net effect credibly negative"
+          ]
+        },
+        "definition_version": "paper_hypothesis_v2_1"
+      },
+      {
+        "name": "expansion_fade[k=3.0]:1h:short",
+        "family": "EXPLORATORY_TECHNICAL_CONTROL:expansion_exhaustion",
+        "source_phase": 22,
+        "side": "short",
+        "source_key": "expansion_fade[k=3.0]:1h:short",
+        "horizon_minutes": 240,
+        "cadence_minutes": 60,
+        "feature_version": "intraday_features_v1",
+        "scientific_verdict": "REJECTED",
+        "parameters": {
+          "strategy": {
+            "catalogue": "intraday_catalogue_v1",
+            "family": "h_expansion",
+            "bh_family": "expansion_exhaustion",
+            "rule": "expansion_fade",
+            "side": "short",
+            "timeframe": "1h",
+            "context_timeframe": "none",
+            "params": [
+              [
+                "k",
+                3.0
+              ]
+            ],
+            "horizons": [
+              1,
+              4,
+              12
+            ],
+            "primary_horizon": 4,
+            "entry": "next_15m_open_after_availability_v1",
+            "exit": "fixed_horizon_close_v1",
+            "feature_version": "intraday_features_v1",
+            "universe": "all",
+            "symmetric": true,
+            "hypothesis": "[mirror] An abnormally large down-bar closing near its low reverts upward.",
+            "baseline": null,
+            "complexity": {
+              "conditions": 3,
+              "thresholds": 1,
+              "timeframes": 1,
+              "feature_families": 2,
+              "score": 6
+            }
+          },
+          "strategy_id": "istrat_85d676c644398ed5618866230cb96ed1196c04e12640500a5185d0466ebbed0c",
+          "warmup_rule": "required_primitives_finite_current_and_previous_v1",
+          "baseline_digest": "d6c9e4a060b69b02da40c3a260a40a337aaa8a3007e6ac382ce87ca089b7c4ad",
+          "scientific_verdict_reasons": [
+            "contemporary net effect credibly negative"
+          ]
+        },
+        "definition_version": "paper_hypothesis_v2_1"
+      },
+      {
+        "name": "exhaustion[n=24,z=3.0,strong_close=no]:1h:short",
+        "family": "EXPLORATORY_TECHNICAL_CONTROL:expansion_exhaustion",
+        "source_phase": 22,
+        "side": "short",
+        "source_key": "exhaustion[n=24,z=3.0,strong_close=no]:1h:short",
+        "horizon_minutes": 240,
+        "cadence_minutes": 60,
+        "feature_version": "intraday_features_v1",
+        "scientific_verdict": "REJECTED",
+        "parameters": {
+          "strategy": {
+            "catalogue": "intraday_catalogue_v1",
+            "family": "i_exhaustion",
+            "bh_family": "expansion_exhaustion",
+            "rule": "exhaustion",
+            "side": "short",
+            "timeframe": "1h",
+            "context_timeframe": "none",
+            "params": [
+              [
+                "n",
+                24
+              ],
+              [
+                "z",
+                3.0
+              ],
+              [
+                "strong_close",
+                "no"
+              ]
+            ],
+            "horizons": [
+              1,
+              4,
+              12
+            ],
+            "primary_horizon": 4,
+            "entry": "next_15m_open_after_availability_v1",
+            "exit": "fixed_horizon_close_v1",
+            "feature_version": "intraday_features_v1",
+            "universe": "all",
+            "symmetric": true,
+            "hypothesis": "[mirror] After an extreme n-bar decline (optionally with a strong close) price rebounds.",
+            "baseline": null,
+            "complexity": {
+              "conditions": 2,
+              "thresholds": 2,
+              "timeframes": 1,
+              "feature_families": 2,
+              "score": 6
+            }
+          },
+          "strategy_id": "istrat_2d01d0221012a7b4593cb1e2e69ccc4ce817e1976758b18799e2b765455697ca",
+          "warmup_rule": "required_primitives_finite_current_and_previous_v1",
+          "baseline_digest": "d6c9e4a060b69b02da40c3a260a40a337aaa8a3007e6ac382ce87ca089b7c4ad",
+          "scientific_verdict_reasons": [
+            "contemporary net effect credibly negative"
+          ]
+        },
+        "definition_version": "paper_hypothesis_v2_1"
+      },
+      {
+        "name": "crowding_vulnerability_long_v1",
+        "family": "positioning:crowding_vulnerability",
+        "source_phase": 23,
+        "side": "long",
+        "source_key": "crowding_vulnerability",
+        "horizon_minutes": 120,
+        "cadence_minutes": 60,
+        "feature_version": "positioning_context_v1",
+        "scientific_verdict": null,
+        "parameters": {
+          "oi_change_1h_pct_min": 0.5,
+          "price_progress_1h_pct": 0.1,
+          "funding_hourly_extreme": 2.5e-05,
+          "skew": "crowded_short_like"
+        },
+        "definition_version": "paper_hypothesis_v2_1"
+      },
+      {
+        "name": "crowding_vulnerability_short_v1",
+        "family": "positioning:crowding_vulnerability",
+        "source_phase": 23,
+        "side": "short",
+        "source_key": "crowding_vulnerability",
+        "horizon_minutes": 120,
+        "cadence_minutes": 60,
+        "feature_version": "positioning_context_v1",
+        "scientific_verdict": null,
+        "parameters": {
+          "oi_change_1h_pct_min": 0.5,
+          "price_progress_1h_pct": 0.1,
+          "funding_hourly_extreme": 2.5e-05,
+          "skew": "crowded_long_like"
+        },
+        "definition_version": "paper_hypothesis_v2_1"
+      },
+      {
+        "name": "oi_price_stall_long_v1",
+        "family": "positioning:oi_price_stall",
+        "source_phase": 23,
+        "side": "long",
+        "source_key": "oi_price_stall",
+        "horizon_minutes": 60,
+        "cadence_minutes": 60,
+        "feature_version": "positioning_context_v1",
+        "scientific_verdict": null,
+        "parameters": {
+          "oi_change_1h_pct_min": 0.5,
+          "price_progress_1h_pct": 0.1,
+          "funding_hourly_extreme": 2.5e-05,
+          "skew": "crowded_short_like"
+        },
+        "definition_version": "paper_hypothesis_v2_1"
+      },
+      {
+        "name": "oi_price_stall_short_v1",
+        "family": "positioning:oi_price_stall",
+        "source_phase": 23,
+        "side": "short",
+        "source_key": "oi_price_stall",
+        "horizon_minutes": 60,
+        "cadence_minutes": 60,
+        "feature_version": "positioning_context_v1",
+        "scientific_verdict": null,
+        "parameters": {
+          "oi_change_1h_pct_min": 0.5,
+          "price_progress_1h_pct": 0.1,
+          "funding_hourly_extreme": 2.5e-05,
+          "skew": "crowded_long_like"
+        },
+        "definition_version": "paper_hypothesis_v2_1"
+      },
+      {
+        "name": "oi_directional_pressure_long_v1",
+        "family": "positioning:oi_directional_pressure",
+        "source_phase": 23,
+        "side": "long",
+        "source_key": "oi_directional_pressure",
+        "horizon_minutes": 120,
+        "cadence_minutes": 60,
+        "feature_version": "positioning_context_v1",
+        "scientific_verdict": null,
+        "parameters": {
+          "oi_change_1h_pct_min": 0.5,
+          "price_progress_1h_pct": 0.1,
+          "funding_hourly_extreme": 2.5e-05,
+          "skew": "crowded_short_like"
+        },
+        "definition_version": "paper_hypothesis_v2_1"
+      },
+      {
+        "name": "oi_directional_pressure_short_v1",
+        "family": "positioning:oi_directional_pressure",
+        "source_phase": 23,
+        "side": "short",
+        "source_key": "oi_directional_pressure",
+        "horizon_minutes": 120,
+        "cadence_minutes": 60,
+        "feature_version": "positioning_context_v1",
+        "scientific_verdict": null,
+        "parameters": {
+          "oi_change_1h_pct_min": 0.5,
+          "price_progress_1h_pct": 0.1,
+          "funding_hourly_extreme": 2.5e-05,
+          "skew": "crowded_long_like"
+        },
+        "definition_version": "paper_hypothesis_v2_1"
+      },
+      {
+        "name": "continuation_core_long_v1",
+        "family": "microstructure:flow_continuation",
+        "source_phase": 24,
+        "side": "long",
+        "source_key": "continuation_core",
+        "horizon_minutes": 15,
+        "cadence_minutes": 15,
+        "feature_version": "microdir_features_v1",
+        "scientific_verdict": null,
+        "parameters": {
+          "action": "follow",
+          "requires": [
+            "resp_efficient"
+          ],
+          "normalization_min_prior_windows": 288
+        },
+        "definition_version": "paper_hypothesis_v2_1"
+      },
+      {
+        "name": "continuation_core_short_v1",
+        "family": "microstructure:flow_continuation",
+        "source_phase": 24,
+        "side": "short",
+        "source_key": "continuation_core",
+        "horizon_minutes": 15,
+        "cadence_minutes": 15,
+        "feature_version": "microdir_features_v1",
+        "scientific_verdict": null,
+        "parameters": {
+          "action": "follow",
+          "requires": [
+            "resp_efficient"
+          ],
+          "normalization_min_prior_windows": 288
+        },
+        "definition_version": "paper_hypothesis_v2_1"
+      },
+      {
+        "name": "absorption_book_long_v1",
+        "family": "microstructure:absorption",
+        "source_phase": 24,
+        "side": "long",
+        "source_key": "absorption_book",
+        "horizon_minutes": 60,
+        "cadence_minutes": 15,
+        "feature_version": "microdir_features_v1",
+        "scientific_verdict": null,
+        "parameters": {
+          "action": "fade",
+          "requires": [
+            "resp_weak",
+            "opp_resilient"
+          ],
+          "normalization_min_prior_windows": 288
+        },
+        "definition_version": "paper_hypothesis_v2_1"
+      },
+      {
+        "name": "absorption_book_short_v1",
+        "family": "microstructure:absorption",
+        "source_phase": 24,
+        "side": "short",
+        "source_key": "absorption_book",
+        "horizon_minutes": 60,
+        "cadence_minutes": 15,
+        "feature_version": "microdir_features_v1",
+        "scientific_verdict": null,
+        "parameters": {
+          "action": "fade",
+          "requires": [
+            "resp_weak",
+            "opp_resilient"
+          ],
+          "normalization_min_prior_windows": 288
+        },
+        "definition_version": "paper_hypothesis_v2_1"
+      },
+      {
+        "name": "absorption_oi_rising_long_v1",
+        "family": "microstructure:absorption_oi",
+        "source_phase": 24,
+        "side": "long",
+        "source_key": "absorption_oi_rising",
+        "horizon_minutes": 60,
+        "cadence_minutes": 15,
+        "feature_version": "microdir_features_v1",
+        "scientific_verdict": null,
+        "parameters": {
+          "action": "fade",
+          "requires": [
+            "resp_weak",
+            "oi_rising"
+          ],
+          "normalization_min_prior_windows": 288
+        },
+        "definition_version": "paper_hypothesis_v2_1"
+      },
+      {
+        "name": "absorption_oi_rising_short_v1",
+        "family": "microstructure:absorption_oi",
+        "source_phase": 24,
+        "side": "short",
+        "source_key": "absorption_oi_rising",
+        "horizon_minutes": 60,
+        "cadence_minutes": 15,
+        "feature_version": "microdir_features_v1",
+        "scientific_verdict": null,
+        "parameters": {
+          "action": "fade",
+          "requires": [
+            "resp_weak",
+            "oi_rising"
+          ],
+          "normalization_min_prior_windows": 288
+        },
+        "definition_version": "paper_hypothesis_v2_1"
+      },
+      {
+        "name": "continuation_persistent_long_v1",
+        "family": "microstructure:persistence",
+        "source_phase": 24,
+        "side": "long",
+        "source_key": "continuation_persistent",
+        "horizon_minutes": 30,
+        "cadence_minutes": 15,
+        "feature_version": "microdir_features_v1",
+        "scientific_verdict": null,
+        "parameters": {
+          "action": "follow",
+          "requires": [
+            "resp_efficient",
+            "persistent"
+          ],
+          "normalization_min_prior_windows": 288
+        },
+        "definition_version": "paper_hypothesis_v2_1"
+      },
+      {
+        "name": "continuation_persistent_short_v1",
+        "family": "microstructure:persistence",
+        "source_phase": 24,
+        "side": "short",
+        "source_key": "continuation_persistent",
+        "horizon_minutes": 30,
+        "cadence_minutes": 15,
+        "feature_version": "microdir_features_v1",
+        "scientific_verdict": null,
+        "parameters": {
+          "action": "follow",
+          "requires": [
+            "resp_efficient",
+            "persistent"
+          ],
+          "normalization_min_prior_windows": 288
+        },
+        "definition_version": "paper_hypothesis_v2_1"
+      },
+      {
+        "name": "venue_disruption_immediate_v1",
+        "family": "event:venue_disruption",
+        "side": "short",
+        "source_phase": 30,
+        "source_key": "venue_disruption",
+        "variant": "immediate",
+        "horizon_minutes": 20,
+        "parameters": {
+          "side": "short",
+          "assets": [
+            "BTC"
+          ],
+          "categories": [
+            "exchange_outage"
+          ],
+          "age_seconds": 300,
+          "windows": [
+            20,
+            45
+          ],
+          "holds": [
+            60,
+            90
+          ],
+          "materiality": 40,
+          "variant": "immediate"
+        },
+        "feature_version": "paper_nimble_event_v1"
+      },
+      {
+        "name": "venue_disruption_confirmed_v1",
+        "family": "event:venue_disruption",
+        "side": "short",
+        "source_phase": 30,
+        "source_key": "venue_disruption",
+        "variant": "confirmed",
+        "horizon_minutes": 45,
+        "parameters": {
+          "side": "short",
+          "assets": [
+            "BTC"
+          ],
+          "categories": [
+            "exchange_outage"
+          ],
+          "age_seconds": 300,
+          "windows": [
+            20,
+            45
+          ],
+          "holds": [
+            60,
+            90
+          ],
+          "materiality": 40,
+          "variant": "confirmed"
+        },
+        "feature_version": "paper_nimble_event_v1"
+      },
+      {
+        "name": "protocol_stress_immediate_v1",
+        "family": "event:protocol_stress",
+        "side": "short",
+        "source_phase": 30,
+        "source_key": "protocol_stress",
+        "variant": "immediate",
+        "horizon_minutes": 60,
+        "parameters": {
+          "side": "short",
+          "assets": [
+            "AAVE",
+            "BTC",
+            "ETH",
+            "HYPE",
+            "LINK",
+            "SOL"
+          ],
+          "categories": [
+            "chain_halt",
+            "exploit_confirmed",
+            "emergency_pause"
+          ],
+          "age_seconds": 3600,
+          "windows": [
+            60,
+            120
+          ],
+          "holds": [
+            120,
+            240
+          ],
+          "materiality": 60,
+          "variant": "immediate"
+        },
+        "feature_version": "paper_nimble_event_v1"
+      },
+      {
+        "name": "protocol_stress_confirmed_v1",
+        "family": "event:protocol_stress",
+        "side": "short",
+        "source_phase": 30,
+        "source_key": "protocol_stress",
+        "variant": "confirmed",
+        "horizon_minutes": 120,
+        "parameters": {
+          "side": "short",
+          "assets": [
+            "AAVE",
+            "BTC",
+            "ETH",
+            "HYPE",
+            "LINK",
+            "SOL"
+          ],
+          "categories": [
+            "chain_halt",
+            "exploit_confirmed",
+            "emergency_pause"
+          ],
+          "age_seconds": 3600,
+          "windows": [
+            60,
+            120
+          ],
+          "holds": [
+            120,
+            240
+          ],
+          "materiality": 60,
+          "variant": "confirmed"
+        },
+        "feature_version": "paper_nimble_event_v1"
+      },
+      {
+        "name": "sec_spot_etf_approval_surprise_immediate_v1",
+        "family": "event:sec_spot_etf_approval_surprise",
+        "side": "long",
+        "source_phase": 30,
+        "source_key": "sec_spot_etf_approval_surprise",
+        "variant": "immediate",
+        "horizon_minutes": 120,
+        "parameters": {
+          "side": "long",
+          "assets": [
+            "BTC",
+            "ETH"
+          ],
+          "categories": [
+            "regulatory_action"
+          ],
+          "age_seconds": 5400,
+          "windows": [
+            120,
+            240
+          ],
+          "holds": [
+            240,
+            480
+          ],
+          "materiality": 60,
+          "variant": "immediate"
+        },
+        "feature_version": "paper_nimble_event_v1"
+      },
+      {
+        "name": "sec_spot_etf_approval_surprise_confirmed_v1",
+        "family": "event:sec_spot_etf_approval_surprise",
+        "side": "long",
+        "source_phase": 30,
+        "source_key": "sec_spot_etf_approval_surprise",
+        "variant": "confirmed",
+        "horizon_minutes": 240,
+        "parameters": {
+          "side": "long",
+          "assets": [
+            "BTC",
+            "ETH"
+          ],
+          "categories": [
+            "regulatory_action"
+          ],
+          "age_seconds": 5400,
+          "windows": [
+            120,
+            240
+          ],
+          "holds": [
+            240,
+            480
+          ],
+          "materiality": 60,
+          "variant": "confirmed"
+        },
+        "feature_version": "paper_nimble_event_v1"
+      }
+    ],
+    "mappings": {
+      "paperhyp_v2_f16591d589f4847f62f5193ec718c4e334e5b7fda80a3368ab783f507eb22b39": {
+        "objective": "volatility",
+        "expiry_minutes": 240,
+        "max_hold_minutes": 480,
+        "cooldown_minutes": 30,
+        "state_rule": "price_structure_only"
+      },
+      "paperhyp_v2_b00a17a35025c6eff587e206a7722c52870138ceec72ac6aee837582caec4224": {
+        "objective": "volatility",
+        "expiry_minutes": 60,
+        "max_hold_minutes": 240,
+        "cooldown_minutes": 30,
+        "state_rule": "price_structure_only"
+      },
+      "paperhyp_v2_2b57c7a8a66a74c7eed636cc95bcc6750c197ebc8288fba9bbae1ac907f02f44": {
+        "objective": "volatility",
+        "expiry_minutes": 60,
+        "max_hold_minutes": 240,
+        "cooldown_minutes": 30,
+        "state_rule": "price_structure_only"
+      },
+      "paperhyp_v2_63ad3c28c8575535cc50499287df5c3390d2bd3a0d40356155ccfc5e1eada38e": {
+        "objective": "volatility",
+        "expiry_minutes": 60,
+        "max_hold_minutes": 240,
+        "cooldown_minutes": 30,
+        "state_rule": "price_structure_only"
+      },
+      "paperhyp_v2_1dc7b5553f6fdb7e56d29b8a29165a983e1b45a9bf250fbd7cf09097c6104a84": {
+        "objective": "volatility",
+        "expiry_minutes": 60,
+        "max_hold_minutes": 240,
+        "cooldown_minutes": 30,
+        "state_rule": "price_structure_only"
+      },
+      "paperhyp_v2_2094946c030a4c3dcf542094eb58f7430d65b033748bd1e88a6694de42e7c4c3": {
+        "objective": "volatility",
+        "expiry_minutes": 60,
+        "max_hold_minutes": 240,
+        "cooldown_minutes": 30,
+        "state_rule": "price_structure_only"
+      },
+      "paperhyp_v2_2ce630777e36493fc5ee0bd08f8369b6394d3bd21707a7f06bf7091d47ab48f3": {
+        "objective": "volatility",
+        "expiry_minutes": 60,
+        "max_hold_minutes": 240,
+        "cooldown_minutes": 30,
+        "state_rule": "price_structure_only"
+      },
+      "paperhyp_v2_f571a90267745016dc6e4358a3208264abde5d6d3452a5149a8e95d180739605": {
+        "objective": "volatility",
+        "expiry_minutes": 240,
+        "max_hold_minutes": 480,
+        "cooldown_minutes": 30,
+        "state_rule": "price_structure_only"
+      },
+      "paperhyp_v2_ed49f9054684c713ebeb1121fb157e7fb3e388dc8e6c20e37627fe55f2802499": {
+        "objective": "volatility",
+        "expiry_minutes": 60,
+        "max_hold_minutes": 240,
+        "cooldown_minutes": 30,
+        "state_rule": "price_structure_only"
+      },
+      "paperhyp_v2_41845cdf49ea18a9baa9f560e519b2e11a133942cacc3dd66259d0435af33033": {
+        "objective": "volatility",
+        "expiry_minutes": 60,
+        "max_hold_minutes": 240,
+        "cooldown_minutes": 30,
+        "state_rule": "price_structure_only"
+      },
+      "paperhyp_v2_c0bf366033db18e84ba45d5caea1cc03617859eb43d302467e733d9049704c7a": {
+        "objective": "volatility",
+        "expiry_minutes": 60,
+        "max_hold_minutes": 240,
+        "cooldown_minutes": 30,
+        "state_rule": "price_structure_only"
+      },
+      "paperhyp_v2_6857186d84739a33692d90a88980acda46406fcb84a4c18a2fff4d7fc6a21981": {
+        "objective": "volatility",
+        "expiry_minutes": 60,
+        "max_hold_minutes": 240,
+        "cooldown_minutes": 30,
+        "state_rule": "price_structure_only"
+      },
+      "paperhyp_v2_48036ddceeebb266dd76acdc89f8a255f76688cba271abd1ebe895beef84de78": {
+        "objective": "volatility",
+        "expiry_minutes": 60,
+        "max_hold_minutes": 240,
+        "cooldown_minutes": 30,
+        "state_rule": "price_structure_only"
+      },
+      "paperhyp_v2_cb375f99692e23ac79d317dc19bfd94f30f0640ef7fa251dd274e9f26f998f35": {
+        "objective": "volatility",
+        "expiry_minutes": 60,
+        "max_hold_minutes": 240,
+        "cooldown_minutes": 30,
+        "state_rule": "price_structure_only"
+      },
+      "paperhyp_v2_672988356720caab07c14a0b4e45290a4cc369efa044d8765edbeaf431fa8822": {
+        "objective": "risk_multiple",
+        "expiry_minutes": 60,
+        "max_hold_minutes": 240,
+        "cooldown_minutes": 15,
+        "state_rule": "crowding_normalized"
+      },
+      "paperhyp_v2_f75753d15d5b2d3daeb002c2f7fcb5a70111865f853b612ec3de2b536a4fc48d": {
+        "objective": "risk_multiple",
+        "expiry_minutes": 60,
+        "max_hold_minutes": 240,
+        "cooldown_minutes": 15,
+        "state_rule": "crowding_normalized"
+      },
+      "paperhyp_v2_e60fe0f969b10d7b36c3ed8e071b8935af6fe31107f2b9fbc13fff0b011c7ab8": {
+        "objective": "risk_multiple",
+        "expiry_minutes": 30,
+        "max_hold_minutes": 60,
+        "cooldown_minutes": 15,
+        "state_rule": "oi_expansion_lost"
+      },
+      "paperhyp_v2_5f43b14ed741a2f5ef131467b08f7a2a3d75a9a2f1794ebfb60f0aecb34478d2": {
+        "objective": "risk_multiple",
+        "expiry_minutes": 30,
+        "max_hold_minutes": 60,
+        "cooldown_minutes": 15,
+        "state_rule": "oi_expansion_lost"
+      },
+      "paperhyp_v2_4b9fa473fb35d9ad580154e1ecf9ee3c9bdb2ebea84f55a14f276bb28742abb1": {
+        "objective": "risk_multiple",
+        "expiry_minutes": 60,
+        "max_hold_minutes": 120,
+        "cooldown_minutes": 15,
+        "state_rule": "oi_expansion_lost"
+      },
+      "paperhyp_v2_6e5d73727648c2e55a05d8a93a4d23e200e852ea58eeb6d7d23a665baf34ef52": {
+        "objective": "risk_multiple",
+        "expiry_minutes": 60,
+        "max_hold_minutes": 120,
+        "cooldown_minutes": 15,
+        "state_rule": "oi_expansion_lost"
+      },
+      "paperhyp_v2_14d6230d07e127eae327ed4101446da8443ca60dbbf0664e0e7ac5adf15f827f": {
+        "objective": "volatility",
+        "expiry_minutes": 5,
+        "max_hold_minutes": 15,
+        "cooldown_minutes": 2,
+        "state_rule": "flow_reversal_two_minutes"
+      },
+      "paperhyp_v2_f75d2f195e2a3c171806b813eb780b9f040bb73c297f66c9840b488dfc7e85ae": {
+        "objective": "volatility",
+        "expiry_minutes": 5,
+        "max_hold_minutes": 15,
+        "cooldown_minutes": 2,
+        "state_rule": "flow_reversal_two_minutes"
+      },
+      "paperhyp_v2_7c81a1f65eb9dd82de3bec0309e7e3b84052b9d7bdf741e9f637bbbb838e16f8": {
+        "objective": "structural",
+        "expiry_minutes": 30,
+        "max_hold_minutes": 60,
+        "cooldown_minutes": 5,
+        "state_rule": "absorption_defence_lost"
+      },
+      "paperhyp_v2_1eb184810cdb3037859a08c1ceb22f27cd2cd1f0e58e645695c4ce5a3e30d5c8": {
+        "objective": "structural",
+        "expiry_minutes": 30,
+        "max_hold_minutes": 60,
+        "cooldown_minutes": 5,
+        "state_rule": "absorption_defence_lost"
+      },
+      "paperhyp_v2_6d6616222bb56ba0cf50b14578c2c8c2184ed65fa1418c2460bf86a65d465172": {
+        "objective": "structural",
+        "expiry_minutes": 30,
+        "max_hold_minutes": 60,
+        "cooldown_minutes": 5,
+        "state_rule": "absorption_defence_lost"
+      },
+      "paperhyp_v2_4fe3778139d43857f196b756e75788eda9a5aaa5e1b283ce402471efc044f0c7": {
+        "objective": "structural",
+        "expiry_minutes": 30,
+        "max_hold_minutes": 60,
+        "cooldown_minutes": 5,
+        "state_rule": "absorption_defence_lost"
+      },
+      "paperhyp_v2_d593dea703587a4e6623be91fe5199cd6ca91118539abc044288fa29dec2f2be": {
+        "objective": "volatility",
+        "expiry_minutes": 15,
+        "max_hold_minutes": 30,
+        "cooldown_minutes": 5,
+        "state_rule": "flow_reversal_two_minutes"
+      },
+      "paperhyp_v2_df1f436fd5ec5aaf5340d080215812628526a4f799d1c55e0b6a0de72225dcbb": {
+        "objective": "volatility",
+        "expiry_minutes": 15,
+        "max_hold_minutes": 30,
+        "cooldown_minutes": 5,
+        "state_rule": "flow_reversal_two_minutes"
+      },
+      "eventhyp_v1_2e7602d4b3bce745eb03b8f073abfc936148db62891360f0005e83100aa10dfc": {
+        "objective": "event_reaction",
+        "expiry_minutes": 20,
+        "max_hold_minutes": 60,
+        "cooldown_minutes": 2,
+        "state_rule": "event_reaction"
+      },
+      "eventhyp_v1_18f5cc1cc3438ce6e1c38c9485e80b984b83b1176bf9dc52e0ac5f78c9f8faba": {
+        "objective": "event_reaction",
+        "expiry_minutes": 45,
+        "max_hold_minutes": 90,
+        "cooldown_minutes": 2,
+        "state_rule": "event_reaction"
+      },
+      "eventhyp_v1_6c05496f3f3de01d531e395f5c41a8a8f59879c3ef499064af54ba0b0b4a468a": {
+        "objective": "event_reaction",
+        "expiry_minutes": 60,
+        "max_hold_minutes": 120,
+        "cooldown_minutes": 2,
+        "state_rule": "event_reaction"
+      },
+      "eventhyp_v1_4ed381762e6c23442d3f96a3601d104b820a90cb5166d77454c6491ba47d633c": {
+        "objective": "event_reaction",
+        "expiry_minutes": 120,
+        "max_hold_minutes": 240,
+        "cooldown_minutes": 2,
+        "state_rule": "event_reaction"
+      },
+      "eventhyp_v1_71e29e619ed3413f528ccf76d5d82fe14647d262e03b23bec23b5d07d8363b88": {
+        "objective": "event_reaction",
+        "expiry_minutes": 120,
+        "max_hold_minutes": 240,
+        "cooldown_minutes": 2,
+        "state_rule": "event_reaction"
+      },
+      "eventhyp_v1_5fe63ecd1111d82541f304c39e474fbf31cec9006bffd645823f49e6365596b0": {
+        "objective": "event_reaction",
+        "expiry_minutes": 240,
+        "max_hold_minutes": 480,
+        "cooldown_minutes": 2,
+        "state_rule": "event_reaction"
+      }
+    },
+    "research_horizons": [
+      15,
+      30,
+      60,
+      120,
+      240,
+      480
+    ],
+    "holding_regimes": [
+      5,
+      15,
+      30,
+      60,
+      120,
+      240,
+      480
+    ],
+    "execution": {
+      "version": "paper_nimble_v1",
+      "mode": "paper",
+      "entry": "first_observed_future_bid_ask",
+      "exit": "first_observed_future_bid_ask_after_decision",
+      "fee_bps": 4.5,
+      "slippage_bps": {
+        "BTC": 2,
+        "ETH": 2,
+        "SOL": 4,
+        "HYPE": 6,
+        "LINK": 6,
+        "AAVE": 8
+      },
+      "quote_max_age_seconds": 3,
+      "entry_wait_seconds": 60,
+      "monitor_seconds": 2,
+      "state_monitor_seconds": 60,
+      "data_failure_seconds": 180,
+      "economic_cost_multiple": 2.0,
+      "emergency_adverse_move": 0.1,
+      "gap_loss_guard": "isolated_initial_margin_cap_with_explicit_liquidation_adjustment",
+      "funding_near_seconds": 120,
+      "funding_remaining_edge_fraction": 0.25,
+      "funding_stale_lifetime_fraction": 0.5,
+      "funding_tp_near_fraction": 0.8,
+      "conflict": "existing_invalidation_first_then_cancel_opposing_fresh",
+      "ambiguous": "INVALIDATED_with_AMBIGUOUS_ordering_no_wick_fill",
+      "fill": "taker_bid_ask_plus_adverse_slippage_full_position",
+      "notifications": "daily_summary_and_failure_streak_default",
+      "degradation": {
+        "minimum_trades": 100,
+        "recent": 50,
+        "mean_net": -0.005,
+        "losses": 40
+      }
+    },
+    "risk": {
+      "name": "paper_exploratory_risk_v2",
+      "version": 1,
+      "mode": "paper",
+      "starting_equity": 100.0,
+      "notional_fraction": 0.2,
+      "leverage": 2.0,
+      "max_positions": 3,
+      "gross_fraction": 0.6,
+      "catastrophe_drawdown": 0.75,
+      "min_notional": 10.0,
+      "max_entry_wait_minutes": 20,
+      "margin_mode": "isolated",
+      "averaging": false,
+      "pyramiding": false,
+      "size_decimals": {
+        "BTC": 5,
+        "ETH": 4,
+        "SOL": 2,
+        "HYPE": 2,
+        "LINK": 1,
+        "AAVE": 2
+      },
+      "max_leverage": {
+        "BTC": 40,
+        "ETH": 25,
+        "SOL": 20,
+        "HYPE": 10,
+        "LINK": 10,
+        "AAVE": 10
+      }
+    },
+    "geometry": {
+      "prior_complete_minutes": 15,
+      "non_microstructure_fallback": "latest_known_1h_bar_technical_else_15m_bar_positioning",
+      "volatility_target": "half_mean_true_range_15m_or_half_hourly_log_ATR",
+      "invalidation": "prior_15m_extreme_plus_one_spread",
+      "risk_multiple": 1.0,
+      "structural_target": "opposite_prior_15m_extreme",
+      "expiry_min_progress_target_fraction": 0.25,
+      "flow_reversal_fraction": 0.35,
+      "flow_reversal_minutes": 2,
+      "defended_book_remaining_fraction": 0.5
+    },
+    "event_contracts": {
+      "event_reaction_immediate_short_v1": {
+        "side": "short",
+        "entry": "trusted_source_high_materiality_bearish_salience",
+        "confirmation": "none",
+        "reaction_window_minutes": 5,
+        "max_hold_minutes": 15,
+        "objective": "event_reaction",
+        "invalidation": "pre_event_level_reclaimed_or_two_minute_flow_reversal",
+        "episode": "canonical_logical_event_id_or_chain_tx_id",
+        "registered": false
+      },
+      "event_reaction_confirmed_short_v1": {
+        "side": "short",
+        "entry": "same_event_plus_negative_price_and_flow",
+        "confirmation": "negative_complete_minute_price_and_flow",
+        "reaction_window_minutes": 15,
+        "max_hold_minutes": 30,
+        "objective": "event_reaction",
+        "invalidation": "pre_event_level_reclaimed_or_two_minute_flow_reversal",
+        "episode": "canonical_logical_event_id_or_chain_tx_id",
+        "registered": false
+      }
+    },
+    "baseline_policy_id": "paperexecution_nimble_ec40a2968bcc33f7c7654a1c8d7dcc200361e88bca99079cb4f45738ba785501",
+    "baseline_entry_universe_id": "paperuniverse_v2_5c0ca1f65dcef5d531fb01dffd764ae471ebcb45611ad16c244f7bfd44090d9a",
+    "event_rules": {
+      "venue_disruption": {
+        "side": "short",
+        "assets": [
+          "BTC"
+        ],
+        "categories": [
+          "exchange_outage"
+        ],
+        "age_seconds": 300,
+        "windows": [
+          20,
+          45
+        ],
+        "holds": [
+          60,
+          90
+        ],
+        "materiality": 40
+      },
+      "protocol_stress": {
+        "side": "short",
+        "assets": [
+          "AAVE",
+          "BTC",
+          "ETH",
+          "HYPE",
+          "LINK",
+          "SOL"
+        ],
+        "categories": [
+          "chain_halt",
+          "exploit_confirmed",
+          "emergency_pause"
+        ],
+        "age_seconds": 3600,
+        "windows": [
+          60,
+          120
+        ],
+        "holds": [
+          120,
+          240
+        ],
+        "materiality": 60
+      },
+      "sec_spot_etf_approval_surprise": {
+        "side": "long",
+        "assets": [
+          "BTC",
+          "ETH"
+        ],
+        "categories": [
+          "regulatory_action"
+        ],
+        "age_seconds": 5400,
+        "windows": [
+          120,
+          240
+        ],
+        "holds": [
+          240,
+          480
+        ],
+        "materiality": 60
+      }
+    },
+    "official_status": {
+      "coinbase_status_v1": [
+        "coinbase",
+        "status.coinbase.com"
+      ],
+      "kraken_status_v1": [
+        "kraken",
+        "status.kraken.com"
+      ],
+      "hyperliquid_status_v1": [
+        "hyperliquid",
+        "hyperliquid.statuspage.io"
+      ],
+      "solana_status_v1": [
+        "solana",
+        "status.solana.com"
+      ]
+    },
+    "trading_components": {
+      "coinbase": [
+        "Coinbase - Advanced Trade",
+        "Trading",
+        "Coinbase - API"
+      ],
+      "kraken": [
+        "REST",
+        "Kraken API"
+      ],
+      "hyperliquid": [
+        "API",
+        "Hyperliquid L1"
+      ],
+      "solana": [
+        "Mainnet Beta - Cluster"
+      ]
+    },
+    "trading_component_ids": {
+      "coinbase": [
+        "jgjv19xyfvpv",
+        "tjhgmj0ysvln",
+        "zzhmzjz0wqj6"
+      ],
+      "kraken": [
+        "cfpbbhgnlnbf",
+        "qkyy5vkk5zpx"
+      ],
+      "hyperliquid": [
+        "s68kw588jdx3",
+        "jlh8rvlcnhcv"
+      ],
+      "solana": [
+        "qxs6x3yc9cxg"
+      ]
+    },
+    "protocol_assets": {
+      "bitcoin": "BTC",
+      "ethereum": "ETH",
+      "solana": "SOL",
+      "hyperliquid": "HYPE",
+      "chainlink": "LINK",
+      "aave": "AAVE"
+    },
+    "event_rejections": [
+      "STALE_EVENT",
+      "LOW_MATERIALITY",
+      "UNSUPPORTED_EVENT_CLASS",
+      "AMBIGUOUS_DIRECTION",
+      "ASSET_OUTSIDE_UNIVERSE",
+      "VENUE_UNAVAILABLE",
+      "UNECONOMIC_TARGET",
+      "CONFIRMATION_MISSING",
+      "DATA_DEGRADED",
+      "DUPLICATE_EPISODE",
+      "CONFLICTING_EVENT",
+      "EXPOSURE_LIMIT"
+    ],
+    "classification": {
+      "version": "event_classification_v1",
+      "confidence": "per_report_Phase23_source_cap_at_least_REPORTED; never_merged_prose_facts",
+      "venue": "allowlisted_official_status_major_or_critical_impact_and_major_outage_trading_component_and_investigating_or_identified",
+      "protocol": "SOL_official_major_or_critical_cluster_outage_or_explicit_native_protocol_plus_direct_asset_confirmed_exploit_or_pause_loss_at_least_10000000usd",
+      "protocol_min_loss_usd": 10000000,
+      "security_source_types": [
+        "ai_monitor",
+        "protocol_announcement",
+        "security_advisory"
+      ],
+      "regulatory": "SEC_official_structured_spot_etf_approved_BTC_or_ETH_same_docket_as_prior_official_rejected_expectation_known_before_first_seen_within_24h",
+      "research_only": [
+        "stablecoin_depeg",
+        "bridge_exploit",
+        "generic_regulatory_action",
+        "lawsuit",
+        "critical_vulnerability",
+        "exchange_deposit_withdrawal_disruption",
+        "ordinary_releases"
+      ],
+      "resolution": "monitoring_resolved_completed_denied_no_opposite_trade",
+      "freshness": "publication_or_structured_official_state_transition_information_time; prose_and_corroboration_do_not_refresh",
+      "episode": "one_logical_event_asset_per_cohort_ever; no_reopen_on_revision_or_escalation",
+      "confluence_minutes": 15,
+      "venue_safety": "active_major_or_critical_official_Hyperliquid_exchange_incident_blocks_successor_entry_and_exit_fills_until_official_recovery"
+    },
+    "event_research_horizons": [
+      1,
+      5,
+      15,
+      30,
+      60,
+      120,
+      240
+    ],
+    "confirmation": "first_fully_post_availability_complete_minute_signed_return_gt_0_and_signed_taker_fraction_ge_0.10; latest_signal_at_most_90s_old",
+    "objective": "pre_event_mid_plus_side_half_pre_event_15m_volatility_sqrt_window_over_15",
+    "reference": "latest_complete_production_bid_ask_known_before_first_seen; age_at_most_120s",
+    "invalidation": "pre_event_mid_plus_one_entry_spread_against_side_or_two_opposing_flow_minutes_or_resolution_or_conflict",
+    "conflict_seconds": 900,
+    "cohorts": "independent_100usd_immediate_and_confirmed_accounts_no_pooled_evidence"
+  },
+  "universes": {
+    "immediate": "paperuniverse_event_034495acbea55406842ddeebf225d29ed607cdb971edbdb367dcb1245f44a2a2",
+    "confirmed": "paperuniverse_event_22cffc742555b639476a00656193835750f72b3f5a4274f5155069caacbb2be9"
+  }
+}

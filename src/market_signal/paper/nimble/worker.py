@@ -18,7 +18,7 @@ from market_signal.paper.v2 import spec as baseline
 from market_signal.paper.v2.data import ts
 from market_signal.research.lab.common import canonical_json
 
-from . import engine, spec, triggers
+from . import engine, events, spec, triggers
 from .data import Sources, live_cache, quotes_for_store
 
 log = logging.getLogger("prism.nimble")
@@ -35,11 +35,13 @@ def publish(path, payload):
 
 
 class Worker:
-    def __init__(self, db: Path):
+    def __init__(self, db: Path, *, run_id=None):
         self.db = db
         self.root = default_root(db)
         self.spool = Spool(self.root)
-        self.rid = None
+        self.rid = run_id
+        self.requested_run_id = run_id
+        self.children = {}
         self.cached_positions = []
         self.cached_account = {}
         self.last_minute = None
@@ -48,6 +50,7 @@ class Worker:
         self.last_discovery = None
         self.failures = 0
         self.last_success = None
+        self.venue_blocked = False
 
     def _spool_changed(self):
         files = self.spool.files()
@@ -56,6 +59,8 @@ class Worker:
         return offsets != self.last_offsets, offsets
 
     def _action(self, qs, ctx, now):
+        if self.venue_blocked:
+            return False
         for p in self.cached_positions:
             q = engine._quote(qs, p["asset"], now)
             if p["state"] == "PENDING":
@@ -105,7 +110,7 @@ class Worker:
                     rs = engine.runs(store)
                     if not rs:
                         return {"state": "NOT_ACTIVATED", "db_opened": True}
-                    run = rs[-1]
+                    run = next((r for r in rs if r["run_id"] == self.requested_run_id), rs[-1])
                     self.rid = run["run_id"]
                     engine.load(store, self.rid)
                     if changed:
@@ -147,6 +152,19 @@ class Worker:
                             now=at,
                             mark=minute_due or action,
                         )
+                        event_result = events.evaluate(
+                            store,
+                            self.rid,
+                            pending,
+                            qs,
+                            source,
+                            at,
+                            ctx,
+                            clock=utcnow if now is None else None,
+                            quote_provider=lambda decision_at: quotes_for_store(store, decision_at),
+                        )
+                        for k, v in event_result.items():
+                            totals[k] = totals.get(k, 0) + v
                         # Capital is now released for a confirmed close, before fresh admission.
                         grouped = {}
                         for t in pending:
@@ -155,9 +173,13 @@ class Worker:
                             phase = {"technical": 22, "positioning": 23, "microstructure": 24}.get(
                                 origin
                             )
-                            # No released event-entry identities: record dispatch with zero entries.
-                            # Context updates still invalidate/corroborate affected live positions.
-                            hs = [h for h in baseline.bootstrap() if h.source_phase == phase]
+                            # Context entries were evaluated above; this dispatch retains the
+                            # original targeted technical/positioning/microstructure grids.
+                            hs = [
+                                h
+                                for h in engine.hypotheses(store, self.rid)
+                                if h.source_phase == phase
+                            ]
                             # 24B features stay on their ORIGINAL 15m research grid. Every complete
                             # minute can wake the engine; ledger checks skip earlier evaluated grids.
                             target_assets = sorted(set(baseline.COINS) & affected)
@@ -244,6 +266,10 @@ class Worker:
                             )
                         if action and not minute_due:
                             engine._mark(store, self.rid, qs, rates, updates, ctx, at)
+                    self.venue_blocked = (
+                        run["policy_id"] == events.rules.policy_id()
+                        and events.unavailable(store, at) is not None
+                    )
                     self.cached_positions = engine.positions(store, self.rid)
                     self.cached_account = engine.account(store, self.rid)
                     self.last_minute = minute
@@ -265,11 +291,28 @@ class Worker:
         except (RuntimeBusy, DatabaseBusy):
             return {"state": "BUSY", "db_opened": False, "last_success_at": self.last_success}
 
+    def tick_all(self, *, now=None, force=False):
+        m = marker(self.db)
+        if not m.exists():
+            return self.tick(now=now, force=force)
+        manifest = json.loads(m.read_text())
+        ids = manifest.get("run_ids") or [manifest["run_id"]]
+        results = []
+        for rid in ids:
+            if rid not in self.children:
+                self.children[rid] = Worker(self.db, run_id=rid)
+            child = self.children[rid]
+            results.append(child.tick(now=now, force=force))
+        return {
+            "state": "OK" if all(r["state"] not in ("BUSY", "ERROR") for r in results) else "BUSY",
+            "runs": results,
+        }
+
     def run(self):
         require_authoritative(self.db)
         while True:
             try:
-                result = self.tick()
+                result = self.tick_all()
             except Exception as exc:
                 self.failures += 1
                 result = {

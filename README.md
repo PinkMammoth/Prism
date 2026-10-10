@@ -320,3 +320,11 @@ causal research loader and `market microstructure` queries (data only; prospecti
 production cutover) — in [docs/MICROSTRUCTURE_COLLECTION.md](docs/MICROSTRUCTURE_COLLECTION.md).
 
 Phase 29 adds [free public event acquisition](docs/FREE_EVENT_SOURCES.md): causal status/RSS/GitHub collection through the existing context/outbox boundary, with £0 new data subscriptions.
+
+
+Phase 30 adds bounded, deterministic event-reaction PAPER cohorts with separate immediate
+and confirmed identities, frozen causal objectives, episode controls and venue availability
+guards. The six-asset universe and original 28 hypotheses remain unchanged. See
+[Event reaction hypotheses v1](docs/EVENT_REACTION_HYPOTHESES_V1.md) and
+[execution/activation report](docs/PHASE30_EXECUTION_REPORT.md).
+Inspect prospective evidence with `market paper nimble events --json`.
