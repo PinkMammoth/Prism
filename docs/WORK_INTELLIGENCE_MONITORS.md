@@ -373,6 +373,54 @@ but cannot claim that a saved schedule exists without a schedule-management capa
 Work schedule setup remains the one user-interface step if this capability stays absent.
 The production evidence/status report records what was actually deployed and verified.
 
+### Verified rollout state — 10 October 2026
+
+Prism support revision `92e61f7de8c9a2df157fcdd9a002fabb6717f0d1` is deployed to the existing
+Railway service, migration 28, authoritative and ready. Both paper runs retained their
+activation times, 28 hypotheses and policy identities. Gateway/worker are healthy with
+zero backlog/alerts. All five specialist metric entries exist, with zero live submissions
+and zero production reaction rows. See [production evidence](evidence/phase28a/production-verification.json).
+
+**Work monitors are not yet activated or verified end-to-end.** A specialist `test=true`
+call failed in the client connector before reaching Prism: its cached Phase 26A schema
+does not allow `payload.monitor`. The current server advertises that metadata and the
+two new bounded subcategories; the cached client also lacks those subcategories.
+No schema-refresh or Work schedule-management tool is available in this session.
+The plugin-management skill's read-only discovery did not provide a refresh mechanism;
+no existing connection or permission was removed/changed.
+
+Refresh/review the existing **Prism Context Gateway** action definitions in Work before
+installing the pilot. For managed workspaces, OpenAI documents Workspace settings →
+Apps → Action control → Refresh and review of definition changes. Personal/developer
+app controls may differ; do not assume that editing a server refreshes the client.
+If recreation/republishing is required, preserve the endpoint and OAuth scope and
+explicitly review that UI operation. See [OpenAI's MCP app update guidance](https://help.openai.com/en/articles/12584461-developer-mode-and-full-mcp-connectors-in-chatgpt).
+Then repeat a **specialist** `test=true` smoke, install only the Crypto pilot, and record
+the saved task ID, accepted interval and at least three actual runs/usage observations.
+Remaining specialists stay paused until a naturally qualifying live event is verified.
+
+The unaffected legacy-schema connected action was tested safely. Receipt
+`ctxgw_ebdf80dde97ec60d1e387e5df0ad3d89074707415dc755ce31b924d4e867b3d5`
+used OAuth identity `chatgpt_work_personal_v1`, returned ACCEPTED, then DUPLICATE for an
+identical retry, and committed TEST_EXCLUDED with null logical event ID. Send→gateway
+was 2.003890 s, gateway→test completion 1.313585 s, total 3.317475 s. These are synthetic
+transport timings, **not discovery latency, specialist verification or genuine context
+availability**. No qualifying fresh event was forced into production; live event
+reaction collection is armed but has not accumulated specialist observations yet.
+
+[Test results](evidence/phase28a/test-results.json): full pytest 1,226 passed; final
+monitor/gateway/context rerun 135 passed including all 26 Phase 28A cases; explicit
+Phase 23–28A/runtime cohort 360 passed. The full run started before the final metrics/text
+guard refinements, which the final 135-test rerun covers. Ruff passed, format check
+reported 344 files formatted, and `git diff --check` passed. Warnings are an existing
+Starlette/httpx TestClient deprecation. Synthetic fixtures use isolated stores.
+
+The verified 367.8 MiB pre-deploy backup is recorded in production evidence. Existing
+retention pruned one older manual `paper-dashboard` snapshot; the new backup remains.
+The source commit is local on `codex/phase28a-work-monitors`; pushing that branch failed
+for missing GitHub HTTPS credentials. Deployment used the exact local commit archive,
+not an uncommitted working tree. Git `main` was not changed.
+
 No per-event Telegram alerts are added. Existing gateway infrastructure alerts remain
 limited to failures; exceptional materiality alerts would require a separately existing
 policy and are not added here.

@@ -82,6 +82,16 @@ durable targeted outbox; one authoritative worker preserves DuckDB single-writer
 safety. Live trading is outside this phase. See [the design](NIMBLE_PERP_EXECUTION.md)
 and [validation/deployment report](PHASE27_EXECUTION_REPORT.md).
 
-The next recommended phase is Phase 26B: a deterministic government-labelled BTC
-transfer source with canonical transaction episodes and separately registered
-immediate/confirmed reaction hypotheses. It is not implemented by Phase 27.
+## Phase 28A — specialist Work semantic sensors
+
+Five independently attributed monitors cover crypto-native incidents, exchange structure,
+macro risk, regulation/institutions and technical tail risk. The existing OAuth action and
+durable spool ingest information only. Causal descriptive reaction research and provider
+metrics do not register trading hypotheses or change the six-asset execution universe.
+See [exact prompts, cadence/cost limits and staged activation](WORK_INTELLIGENCE_MONITORS.md).
+Prism support is deployed; a cached Work action schema refresh and saved pilot task are
+still required before qualifying live-event verification and remaining task activation.
+
+The next recommended phase is the deterministic government-labelled BTC watcher,
+to compare direct machine discovery latency against periodic Work discovery. It is not
+implemented by Phase 28A; Dynamic Perp Universe admission also remains separate.
