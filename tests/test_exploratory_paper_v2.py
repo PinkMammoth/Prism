@@ -459,6 +459,23 @@ def test_hourly_funding_hand_calculated(side, expected):
     assert paid == pytest.approx(expected) and missing == []
 
 
+def test_hourly_funding_accepts_exchange_timestamp_jitter():
+    rate = Funding(
+        "BTC",
+        (minute(60) + pd.Timedelta(milliseconds=53)).isoformat(),
+        (minute(60) + pd.Timedelta(milliseconds=53)).isoformat(),
+        0.0001,
+    )
+    paid, missing = engine.funding_cost("BTC", "long", 20, minute(17), minute(77), [rate])
+    assert paid == pytest.approx(0.002) and missing == []
+
+
+def test_hourly_funding_rejects_off_cycle_timestamp():
+    rate = Funding("BTC", minute(61).isoformat(), minute(61).isoformat(), 0.0001)
+    paid, missing = engine.funding_cost("BTC", "long", 20, minute(17), minute(77), [rate])
+    assert paid == 0 and missing == [minute(60).isoformat()]
+
+
 def test_no_funding_dependency_rejects(store, run):
     evaluate(store, run, signals=[obs()], prices=[quote(15)], rates=[])
     assert report.opportunities(store, run)[0]["rejection_reason"] == "FUNDING_UNAVAILABLE"

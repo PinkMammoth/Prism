@@ -323,7 +323,17 @@ def funding_cost(asset, side, notional, start, end, rates) -> tuple[float, list[
     hours = pd.date_range(
         ts(start).floor("h") + pd.Timedelta(hours=1), ts(end).floor("h"), freq="h"
     )
-    found = {ts(r.at): r.rate for r in rates if r.asset == asset}
+    found = {}
+    for rate in rates:
+        if rate.asset != asset:
+            continue
+        settled_at = ts(rate.at)
+        hour = settled_at.round("h")
+        # Hyperliquid settlement timestamps can carry small request/clock offsets
+        # (for example 13:00:00.053). Match those to the intended hourly slot,
+        # while leaving genuinely off-cycle records unavailable.
+        if abs(settled_at - hour) <= pd.Timedelta(seconds=1):
+            found[hour] = rate.rate
     missing = [h.isoformat() for h in hours if h not in found]
     return _sign(side) * notional * sum(found.get(h, 0) for h in hours), missing
 
