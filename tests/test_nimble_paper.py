@@ -620,3 +620,16 @@ def test_summary_sender_none_is_success_and_exception_is_recorded(store, run):
         ).fetchone()[0]
         == 2
     )
+
+
+def test_state_invalidation_queues_without_fill_quote(store, run):
+    admit(store, run)
+    engine.monitor(store, run, [quote(1, 2)], now=time(1, 2))
+    update = StateUpdate(
+        "BTC", time(4).isoformat(), time(4).isoformat(), {"flow_fractions": [-0.5, -0.5]}
+    )
+    engine.monitor(store, run, [], updates=[update], now=time(4))
+    position = engine.positions(store, run)[0]
+    assert position["state"] == "EXIT_PENDING" and position["exit_detail"] == "FLOW_REVERSAL"
+    engine.monitor(store, run, [quote(4, 2)], now=time(4, 2))
+    assert engine.state(store, run)["closed"][0]["exit_reason"] == "INVALIDATED"

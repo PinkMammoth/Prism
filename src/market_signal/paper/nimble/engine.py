@@ -475,7 +475,13 @@ def exit_condition(p, q, updates, now, predicted=0.0, status="ACTIVE", stop_reas
                         reason, detail = "COST_DECAY", "ADVERSE_UPCOMING_FUNDING"
     elif at - ts(p.get("last_quote_received_at", p["entry_at"])) >= pd.Timedelta(seconds=180):
         reason, detail = "DATA_FAILURE", "EXECUTABLE_QUOTE_STALE"
-    # State/expiry/backstop decisions do not need a quote to queue a close on data failure.
+    # Observable state failure can queue a risk exit even while its fill quote is missing.
+    if reason is None and not q:
+        u, why = _state_invalid(p, updates, now)
+        if u:
+            reason, detail = "INVALIDATED", why
+            observed, available = u.observed_at, u.available_at
+    # The holding backstop also queues a close without inventing an executable quote.
     if reason is None and at - entry >= pd.Timedelta(minutes=th["max_hold_minutes"]):
         reason, detail = "MAX_HOLD", "BACKSTOP_WITHOUT_QUOTE"
     if reason:
