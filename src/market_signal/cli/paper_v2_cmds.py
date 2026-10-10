@@ -148,6 +148,12 @@ def kill(reason: str = typer.Option(...), run_id: str = typer.Option(None)) -> N
     call(lambda s: engine.kill(s, _rid(s, run_id), reason=reason), write=True)
 
 
+@v2.command("retire")
+def retire(run_id: str = typer.Option(None)) -> None:
+    """WRITE: stop new entries now; archive when flat after existing frozen exits."""
+    call(lambda s: engine.retire(s, _rid(s, run_id)), write=True)
+
+
 def retire_v1(run_id: str = typer.Option(None), as_json: bool = JSON) -> None:
     """WRITE: retire v1 without rewriting history; open positions drain at fixed exits."""
     from market_signal.paper import observe

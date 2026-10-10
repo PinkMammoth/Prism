@@ -204,7 +204,16 @@ def crontab(executable: str = typer.Option("market", "--executable")) -> None:
     """Print the production schedule as a crontab (UTC; consumed by supercronic)."""
     from market_signal.ops import runtime as rt
 
-    sys.stdout.write(rt.crontab(executable))
+    excluded = []
+    db = rt._db()
+    if db.exists():
+        with rt._store(db, read_only=True) as store:
+            from market_signal.paper.v2.engine import work_needed
+
+            if store.con.execute("SELECT 1 FROM paper_v2_runs LIMIT 1").fetchone() and not work_needed(store):
+                excluded = [job for job in ("paper_v2", "paper_v2_brief", "paper_v2_funding")
+                            if not rt.active_steps(store, job)]
+    sys.stdout.write(rt.crontab(executable, excluded_jobs=excluded))
 
 
 def register(app: typer.Typer) -> None:

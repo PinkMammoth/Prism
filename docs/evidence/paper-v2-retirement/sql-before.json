@@ -1,0 +1,17 @@
+{
+  "kind": "SCRATCH_COPY_STEADY_GRID_EVALUATION",
+  "source_backup": "/data/backups/manual/prism-20261010T194711Z-pre-paper-v2-retirement.duckdb",
+  "source_run_id": "paperrun_v2_3811cccc40db4fbe6413ebd018c129d1026748f3cd72e619ec80ba88e47ada95",
+  "injected_time": "2026-10-10T19:37:18.089877+00:00",
+  "sql_statements": {
+    "SELECT": 376,
+    "BEGIN": 1,
+    "INSERT": 2,
+    "COMMIT": 1
+  },
+  "cpu_seconds": 1.778920378,
+  "wall_seconds": 1.6937370309606194,
+  "process_peak_rss_mb": 588.13671875,
+  "admission_counts": {},
+  "limitations": "One already-evaluated grid on a throwaway copy, including load/replay. SQL statement counts, not physical I/O. Never prospective evidence."
+}

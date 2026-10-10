@@ -175,6 +175,10 @@ def state(store, rid) -> dict:
         elif kind == "run_state":
             st["status"] = p["state"]
             st["kill_at"] = p.get("at")
+            if p["state"] == "DRAINING":
+                st["admission_stopped_at"] = p["at"]
+            elif p["state"] == "RETIRED":
+                st["retired_at"] = p["at"]
         elif kind == "hypothesis_state":
             st["hypotheses"][p["hypothesis_id"]] = p
         elif kind == "support":
@@ -209,7 +213,59 @@ def event(store, rid, kind, key, payload, now) -> None:
     )
 
 
+def retire(store, rid, *, now=None) -> dict:
+    """Stop admission immediately; preserve frozen exits, then archive append-only."""
+    at = ts(now or utcnow())
+    run = load(store, rid)
+    if at < ts(run["activated_at"]):
+        raise ValueError("retirement precedes activation")
+    with store.transaction():
+        st = state(store, rid)
+        if st["status"] == "RETIRED":
+            return {"run_id": rid, "state": "RETIRED", "retired_at": st["retired_at"]}
+        if st["status"] not in ("ACTIVE", "DRAINING"):
+            raise ValueError("only an active or retirement-draining v2 run can retire")
+        if st["status"] != "DRAINING":
+            event(store, rid, "run_state", "retirement_requested", {
+                "state": "DRAINING", "at": at.isoformat(),
+                "reason": "Operational retirement of the historical fixed-horizon baseline",
+                "execution_policy_id": load(store, rid)["execution_policy_id"],
+            }, at)
+        for tid in st["pending"]:
+            event(store, rid, "expired", "expired:" + tid,
+                  {"trade_id": tid, "reason": "RETIREMENT"}, at)
+        _finish_retirement(store, rid, at)
+    st = state(store, rid)
+    return {"run_id": rid, "state": st["status"],
+            "admission_stopped_at": st["admission_stopped_at"],
+            "retired_at": st.get("retired_at"), "open_positions": len(st["open"]),
+            "equity": st["equity"], "closed_trades": len(st["closed"])}
+
+
+def _finish_retirement(store, rid, at):
+    st = state(store, rid)
+    if st["status"] == "DRAINING" and not st["open"] and not st["pending"]:
+        event(store, rid, "run_state", "retired", {
+            "state": "RETIRED", "at": at.isoformat(),
+            "admission_stopped_at": st["admission_stopped_at"],
+            "equity": st["equity"], "closed_trades": len(st["closed"]),
+            "reason": "Flat; archived historical fixed-horizon execution baseline",
+        }, at)
+
+
+def work_needed(store) -> bool:
+    """Read just the lifecycle tail; archived history needs no runtime replay."""
+    return bool(store.con.execute("""
+        SELECT 1 FROM paper_v2_runs r WHERE coalesce((
+            SELECT payload->>'state' FROM paper_v2_events e
+            WHERE e.run_id=r.run_id AND event_type='run_state'
+            ORDER BY seq DESC LIMIT 1), 'ACTIVE') NOT IN ('RETIRED', 'ARCHIVED') LIMIT 1
+        """).fetchone())
+
+
 def kill(store, rid, *, reason: str, now=None) -> dict:
+    if state(store, rid)["status"] in ("RETIRED", "DRAINING"):
+        raise ValueError("retiring/retired v2 baseline preserves its frozen exit policy")
     if not reason.strip():
         raise ValueError("kill needs a reason")
     load(store, rid)
@@ -341,6 +397,8 @@ def funding_cost(asset, side, notional, start, end, rates) -> tuple[float, list[
 def manage(store, rid, quotes, rates, now) -> None:
     risk, ex = spec.RiskPolicy(), spec.ExecutionPolicy()
     st = state(store, rid)
+    if st["status"] == "RETIRED":
+        return
     for tid, p in st["pending"].items():
         if st["status"] != "ACTIVE":
             event(
@@ -427,7 +485,7 @@ def manage(store, rid, quotes, rates, now) -> None:
             net += _sign(p["side"]) * p["notional"]
             positions[tid] = {"price": p["entry_ref"], "stale": True, "unrealised": 0}
             continue
-        forced = st["status"] != "ACTIVE"
+        forced = st["status"] not in ("ACTIVE", "DRAINING")
         stop_at = ts(st["kill_at"]) if forced else ts(p["exit_due_at"])
         # Isolated margin-loss guard is frozen, symmetric and includes observed path extremes.
         liquidation = next(
@@ -579,6 +637,8 @@ def observation_payload(store, o):
 def admit(store, rid, observations, quotes, rates, now, activated_at) -> dict:
     hypotheses = {h.hypothesis_id: h for h in spec.bootstrap()}
     initial = state(store, rid)
+    if initial["status"] in ("DRAINING", "RETIRED"):
+        return {}
     candidates = []
     for o in observations:
         # Cutover: no historical rows, even rejected signals, enter the new account.
@@ -773,6 +833,8 @@ def admit(store, rid, observations, quotes, rates, now, activated_at) -> dict:
 
 
 def outcomes(store, rid, quotes, rates, now):
+    if state(store, rid)["status"] in ("DRAINING", "RETIRED"):
+        return
     for o in rows(
         store,
         "SELECT o.* FROM paper_v2_opportunities o LEFT JOIN paper_v2_outcomes f "
@@ -826,6 +888,8 @@ def outcomes(store, rid, quotes, rates, now):
 
 def degrade(store, rid, now):
     st = state(store, rid)
+    if st["status"] in ("DRAINING", "RETIRED"):
+        return
     for h in spec.bootstrap():
         if h.hypothesis_id in st["hypotheses"]:
             continue
@@ -899,8 +963,11 @@ def evaluate(store, rid, *, now=None, sources=None) -> dict:
         with store.transaction():
             manage(store, rid, quotes, rates, at)
             result = admit(store, rid, observations, quotes, rates, at, run["activated_at"])
-            outcomes(store, rid, quotes, rates, at)
-            degrade(store, rid, at)
+            if st["status"] == "DRAINING":
+                _finish_retirement(store, rid, at)
+            else:
+                outcomes(store, rid, quotes, rates, at)
+                degrade(store, rid, at)
             result.update(
                 run_id=rid,
                 evaluated_at=at.isoformat(),

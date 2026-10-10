@@ -186,6 +186,9 @@ def status(store, rid, *, now=None) -> dict:
             (p["entry_at"] for p in list(st["open"].values()) + st["closed"]), default=None
         ),
         "activation_at": ts(run["activated_at"]).isoformat(),
+        "admission_stopped_at": st.get("admission_stopped_at"),
+        "retired_at": st.get("retired_at"),
+        "historical_baseline": st["status"] == "RETIRED",
         "equity": st["equity"],
         "starting_equity": 100,
         "realised_pnl": sum(p["net_pnl"] for p in st["closed"]),
@@ -458,6 +461,8 @@ def compare_v1(store, rid, *, now=None) -> dict:
 
 
 def record_daily(store, rid, *, now=None, sender=None) -> dict:
+    if engine.state(store, rid)["status"] == "RETIRED":
+        return {"recorded": False, "state": "RETIRED", "delivery": "not_requested"}
     at = ts(now or utcnow())
     day = at.floor("D") - timedelta(days=1)
     if day < ts(engine.load(store, rid)["activated_at"]).floor("D"):
