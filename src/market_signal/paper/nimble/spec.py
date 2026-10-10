@@ -41,6 +41,10 @@ EXECUTION = {
 
 
 def mapping(h) -> dict:
+    if h.source_phase == 30:
+        from . import event_spec
+
+        return event_spec.mapping(h)
     key = h.source_key
     if key in EVENT_CONTRACTS:
         c = EVENT_CONTRACTS[key]

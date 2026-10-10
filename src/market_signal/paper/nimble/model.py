@@ -12,7 +12,7 @@ from pydantic import Field
 from market_signal.paper.v2.data import ts
 from market_signal.research.lab.common import LabModel, content_id
 
-from . import spec
+from . import event_spec, spec
 
 
 @dataclass(frozen=True)
@@ -131,11 +131,11 @@ def build_thesis(h, observation, q, geometry, now) -> ExecutionThesis:
     spread = q.ask - q.bid
     invalidation = low - spread if s > 0 else high + spread
     risk_distance = s * (ref - invalidation)
-    if not (0 < low <= high and risk_distance > 0):
+    if not (0 < low <= high and (risk_distance > 0 or p["objective"] == "event_reaction")):
         raise ValueError("INVALID_GEOMETRY")
     family = p["objective"]
     if family == "event_reaction":
-        invalidation = geometry["pre_event_price"]
+        invalidation = geometry["pre_event_price"] - s * spread
         if s * (ref - invalidation) <= 0:
             raise ValueError("INVALID_GEOMETRY")
     if family == "structural":
@@ -143,7 +143,7 @@ def build_thesis(h, observation, q, geometry, now) -> ExecutionThesis:
     elif family == "risk_multiple":
         target = ref + s * risk_distance
     elif family == "event_reaction":
-        target = ref * (1 + s * geometry["event_reaction_move"])
+        target = geometry["pre_event_price"] * (1 + s * geometry["event_reaction_move"])
     else:
         target = ref * (1 + s * geometry["volatility_move"] * 0.5)
     ctx = observation.context or {}
@@ -179,7 +179,9 @@ def build_thesis(h, observation, q, geometry, now) -> ExecutionThesis:
                 set(
                     (
                         *(
-                            spec.REACTION_HORIZONS
+                            event_spec.HORIZONS
+                            if h.source_phase == 30
+                            else spec.REACTION_HORIZONS
                             if h.source_key in spec.EVENT_CONTRACTS
                             else spec.baseline.HORIZONS
                         ),

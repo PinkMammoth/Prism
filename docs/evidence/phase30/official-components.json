@@ -1,0 +1,130 @@
+{
+  "status.coinbase.com": [
+    {
+      "id": "jgjv19xyfvpv",
+      "name": "Coinbase - Advanced Trade",
+      "status": "operational"
+    },
+    {
+      "id": "tjhgmj0ysvln",
+      "name": "Trading",
+      "status": "operational"
+    },
+    {
+      "id": "zzhmzjz0wqj6",
+      "name": "Coinbase - API",
+      "status": "operational"
+    },
+    {
+      "id": "wf553sfj0kmd",
+      "name": "API3",
+      "status": "operational"
+    }
+  ],
+  "status.kraken.com": [
+    {
+      "id": "cfpbbhgnlnbf",
+      "name": "REST",
+      "status": "operational"
+    },
+    {
+      "id": "mjcw7t9vx2lm",
+      "name": "Custody REST API",
+      "status": "operational"
+    },
+    {
+      "id": "v6rsw0clgvy3",
+      "name": "REST",
+      "status": "operational"
+    },
+    {
+      "id": "dxfwygd9wc17",
+      "name": "REST API",
+      "status": "operational"
+    },
+    {
+      "id": "r0lwfr5tdc37",
+      "name": "REST API",
+      "status": "operational"
+    },
+    {
+      "id": "7jtzr4jrsth1",
+      "name": "Bitnomial Exchange (BTNL)",
+      "status": "operational"
+    },
+    {
+      "id": "d482m8nqx6vy",
+      "name": "Websocket API",
+      "status": "operational"
+    },
+    {
+      "id": "sryr76qnbtq3",
+      "name": "Websocket API",
+      "status": "operational"
+    },
+    {
+      "id": "9yvg2jl3hclq",
+      "name": "Cross-Exchange Transfers",
+      "status": "operational"
+    },
+    {
+      "id": "54fkqk7c0819",
+      "name": "FIX API",
+      "status": "operational"
+    },
+    {
+      "id": "b94td45lcwbk",
+      "name": "Cross-Exchange Transfers",
+      "status": "operational"
+    },
+    {
+      "id": "qkyy5vkk5zpx",
+      "name": "Kraken API",
+      "status": "operational"
+    },
+    {
+      "id": "vz26z9tj7d78",
+      "name": "Kraken Prime API",
+      "status": "operational"
+    },
+    {
+      "id": "9jch904919mt",
+      "name": "Prop Trading",
+      "status": "operational"
+    },
+    {
+      "id": "ny0cdq3v5wfm",
+      "name": "API3 (API3) - Ethereum",
+      "status": "operational"
+    },
+    {
+      "id": "jg9mwmqjw67f",
+      "name": "Forest Protocol (FOREST) - BNB Chain",
+      "status": "operational"
+    },
+    {
+      "id": "tc4nxx699sqs",
+      "name": "Sapien (SAPIEN) - Base",
+      "status": "operational"
+    }
+  ],
+  "status.solana.com": [
+    {
+      "id": "qxs6x3yc9cxg",
+      "name": "Mainnet Beta - Cluster",
+      "status": "operational"
+    }
+  ],
+  "hyperliquid.statuspage.io": [
+    {
+      "id": "s68kw588jdx3",
+      "name": "Hyperliquid L1",
+      "status": "operational"
+    },
+    {
+      "id": "jlh8rvlcnhcv",
+      "name": "API",
+      "status": "operational"
+    }
+  ]
+}

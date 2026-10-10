@@ -1,0 +1,266 @@
+{
+  "as_of": "2026-10-10T19:23:56.173483+00:00",
+  "sample_window": {
+    "start_epoch": 1791660117.3278975,
+    "end_epoch": 1791660177.3320222
+  },
+  "execution_writes": [
+    {
+      "run_id": "paperrun_nimble_a5fafb2cf008686ad99d2e1e039d428cd95349423d2e31778409810be6cce3d3",
+      "kind": "account_mark",
+      "rows": 1,
+      "payload_bytes": 144
+    },
+    {
+      "run_id": "paperrun_nimble_981fac864a79b04053e1ca081731a692db95b5e69cec9f29e74618e6e84e0528",
+      "kind": "account_mark",
+      "rows": 1,
+      "payload_bytes": 144
+    },
+    {
+      "run_id": "paperrun_nimble_a8aef8be36c02700688053a1e57d2f908573fe8898860450b00b889d4f98f54c",
+      "kind": "account_mark",
+      "rows": 1,
+      "payload_bytes": 204
+    }
+  ],
+  "event_writes": [],
+  "runs": [
+    {
+      "run_id": "paperrun_nimble_a8aef8be36c02700688053a1e57d2f908573fe8898860450b00b889d4f98f54c",
+      "variant": null,
+      "status": "ACTIVE",
+      "equity": 99.86085910241158,
+      "seq": 749,
+      "positions": 0,
+      "hypotheses": 28,
+      "evidence_rows": 0
+    },
+    {
+      "run_id": "paperrun_nimble_a5fafb2cf008686ad99d2e1e039d428cd95349423d2e31778409810be6cce3d3",
+      "variant": "immediate",
+      "status": "ACTIVE",
+      "equity": 100.0,
+      "seq": 192,
+      "positions": 0,
+      "hypotheses": 31,
+      "evidence_rows": 1
+    },
+    {
+      "run_id": "paperrun_nimble_981fac864a79b04053e1ca081731a692db95b5e69cec9f29e74618e6e84e0528",
+      "variant": "confirmed",
+      "status": "ACTIVE",
+      "equity": 100.0,
+      "seq": 192,
+      "positions": 0,
+      "hypotheses": 31,
+      "evidence_rows": 1
+    }
+  ],
+  "heartbeat": {
+    "heartbeat_at": "2026-10-10T19:23:58.782731+00:00",
+    "runs": [
+      {
+        "db_opened": false,
+        "state": "IDLE"
+      },
+      {
+        "db_opened": false,
+        "state": "IDLE"
+      },
+      {
+        "db_opened": false,
+        "state": "IDLE"
+      }
+    ],
+    "state": "OK"
+  },
+  "free_sources": {
+    "backlog": 0,
+    "processes": {
+      "collector": {
+        "active": [
+          "hyperliquid_status_v1",
+          "coinbase_status_v1",
+          "kraken_status_v1",
+          "solana_status_v1",
+          "circle_status_v1",
+          "base_status_v1",
+          "sec_rss_v1",
+          "fed_rss_v1",
+          "cftc_rss_v1",
+          "sec_trading_suspensions_rss_v1",
+          "sec_administrative_proceedings_rss_v1",
+          "sec_litigation_releases_rss_v1",
+          "github_geth_releases_v1",
+          "github_geth_security_advisories_v1",
+          "github_bitcoin_releases_v1",
+          "github_bitcoin_security_advisories_v1",
+          "ethereum_official_rss_v1",
+          "bitcoin_official_rss_v1"
+        ],
+        "heartbeat_at": "2026-10-10T19:23:58.726927+00:00",
+        "healthy": true
+      },
+      "worker": {
+        "backlog": 0,
+        "heartbeat_at": "2026-10-10T19:23:56.494099+00:00",
+        "healthy": true
+      }
+    },
+    "source_health": [
+      {
+        "id": "hyperliquid_status_v1",
+        "health_state": "OK",
+        "polling_active": true,
+        "last_successful_poll": "2026-10-10T19:23:58.719120+00:00",
+        "http_status": 304,
+        "consecutive_failures": 0
+      },
+      {
+        "id": "coinbase_status_v1",
+        "health_state": "OK",
+        "polling_active": true,
+        "last_successful_poll": "2026-10-10T19:23:07.734402+00:00",
+        "http_status": 304,
+        "consecutive_failures": 0
+      },
+      {
+        "id": "kraken_status_v1",
+        "health_state": "OK",
+        "polling_active": true,
+        "last_successful_poll": "2026-10-10T19:23:21.920726+00:00",
+        "http_status": 200,
+        "consecutive_failures": 0
+      },
+      {
+        "id": "solana_status_v1",
+        "health_state": "OK",
+        "polling_active": true,
+        "last_successful_poll": "2026-10-10T19:23:11.789282+00:00",
+        "http_status": 304,
+        "consecutive_failures": 0
+      },
+      {
+        "id": "circle_status_v1",
+        "health_state": "OK",
+        "polling_active": true,
+        "last_successful_poll": "2026-10-10T19:21:59.597427+00:00",
+        "http_status": 304,
+        "consecutive_failures": 0
+      },
+      {
+        "id": "base_status_v1",
+        "health_state": "OK",
+        "polling_active": true,
+        "last_successful_poll": "2026-10-10T19:22:03.141268+00:00",
+        "http_status": 304,
+        "consecutive_failures": 0
+      },
+      {
+        "id": "sec_rss_v1",
+        "health_state": "OK",
+        "polling_active": true,
+        "last_successful_poll": "2026-10-10T19:22:58.344383+00:00",
+        "http_status": 304,
+        "consecutive_failures": 0
+      },
+      {
+        "id": "fed_rss_v1",
+        "health_state": "OK",
+        "polling_active": true,
+        "last_successful_poll": "2026-10-10T19:23:15.855712+00:00",
+        "http_status": 304,
+        "consecutive_failures": 0
+      },
+      {
+        "id": "cftc_rss_v1",
+        "health_state": "OK",
+        "polling_active": true,
+        "last_successful_poll": "2026-10-10T19:22:00.735474+00:00",
+        "http_status": 304,
+        "consecutive_failures": 0
+      },
+      {
+        "id": "sec_trading_suspensions_rss_v1",
+        "health_state": "OK",
+        "polling_active": true,
+        "last_successful_poll": "2026-10-10T19:19:20.044898+00:00",
+        "http_status": 304,
+        "consecutive_failures": 0
+      },
+      {
+        "id": "sec_administrative_proceedings_rss_v1",
+        "health_state": "OK",
+        "polling_active": true,
+        "last_successful_poll": "2026-10-10T19:23:15.835220+00:00",
+        "http_status": 304,
+        "consecutive_failures": 0
+      },
+      {
+        "id": "sec_litigation_releases_rss_v1",
+        "health_state": "OK",
+        "polling_active": true,
+        "last_successful_poll": "2026-10-10T19:22:22.838861+00:00",
+        "http_status": 304,
+        "consecutive_failures": 0
+      },
+      {
+        "id": "github_geth_releases_v1",
+        "health_state": "OK",
+        "polling_active": true,
+        "last_successful_poll": "2026-10-10T19:23:28.180063+00:00",
+        "http_status": 304,
+        "consecutive_failures": 0
+      },
+      {
+        "id": "github_geth_security_advisories_v1",
+        "health_state": "OK",
+        "polling_active": true,
+        "last_successful_poll": "2026-10-10T19:23:26.897356+00:00",
+        "http_status": 304,
+        "consecutive_failures": 0
+      },
+      {
+        "id": "github_bitcoin_releases_v1",
+        "health_state": "OK",
+        "polling_active": true,
+        "last_successful_poll": "2026-10-10T19:23:44.442681+00:00",
+        "http_status": 304,
+        "consecutive_failures": 0
+      },
+      {
+        "id": "github_bitcoin_security_advisories_v1",
+        "health_state": "OK",
+        "polling_active": true,
+        "last_successful_poll": "2026-10-10T19:19:03.736545+00:00",
+        "http_status": 304,
+        "consecutive_failures": 0
+      },
+      {
+        "id": "ethereum_official_rss_v1",
+        "health_state": "OK",
+        "polling_active": true,
+        "last_successful_poll": "2026-10-10T19:21:55.441965+00:00",
+        "http_status": 304,
+        "consecutive_failures": 0
+      },
+      {
+        "id": "bitcoin_official_rss_v1",
+        "health_state": "OK",
+        "polling_active": true,
+        "last_successful_poll": "2026-10-10T19:21:45.288834+00:00",
+        "http_status": 304,
+        "consecutive_failures": 0
+      },
+      {
+        "id": "gdelt_crypto_discovery_v1",
+        "health_state": "DISABLED",
+        "polling_active": false,
+        "last_successful_poll": null,
+        "http_status": null,
+        "consecutive_failures": null
+      }
+    ]
+  }
+}

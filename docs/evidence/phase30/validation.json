@@ -1,0 +1,58 @@
+{
+  "code_revision": "57e7a01fabcce940da00a370410dfd33a12ac4c7",
+  "full_pytest": {
+    "passed": 1305,
+    "failed": 0,
+    "warnings": 1,
+    "seconds": 1243.41,
+    "command": "PYTHONPATH=src pytest -q -o addopts= -o tmp_path_retention_policy=failed --basetemp=/dev/shm/prism-phase30-release-confirm",
+    "warning": "Existing Starlette httpx test client deprecation"
+  },
+  "phase30_and_nimble_runtime": {
+    "passed": 56,
+    "failed": 0,
+    "warnings": 1,
+    "seconds": 16.01
+  },
+  "requested_regression_scope": [
+    "Phase 29",
+    "Phase 28A",
+    "Phase 27",
+    "Phase 26A",
+    "Phase 25A",
+    "Phase 24B",
+    "Phase 24A",
+    "Phase 23",
+    "runtime"
+  ],
+  "requested_regression_result": "All included in the final 1305-pass full suite",
+  "earlier_intermittent_failures": [
+    {
+      "test": "tests/test_lab_forward.py::test_cli_forward_lifecycle",
+      "reason": "Lab status time-order guard rejected a wall-clock timestamp earlier than the last status event; unchanged module passed 21 tests independently and final full suite passed",
+      "full_attempt_passed": 1304,
+      "full_attempt_failed": 1,
+      "full_attempt_seconds": 1289.68
+    },
+    {
+      "test": "tests/test_microdir_scheduling.py::test_alerts_daily_on_second_consecutive_failure_weekly_on_first",
+      "reason": "Under-load alert count mismatch; unchanged scheduling module passed all nine tests independently and final full suite passed",
+      "regression_attempt_passed": 398,
+      "regression_attempt_failed": 1,
+      "regression_attempt_seconds": 203.72
+    }
+  ],
+  "ruff_check": {
+    "result": "PASS",
+    "scope": "src tests dashboard scripts"
+  },
+  "ruff_format_check": {
+    "result": "PASS",
+    "files": 361
+  },
+  "git_diff_check": "PASS",
+  "deploy_shell_syntax": "PASS",
+  "safety_test_updates": "Only authorized paper event context consumer exemption; migration18 guard validates its own migration rather than forbidding later migrations",
+  "synthetic_calibration": "Deterministic requested scenarios; no PnL parameter fitting",
+  "historical_sanity": "Frozen Solana 2024 outage and SEC 2024 approval mechanics; no historical profitability claim"
+}

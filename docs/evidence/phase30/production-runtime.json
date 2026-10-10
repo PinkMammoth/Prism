@@ -1,0 +1,690 @@
+{
+  "code_revision": "57e7a01fabcce940da00a370410dfd33a12ac4c7",
+  "baseline_before_deploy": {
+    "pid": 141,
+    "start": {
+      "utc": 1791646351.1875563,
+      "cpu_seconds": 319.69,
+      "rss_kib": 233868
+    },
+    "end": {
+      "utc": 1791646411.1972077,
+      "cpu_seconds": 323.68,
+      "rss_kib": 237216
+    },
+    "elapsed_seconds": 60.00965142250061,
+    "worker_cpu_seconds": 3.990000000000009,
+    "samples": [
+      {
+        "heartbeat_at": "2026-10-10T15:32:35.929628+00:00",
+        "state": "IDLE",
+        "runs": [
+          {
+            "db_opened": false,
+            "heartbeat_at": "2026-10-10T15:32:35.929628+00:00",
+            "state": "IDLE"
+          }
+        ]
+      },
+      {
+        "heartbeat_at": "2026-10-10T15:32:39.934178+00:00",
+        "state": "IDLE",
+        "runs": [
+          {
+            "db_opened": false,
+            "heartbeat_at": "2026-10-10T15:32:39.934178+00:00",
+            "state": "IDLE"
+          }
+        ]
+      },
+      {
+        "heartbeat_at": "2026-10-10T15:32:45.940034+00:00",
+        "state": "IDLE",
+        "runs": [
+          {
+            "db_opened": false,
+            "heartbeat_at": "2026-10-10T15:32:45.940034+00:00",
+            "state": "IDLE"
+          }
+        ]
+      },
+      {
+        "heartbeat_at": "2026-10-10T15:32:49.944178+00:00",
+        "state": "IDLE",
+        "runs": [
+          {
+            "db_opened": false,
+            "heartbeat_at": "2026-10-10T15:32:49.944178+00:00",
+            "state": "IDLE"
+          }
+        ]
+      },
+      {
+        "heartbeat_at": "2026-10-10T15:32:55.952074+00:00",
+        "state": "IDLE",
+        "runs": [
+          {
+            "db_opened": false,
+            "heartbeat_at": "2026-10-10T15:32:55.952074+00:00",
+            "state": "IDLE"
+          }
+        ]
+      },
+      {
+        "heartbeat_at": "2026-10-10T15:32:59.956841+00:00",
+        "state": "IDLE",
+        "runs": [
+          {
+            "db_opened": false,
+            "heartbeat_at": "2026-10-10T15:32:59.956841+00:00",
+            "state": "IDLE"
+          }
+        ]
+      },
+      {
+        "heartbeat_at": "2026-10-10T15:33:04.745986+00:00",
+        "state": "OK",
+        "runs": [
+          {
+            "admission": {},
+            "cpu_seconds": 2.0701981990000036,
+            "db_opened": true,
+            "evaluated": [],
+            "heartbeat_at": "2026-10-10T15:33:04.745986+00:00",
+            "last_success_at": "2026-10-10T15:33:03.152384+00:00",
+            "open_positions": 1,
+            "run_id": "paperrun_nimble_a8aef8be36c02700688053a1e57d2f908573fe8898860450b00b889d4f98f54c",
+            "state": "OK",
+            "wall_seconds": 2.787724875845015
+          }
+        ]
+      },
+      {
+        "heartbeat_at": "2026-10-10T15:33:09.319759+00:00",
+        "state": "OK",
+        "runs": [
+          {
+            "admission": {},
+            "cpu_seconds": 1.8721186849999754,
+            "db_opened": true,
+            "evaluated": [
+              {
+                "assets": [
+                  "AAVE",
+                  "BTC",
+                  "ETH",
+                  "HYPE",
+                  "LINK",
+                  "SOL"
+                ],
+                "hypotheses": 8,
+                "observations": 0,
+                "source": "microstructure"
+              }
+            ],
+            "heartbeat_at": "2026-10-10T15:33:09.319759+00:00",
+            "last_success_at": "2026-10-10T15:33:07.948250+00:00",
+            "open_positions": 1,
+            "run_id": "paperrun_nimble_a8aef8be36c02700688053a1e57d2f908573fe8898860450b00b889d4f98f54c",
+            "state": "OK",
+            "wall_seconds": 2.5728432070463896
+          }
+        ]
+      },
+      {
+        "heartbeat_at": "2026-10-10T15:33:15.326688+00:00",
+        "state": "IDLE",
+        "runs": [
+          {
+            "db_opened": false,
+            "heartbeat_at": "2026-10-10T15:33:15.326688+00:00",
+            "state": "IDLE"
+          }
+        ]
+      },
+      {
+        "heartbeat_at": "2026-10-10T15:33:19.331218+00:00",
+        "state": "IDLE",
+        "runs": [
+          {
+            "db_opened": false,
+            "heartbeat_at": "2026-10-10T15:33:19.331218+00:00",
+            "state": "IDLE"
+          }
+        ]
+      },
+      {
+        "heartbeat_at": "2026-10-10T15:33:25.339096+00:00",
+        "state": "IDLE",
+        "runs": [
+          {
+            "db_opened": false,
+            "heartbeat_at": "2026-10-10T15:33:25.339096+00:00",
+            "state": "IDLE"
+          }
+        ]
+      },
+      {
+        "heartbeat_at": "2026-10-10T15:33:29.343945+00:00",
+        "state": "IDLE",
+        "runs": [
+          {
+            "db_opened": false,
+            "heartbeat_at": "2026-10-10T15:33:29.343945+00:00",
+            "state": "IDLE"
+          }
+        ]
+      }
+    ]
+  },
+  "three_active_runs_ordinary_sample": {
+    "resources": {
+      "memory.max": "8000000000",
+      "memory.current": "1198063616",
+      "cpu.max": "800000 100000"
+    },
+    "pid": 141,
+    "start": {
+      "utc": 1791660117.3278975,
+      "cpu_seconds": 1937.73,
+      "rss_kib": 292120
+    },
+    "end": {
+      "utc": 1791660177.3320222,
+      "cpu_seconds": 1953.08,
+      "rss_kib": 292408
+    },
+    "elapsed_seconds": 60.00412464141846,
+    "worker_cpu_seconds": 15.349999999999909,
+    "samples": [
+      {
+        "heartbeat_at": "2026-10-10T19:22:00.654018+00:00",
+        "state": "BUSY",
+        "runs": [
+          {
+            "db_opened": false,
+            "last_success_at": "2026-10-10T19:21:14.605670+00:00",
+            "state": "BUSY"
+          },
+          {
+            "db_opened": false,
+            "last_success_at": "2026-10-10T19:21:19.304708+00:00",
+            "state": "BUSY"
+          },
+          {
+            "db_opened": false,
+            "last_success_at": "2026-10-10T19:21:23.570920+00:00",
+            "state": "BUSY"
+          }
+        ]
+      },
+      {
+        "heartbeat_at": "2026-10-10T19:22:02.657389+00:00",
+        "state": "BUSY",
+        "runs": [
+          {
+            "db_opened": false,
+            "last_success_at": "2026-10-10T19:21:14.605670+00:00",
+            "state": "BUSY"
+          },
+          {
+            "db_opened": false,
+            "last_success_at": "2026-10-10T19:21:19.304708+00:00",
+            "state": "BUSY"
+          },
+          {
+            "db_opened": false,
+            "last_success_at": "2026-10-10T19:21:23.570920+00:00",
+            "state": "BUSY"
+          }
+        ]
+      },
+      {
+        "heartbeat_at": "2026-10-10T19:22:02.657389+00:00",
+        "state": "BUSY",
+        "runs": [
+          {
+            "db_opened": false,
+            "last_success_at": "2026-10-10T19:21:14.605670+00:00",
+            "state": "BUSY"
+          },
+          {
+            "db_opened": false,
+            "last_success_at": "2026-10-10T19:21:19.304708+00:00",
+            "state": "BUSY"
+          },
+          {
+            "db_opened": false,
+            "last_success_at": "2026-10-10T19:21:23.570920+00:00",
+            "state": "BUSY"
+          }
+        ]
+      },
+      {
+        "heartbeat_at": "2026-10-10T19:22:02.657389+00:00",
+        "state": "BUSY",
+        "runs": [
+          {
+            "db_opened": false,
+            "last_success_at": "2026-10-10T19:21:14.605670+00:00",
+            "state": "BUSY"
+          },
+          {
+            "db_opened": false,
+            "last_success_at": "2026-10-10T19:21:19.304708+00:00",
+            "state": "BUSY"
+          },
+          {
+            "db_opened": false,
+            "last_success_at": "2026-10-10T19:21:23.570920+00:00",
+            "state": "BUSY"
+          }
+        ]
+      },
+      {
+        "heartbeat_at": "2026-10-10T19:22:21.720026+00:00",
+        "state": "BUSY",
+        "runs": [
+          {
+            "db_opened": false,
+            "last_success_at": "2026-10-10T19:22:06.163017+00:00",
+            "state": "BUSY"
+          },
+          {
+            "db_opened": false,
+            "state": "IDLE"
+          },
+          {
+            "db_opened": false,
+            "state": "IDLE"
+          }
+        ]
+      },
+      {
+        "heartbeat_at": "2026-10-10T19:22:25.729879+00:00",
+        "state": "BUSY",
+        "runs": [
+          {
+            "db_opened": false,
+            "last_success_at": "2026-10-10T19:22:06.163017+00:00",
+            "state": "BUSY"
+          },
+          {
+            "db_opened": false,
+            "state": "IDLE"
+          },
+          {
+            "db_opened": false,
+            "state": "IDLE"
+          }
+        ]
+      },
+      {
+        "heartbeat_at": "2026-10-10T19:22:31.743382+00:00",
+        "state": "BUSY",
+        "runs": [
+          {
+            "db_opened": false,
+            "last_success_at": "2026-10-10T19:22:06.163017+00:00",
+            "state": "BUSY"
+          },
+          {
+            "db_opened": false,
+            "state": "IDLE"
+          },
+          {
+            "db_opened": false,
+            "state": "IDLE"
+          }
+        ]
+      },
+      {
+        "heartbeat_at": "2026-10-10T19:22:31.743382+00:00",
+        "state": "BUSY",
+        "runs": [
+          {
+            "db_opened": false,
+            "last_success_at": "2026-10-10T19:22:06.163017+00:00",
+            "state": "BUSY"
+          },
+          {
+            "db_opened": false,
+            "state": "IDLE"
+          },
+          {
+            "db_opened": false,
+            "state": "IDLE"
+          }
+        ]
+      },
+      {
+        "heartbeat_at": "2026-10-10T19:22:40.512300+00:00",
+        "state": "OK",
+        "runs": [
+          {
+            "db_opened": false,
+            "state": "IDLE"
+          },
+          {
+            "db_opened": false,
+            "state": "IDLE"
+          },
+          {
+            "db_opened": false,
+            "state": "IDLE"
+          }
+        ]
+      },
+      {
+        "heartbeat_at": "2026-10-10T19:22:46.527054+00:00",
+        "state": "OK",
+        "runs": [
+          {
+            "db_opened": false,
+            "state": "IDLE"
+          },
+          {
+            "db_opened": false,
+            "state": "IDLE"
+          },
+          {
+            "db_opened": false,
+            "state": "IDLE"
+          }
+        ]
+      },
+      {
+        "heartbeat_at": "2026-10-10T19:22:50.534640+00:00",
+        "state": "OK",
+        "runs": [
+          {
+            "db_opened": false,
+            "state": "IDLE"
+          },
+          {
+            "db_opened": false,
+            "state": "IDLE"
+          },
+          {
+            "db_opened": false,
+            "state": "IDLE"
+          }
+        ]
+      },
+      {
+        "heartbeat_at": "2026-10-10T19:22:56.545966+00:00",
+        "state": "OK",
+        "runs": [
+          {
+            "db_opened": false,
+            "state": "IDLE"
+          },
+          {
+            "db_opened": false,
+            "state": "IDLE"
+          },
+          {
+            "db_opened": false,
+            "state": "IDLE"
+          }
+        ]
+      }
+    ]
+  },
+  "earlier_operator_audit_overlap_sample": {
+    "pid": 141,
+    "start": {
+      "utc": 1791660016.7157967,
+      "cpu_seconds": 1917.42,
+      "rss_kib": 289836
+    },
+    "end": {
+      "utc": 1791660076.719915,
+      "cpu_seconds": 1929.48,
+      "rss_kib": 715480
+    },
+    "elapsed_seconds": 60.00411820411682,
+    "worker_cpu_seconds": 12.059999999999945,
+    "samples": [
+      {
+        "heartbeat_at": "2026-10-10T19:20:15.919667+00:00",
+        "state": "BUSY",
+        "runs": [
+          {
+            "db_opened": false,
+            "last_success_at": "2026-10-10T19:20:02.382034+00:00",
+            "state": "BUSY"
+          },
+          {
+            "db_opened": false,
+            "last_success_at": "2026-10-10T19:20:05.585371+00:00",
+            "state": "BUSY"
+          },
+          {
+            "db_opened": false,
+            "state": "IDLE"
+          }
+        ]
+      },
+      {
+        "heartbeat_at": "2026-10-10T19:20:15.919667+00:00",
+        "state": "BUSY",
+        "runs": [
+          {
+            "db_opened": false,
+            "last_success_at": "2026-10-10T19:20:02.382034+00:00",
+            "state": "BUSY"
+          },
+          {
+            "db_opened": false,
+            "last_success_at": "2026-10-10T19:20:05.585371+00:00",
+            "state": "BUSY"
+          },
+          {
+            "db_opened": false,
+            "state": "IDLE"
+          }
+        ]
+      },
+      {
+        "heartbeat_at": "2026-10-10T19:20:31.132211+00:00",
+        "state": "OK",
+        "runs": [
+          {
+            "db_opened": false,
+            "state": "IDLE"
+          },
+          {
+            "db_opened": false,
+            "state": "IDLE"
+          },
+          {
+            "db_opened": false,
+            "state": "IDLE"
+          }
+        ]
+      },
+      {
+        "heartbeat_at": "2026-10-10T19:20:35.141079+00:00",
+        "state": "OK",
+        "runs": [
+          {
+            "db_opened": false,
+            "state": "IDLE"
+          },
+          {
+            "db_opened": false,
+            "state": "IDLE"
+          },
+          {
+            "db_opened": false,
+            "state": "IDLE"
+          }
+        ]
+      },
+      {
+        "heartbeat_at": "2026-10-10T19:20:41.151472+00:00",
+        "state": "OK",
+        "runs": [
+          {
+            "db_opened": false,
+            "state": "IDLE"
+          },
+          {
+            "db_opened": false,
+            "state": "IDLE"
+          },
+          {
+            "db_opened": false,
+            "state": "IDLE"
+          }
+        ]
+      },
+      {
+        "heartbeat_at": "2026-10-10T19:20:45.159509+00:00",
+        "state": "OK",
+        "runs": [
+          {
+            "db_opened": false,
+            "state": "IDLE"
+          },
+          {
+            "db_opened": false,
+            "state": "IDLE"
+          },
+          {
+            "db_opened": false,
+            "state": "IDLE"
+          }
+        ]
+      },
+      {
+        "heartbeat_at": "2026-10-10T19:20:51.171244+00:00",
+        "state": "OK",
+        "runs": [
+          {
+            "db_opened": false,
+            "state": "IDLE"
+          },
+          {
+            "db_opened": false,
+            "state": "IDLE"
+          },
+          {
+            "db_opened": false,
+            "state": "IDLE"
+          }
+        ]
+      },
+      {
+        "heartbeat_at": "2026-10-10T19:20:55.182722+00:00",
+        "state": "OK",
+        "runs": [
+          {
+            "db_opened": false,
+            "state": "IDLE"
+          },
+          {
+            "db_opened": false,
+            "state": "IDLE"
+          },
+          {
+            "db_opened": false,
+            "state": "IDLE"
+          }
+        ]
+      },
+      {
+        "heartbeat_at": "2026-10-10T19:21:01.196948+00:00",
+        "state": "BUSY",
+        "runs": [
+          {
+            "db_opened": false,
+            "last_success_at": "2026-10-10T19:20:19.312286+00:00",
+            "state": "BUSY"
+          },
+          {
+            "db_opened": false,
+            "last_success_at": "2026-10-10T19:20:23.954443+00:00",
+            "state": "BUSY"
+          },
+          {
+            "db_opened": false,
+            "last_success_at": "2026-10-10T19:20:08.551021+00:00",
+            "state": "BUSY"
+          }
+        ]
+      },
+      {
+        "heartbeat_at": "2026-10-10T19:21:05.204849+00:00",
+        "state": "BUSY",
+        "runs": [
+          {
+            "db_opened": false,
+            "last_success_at": "2026-10-10T19:20:19.312286+00:00",
+            "state": "BUSY"
+          },
+          {
+            "db_opened": false,
+            "last_success_at": "2026-10-10T19:20:23.954443+00:00",
+            "state": "BUSY"
+          },
+          {
+            "db_opened": false,
+            "last_success_at": "2026-10-10T19:20:08.551021+00:00",
+            "state": "BUSY"
+          }
+        ]
+      },
+      {
+        "heartbeat_at": "2026-10-10T19:21:11.217031+00:00",
+        "state": "BUSY",
+        "runs": [
+          {
+            "db_opened": false,
+            "last_success_at": "2026-10-10T19:20:19.312286+00:00",
+            "state": "BUSY"
+          },
+          {
+            "db_opened": false,
+            "last_success_at": "2026-10-10T19:20:23.954443+00:00",
+            "state": "BUSY"
+          },
+          {
+            "db_opened": false,
+            "last_success_at": "2026-10-10T19:20:08.551021+00:00",
+            "state": "BUSY"
+          }
+        ]
+      },
+      {
+        "heartbeat_at": "2026-10-10T19:21:11.217031+00:00",
+        "state": "BUSY",
+        "runs": [
+          {
+            "db_opened": false,
+            "last_success_at": "2026-10-10T19:20:19.312286+00:00",
+            "state": "BUSY"
+          },
+          {
+            "db_opened": false,
+            "last_success_at": "2026-10-10T19:20:23.954443+00:00",
+            "state": "BUSY"
+          },
+          {
+            "db_opened": false,
+            "last_success_at": "2026-10-10T19:20:08.551021+00:00",
+            "state": "BUSY"
+          }
+        ]
+      }
+    ]
+  },
+  "limitations": [
+    "A one-minute observation is not a latency SLA or steady-state billing estimate",
+    "Combined worker includes unchanged original 28 evaluators in each of three independent accounts, quote handling and natural runtime writer contention",
+    "RSS measurements are endpoints; a separate observed earlier sample reached 698.71 MiB; this is not a proven process peak",
+    "Before and after samples were taken at different wall-clock times and are not a controlled marginal-cost comparison",
+    "Zero additional data/API subscription cost; infrastructure usage remains on existing Railway service"
+  ]
+}

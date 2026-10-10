@@ -830,6 +830,8 @@ def test_no_live_execution_and_no_consumers():
         for p in (SRC / consumer).rglob("*.py"):
             if consumer == "paper" and "v2" in p.parts:  # Phase 25A causal attribution consumer
                 continue
+            if p == SRC / "paper" / "nimble" / "events.py":  # Phase 30 causal PAPER consumer
+                continue
             assert "market_signal.context" not in p.read_text(), p
     assert "market_signal.context" not in (SRC / "research" / "lab" / "forward.py").read_text()
     ddl = MIGRATIONS[21]

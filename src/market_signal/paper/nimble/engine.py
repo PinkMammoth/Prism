@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import json
 import math
+from contextlib import nullcontext
 from dataclasses import asdict
 from uuid import uuid4
 
@@ -20,7 +21,7 @@ from market_signal.paper.v2 import spec as baseline
 from market_signal.paper.v2.data import clean, ts
 from market_signal.research.lab.common import canonical_json, content_id
 
-from . import spec
+from . import event_spec, spec
 from .model import ExecutionThesis, build_thesis, economics, fill, sign
 
 
@@ -41,17 +42,18 @@ def current(store):
     return rs[-1]["run_id"]
 
 
-def register(store, *, now=None):
+def register(store, *, now=None, events=False):
+    policy = event_spec if events else spec
     at = ts(now or utcnow())
     store.con.execute(
         "INSERT INTO paper_nimble_policies VALUES (?,?,?) ON CONFLICT DO NOTHING",
-        [spec.policy_id(), at.to_pydatetime(), canonical_json(spec.definition())],
+        [policy.policy_id(), at.to_pydatetime(), canonical_json(policy.definition())],
     )
     return {
-        "policy_id": spec.policy_id(),
+        "policy_id": policy.policy_id(),
         "risk_policy_id": spec.risk_id(),
-        "hypotheses": 28,
-        "version": spec.VERSION,
+        "hypotheses": 34 if events else 28,
+        "version": policy.VERSION,
         "mode": "paper",
     }
 
@@ -64,14 +66,31 @@ def load(store, rid):
     p = store.con.execute(
         "SELECT definition FROM paper_nimble_policies WHERE policy_id=?", [run["policy_id"]]
     ).fetchone()
+    policy = event_spec if run["policy_id"] == event_spec.policy_id() else spec
     if (
-        run["policy_id"] != spec.policy_id()
+        run["policy_id"] != policy.policy_id()
         or not p
-        or canonical_json(json.loads(p[0])) != canonical_json(spec.definition())
+        or canonical_json(json.loads(p[0])) != canonical_json(policy.definition())
         or run["risk_policy_id"] != spec.risk_id()
     ):
         raise ValueError("frozen nimble policy identity/content mismatch")
+    if policy is event_spec:
+        d = json.loads(run["definition"])
+        if (
+            d.get("event_variant") not in ("immediate", "confirmed")
+            or d.get("entry_universe_id") != event_spec.universe_id(d["event_variant"])
+            or content_id("paperrun_nimble_", d) != rid
+        ):
+            raise ValueError("frozen event run/cohort identity mismatch")
     return run
+
+
+def hypotheses(store, rid):
+    run = load(store, rid)
+    if run["policy_id"] == event_spec.policy_id():
+        variant = json.loads(run["definition"])["event_variant"]
+        return (*baseline.bootstrap(), *(h for h in event_spec.bootstrap() if h.variant == variant))
+    return baseline.bootstrap()
 
 
 def account(store, rid):
@@ -235,31 +254,49 @@ def verify_baseline(store, rid):
     }
 
 
-def create(store, *, now=None, comparison_days=7):
+def create(store, *, now=None, comparison_days=7, events=False, variant=None):
+    policy = event_spec if events else spec
+    if events and variant not in ("immediate", "confirmed"):
+        raise ValueError("event run requires immediate or confirmed cohort")
     at = ts(now or utcnow())
     p = store.con.execute(
         "SELECT registered_at,definition FROM paper_nimble_policies WHERE policy_id=?",
-        [spec.policy_id()],
+        [policy.policy_id()],
     ).fetchone()
     if (
         not p
         or at < ts(p[0])
-        or canonical_json(json.loads(p[1])) != canonical_json(spec.definition())
+        or canonical_json(json.loads(p[1])) != canonical_json(policy.definition())
     ):
         raise ValueError("register the released frozen nimble policy first")
     for r in runs(store):
-        if account(store, r["run_id"])["status"] == "ACTIVE" or positions(store, r["run_id"]):
+        same_cohort = r["policy_id"] == policy.policy_id() and (
+            not events or json.loads(r["definition"]).get("event_variant") == variant
+        )
+        if same_cohort and (
+            account(store, r["run_id"])["status"] == "ACTIVE" or positions(store, r["run_id"])
+        ):
             raise ValueError("a nimble run is already active or draining")
     d = {
-        "version": spec.VERSION,
+        "version": policy.VERSION,
         "mode": "paper",
         "activated_at": at.isoformat(),
         "nonce": uuid4().hex,
-        "policy_id": spec.policy_id(),
+        "policy_id": policy.policy_id(),
         "risk_policy_id": spec.risk_id(),
         "thesis_policy_version": spec.THESIS_VERSION,
         "exit_policy_version": spec.EXIT_VERSION,
-        "entry_universe_id": baseline.universe_id(),
+        "entry_universe_id": event_spec.universe_id(variant) if events else baseline.universe_id(),
+        **(
+            {
+                "event_variant": variant,
+                "baseline_nimble_runs": [
+                    r["run_id"] for r in runs(store) if r["policy_id"] == spec.policy_id()
+                ],
+            }
+            if events
+            else {}
+        ),
         "baseline": baseline_snapshot(store),
         "comparison_review_at": (at + pd.Timedelta(days=comparison_days)).isoformat(),
     }
@@ -267,7 +304,14 @@ def create(store, *, now=None, comparison_days=7):
     with store.transaction():
         store.con.execute(
             "INSERT INTO paper_nimble_runs VALUES (?,?,?,?,?,?)",
-            [rid, at.to_pydatetime(), "paper", spec.policy_id(), spec.risk_id(), canonical_json(d)],
+            [
+                rid,
+                at.to_pydatetime(),
+                "paper",
+                policy.policy_id(),
+                spec.risk_id(),
+                canonical_json(d),
+            ],
         )
         _account_write(
             store,
@@ -286,6 +330,28 @@ def create(store, *, now=None, comparison_days=7):
         )
         event(store, rid, "activation", "activation", d, at)
     return {"run_id": rid, **d, "starting_equity": 100.0}
+
+
+def create_cohorts(store, *, now=None):
+    """Both independent accounts share one actual activation clock and atomic commit."""
+    at = ts(now or utcnow())
+
+    class Group:
+        def __getattr__(self, key):
+            return getattr(store, key)
+
+        def transaction(self):
+            return nullcontext()
+
+    with store.transaction():
+        cohorts = {
+            v: create(Group(), now=at, events=True, variant=v) for v in ("immediate", "confirmed")
+        }
+    return {
+        "run_id": cohorts["confirmed"]["run_id"],
+        "activated_at": at.isoformat(),
+        "cohorts": cohorts,
+    }
 
 
 def recover(store, rid):
@@ -366,6 +432,11 @@ def _state_invalid(p, updates, now):
         ) <= ts(now):
             continue
         v = u.values
+        if rule == "event_reaction" and v.get("event_id") not in (
+            None,
+            th["context_snapshot"].get("event_entry", {}).get("state", {}).get("event_id"),
+        ):
+            continue
         if rule == "event_reaction" and (
             v.get("event_active") is False or v.get("event_confidence") == "DENIED"
         ):
@@ -692,14 +763,30 @@ def reconcile(store, rid, rates, now):
 def monitor(store, rid, qs, rates=(), updates=(), contexts=None, *, now=None, mark=True):
     at = ts(now or utcnow())
     contexts = contexts or {}
-    load(store, rid)
+    run = load(store, rid)
+    event_run = run["policy_id"] == event_spec.policy_id()
+    from . import events as event_engine
+
+    venue = event_engine.unavailable(store, at) if event_run else None
+    if event_run:
+        updates = [*updates, *event_engine.lifecycle_updates(store, positions(store, rid), at)]
+    if venue:
+        qs = []  # Venue unavailable: no possible entry OR exit fill until recovery.
     ac = account(store, rid)
     for p in positions(store, rid):
         q = _quote(qs, p["asset"], at)
         rate = _predicted(p["asset"], contexts, updates, p) or 0.0
         if p["state"] == "PENDING":
-            reason = None
-            if ac["status"] != "ACTIVE":
+            reason = (
+                "VENUE_UNAVAILABLE"
+                if venue
+                else event_engine.pending_rejection(store, p, at)
+                if event_run
+                else None
+            )
+            if reason:
+                pass
+            elif ac["status"] != "ACTIVE":
                 reason = "ADMIN_STOP"
             elif at - ts(p["intent_at"]) > pd.Timedelta(seconds=60):
                 reason = "EXECUTION_EXPIRED"
@@ -726,6 +813,7 @@ def monitor(store, rid, qs, rates=(), updates=(), contexts=None, *, now=None, ma
                         opened = {
                             **p,
                             "state": "OPEN",
+                            **event_engine.fill_metrics(p, q, xf, at),
                             "entry_at": at.isoformat(),
                             "entry_quote_at": q.at,
                             "entry_quote_available_at": q.available_at,
@@ -739,7 +827,13 @@ def monitor(store, rid, qs, rates=(), updates=(), contexts=None, *, now=None, ma
                             "entry_economics": e,
                             "mfe": 0.0,
                             "mae": 0.0,
-                            "funding_state": {"current_rate": rate},
+                            "funding_state": {
+                                "current_rate": rate,
+                                "next_settlement_at": (
+                                    at.floor("h") + pd.Timedelta(hours=1)
+                                ).isoformat(),
+                                "expected_first_settlement_signed_return": -sign(p["side"]) * rate,
+                            },
                             "last_quote_received_at": q.received_at or q.available_at,
                             "entry_latency_seconds": (
                                 at - ts(p["evidence_available_at"])
@@ -784,7 +878,7 @@ def admit(store, rid, observations, qs, source, contexts=None, *, now=None):
     at = ts(now or utcnow())
     run = load(store, rid)
     activation = ts(run["activated_at"])
-    hs = {h.hypothesis_id: h for h in baseline.bootstrap()}
+    hs = {h.hypothesis_id: h for h in hypotheses(store, rid)}
     contexts = contexts or {}
     candidates = []
     for o in observations:
@@ -813,7 +907,7 @@ def admit(store, rid, observations, qs, source, contexts=None, *, now=None):
             reason = "CONTEXT_UNAVAILABLE"
         elif not o.fired:
             reason = "NO_SIGNAL"
-        elif at - ts(o.signal_at) >= pd.Timedelta(
+        elif h.source_phase != 30 and at - ts(o.signal_at) >= pd.Timedelta(
             minutes=min(20, spec.mapping(h)["expiry_minutes"])
         ):
             reason = "THESIS_ALREADY_STALE"
@@ -908,6 +1002,10 @@ def admit(store, rid, observations, qs, source, contexts=None, *, now=None):
                         if geometry.get("available_at") and ts(geometry["available_at"]) > at:
                             raise ValueError("INVALID_TIMING")
                         thesis = build_thesis(h, o, qs_asset, geometry, at)
+                        if h.source_phase == 30:
+                            thesis = thesis.model_copy(
+                                update={"execution_policy_id": run["policy_id"]}
+                            )
                         e = economics(thesis, qs_asset, rate)
                         if not e["economic"]:
                             reason = "UNECONOMIC_TARGET"
@@ -947,6 +1045,8 @@ def admit(store, rid, observations, qs, source, contexts=None, *, now=None):
                                         canonical_json(td),
                                     ],
                                 )
+                                intent_clock = getattr(source, "intent_clock", None)
+                                intent_at = max(at, ts(intent_clock())) if intent_clock else at
                                 event(
                                     store,
                                     rid,
@@ -965,14 +1065,21 @@ def admit(store, rid, observations, qs, source, contexts=None, *, now=None):
                                         "trigger_at": o.signal_at,
                                         "evidence_available_at": o.available_at,
                                         "evaluator_noticed_at": at.isoformat(),
-                                        "intent_at": at.isoformat(),
+                                        "intent_at": intent_at.isoformat(),
                                         "target_notional": ac["equity"] * 0.2,
                                         "equity_at_decision": ac["equity"],
                                         "economics": e,
                                         "risk_policy_id": spec.risk_id(),
-                                        "funding_state": {"current_rate": rate},
+                                        "funding_state": {
+                                            "current_rate": rate,
+                                            "next_settlement_at": (
+                                                at.floor("h") + pd.Timedelta(hours=1)
+                                            ).isoformat(),
+                                            "expected_first_settlement_signed_return": -sign(h.side)
+                                            * rate,
+                                        },
                                     },
-                                    at,
+                                    intent_at,
                                 )
                                 admission = "ADMITTED"
                     except ValueError as exc:
@@ -997,7 +1104,9 @@ def admit(store, rid, observations, qs, source, contexts=None, *, now=None):
                 "trade_id": tid,
                 "hypothesis": h.model_dump(mode="json") if h else None,
                 "research_primary_minutes": h.horizon_minutes if h else None,
-                "research_horizons_minutes": baseline.HORIZONS,
+                "research_horizons_minutes": event_spec.HORIZONS
+                if h and h.source_phase == 30
+                else baseline.HORIZONS,
                 "evaluated_at": at.isoformat(),
                 "execution_thesis_id": thesis.thesis_id if thesis else None,
                 "capital_blockers": [
@@ -1060,7 +1169,14 @@ def admit(store, rid, observations, qs, source, contexts=None, *, now=None):
                 "reference_quote_at": qs_asset.at,
                 "hypothesis_id": h.hypothesis_id,
                 "primary_minutes": h.horizon_minutes,
-                "horizons": sorted(set((*baseline.HORIZONS, h.horizon_minutes))),
+                "horizons": sorted(
+                    set(
+                        (
+                            *(event_spec.HORIZONS if h.source_phase == 30 else baseline.HORIZONS),
+                            h.horizon_minutes,
+                        )
+                    )
+                ),
                 "completed": [],
             }
             store.con.execute(

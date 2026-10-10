@@ -107,6 +107,14 @@ def _status(s, item, em):
         attributes=GenericAttrs(
             facts={
                 "status": status,
+                "impact": item.get("impact"),
+                "component_states_json": json.dumps(
+                    [
+                        {"id": c.get("id"), "name": c["name"], "status": c.get("status")}
+                        for c in item.get("components", [])
+                    ],
+                    sort_keys=True,
+                ),
                 "source_components": components[:1500],
                 "source_event_id": iid,
                 "source_revision_at": item["updated_at"],

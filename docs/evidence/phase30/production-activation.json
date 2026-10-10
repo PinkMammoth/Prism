@@ -1,0 +1,65 @@
+{
+  "code_revision": "57e7a01fabcce940da00a370410dfd33a12ac4c7",
+  "railway_deployment_id": "6ff52df0-e990-453b-a886-29f9c0da2b46",
+  "activated_at": "2026-10-10T16:15:55.610293+00:00",
+  "atomic_activation": true,
+  "mode": "paper",
+  "version": "paper_nimble_event_v1",
+  "cohorts": {
+    "confirmed": {
+      "run_id": "paperrun_nimble_981fac864a79b04053e1ca081731a692db95b5e69cec9f29e74618e6e84e0528",
+      "policy_id": "paperexecution_event_12208f088bec2bcfaa8dfe10af41ccac81975d012cd2e5b0919ec5918712c885",
+      "risk_policy_id": "paperrisk_v2_475b7c1e87fc2934eba4bb288f07cc818ed7dadb9fc8b9ab8d24a594a772e8b9",
+      "entry_universe_id": "paperuniverse_event_4a76847cbd314501804511b4278e4a878c8ac0e79454683cd7514339f0cb180a",
+      "starting_equity": 100.0,
+      "event_variant": "confirmed",
+      "baseline_nimble_runs": [
+        "paperrun_nimble_a8aef8be36c02700688053a1e57d2f908573fe8898860450b00b889d4f98f54c"
+      ],
+      "comparison_review_at": "2026-10-17T16:15:55.610293+00:00"
+    },
+    "immediate": {
+      "run_id": "paperrun_nimble_a5fafb2cf008686ad99d2e1e039d428cd95349423d2e31778409810be6cce3d3",
+      "policy_id": "paperexecution_event_12208f088bec2bcfaa8dfe10af41ccac81975d012cd2e5b0919ec5918712c885",
+      "risk_policy_id": "paperrisk_v2_475b7c1e87fc2934eba4bb288f07cc818ed7dadb9fc8b9ab8d24a594a772e8b9",
+      "entry_universe_id": "paperuniverse_event_1caa53ff64e6f2afe727bbf1c9df485acccac8ea9054eb292292175f2ba7324f",
+      "starting_equity": 100.0,
+      "event_variant": "immediate",
+      "baseline_nimble_runs": [
+        "paperrun_nimble_a8aef8be36c02700688053a1e57d2f908573fe8898860450b00b889d4f98f54c"
+      ],
+      "comparison_review_at": "2026-10-17T16:15:55.610293+00:00"
+    }
+  },
+  "preflight": {
+    "revision": "57e7a01fabcce940da00a370410dfd33a12ac4c7",
+    "python": "3.12.3",
+    "platform": "Linux-6.18.15+deb13-cloud-amd64-x86_64-with-glibc2.36",
+    "role": "authoritative",
+    "runtime_id": "railway-prism-runtime",
+    "db": "/data/prism.duckdb",
+    "db_exists": true,
+    "disk": {
+      "level": "OK",
+      "detail": "1.69 GiB free of 4.51 GiB (37.6%; warn < 15%, critical < 5%)"
+    },
+    "schema_version": 30,
+    "claim": {
+      "runtime_id": "railway-prism-runtime",
+      "since": "2026-10-04 17:46:19.092023+00:00"
+    },
+    "ready_for_jobs": true
+  },
+  "deployment_record": {
+    "event_id": "rtev_0ebcd144611f407ab352331616f094bd",
+    "git_commit": "57e7a01fabcce940da00a370410dfd33a12ac4c7"
+  },
+  "backup": {
+    "path": "/data/backups/manual/prism-20261010T161349Z-pre-deploy-57e7a01fabcc.duckdb",
+    "sha256": "4cdac6665d06e3bbdd7c7aef2b1349eb1952ebef96acef34fdaa1ebe4c7a70e6",
+    "bytes": 445394944,
+    "schema_version": 29,
+    "verified": true
+  },
+  "git_transport": "Implementation committed locally; user will push complete branch after final evidence commit; no merge performed"
+}

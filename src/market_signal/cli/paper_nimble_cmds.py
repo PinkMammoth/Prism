@@ -17,17 +17,33 @@ def _rid(s, r):
 
 
 @nimble.command("register")
-def register_policy():
-    call(engine.register, write=True)
+def register_policy(events: bool = typer.Option(False, "--events")):
+    call(lambda s: engine.register(s, events=events), write=True)
 
 
 @nimble.command("create")
-def create():
+def create(events: bool = typer.Option(False, "--events"), variant: str = typer.Option(None)):
     def go(s):
         from market_signal.paper.nimble.worker import marker, publish
 
-        r = engine.create(s)
-        publish(marker(s.path), {"run_id": r["run_id"], "activated_at": r["activated_at"]})
+        r = (
+            engine.create_cohorts(s)
+            if events and variant == "both"
+            else engine.create(s, events=events, variant=variant)
+        )
+        publish(
+            marker(s.path),
+            {
+                "run_id": r["run_id"],
+                "run_ids": [
+                    x["run_id"]
+                    for x in engine.runs(s)
+                    if engine.account(s, x["run_id"])["status"] == "ACTIVE"
+                    or engine.positions(s, x["run_id"])
+                ],
+                "activated_at": r["activated_at"],
+            },
+        )
         return r
 
     call(go, write=True)
@@ -38,7 +54,7 @@ def evaluate():
     from market_signal.config import get_settings
     from market_signal.paper.nimble.worker import Worker
 
-    result = Worker(get_settings().paths.db).tick(force=True)
+    result = Worker(get_settings().paths.db).tick_all(force=True)
     from market_signal.cli.common import console
 
     console.print_json(data=result)
@@ -54,6 +70,16 @@ def status(run_id: str = typer.Option(None), as_json: bool = JSON):
 @nimble.command("trades")
 def trades(run_id: str = typer.Option(None), as_json: bool = JSON):
     call(lambda s: report.trades(s, _rid(s, run_id)), as_json=as_json)
+
+
+@nimble.command("events")
+def events_report(run_id: str = typer.Option(None), as_json: bool = JSON):
+    from market_signal.paper.nimble import event_report
+
+    call(
+        lambda s: event_report.summary(s, run_id) if run_id else event_report.comparison(s),
+        as_json=as_json,
+    )
 
 
 @nimble.command("signals")
@@ -109,7 +135,35 @@ def brief(
             from market_signal.portfolio.telegram import TelegramClient
 
             sender = TelegramClient.from_settings(get_settings()).send
-        return report.record_daily(s, engine.current(s), sender=sender, trade_details=trade_details)
+        from market_signal.paper.nimble import event_spec, spec
+
+        runs = engine.runs(s)
+        others = [
+            report.record_daily(s, r["run_id"], trade_details=trade_details)
+            for r in runs
+            if r["policy_id"] == event_spec.policy_id()
+        ]
+        baseline = next(
+            (r["run_id"] for r in reversed(runs) if r["policy_id"] == spec.policy_id()),
+            engine.current(s),
+        )
+        deliver = sender
+        if sender and others:
+
+            def deliver(text):
+                import json
+
+                variants = {
+                    r["run_id"]: json.loads(r["definition"]).get("event_variant") for r in runs
+                }
+                text += "\n" + "\n".join(
+                    f"Event {variants[r['report']['run_id']]}: {r['report']['trades']} closed, net ${r['report']['net_pnl']:.4f}"
+                    for r in others
+                )
+                return sender(text)
+
+        result = report.record_daily(s, baseline, sender=deliver, trade_details=trade_details)
+        return {**result, "event_cohort_reports": others}
 
     result = call(go, write=True)
     if result.get("delivery") == "failed":
