@@ -13,7 +13,7 @@ if [ "${PRISM_CONTEXT_GATEWAY:-off}" = on ]; then
   echo '* * * * * market context gateway health --check --json' >> /tmp/prism.crontab
 fi
 if [ "${PRISM_FREE_SOURCES:-off}" = on ]; then
-  echo '* * * * * market context sources status --check --json' >> /tmp/prism.crontab
+  echo '* * * * * market context sources status --check' >> /tmp/prism.crontab
 fi
 cat /tmp/prism.crontab
 # Phase 24A: the persistent Hyperliquid microstructure collector (public market data only).
