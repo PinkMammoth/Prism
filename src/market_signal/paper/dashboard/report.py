@@ -18,6 +18,12 @@ from market_signal.paper.nimble.report import capture_metrics, metrics
 from market_signal.research.lab.common import content_id
 
 SYSTEMS = {"v2": "Paper v2 fixed-horizon baseline", "nimble": "paper_nimble_v1"}
+COHORTS = {
+    "v2": SYSTEMS["v2"],
+    "nimble": "Nimble · original",
+    "event_immediate": "Nimble events · immediate",
+    "event_confirmed": "Nimble events · confirmed",
+}
 EXIT_REASONS = (
     "TAKE_PROFIT",
     "PRICE_INVALIDATION",
@@ -97,6 +103,8 @@ def runs(con) -> list[dict[str, Any]]:
             continue
         for run in rows(con, f"SELECT * FROM {prefix}_runs ORDER BY activated_at DESC,run_id"):
             definition = _json(run["definition"])
+            variant = definition.get("event_variant")
+            cohort = "event_" + variant if system == "nimble" and variant else system
             policy = (
                 con.execute(
                     "SELECT definition FROM paper_v2_policies WHERE policy_id=?",
@@ -150,15 +158,22 @@ def runs(con) -> list[dict[str, Any]]:
                     "definition": definition,
                     "system": system,
                     "name": definition.get("name") or definition.get("version") or name,
-                    "label": name,
+                    "label": COHORTS.get(cohort, definition.get("version") or name),
+                    "cohort": cohort,
+                    "event_variant": variant,
+                    "execution_version": definition.get("version"),
                     "status": state,
                     "starting_equity": starting,
                     "equity": account.get("equity", starting),
                     "last_update": max(filter(None, [last, evaluation]), default=None),
                     "account": account,
                     "hypotheses": {
-                        h.get("hypothesis_id") or content_id("paperhyp_v2_", h): h
+                        h.get("hypothesis_id")
+                        or content_id(
+                            "eventhyp_v1_" if h.get("source_phase") == 30 else "paperhyp_v2_", h
+                        ): h
                         for h in frozen.get("hypotheses", [])
+                        if h.get("source_phase") != 30 or h.get("variant") == variant
                     },
                     "baseline_run_id": definition.get("baseline", {}).get("run", {}).get("run_id")
                     if definition.get("baseline", {}).get("run")
@@ -253,6 +268,23 @@ def normalize(record, run) -> dict[str, Any]:
     p["run_id"] = run["run_id"]
     p["hypothesis_id"] = p.get("hypothesis_id", p.get("primary_hypothesis_id"))
     p["hypothesis_name"] = run.get("hypotheses", {}).get(p["hypothesis_id"], {}).get("name")
+    hypothesis = run.get("hypotheses", {}).get(p["hypothesis_id"], {})
+    event = p.get("event_entry") or {}
+    p.update(
+        cohort=run["cohort"],
+        source_phase=hypothesis.get("source_phase"),
+        execution_component="event" if hypothesis.get("source_phase") == 30 else "original",
+        event_id=event.get("state", {}).get("event_id"),
+        event_class=event.get("family"),
+        entry_variant=event.get("variant"),
+        source_provider=event.get("report", {}).get("source_id"),
+        confirmation_delay_seconds=event.get("confirmation_delay_seconds"),
+        event_age_at_entry_seconds=p.get("event_age_at_entry_seconds"),
+        move_missed_before_fill=p.get("PRE_ENTRY_REACTION_CAPTURED", {}).get(
+            "signed_mid_move_before_fill"
+        ),
+        confluence=event.get("confluence", {}).get("label"),
+    )
     p["family"] = record.get("family") or run.get("hypotheses", {}).get(p["hypothesis_id"], {}).get(
         "family"
     )
@@ -312,6 +344,17 @@ def normalize(record, run) -> dict[str, Any]:
         "state",
         "run",
         "run_id",
+        "cohort",
+        "source_phase",
+        "execution_component",
+        "event_id",
+        "event_class",
+        "entry_variant",
+        "source_provider",
+        "confirmation_delay_seconds",
+        "event_age_at_entry_seconds",
+        "move_missed_before_fill",
+        "confluence",
         "trade_id",
         "asset",
         "side",
@@ -523,7 +566,13 @@ class Report:
         ]
 
     def groups(self, dimensions=("hypothesis_id", "family", "asset", "side")):
-        if not dimensions or not set(dimensions) <= {"hypothesis_id", "family", "asset", "side"}:
+        if not dimensions or not set(dimensions) <= {
+            "hypothesis_id",
+            "family",
+            "asset",
+            "side",
+            "execution_component",
+        }:
             raise ValueError("unsupported grouping")
         grouped, counts = defaultdict(list), defaultdict(Counter)
         for t in self.trades:
@@ -533,6 +582,10 @@ class Report:
                 **o,
                 "family": o["family"]
                 or self.run.get("hypotheses", {}).get(o["hypothesis_id"], {}).get("family"),
+                "execution_component": "event"
+                if self.run.get("hypotheses", {}).get(o["hypothesis_id"], {}).get("source_phase")
+                == 30
+                else "original",
             }
             key = tuple(o.get(d) for d in dimensions)
             counts[key].update(signals=o["signals"], admissions=o["admissions"])

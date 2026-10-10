@@ -15,6 +15,7 @@ import common
 import paper_data
 from market_signal.data.store import DatabaseBusy
 from market_signal.paper.dashboard.report import (
+    COHORTS,
     SORT_FIELDS,
     comparison,
     required_timestamp,
@@ -52,6 +53,15 @@ TRADE_FIELDS = [
     "side",
     "hypothesis_id",
     "hypothesis_name",
+    "execution_component",
+    "event_id",
+    "event_class",
+    "entry_variant",
+    "source_provider",
+    "event_age_at_entry_seconds",
+    "confirmation_delay_seconds",
+    "move_missed_before_fill",
+    "confluence",
     "family",
     "entry_at",
     "exit_at",
@@ -106,6 +116,10 @@ OPEN_FIELDS = [
     "funding_reserve",
     "hypothesis_id",
     "hypothesis_name",
+    "execution_component",
+    "event_id",
+    "event_class",
+    "entry_variant",
     "age_minutes",
     "target",
     "invalidation",
@@ -145,7 +159,7 @@ def table(data, fields=None):
 
 
 def draw_curves(reports, detail, individual=False):
-    colors = ["#4a6fa5", "#b7791f"]
+    colors = ["#4a6fa5", "#b7791f", "#36816b", "#ad597b"]
     figures = []
     combined = go.Figure()
     for i, r in enumerate(reports):
@@ -188,6 +202,125 @@ def draw_curves(reports, detail, individual=False):
     st.caption(
         "Cash follows accounting events as steps. Diamonds are observed MTM, including open positions and funding reserves; no interpolated returns. Dotted lines mark activation. Long histories retain actual bucket extrema and endpoints; sampled cash is shown as points so omitted accounting events do not become invented steps."
     )
+
+
+def decision_views(path, revision, reports, start, end):
+    st.caption(
+        "Inspect recorded decisions for each independent account. Signal evaluations, event classifications, confirmation waits, and execution outcomes are separate stages; their counts must not be added as trades. Only fired signal evaluations are listed."
+    )
+    if not reports:
+        return
+    r = st.selectbox("Inspect decisions for", reports, format_func=lambda item: item.run["label"])
+    args = (str(path), revision, r.run["run_id"], start, end)
+    overview, reasons = paper_data.decision_overview(*args)
+    if overview is not None:
+        if not overview["available"]:
+            st.warning(
+                "Event decision evidence is absent from this snapshot. Cohort metadata and trade performance are still available. Retrieve a newer snapshot with the updated pull_paper_snapshot.py; reloading this file cannot add missing tables."
+            )
+        else:
+            st.markdown("**Event cohort decisions**")
+            table([overview["counts"]])
+            st.caption(
+                "Logical events are distinct within this cohort and window. Rejections and waits count evidence observations, not unique rejected events. Pending is the current snapshot state. Classification rows without an assigned hypothesis appear in the decision ledger rather than hypothesis counts."
+            )
+            table(overview["hypotheses"])
+            st.markdown("**Original vs event execution contribution**")
+            table(overview["components"], ["execution_component", *GROUP_FIELDS])
+            st.caption(
+                "These components belong to this account; the immediate and confirmed accounts remain separate. All metrics are descriptive."
+            )
+    with st.expander("Reasons by decision stage"):
+        table(reasons)
+        st.caption(
+            "Top 30 recorded reason/stage combinations. Confirmation waits and observed source gates are not terminal rejections."
+        )
+    scope, asset_control, reason_control = st.columns(3)
+    sources = [None, "opportunity", "execution"]
+    if r.run.get("event_variant"):
+        sources.append("event evidence")
+    source = scope.selectbox("Decision stage", sources, format_func=lambda v: v or "All stages")
+    asset = asset_control.text_input("Decision asset · exact", key="decision_asset")
+    reason = reason_control.text_input("Decision reason · exact", key="decision_reason")
+    event_control, trade_control = st.columns(2)
+    event_id = event_control.text_input("Event ID · exact", key="decision_event")
+    trade_id = trade_control.text_input("Trade ID · exact", key="decision_trade")
+    filters = (source, reason, asset, event_id, trade_id)
+    page_rows, total = paper_data.decision_page(*args, *filters)
+    pages = max(1, math.ceil(total / 50))
+    page_key = "decision_page"
+    if st.session_state.get(page_key, 1) > pages:
+        st.session_state[page_key] = 1
+    page = int(st.number_input("Decision page · 50 rows", 1, pages, 1, key=page_key)) - 1
+    if page:
+        page_rows, _ = paper_data.decision_page(*args, *filters, page=page)
+    st.caption(
+        f"{total:,} matching records · page {page + 1}/{pages}. Timestamps and reasons are persisted production observations."
+    )
+    decision_fields = [
+        "timestamp",
+        "source",
+        "kind",
+        "outcome",
+        "reason",
+        "asset",
+        "side",
+        "hypothesis_name",
+        "hypothesis_id",
+        "event_id",
+        "trade_id",
+        "id",
+    ]
+    table(page_rows, decision_fields)
+    if not page_rows:
+        return
+    choice = st.selectbox(
+        "Inspect a recorded decision",
+        [None, *page_rows],
+        format_func=lambda v: (
+            "Select a record"
+            if v is None
+            else f"{v['timestamp']} · {v['kind']} · {v['reason'] or v['outcome']} · {v['id']}"
+        ),
+    )
+    if choice is None:
+        return
+    evidence = paper_data.decision_detail(*args, choice["source"], choice["id"])
+    st.caption(
+        "Recorded payload for this timestamp: admission gates, causal source clocks, context, geometry, confirmation, and reasons are shown where persisted. Later execution state is displayed separately below."
+    )
+    table(evidence["facts"])
+    if evidence["source_timings"]:
+        table(
+            evidence["source_timings"],
+            [
+                "provider",
+                "source_publication_at",
+                "collector_observed_at",
+                "gateway_received_at",
+                "context_available_at",
+                "first_evaluator_notice_at",
+            ],
+        )
+    with st.expander("Complete recorded decision evidence", expanded=True):
+        st.json(evidence["recorded_payload"])
+    if evidence.get("frozen_entry_thesis"):
+        with st.expander("Frozen entry thesis"):
+            st.json(evidence["frozen_entry_thesis"])
+    if evidence.get("latest_trade_state"):
+        with st.expander("Latest recorded trade state · may postdate this decision"):
+            st.json(evidence["latest_trade_state"])
+        timeline, count = paper_data.decision_page(
+            *args, source="execution", trade_id=choice["trade_id"]
+        )
+        st.caption(f"Related execution events in this window · latest {len(timeline)} of {count}.")
+        table(timeline, decision_fields)
+    if choice.get("event_id"):
+        timeline, count = paper_data.decision_page(*args, event_id=choice["event_id"])
+        st.caption(
+            f"Related event evidence and execution in this window · latest {len(timeline)} of {count}. Filter by this Event ID above to paginate the full timeline."
+        )
+        table(timeline, decision_fields)
 
 
 def main():
@@ -241,20 +374,20 @@ def main():
         )
         return
     selected = []
-    for column, system in zip(st.columns(2), ("v2", "nimble"), strict=True):
+    for column, cohort in zip(st.columns(4), COHORTS, strict=True):
         with column:
-            options = [r for r in metadata if r["system"] == system]
+            options = [r for r in metadata if r["cohort"] == cohort]
             if not options:
-                st.info(f"No {system} run in this snapshot.")
+                st.info(f"No {COHORTS[cohort]} run in this snapshot.")
                 continue
             # Select the active production run, never an embedded/hardcoded run identity.
             index = next((i for i, r in enumerate(options) if r["status"] == "ACTIVE"), 0)
             run = st.selectbox(
-                "Paper v2 baseline" if system == "v2" else "paper_nimble_v1",
+                COHORTS[cohort],
                 options,
                 index=index,
                 format_func=lambda r: f"{r['name']} · {r['status']} · {r['run_id']}",
-                key=f"paper_run_{system}",
+                key=f"paper_run_{cohort}",
             )
             if run is None:
                 continue
@@ -263,6 +396,35 @@ def main():
             st.write(f"{run['status']} · activated {run['activated_at']}")
             st.metric("Current observed equity", fmt(run["equity"], "$"))
             st.caption(f"Last evaluation / update: {run['last_update'] or 'N/A'}")
+            if cohort == "v2":
+                st.caption(
+                    "Retired strategy · historical comparator. Stored run status is shown above."
+                )
+            with st.expander("Run metadata"):
+                st.json(
+                    {
+                        k: run.get(k)
+                        for k in (
+                            "execution_version",
+                            "event_variant",
+                            "policy_id",
+                            "risk_policy_id",
+                            "universe_id",
+                            "baseline_run_id",
+                        )
+                    }
+                    | {
+                        "entry_universe_id": run["definition"].get("entry_universe_id"),
+                        "hypothesis_count": len(run["hypotheses"]),
+                        "event_hypothesis_count": sum(
+                            h.get("source_phase") == 30 for h in run["hypotheses"].values()
+                        ),
+                        "baseline_nimble_runs": run["definition"].get("baseline_nimble_runs", []),
+                        "thesis_policy_version": run["definition"].get("thesis_policy_version"),
+                        "exit_policy_version": run["definition"].get("exit_policy_version"),
+                        "comparison_review_at": run["definition"].get("comparison_review_at"),
+                    }
+                )
             if run["last_update"] is None or required_timestamp(
                 pd.Timestamp.now(tz="UTC")
             ) - required_timestamp(run["last_update"]) > pd.Timedelta(minutes=30):
@@ -299,18 +461,29 @@ def main():
             r.run["run_id"]: paper_data.details(str(path), revision, r.run["run_id"], start, end)
             for r in reports
         }
-    if len(reports) == 2:
-        st.subheader("Baseline vs nimble")
+    if len(reports) >= 2:
+        st.subheader("Run comparison")
+        left, right = st.columns(2)
+        comparator = left.selectbox("Comparator", reports, format_func=lambda r: r.run["label"])
+        compared = right.selectbox(
+            "Compared run",
+            [r for r in reports if r is not comparator],
+            format_func=lambda r: r.run["label"],
+        )
         with paper_data.connection(path) as con:
-            c = comparison(reports[0], reports[1], con)
+            c = comparison(comparator, compared, con)
         st.info(c["conclusion"])
-        expected_baseline = reports[1].run.get("baseline_run_id")
-        if expected_baseline and expected_baseline != reports[0].run["run_id"]:
+        expected_baseline = compared.run.get("baseline_run_id")
+        if (
+            comparator.run["system"] == "v2"
+            and expected_baseline
+            and expected_baseline != comparator.run["run_id"]
+        ):
             st.warning(
                 f"Selected baseline differs from nimble’s registered comparison baseline: {expected_baseline}. This is an alternate descriptive comparison."
             )
         st.caption(
-            f"Common prospective entry interval: {c['start']} → {c['end']}. Closed samples: baseline {c['samples'][0]}, nimble {c['samples'][1]}. Differences are nimble minus baseline; separate accounts and fills are not paired trials."
+            f"Common prospective entry interval: {c['start']} → {c['end']}. Closed samples: comparator {c['samples'][0]}, compared run {c['samples'][1]}. Differences are compared run minus comparator; independent accounts remain separate. V2 is retained for historical analysis."
         )
         diff_labels = {
             "net_pnl": "$",
@@ -325,13 +498,13 @@ def main():
             [
                 {
                     "Difference": k.replace("_", " "),
-                    "Nimble − baseline": fmt(c["differences"][k], kind),
+                    "Compared run − comparator": fmt(c["differences"][k], kind),
                 }
                 for k, kind in diff_labels.items()
             ]
         )
         st.caption(
-            "Drawdown compares observed MTM over the common interval, against each run’s historical peak. Baseline capture data is unavailable, so its capture difference is N/A. A count of 30 per run only removes the small-sample notice; it is not a significance test."
+            "Drawdown compares observed MTM over the common interval, against each run’s historical peak. Capture differences are N/A unless both runs have complete primary research paths. A count of 30 per run only removes the small-sample notice; it is not a significance test."
         )
     st.subheader("Comparison overview")
     table(
@@ -342,7 +515,16 @@ def main():
     )
     st.subheader("Equity")
     draw_curves(reports, detail, st.toggle("Individual equity charts"))
-    pnl_tab, open_tab, closed_tab, side_tab, hypothesis_tab, exit_tab, activity_tab = st.tabs(
+    (
+        pnl_tab,
+        open_tab,
+        closed_tab,
+        side_tab,
+        hypothesis_tab,
+        exit_tab,
+        activity_tab,
+        decisions_tab,
+    ) = st.tabs(
         [
             "PnL attribution",
             "Open positions",
@@ -351,6 +533,7 @@ def main():
             "Hypotheses",
             "Nimble exits",
             "Activity",
+            "Decisions / event cohorts",
         ]
     )
     with pnl_tab:
@@ -499,6 +682,7 @@ def main():
     with exit_tab:
         for r in reports:
             if r.run["system"] == "nimble":
+                st.markdown(f"**{r.run['label']}**")
                 table(r.exits())
                 st.caption(
                     "Exact mechanical ledger reasons are retained, including additional reasons. Empty categories have count 0 and outcome N/A."
@@ -512,6 +696,8 @@ def main():
                 table(detail[r.run["run_id"]][1])
                 st.markdown("Top rejection reasons · selected window")
                 table(r.rejections)
+    with decisions_tab:
+        decision_views(path, revision, reports, start, end)
 
 
 def workflow():

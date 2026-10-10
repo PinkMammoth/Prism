@@ -17,11 +17,14 @@ from market_signal.paper.dashboard.report import Report, freshness, runs
 from tests.test_paper_dashboard import accounts  # noqa: F401
 
 
+@pytest.mark.parametrize("event_tables", [False, True])
 def test_compact_snapshot_round_trip_read_only_remote_commands(
-    monkeypatch, tmp_path, store, accounts
+    monkeypatch, tmp_path, store, accounts, event_tables
 ):
     export = {}
     for table in snapshot.PAPER_TABLES:
+        if not event_tables and table in snapshot.OPTIONAL_PAPER_TABLES:
+            continue
         columns = store.con.execute(
             "SELECT column_name,data_type FROM information_schema.columns WHERE table_name=? ORDER BY ordinal_position",
             [table],
@@ -55,6 +58,7 @@ def test_compact_snapshot_round_trip_read_only_remote_commands(
         for word in ("INSERT ", "DELETE ", "UPDATE ", "CHECKPOINT", "COPY ")
     )
     assert result["export_sha256"] == checksum
+    assert result["event_evidence_available"] is event_tables
     assert result["snapshot_at"] == "2026-10-10T14:13:31+00:00"
     with duckdb.connect(str(dest), read_only=True) as con:
         metadata = runs(con)

@@ -34,7 +34,7 @@ def command(args, *, capture=True):
 
 # The remote program opens an existing immutable backup, never the production live DB.
 # Keep an explicit table/filter allowlist. No remote files or export artifacts are written.
-PAPER_TABLES = (
+REQUIRED_PAPER_TABLES = (
     "paper_v2_universes",
     "paper_v2_policies",
     "paper_v2_runs",
@@ -50,6 +50,8 @@ PAPER_TABLES = (
     "paper_nimble_theses",
     "paper_nimble_research",
 )
+OPTIONAL_PAPER_TABLES = ("paper_event_evidence", "paper_event_pending")
+PAPER_TABLES = (*REQUIRED_PAPER_TABLES, *OPTIONAL_PAPER_TABLES)
 REMOTE_EXPORT = """
 import base64, gzip, hashlib, json, sys
 import duckdb
@@ -58,6 +60,8 @@ con.execute("BEGIN TRANSACTION")
 out = {}
 for table in sys.argv[2:]:
     columns = con.execute("SELECT column_name,data_type FROM information_schema.columns WHERE table_name=? ORDER BY ordinal_position", [table]).fetchall()
+    if not columns:
+        continue
     where = " WHERE fired" if table.endswith("_opportunities") else " WHERE event_type != 'position_mark'" if table == 'paper_nimble_events' else ''
     values = con.execute('SELECT * FROM ' + table + where).fetchall()
     out[table] = {"columns": columns, "rows": values}
@@ -92,11 +96,13 @@ def export_paper_backup(remote, destination, service):
     if hashlib.sha256(raw).hexdigest() != expected:
         raise ValueError("Paper export checksum mismatch; previous snapshot retained")
     exported = json.loads(raw)
-    if set(exported) != set(PAPER_TABLES):
+    if not set(REQUIRED_PAPER_TABLES) <= set(exported) or not set(exported) <= set(PAPER_TABLES):
         raise ValueError("Paper export table set differs from the reporting allowlist")
     with duckdb.connect(str(destination)) as con:
         con.execute("BEGIN TRANSACTION")
         for table in PAPER_TABLES:
+            if table not in exported:
+                continue
             columns = exported[table]["columns"]
             # Types and names are validated before building local-only snapshot tables.
             if not columns or any(
@@ -210,9 +216,10 @@ def pull(
         # Remote filename is the production backup creation timestamp, not local mtime.
         manifest = {
             "source": "Railway existing verified backup",
-            "scope": "paper observability tables; fired opportunities; no per-position mark events"
+            "scope": "paper observability tables; fired opportunities; optional event evidence and pending decisions; no per-position mark events"
             if paper_only
             else "full database backup",
+            "event_evidence_available": "paper_event_evidence" in tables,
             "production_backup_sha256": match[1],
             "export_sha256": export_digest,
             "production_path": remote,
