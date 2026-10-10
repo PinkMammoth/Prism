@@ -1477,5 +1477,28 @@
   "design_principles": [
     "Fast deterministic/public feeds are the primary event-discovery layer.",
     "Work is a slower semantic layer, not the primary trigger for short-horizon execution."
-  ]
+  ],
+  "production_activation": {
+    "at": "2026-10-10T14:21:06.063521+00:00",
+    "revision": "1cf6c993297627de9300f37b4196d0c29c36e86d",
+    "stage": 4,
+    "active_sources": 18,
+    "DATA_COST": "\u00a30",
+    "health_gate": "PASS",
+    "runtime_interval": {
+      "seconds": 106.277035,
+      "collector_cpu_seconds": 0.09999999999999964,
+      "requests": 10,
+      "wire_body_bytes": 31512,
+      "decoded_body_bytes": 212155,
+      "collector_cpu_seconds_per_day_short_sample_extrapolation": 81.2969612861327,
+      "incoming_body_bytes_per_day_short_sample_extrapolation": 25618298.440486226
+    },
+    "rss_bytes": 166338560,
+    "peak_rss_bytes": 176132096,
+    "spool_bytes": 26166,
+    "observed_requests": 77,
+    "observed_compressed_body_bytes": 1126960,
+    "limitations": "Short sample; incoming body counters exclude HTTP/TLS overhead. Infrastructure estimate remains conservative scratch-benchmark projection, not measured bill."
+  }
 }

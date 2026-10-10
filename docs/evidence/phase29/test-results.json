@@ -34,5 +34,17 @@
     "Final full run outside restricted sandbox to permit Starlette test event-loop sockets.",
     "Earlier complete run had two failures: stale migration count corrected; gateway snapshot test passed isolated recheck and final full suite.",
     "Four warnings are existing Starlette TestClient deprecation warnings."
-  ]
+  ],
+  "post_rollout_logging_correction": {
+    "change": "watchdog uses compact text rather than full JSON",
+    "bash_syntax": "passed",
+    "git_diff_check": "passed",
+    "production_health_gate": "passed",
+    "no_python_changes_after_full_suite": true
+  },
+  "post_rollout_phase29_run": {
+    "passed": 33,
+    "failed": 0,
+    "duration_seconds": 9.07
+  }
 }
