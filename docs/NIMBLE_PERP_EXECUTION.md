@@ -175,3 +175,12 @@ A profitable week does not graduate anything to live. Live transport, security, 
 ## Exactly one recommended next phase
 
 **Phase 26B: deterministic government-labelled BTC transfer source with canonical transaction episodes and separately registered immediate/confirmed reaction hypotheses.** Phase 27 prepares its execution semantics; the watcher, address labels and its new entry registrations are not implemented here.
+
+## Verified activation
+
+The separate production run activated **2026-10-10T08:08:42.616803+00:00** on
+source revision `47ac3240355eb02197e1304a07619f6f6cf28db9`. V2 remains the running
+baseline, with operational comparison review at **2026-10-17T08:08:42.616803+00:00**.
+The [full execution report](PHASE27_EXECUTION_REPORT.md) records exact identities,
+backup, 1,199 passing tests, source latency, resources and verified supervisor restart.
+No live execution or prospective test trades were introduced.
