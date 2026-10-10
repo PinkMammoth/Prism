@@ -33,27 +33,33 @@ def trades(store, rid):
             if h.hypothesis_id == p["hypothesis_id"]
         )
         reference = rs.get(primary)
-        # Ratios compare prices on the SAME entry reference. Signal research and fill time
-        # can differ, so normalize extrema back to this trade's actual reference.
-        capture = avoid = None
-        if reference and not reference["missing_path"]:
-            s = engine.sign(p["side"])
-            r = reference["reference_price"] / p["entry_ref"]
-            whole_mfe = max(0.0, s * (r - 1) + reference["mfe"] * r)
-            whole_mae = min(0.0, s * (r - 1) + reference["mae"] * r)
-            realized = s * (p["exit_ref"] / p["entry_ref"] - 1)
-            capture = realized / whole_mfe if realized > 0 and whole_mfe > 0 else None
-            avoid = max(0.0, p["mae"] - whole_mae)
         out.append(
             {
                 **p,
                 "research_forward_curves": rs,
-                "mfe_capture_ratio": capture,
-                "mae_avoidance": avoid,
-                "capture_metrics_basis": "complete_original_primary_research_path_or_unavailable",
+                **capture_metrics(p, reference),
             }
         )
     return out
+
+
+def capture_metrics(p, reference):
+    """Shared Phase 27 capture accounting for complete original primary research paths."""
+    # Signal research and fill time can differ: normalize to the trade's entry reference.
+    capture = avoid = None
+    if reference and not reference["missing_path"]:
+        s = engine.sign(p["side"])
+        r = reference["reference_price"] / p["entry_ref"]
+        whole_mfe = max(0.0, s * (r - 1) + reference["mfe"] * r)
+        whole_mae = min(0.0, s * (r - 1) + reference["mae"] * r)
+        realized = s * (p["exit_ref"] / p["entry_ref"] - 1)
+        capture = realized / whole_mfe if realized > 0 and whole_mfe > 0 else None
+        avoid = max(0.0, p["mae"] - whole_mae)
+    return {
+        "mfe_capture_ratio": capture,
+        "mae_avoidance": avoid,
+        "capture_metrics_basis": "complete_original_primary_research_path_or_unavailable",
+    }
 
 
 def signals(store, rid):

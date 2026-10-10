@@ -1,0 +1,14 @@
+{
+  "include": [
+    "dashboard/paper_app.py",
+    "dashboard/paper_data.py",
+    "dashboard/views/paper.py",
+    "src/market_signal/paper/dashboard",
+    "scripts/pull_paper_snapshot.py"
+  ],
+  "extraPaths": ["src", "dashboard"],
+  "venvPath": ".",
+  "venv": ".venv",
+  "pythonVersion": "3.12",
+  "typeCheckingMode": "basic"
+}
