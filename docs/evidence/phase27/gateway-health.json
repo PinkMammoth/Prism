@@ -1,0 +1,38 @@
+{
+  "accepted_24h": 7,
+  "alerts": [],
+  "auth_state": "OAUTH_CONFIGURED",
+  "counts": {
+    "accepted": 7,
+    "auth_rejected": 17,
+    "duplicate": 2,
+    "rejected": 84,
+    "schema_rejected": 7,
+    "spool_failure": 0
+  },
+  "duplicates_24h": 2,
+  "last_accepted_submission": "2026-10-09T18:14:06.346729+00:00",
+  "last_rejected_submission": "2026-10-09T19:41:03.759698+00:00",
+  "last_successful_ingest": "2026-10-09T18:14:07.837434+00:00",
+  "oldest_uningested_age_s": 0,
+  "p50_ingest_latency_s": 1.728604,
+  "p95_ingest_latency_s": 2.740731,
+  "provider": "chatgpt_work_v1",
+  "provider_quality": {
+    "accepted_rate_24h": 0.06086956521739131,
+    "corroborated_later": 0,
+    "denied_later": 0,
+    "descriptive_only": true,
+    "duplicate_rate_24h": 0.2222222222222222,
+    "ingested_receipts": 4,
+    "median_gateway_latency_s": 1.617385,
+    "median_time_to_corroboration_s": null,
+    "provider": "chatgpt_work_v1"
+  },
+  "rejected_24h": 108,
+  "retry_error_attempts": 0,
+  "running": true,
+  "spool_backlog": 0,
+  "started_at": "2026-10-10T08:06:07.349746+00:00",
+  "worker_running": true
+}

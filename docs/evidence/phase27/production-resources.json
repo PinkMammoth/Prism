@@ -1,0 +1,17 @@
+{
+  "sample_start": "2026-10-10T08:11:56.477079+00:00",
+  "sample_end": "2026-10-10T08:16:14.682078+00:00",
+  "cpu_seconds_increment": 14.5,
+  "interval_seconds": 258.204999,
+  "average_vcpu_short_sample": 0.056156929788954243,
+  "rss_kib_before_restart": 236132,
+  "rss_kib_after_restart": 214796,
+  "limitations": [
+    "short initial zero-position sample",
+    "not Railway billed usage",
+    "CPU includes ingestion/catalog/adapter work",
+    "holding positions adds state/funding monitoring work",
+    "writer contention can delay exits",
+    "fresh quote availability varies by asset"
+  ]
+}

@@ -37,6 +37,14 @@ if [ "${PRISM_RUNTIME_ROLE:-}" = authoritative ] && [ "${PRISM_CONTEXT_GATEWAY:-
       sleep 10
     done ) &
 fi
+# Phase 27: deterministic PAPER worker, idle until a separate run is registered/activated.
+# It releases DuckDB/runtime locks between ticks; quotes come from the existing public collector.
+if [ "${PRISM_RUNTIME_ROLE:-}" = authoritative ] && [ "${PRISM_NIMBLE_RUNTIME:-on}" != off ]; then
+  ( while true; do
+      python -m market_signal.paper.nimble.worker || echo "nimble paper worker exited; restarting in 10s"
+      sleep 10
+    done ) &
+fi
 # Restart/reboot/deploy catch-up: one idempotent prospective cycle (a no-op if nothing is new).
 ( sleep "${PRISM_BOOT_DELAY:-60}"; market ops cycle prospective --trigger boot --wait 3600 || true ) &
 exec supercronic -passthrough-logs /tmp/prism.crontab

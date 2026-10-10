@@ -1510,6 +1510,67 @@ MIGRATIONS: list[str] = [
         result VARCHAR NOT NULL
     );
     """,
+    # 27 — Separate nimble execution ledger, research observations and durable trigger outbox.
+    """
+    CREATE TABLE IF NOT EXISTS paper_nimble_policies (
+        policy_id VARCHAR PRIMARY KEY, registered_at TIMESTAMPTZ NOT NULL, definition JSON NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS paper_nimble_runs (
+        run_id VARCHAR PRIMARY KEY, activated_at TIMESTAMPTZ NOT NULL,
+        mode VARCHAR NOT NULL CHECK(mode='paper'), policy_id VARCHAR NOT NULL,
+        risk_policy_id VARCHAR NOT NULL, definition JSON NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS paper_nimble_events (
+        run_id VARCHAR NOT NULL, seq BIGINT NOT NULL, event_key VARCHAR NOT NULL,
+        event_type VARCHAR NOT NULL, recorded_at TIMESTAMPTZ NOT NULL, payload JSON NOT NULL,
+        PRIMARY KEY(run_id,seq), UNIQUE(run_id,event_key)
+    );
+    CREATE TABLE IF NOT EXISTS paper_nimble_accounts (
+        run_id VARCHAR PRIMARY KEY, updated_at TIMESTAMPTZ NOT NULL, payload JSON NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS paper_nimble_positions (
+        run_id VARCHAR NOT NULL, trade_id VARCHAR NOT NULL, state VARCHAR NOT NULL,
+        updated_at TIMESTAMPTZ NOT NULL, payload JSON NOT NULL, PRIMARY KEY(run_id,trade_id)
+    );
+    CREATE TABLE IF NOT EXISTS paper_nimble_opportunities (
+        opportunity_id VARCHAR PRIMARY KEY, run_id VARCHAR NOT NULL, hypothesis_id VARCHAR NOT NULL,
+        asset VARCHAR NOT NULL, signal_at TIMESTAMPTZ NOT NULL, available_at TIMESTAMPTZ NOT NULL,
+        evaluated_at TIMESTAMPTZ NOT NULL, fired BOOLEAN NOT NULL, admission VARCHAR NOT NULL,
+        rejection_reason VARCHAR, trade_id VARCHAR, payload JSON NOT NULL,
+        UNIQUE(run_id,hypothesis_id,asset,signal_at)
+    );
+    CREATE TABLE IF NOT EXISTS paper_nimble_theses (
+        thesis_id VARCHAR PRIMARY KEY, run_id VARCHAR NOT NULL, trade_id VARCHAR NOT NULL UNIQUE,
+        frozen_at TIMESTAMPTZ NOT NULL, payload JSON NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS paper_nimble_research (
+        opportunity_id VARCHAR NOT NULL, horizon_minutes INTEGER NOT NULL,
+        observed_at TIMESTAMPTZ NOT NULL, available_at TIMESTAMPTZ NOT NULL, payload JSON NOT NULL,
+        PRIMARY KEY(opportunity_id,horizon_minutes)
+    );
+    CREATE TABLE IF NOT EXISTS paper_nimble_research_pending (
+        opportunity_id VARCHAR PRIMARY KEY, run_id VARCHAR NOT NULL,
+        reference_at TIMESTAMPTZ NOT NULL, payload JSON NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS paper_nimble_triggers (
+        trigger_id VARCHAR PRIMARY KEY, source VARCHAR NOT NULL, available_at TIMESTAMPTZ NOT NULL,
+        payload JSON NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS paper_nimble_trigger_receipts (
+        run_id VARCHAR NOT NULL, trigger_id VARCHAR NOT NULL, processed_at TIMESTAMPTZ NOT NULL,
+        payload JSON NOT NULL, PRIMARY KEY(run_id,trigger_id)
+    );
+    CREATE TABLE IF NOT EXISTS paper_nimble_reports (
+        report_id VARCHAR PRIMARY KEY, run_id VARCHAR NOT NULL, day DATE NOT NULL,
+        recorded_at TIMESTAMPTZ NOT NULL, payload JSON NOT NULL, UNIQUE(run_id,day)
+    );
+    CREATE TABLE IF NOT EXISTS paper_nimble_deliveries (
+        report_id VARCHAR NOT NULL, state VARCHAR NOT NULL, recorded_at TIMESTAMPTZ NOT NULL,
+        PRIMARY KEY(report_id,state)
+    );
+    CREATE INDEX IF NOT EXISTS nimble_open ON paper_nimble_positions(run_id,state);
+    CREATE INDEX IF NOT EXISTS nimble_signal ON paper_nimble_opportunities(run_id,asset,signal_at);
+    """,
 ]
 
 ROLE_ENV, RUNTIME_ID_ENV = "PRISM_RUNTIME_ROLE", "PRISM_RUNTIME_ID"

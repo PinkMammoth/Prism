@@ -187,6 +187,7 @@ class _Ingest:
         finally:
             self.con.unregister("ms_new")
         self.stats["minutes"] += len(rows)
+        self._wake(new.values())
         for r in new.values():
             self._maybe_cutover(r)
 
@@ -211,6 +212,25 @@ class _Ingest:
             [row[c] for c in sets] + [fv, coin, _ts(m)],
         )  # fmt: skip
         self.stats["revisions"] += 1
+        self._wake([r])
+
+    def _wake(self, records):
+        from market_signal.ops.evaluation_triggers import enqueue
+
+        for r in records:
+            if r["status"] == "COMPLETE":
+                enqueue(
+                    self.store,
+                    "microstructure",
+                    [r["coin"], r["minute_open"], r["revision"]],
+                    [r["coin"]],
+                    self.now,
+                    metadata={
+                        "minute_close": (
+                            _ts(r["minute_open"]) + pd.Timedelta(minutes=1)
+                        ).isoformat()
+                    },
+                )
 
     def _maybe_cutover(self, r: dict) -> None:
         fv = r["feature_version"]

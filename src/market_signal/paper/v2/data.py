@@ -219,10 +219,14 @@ class Sources:
             "checkpoint_id": row[1],
         }
 
-    def observations(self, hypotheses, activated_at) -> list[Observation]:
+    def observations(
+        self, hypotheses, activated_at, *, assets=None, ledger="paper_v2_opportunities"
+    ) -> list[Observation]:
         result = []
         self.dependencies = {"sources": {}, "context": {}}
-        for coin in COINS:
+        if ledger not in ("paper_v2_opportunities", "paper_nimble_opportunities"):
+            raise ValueError("unsupported opportunity ledger")
+        for coin in COINS if assets is None else assets:
             contexts = None
             tech = None
             micro_features = None
@@ -232,7 +236,7 @@ class Sources:
                 if at <= ts(activated_at):
                     continue
                 exists = self.store.con.execute(
-                    "SELECT 1 FROM paper_v2_opportunities WHERE hypothesis_id=? AND asset=? "
+                    f"SELECT 1 FROM {ledger} WHERE hypothesis_id=? AND asset=? "
                     "AND signal_at=? AND run_id=?",
                     [h.hypothesis_id, coin, at.to_pydatetime(), self.run_id],
                 ).fetchone()

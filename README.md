@@ -1,11 +1,12 @@
 # Prism: local multi-asset trading research & signal platform
 
-Phase 25A adds a separate prospective, deterministic **Exploratory Paper Trader v2**.
-Its frozen universe has 28 hypotheses, split 14 long / 14 short; seven exact Phase 22
-short controls retain their REJECTED scientific verdicts.
-See [the design and production cutover](docs/EXPLORATORY_PAPER_V2.md) and
-[the production v1 audit](docs/PHASE25A_V1_AUDIT.md). Implementation does not activate
-production accounts or real-money execution.
+Phase 27 adds **Nimble Paper Execution v1**, a deterministic minutes-to-hours
+perp experiment with profit objectives, thesis invalidation, expiry, funding-aware
+cost decay and a maximum-hold backstop. The existing 28-entry Paper v2 universe
+remains the fixed-horizon baseline. Research horizons and position exits are separate.
+See [the nimble execution design](docs/NIMBLE_PERP_EXECUTION.md),
+[the Phase 27 report](docs/PHASE27_EXECUTION_REPORT.md), and
+[Paper v2](docs/EXPLORATORY_PAPER_V2.md). All automated execution remains paper-only.
 
 Prism is a **personal, local, £0/month** research system for slow, conservative capital
 accumulation across crypto, US equities/ETFs and commodity proxies. It does the
