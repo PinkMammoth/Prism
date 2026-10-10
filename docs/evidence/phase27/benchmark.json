@@ -1,0 +1,79 @@
+{
+  "kind": "LOCAL_SYNTHETIC_ENGINEERING_BENCHMARK",
+  "policy_id": "paperexecution_nimble_ec40a2968bcc33f7c7654a1c8d7dcc200361e88bca99079cb4f45738ba785501",
+  "load": [
+    {
+      "trades_per_day_equivalent": 10,
+      "wall_seconds": 0.874939003999998,
+      "cpu_seconds": 0.674771657,
+      "cpu_daily_vcpu_equivalent": 7.809857141203703e-06,
+      "peak_rss_mb": 196.359375,
+      "ledger_rows": {
+        "paper_nimble_events": 91,
+        "paper_nimble_opportunities": 10,
+        "paper_nimble_theses": 10
+      },
+      "event_payload_bytes": 109834,
+      "database_bytes": 9973760,
+      "lifecycle_wall_ms_median": 83.17828000002692,
+      "simulated_entry_available_to_fill_seconds": 2,
+      "simulated_exit_available_to_fill_seconds": 2,
+      "net_pnl_synthetic_only": 3.758315027271687
+    },
+    {
+      "trades_per_day_equivalent": 50,
+      "wall_seconds": 6.670650681999973,
+      "cpu_seconds": 3.329644684,
+      "cpu_daily_vcpu_equivalent": 3.853755421296296e-05,
+      "peak_rss_mb": 202.8828125,
+      "ledger_rows": {
+        "paper_nimble_events": 451,
+        "paper_nimble_opportunities": 50,
+        "paper_nimble_theses": 50
+      },
+      "event_payload_bytes": 546313,
+      "database_bytes": 11284480,
+      "lifecycle_wall_ms_median": 99.33170100003963,
+      "simulated_entry_available_to_fill_seconds": 2,
+      "simulated_exit_available_to_fill_seconds": 2,
+      "net_pnl_synthetic_only": 20.258056552715587
+    },
+    {
+      "trades_per_day_equivalent": 100,
+      "wall_seconds": 10.833271546999981,
+      "cpu_seconds": 6.859990122,
+      "cpu_daily_vcpu_equivalent": 7.939803381944445e-05,
+      "peak_rss_mb": 207.08984375,
+      "ledger_rows": {
+        "paper_nimble_events": 901,
+        "paper_nimble_opportunities": 100,
+        "paper_nimble_theses": 100
+      },
+      "event_payload_bytes": 1092731,
+      "database_bytes": 12595200,
+      "lifecycle_wall_ms_median": 95.30470599997898,
+      "simulated_entry_available_to_fill_seconds": 2,
+      "simulated_exit_available_to_fill_seconds": 2,
+      "net_pnl_synthetic_only": 44.62007960502091
+    }
+  ],
+  "signals": {
+    "signals": 500,
+    "wall_seconds": 9.573229226000024,
+    "cpu_seconds": 5.941781151999999,
+    "opportunity_rows": 500
+  },
+  "unactivated_poll": {
+    "polls": 1000,
+    "wall_seconds": 0.009189508000019941,
+    "cpu_seconds": 0.0091881270000016,
+    "db_writes": 0
+  },
+  "limitations": [
+    "injected deterministic sources",
+    "scratch local disk",
+    "not a profitability result",
+    "not a Railway billed-resource measurement",
+    "adapter/ingest cost is additional"
+  ]
+}

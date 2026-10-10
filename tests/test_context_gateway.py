@@ -883,13 +883,13 @@ def test_duplicate_spool_entry_is_safe(client, sp, tmp_path, monkeypatch):
     assert not sp.pending()
 
 
-def test_ingestion_mutates_only_context_tables(client, sp, tmp_path):
+def test_ingestion_mutates_context_and_information_outbox_only(client, sp, tmp_path):
     post(client, sample(test=False))
     with closing(Store(tmp_path / "ctx.duckdb")) as store:
         names = [
             r[0]
             for r in store.con.execute("SHOW TABLES").fetchall()
-            if not r[0].startswith("context_")
+            if not r[0].startswith("context_") and r[0] != "paper_nimble_triggers"
         ]
         before = {
             name: store.con.execute(f'SELECT count(*) FROM "{name}"').fetchone()[0]

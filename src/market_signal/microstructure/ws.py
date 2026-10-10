@@ -26,6 +26,7 @@ from collections import deque
 
 from market_signal.microstructure import definitions as d
 from market_signal.microstructure.engine import Engine, day_str
+from market_signal.microstructure.live import LatestBooks
 from market_signal.microstructure.spool import Spool
 
 log = logging.getLogger("prism.microstructure")
@@ -124,6 +125,7 @@ class Collector:
         self.duration_s = duration_s
         self.spool_days, self.raw_days = spool_days, raw_days
         self.run_id = f"msrun_{uuid.uuid4().hex[:16]}"
+        self.latest_books = LatestBooks(spool.root, self.run_id, role, runtime_id)
         self.stop = asyncio.Event()
         self.ws = None
         self.reconnects = 0
@@ -234,6 +236,7 @@ class Collector:
             t = now_ms()
             if self.conn_started:
                 self.engine.feed(("X", t, reason))
+                self.latest_books.feed(("X", t, reason))
                 self._emit({"kind": "conn_close", "conn_id": conn_id, "run_id": self.run_id,
                             "at": t, "reason": reason, "messages": self.conn_msgs,
                             "seconds": round((t - self.conn_started) / 1000, 1)})  # fmt: skip
@@ -281,6 +284,7 @@ class Collector:
                         self.engine.counters["invalid"] += 1
                     else:
                         self.engine.feed(ev)
+                        self.latest_books.feed(ev)
         finally:
             stop.cancel()
 
@@ -288,7 +292,7 @@ class Collector:
 
     async def _ticker(self) -> None:
         assert self.engine is not None
-        last_status = last_ping = last_disk = 0.0
+        last_status = last_ping = last_disk = last_books = 0.0
         raw_minute = now_ms() // d.MINUTE_MS
         day = day_str(now_ms())
         while True:
@@ -313,6 +317,12 @@ class Collector:
             if mono - last_disk >= 60:
                 last_disk = mono
                 self._check_disk()
+            if mono - last_books >= 2:
+                last_books = mono
+                try:
+                    self.latest_books.publish(t)
+                except (OSError, ValueError) as exc:
+                    self.last_error = f"book cache write failed: {exc}"
             if mono - last_status >= STATUS_EVERY_S:
                 last_status = mono
                 self._write_status()

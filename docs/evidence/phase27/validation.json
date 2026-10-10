@@ -1,0 +1,26 @@
+{
+  "revision": "47ac3240355eb02197e1304a07619f6f6cf28db9",
+  "full_pytest": {
+    "passed": 1199,
+    "warnings": 4,
+    "seconds": 363.68,
+    "command": "PYTHONPATH=src python -m pytest -o addopts= -o tmp_path_retention_policy=failed -q -n 4 --dist loadfile --basetemp=<isolated RAM temporary directory>",
+    "notes": "Four existing Starlette TestClient deprecation warnings. BLAS/OpenMP worker threads limited to one. Temporary databases cleaned after passing tests; physical-disk benchmarks were separate."
+  },
+  "phase_suite_counts": {
+    "tests/test_context.py": 39,
+    "tests/test_context_gateway.py": 70,
+    "tests/test_exploratory_paper_v2.py": 76,
+    "tests/test_microdir_scheduling.py": 9,
+    "tests/test_microstructure.py": 47,
+    "tests/test_microstructure_direction.py": 18,
+    "tests/test_nimble_paper.py": 47,
+    "tests/test_nimble_runtime.py": 11,
+    "tests/test_runtime.py": 32
+  },
+  "ruff": "All checks passed!",
+  "format": "373 files already formatted",
+  "shell_syntax": "passed: bash deploy.sh and sh entrypoint.sh",
+  "git_diff_check": "passed",
+  "phase27_tests": 58
+}

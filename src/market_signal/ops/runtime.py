@@ -66,6 +66,7 @@ JOBS: dict[str, list[tuple[str, list[str]]]] = {
     "paper_v2_funding": [("funding", ["bars", "funding"])],
     "paper_v2": [("evaluate", ["paper", "v2", "evaluate"])],
     "paper_v2_brief": [("brief", ["paper", "v2", "brief", "--send"])],
+    "paper_nimble_brief": [("brief", ["paper", "nimble", "brief", "--send"])],
     "backup": [],  # in-process: ``backup_live``
     # Phase 15: intraday perp bars (data only) + observational shadow timing. Never strategy,
     # co-pilot or paper evaluation: those stay on the daily prospective cadence above.
@@ -101,6 +102,11 @@ def active_steps(store, job: str) -> list[tuple[str, list[str]]]:
     Keep shared data/research jobs. Draining v1 retains management until flat.
     """
     if (
+        job == "paper_nimble_brief"
+        and not store.con.execute("SELECT 1 FROM paper_nimble_runs").fetchone()
+    ):
+        return []
+    if (
         job in ("paper_v2", "paper_v2_brief", "paper_v2_funding")
         and not store.con.execute("SELECT 1 FROM paper_v2_runs").fetchone()
     ):
@@ -126,6 +132,7 @@ SCHEDULE: dict[str, list[str]] = {
     "paper_v2_funding": ["*:05"],
     "paper_v2": ["*:07", "*:22", "*:37", "*:52"],
     "paper_v2_brief": ["00:12"],
+    "paper_nimble_brief": ["00:14"],
     "backup": ["01:30"],
     "oi": ["02:30", "08:30", "14:30", "20:30"],  # Binance backfill + HL snapshot (data only)
     "daily": ["09:00"],  # broad market update + scan (was the 10:00 UK "Prism daily" task)

@@ -1,0 +1,125 @@
+{
+  "kind": "RAILWAY_SCRATCH_SOURCE_BENCHMARK_NOT_PRODUCTION_ACTIVATION",
+  "as_of": "2026-10-10T07:26:41.191746+00:00",
+  "policy_id": "paperexecution_nimble_ec40a2968bcc33f7c7654a1c8d7dcc200361e88bca99079cb4f45738ba785501",
+  "scratch_ingest": {
+    "invalid_lines": 0,
+    "minutes": 36,
+    "files_read": 1,
+    "status": "ok",
+    "production": true
+  },
+  "ingest_wall_seconds": 0.14143448509275913,
+  "ingest_cpu_seconds": 0.2069455040000001,
+  "adapter_measurements": [
+    {
+      "phase": 24,
+      "assets": [
+        "BTC"
+      ],
+      "observations": 8,
+      "healthy": 8,
+      "warm": 0,
+      "fired": 0,
+      "updates": 2,
+      "geometry": {
+        "BTC": {
+          "error": "GEOMETRY_UNAVAILABLE"
+        }
+      },
+      "wall_seconds": 0.5017701741307974,
+      "cpu_seconds": 0.593739019,
+      "peak_rss_mb": 636.51953125
+    },
+    {
+      "phase": 23,
+      "assets": [
+        "BTC"
+      ],
+      "observations": 6,
+      "healthy": 6,
+      "warm": 6,
+      "fired": 0,
+      "updates": 2,
+      "geometry": {
+        "BTC": {
+          "local_low": 82612.0,
+          "local_high": 82728.0,
+          "volatility_move": 0.0014037125777487355,
+          "available_at": "2026-10-10T07:16:05.154080+00:00",
+          "geometry_source": "causal_15m_bar_fallback",
+          "microstructure": {}
+        }
+      },
+      "wall_seconds": 0.3216782882809639,
+      "cpu_seconds": 0.40180919999999976,
+      "peak_rss_mb": 636.51953125
+    },
+    {
+      "phase": 22,
+      "assets": [
+        "BTC"
+      ],
+      "observations": 14,
+      "healthy": 0,
+      "warm": 14,
+      "fired": 0,
+      "updates": 2,
+      "geometry": {
+        "BTC": {
+          "local_low": 82680.0,
+          "local_high": 82847.0,
+          "volatility_move": 0.0033648049579142504,
+          "available_at": "2026-10-10T07:01:05.519485+00:00",
+          "geometry_source": "causal_1h_bar_fallback",
+          "microstructure": {}
+        }
+      },
+      "wall_seconds": 0.3626294741407037,
+      "cpu_seconds": 0.44393726499999975,
+      "peak_rss_mb": 636.51953125
+    },
+    {
+      "phase": 24,
+      "assets": [
+        "AAVE",
+        "BTC",
+        "ETH",
+        "HYPE",
+        "LINK",
+        "SOL"
+      ],
+      "observations": 48,
+      "healthy": 48,
+      "warm": 0,
+      "fired": 0,
+      "updates": 12,
+      "geometry": {
+        "AAVE": {
+          "error": "GEOMETRY_UNAVAILABLE"
+        },
+        "BTC": {
+          "error": "GEOMETRY_UNAVAILABLE"
+        },
+        "ETH": {
+          "error": "GEOMETRY_UNAVAILABLE"
+        },
+        "HYPE": {
+          "error": "GEOMETRY_UNAVAILABLE"
+        },
+        "LINK": {
+          "error": "GEOMETRY_UNAVAILABLE"
+        },
+        "SOL": {
+          "error": "GEOMETRY_UNAVAILABLE"
+        }
+      },
+      "wall_seconds": 2.878891071304679,
+      "cpu_seconds": 3.378793558999999,
+      "peak_rss_mb": 636.51953125
+    }
+  ],
+  "snapshot_bytes": 353382400,
+  "resident_before_close_mb": 530.203125,
+  "resident_after_close_mb": 224.2578125
+}

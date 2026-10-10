@@ -71,3 +71,17 @@ tagged EXPLORATORY_TECHNICAL_CONTROL with their original REJECTED verdicts prese
 - An optional LLM analysis layer that reads only the structured outputs (scores, reasons,
   factors, reports) and writes commentary. It must never compute numbers.
 - Real-position import: CSV import of broker statements, still without broker APIs.
+
+## Phase 27 — nimble paper execution
+
+A separate deterministic execution generation reuses the 28 frozen entry hypotheses,
+retaining their scientific identities and original research horizons. Full-position
+exits respond to a profit objective, price/state invalidation, reaction expiry, funding
+cost decay, or a hypothesis-specific backstop. Context/minute information enters a
+durable targeted outbox; one authoritative worker preserves DuckDB single-writer
+safety. Live trading is outside this phase. See [the design](NIMBLE_PERP_EXECUTION.md)
+and [validation/deployment report](PHASE27_EXECUTION_REPORT.md).
+
+The next recommended phase is Phase 26B: a deterministic government-labelled BTC
+transfer source with canonical transaction episodes and separately registered
+immediate/confirmed reaction hypotheses. It is not implemented by Phase 27.
