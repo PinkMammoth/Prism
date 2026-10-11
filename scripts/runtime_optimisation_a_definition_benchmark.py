@@ -1,3 +1,5 @@
+"""Local definition benchmark: PYTHONPATH=src:. python scripts/runtime_optimisation_a_definition_benchmark.py."""
+
 import json
 import statistics
 import time

@@ -1,42 +1,42 @@
 {
   "bootstrap": {
     "before": {
-      "cpu_s_per_call": 0.0012121129099999983,
-      "wall_s_per_call": 0.0012044821299969045
+      "cpu_s_per_call": 0.00130727735,
+      "wall_s_per_call": 0.00129177984999842
     },
     "after": {
-      "cpu_s_per_call": 0.0002812908699999994,
-      "wall_s_per_call": 0.0002757208899947727
+      "cpu_s_per_call": 0.0002890618200000006,
+      "wall_s_per_call": 0.0002891089500189992
     }
   },
   "v2_canonical": {
     "before": {
-      "cpu_s_per_call": 0.0017170466299999986,
-      "wall_s_per_call": 0.0017063053199944988
+      "cpu_s_per_call": 0.001790982590000003,
+      "wall_s_per_call": 0.0017910276000111481
     },
     "after": {
-      "cpu_s_per_call": 9.190000000103282e-08,
-      "wall_s_per_call": 9.170999874186237e-08
+      "cpu_s_per_call": 1.1660000000190962e-07,
+      "wall_s_per_call": 1.1710999388014898e-07
     }
   },
   "nimble_canonical": {
     "before": {
-      "cpu_s_per_call": 0.005255779330000001,
-      "wall_s_per_call": 0.005227556500003629
+      "cpu_s_per_call": 0.00571742843,
+      "wall_s_per_call": 0.005719973470004334
     },
     "after": {
-      "cpu_s_per_call": 9.191000000186022e-08,
-      "wall_s_per_call": 9.140999281953555e-08
+      "cpu_s_per_call": 1.044100000058279e-07,
+      "wall_s_per_call": 1.0470997949596494e-07
     }
   },
   "event_canonical": {
     "before": {
-      "cpu_s_per_call": 0.0004869756799999969,
-      "wall_s_per_call": 0.0004958110600000509
+      "cpu_s_per_call": 0.0005201959299999981,
+      "wall_s_per_call": 0.0005202429200289771
     },
     "after": {
-      "cpu_s_per_call": 9.01099999950361e-08,
-      "wall_s_per_call": 9.203000445268117e-08
+      "cpu_s_per_call": 1.102100000061057e-07,
+      "wall_s_per_call": 1.1050000466639175e-07
     }
   }
 }

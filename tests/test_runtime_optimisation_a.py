@@ -32,12 +32,15 @@ class Reads:
         self.queries = []
         self.rows = 0
         self.writes = 0
+        self.mutations = 0
 
     def execute(self, sql, args=None):
         if sql.lstrip().upper().startswith("SELECT"):
             self.queries.append(sql)
         else:
             self.writes += 1
+            if sql.lstrip().upper().startswith(("INSERT", "UPDATE", "DELETE", "REPLACE")):
+                self.mutations += 1
         return ReadResult(self.con.execute(sql, args or []), self)
 
 
@@ -167,9 +170,13 @@ def test_populated_frame_and_flags_exact_parity_and_mutation(store, monkeypatch,
         return values
 
     monkeypatch.setattr(data, "flags", counted_flags)
+    monkeypatch.setattr(oracle, "flags", counted_flags)
     hs = spec.bootstrap()
     before = old.observations(hs, now - pd.Timedelta(days=1), assets=["BTC"])
+    assert len(frame_calls) == 14
+    assert len(flag_calls) == 8
     frame_calls.clear()
+    flag_calls.clear()
     after = new.observations(hs, now - pd.Timedelta(days=1), assets=["BTC"])
     assert canonical_json([asdict(o) for o in before]) == canonical_json([asdict(o) for o in after])
     assert len(frame_calls) == 1

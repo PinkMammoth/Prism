@@ -1,6 +1,6 @@
 """Offline paired adapter benchmark. Never point this at a live writer database.
 
-Usage: PYTHONPATH=src python scripts/runtime_optimisation_a_benchmark.py SNAPSHOT OUTPUT
+Usage: PRISM_RUNTIME_ROLE=scratch PYTHONPATH=src:. python scripts/runtime_optimisation_a_benchmark.py SNAPSHOT OUTPUT
 Copies the snapshot before migrations; timings exclude copy/migration/import/profiling.
 """
 

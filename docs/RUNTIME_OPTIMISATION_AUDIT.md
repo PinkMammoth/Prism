@@ -489,3 +489,13 @@ Suggested performance targets, **not guaranteed results**: named query groups fa
 Collect the next **24–48 hours** first, establish the actual v2 lifecycle and service-wide resource distribution, then perform **Tranche A before widening the execution universe**. Build Tranche B before or alongside the initial Dynamic Perp Universe implementation; design tiered collection and warmup as part of that universe's policy. Do not wait for 20–30 full-micro assets to expose predictable duplication and backup growth.
 
 The first objective is to avoid repeated reconstruction of the same causal inputs while retaining independent experiments. Preserve the existing cheap filesystem quote path, all required monitoring and all 18 sources. A quiet interval should do only the work justified by new committed inputs, an open/pending risk position, a due accounting/research deadline or required health checks. The current architecture already provides that boundary between busy ticks; the plan makes the busy ticks cheaper without weakening what Prism can observe or prove.
+
+## Implementation addendum — Runtime Optimisation Tranche A
+
+The strict invocation-local query/feature/context reuse and bounded immutable
+bootstrap/definition products are implemented on the approved `791bab8` base.
+See [Runtime Optimisation Tranche A](RUNTIME_OPTIMISATION_TRANCHE_A.md) for exact
+boundaries, integrity/mutation protections, replay validation, measured offline
+query/CPU results, limitations and rollback. The original audit conclusions above
+are unchanged. No production deployment, Tranche B, Dynamic Perp Universe or
+watchdog schedule/entrypoint change is included in this implementation.
