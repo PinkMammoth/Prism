@@ -1,8 +1,9 @@
 """Phase 30 frozen reaction rules. No text sentiment or statistical fitting."""
 
-from functools import cache
+from copy import deepcopy
+from functools import cache, lru_cache
 
-from market_signal.research.lab.common import LabModel, content_id
+from market_signal.research.lab.common import LabModel, canonical_json, content_id
 
 from . import spec
 
@@ -124,8 +125,8 @@ def mapping(h):
     )
 
 
-@cache
-def definition():
+@lru_cache(maxsize=1)
+def _definition(version):
     return {
         **spec.definition(),
         "version": VERSION,
@@ -179,6 +180,19 @@ def definition():
         "conflict_seconds": 900,
         "cohorts": "independent_100usd_immediate_and_confirmed_accounts_no_pooled_evidence",
     }
+
+
+def definition():
+    return deepcopy(_definition(VERSION))
+
+
+@lru_cache(maxsize=1)
+def _canonical_definition(version, producer):
+    return canonical_json(producer())
+
+
+def canonical_definition():
+    return _canonical_definition(VERSION, definition)
 
 
 @cache
