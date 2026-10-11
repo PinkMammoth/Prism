@@ -195,9 +195,7 @@ class Sources:
 
         return context_snapshot(self.store, coin, self.now.to_pydatetime(), record=False)
 
-    def science(self, h: Hypothesis) -> dict:
-        if h.source_phase != 24:
-            return {"scientific_verdict": h.scientific_verdict}
+    def _science_checkpoint(self):
         row = self.store.con.execute(
             "SELECT r.payload,c.checkpoint_id FROM lab_prospective_results r JOIN "
             "lab_prospective_checkpoints c USING(checkpoint_id) JOIN lab_prospective_studies s "
@@ -205,9 +203,17 @@ class Sources:
             "AND c.as_of <= ? AND r.completed_at <= ? ORDER BY c.as_of DESC LIMIT 1",
             [self.now.to_pydatetime(), self.now.to_pydatetime()],
         ).fetchone()
-        if not row:
+        return (json.loads(row[0]).get("members", {}), row[1]) if row else ({}, None)
+
+    def science(self, h: Hypothesis, checkpoint=None) -> dict:
+        if h.source_phase != 24:
+            return {"scientific_verdict": h.scientific_verdict}
+        members, checkpoint_id = (
+            checkpoint if checkpoint is not None else self._science_checkpoint()
+        )
+        if checkpoint_id is None:
             return {}
-        m = json.loads(row[0]).get("members", {}).get(f"{h.source_key}:{h.side}", {})
+        m = members.get(f"{h.source_key}:{h.side}", {})
         return {
             "maturity": m.get("maturity", "WARMUP"),
             "scientific_verdict": (m.get("verdict") or {}).get("verdict")
@@ -216,7 +222,7 @@ class Sources:
             "prospective_sample_count": m.get(
                 "episodes", (m.get("stats") or {}).get("episodes", 0)
             ),
-            "checkpoint_id": row[1],
+            "checkpoint_id": checkpoint_id,
         }
 
     def observations(
@@ -226,8 +232,25 @@ class Sources:
         self.dependencies = {"sources": {}, "context": {}}
         if ledger not in ("paper_v2_opportunities", "paper_nimble_opportunities"):
             raise ValueError("unsupported opportunity ledger")
-        for coin in COINS if assets is None else assets:
+        hypotheses = tuple(hypotheses)
+        coins = tuple(COINS if assets is None else assets)
+        grids = [(h.hypothesis_id, self.now.floor(f"{h.cadence_minutes}min")) for h in hypotheses]
+        grids = [(hid, at) for hid, at in grids if at > ts(activated_at)]
+        evaluated = set()
+        if grids and coins:
+            rows = self.store.con.execute(
+                f"SELECT hypothesis_id,asset,signal_at FROM {ledger} WHERE run_id=? "
+                f"AND asset IN ({','.join('?' for _ in coins)}) "
+                "AND (hypothesis_id,signal_at) IN (VALUES "
+                + ",".join("(?,?)" for _ in grids)
+                + ")",
+                [self.run_id, *coins, *[v for hid, at in grids for v in (hid, at.to_pydatetime())]],
+            ).fetchall()
+            evaluated = {(hid, asset, ts(at)) for hid, asset, at in rows}
+        checkpoint = None
+        for coin in coins:
             contexts = None
+            positioning_rows = None
             tech = None
             micro_features = None
             for h in hypotheses:
@@ -235,12 +258,7 @@ class Sources:
                 at = self.now.floor(f"{h.cadence_minutes}min")
                 if at <= ts(activated_at):
                     continue
-                exists = self.store.con.execute(
-                    f"SELECT 1 FROM {ledger} WHERE hypothesis_id=? AND asset=? "
-                    "AND signal_at=? AND run_id=?",
-                    [h.hypothesis_id, coin, at.to_pydatetime(), self.run_id],
-                ).fetchone()
-                if exists:
+                if (h.hypothesis_id, coin, at) in evaluated:
                     continue
                 if contexts is None:
                     contexts = self.context(coin)
@@ -300,11 +318,13 @@ class Sources:
                         ]
                 elif h.source_phase == 23:
                     p = (contexts.get("positioning") or {}).get("venues", {}).get("hyperliquid", {})
-                    rows = self.store.con.execute(
-                        "SELECT captured_at,mark_px FROM context_hl_oi_hourly WHERE coin=? "
-                        "AND captured_at <= ? ORDER BY captured_at DESC LIMIT 2",
-                        [coin, self.now.to_pydatetime()],
-                    ).fetchall()
+                    if positioning_rows is None:
+                        positioning_rows = self.store.con.execute(
+                            "SELECT captured_at,mark_px FROM context_hl_oi_hourly WHERE coin=? "
+                            "AND captured_at <= ? ORDER BY captured_at DESC LIMIT 2",
+                            [coin, self.now.to_pydatetime()],
+                        ).fetchall()
+                    rows = positioning_rows
                     healthy = bool(rows) and self.now - ts(rows[0][0]) <= pd.Timedelta(minutes=80)
                     warm = len(rows) == 2 and ts(rows[0][0]) - ts(rows[1][0]) <= pd.Timedelta(
                         minutes=80
@@ -354,7 +374,9 @@ class Sources:
                     "warm": warm,
                     "available_at": available.isoformat(),
                 }
-                science = self.science(h)
+                if h.source_phase == 24 and checkpoint is None:
+                    checkpoint = self._science_checkpoint()
+                science = self.science(h, checkpoint)
                 ev["checkpoint_id"] = science.pop("checkpoint_id", None)
                 result.append(
                     Observation(

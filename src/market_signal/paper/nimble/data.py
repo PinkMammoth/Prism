@@ -27,13 +27,16 @@ class Sources(BaselineSources):
         )
         positioning_ids = {h.hypothesis_id for h in hypotheses if h.source_phase == 23}
         result = []
+        captures = {}
         for o in observations:
             if o.hypothesis_id in positioning_ids:
-                captured = self.store.con.execute(
-                    "SELECT max(captured_at) FROM context_hl_oi_hourly "
-                    "WHERE coin=? AND captured_at<=?",
-                    [o.asset, self.now.to_pydatetime()],
-                ).fetchone()[0]
+                if o.asset not in captures:
+                    captures[o.asset] = self.store.con.execute(
+                        "SELECT max(captured_at) FROM context_hl_oi_hourly "
+                        "WHERE coin=? AND captured_at<=?",
+                        [o.asset, self.now.to_pydatetime()],
+                    ).fetchone()[0]
+                captured = captures[o.asset]
                 if captured:
                     o = replace(o, available_at=max(ts(o.signal_at), ts(captured)).isoformat())
             result.append(o)
