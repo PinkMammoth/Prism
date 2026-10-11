@@ -1,0 +1,33 @@
+{
+  "base": "791bab8",
+  "full_pytest": {
+    "passed": 1369,
+    "warnings": 4,
+    "exit_code": 0
+  },
+  "final_tranche_tests": {
+    "passed": 29,
+    "exit_code": 0,
+    "later_edge_fixtures": 3
+  },
+  "differential_replay": {
+    "fixtures": 182,
+    "table_digests": 5508,
+    "exact": true
+  },
+  "worker_replay": {
+    "scenarios": 7,
+    "warm_repetitions": 5,
+    "exact": true
+  },
+  "ruff": "passed",
+  "formatting": "passed",
+  "diff_check": "passed",
+  "deployed": false,
+  "implementation_commits": [
+    "e44e76c",
+    "61a982f",
+    "e426f4a",
+    "397c769"
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "snapshot_sha256": "eb27453f9a20d4030b04d7d5fe872caad0c0df34d49a6f55998888e3cb1977f2",
+  "as_of": "2026-10-10T07:50:00Z",
+  "repetitions": 5,
+  "scenarios": {
+    "due_1h_technical": {
+      "before": {
+        "cpu_s": 0.7963305919999994,
+        "wall_s": 0.803781421000167,
+        "selects": 222,
+        "writes": 0,
+        "peak_rss_kib": 426052
+      },
+      "after": {
+        "cpu_s": 0.8038764759999992,
+        "wall_s": 0.8058572370000547,
+        "selects": 139,
+        "writes": 0,
+        "peak_rss_kib": 426052
+      }
+    },
+    "due_1h_positioning": {
+      "before": {
+        "cpu_s": 0.6930182810000005,
+        "wall_s": 0.6947874219995356,
+        "selects": 204,
+        "writes": 0,
+        "peak_rss_kib": 432224
+      },
+      "after": {
+        "cpu_s": 0.6737614920000023,
+        "wall_s": 0.6721897019997414,
+        "selects": 139,
+        "writes": 0,
+        "peak_rss_kib": 432224
+      }
+    },
+    "due_15m_micro": {
+      "before": {
+        "cpu_s": 1.1371342659999968,
+        "wall_s": 1.1292885819993899,
+        "selects": 246,
+        "writes": 0,
+        "peak_rss_kib": 467788
+      },
+      "after": {
+        "cpu_s": 1.0808010209999992,
+        "wall_s": 1.0737862179994409,
+        "selects": 152,
+        "writes": 0,
+        "peak_rss_kib": 467788
+      }
+    }
+  }
+}

@@ -47,7 +47,7 @@ def register(store, *, now=None, events=False):
     at = ts(now or utcnow())
     store.con.execute(
         "INSERT INTO paper_nimble_policies VALUES (?,?,?) ON CONFLICT DO NOTHING",
-        [policy.policy_id(), at.to_pydatetime(), canonical_json(policy.definition())],
+        [policy.policy_id(), at.to_pydatetime(), policy.canonical_definition()],
     )
     return {
         "policy_id": policy.policy_id(),
@@ -70,7 +70,7 @@ def load(store, rid):
     if (
         run["policy_id"] != policy.policy_id()
         or not p
-        or canonical_json(json.loads(p[0])) != canonical_json(policy.definition())
+        or canonical_json(json.loads(p[0])) != policy.canonical_definition()
         or run["risk_policy_id"] != spec.risk_id()
     ):
         raise ValueError("frozen nimble policy identity/content mismatch")
@@ -263,11 +263,7 @@ def create(store, *, now=None, comparison_days=7, events=False, variant=None):
         "SELECT registered_at,definition FROM paper_nimble_policies WHERE policy_id=?",
         [policy.policy_id()],
     ).fetchone()
-    if (
-        not p
-        or at < ts(p[0])
-        or canonical_json(json.loads(p[1])) != canonical_json(policy.definition())
-    ):
+    if not p or at < ts(p[0]) or canonical_json(json.loads(p[1])) != policy.canonical_definition():
         raise ValueError("register the released frozen nimble policy first")
     for r in runs(store):
         same_cohort = r["policy_id"] == policy.policy_id() and (

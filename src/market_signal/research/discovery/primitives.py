@@ -219,6 +219,7 @@ class Frame:
     ll: np.ndarray = field(init=False, repr=False)
     lc: np.ndarray = field(init=False, repr=False)
     _cache: dict = field(default_factory=dict, repr=False)
+    readonly: bool = field(default=False, repr=False)
 
     def __post_init__(self):
         with np.errstate(divide="ignore", invalid="ignore"):
@@ -226,16 +227,34 @@ class Frame:
                 np.log(x) for x in (self.o, self.h, self.l, self.c)
             )
 
+        if self.readonly:
+            for x in (
+                self.o,
+                self.h,
+                self.l,
+                self.c,
+                self.v,
+                self.segment,
+                self.lo,
+                self.lh,
+                self.ll,
+                self.lc,
+            ):
+                x.setflags(write=False)
+
     @classmethod
-    def from_series(cls, s) -> Frame:
-        return cls(s.o, s.h, s.l, s.c, s.v, s.segment)
+    def from_series(cls, s, *, readonly: bool = False) -> Frame:
+        return cls(s.o, s.h, s.l, s.c, s.v, s.segment, readonly=readonly)
 
     def __len__(self) -> int:
         return len(self.c)
 
     def get(self, key: tuple, fn):
         if key not in self._cache:
-            self._cache[key] = fn()
+            value = fn()
+            if self.readonly:
+                value.setflags(write=False)
+            self._cache[key] = value
         return self._cache[key]
 
     @property

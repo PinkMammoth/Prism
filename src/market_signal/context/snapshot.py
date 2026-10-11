@@ -16,6 +16,7 @@ it to ``context_snapshots`` (immutable) so later theses can cite it.
 from __future__ import annotations
 
 import json
+from copy import deepcopy
 from dataclasses import dataclass
 from datetime import datetime
 
@@ -168,24 +169,76 @@ def market_context(store: Store, t: datetime, coins: list[str] | None = None) ->
 # --------------------------------------------------------------------------- snapshot
 
 
+class ContextOperation:
+    """Lazy common primitives for one operation on one store at one exact cutoff.
+
+    Folded raw states remain private and are copied on read, retaining nullable input
+    types exactly. Market/macro products are canonical strings. No shared pandas object
+    reaches a consumer. Do not retain across calls.
+    """
+
+    def __init__(self, store: Store, t: datetime):
+        self.store = store
+        self.t = _ts(t)
+        self.version = SNAPSHOT_VERSION
+        self._states: tuple[dict, ...] | None = None
+        self._market: str | None = None
+        self._macro: str | None = None
+
+    def check(self, store: Store, t: datetime):
+        if store is not self.store or _ts(t) != self.t or self.version != SNAPSHOT_VERSION:
+            raise ValueError("incompatible context operation boundary")
+
+    def states(self):
+        if self._states is None:
+            t = self.t
+            states = ledger.states_asof(
+                self.store,
+                t.to_pydatetime(),
+                since=(t - pd.Timedelta(days=60)).to_pydatetime(),
+                until=(t + pd.Timedelta(days=SCHEDULE_HORIZON_DAYS + 30)).to_pydatetime(),
+            )
+            lo, hi = t - pd.Timedelta(days=30), t + pd.Timedelta(days=SCHEDULE_HORIZON_DAYS)
+            self._states = tuple(
+                s for s in states if lo <= _ts(s["event_time"] or s["first_seen_at"]) <= hi
+            )
+        return deepcopy(list(self._states))
+
+    def market(self):
+        if self._market is None:
+            self._market = canonical_json(market_context(self.store, self.t.to_pydatetime()))
+        return json.loads(self._market)
+
+    def macro(self):
+        if self._macro is None:
+            self._macro = canonical_json(macro_state(self.states(), self.t))
+        return json.loads(self._macro)
+
+
 def context_snapshot(store: Store, asset: str, t: datetime | None = None, *, record: bool = False,
                      stale_hours: dict[str, float] | None = None,
                      index: ContextIndex | None = None,
-                     include_positioning: bool = True) -> dict:  # fmt: skip
+                     include_positioning: bool = True,
+                     operation: ContextOperation | None = None) -> dict:  # fmt: skip
     from market_signal.context.opportunity import opportunity_state
     from market_signal.context.positioning import positioning_context
     from market_signal.context.providers.base import provider_health
 
     t = _ts(t or utcnow())
     asset = asset.upper()
+    if operation is not None:
+        operation.check(store, t)
+        if index is not None:
+            raise ValueError("context operation cannot replace an index manifest")
     if index is not None:
         states = index.states_at(
             t, window=(t - pd.Timedelta(days=30), t + pd.Timedelta(days=SCHEDULE_HORIZON_DAYS))
         )
         lt = index.link_types_at(asset, t)
     else:
-        states = ledger.states_asof(store, t.to_pydatetime(), since=(t - pd.Timedelta(days=60)).to_pydatetime(),
-                                    until=(t + pd.Timedelta(days=SCHEDULE_HORIZON_DAYS + 30)).to_pydatetime())  # fmt: skip
+        states = operation.states() if operation is not None else ledger.states_asof(
+            store, t.to_pydatetime(), since=(t - pd.Timedelta(days=60)).to_pydatetime(),
+            until=(t + pd.Timedelta(days=SCHEDULE_HORIZON_DAYS + 30)).to_pydatetime())  # fmt: skip
         links = ledger.links_for(store, asset, t.to_pydatetime())
         lt = {e: ledger.link_type_for(links, e) for e in set(links["event_id"])}
     lo, hi = t - pd.Timedelta(days=30), t + pd.Timedelta(days=SCHEDULE_HORIZON_DAYS)
@@ -200,7 +253,7 @@ def context_snapshot(store: Store, asset: str, t: datetime | None = None, *, rec
                     key=lambda v: (v["first_seen_at"], v["event_id"]), reverse=True)  # fmt: skip
     upcoming = sorted((v for v in views if v["scheduled"] and v["event_time"]
                        and _ts(v["event_time"]) > t), key=lambda v: (v["event_time"], v["event_id"]))  # fmt: skip
-    mstate = macro_state(states, t)
+    mstate = operation.macro() if operation is not None else macro_state(states, t)
     high_active = any(v["materiality"] >= 70 for v in active)
     nxt = mstate["minutes_to_next_tier1"]
     catalyst_24h = high_active or (nxt is not None and nxt <= 24 * 60)
@@ -227,7 +280,7 @@ def context_snapshot(store: Store, asset: str, t: datetime | None = None, *, rec
         "active_events": active, "recent_events": recent[:25], "upcoming_linked": upcoming[:10],
         "next_scheduled_catalyst": upcoming[0] if upcoming else None,
         "macro": mstate, "positioning": pos, "activity": opp,
-        "market": market_context(store, t.to_pydatetime()),
+        "market": operation.market() if operation is not None else market_context(store, t.to_pydatetime()),
         "freshness": {"providers": health, "warnings": warnings},
         "counts": {"known_events": len(states), "linked": len(linked), "active": len(active)},
         "taxonomy": {"categories": sorted({c.value for c in SUBCATEGORIES.values()})},

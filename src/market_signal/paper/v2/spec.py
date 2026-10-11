@@ -2,10 +2,12 @@
 
 from __future__ import annotations
 
+from copy import deepcopy
+from functools import lru_cache
 from typing import Literal
 
 from market_signal.research.discovery.catalogue import strategies
-from market_signal.research.lab.common import LabModel, content_id
+from market_signal.research.lab.common import LabModel, canonical_json, content_id
 from market_signal.research.microdir.spec import HYPOTHESES
 
 VERSION = "paper_exploratory_v2_2"
@@ -68,7 +70,8 @@ class Hypothesis(LabModel):
         return max(15, self.horizon_minutes // 2)
 
 
-def bootstrap() -> tuple[Hypothesis, ...]:
+@lru_cache(maxsize=1)
+def _bootstrap(version: str) -> tuple[Hypothesis, ...]:
     catalogue = {s.key: s for s in strategies()}
     out = []
     for key in ALL_TECHNICAL_KEYS:
@@ -152,6 +155,11 @@ def bootstrap() -> tuple[Hypothesis, ...]:
     return tuple(out)
 
 
+def bootstrap() -> tuple[Hypothesis, ...]:
+    # Copies isolate nested mutable parameters; cached models never reach consumers.
+    return tuple(h.model_copy(deep=True) for h in _bootstrap(VERSION))
+
+
 class AdmissionPolicy(LabModel):
     name: Literal["paper_exploratory_admission_v2"] = "paper_exploratory_admission_v2"
     version: Literal[1] = 1
@@ -219,7 +227,8 @@ class ExecutionPolicy(LabModel):
         return content_id("paperexecution_v2_", self.model_dump(mode="json"))
 
 
-def definition() -> dict:
+@lru_cache(maxsize=1)
+def _definition(version: str) -> dict:
     return {
         "version": VERSION,
         "hypotheses": [h.model_dump(mode="json") for h in bootstrap()],
@@ -229,6 +238,19 @@ def definition() -> dict:
         "horizons_minutes": HORIZONS,
         "coins": COINS,
     }
+
+
+def definition() -> dict:
+    return deepcopy(_definition(VERSION))
+
+
+@lru_cache(maxsize=1)
+def _canonical_definition(version: str, producer) -> str:
+    return canonical_json(producer())
+
+
+def canonical_definition() -> str:
+    return _canonical_definition(VERSION, definition)
 
 
 def universe_id() -> str:
