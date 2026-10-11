@@ -203,10 +203,23 @@ class Sources:
         ).fetchall()
         return [Funding(a, ts(t).isoformat(), ts(av).isoformat(), r) for a, t, av, r in rows]
 
-    def context(self, coin) -> dict:
+    def context_operation(self):
+        from market_signal.context.snapshot import ContextOperation
+
+        return ContextOperation(self.store, self.now.to_pydatetime())
+
+    def context(self, coin, *, operation=None) -> dict:
         from market_signal.context.snapshot import context_snapshot
 
-        return context_snapshot(self.store, coin, self.now.to_pydatetime(), record=False)
+        return context_snapshot(
+            self.store, coin, self.now.to_pydatetime(), record=False, operation=operation
+        )
+
+    def _context_in_operation(self, coin, operation):
+        # Preserve the existing single-argument override contract.
+        if getattr(self.context, "__func__", None) is Sources.context:
+            return self.context(coin, operation=operation)
+        return self.context(coin)
 
     def _science_checkpoint(self):
         row = self.store.con.execute(
@@ -260,6 +273,7 @@ class Sources:
                 [self.run_id, *coins, *[v for hid, at in grids for v in (hid, at.to_pydatetime())]],
             ).fetchall()
             evaluated = {(hid, asset, ts(at)) for hid, asset, at in rows}
+        context_operation = self.context_operation()
         checkpoint = None
         for coin in coins:
             contexts = None
@@ -276,7 +290,7 @@ class Sources:
                 if (h.hypothesis_id, coin, at) in evaluated:
                     continue
                 if contexts is None:
-                    contexts = self.context(coin)
+                    contexts = self._context_in_operation(coin, context_operation)
                 ev, fired, warm, healthy = {}, False, False, False
                 available = self.now
                 if h.source_phase == 22:

@@ -1,0 +1,67 @@
+{
+  "snapshot_sha256": "eb27453f9a20d4030b04d7d5fe872caad0c0df34d49a6f55998888e3cb1977f2",
+  "as_of": "2026-10-10T07:50:00Z",
+  "repetitions": 5,
+  "scenarios": {
+    "due_1h_technical": {
+      "before": {
+        "cpu_s": 0.7449172700000002,
+        "wall_s": 0.7409059980000166,
+        "selects": 222,
+        "query_shapes": 12,
+        "rows_returned": 55982,
+        "writes": 0,
+        "peak_rss_kib": 426872
+      },
+      "after": {
+        "cpu_s": 0.48729354299999983,
+        "wall_s": 0.4844935640003314,
+        "selects": 64,
+        "query_shapes": 12,
+        "rows_returned": 54487,
+        "writes": 0,
+        "peak_rss_kib": 426872
+      }
+    },
+    "due_1h_positioning": {
+      "before": {
+        "cpu_s": 0.6273731179999995,
+        "wall_s": 0.636816170000202,
+        "selects": 204,
+        "query_shapes": 12,
+        "rows_returned": 49580,
+        "writes": 0,
+        "peak_rss_kib": 432872
+      },
+      "after": {
+        "cpu_s": 0.39789255400000023,
+        "wall_s": 0.4024062030002824,
+        "selects": 64,
+        "query_shapes": 12,
+        "rows_returned": 48025,
+        "writes": 0,
+        "peak_rss_kib": 432872
+      }
+    },
+    "due_15m_micro": {
+      "before": {
+        "cpu_s": 1.099307758000002,
+        "wall_s": 1.0988667609999538,
+        "selects": 246,
+        "query_shapes": 15,
+        "rows_returned": 71795,
+        "writes": 0,
+        "peak_rss_kib": 468188
+      },
+      "after": {
+        "cpu_s": 0.8185549609999967,
+        "wall_s": 0.8175864920003733,
+        "selects": 77,
+        "query_shapes": 15,
+        "rows_returned": 70253,
+        "writes": 0,
+        "peak_rss_kib": 468188
+      }
+    }
+  }
+}

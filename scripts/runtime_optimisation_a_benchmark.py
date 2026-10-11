@@ -8,10 +8,12 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import importlib.util
 import json
 import resource
 import shutil
 import statistics
+import sys
 import tempfile
 import time
 from dataclasses import asdict
@@ -30,7 +32,15 @@ def main():
     parser.add_argument("snapshot", type=Path)
     parser.add_argument("output", type=Path)
     parser.add_argument("--as-of", default="2026-10-10T07:50:00Z")
+    parser.add_argument("--after-source", type=Path)
     args = parser.parse_args()
+    after_module = data
+    if args.after_source:
+        name = "market_signal.paper.v2._runtime_a_benchmark"
+        loader = importlib.util.spec_from_file_location(name, args.after_source)
+        after_module = importlib.util.module_from_spec(loader)
+        sys.modules[name] = after_module
+        loader.loader.exec_module(after_module)
     result = {
         "snapshot_sha256": hashlib.file_digest(args.snapshot.open("rb"), "sha256").hexdigest(),
         "as_of": args.as_of,
@@ -52,7 +62,7 @@ def main():
             samples = {"before": [], "after": []}
             outputs = {}
             for repetition in range(6):
-                for name, module in [("before", baseline()), ("after", data)]:
+                for name, module in [("before", baseline()), ("after", after_module)]:
                     source, counts = adapter(module, store, now)
                     cpu, wall = time.process_time(), time.perf_counter()
                     obs = source.observations(hypotheses, now - pd.Timedelta(days=1))
@@ -60,6 +70,8 @@ def main():
                         "cpu_s": time.process_time() - cpu,
                         "wall_s": time.perf_counter() - wall,
                         "selects": len(counts.queries),
+                        "query_shapes": len(set(counts.queries)),
+                        "rows_returned": counts.rows,
                         "writes": 0,
                         "peak_rss_kib": resource.getrusage(resource.RUSAGE_SELF).ru_maxrss,
                     }

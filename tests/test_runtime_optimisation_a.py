@@ -270,3 +270,42 @@ def test_warm_definition_cache_never_bypasses_stored_policy_integrity(store):
     store.con.execute("UPDATE paper_nimble_policies SET definition='{}'")
     with pytest.raises(ValueError, match="identity/content mismatch"):
         engine.load(store, rid)
+
+
+@pytest.mark.parametrize("seconds", [-1, 0, 1, 3600, 3601])
+def test_context_exact_cutoff_update_denial_and_mutation(store, seconds):
+    from market_signal.context.snapshot import ContextOperation, context_snapshot
+    from tests.test_context import T0, H, ingest, obs
+
+    ingest(store, obs(), at=T0)
+    ingest(
+        store,
+        obs(
+            source_id="aave_blog",
+            source_type="protocol_announcement",
+            confidence="OFFICIAL",
+            title="Aave: no exploit, funds safe",
+            update_kind="denial",
+        ),
+        at=T0 + H,
+    )
+    now = T0 + pd.Timedelta(seconds=seconds)
+    old = reference("baseline_snapshot", "market_signal.context")
+    counts = Reads(store.con)
+    proxy = SimpleNamespace(con=counts)
+    operation = ContextOperation(proxy, now)
+    for asset in spec.COINS:
+        expected = old.context_snapshot(store, asset, now)
+        actual = context_snapshot(proxy, asset, now, operation=operation)
+        assert actual == expected
+        actual["market"]["perp_24h_pct"].clear()
+        actual["macro"].clear()
+        actual["active_events"].clear()
+        assert context_snapshot(proxy, asset, now, operation=operation) == expected
+    assert sum("FROM macro_observations" in q for q in counts.queries) == 7
+    assert sum("timeframe='1h' AND first_observed_at" in q for q in counts.queries) == 6
+    assert sum("FROM context_events" in q for q in counts.queries) == 1
+    with pytest.raises(ValueError, match="boundary"):
+        context_snapshot(proxy, "BTC", now + pd.Timedelta(microseconds=1), operation=operation)
+    with pytest.raises(ValueError, match="boundary"):
+        context_snapshot(store, "BTC", now, operation=operation)

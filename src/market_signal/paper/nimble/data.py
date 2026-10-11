@@ -142,6 +142,7 @@ class Sources(BaselineSources):
         )
 
     def updates(self, assets):
+        context_operation = self.context_operation()
         out = []
         for asset in assets:
             df = load_microstructure(
@@ -179,7 +180,7 @@ class Sources(BaselineSources):
                     )
                 )
             # Positioning is sampled hourly: do not fabricate minute-resolution crowding.
-            ctx = self.context(asset)
+            ctx = self._context_in_operation(asset, context_operation)
             p = ((ctx.get("positioning") or {}).get("venues") or {}).get("hyperliquid", {})
             r = self.store.con.execute(
                 "SELECT max(captured_at) FROM context_hl_oi_hourly WHERE coin=? AND captured_at<=?",
