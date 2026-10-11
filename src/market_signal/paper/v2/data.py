@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 from dataclasses import dataclass
+from types import MappingProxyType
 
 import numpy as np
 import pandas as pd
@@ -252,7 +253,9 @@ class Sources:
             contexts = None
             positioning_rows = None
             tech = None
+            tech_frame = None
             micro_features = None
+            micro_flags = None
             for h in hypotheses:
                 # One decision per source instant. No full feature rebuild between instants.
                 at = self.now.floor(f"{h.cadence_minutes}min")
@@ -289,7 +292,9 @@ class Sources:
                     s = IntradayStrategy.model_validate(h.parameters["strategy"])
                     if len(tech):
                         i = len(tech) - 1
-                        f = Frame.from_series(tech)
+                        if tech_frame is None:
+                            tech_frame = Frame.from_series(tech, readonly=True)
+                        f = tech_frame
                         actual = ts(tech.close_time[i])
                         # A stale candle cannot masquerade as the current decision grid.
                         healthy = at == actual and self.now - actual <= pd.Timedelta(minutes=20)
@@ -366,7 +371,12 @@ class Sources:
                             healthy = bool(row["complete"])
                             warm = bool(row["eligible"])
                             src = next(x for x in HYPOTHESES if x.key == h.source_key)
-                            fired = bool(member_mask(f, flags(f), src, h.side)[i])
+                            if micro_flags is None:
+                                values = flags(f)
+                                for value in values.values():
+                                    value.setflags(write=False)
+                                micro_flags = MappingProxyType(values)
+                            fired = bool(member_mask(f, micro_flags, src, h.side)[i])
                             available = max(ts(row["available_at"]), at)
                             ev = clean(row.to_dict())
                 self.dependencies["sources"][f"{coin}:phase{h.source_phase}"] = {
