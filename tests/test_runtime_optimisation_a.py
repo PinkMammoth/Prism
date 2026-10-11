@@ -213,3 +213,60 @@ def test_populated_frame_and_flags_exact_parity_and_mutation(store, monkeypatch,
                 np.testing.assert_array_equal(value, frozen[key])
                 with pytest.raises(ValueError):
                     value[0] = False
+
+
+def reference(file, package):
+    name = package + "._runtime_a_" + file
+    loader = importlib.util.spec_from_file_location(
+        name, Path(__file__).parent / "fixtures/runtime_a" / (file + ".py")
+    )
+    module = importlib.util.module_from_spec(loader)
+    sys.modules[name] = module
+    loader.loader.exec_module(module)
+    return module
+
+
+def test_cached_definitions_exact_content_and_nested_mutation_isolation():
+    from market_signal.paper.nimble import event_spec
+    from market_signal.paper.nimble import spec as nimble
+
+    for module, file, package in [
+        (spec, "baseline_spec", "market_signal.paper.v2"),
+        (nimble, "baseline_nimble_spec", "market_signal.paper.nimble"),
+        (event_spec, "baseline_event_spec", "market_signal.paper.nimble"),
+    ]:
+        old = reference(file, package)
+        expected = canonical_json(old.definition())
+        assert module.canonical_definition() == expected
+        assert module.definition() == old.definition()
+        altered = module.definition()
+        altered["hypotheses"][0]["parameters"].clear()
+        altered["risk"]["size_decimals"]["BTC"] = 0
+        assert module.canonical_definition() == expected
+        assert canonical_json(module.definition()) == expected
+        assert module._definition.cache_info().maxsize == 1
+        module._definition.cache_clear()
+        module._canonical_definition.cache_clear()
+        assert module.canonical_definition() == expected
+    hypotheses = spec.bootstrap()
+    expected = canonical_json([h.model_dump(mode="json") for h in hypotheses])
+    hypotheses[0].parameters["strategy"]["params"].clear()
+    assert canonical_json([h.model_dump(mode="json") for h in spec.bootstrap()]) == expected
+    assert spec._bootstrap.cache_info().maxsize == 1
+    strategy = next(h for h in spec.bootstrap() if h.source_phase == 22).parameters["strategy"]
+    a = data.strategy(strategy)
+    a.p.clear()
+    assert data.strategy(strategy).model_dump(mode="json") == strategy
+    assert data._strategy.cache_info().maxsize == 64
+
+
+def test_warm_definition_cache_never_bypasses_stored_policy_integrity(store):
+    from market_signal.paper.nimble import engine
+
+    now = pd.Timestamp("2026-10-09T00:00:00Z")
+    engine.register(store, now=now)
+    rid = engine.create(store, now=now)["run_id"]
+    engine.load(store, rid)
+    store.con.execute("UPDATE paper_nimble_policies SET definition='{}'")
+    with pytest.raises(ValueError, match="identity/content mismatch"):
+        engine.load(store, rid)

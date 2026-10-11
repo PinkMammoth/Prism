@@ -2,10 +2,11 @@
 
 from __future__ import annotations
 
-from functools import cache
+from copy import deepcopy
+from functools import cache, lru_cache
 
 from market_signal.paper.v2 import spec as baseline
-from market_signal.research.lab.common import content_id
+from market_signal.research.lab.common import canonical_json, content_id
 
 VERSION = "paper_nimble_v1"
 THESIS_VERSION = "execution_thesis_v1"
@@ -135,7 +136,8 @@ EVENT_CONTRACTS = {
 }
 
 
-def definition() -> dict:
+@lru_cache(maxsize=1)
+def _definition(version: str) -> dict:
     return {
         "version": VERSION,
         "thesis_version": THESIS_VERSION,
@@ -161,6 +163,19 @@ def definition() -> dict:
         },
         "event_contracts": EVENT_CONTRACTS,
     }
+
+
+def definition() -> dict:
+    return deepcopy(_definition(VERSION))
+
+
+@lru_cache(maxsize=1)
+def _canonical_definition(version: str, producer) -> str:
+    return canonical_json(producer())
+
+
+def canonical_definition() -> str:
+    return _canonical_definition(VERSION, definition)
 
 
 @cache

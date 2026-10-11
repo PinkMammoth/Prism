@@ -35,7 +35,7 @@ def register(store, *, now=None) -> dict:
     with store.transaction():
         store.con.execute(
             "INSERT INTO paper_v2_universes VALUES (?,?,?) ON CONFLICT DO NOTHING",
-            [uid, at.to_pydatetime(), canonical_json(spec.definition())],
+            [uid, at.to_pydatetime(), spec.canonical_definition()],
         )
         for kind, p in (
             ("admission", spec.AdmissionPolicy()),
@@ -55,7 +55,7 @@ def create(store, *, now=None) -> dict:
     row = store.con.execute(
         "SELECT definition,registered_at FROM paper_v2_universes WHERE universe_id=?", [uid]
     ).fetchone()
-    if not row or json.loads(row[0]) != json.loads(canonical_json(spec.definition())):
+    if not row or json.loads(row[0]) != json.loads(spec.canonical_definition()):
         raise ValueError("register the released frozen v2 universe first")
     if at < ts(row[1]):
         raise ValueError("activation precedes registration")
@@ -117,7 +117,7 @@ def load(store, rid) -> dict:
         ).fetchone()[0]
     )
     # A code change cannot silently alter a registered policy or hypothesis definition.
-    if canonical_json(d) != canonical_json(spec.definition()):
+    if canonical_json(d) != spec.canonical_definition():
         raise ValueError("unsupported frozen universe: deploy its engine or register a new version")
     for kind, p in (
         ("admission", spec.AdmissionPolicy()),

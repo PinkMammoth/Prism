@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 from dataclasses import dataclass
+from functools import lru_cache
 from types import MappingProxyType
 
 import numpy as np
@@ -16,11 +17,22 @@ from market_signal.models.domain import Timeframe
 from market_signal.research.discovery.catalogue import IntradayStrategy
 from market_signal.research.discovery.primitives import Frame
 from market_signal.research.discovery.signals import SignalContext, signal_mask
+from market_signal.research.lab.common import canonical_json
 from market_signal.research.microdir.features import flags, member_mask, windows
 from market_signal.research.microdir.spec import HYPOTHESES
 from market_signal.research.structure.series import BarSeries
 
 from .spec import COINS, Hypothesis
+
+
+@lru_cache(maxsize=64)
+def _strategy(encoded: str) -> IntradayStrategy:
+    # Canonical content includes feature/version/parameters/side/identity fields.
+    return IntradayStrategy.model_validate_json(encoded)
+
+
+def strategy(parameters: dict) -> IntradayStrategy:
+    return _strategy(canonical_json(parameters))
 
 
 def ts(x) -> pd.Timestamp:
@@ -289,7 +301,7 @@ class Sources:
                             if len(b)
                             else []
                         )
-                    s = IntradayStrategy.model_validate(h.parameters["strategy"])
+                    s = strategy(h.parameters["strategy"])
                     if len(tech):
                         i = len(tech) - 1
                         if tech_frame is None:
