@@ -1,4 +1,5 @@
 """Operational retirement preserves the experiment and its frozen exit."""
+
 # ruff: noqa: F811
 import json
 from contextlib import closing
@@ -13,8 +14,11 @@ from tests.test_exploratory_paper_v2 import evaluate, minute, obs, quote, run  #
 
 
 def ledger(store):
-    return {t: store.con.execute(f"SELECT * FROM {t} ORDER BY ALL").fetchall()
-            for (t,) in store.con.execute("SHOW TABLES").fetchall() if t.startswith("paper_v2_")}
+    return {
+        t: store.con.execute(f"SELECT * FROM {t} ORDER BY ALL").fetchall()
+        for (t,) in store.con.execute("SHOW TABLES").fetchall()
+        if t.startswith("paper_v2_")
+    }
 
 
 def test_drain_preserves_frozen_exit_and_history(store, run):
@@ -47,7 +51,9 @@ def test_drain_preserves_frozen_exit_and_history(store, run):
     with pytest.raises(ValueError, match="frozen exit"):
         engine.kill(store, run, reason="test")
     sent = []
-    assert report.record_daily(store, run, now=minute(1500), sender=sent.append)["recorded"] is False
+    assert (
+        report.record_daily(store, run, now=minute(1500), sender=sent.append)["recorded"] is False
+    )
     assert not sent
     assert ledger(store) == frozen
     for job in ("paper_v2", "paper_v2_brief", "paper_v2_funding"):
@@ -67,7 +73,9 @@ def test_flat_and_pending_retire_immediately(store, run):
     assert result["state"] == "RETIRED"
     assert result["closed_trades"] == 0
     assert not engine.state(store, run)["pending"]
-    expired = store.con.execute("SELECT payload FROM paper_v2_events WHERE event_type='expired'").fetchone()
+    expired = store.con.execute(
+        "SELECT payload FROM paper_v2_events WHERE event_type='expired'"
+    ).fetchone()
     assert json.loads(expired[0])["reason"] == "RETIREMENT"
     for table, records in original.items():
         assert all(row in ledger(store)[table] for row in records)
@@ -102,8 +110,7 @@ def test_research_horizons_continue_with_v2_runtime_retired(store, run):
     nimble_run = nimble.create(store, now=minute(2))["run_id"]
     closed = closed_tp(store, nimble_run, minute=3)
     with store.transaction():
-        nimble.research(store, nimble_run,
-                        [nimble_quote(484, price=102)], now=time(484))
+        nimble.research(store, nimble_run, [nimble_quote(484, price=102)], now=time(484))
     outcomes = store.con.execute(
         "SELECT horizon_minutes,payload FROM paper_nimble_research ORDER BY horizon_minutes"
     ).fetchall()
@@ -132,8 +139,9 @@ def test_retired_scheduled_jobs_write_no_cycles_or_notifications(store, run, mon
     monkeypatch.setenv("PRISM_RUNTIME_ID", "test")
     calls = []
     for job in ("paper_v2", "paper_v2_brief", "paper_v2_funding"):
-        result = runtime.run_job(job, trigger="schedule", wait=0,
-                                 step_runner=lambda *args: calls.append(args))
+        result = runtime.run_job(
+            job, trigger="schedule", wait=0, step_runner=lambda *args: calls.append(args)
+        )
         assert result["writes"] == 0
     result = CliRunner().invoke(app, ["ops", "crontab"])
     assert result.exit_code == 0

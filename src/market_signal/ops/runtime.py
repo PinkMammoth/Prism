@@ -111,9 +111,10 @@ def active_steps(store, job: str) -> list[tuple[str, list[str]]]:
 
         if not work_needed(store):
             # Legacy job name; Nimble also consumes this hourly settled-funding feed.
-            if job == "paper_v2_funding" and store.con.execute(
-                "SELECT 1 FROM paper_nimble_runs LIMIT 1"
-            ).fetchone():
+            if (
+                job == "paper_v2_funding"
+                and store.con.execute("SELECT 1 FROM paper_nimble_runs LIMIT 1").fetchone()
+            ):
                 return JOBS[job]
             return []
     if job in ("prospective", "intraday"):
@@ -461,8 +462,13 @@ def run_job(job: str, *, trigger: str, wait: float,
         if job in ("paper_v2", "paper_v2_brief", "paper_v2_funding"):
             with _store(db, read_only=True) as s:
                 if not active_steps(s, job):
-                    return {"job": job, "status": "retired_or_unactivated", "exit": 0,
-                            "steps": [], "writes": 0}
+                    return {
+                        "job": job,
+                        "status": "retired_or_unactivated",
+                        "exit": 0,
+                        "steps": [],
+                        "writes": 0,
+                    }
         cycle_id = f"rtcyc_{uuid.uuid4().hex}"
         started = utcnow()
         with _store(db) as s:  # also enforces the authority claim before anything runs

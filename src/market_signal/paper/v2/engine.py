@@ -226,41 +226,71 @@ def retire(store, rid, *, now=None) -> dict:
         if st["status"] not in ("ACTIVE", "DRAINING"):
             raise ValueError("only an active or retirement-draining v2 run can retire")
         if st["status"] != "DRAINING":
-            event(store, rid, "run_state", "retirement_requested", {
-                "state": "DRAINING", "at": at.isoformat(),
-                "reason": "Operational retirement of the historical fixed-horizon baseline",
-                "execution_policy_id": load(store, rid)["execution_policy_id"],
-            }, at)
+            event(
+                store,
+                rid,
+                "run_state",
+                "retirement_requested",
+                {
+                    "state": "DRAINING",
+                    "at": at.isoformat(),
+                    "reason": "Operational retirement of the historical fixed-horizon baseline",
+                    "execution_policy_id": load(store, rid)["execution_policy_id"],
+                },
+                at,
+            )
         for tid in st["pending"]:
-            event(store, rid, "expired", "expired:" + tid,
-                  {"trade_id": tid, "reason": "RETIREMENT"}, at)
+            event(
+                store,
+                rid,
+                "expired",
+                "expired:" + tid,
+                {"trade_id": tid, "reason": "RETIREMENT"},
+                at,
+            )
         _finish_retirement(store, rid, at)
     st = state(store, rid)
-    return {"run_id": rid, "state": st["status"],
-            "admission_stopped_at": st["admission_stopped_at"],
-            "retired_at": st.get("retired_at"), "open_positions": len(st["open"]),
-            "equity": st["equity"], "closed_trades": len(st["closed"])}
+    return {
+        "run_id": rid,
+        "state": st["status"],
+        "admission_stopped_at": st["admission_stopped_at"],
+        "retired_at": st.get("retired_at"),
+        "open_positions": len(st["open"]),
+        "equity": st["equity"],
+        "closed_trades": len(st["closed"]),
+    }
 
 
 def _finish_retirement(store, rid, at):
     st = state(store, rid)
     if st["status"] == "DRAINING" and not st["open"] and not st["pending"]:
-        event(store, rid, "run_state", "retired", {
-            "state": "RETIRED", "at": at.isoformat(),
-            "admission_stopped_at": st["admission_stopped_at"],
-            "equity": st["equity"], "closed_trades": len(st["closed"]),
-            "reason": "Flat; archived historical fixed-horizon execution baseline",
-        }, at)
+        event(
+            store,
+            rid,
+            "run_state",
+            "retired",
+            {
+                "state": "RETIRED",
+                "at": at.isoformat(),
+                "admission_stopped_at": st["admission_stopped_at"],
+                "equity": st["equity"],
+                "closed_trades": len(st["closed"]),
+                "reason": "Flat; archived historical fixed-horizon execution baseline",
+            },
+            at,
+        )
 
 
 def work_needed(store) -> bool:
     """Read just the lifecycle tail; archived history needs no runtime replay."""
-    return bool(store.con.execute("""
+    return bool(
+        store.con.execute("""
         SELECT 1 FROM paper_v2_runs r WHERE coalesce((
             SELECT payload->>'state' FROM paper_v2_events e
             WHERE e.run_id=r.run_id AND event_type='run_state'
             ORDER BY seq DESC LIMIT 1), 'ACTIVE') NOT IN ('RETIRED', 'ARCHIVED') LIMIT 1
-        """).fetchone())
+        """).fetchone()
+    )
 
 
 def kill(store, rid, *, reason: str, now=None) -> dict:
