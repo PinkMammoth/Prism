@@ -1,14 +1,14 @@
 {
-  "measured_at": "2026-10-12T12:53:05.564871+00:00",
-  "free_bytes": 2596896768,
+  "measured_at": "2026-10-12T15:30:26.462248+00:00",
+  "free_bytes": 2528350208,
   "filesystem_total_bytes": 4838498304,
-  "live_db_bytes": 959197184,
+  "live_db_bytes": 1018703872,
   "one_retained_backup_bytes": 968110080,
-  "next_full_backup_reserve_bytes": 968110080,
-  "checkpoint_copy_overhead_bytes": 193622016.0,
+  "next_full_backup_reserve_bytes": 1018703872,
+  "checkpoint_copy_overhead_bytes": 203740774.4,
   "raw_spool_log_receipt_additional_operational_reserve_bytes": 268435456,
   "filesystem_comfort_reserve_bytes": 241924915.20000002,
-  "spendable_after_reserves_bytes": 924804300.8,
+  "spendable_after_reserves_bytes": 795545190.4000001,
   "occupied_block_proxy_rates_bytes_per_day": [
     181622438.62128955,
     94171087.68129955,
@@ -29,27 +29,34 @@
       "non_db_provider_bytes_per_day": 18042880,
       "backup_and_future_creation_headroom_multiplier": 3.2,
       "capacity_consumption_plus_headroom_growth_bytes_per_day": 599234683.5881265,
-      "comfortable_runway_sensitivity_days": 1.543309034220803,
-      "required_measured_filesystem_bytes_30_days": 22788220626.99347,
+      "comfortable_runway_sensitivity_days": 1.3276020433870683,
+      "required_measured_filesystem_bytes_30_days": 22924282848.46715,
       "preferred_target_days": 60,
-      "required_measured_filesystem_bytes_preferred": 41711421161.35536,
+      "required_measured_filesystem_bytes_preferred": 41847483382.82905,
       "illustrative_provisioned_capacity_bytes_preferred": 45000000000.0,
       "volume_usage_cost_upper_usd_per_month_if_fully_consumed": 6.75,
       "incremental_storage_cost_upper_vs_5GB_usd_per_month": 6.0
     },
     "conservative": {
-      "db_proxy_growth_bytes_per_day": 532080670.07002485,
+      "db_proxy_growth_bytes_per_day": 840502960.7554847,
       "non_db_provider_bytes_per_day": 54460416,
       "backup_and_future_creation_headroom_multiplier": 3.2,
-      "capacity_consumption_plus_headroom_growth_bytes_per_day": 1757118560.2240796,
-      "comfortable_runway_sensitivity_days": 0.526318668378338,
-      "required_measured_filesystem_bytes_30_days": 59352974626.02357,
+      "capacity_consumption_plus_headroom_growth_bytes_per_day": 2744069890.417551,
+      "comfortable_runway_sensitivity_days": 0.2899143324221039,
+      "required_measured_filesystem_bytes_30_days": 90655920958.87004,
       "preferred_target_days": 30,
-      "required_measured_filesystem_bytes_preferred": 59352974626.02357,
-      "illustrative_provisioned_capacity_bytes_preferred": 65000000000.0,
-      "volume_usage_cost_upper_usd_per_month_if_fully_consumed": 9.75,
-      "incremental_storage_cost_upper_vs_5GB_usd_per_month": 9.0
+      "required_measured_filesystem_bytes_preferred": 90655920958.87004,
+      "illustrative_provisioned_capacity_bytes_preferred": 100000000000.0,
+      "volume_usage_cost_upper_usd_per_month_if_fully_consumed": 15.0,
+      "incremental_storage_cost_upper_vs_5GB_usd_per_month": 14.25
     }
   },
-  "limits": "Sensitivities, not demonstrated exhaustion forecasts. Used-block counters include index/allocator behavior and differ from filesystem byte counts. Reusable blocks could defer growth; no credit is taken. Conservative repeats the largest short-interval proxy and captured-day provider burst, including bootstrap. Expected uses median observed proxies, not proven steady state. Normal bounded micro/log growth is covered by operational reserve, not perpetual daily growth. Pending spool/revision outage invalidates the bound. No assumption of daily automatic provider deletion. No paid change made."
+  "limits": "Sensitivities, not demonstrated exhaustion forecasts. Used-block counters include index/allocator behavior and differ from filesystem byte counts. Reusable blocks could defer growth; no credit is taken. Conservative repeats the largest short-interval proxy and captured-day provider burst, including bootstrap. Expected uses median observed proxies, not proven steady state. Normal bounded micro/log growth is covered by operational reserve, not perpetual daily growth. Pending spool/revision outage invalidates the bound. No assumption of daily automatic provider deletion. No paid change made. Updated conservative input includes the largest post-offload physical DB interval (26m30s); its repeated annualisation is a burst stress sensitivity, not permanent daily data growth. The 2h37m post-offload DB window net is also recorded; a 14-minute reduction demonstrates continuing reuse. Expected remains the median occupied proxy over the four verified snapshots, not a proven physical steady-state forecast.",
+  "post_offload_physical_db_rates_bytes_per_day": [
+    840502960.7554847,
+    366292510.7598166,
+    802178747.244464,
+    -356729264.43659073
+  ],
+  "post_offload_window_db_net_bytes_per_day": 544585714.4603088
 }

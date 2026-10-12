@@ -1,6 +1,6 @@
 [
   {
-    "measured_at": 1791794849.003488,
+    "measured_at": "2026-10-12T08:47:29.003488+00:00",
     "total_bytes": 4838498304,
     "free_bytes": 2639220736,
     "categories": {
@@ -62,9 +62,9 @@
     }
   },
   {
-    "measured_at": "2026-10-12T12:53:05.564871+00:00",
+    "measured_at": "2026-10-12T15:30:26.462248+00:00",
     "total_bytes": 4838498304,
-    "free_bytes": 2596896768,
+    "free_bytes": 2528350208,
     "categories": {
       "backup_metadata": {
         "bytes": 245323,
@@ -77,7 +77,7 @@
         "files": 1
       },
       "journals_receipts_state": {
-        "bytes": 17707065,
+        "bytes": 17707032,
         "allocated": 18034688,
         "files": 113
       },
@@ -92,8 +92,8 @@
         "files": 1
       },
       "logs": {
-        "bytes": 7116138,
-        "allocated": 7127040,
+        "bytes": 7179170,
+        "allocated": 7192576,
         "files": 3
       },
       "large_print_calibration": {
@@ -102,24 +102,24 @@
         "files": 5
       },
       "microstructure_raw": {
-        "bytes": 60650156,
-        "allocated": 60841984,
-        "files": 37
+        "bytes": 67299217,
+        "allocated": 67506176,
+        "files": 40
       },
       "microstructure_spool": {
-        "bytes": 70777425,
-        "allocated": 71491584,
-        "files": 115
+        "bytes": 72516464,
+        "allocated": 73248768,
+        "files": 118
       },
       "authoritative_db": {
-        "bytes": 959197184,
-        "allocated": 959201280,
+        "bytes": 1018703872,
+        "allocated": 1018707968,
         "files": 1
       },
       "provider_raw": {
-        "bytes": 133948861,
-        "allocated": 137355264,
-        "files": 1556
+        "bytes": 134090268,
+        "allocated": 137908224,
+        "files": 1679
       }
     }
   }

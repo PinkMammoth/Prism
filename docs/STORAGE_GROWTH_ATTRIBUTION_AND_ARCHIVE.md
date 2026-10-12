@@ -25,6 +25,11 @@ continues; no source polling changes were deployed. GitHub authentication is una
 history is preserved locally in `data/storage-retention-release.bundle` and the
 storage archive release bundle. Deployment uses a committed `git archive`, excluding
 unrelated dirty workspace code and all local data/secrets.
+Final live verification began **15:31:20 UTC**: revision unchanged, preflight ready,
+one retained full backup, one actual `/tmp/prism.crontab` backup entry, collector/
+supercronic running, gateway backlog/retry errors zero, microstructure healthy with
+complete coverage across the latest hour. The earlier deployment gaps remain visible
+in the 24h history; they are not erased by this latest-hour result.
 
 ## Live backup retention
 
@@ -89,9 +94,22 @@ sampled peak, and file-count change are in `docs/evidence/storage-growth-attribu
 Filesystem availability is measured independently, including filesystem metadata.
 A backup made/removed between samples may not appear in sampled peaks.
 
+Later samples extend the physical record to **15:30:26 UTC** (6h43m overall).
+The separate post-offload window **12:53:05–15:30:26** spans **2h37m**, five samples,
+and has no backup replacement. Its ranked net allocated rates are: DB
+**544,585,714 bytes/day**, raw microstructure **60,988,502**, spool **16,081,172**,
+Binance futures **2,923,850**, Hyperliquid **1,461,925**, logs **599,764**,
+Hyperliquid intraday **374,853**, FRED **299,882**; all remaining categories zero.
+Daily provider batches are absent from most of this window, so these rates do not
+replace the captured-day totals. DB added 62,914,560 allocated bytes and removed
+3,407,872, net 59,506,688; the final 14-minute shrink confirms ongoing reuse.
+Its highest sampled peak is 1,022,115,840 allocated bytes. Complete addition/removal,
+peak and file counts are in `post-offload-physical-window.json`. This is still a
+short physical window, not a completed 12–24h hourly observation.
+
 ## DuckDB retained versus reusable growth
 
-Read-only diagnostics decompress three verified off-host backups, verify original
+Read-only diagnostics decompress four verified off-host backups, verify original
 SHA, query database size/free blocks, table rows and storage block IDs, then verify
 that read-only inspection did not change restored bytes. Production was not vacuumed
 or compacted. Only the ordinary pre-deployment backup checkpoint occurred.
@@ -105,7 +123,7 @@ or compacted. Only the ordinary pre-deployment backup checkpoint occurred.
 
 Occupied-block increase implies **181,622,439 bytes/day** over 20.44 hours and
 **94,171,088 bytes/day** over the recent 2.87 hours. File-size increases were larger;
-free blocks also increased. Latest free blocks represent approximately **308,805,632
+free blocks also increased. Latest free blocks represent approximately **307,757,056
 bytes internally reusable**, not filesystem free bytes. At 11:56 the live file was
 911,224,832 bytes, smaller than its 960,770,048-byte backup; at 12:20 it was
 963,915,776 bytes. Checkpoint/allocation churn is material. WAL was tiny/transient;
@@ -284,38 +302,43 @@ retained backup and the next-backup reserve: counting only live DB growth is uns
 Internal free blocks may defer allocation but are not credited as filesystem capacity.
 
 The 30-day target is **not proven** by the current volume. Even the lower observed
-occupied growth is 94.2 MB/day of authoritative data; maintaining a full recovery copy
+occupied growth is 94.2 MB/day of occupied-block proxy growth; maintaining a full recovery copy
 and safe next-copy headroom compounds capacity requirements. Raw archival alone
 cannot make evidence growth disappear. Previous 13.4/22.7 GB/month numbers remain
 historical sensitivities; new bounded observations are not proven steady-state rates.
-Final scenario inputs/results are stored in `runway.json`. At 12:53:05 UTC,
-free space is **2,596,896,768 bytes**. Reserves: next backup 968,110,080;
-checkpoint/copy overhead 193,622,016; additional raw/spool/log/receipt reserve
-268,435,456; filesystem comfort 241,924,915 bytes. Spendable after reserves:
-**924,804,301 bytes**.
+Final scenario inputs/results are stored in `runway.json`. At **15:30:26 UTC**,
+free space is **2,528,350,208 bytes**. Reserves: next backup **1,018,703,872**
+(the larger of current DB and retained backup); checkpoint/copy overhead
+**203,740,774**; additional raw/spool/log/receipt reserve **268,435,456**;
+filesystem comfort **241,924,915** bytes. Spendable after reserves:
+**795,545,190 bytes**.
 
-Expected sensitivity uses median occupied proxy **181,622,439 bytes/day** plus
-18,042,880 provider allocated bytes/day. Conservative repeats the higher short
-proxy **532,080,670** plus the largest retained captured-day provider burst
-54,460,416 (including a bootstrap day). Future growth multiplies by **3.2**: live
-DB + retained full backup + next backup reserve + 20% overhead. Micro/log normal
-bounded growth is covered by the operational reserve; ingest outage invalidates it.
-No automatic provider deletion or free-block capacity credit is assumed.
+Expected sensitivity retains median occupied proxy **181,622,439 bytes/day**
+over the four verified snapshots plus **18,042,880** provider allocated bytes/day.
+Conservative now uses the higher observed post-offload physical DB interval
+**840,502,961 bytes/day**, plus the largest retained captured-day provider burst
+**54,460,416** (including bootstrap). That maximum is a **26m30s burst**; hourly
+intervals were approximately 366.3 and 802.2 MB/day and the whole post-offload window
+544.6 MB/day. These are allocation sensitivities, not permanent daily retained data.
+Future growth multiplies by **3.2**: live DB + retained full backup + next backup
+reserve + 20% overhead. Normal bounded micro/log growth is covered by operational
+reserve; ingest outage invalidates it. No automatic provider deletion or internal
+free-block filesystem capacity credit is assumed.
 
-Comfortable runway sensitivities are **0.53 days conservative**, **1.54 days
+Comfortable runway sensitivities are **0.29 days conservative**, **1.33 days
 expected**. These are **not proven disk-exhaustion forecasts**: reusable blocks,
 index/checkpoint behavior and batch timing can substantially change allocation.
-There is safe room for the next backup now; 30 days is not demonstrated. Even the
-lower recent occupied rate and proven table data growth do not justify declaring
-the current volume storage-safe.
+There is safe room for the next backup now; **30 days is not demonstrated**.
 
-Indicative capacity: 22.79 GB measured filesystem for 30 days expected; 41.71 GB
-for 60 days expected; **59.35 GB for 30 days conservative**. Allowing filesystem
-metadata and rounding suggests **65 GB provisioned** for the conservative stress
-case, which also exceeds the 60-day expected requirement. This is a conservative
-sensitivity-based planning size, not a measured steady-state minimum. Volume
-usage at 65 GB fully consumed would be at most **$9.75/month**, or **$9/month**
-above 5 GB fully consumed, excluding unchanged CPU/RAM/egress/subscription costs.
+Indicative capacity: **22.92 GB** measured filesystem for 30 days expected;
+**41.85 GB** for 60 days expected; **90.66 GB** for 30 days conservative.
+Allowing filesystem metadata and rounding suggests **100 GB provisioned** for
+the conservative burst stress case. This is sensitivity-based planning, not a
+measured steady-state minimum or a recommendation to buy before the hourly window
+completes. At 100 GB fully consumed, volume usage would be **$15/month**, or
+**$14.25/month** above 5 GB fully consumed, excluding unchanged CPU/RAM/egress/
+subscription costs. At the illustrative 45 GB expected-60-day capacity, fully
+consumed volume usage would be $6.75/month.
 Billing is actual used volume bytes; unused provisioned capacity is not billed.
 Existing account resize/plan entitlement must be checked before any paid action.
 More hourly observations are required before using the stress case as a forecast. No storage upgrade,
@@ -343,7 +366,8 @@ discovery regression run: 349 passed plus one environment-dependent fixture fail
 (process permissions). Fixture process scan was isolated; all 26 focused archive/
 attribution tests then passed, including the failed case and added protections.
 The union has **353 unique relevant cases with passing results and none unverified**.
-This is not a claim that the initial 350-case run was green. Local undeployed Dynamic Universe compatibility suite: **57 passed**. Its code
+This is not a claim that the initial 350-case run was green. Local undeployed Dynamic Universe compatibility suite: **57 passed**.
+Additional shared-workspace backup/raw/attribution compatibility: **40 passed**. Its code
 remains outside the approved/deployed release; running tests enabled no ranking,
 warming or execution. Repository-wide Ruff
 and formatting (440 Python files), shell syntax and diff checks pass.
@@ -407,28 +431,28 @@ It is full/schema 30, compatible with deployed code and verified off-host; no ro
 pin exists. Pre-deploy backup creation independently exercised the new policy and
 pruned one eligible old copy without recreating a weekly set.
 
-| Logical bytes | Before 08:47:29 UTC | After 12:53:05 UTC |
+| Logical bytes | Before 08:47:29 UTC | After 15:30:26 UTC |
 |---|---:|---:|
-| Authoritative DB | 901,525,504 | 959,197,184 |
+| Authoritative DB | 901,525,504 | 1,018,703,872 |
 | One recovery backup | 906,768,384 | 968,110,080 |
-| Provider raw | 219,627,192 | 133,948,861 |
-| Microstructure raw | 52,536,100 | 60,650,156 |
-| Microstructure spool | 68,181,365 | 70,777,425 |
+| Provider raw | 219,627,192 | 134,090,268 |
+| Microstructure raw | 52,536,100 | 67,299,217 |
+| Microstructure spool | 68,181,365 | 72,516,464 |
 | Calibration | 80,342 | 80,342 |
-| Journals/receipts/state | 1,255,851 | 17,707,065 |
-| Logs | 6,929,009 | 7,116,138 |
+| Journals/receipts/state | 1,255,851 | 17,707,032 |
+| Logs | 6,929,009 | 7,179,170 |
 | Evidence exports | 12,397 | 12,397 |
 | Backup metadata | 199,597 | 245,323 |
 | Temporary files | 63 | 63 |
-| Filesystem available | 2,639,220,736 | 2,596,896,768 |
+| Filesystem available | 2,639,220,736 | 2,528,350,208 |
 
-Files continue to grow during the operation; net free space fell 42,323,968 bytes
-across this four-hour phase despite safe raw offload. All exact allocated sizes/file
-counts are in `before-after.json`. Current provider working set: **1,556 files**,
-137,355,264 allocated bytes. It retains protected latest runs, the dormant Binance
+Files continue to grow during the operation; net free space fell 110,870,528 bytes
+across this 6h43m phase despite safe raw offload. All exact allocated sizes/file
+counts are in `before-after.json`. Current provider working set: **1,679 files**,
+137,908,224 allocated bytes. It retains protected latest runs, the dormant Binance
 bundle, unmatched history, failed/rejected evidence, two invalid RSS responses and
 new captures beyond the recovery cutoff. These exceptions have no arbitrary age expiry.
-Current raw/spool are 37/115 files, calibration five, logs three, evidence exports two.
+Current raw/spool are 40/118 files, calibration five, logs three, evidence exports two.
 No scientific evidence, raw microstructure journal, consumed spool or calibration was
 deleted by this workflow. Ordinary existing collector expiry remains unchanged.
 
