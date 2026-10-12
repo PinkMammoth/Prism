@@ -1,0 +1,13 @@
+{
+  "approved_main": "36d75639e414e88d7488695808cf82dc1c1e23df",
+  "release_revision": "15d9eb495e37033ebf40a7fbcce6ec76a162b0f6",
+  "collected": 1393,
+  "unique_passed": 1393,
+  "missing": [],
+  "failed": [],
+  "application_src_config_deploy_exact_match": true,
+  "ruff": "passed",
+  "formatting": "passed",
+  "shell_syntax": "passed",
+  "git_diff_check": "passed"
+}

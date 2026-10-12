@@ -780,7 +780,9 @@ def backup_live(db: Path, *, kind: str = "daily", label: str | None = None,
 
     pending = backups.inventory(root, db)
     if len(pending) >= 2:
-        raise RuntimeError("two recovery copies already present; export and retain before creating another full copy")
+        raise RuntimeError(
+            "two recovery copies already present; export and retain before creating another full copy"
+        )
     size = db.stat().st_size
     disk = disk_state(db)
     if disk.free - 1.2 * size < DISK_CRITICAL * disk.total:
@@ -793,7 +795,9 @@ def backup_live(db: Path, *, kind: str = "daily", label: str | None = None,
     clean_label = "".join(c for c in (label or "") if c.isalnum() or c in "-_")
     name = f"prism-{stamp}" + (f"-{clean_label}" if clean_label else "")
     dest = root / kind / f"{name}.duckdb"
-    if dest.exists() or any(p.is_symlink() for p in (dest, *dest.parents, dest.with_name(dest.name + ".part"))):
+    if dest.exists() or any(
+        p.is_symlink() for p in (dest, *dest.parents, dest.with_name(dest.name + ".part"))
+    ):
         raise RuntimeError("unsafe or existing backup destination")
     with _store(db, read_only=True) as ro:
         wal = db.with_name(db.name + ".wal")
@@ -804,8 +808,13 @@ def backup_live(db: Path, *, kind: str = "daily", label: str | None = None,
         expected = fingerprint(ro)
         _copy_atomic(db, dest)
     result = verify_backup(dest, expected)
-    backups.register(root, dest, db, origin=os.environ.get("RAILWAY_ENVIRONMENT_NAME", "local"),
-                     source_revision=revision(_root()) or "unknown")
+    backups.register(
+        root,
+        dest,
+        db,
+        origin=os.environ.get("RAILWAY_ENVIRONMENT_NAME", "local"),
+        source_revision=revision(_root()) or "unknown",
+    )
     weekly = None
     # No weekly link set. Unexported history is blocked, never silently deleted.
     pruned = prune_backups(root, active_db=db)
@@ -879,11 +888,14 @@ def restore_test(path: Path, scratch: Path | None = None) -> dict:
 def prune_backups(root: Path, *, active_db: Path | None = None) -> list[str]:
     from market_signal.ops import backups
 
-    result = backups.retain(root, active_db or root.parent / "prism.duckdb",
-                            **backups.policy(root), apply=True)
+    result = backups.retain(
+        root, active_db or root.parent / "prism.duckdb", **backups.policy(root), apply=True
+    )
     if result["blocked"]:
-        log.warning("backup retention blocked: off-host verified export required for %d copies",
-                    len(result["blocked"]))
+        log.warning(
+            "backup retention blocked: off-host verified export required for %d copies",
+            len(result["blocked"]),
+        )
     return [r["path"] for r in result["removed"]]
 
 

@@ -1,0 +1,10 @@
+{
+  "files": 6255,
+  "source_bytes": 98233925,
+  "verified_files": 6255,
+  "archive_bytes": 98233925,
+  "reader_types": {
+    "provider-envelope-v1": 5572,
+    "provider-response-bundle-v1": 683
+  }
+}

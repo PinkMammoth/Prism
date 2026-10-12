@@ -1,0 +1,1218 @@
+{
+  "complete_days": [
+    "2026-10-05",
+    "2026-10-06",
+    "2026-10-07",
+    "2026-10-08",
+    "2026-10-09",
+    "2026-10-10",
+    "2026-10-11"
+  ],
+  "sources": [
+    {
+      "source": "fred",
+      "retained": {
+        "bytes": 110133441,
+        "allocated": 111562752,
+        "logical": 1298680664,
+        "files": 489
+      },
+      "eligible_bytes": 55070629,
+      "last_complete_day": {
+        "bytes": 7887976,
+        "allocated": 8077312,
+        "logical": 91912865,
+        "files": 58
+      },
+      "seven_day_median_bytes": 7887976,
+      "seven_day_max_bytes": 8044409,
+      "seven_day_median_files": 58,
+      "compression_ratio": 11.79188312113121,
+      "daily": {
+        "2026-09-25": {
+          "bytes": 8262156,
+          "allocated": 8306688,
+          "logical": 103483339,
+          "files": 23
+        },
+        "2026-10-02": {
+          "bytes": 23354224,
+          "allocated": 23531520,
+          "logical": 274858955,
+          "files": 69
+        },
+        "2026-10-03": {
+          "bytes": 7784662,
+          "allocated": 7843840,
+          "logical": 91618565,
+          "files": 23
+        },
+        "2026-10-04": {
+          "bytes": 7784633,
+          "allocated": 7843840,
+          "logical": 91617806,
+          "files": 23
+        },
+        "2026-10-05": {
+          "bytes": 7784640,
+          "allocated": 7843840,
+          "logical": 91617806,
+          "files": 23
+        },
+        "2026-10-06": {
+          "bytes": 7784715,
+          "allocated": 7843840,
+          "logical": 91619251,
+          "files": 23
+        },
+        "2026-10-07": {
+          "bytes": 7792811,
+          "allocated": 7909376,
+          "logical": 91643173,
+          "files": 39
+        },
+        "2026-10-08": {
+          "bytes": 8044409,
+          "allocated": 8228864,
+          "logical": 94588605,
+          "files": 58
+        },
+        "2026-10-09": {
+          "bytes": 7888014,
+          "allocated": 8077312,
+          "logical": 91913372,
+          "files": 58
+        },
+        "2026-10-10": {
+          "bytes": 7888064,
+          "allocated": 8077312,
+          "logical": 91913898,
+          "files": 58
+        },
+        "2026-10-11": {
+          "bytes": 7887976,
+          "allocated": 8077312,
+          "logical": 91912865,
+          "files": 58
+        },
+        "2026-10-12": {
+          "bytes": 7877137,
+          "allocated": 7979008,
+          "logical": 91893029,
+          "files": 34
+        }
+      }
+    },
+    {
+      "source": "hyperliquid",
+      "retained": {
+        "bytes": 42381255,
+        "allocated": 47271936,
+        "logical": 115600795,
+        "files": 1738
+      },
+      "eligible_bytes": 21881392,
+      "last_complete_day": {
+        "bytes": 3273614,
+        "allocated": 4046848,
+        "logical": 9630630,
+        "files": 254
+      },
+      "seven_day_median_bytes": 3186725,
+      "seven_day_max_bytes": 3349004,
+      "seven_day_median_files": 147,
+      "compression_ratio": 2.7276397312915814,
+      "daily": {
+        "2026-09-25": {
+          "bytes": 2729554,
+          "allocated": 2740224,
+          "logical": 6257876,
+          "files": 8
+        },
+        "2026-10-02": {
+          "bytes": 7746079,
+          "allocated": 7790592,
+          "logical": 16870244,
+          "files": 24
+        },
+        "2026-10-03": {
+          "bytes": 4653063,
+          "allocated": 5156864,
+          "logical": 19176648,
+          "files": 322
+        },
+        "2026-10-04": {
+          "bytes": 2774274,
+          "allocated": 3031040,
+          "logical": 6598024,
+          "files": 75
+        },
+        "2026-10-05": {
+          "bytes": 2773673,
+          "allocated": 3031040,
+          "logical": 6594214,
+          "files": 75
+        },
+        "2026-10-06": {
+          "bytes": 2742703,
+          "allocated": 2949120,
+          "logical": 6442129,
+          "files": 61
+        },
+        "2026-10-07": {
+          "bytes": 2861865,
+          "allocated": 3137536,
+          "logical": 7170821,
+          "files": 86
+        },
+        "2026-10-08": {
+          "bytes": 3186725,
+          "allocated": 3620864,
+          "logical": 9196894,
+          "files": 147
+        },
+        "2026-10-09": {
+          "bytes": 3303633,
+          "allocated": 4063232,
+          "logical": 9751965,
+          "files": 246
+        },
+        "2026-10-10": {
+          "bytes": 3349004,
+          "allocated": 4251648,
+          "logical": 9982418,
+          "files": 289
+        },
+        "2026-10-11": {
+          "bytes": 3273614,
+          "allocated": 4046848,
+          "logical": 9630630,
+          "files": 254
+        },
+        "2026-10-12": {
+          "bytes": 2987068,
+          "allocated": 3452928,
+          "logical": 7928932,
+          "files": 151
+        }
+      }
+    },
+    {
+      "source": "sec_edgar",
+      "retained": {
+        "bytes": 24410398,
+        "allocated": 24543232,
+        "logical": 382746230,
+        "files": 84
+      },
+      "eligible_bytes": 12206507,
+      "last_complete_day": {
+        "bytes": 1743922,
+        "allocated": 1753088,
+        "logical": 27344342,
+        "files": 6
+      },
+      "seven_day_median_bytes": 1743810,
+      "seven_day_max_bytes": 1743922,
+      "seven_day_median_files": 6,
+      "compression_ratio": 15.679639062009558,
+      "daily": {
+        "2026-09-25": {
+          "bytes": 1742621,
+          "allocated": 1753088,
+          "logical": 27323012,
+          "files": 6
+        },
+        "2026-10-02": {
+          "bytes": 5230153,
+          "allocated": 5259264,
+          "logical": 82005565,
+          "files": 18
+        },
+        "2026-10-03": {
+          "bytes": 1743598,
+          "allocated": 1753088,
+          "logical": 27339044,
+          "files": 6
+        },
+        "2026-10-04": {
+          "bytes": 1743598,
+          "allocated": 1753088,
+          "logical": 27339044,
+          "files": 6
+        },
+        "2026-10-05": {
+          "bytes": 1743599,
+          "allocated": 1753088,
+          "logical": 27339044,
+          "files": 6
+        },
+        "2026-10-06": {
+          "bytes": 1743627,
+          "allocated": 1753088,
+          "logical": 27339525,
+          "files": 6
+        },
+        "2026-10-07": {
+          "bytes": 1743752,
+          "allocated": 1753088,
+          "logical": 27341694,
+          "files": 6
+        },
+        "2026-10-08": {
+          "bytes": 1743810,
+          "allocated": 1753088,
+          "logical": 27342656,
+          "files": 6
+        },
+        "2026-10-09": {
+          "bytes": 1743876,
+          "allocated": 1753088,
+          "logical": 27343620,
+          "files": 6
+        },
+        "2026-10-10": {
+          "bytes": 1743921,
+          "allocated": 1753088,
+          "logical": 27344342,
+          "files": 6
+        },
+        "2026-10-11": {
+          "bytes": 1743922,
+          "allocated": 1753088,
+          "logical": 27344342,
+          "files": 6
+        },
+        "2026-10-12": {
+          "bytes": 1743921,
+          "allocated": 1753088,
+          "logical": 27344342,
+          "files": 6
+        }
+      }
+    },
+    {
+      "source": "binance_futures",
+      "retained": {
+        "bytes": 2859840,
+        "allocated": 14278656,
+        "logical": 12201243,
+        "files": 3204
+      },
+      "eligible_bytes": 1660643,
+      "last_complete_day": {
+        "bytes": 287286,
+        "allocated": 2523136,
+        "logical": 683995,
+        "files": 616
+      },
+      "seven_day_median_bytes": 287286,
+      "seven_day_max_bytes": 325214,
+      "seven_day_median_files": 616,
+      "compression_ratio": 4.266407561262168,
+      "daily": {
+        "2026-10-03": {
+          "bytes": 1146136,
+          "allocated": 1257472,
+          "logical": 6694236,
+          "files": 60
+        },
+        "2026-10-04": {
+          "bytes": 28930,
+          "allocated": 212992,
+          "logical": 80327,
+          "files": 52
+        },
+        "2026-10-05": {
+          "bytes": 23419,
+          "allocated": 163840,
+          "logical": 70745,
+          "files": 40
+        },
+        "2026-10-06": {
+          "bytes": 23485,
+          "allocated": 163840,
+          "logical": 70708,
+          "files": 40
+        },
+        "2026-10-07": {
+          "bytes": 325214,
+          "allocated": 995328,
+          "logical": 2170413,
+          "files": 208
+        },
+        "2026-10-08": {
+          "bytes": 289505,
+          "allocated": 2523136,
+          "logical": 684941,
+          "files": 616
+        },
+        "2026-10-09": {
+          "bytes": 288973,
+          "allocated": 2523136,
+          "logical": 684624,
+          "files": 616
+        },
+        "2026-10-10": {
+          "bytes": 287192,
+          "allocated": 2523136,
+          "logical": 683927,
+          "files": 616
+        },
+        "2026-10-11": {
+          "bytes": 287286,
+          "allocated": 2523136,
+          "logical": 683995,
+          "files": 616
+        },
+        "2026-10-12": {
+          "bytes": 159700,
+          "allocated": 1392640,
+          "logical": 377327,
+          "files": 340
+        }
+      }
+    },
+    {
+      "source": "hyperliquid_intraday",
+      "retained": {
+        "bytes": 4026101,
+        "allocated": 5435392,
+        "logical": 22722568,
+        "files": 691
+      },
+      "eligible_bytes": 4007306,
+      "last_complete_day": {
+        "bytes": 194268,
+        "allocated": 393216,
+        "logical": 1029258,
+        "files": 96
+      },
+      "seven_day_median_bytes": 197587,
+      "seven_day_max_bytes": 2742138,
+      "seven_day_median_files": 96,
+      "compression_ratio": 5.643814698140956,
+      "daily": {
+        "2026-10-05": {
+          "bytes": 2742138,
+          "allocated": 2875392,
+          "logical": 16000098,
+          "files": 66
+        },
+        "2026-10-06": {
+          "bytes": 197240,
+          "allocated": 393216,
+          "logical": 1030765,
+          "files": 96
+        },
+        "2026-10-07": {
+          "bytes": 198865,
+          "allocated": 393216,
+          "logical": 1032057,
+          "files": 96
+        },
+        "2026-10-08": {
+          "bytes": 200660,
+          "allocated": 393216,
+          "logical": 1031926,
+          "files": 96
+        },
+        "2026-10-09": {
+          "bytes": 197587,
+          "allocated": 393216,
+          "logical": 1030769,
+          "files": 96
+        },
+        "2026-10-10": {
+          "bytes": 192847,
+          "allocated": 393216,
+          "logical": 1028638,
+          "files": 96
+        },
+        "2026-10-11": {
+          "bytes": 194268,
+          "allocated": 393216,
+          "logical": 1029258,
+          "files": 96
+        },
+        "2026-10-12": {
+          "bytes": 102496,
+          "allocated": 200704,
+          "logical": 539057,
+          "files": 49
+        }
+      }
+    },
+    {
+      "source": "defillama",
+      "retained": {
+        "bytes": 1037591,
+        "allocated": 1122304,
+        "logical": 2999548,
+        "files": 70
+      },
+      "eligible_bytes": 520170,
+      "last_complete_day": {
+        "bytes": 74784,
+        "allocated": 86016,
+        "logical": 216937,
+        "files": 5
+      },
+      "seven_day_median_bytes": 74051,
+      "seven_day_max_bytes": 74784,
+      "seven_day_median_files": 5,
+      "compression_ratio": 2.8908770411462705,
+      "daily": {
+        "2026-09-25": {
+          "bytes": 73529,
+          "allocated": 77824,
+          "logical": 212323,
+          "files": 5
+        },
+        "2026-10-02": {
+          "bytes": 221397,
+          "allocated": 233472,
+          "logical": 638950,
+          "files": 15
+        },
+        "2026-10-03": {
+          "bytes": 73797,
+          "allocated": 77824,
+          "logical": 213048,
+          "files": 5
+        },
+        "2026-10-04": {
+          "bytes": 73850,
+          "allocated": 77824,
+          "logical": 213142,
+          "files": 5
+        },
+        "2026-10-05": {
+          "bytes": 73917,
+          "allocated": 77824,
+          "logical": 213532,
+          "files": 5
+        },
+        "2026-10-06": {
+          "bytes": 73976,
+          "allocated": 77824,
+          "logical": 213606,
+          "files": 5
+        },
+        "2026-10-07": {
+          "bytes": 74003,
+          "allocated": 77824,
+          "logical": 213676,
+          "files": 5
+        },
+        "2026-10-08": {
+          "bytes": 74051,
+          "allocated": 77824,
+          "logical": 213804,
+          "files": 5
+        },
+        "2026-10-09": {
+          "bytes": 74715,
+          "allocated": 86016,
+          "logical": 216717,
+          "files": 5
+        },
+        "2026-10-10": {
+          "bytes": 74724,
+          "allocated": 86016,
+          "logical": 216766,
+          "files": 5
+        },
+        "2026-10-11": {
+          "bytes": 74784,
+          "allocated": 86016,
+          "logical": 216937,
+          "files": 5
+        },
+        "2026-10-12": {
+          "bytes": 74848,
+          "allocated": 86016,
+          "logical": 217047,
+          "files": 5
+        }
+      }
+    },
+    {
+      "source": "eia",
+      "retained": {
+        "bytes": 493127,
+        "allocated": 516096,
+        "logical": 18957958,
+        "files": 28
+      },
+      "eligible_bytes": 246606,
+      "last_complete_day": {
+        "bytes": 35237,
+        "allocated": 36864,
+        "logical": 1354566,
+        "files": 2
+      },
+      "seven_day_median_bytes": 35235,
+      "seven_day_max_bytes": 35239,
+      "seven_day_median_files": 2,
+      "compression_ratio": 38.444372342216106,
+      "daily": {
+        "2026-09-25": {
+          "bytes": 35187,
+          "allocated": 36864,
+          "logical": 1353336,
+          "files": 2
+        },
+        "2026-10-02": {
+          "bytes": 105657,
+          "allocated": 110592,
+          "logical": 4061922,
+          "files": 6
+        },
+        "2026-10-03": {
+          "bytes": 35219,
+          "allocated": 36864,
+          "logical": 1353974,
+          "files": 2
+        },
+        "2026-10-04": {
+          "bytes": 35219,
+          "allocated": 36864,
+          "logical": 1353974,
+          "files": 2
+        },
+        "2026-10-05": {
+          "bytes": 35219,
+          "allocated": 36864,
+          "logical": 1353974,
+          "files": 2
+        },
+        "2026-10-06": {
+          "bytes": 35220,
+          "allocated": 36864,
+          "logical": 1353974,
+          "files": 2
+        },
+        "2026-10-07": {
+          "bytes": 35219,
+          "allocated": 36864,
+          "logical": 1353974,
+          "files": 2
+        },
+        "2026-10-08": {
+          "bytes": 35235,
+          "allocated": 36864,
+          "logical": 1354566,
+          "files": 2
+        },
+        "2026-10-09": {
+          "bytes": 35237,
+          "allocated": 36864,
+          "logical": 1354566,
+          "files": 2
+        },
+        "2026-10-10": {
+          "bytes": 35239,
+          "allocated": 36864,
+          "logical": 1354566,
+          "files": 2
+        },
+        "2026-10-11": {
+          "bytes": 35237,
+          "allocated": 36864,
+          "logical": 1354566,
+          "files": 2
+        },
+        "2026-10-12": {
+          "bytes": 35239,
+          "allocated": 36864,
+          "logical": 1354566,
+          "files": 2
+        }
+      }
+    },
+    {
+      "source": "coinbase",
+      "retained": {
+        "bytes": 3159893,
+        "allocated": 4526080,
+        "logical": 7728687,
+        "files": 635
+      },
+      "eligible_bytes": 64496,
+      "last_complete_day": {
+        "bytes": 9155,
+        "allocated": 40960,
+        "logical": 19346,
+        "files": 10
+      },
+      "seven_day_median_bytes": 9214,
+      "seven_day_max_bytes": 9379,
+      "seven_day_median_files": 10,
+      "compression_ratio": 2.4458698443270075,
+      "daily": {
+        "2026-09-25": {
+          "bytes": 3028906,
+          "allocated": 3981312,
+          "logical": 7450243,
+          "files": 505
+        },
+        "2026-10-02": {
+          "bytes": 39236,
+          "allocated": 135168,
+          "logical": 87047,
+          "files": 30
+        },
+        "2026-10-03": {
+          "bytes": 8928,
+          "allocated": 40960,
+          "logical": 18160,
+          "files": 10
+        },
+        "2026-10-04": {
+          "bytes": 9174,
+          "allocated": 40960,
+          "logical": 19168,
+          "files": 10
+        },
+        "2026-10-05": {
+          "bytes": 9065,
+          "allocated": 40960,
+          "logical": 19169,
+          "files": 10
+        },
+        "2026-10-06": {
+          "bytes": 9130,
+          "allocated": 40960,
+          "logical": 19214,
+          "files": 10
+        },
+        "2026-10-07": {
+          "bytes": 9214,
+          "allocated": 40960,
+          "logical": 19220,
+          "files": 10
+        },
+        "2026-10-08": {
+          "bytes": 9293,
+          "allocated": 40960,
+          "logical": 19225,
+          "files": 10
+        },
+        "2026-10-09": {
+          "bytes": 9379,
+          "allocated": 40960,
+          "logical": 19264,
+          "files": 10
+        },
+        "2026-10-10": {
+          "bytes": 9260,
+          "allocated": 40960,
+          "logical": 19234,
+          "files": 10
+        },
+        "2026-10-11": {
+          "bytes": 9155,
+          "allocated": 40960,
+          "logical": 19346,
+          "files": 10
+        },
+        "2026-10-12": {
+          "bytes": 9153,
+          "allocated": 40960,
+          "logical": 19397,
+          "files": 10
+        }
+      }
+    },
+    {
+      "source": "tiingo",
+      "retained": {
+        "bytes": 2506970,
+        "allocated": 3076096,
+        "logical": 12358742,
+        "files": 168
+      },
+      "eligible_bytes": 51908,
+      "last_complete_day": {
+        "bytes": 7345,
+        "allocated": 49152,
+        "logical": 18200,
+        "files": 12
+      },
+      "seven_day_median_bytes": 7345,
+      "seven_day_max_bytes": 7829,
+      "seven_day_median_files": 12,
+      "compression_ratio": 4.92975264961288,
+      "daily": {
+        "2026-09-25": {
+          "bytes": 2410017,
+          "allocated": 2437120,
+          "logical": 12113932,
+          "files": 12
+        },
+        "2026-10-02": {
+          "bytes": 23078,
+          "allocated": 147456,
+          "logical": 60013,
+          "files": 36
+        },
+        "2026-10-03": {
+          "bytes": 7307,
+          "allocated": 49152,
+          "logical": 18167,
+          "files": 12
+        },
+        "2026-10-04": {
+          "bytes": 7309,
+          "allocated": 49152,
+          "logical": 18167,
+          "files": 12
+        },
+        "2026-10-05": {
+          "bytes": 7307,
+          "allocated": 49152,
+          "logical": 18167,
+          "files": 12
+        },
+        "2026-10-06": {
+          "bytes": 7829,
+          "allocated": 49152,
+          "logical": 20917,
+          "files": 12
+        },
+        "2026-10-07": {
+          "bytes": 7384,
+          "allocated": 49152,
+          "logical": 18281,
+          "files": 12
+        },
+        "2026-10-08": {
+          "bytes": 7363,
+          "allocated": 49152,
+          "logical": 18265,
+          "files": 12
+        },
+        "2026-10-09": {
+          "bytes": 7338,
+          "allocated": 49152,
+          "logical": 18233,
+          "files": 12
+        },
+        "2026-10-10": {
+          "bytes": 7342,
+          "allocated": 49152,
+          "logical": 18200,
+          "files": 12
+        },
+        "2026-10-11": {
+          "bytes": 7345,
+          "allocated": 49152,
+          "logical": 18200,
+          "files": 12
+        },
+        "2026-10-12": {
+          "bytes": 7351,
+          "allocated": 49152,
+          "logical": 18200,
+          "files": 12
+        }
+      }
+    },
+    {
+      "source": "binance_futures_intraday",
+      "retained": {
+        "bytes": 38585816,
+        "allocated": 38588416,
+        "logical": 118991554,
+        "files": 1
+      },
+      "eligible_bytes": 0,
+      "last_complete_day": {
+        "bytes": 0,
+        "allocated": 0,
+        "logical": 0,
+        "files": 0
+      },
+      "seven_day_median_bytes": 0,
+      "seven_day_max_bytes": 38585816,
+      "seven_day_median_files": 0,
+      "compression_ratio": 3.083815928630355,
+      "daily": {
+        "2026-10-05": {
+          "bytes": 38585816,
+          "allocated": 38588416,
+          "logical": 118991554,
+          "files": 1
+        },
+        "2026-10-06": {
+          "bytes": 0,
+          "allocated": 0,
+          "logical": 0,
+          "files": 0
+        },
+        "2026-10-07": {
+          "bytes": 0,
+          "allocated": 0,
+          "logical": 0,
+          "files": 0
+        },
+        "2026-10-08": {
+          "bytes": 0,
+          "allocated": 0,
+          "logical": 0,
+          "files": 0
+        },
+        "2026-10-09": {
+          "bytes": 0,
+          "allocated": 0,
+          "logical": 0,
+          "files": 0
+        },
+        "2026-10-10": {
+          "bytes": 0,
+          "allocated": 0,
+          "logical": 0,
+          "files": 0
+        },
+        "2026-10-11": {
+          "bytes": 0,
+          "allocated": 0,
+          "logical": 0,
+          "files": 0
+        }
+      }
+    },
+    {
+      "source": "rss_cftc_press",
+      "retained": {
+        "bytes": 191189,
+        "allocated": 561152,
+        "logical": 682130,
+        "files": 137
+      },
+      "eligible_bytes": 189845,
+      "last_complete_day": {
+        "bytes": 0,
+        "allocated": 0,
+        "logical": 0,
+        "files": 0
+      },
+      "seven_day_median_bytes": 16967,
+      "seven_day_max_bytes": 67874,
+      "seven_day_median_files": 12,
+      "compression_ratio": 3.567830785243921,
+      "daily": {
+        "2026-10-05": {
+          "bytes": 0,
+          "allocated": 0,
+          "logical": 0,
+          "files": 0
+        },
+        "2026-10-06": {
+          "bytes": 0,
+          "allocated": 0,
+          "logical": 0,
+          "files": 0
+        },
+        "2026-10-07": {
+          "bytes": 16967,
+          "allocated": 49152,
+          "logical": 59748,
+          "files": 12
+        },
+        "2026-10-08": {
+          "bytes": 67874,
+          "allocated": 196608,
+          "logical": 238992,
+          "files": 48
+        },
+        "2026-10-09": {
+          "bytes": 67364,
+          "allocated": 196608,
+          "logical": 238970,
+          "files": 48
+        },
+        "2026-10-10": {
+          "bytes": 38984,
+          "allocated": 118784,
+          "logical": 144420,
+          "files": 29
+        },
+        "2026-10-11": {
+          "bytes": 0,
+          "allocated": 0,
+          "logical": 0,
+          "files": 0
+        }
+      }
+    },
+    {
+      "source": "rss_coinbase_status",
+      "retained": {
+        "bytes": 503899,
+        "allocated": 561152,
+        "logical": 5013426,
+        "files": 137
+      },
+      "eligible_bytes": 500208,
+      "last_complete_day": {
+        "bytes": 0,
+        "allocated": 0,
+        "logical": 0,
+        "files": 0
+      },
+      "seven_day_median_bytes": 43720,
+      "seven_day_max_bytes": 176569,
+      "seven_day_median_files": 12,
+      "compression_ratio": 9.94926761116811,
+      "daily": {
+        "2026-10-05": {
+          "bytes": 0,
+          "allocated": 0,
+          "logical": 0,
+          "files": 0
+        },
+        "2026-10-06": {
+          "bytes": 0,
+          "allocated": 0,
+          "logical": 0,
+          "files": 0
+        },
+        "2026-10-07": {
+          "bytes": 43720,
+          "allocated": 49152,
+          "logical": 420818,
+          "files": 12
+        },
+        "2026-10-08": {
+          "bytes": 176569,
+          "allocated": 196608,
+          "logical": 1729704,
+          "files": 48
+        },
+        "2026-10-09": {
+          "bytes": 176556,
+          "allocated": 196608,
+          "logical": 1771431,
+          "files": 48
+        },
+        "2026-10-10": {
+          "bytes": 107054,
+          "allocated": 118784,
+          "logical": 1091473,
+          "files": 29
+        },
+        "2026-10-11": {
+          "bytes": 0,
+          "allocated": 0,
+          "logical": 0,
+          "files": 0
+        }
+      }
+    },
+    {
+      "source": "rss_fed_press",
+      "retained": {
+        "bytes": 270450,
+        "allocated": 552960,
+        "logical": 2015960,
+        "files": 135
+      },
+      "eligible_bytes": 268374,
+      "last_complete_day": {
+        "bytes": 0,
+        "allocated": 0,
+        "logical": 0,
+        "files": 0
+      },
+      "seven_day_median_bytes": 23192,
+      "seven_day_max_bytes": 95696,
+      "seven_day_median_files": 12,
+      "compression_ratio": 7.454095026807173,
+      "daily": {
+        "2026-10-05": {
+          "bytes": 0,
+          "allocated": 0,
+          "logical": 0,
+          "files": 0
+        },
+        "2026-10-06": {
+          "bytes": 0,
+          "allocated": 0,
+          "logical": 0,
+          "files": 0
+        },
+        "2026-10-07": {
+          "bytes": 23192,
+          "allocated": 49152,
+          "logical": 176184,
+          "files": 12
+        },
+        "2026-10-08": {
+          "bytes": 91348,
+          "allocated": 192512,
+          "logical": 692189,
+          "files": 47
+        },
+        "2026-10-09": {
+          "bytes": 95696,
+          "allocated": 192512,
+          "logical": 707889,
+          "files": 47
+        },
+        "2026-10-10": {
+          "bytes": 60214,
+          "allocated": 118784,
+          "logical": 439698,
+          "files": 29
+        },
+        "2026-10-11": {
+          "bytes": 0,
+          "allocated": 0,
+          "logical": 0,
+          "files": 0
+        }
+      }
+    },
+    {
+      "source": "rss_kraken_status",
+      "retained": {
+        "bytes": 765673,
+        "allocated": 1122304,
+        "logical": 5769072,
+        "files": 137
+      },
+      "eligible_bytes": 760058,
+      "last_complete_day": {
+        "bytes": 0,
+        "allocated": 0,
+        "logical": 0,
+        "files": 0
+      },
+      "seven_day_median_bytes": 63386,
+      "seven_day_max_bytes": 270674,
+      "seven_day_median_files": 12,
+      "compression_ratio": 7.534642073052074,
+      "daily": {
+        "2026-10-05": {
+          "bytes": 0,
+          "allocated": 0,
+          "logical": 0,
+          "files": 0
+        },
+        "2026-10-06": {
+          "bytes": 0,
+          "allocated": 0,
+          "logical": 0,
+          "files": 0
+        },
+        "2026-10-07": {
+          "bytes": 63386,
+          "allocated": 98304,
+          "logical": 468402,
+          "files": 12
+        },
+        "2026-10-08": {
+          "bytes": 270674,
+          "allocated": 393216,
+          "logical": 2070673,
+          "files": 48
+        },
+        "2026-10-09": {
+          "bytes": 269164,
+          "allocated": 393216,
+          "logical": 2027757,
+          "files": 48
+        },
+        "2026-10-10": {
+          "bytes": 162449,
+          "allocated": 237568,
+          "logical": 1202240,
+          "files": 29
+        },
+        "2026-10-11": {
+          "bytes": 0,
+          "allocated": 0,
+          "logical": 0,
+          "files": 0
+        }
+      }
+    },
+    {
+      "source": "rss_sec_press",
+      "retained": {
+        "bytes": 811710,
+        "allocated": 1122304,
+        "logical": 2575854,
+        "files": 137
+      },
+      "eligible_bytes": 805783,
+      "last_complete_day": {
+        "bytes": 0,
+        "allocated": 0,
+        "logical": 0,
+        "files": 0
+      },
+      "seven_day_median_bytes": 71094,
+      "seven_day_max_bytes": 284408,
+      "seven_day_median_files": 12,
+      "compression_ratio": 3.1733673356247922,
+      "daily": {
+        "2026-10-05": {
+          "bytes": 0,
+          "allocated": 0,
+          "logical": 0,
+          "files": 0
+        },
+        "2026-10-06": {
+          "bytes": 0,
+          "allocated": 0,
+          "logical": 0,
+          "files": 0
+        },
+        "2026-10-07": {
+          "bytes": 71094,
+          "allocated": 98304,
+          "logical": 225684,
+          "files": 12
+        },
+        "2026-10-08": {
+          "bytes": 284333,
+          "allocated": 393216,
+          "logical": 902736,
+          "files": 48
+        },
+        "2026-10-09": {
+          "bytes": 284408,
+          "allocated": 393216,
+          "logical": 902466,
+          "files": 48
+        },
+        "2026-10-10": {
+          "bytes": 171875,
+          "allocated": 237568,
+          "logical": 544968,
+          "files": 29
+        },
+        "2026-10-11": {
+          "bytes": 0,
+          "allocated": 0,
+          "logical": 0,
+          "files": 0
+        }
+      }
+    }
+  ],
+  "parse_errors": [
+    {
+      "source_path": "/data/raw/rss_fed_press/20261008/ctxrun_rss_bfa6c4b9f86a4590_0002.json.gz",
+      "reason": "feed is not XML: syntax error: line 1, column 1"
+    },
+    {
+      "source_path": "/data/raw/rss_fed_press/20261009/ctxrun_rss_d9799ba929124123_0002.json.gz",
+      "reason": "feed is not XML: syntax error: line 1, column 1"
+    }
+  ],
+  "limits": "Captured-day sums of retained, parse-verified files; not direct historical filesystem samples. Missing/pruned files are unobserved. Current partial day excluded. First capture day assigns bundles; physical interval samples are reported separately."
+}

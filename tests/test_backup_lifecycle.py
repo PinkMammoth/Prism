@@ -136,6 +136,29 @@ def test_third_full_copy_refused(copies):
     assert all(p.exists() for p in paths)
 
 
+def test_daily_manual_rotation_remains_one_copy_after_verified_export(
+    paper_live, tmp_path, monkeypatch
+):
+    from datetime import UTC, datetime, timedelta
+
+    db, _ = paper_live
+    root = rt.backup_dir(db)
+    stamp = datetime(2026, 10, 12, tzinfo=UTC)
+    monkeypatch.setattr(rt, "utcnow", lambda: stamp)
+    first = Path(rt.backup_live(db, kind="manual")["path"])
+    archive(db, root, first, tmp_path)
+    for _i in range(1, 4):
+        stamp += timedelta(days=1)
+        latest = Path(rt.backup_live(db, kind="daily")["path"])
+        rows = b.inventory(root, db)
+        assert [r["path"] for r in rows] == [str(latest)]
+        assert not list((root / "weekly").glob("*.duckdb"))
+        archive(db, root, latest, tmp_path)
+    tab = rt.crontab()
+    assert tab.count("ops cycle backup ") == 1
+    assert "30 1 * * * market ops cycle backup " in tab
+
+
 def test_pin_latest_reserves_predeployment_rollback(copies):
     db, root, paths = copies
     b.save_policy(root, db, keep=2, previous=paths[-1], reason="health validation pending")
@@ -143,13 +166,13 @@ def test_pin_latest_reserves_predeployment_rollback(copies):
     assert result["keep"] == [str(paths[-1])]
 
 
-def test_schema_missing_dynamic_table_rejected(tmp_path):
+def test_schema_missing_required_evidence_table_rejected(tmp_path):
     from market_signal.data.store import Store
 
     path = tmp_path / "missing-table.duckdb"
     Store(path).close()
     with duckdb.connect(str(path)) as con:
-        con.execute("DROP TABLE universe_outcomes")
+        con.execute("DROP TABLE paper_event_evidence")
     with pytest.raises(ValueError, match="missing tables"):
         b.inspect_backup(path)
 

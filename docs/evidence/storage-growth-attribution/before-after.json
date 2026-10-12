@@ -1,0 +1,126 @@
+[
+  {
+    "measured_at": "2026-10-12T08:47:29.003488+00:00",
+    "total_bytes": 4838498304,
+    "free_bytes": 2639220736,
+    "categories": {
+      "backup_metadata": {
+        "bytes": 199597,
+        "allocated": 221184,
+        "files": 9
+      },
+      "recovery_backups": {
+        "bytes": 906768384,
+        "allocated": 906772480,
+        "files": 1
+      },
+      "evidence_exports": {
+        "bytes": 12397,
+        "allocated": 16384,
+        "files": 2
+      },
+      "journals_receipts_state": {
+        "bytes": 1255851,
+        "allocated": 1531904,
+        "files": 94
+      },
+      "temporary_files": {
+        "bytes": 63,
+        "allocated": 4096,
+        "files": 1
+      },
+      "logs": {
+        "bytes": 6929009,
+        "allocated": 6942720,
+        "files": 3
+      },
+      "large_print_calibration": {
+        "bytes": 80342,
+        "allocated": 86016,
+        "files": 5
+      },
+      "microstructure_raw": {
+        "bytes": 52536100,
+        "allocated": 52707328,
+        "files": 33
+      },
+      "microstructure_spool": {
+        "bytes": 68181365,
+        "allocated": 68870144,
+        "files": 111
+      },
+      "authoritative_db": {
+        "bytes": 901525504,
+        "allocated": 901529600,
+        "files": 1
+      },
+      "provider_raw": {
+        "bytes": 219627192,
+        "allocated": 241573888,
+        "files": 7554
+      }
+    }
+  },
+  {
+    "measured_at": "2026-10-12T15:30:26.462248+00:00",
+    "total_bytes": 4838498304,
+    "free_bytes": 2528350208,
+    "categories": {
+      "backup_metadata": {
+        "bytes": 245323,
+        "allocated": 278528,
+        "files": 12
+      },
+      "recovery_backups": {
+        "bytes": 968110080,
+        "allocated": 968114176,
+        "files": 1
+      },
+      "journals_receipts_state": {
+        "bytes": 17707032,
+        "allocated": 18034688,
+        "files": 113
+      },
+      "evidence_exports": {
+        "bytes": 12397,
+        "allocated": 16384,
+        "files": 2
+      },
+      "temporary_files": {
+        "bytes": 63,
+        "allocated": 4096,
+        "files": 1
+      },
+      "logs": {
+        "bytes": 7179170,
+        "allocated": 7192576,
+        "files": 3
+      },
+      "large_print_calibration": {
+        "bytes": 80342,
+        "allocated": 86016,
+        "files": 5
+      },
+      "microstructure_raw": {
+        "bytes": 67299217,
+        "allocated": 67506176,
+        "files": 40
+      },
+      "microstructure_spool": {
+        "bytes": 72516464,
+        "allocated": 73248768,
+        "files": 118
+      },
+      "authoritative_db": {
+        "bytes": 1018703872,
+        "allocated": 1018707968,
+        "files": 1
+      },
+      "provider_raw": {
+        "bytes": 134090268,
+        "allocated": 137908224,
+        "files": 1679
+      }
+    }
+  }
+]
