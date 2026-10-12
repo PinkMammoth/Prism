@@ -2,6 +2,16 @@
   "frontier": "2026-10-09T01:30:00+00:00",
   "kind": "seed_rehearsal",
   "note": "Local scratch rehearsal on a copy of production backup prism-20261009T013002Z (schema 24, migrated on the copy to 30). Nothing was sent anywhere; no authority claimed.",
+  "schema31_rerun": {
+    "base": "cc311d0 (approved main with Dynamic Universe, migration 31)",
+    "seed_bytes": 90189824,
+    "seed_peak_rss_kib": 867144,
+    "seed_policy_digest": "e4d467b9eefa666f794a3fc97117093354040650e18f67213ff541eb1f490236",
+    "seed_wall_s": 10.53,
+    "source_migrated_to": 31,
+    "sufficiency": "18/18 identical (same method)",
+    "universe_tables": "all excluded (prospective; policy self-registers)"
+  },
   "seed_bytes": 90189824,
   "seed_peak_rss_kib": 1058028,
   "seed_policy": "lab_seed_v1",
