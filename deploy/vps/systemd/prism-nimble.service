@@ -1,0 +1,39 @@
+# Prism Nimble PAPER execution worker (idle until a lab run is activated).
+# Profile-gated: ExecCondition skips the unit (no restart loop) unless the resolved
+# runtime profile enables process 'nimble_worker'; the program re-checks and exits 78 if it is not.
+[Unit]
+Description=Prism Nimble PAPER execution worker (idle until a lab run is activated)
+PartOf=prism.target
+After=network-online.target
+Wants=network-online.target
+StartLimitIntervalSec=600
+StartLimitBurst=20
+
+[Service]
+Type=simple
+User=prism
+Group=prism
+WorkingDirectory=/opt/prism/current
+EnvironmentFile=/etc/prism/prism.env
+EnvironmentFile=-/etc/prism/secrets.env
+Environment=PATH=/opt/prism/current/.venv/bin:/usr/local/bin:/usr/bin:/bin
+ExecCondition=/opt/prism/current/.venv/bin/market ops profile --process nimble_worker --condition
+ExecStart=/opt/prism/current/.venv/bin/python -m market_signal.paper.nimble.worker
+Restart=always
+RestartSec=10
+RestartPreventExitStatus=78
+# Releases DuckDB/runtime locks between ticks; quotes come from the microstructure spool.
+TimeoutStopSec=120
+MemoryMax=3G
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=yes
+ReadWritePaths=/data
+ProtectKernelTunables=yes
+ProtectControlGroups=yes
+RestrictSUIDSGID=yes
+LockPersonality=yes
+
+[Install]
+WantedBy=prism.target

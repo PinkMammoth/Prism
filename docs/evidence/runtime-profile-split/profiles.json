@@ -1,0 +1,286 @@
+{
+  "effective": {
+    "autotrader_lab/full": {
+      "execution_allowed": true,
+      "external_actions_allowed": true,
+      "jobs": [
+        "oi",
+        "intraday",
+        "paper_v2_funding",
+        "positioning",
+        "context_macro",
+        "context_news",
+        "microstructure",
+        "paper_nimble_brief",
+        "backup"
+      ],
+      "processes": [
+        "microstructure_collector",
+        "free_source_collector",
+        "free_source_ingest",
+        "nimble_worker",
+        "scheduler"
+      ]
+    },
+    "autotrader_lab/none": {
+      "execution_allowed": false,
+      "external_actions_allowed": false,
+      "jobs": [],
+      "processes": [
+        "microstructure_collector",
+        "free_source_collector"
+      ]
+    },
+    "autotrader_lab/rehearsal": {
+      "execution_allowed": false,
+      "external_actions_allowed": false,
+      "jobs": [
+        "oi",
+        "intraday",
+        "paper_v2_funding",
+        "positioning",
+        "context_macro",
+        "context_news",
+        "microstructure",
+        "backup"
+      ],
+      "processes": [
+        "microstructure_collector",
+        "free_source_collector",
+        "free_source_ingest",
+        "scheduler"
+      ]
+    },
+    "research/full": {
+      "execution_allowed": false,
+      "external_actions_allowed": true,
+      "jobs": [
+        "prospective",
+        "daily",
+        "microdir_daily",
+        "microdir_weekly",
+        "oi",
+        "intraday",
+        "paper_v2_funding",
+        "positioning",
+        "context_macro",
+        "context_news",
+        "microstructure",
+        "paper_v2",
+        "paper_v2_brief",
+        "backup"
+      ],
+      "processes": [
+        "microstructure_collector",
+        "context_gateway",
+        "context_ingest",
+        "free_source_collector",
+        "scheduler"
+      ]
+    }
+  },
+  "lab_experiment": {
+    "activation": "not activated (requires explicit approval after VPS validation)",
+    "base_policies": {
+      "entry_universe": "paperuniverse_v2_5c0ca1f65dcef5d531fb01dffd764ae471ebcb45611ad16c244f7bfd44090d9a",
+      "event": "paperexecution_event_12208f088bec2bcfaa8dfe10af41ccac81975d012cd2e5b0919ec5918712c885",
+      "event_universes": {
+        "confirmed": "paperuniverse_event_4a76847cbd314501804511b4278e4a878c8ac0e79454683cd7514339f0cb180a",
+        "immediate": "paperuniverse_event_1caa53ff64e6f2afe727bbf1c9df485acccac8ea9054eb292292175f2ba7324f"
+      },
+      "nimble": "paperexecution_nimble_ec40a2968bcc33f7c7654a1c8d7dcc200361e88bca99079cb4f45738ba785501",
+      "risk": "paperrisk_v2_475b7c1e87fc2934eba4bb288f07cc818ed7dadb9fc8b9ab8d24a594a772e8b9"
+    },
+    "continuation": "none: new paper accounts at lab activation; predecessors stay on Railway",
+    "digest": "ec455164a7d3bc7317024d2ad406abb6e762da7753f251785a64df3cb95fef92",
+    "dynamic_universe": "hyperliquid_dynamic_universe_v1: gated until VPS validation",
+    "experiment_id": "paper_nimble_dynamic_lab_v1",
+    "predecessor_runs": {
+      "event_confirmed": "paperrun_nimble_981fac864a79b04053e1ca081731a692db95b5e69cec9f29e74618e6e84e0528",
+      "event_immediate": "paperrun_nimble_a5fafb2cf008686ad99d2e1e039d428cd95349423d2e31778409810be6cce3d3",
+      "nimble_baseline": "paperrun_nimble_a8aef8be36c02700688053a1e57d2f908573fe8898860450b00b889d4f98f54c"
+    },
+    "profile": "prism_autotrader_lab_v1",
+    "profile_digest": "f898e2f01ccc5f744ae52e67fbc8edce7428cdf0256647fffa77d926ea102d19",
+    "runtime_id": "vps-prism-autotrader-lab",
+    "seed_policy": "lab_seed_v1",
+    "sizing": "per-run frozen risk policy; parallel policies are parallel runs"
+  },
+  "legacy": {
+    "dynamic_universe": "PRISM_UNIVERSE_STAGE=ranking|warming starts universe_radar (no role test); warming sets collector_dynamic",
+    "identity": "prism_legacy_combined_v0",
+    "note": "descriptive only; resolves pre-split entrypoint flags"
+  },
+  "processes": {
+    "context_gateway": {
+      "class": "ingress",
+      "unit": "prism-context-gateway.service"
+    },
+    "context_ingest": {
+      "class": "ingest",
+      "unit": "prism-context-ingest.service"
+    },
+    "free_source_collector": {
+      "class": "passive",
+      "unit": "prism-free-sources.service"
+    },
+    "free_source_ingest": {
+      "class": "ingest",
+      "unit": "prism-free-source-ingest.service"
+    },
+    "microstructure_collector": {
+      "class": "passive",
+      "unit": "prism-microstructure.service"
+    },
+    "nimble_worker": {
+      "class": "execution",
+      "unit": "prism-nimble.service"
+    },
+    "scheduler": {
+      "class": "ingest",
+      "unit": "prism-scheduler.service"
+    },
+    "universe_radar": {
+      "class": "ingest",
+      "unit": "prism-universe.service"
+    }
+  },
+  "profiles": {
+    "autotrader_lab": {
+      "definition": {
+        "boot_catchup_job": null,
+        "dynamic_universe": {
+          "tier0_discovery": "gated",
+          "tier1_warming": "gated",
+          "tier2_rich": "gated",
+          "tier3_risk_pins": "gated"
+        },
+        "identity": "prism_autotrader_lab_v1",
+        "job_classes": {
+          "backup": "maintenance",
+          "context_macro": "data",
+          "context_news": "data",
+          "intraday": "data",
+          "microstructure": "data",
+          "oi": "data",
+          "paper_nimble_brief": "execution",
+          "paper_v2_funding": "data",
+          "positioning": "data"
+        },
+        "jobs": [
+          "backup",
+          "context_macro",
+          "context_news",
+          "intraday",
+          "microstructure",
+          "oi",
+          "paper_nimble_brief",
+          "paper_v2_funding",
+          "positioning"
+        ],
+        "name": "autotrader_lab",
+        "process_classes": {
+          "free_source_collector": "passive",
+          "free_source_ingest": "ingest",
+          "microstructure_collector": "passive",
+          "nimble_worker": "execution",
+          "scheduler": "ingest"
+        },
+        "processes": [
+          "free_source_collector",
+          "free_source_ingest",
+          "microstructure_collector",
+          "nimble_worker",
+          "scheduler"
+        ],
+        "runtime_ids": {
+          "full": "vps-prism-autotrader-lab",
+          "rehearsal": "vps-prism-autotrader-lab-rehearsal"
+        },
+        "targets": [
+          "local",
+          "vps"
+        ],
+        "unconditional_jobs": [
+          "paper_v2_funding"
+        ]
+      },
+      "digest": "f898e2f01ccc5f744ae52e67fbc8edce7428cdf0256647fffa77d926ea102d19",
+      "identity": "prism_autotrader_lab_v1"
+    },
+    "research": {
+      "definition": {
+        "boot_catchup_job": "prospective",
+        "dynamic_universe": {
+          "tier0_discovery": "absent",
+          "tier1_warming": "absent",
+          "tier2_rich": "absent",
+          "tier3_risk_pins": "absent"
+        },
+        "identity": "prism_research_runtime_v1",
+        "job_classes": {
+          "backup": "maintenance",
+          "context_macro": "data",
+          "context_news": "data",
+          "daily": "research",
+          "intraday": "data",
+          "microdir_daily": "research",
+          "microdir_weekly": "research",
+          "microstructure": "data",
+          "oi": "data",
+          "paper_v2": "retired_drain",
+          "paper_v2_brief": "retired_drain",
+          "paper_v2_funding": "data",
+          "positioning": "data",
+          "prospective": "research"
+        },
+        "jobs": [
+          "backup",
+          "context_macro",
+          "context_news",
+          "daily",
+          "intraday",
+          "microdir_daily",
+          "microdir_weekly",
+          "microstructure",
+          "oi",
+          "paper_v2",
+          "paper_v2_brief",
+          "paper_v2_funding",
+          "positioning",
+          "prospective"
+        ],
+        "name": "research",
+        "process_classes": {
+          "context_gateway": "ingress",
+          "context_ingest": "ingest",
+          "free_source_collector": "passive",
+          "microstructure_collector": "passive",
+          "scheduler": "ingest"
+        },
+        "processes": [
+          "context_gateway",
+          "context_ingest",
+          "free_source_collector",
+          "microstructure_collector",
+          "scheduler"
+        ],
+        "runtime_ids": {
+          "full": "railway-prism-runtime",
+          "rehearsal": "prism-research-rehearsal"
+        },
+        "targets": [
+          "local",
+          "railway"
+        ],
+        "unconditional_jobs": []
+      },
+      "digest": "8d6431ba5d6088b90df3e94a2edf3b9415f03a01c8d6f79416921eb5d141e6d9",
+      "identity": "prism_research_runtime_v1"
+    }
+  },
+  "seed_policy": {
+    "digest": "e4d467b9eefa666f794a3fc97117093354040650e18f67213ff541eb1f490236",
+    "id": "lab_seed_v1"
+  }
+}

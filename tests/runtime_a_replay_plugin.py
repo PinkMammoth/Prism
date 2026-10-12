@@ -169,7 +169,9 @@ def pytest_sessionfinish(session, exitstatus):
     worker = getattr(session.config, "workerinput", {}).get("workerid")
     if worker:
         path = path.with_name(path.stem + "." + worker + path.suffix)
-    elif hasattr(session.config, "workerinput") is False and session.config.option.numprocesses:
+    elif hasattr(session.config, "workerinput") is False and getattr(
+        session.config.option, "numprocesses", None
+    ):
         return
     path.write_text(json.dumps(RESULTS, sort_keys=True) + "\n")
     for p in reversed(PATCHES):

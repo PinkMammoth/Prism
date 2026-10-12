@@ -10,6 +10,7 @@ from pathlib import Path
 from market_signal.context.gateway.ingest import drain
 from market_signal.context.gateway.server import publish_live
 from market_signal.context.gateway.spool import Spool, default_root, now
+from market_signal.ops.profiles import free_sources_enabled
 
 
 def tick(db: Path, spool: Spool) -> dict:
@@ -17,7 +18,7 @@ def tick(db: Path, spool: Spool) -> dict:
     from market_signal.ops.runtime import RuntimeBusy, require_authoritative, runtime_lock
 
     free_spool = None
-    if os.environ.get("PRISM_FREE_SOURCES", "off") == "on":
+    if free_sources_enabled():
         from market_signal.context.free_sources.spool import Spool as FreeSpool
         from market_signal.context.free_sources.spool import default_root as free_root
 
@@ -90,5 +91,7 @@ def run(db: Path):
 
 if __name__ == "__main__":
     from market_signal.config import get_settings
+    from market_signal.ops.profiles import main_guard
 
+    main_guard("context_ingest")
     run(get_settings().paths.db)

@@ -62,10 +62,19 @@ def claim_authority(
     db: Path = typer.Option(None, "--db"),
 ) -> None:
     """WRITE: name the ONE runtime allowed to write this live database (cutover/rollback)."""
+    from market_signal.ops import profiles
     from market_signal.ops import runtime as rt
 
     try:
+        prof = profiles.resolve()
+        if prof.explicit and runtime_id not in prof.profile.runtime_ids.values():
+            raise ValueError(
+                f"profile {prof.profile.identity} may only claim "
+                f"{sorted(prof.profile.runtime_ids.values())}, not {runtime_id!r}"
+            )
         out = rt.claim_authority(_db(db), runtime_id, reason, supersede=supersede)
+    except profiles.ProfileError as exc:
+        _fail(f"Refused: {exc}", profiles.EXIT_PROFILE)
     except (rt.RuntimeRefused, ValueError) as exc:
         _fail(f"Refused: {exc}", 2)
     console.print_json(json.dumps(out))
@@ -75,13 +84,18 @@ def claim_authority(
 def record_deploy(note: str = typer.Option(..., "--note")) -> None:
     """WRITE (authoritative runtime only): record a deployment of the current revision."""
     from market_signal.data.store import NotAuthoritative
+    from market_signal.ops import profiles
     from market_signal.ops import runtime as rt
 
     db = _db(None)
     try:
+        prof = profiles.resolve()
         rt.require_authoritative(db)
         with rt.runtime_lock(db, "record-deploy", 600), rt._store(db) as s:
-            eid = rt._event(s, "deployed", {"note": note, "python": sys.version.split()[0]})
+            eid = rt._event(s, "deployed", {"note": note, "python": sys.version.split()[0],
+                                            "profile": prof.record()})  # fmt: skip
+    except profiles.ProfileError as exc:
+        _fail(f"Refused: {exc}", profiles.EXIT_PROFILE)
     except (rt.RuntimeRefused, NotAuthoritative, rt.RuntimeBusy) as exc:
         _fail(f"Refused: {exc}", 2)
     console.print_json(json.dumps({"event_id": eid, "git_commit": rt.revision(rt._root())}))
@@ -201,10 +215,19 @@ def preflight() -> None:
 
 @ops.command("crontab")
 def crontab(executable: str = typer.Option("market", "--executable")) -> None:
-    """Print the production schedule as a crontab (UTC; consumed by supercronic)."""
+    """Print this profile's schedule as a crontab (UTC; consumed by supercronic).
+
+    Only the jobs the resolved profile/authority allows, plus the watchdogs of the long-running
+    processes it supervises. An invalid profile prints nothing and exits 78.
+    """
+    from market_signal.ops import profiles
     from market_signal.ops import runtime as rt
 
-    excluded = []
+    try:
+        prof = profiles.resolve()
+    except profiles.ProfileError as exc:
+        _fail(f"Refused: {exc}", profiles.EXIT_PROFILE)
+    excluded = [job for job in rt.JOBS if not prof.job_allowed(job)]
     db = rt._db()
     if db.exists():
         with rt._store(db, read_only=True) as store:
@@ -213,12 +236,71 @@ def crontab(executable: str = typer.Option("market", "--executable")) -> None:
             if store.con.execute(
                 "SELECT 1 FROM paper_v2_runs LIMIT 1"
             ).fetchone() and not work_needed(store):
-                excluded = [
+                excluded += [
                     job
                     for job in ("paper_v2", "paper_v2_brief", "paper_v2_funding")
                     if not rt.active_steps(store, job)
                 ]
-    sys.stdout.write(rt.crontab(executable, excluded_jobs=excluded))
+    # Independent watchdogs catch a dead worker as well as a dead HTTP listener. No DB open.
+    watchdogs = []
+    if prof.process_allowed("context_gateway"):
+        watchdogs.append(f"* * * * * {executable} context gateway health --check --json")
+    if prof.process_allowed("free_source_collector"):
+        watchdogs.append(f"* * * * * {executable} context sources status --check")
+    sys.stdout.write(rt.crontab(executable, excluded_jobs=excluded) + "".join(
+        line + "\n" for line in watchdogs))  # fmt: skip
+
+
+@ops.command("profile")
+def profile(
+    process: str = typer.Option(None, "--process", help="Exit 0 only if this process runs."),
+    condition: bool = typer.Option(
+        False, "--condition", help="systemd ExecCondition: disabled -> 1, invalid -> 255."
+    ),
+    shell: bool = typer.Option(False, "--shell", help="PRISM_PROC_<name>=0|1 lines."),
+) -> None:
+    """Read-only: the validated runtime profile of this environment (no DB open).
+
+    Exit 0 valid, 78 invalid/contradictory configuration (fail closed). With --process:
+    0 enabled, 1 not enabled here.
+    """
+    from market_signal.ops import profiles
+
+    try:
+        prof = profiles.resolve()
+    except profiles.ProfileError as exc:
+        print(f"profile refused: {exc}", file=sys.stderr)
+        raise typer.Exit(255 if condition else profiles.EXIT_PROFILE) from None
+    if process is not None:
+        if process not in profiles.PROCESSES:
+            _fail(f"unknown process {process!r}; known: {sorted(profiles.PROCESSES)}", 2)
+        enabled = prof.process_allowed(process)
+        print(f"{process}: {'enabled' if enabled else 'not enabled'} "
+              f"({prof.profile.identity}, authority={prof.authority})", file=sys.stderr)  # fmt: skip
+        raise typer.Exit(0 if enabled else 1)
+    if shell:
+        for name in profiles.PROCESSES:
+            sys.stdout.write(f"PRISM_PROC_{name}={int(prof.process_allowed(name))}\n")
+        sys.stdout.write(f"PRISM_COLLECTOR_DYNAMIC={int(prof.collector_dynamic)}\n")
+        sys.stdout.write(f"PRISM_BOOT_CATCHUP_JOB={prof.boot_catchup_job() or ''}\n")
+        return
+    console.print_json(json.dumps(prof.describe(), default=str))
+
+
+@ops.command("boot-catchup")
+def boot_catchup(wait: float = typer.Option(3600, "--wait")) -> None:
+    """WRITE: restart/deploy catch-up: one idempotent cycle of the profile's catch-up job
+    (prospective for research/legacy; none for the lab). A no-op if nothing is new."""
+    from market_signal.ops import profiles
+
+    try:
+        job = profiles.resolve().boot_catchup_job()
+    except profiles.ProfileError as exc:
+        _fail(f"Refused: {exc}", profiles.EXIT_PROFILE)
+    if not job:
+        console.print("no boot catch-up job in this profile")
+        return
+    cycle(job, trigger="boot", wait=wait)
 
 
 def register(app: typer.Typer) -> None:
@@ -275,3 +357,43 @@ def backup_pin_latest(reason: str = typer.Option(..., "--reason")) -> None:
             _fail("No verified backup to pin", 1)
         result = b.save_policy(root, db, keep=2, previous=Path(rows[-1]["path"]), reason=reason)
     console.print_json(json.dumps(result))
+
+
+@ops.command("lab-identity")
+def lab_identity() -> None:
+    """Read-only: the frozen autotrader-lab experiment identity and seed policy (no DB)."""
+    from market_signal.ops import lab
+
+    console.print_json(json.dumps({"experiment": lab.experiment(),
+                                   "seed_policy": lab.SEED_POLICY_ID,
+                                   "seed_policy_digest": lab.policy_digest()}))  # fmt: skip
+
+
+@ops.command("lab-seed")
+def lab_seed(
+    source: Path = typer.Argument(..., help="A verified snapshot/backup (never the live DB)."),
+    target: Path = typer.Argument(..., help="New lab database path (must not exist)."),
+    frontier: str = typer.Option(
+        ..., "--frontier", help="UTC ISO instant; nothing later is seeded."
+    ),
+    manifest: Path = typer.Option(None, "--manifest", help="Default: <target>.seed.json"),
+) -> None:
+    """WRITE (new file only): build an unclaimed lab database holding the minimum causal seed.
+
+    Run with PRISM_RUNTIME_ROLE=scratch. The source is attached read-only and checksummed;
+    the result carries no authority claim and no paper run.
+    """
+    from datetime import datetime
+
+    from market_signal.config import get_settings
+    from market_signal.ops import lab
+
+    at = datetime.fromisoformat(frontier.replace("Z", "+00:00"))
+    try:
+        out = lab.build_seed(source, target, at, live_db=get_settings().paths.db)
+    except lab.SeedRefused as exc:
+        _fail(f"Refused: {exc}", 2)
+    path = manifest or target.with_name(target.name + ".seed.json")
+    path.write_text(json.dumps(out, indent=2, sort_keys=True, default=str) + "\n")
+    console.print_json(json.dumps({k: out[k] for k in ("seed_id", "frontier", "target_sha256")}
+                                  | {"manifest": str(path)}))  # fmt: skip

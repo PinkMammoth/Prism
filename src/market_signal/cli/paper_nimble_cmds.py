@@ -16,11 +16,24 @@ def _rid(s, r):
     return r or engine.current(s)
 
 
+def _execution(action):
+    """Run creation/mutation needs a full-authority execution profile (legacy: unchanged)."""
+    from market_signal.cli.common import console
+    from market_signal.ops import profiles
+
+    try:
+        profiles.require_execution(f"paper nimble {action}")
+    except profiles.ProfileError as exc:
+        console.print(f"Refused: {exc}", style="red", markup=False)
+        raise typer.Exit(profiles.EXIT_PROFILE) from None
+
+
 @nimble.command("register")
 def register_policy(
     events: bool = typer.Option(False, "--events"),
     dynamic: bool = typer.Option(False, "--dynamic-universe"),
 ):
+    _execution("register")
     call(lambda s: engine.register(s, events=events, dynamic=dynamic), write=True)
 
 
@@ -30,6 +43,7 @@ def create(
     variant: str = typer.Option(None),
     dynamic: bool = typer.Option(False, "--dynamic-universe"),
 ):
+    _execution("create")
     if events and dynamic:
         raise typer.BadParameter("Dynamic universe does not expand the frozen event cohorts")
 
@@ -61,6 +75,7 @@ def create(
 
 @nimble.command("evaluate")
 def evaluate():
+    _execution("evaluate")
     from market_signal.config import get_settings
     from market_signal.paper.nimble.worker import Worker
 

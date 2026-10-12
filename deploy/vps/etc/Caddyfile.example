@@ -1,0 +1,6 @@
+# NOT used by prism_autotrader_lab_v1 (no exposed endpoint). Template for a later, approved
+# gateway/API on a user-controlled hostname: TLS by Caddy, app bound to 127.0.0.1 only.
+# lab.example.com {
+#   encode zstd gzip
+#   reverse_proxy 127.0.0.1:8787
+# }

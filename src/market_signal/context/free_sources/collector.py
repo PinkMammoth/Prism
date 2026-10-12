@@ -265,4 +265,7 @@ def run():
 
 
 if __name__ == "__main__":
+    from market_signal.ops.profiles import main_guard
+
+    main_guard("free_source_collector")
     run()

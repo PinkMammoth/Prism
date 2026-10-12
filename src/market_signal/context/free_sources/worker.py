@@ -49,5 +49,7 @@ def run(db):
 
 if __name__ == "__main__":
     from market_signal.config import get_settings
+    from market_signal.ops.profiles import main_guard
 
+    main_guard("free_source_ingest")
     run(get_settings().paths.db)

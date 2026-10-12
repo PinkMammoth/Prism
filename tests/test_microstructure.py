@@ -942,7 +942,15 @@ def test_runtime_schedules_ingest_and_health_only():
         args[:2] == ["microstructure", "collect"] for job in rt.JOBS.values() for _, args in job
     )
     ep = (SRC.parents[1] / "deploy" / "railway" / "entrypoint.sh").read_text()
-    assert "market microstructure collect" in ep and 'PRISM_RUNTIME_ROLE:-}" = authoritative' in ep
+    assert "market microstructure collect" in ep and "PRISM_PROC_microstructure_collector" in ep
+    # the authoritative-role gate now lives in the runtime profile (legacy = pre-split flags)
+    from market_signal.ops.profiles import resolve
+
+    assert "microstructure_collector" not in resolve({}).processes
+    assert (
+        "microstructure_collector"
+        in resolve({"PRISM_RUNTIME_ROLE": "authoritative", "PRISM_RUNTIME_ID": "r"}).processes
+    )
 
 
 # --------------------------------------------------------------------------- isolation
