@@ -1,0 +1,13 @@
+{
+  "schema_format_version": 1,
+  "format": "microstructure-normalized-event-jsonl-v1",
+  "first_timestamp": "2026-10-10T23:59:00.398000+00:00",
+  "last_timestamp": "2026-10-11T00:58:59.750000+00:00",
+  "record_count": 79078,
+  "logical_size": 6586755,
+  "logical_sha256": "9d8ceb700373edbc15169636c9f510813f78e5a1a720fc3c2675ba30ef4d2999",
+  "payload_sha256": [],
+  "providers": [],
+  "reader": "Spool.read_raw and Engine.replay; 366 emitted records; seed supplied=True; hour-only replay is not full-state equivalence",
+  "verification_status": "passed"
+}

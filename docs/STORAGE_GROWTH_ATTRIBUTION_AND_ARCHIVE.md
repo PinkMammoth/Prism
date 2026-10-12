@@ -343,7 +343,9 @@ discovery regression run: 349 passed plus one environment-dependent fixture fail
 (process permissions). Fixture process scan was isolated; all 26 focused archive/
 attribution tests then passed, including the failed case and added protections.
 The union has **353 unique relevant cases with passing results and none unverified**.
-This is not a claim that the initial 350-case run was green. Repository-wide Ruff
+This is not a claim that the initial 350-case run was green. Local undeployed Dynamic Universe compatibility suite: **57 passed**. Its code
+remains outside the approved/deployed release; running tests enabled no ranking,
+warming or execution. Repository-wide Ruff
 and formatting (440 Python files), shell syntax and diff checks pass.
 
 Tests cover backup global rotation, scheduler policy, local dashboard snapshots,

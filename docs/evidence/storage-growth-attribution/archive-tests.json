@@ -1,0 +1,11 @@
+{
+  "relevant_unique_cases": 353,
+  "passing_unique_cases": 353,
+  "unverified_cases": [],
+  "full_prior_retention_suite": 1393,
+  "ruff": "repository-wide pass",
+  "formatting_python_files": 440,
+  "shell_syntax": "all railway scripts pass",
+  "diff_check": "pass",
+  "initial_fixture_failure": "Local /proc permissions; fixed fixture scans only own process. Production scan independently passed for all 6255 dry-run files."
+}

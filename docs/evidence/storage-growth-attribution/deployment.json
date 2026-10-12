@@ -1,0 +1,48 @@
+{
+  "approved_main": "36d75639e414e88d7488695808cf82dc1c1e23df",
+  "retention_deployment": {
+    "revision": "15d9eb495e37033ebf40a7fbcce6ec76a162b0f6",
+    "id": "093555ca-e14c-4f86-a9a9-5957e1ac1a56",
+    "timestamp": "2026-10-12T11:30:33.785Z",
+    "status": "SUCCESS"
+  },
+  "archive_deployment": {
+    "revision": "8f9bc3473142eb6b8a5ea54a3987db8ef2bcb0cf",
+    "id": "895a0a0c-113f-4616-9772-bd29420ba91f",
+    "timestamp": "2026-10-12T12:44:35.650Z",
+    "status": "SUCCESS",
+    "production_revision_confirmed": true
+  },
+  "backup": {
+    "count": 1,
+    "path": "/data/backups/manual/prism-20261012T124347Z-pre-deploy-8f9bc3473142.duckdb",
+    "bytes": 968110080,
+    "sha256": "49546a1898ac3475cc8af94bbe1d873b7df996e74b38ac3503ce00084eed8b55",
+    "off_host_verified": true,
+    "second_pinned_backup": null,
+    "daily_cron": "30 1 * * * market ops cycle backup --trigger schedule --wait 3600",
+    "old_weekly_backup_set": false,
+    "operator_export_required_between_backup_cycles": true
+  },
+  "post_health": {
+    "preflight_ready": true,
+    "microstructure_healthy": true,
+    "microstructure_issues": [],
+    "microstructure_warnings": [],
+    "gateway_backlog": 0,
+    "gateway_alerts": [],
+    "gateway_retry_error_attempts": 0,
+    "collectors_and_supercronic_running": true
+  },
+  "provider_offload": {
+    "files_deleted": 6255,
+    "source_bytes_deleted": 98233925,
+    "first": "2026-10-12T12:41:05.719174+00:00",
+    "last": "2026-10-12T12:41:57.358387+00:00"
+  },
+  "deletion_audit_off_host_matches": true,
+  "paid_capacity_changed": false,
+  "dynamic_universe_gate": "BLOCKED",
+  "cpu_or_market_semantics_changed": false,
+  "hourly_window_complete": false
+}
