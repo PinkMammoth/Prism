@@ -94,10 +94,19 @@ def sign(side):
     return 1 if side == "long" else -1
 
 
+def slippage(q):
+    if q.asset in spec.EXECUTION["slippage_bps"]:
+        return spec.EXECUTION["slippage_bps"][q.asset]
+    value = getattr(q, "slippage_bps", None)
+    if value is None or not math.isfinite(value) or value < 0:
+        raise ValueError("satellite quote requires conservative execution-cost classification")
+    return value
+
+
 def fill(q, side, *, entry):
     buy = (side == "long") == entry
     px = q.ask if buy else q.bid
-    return px * (1 + (1 if buy else -1) * spec.EXECUTION["slippage_bps"][q.asset] / 10000)
+    return px * (1 + (1 if buy else -1) * slippage(q) / 10000)
 
 
 def economics(thesis, q, funding_rate=0.0):
@@ -105,7 +114,7 @@ def economics(thesis, q, funding_rate=0.0):
     target_move = sign(side) * (thesis.objective["price"] / q.mid - 1)
     spread = (q.ask - q.bid) / q.mid
     fees = 2 * spec.EXECUTION["fee_bps"] / 10000
-    slip = 2 * spec.EXECUTION["slippage_bps"][q.asset] / 10000
+    slip = 2 * slippage(q) / 10000
     # At most one first settlement estimate per hour within the maximum backstop.
     settlements = math.ceil(thesis.max_hold_minutes / 60)
     adverse_funding = max(0.0, sign(side) * funding_rate) * settlements

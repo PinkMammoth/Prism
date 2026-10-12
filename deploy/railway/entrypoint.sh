@@ -16,6 +16,16 @@ if [ "${PRISM_FREE_SOURCES:-off}" = on ]; then
   echo '* * * * * market context sources status --check' >> /tmp/prism.crontab
 fi
 cat /tmp/prism.crontab
+# Dynamic universe Stage A is opt-in; network fetches stay outside paper writer locks.
+if [ "${PRISM_UNIVERSE_STAGE:-off}" = "ranking" ] || [ "${PRISM_UNIVERSE_STAGE:-off}" = "warming" ]; then
+  (
+    while true; do
+      python -m market_signal.universe.worker || echo "universe radar exited; restarting in 10s"
+      sleep 10
+    done
+  ) &
+fi
+
 # Phase 24A: the persistent Hyperliquid microstructure collector (public market data only).
 # It never opens the database (it appends to /data/microstructure; the scheduled
 # `microstructure` job ingests). Supervised here: restarted 10 s after any exit. On container
@@ -23,7 +33,11 @@ cat /tmp/prism.crontab
 if [ "${PRISM_RUNTIME_ROLE:-}" = authoritative ] && [ "${PRISM_MICROSTRUCTURE:-on}" != off ]; then
   mkdir -p /data/microstructure
   ( while true; do
-      market microstructure collect || echo "microstructure collector exited ($?); restarting in 10s"
+      if [ "${PRISM_UNIVERSE_STAGE:-off}" = "warming" ]; then
+        market microstructure collect --dynamic-universe
+      else
+        market microstructure collect
+      fi || echo "microstructure collector exited ($?); restarting in 10s"
       sleep 10
     done ) &
 fi

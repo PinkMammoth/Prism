@@ -67,6 +67,17 @@ class LargePrints:
         self.days: dict[str, dict[str, dict]] = days or {}
         self._cache: dict[tuple[str, str], dict] = {}
 
+    def prune(self, now: int) -> None:
+        """Keep seven prior days plus current day and one revision-boundary day.
+
+        Finalization may classify yesterday across UTC midnight. Nine retained dates
+        cover its seven prior dates. Cached thresholds/emission keys follow the same bound.
+        Persisted histograms/thresholds are untouched.
+        """
+        cutoff = day_str(now - (d.LP_DAYS + 1) * DAY_MS)
+        self.days = {day: hist for day, hist in self.days.items() if day >= cutoff}
+        self._cache = {key: value for key, value in self._cache.items() if key[1] >= cutoff}
+
     def add(self, coin: str, day: str, fine: dict, observed: bool) -> None:
         c = self.days.setdefault(day, {}).setdefault(coin, {"bins": {}, "minutes": 0})
         c["minutes"] += int(observed)
@@ -152,6 +163,8 @@ class Engine:
         self.last_final: dict[str, tuple[int, str]] = {}
         self.lp_emitted: set[tuple[str, str]] = set()
         self.started = False
+        self.retiring: dict[str, int] = {}
+        self.last_lp_prune = 0
 
     # ------------------------------------------------------------------ lifecycle
 
@@ -174,9 +187,37 @@ class Engine:
         if self.keep_journal:
             self.journal.append(("S", now, {c: (last_final or {}).get(c) for c in self.coins}))
 
-    def _emit_gap(self, coin: str, m: int, now: int) -> None:
+    def set_coins(self, coins, now: int, last_final=None) -> None:
+        """Explicit desired-set event, replayable; unchanged assets retain their state."""
+        self.feed(("U", now, tuple(sorted(set(coins))), last_final or {}))
+
+    def _universe(self, ev) -> None:
+        _, now, coins, prior = ev
+        desired = set(coins)
+        for c in sorted(set(self.coins) - desired):
+            st = self.coin[c]
+            if st.live and st.live[-1][1] is None:
+                st.live[-1][1] = now
+            st.acked.clear()
+            self.retiring[c] = minute_of(now) + d.MINUTE_MS + d.GRACE_MS + d.REVISION_WINDOW_MS
+        for c in sorted(desired - set(self.coins)):
+            # No old quote/feed continuity on re-entry, even when retirement was brief.
+            self.retiring.pop(c, None)
+            prev = self.last_final.get(c, (prior.get(c), None))[0]
+            first = minute_of(now)
+            self.coin[c] = CoinState(next_final=first, first_minute=first)
+            if prev is not None:
+                for m in range(
+                    max(prev + d.MINUTE_MS, first - d.GAP_FILL_MAX_MINUTES * d.MINUTE_MS),
+                    first,
+                    d.MINUTE_MS,
+                ):
+                    self._emit_gap(c, m, now, reason="subscription_paused")
+        self.coins = tuple(sorted(desired))
+
+    def _emit_gap(self, coin: str, m: int, now: int, reason="collector_down") -> None:
         rec = self._record(coin, m, 0, {"trade_cov": 0.0, "book_samples": 0, "depth20_samples": 0,
-                                        "status": "GAP"}, "collector_down", None, None, now, 0, 0)  # fmt: skip
+                                        "status": "GAP"}, reason, None, None, now, 0, 0)  # fmt: skip
         self.emit(rec)
         self.counters["gap_minutes"] += 1
 
@@ -192,7 +233,9 @@ class Engine:
         self.counters[f"ev_{kind}"] += 1
         if kind not in ("X", "K"):
             self.last_msg = max(self.last_msg, recv)
-        if kind == "T":
+        if kind == "U":
+            self._universe(ev)
+        elif kind == "T":
             self._trade(ev)
         elif kind == "F":
             self._book(ev, "book5")
@@ -303,6 +346,12 @@ class Engine:
         did = False
         for c, st in self.coin.items():
             while st.next_final + d.MINUTE_MS + d.GRACE_MS <= self.now:
+                if (
+                    c in self.retiring
+                    and st.next_final
+                    > self.retiring[c] - d.MINUTE_MS - d.GRACE_MS - d.REVISION_WINDOW_MS
+                ):
+                    break
                 self._finalize(c, st, st.next_final)
                 st.next_final += d.MINUTE_MS
                 did = True
@@ -313,6 +362,20 @@ class Engine:
                     did = True
             if did:
                 self._prune(st)
+        for c in [c for c, deadline in self.retiring.items() if deadline <= self.now]:
+            # Emit final late revisions before releasing removed asset state.
+            st = self.coin.pop(c)
+            for f in st.finals.values():
+                if f.late:
+                    self._revise(c, f)
+            self.retiring.pop(c)
+        if self.now - self.last_lp_prune >= DAY_MS:
+            # During offline catch-up use the earliest still-needed finalization day.
+            earliest = min((st.next_final for st in self.coin.values()), default=self.now)
+            self.lp.prune(min(self.now, earliest))
+            cutoff = day_str(min(self.now, earliest) - (d.LP_DAYS + 1) * DAY_MS)
+            self.lp_emitted = {key for key in self.lp_emitted if key[1] >= cutoff}
+            self.last_lp_prune = self.now
         if did and self.keep_journal:
             self.journal.append(("K", self.now))
         return did
@@ -438,9 +501,10 @@ class Engine:
             return None if not a else round(a[min(int(q * len(a)), len(a) - 1)], 1)
 
         per = {}
-        for c, st in self.coin.items():
+        for c in self.coins:
+            st = self.coin[c]
             lf = self.last_final.get(c)
-            per[c] = {"subscribed": sorted(st.acked),
+            per[c] = {"subscribed": sorted(st.acked), "first_minute": iso(st.first_minute),
                       "last_trade_age_s": None if "trades" not in st.last else round((now - st.last["trades"]) / 1000, 1),
                       "last_book5_age_s": None if "book5" not in st.last else round((now - st.last["book5"]) / 1000, 1),
                       "last_book20_age_s": None if "book20" not in st.last else round((now - st.last["book20"]) / 1000, 1),

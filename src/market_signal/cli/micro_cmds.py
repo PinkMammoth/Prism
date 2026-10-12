@@ -73,6 +73,7 @@ def collect(
     dir: str = DIR,
     coins: str = typer.Option(",".join(("BTC", "ETH", "SOL", "HYPE", "LINK", "AAVE")), help="Comma-separated coins"),
     duration: float = typer.Option(0, help="Stop after N seconds (0 = run until SIGTERM); for smoke tests"),
+    dynamic: bool = typer.Option(False, "--dynamic-universe", help="Follow the bounded causal universe subscription plan"),
     no_raw: bool = typer.Option(False, "--no-raw", help="Do not keep the short-retention raw journal"),
     raw_days: int = typer.Option(int(os.environ.get("PRISM_MICRO_RAW_DAYS", "1")), help="Raw journal retention (days)"),
     spool_days: int = typer.Option(int(os.environ.get("PRISM_MICRO_SPOOL_DAYS", "8")), help="Spool retention (days, >= 8 for large-print calibration)"),
@@ -101,7 +102,7 @@ def collect(
     setup_logging()
     c = Collector(_spool(dir), tuple(x.strip().upper() for x in coins.split(",") if x.strip()),
                   role=role, runtime_id=rid, git_commit=revision(_root()), raw=not no_raw,
-                  duration_s=duration or None, spool_days=spool_days, raw_days=raw_days)  # fmt: skip
+                  duration_s=duration or None, spool_days=spool_days, raw_days=raw_days, dynamic=dynamic)  # fmt: skip
     try:
         rc = asyncio.run(c.run())
     except CollectorBusy as exc:

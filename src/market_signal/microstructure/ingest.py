@@ -16,6 +16,7 @@ minute so accepted, and never changed.
 
 from __future__ import annotations
 
+import hashlib
 import json
 from collections import Counter
 from datetime import UTC, datetime
@@ -78,7 +79,8 @@ class _Ingest:
         collector's records (minutes, late fills, thresholds, runs, connections) are kept."""
         minutes = []
         handlers = {"run_end": self._run_end, "conn_open": self._conn_open,
-                    "conn_close": self._conn_close, "late": self._late, "lp_threshold": self._lp}  # fmt: skip
+                    "conn_close": self._conn_close, "late": self._late, "lp_threshold": self._lp,
+                    "universe_change": self._universe_change}  # fmt: skip
         for r in recs:
             k = r.get("kind")
             if k == "run_start":
@@ -96,6 +98,23 @@ class _Ingest:
                 handlers[k](r)
         if minutes:
             self._minutes(minutes)
+
+    def _universe_change(self, r: dict) -> None:
+        payload = json.dumps(r, sort_keys=True, separators=(",", ":"))
+        event_id = "subscription_" + hashlib.sha256(payload.encode()).hexdigest()
+
+        n = self.con.execute(
+            "INSERT INTO microstructure_subscription_events VALUES (?, ?, ?, ?, ?) "
+            "ON CONFLICT DO NOTHING RETURNING 1",
+            [
+                event_id,
+                r["run_id"],
+                _ts(r["at"]),
+                self.now,
+                payload,
+            ],
+        ).fetchall()
+        self.stats["universe_changes"] += len(n)
 
     def _run_start(self, r: dict) -> None:
         n = self.con.execute(

@@ -17,19 +17,29 @@ def _rid(s, r):
 
 
 @nimble.command("register")
-def register_policy(events: bool = typer.Option(False, "--events")):
-    call(lambda s: engine.register(s, events=events), write=True)
+def register_policy(
+    events: bool = typer.Option(False, "--events"),
+    dynamic: bool = typer.Option(False, "--dynamic-universe"),
+):
+    call(lambda s: engine.register(s, events=events, dynamic=dynamic), write=True)
 
 
 @nimble.command("create")
-def create(events: bool = typer.Option(False, "--events"), variant: str = typer.Option(None)):
+def create(
+    events: bool = typer.Option(False, "--events"),
+    variant: str = typer.Option(None),
+    dynamic: bool = typer.Option(False, "--dynamic-universe"),
+):
+    if events and dynamic:
+        raise typer.BadParameter("Dynamic universe does not expand the frozen event cohorts")
+
     def go(s):
         from market_signal.paper.nimble.worker import marker, publish
 
         r = (
             engine.create_cohorts(s)
             if events and variant == "both"
-            else engine.create(s, events=events, variant=variant)
+            else engine.create(s, events=events, variant=variant, dynamic=dynamic)
         )
         publish(
             marker(s.path),

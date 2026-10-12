@@ -246,7 +246,12 @@ def live_cache(root, now, *, runtime_id=None):
         return [], {}
     out = []
     for r in data.get("books", {}).values():
-        q = ExecutableQuote(**r, available_at=data["published_at"])
+        if r["asset"] in spec.baseline.COINS:
+            q = ExecutableQuote(**r, available_at=data["published_at"])
+        else:
+            from market_signal.universe.execution import quote
+
+            q = quote(r, data["published_at"], data.get("contexts", {}).get(r["asset"]))
         if q.valid(now):
             out.append(q)
     contexts = {

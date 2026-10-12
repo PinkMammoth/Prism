@@ -10,7 +10,7 @@ from __future__ import annotations
 import json
 import math
 from contextlib import nullcontext
-from dataclasses import asdict
+from dataclasses import asdict, replace
 from uuid import uuid4
 
 import pandas as pd
@@ -21,7 +21,7 @@ from market_signal.paper.v2 import spec as baseline
 from market_signal.paper.v2.data import clean, ts
 from market_signal.research.lab.common import canonical_json, content_id
 
-from . import event_spec, spec
+from . import dynamic_spec, event_spec, spec
 from .model import ExecutionThesis, build_thesis, economics, fill, sign
 
 
@@ -42,8 +42,10 @@ def current(store):
     return rs[-1]["run_id"]
 
 
-def register(store, *, now=None, events=False):
-    policy = event_spec if events else spec
+def register(store, *, now=None, events=False, dynamic=False):
+    if events and dynamic:
+        raise ValueError("dynamic event cohorts are not released")
+    policy = dynamic_spec if dynamic else event_spec if events else spec
     at = ts(now or utcnow())
     store.con.execute(
         "INSERT INTO paper_nimble_policies VALUES (?,?,?) ON CONFLICT DO NOTHING",
@@ -66,7 +68,13 @@ def load(store, rid):
     p = store.con.execute(
         "SELECT definition FROM paper_nimble_policies WHERE policy_id=?", [run["policy_id"]]
     ).fetchone()
-    policy = event_spec if run["policy_id"] == event_spec.policy_id() else spec
+    policy = (
+        dynamic_spec
+        if run["policy_id"] == dynamic_spec.policy_id()
+        else event_spec
+        if run["policy_id"] == event_spec.policy_id()
+        else spec
+    )
     if (
         run["policy_id"] != policy.policy_id()
         or not p
@@ -74,6 +82,13 @@ def load(store, rid):
         or run["risk_policy_id"] != spec.risk_id()
     ):
         raise ValueError("frozen nimble policy identity/content mismatch")
+    if policy is dynamic_spec:
+        d = json.loads(run["definition"])
+        if (
+            d.get("entry_universe_id") != dynamic_spec.universe_id()
+            or content_id("paperrun_nimble_", d) != rid
+        ):
+            raise ValueError("frozen dynamic run identity mismatch")
     if policy is event_spec:
         d = json.loads(run["definition"])
         if (
@@ -254,11 +269,17 @@ def verify_baseline(store, rid):
     }
 
 
-def create(store, *, now=None, comparison_days=7, events=False, variant=None):
-    policy = event_spec if events else spec
+def create(store, *, now=None, comparison_days=7, events=False, variant=None, dynamic=False):
+    if events and dynamic:
+        raise ValueError("dynamic event cohorts are not released")
+    policy = dynamic_spec if dynamic else event_spec if events else spec
     if events and variant not in ("immediate", "confirmed"):
         raise ValueError("event run requires immediate or confirmed cohort")
     at = ts(now or utcnow())
+    if dynamic:
+        from market_signal.universe.budget import activation_ready
+
+        activation_ready(store, at)
     p = store.con.execute(
         "SELECT registered_at,definition FROM paper_nimble_policies WHERE policy_id=?",
         [policy.policy_id()],
@@ -282,7 +303,11 @@ def create(store, *, now=None, comparison_days=7, events=False, variant=None):
         "risk_policy_id": spec.risk_id(),
         "thesis_policy_version": spec.THESIS_VERSION,
         "exit_policy_version": spec.EXIT_VERSION,
-        "entry_universe_id": event_spec.universe_id(variant) if events else baseline.universe_id(),
+        "entry_universe_id": dynamic_spec.universe_id()
+        if dynamic
+        else event_spec.universe_id(variant)
+        if events
+        else baseline.universe_id(),
         **(
             {
                 "event_variant": variant,
@@ -763,7 +788,11 @@ def monitor(store, rid, qs, rates=(), updates=(), contexts=None, *, now=None, ma
     event_run = run["policy_id"] == event_spec.policy_id()
     from . import events as event_engine
 
-    venue = event_engine.unavailable(store, at) if event_run else None
+    venue = (
+        event_engine.unavailable(store, at)
+        if event_run or run["policy_id"] == dynamic_spec.policy_id()
+        else None
+    )
     if event_run:
         updates = [*updates, *event_engine.lifecycle_updates(store, positions(store, rid), at)]
     if venue:
@@ -771,6 +800,8 @@ def monitor(store, rid, qs, rates=(), updates=(), contexts=None, *, now=None, ma
     ac = account(store, rid)
     for p in positions(store, rid):
         q = _quote(qs, p["asset"], at)
+        if q and p.get("satellite_slippage_bps") is not None:
+            q = replace(q, slippage_bps=max(q.slippage_bps, p["satellite_slippage_bps"]))
         rate = _predicted(p["asset"], contexts, updates, p) or 0.0
         if p["state"] == "PENDING":
             reason = (
@@ -789,13 +820,39 @@ def monitor(store, rid, qs, rates=(), updates=(), contexts=None, *, now=None, ma
             elif q and ts(q.at) > ts(p["intent_at"]) and ts(q.available_at) > ts(p["intent_at"]):
                 th = ExecutionThesis.model_validate(p["thesis"])
                 e = economics(th, q, rate)
-                if not e["economic"]:
+                from market_signal.universe.execution import pending_gate
+
+                dynamic_failure = (
+                    pending_gate(store, p, at, q)
+                    if run["policy_id"] == dynamic_spec.policy_id()
+                    else None
+                )
+                if dynamic_failure:
+                    reason = dynamic_failure
+                elif p["asset"] not in baseline.COINS and (
+                    (q.ask - q.bid) / q.mid * 10000 > dynamic_spec.POLICY.spread_bps_max
+                    or getattr(q, "depth_usd", 0) < dynamic_spec.POLICY.depth_usd_min
+                ):
+                    reason = "SATELLITE_EXECUTION_DEGRADED"
+                elif not e["economic"]:
                     reason = "UNECONOMIC_TARGET"
                 elif sign(p["side"]) * (q.mid - th.invalidation["price"]) <= 0:
                     reason = "INVALIDATED_BEFORE_FILL"
                 else:
                     xf = fill(q, p["side"], entry=True)
-                    units, ntl = baseline_engine.size(account(store, rid)["equity"], xf, p["asset"])
+                    if p["asset"] not in baseline.COINS:
+                        from market_signal.universe.execution import size as dynamic_size
+
+                        units, ntl = dynamic_size(
+                            account(store, rid)["equity"],
+                            xf,
+                            p["asset"],
+                            decimals=p["size_decimals"],
+                        )
+                    else:
+                        units, ntl = baseline_engine.size(
+                            account(store, rid)["equity"], xf, p["asset"]
+                        )
                     active = [x for x in positions(store, rid) if x["state"] != "PENDING"]
                     gross = sum(x["notional"] for x in active)
                     if ntl < spec.RISK["min_notional"]:
@@ -876,6 +933,14 @@ def admit(store, rid, observations, qs, source, contexts=None, *, now=None):
     activation = ts(run["activated_at"])
     hs = {h.hypothesis_id: h for h in hypotheses(store, rid)}
     contexts = contexts or {}
+    dynamic = run["policy_id"] == dynamic_spec.policy_id()
+    universe_contexts = {}
+    venue_failure = None
+    if dynamic:
+        from .events import unavailable
+
+        venue_failure = unavailable(store, at)
+        from market_signal.universe.execution import admission as universe_admission
     candidates = []
     for o in observations:
         if ts(o.signal_at) <= activation:
@@ -888,7 +953,7 @@ def admit(store, rid, observations, qs, source, contexts=None, *, now=None):
             continue
         h = hs.get(o.hypothesis_id)
         reason = None
-        if not h or o.asset not in baseline.COINS:
+        if not h or (o.asset not in baseline.COINS and not dynamic):
             reason = "HYPOTHESIS_NOT_REGISTERED"
         elif not o.causal or not ts(o.signal_at) <= ts(o.available_at) <= at:
             reason = "INVALID_TIMING"
@@ -907,6 +972,12 @@ def admit(store, rid, observations, qs, source, contexts=None, *, now=None):
             minutes=min(20, spec.mapping(h)["expiry_minutes"])
         ):
             reason = "THESIS_ALREADY_STALE"
+        if dynamic and h and reason is None:
+            reason, universe_context = universe_admission(
+                store, o.asset, h, o.signal_at, at, _quote(qs, o.asset, at)
+            )
+            reason = "VENUE_UNAVAILABLE" if venue_failure else reason
+            universe_contexts[o.asset] = universe_context
         candidates.append({"h": h, "o": o, "reason": reason})
     opposing = {
         a
@@ -921,10 +992,22 @@ def admit(store, rid, observations, qs, source, contexts=None, *, now=None):
         > 1
     }
     results = {}
-    for c in sorted(
-        candidates,
-        key=lambda c: content_id("", [c["o"].asset, c["o"].hypothesis_id, c["o"].signal_at]),
-    ):
+
+    def priority(c):
+        if not dynamic:
+            return (content_id("", [c["o"].asset, c["o"].hypothesis_id, c["o"].signal_at]),)
+        context = universe_contexts.get(c["o"].asset) or {}
+        market = context.get("market", {})
+        costs = context.get("cost", {}).get("round_trip_bps") or 1e9
+        return (
+            -(market.get("rv_bps") or 0) / costs,
+            -context.get("score", 0),
+            c["o"].asset,
+            c["o"].hypothesis_id,
+            c["o"].signal_at,
+        )
+
+    for c in sorted(candidates, key=priority):
         h, o, reason = c["h"], c["o"], c["reason"]
         tid = thesis = None
         admission = "REJECTED"
@@ -934,6 +1017,18 @@ def admit(store, rid, observations, qs, source, contexts=None, *, now=None):
             {"run": rid, "hypothesis": o.hypothesis_id, "asset": o.asset, "signal": o.signal_at},
         )
         qs_asset = _quote(qs, o.asset, at)
+        universe_context = universe_contexts.get(o.asset)
+        if (
+            dynamic
+            and o.asset not in baseline.COINS
+            and qs_asset
+            and universe_context
+            and "cost" in universe_context
+        ):
+            qs_asset = replace(
+                qs_asset,
+                slippage_bps=max(qs_asset.slippage_bps, universe_context["cost"]["slippage_bps"]),
+            )
         if reason is None:
             reason = (
                 "CATASTROPHE_GUARD"
@@ -975,7 +1070,13 @@ def admit(store, rid, observations, qs, source, contexts=None, *, now=None):
                     at,
                 )
         elif reason is None:
-            if len(active) >= spec.RISK["max_positions"]:
+            if (
+                dynamic
+                and o.asset not in baseline.COINS
+                and sum(p["asset"] not in baseline.COINS for p in active) >= 2
+            ):
+                reason = "SATELLITE_CONCENTRATION"
+            elif len(active) >= spec.RISK["max_positions"]:
                 reason = "MAX_POSITIONS"
             elif (
                 sum(p.get("notional", p.get("target_notional", 0)) for p in active)
@@ -998,7 +1099,7 @@ def admit(store, rid, observations, qs, source, contexts=None, *, now=None):
                         if geometry.get("available_at") and ts(geometry["available_at"]) > at:
                             raise ValueError("INVALID_TIMING")
                         thesis = build_thesis(h, o, qs_asset, geometry, at)
-                        if h.source_phase == 30:
+                        if h.source_phase == 30 or dynamic:
                             thesis = thesis.model_copy(
                                 update={"execution_policy_id": run["policy_id"]}
                             )
@@ -1015,9 +1116,19 @@ def admit(store, rid, observations, qs, source, contexts=None, *, now=None):
                         ):
                             reason = "UNBOUNDED_INVALIDATION"
                         else:
-                            _, ntl = baseline_engine.size(
-                                ac["equity"], fill(qs_asset, h.side, entry=True), o.asset
-                            )
+                            if dynamic and o.asset not in baseline.COINS:
+                                from market_signal.universe.execution import size as dynamic_size
+
+                                _, ntl = dynamic_size(
+                                    ac["equity"],
+                                    fill(qs_asset, h.side, entry=True),
+                                    o.asset,
+                                    decimals=universe_context["market"]["size_decimals"],
+                                )
+                            else:
+                                _, ntl = baseline_engine.size(
+                                    ac["equity"], fill(qs_asset, h.side, entry=True), o.asset
+                                )
                             if ntl < spec.RISK["min_notional"]:
                                 reason = "MIN_NOTIONAL"
                             elif store.con.execute(
@@ -1054,6 +1165,22 @@ def admit(store, rid, observations, qs, source, contexts=None, *, now=None):
                                         "opportunity_id": oid,
                                         "hypothesis_id": h.hypothesis_id,
                                         "asset": o.asset,
+                                        **(
+                                            {
+                                                "universe_cohort": "CORE"
+                                                if o.asset in baseline.COINS
+                                                else "SATELLITE",
+                                                "universe_context": universe_context,
+                                                "satellite_slippage_bps": getattr(
+                                                    qs_asset, "slippage_bps", None
+                                                ),
+                                                "size_decimals": (universe_context or {})
+                                                .get("market", {})
+                                                .get("size_decimals"),
+                                            }
+                                            if dynamic
+                                            else {}
+                                        ),
                                         "side": h.side,
                                         "family": h.family,
                                         "thesis_id": thesis.thesis_id,
@@ -1091,6 +1218,14 @@ def admit(store, rid, observations, qs, source, contexts=None, *, now=None):
         payload = clean(
             {
                 **asdict(o),
+                **(
+                    {
+                        "universe_cohort": "CORE" if o.asset in baseline.COINS else "SATELLITE",
+                        "universe_context": universe_context,
+                    }
+                    if dynamic
+                    else {}
+                ),
                 "context": o.context
                 if o.fired
                 else {"snapshot_id": (o.context or {}).get("snapshot_id")},

@@ -116,9 +116,11 @@ class Collector:
     def __init__(self, spool: Spool, coins: tuple[str, ...] = d.COINS, *, url: str = d.WS_URL,
                  role: str = "", runtime_id: str = "", git_commit: str | None = None,
                  raw: bool = True, duration_s: float | None = None,
-                 spool_days: int = 8, raw_days: int = 1):  # fmt: skip
+                 spool_days: int = 8, raw_days: int = 1, dynamic: bool = False):  # fmt: skip
         self.spool = spool
-        self.coins = tuple(coins)
+        self.coins = tuple(sorted(set(coins)))
+        self.dynamic = dynamic or (spool.root / "universe_subscriptions.json").exists()
+        self.subscription_error = None
         self.url = url
         self.role, self.runtime_id, self.git_commit = role, runtime_id, git_commit
         self.raw = raw
@@ -178,6 +180,17 @@ class Collector:
         try:
             repaired = self.spool.repair()
             start = now_ms()
+            if self.dynamic:
+                from market_signal.universe.subscriptions import read
+
+                self.coins, self.subscription_error = read(
+                    self.spool.root,
+                    self.coins,
+                    start // 1000,
+                    role=self.role,
+                    runtime_id=self.runtime_id,
+                    restart=True,
+                )
             last = self.spool.last_finalized(self.coins, d.FEATURE_VERSION)
             lp = self.spool.load_large_prints(start)
             self.engine = Engine(self.coins, self._emit, run_id=self.run_id, lp=lp)
@@ -282,9 +295,13 @@ class Collector:
                 for ev in evs:
                     if ev[0] == "?":
                         self.engine.counters["invalid"] += 1
+                    elif ev[0] in ("A", "T", "F", "D", "C") and ev[2] not in self.coins:
+                        continue
                     else:
                         self.engine.feed(ev)
                         self.latest_books.feed(ev)
+                if msg.get("channel") == "l2Book" and msg["data"]["coin"] in self.coins:
+                    self.latest_books.feed_book(msg["data"], t)
         finally:
             stop.cancel()
 
@@ -292,7 +309,7 @@ class Collector:
 
     async def _ticker(self) -> None:
         assert self.engine is not None
-        last_status = last_ping = last_disk = last_books = 0.0
+        last_status = last_ping = last_disk = last_books = last_universe = 0.0
         raw_minute = now_ms() // d.MINUTE_MS
         day = day_str(now_ms())
         while True:
@@ -308,6 +325,9 @@ class Collector:
                 day = day_str(t)
                 self.spool.prune(t, spool_days=self.spool_days, raw_days=self.raw_days)
             mono = time.monotonic()
+            if self.dynamic and mono - last_universe >= STATUS_EVERY_S:
+                last_universe = mono
+                await self._sync_universe(t)
             if self.ws is not None and mono - last_ping >= PING_EVERY_S:
                 last_ping = mono
                 with contextlib.suppress(Exception):
@@ -327,12 +347,58 @@ class Collector:
                 last_status = mono
                 self._write_status()
 
+    async def _sync_universe(self, t: int) -> None:
+        from market_signal.universe.subscriptions import read
+
+        desired, self.subscription_error = read(
+            self.spool.root, self.coins, t // 1000, role=self.role, runtime_id=self.runtime_id
+        )
+        if set(desired) == set(self.coins):
+            return
+        added = tuple(sorted(set(desired) - set(self.coins)))
+        removed = tuple(sorted(set(self.coins) - set(desired)))
+        assert self.engine is not None
+        if set(added) & set(self.engine.retiring):
+            # Finish the prior segment's final minute/revision before opening a new segment.
+            return
+        self.engine.set_coins(desired, t, self.spool.last_finalized(added, d.FEATURE_VERSION))
+        self.coins = desired
+        for c in removed:
+            self.latest_books.books.pop(c, None)
+            self.latest_books.contexts.pop(c, None)
+        from market_signal.universe.policy import POLICY
+
+        self._record_run(
+            "universe_change",
+            added=list(added),
+            removed=list(removed),
+            policy_id=POLICY.identity,
+        )
+        if self.ws is not None:
+            try:
+                for sub in subscriptions(removed):
+                    await self.ws.send(json.dumps({"method": "unsubscribe", "subscription": sub}))
+                for sub in subscriptions(added):
+                    await self.ws.send(json.dumps({"method": "subscribe", "subscription": sub}))
+            except Exception:
+                # Reconnect subscribes to the complete desired set after partial sends.
+                self.close_reason = "universe subscription send failed"
+                await self.ws.close()
+
     async def _watchdog(self, t: int) -> None:
         assert self.engine is not None
         if not self.conn_started or (t - self.conn_started) / 1000 < ACK_TIMEOUT_S:
             return
         reason = None
-        for c, st in self.engine.coin.items():
+        for c in self.coins:
+            if self.dynamic:
+                from market_signal.universe.policy import CORE
+
+                if c not in CORE:
+                    # An unavailable satellite remains visible/pinned without resetting
+                    # healthy core feeds. Fresh quotes and exact feature gates fail closed.
+                    continue
+            st = self.engine.coin[c]
             missing = set(d.FEEDS) - st.acked
             if missing:
                 reason = f"subscription not acknowledged: {c} {sorted(missing)}"
@@ -376,9 +442,11 @@ class Collector:
         fl = sorted(self.flush_ms)
         return {"written_ms": t, "run_id": self.run_id, "pid": os.getpid(), "role": self.role,
                 "runtime_id": self.runtime_id, "git_commit": self.git_commit,
+                "dynamic_universe": self.dynamic,
                 "feature_version": d.FEATURE_VERSION, "definition": d.definition_digest(),
                 "started_ms": self.started_ms, "url": self.url, "coins": list(self.coins),
                 "reconnects": self.reconnects, "backoff_s": self.backoff,
+                "subscription_error": self.subscription_error,
                 "last_error": self.last_error, "disconnected_since_ms": self.disconnected_since,
                 "spool_errors": self.spool.errors, "pending_records": len(self.pending),
                 "dropped_records": self.dropped_records, "raw": self.raw, "raw_paused": self.raw_paused,

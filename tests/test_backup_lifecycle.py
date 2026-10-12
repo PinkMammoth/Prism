@@ -177,6 +177,47 @@ def test_schema_missing_required_evidence_table_rejected(tmp_path):
         b.inspect_backup(path)
 
 
+DYNAMIC_TABLES = (
+    "universe_policies",
+    "universe_evaluations",
+    "universe_outcomes",
+    "microstructure_subscription_events",
+)
+
+
+def test_dynamic_universe_tables_are_required_from_their_migration(tmp_path):
+    """Migration 31 introduced the dynamic-universe evidence tables: a schema-31+ backup
+    missing one is incomplete and refused."""
+    from market_signal.data.store import MIGRATIONS, Store
+
+    created = {t for t in DYNAMIC_TABLES if f"EXISTS {t} " in MIGRATIONS[30]}
+    assert created == set(DYNAMIC_TABLES)
+    for table in DYNAMIC_TABLES:
+        path = tmp_path / f"missing-{table}.duckdb"
+        Store(path).close()
+        with duckdb.connect(str(path)) as con:
+            con.execute(f"DROP TABLE {table}")
+        with pytest.raises(ValueError, match=f"missing tables: .*{table}"):
+            b.inspect_backup(path)
+
+
+def test_pre_dynamic_schema_backup_is_accepted_without_universe_tables(paper_live, tmp_path):
+    """A schema-30 backup (production before dynamic universe) has no universe tables and
+    must still verify: required tables follow the backup's own schema version."""
+    import shutil
+
+    db, _ = paper_live
+    path = tmp_path / "schema30.duckdb"
+    shutil.copy(db, path)
+    with duckdb.connect(str(path)) as con:  # exactly the state before migration 31
+        for table in DYNAMIC_TABLES:
+            con.execute(f"DROP TABLE {table}")
+        con.execute("DELETE FROM schema_version WHERE version = 31")
+    out = b.inspect_backup(path)
+    assert out["schema_version"] == 30
+    assert not set(DYNAMIC_TABLES) & set(out["tables_read"])
+
+
 def test_unknown_schema_rejected(tmp_path):
     from market_signal.data.store import Store
 

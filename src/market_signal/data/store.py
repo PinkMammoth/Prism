@@ -1613,6 +1613,26 @@ MIGRATIONS: list[str] = [
     );
     CREATE INDEX IF NOT EXISTS paper_event_run ON paper_event_evidence(run_id,recorded_at);
     """,
+    # 31 — Dynamic universe: immutable causal ranking evidence.
+    """
+CREATE TABLE IF NOT EXISTS universe_policies (
+    policy_id VARCHAR PRIMARY KEY, definition JSON NOT NULL
+);
+CREATE TABLE IF NOT EXISTS universe_evaluations (
+    evaluation_id VARCHAR PRIMARY KEY, policy_id VARCHAR NOT NULL,
+    evaluated_at BIGINT NOT NULL, source_sha VARCHAR NOT NULL,
+    payload BLOB NOT NULL, UNIQUE(policy_id,evaluated_at)
+);
+CREATE TABLE IF NOT EXISTS microstructure_subscription_events (
+    event_id VARCHAR PRIMARY KEY, run_id VARCHAR NOT NULL,
+    effective_at TIMESTAMPTZ NOT NULL, ingested_at TIMESTAMPTZ NOT NULL, payload JSON NOT NULL
+);
+CREATE TABLE IF NOT EXISTS universe_outcomes (
+    evaluation_id VARCHAR NOT NULL, asset VARCHAR NOT NULL, horizon_minutes INTEGER NOT NULL,
+    observed_at BIGINT NOT NULL, payload JSON NOT NULL,
+    PRIMARY KEY(evaluation_id,asset,horizon_minutes)
+);
+""",
 ]
 
 ROLE_ENV, RUNTIME_ID_ENV = "PRISM_RUNTIME_ROLE", "PRISM_RUNTIME_ID"

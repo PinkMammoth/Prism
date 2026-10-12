@@ -182,7 +182,12 @@ class Worker:
                             ]
                             # 24B features stay on their ORIGINAL 15m research grid. Every complete
                             # minute can wake the engine; ledger checks skip earlier evaluated grids.
-                            target_assets = sorted(set(baseline.COINS) & affected)
+                            if run["policy_id"] == engine.dynamic_spec.policy_id():
+                                from market_signal.universe.execution import active_assets
+
+                                target_assets = sorted(active_assets(store, at) & affected)
+                            else:
+                                target_assets = sorted(set(baseline.COINS) & affected)
                             obs = (
                                 source.observations(hs, run["activated_at"], assets=target_assets)
                                 if hs

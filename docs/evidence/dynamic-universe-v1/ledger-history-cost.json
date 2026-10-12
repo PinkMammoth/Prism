@@ -1,0 +1,17 @@
+{
+  "policy_id": "universepolicy_5f88b1dcdf20d7d19047edffab329076d7a63936f8c0916c21ffc83bcf4d56ff",
+  "markets": 539,
+  "evaluations": 32,
+  "prospective_outcomes_rows": 2034,
+  "light_assets": 30,
+  "cpu_seconds": 2.491343706000002,
+  "wall_seconds": 2.262115769997763,
+  "db_selects": 163,
+  "db_mutations": 92,
+  "payload_bytes": 60188,
+  "uncompressed_bytes": 1367841,
+  "peak_rss_mib": 361.875,
+  "stage": "RANKING ONLY",
+  "note": "Empty scratch feature history; real readiness reasons and 34 portability entries. Multi-evaluation mode advances a synthetic clock and mark path to exercise outcome retention. No production, network, backfill or warmup claim. Store startup/migration excluded.",
+  "scratch_db_bytes_with_all_empty_schemas": 8400896
+}

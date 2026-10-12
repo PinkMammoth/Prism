@@ -50,6 +50,7 @@ TRADE_FIELDS = [
     "run_id",
     "trade_id",
     "asset",
+    "universe_cohort",
     "side",
     "hypothesis_id",
     "hypothesis_name",
@@ -104,6 +105,7 @@ OPEN_FIELDS = [
     "run",
     "trade_id",
     "asset",
+    "universe_cohort",
     "side",
     "entry_at",
     "entry_fill",
@@ -374,7 +376,10 @@ def main():
         )
         return
     selected = []
-    for column, cohort in zip(st.columns(4), COHORTS, strict=True):
+    visible_cohorts = [
+        c for c in COHORTS if c != "dynamic" or any(r["cohort"] == c for r in metadata)
+    ]
+    for column, cohort in zip(st.columns(len(visible_cohorts)), visible_cohorts, strict=True):
         with column:
             options = [r for r in metadata if r["cohort"] == cohort]
             if not options:

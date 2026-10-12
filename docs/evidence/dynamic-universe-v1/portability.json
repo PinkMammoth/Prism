@@ -1,0 +1,336 @@
+[
+  {
+    "hypothesis_id": "paperhyp_v2_f16591d589f4847f62f5193ec718c4e334e5b7fda80a3368ab783f507eb22b39",
+    "key": "ema_cross_trend[n=20]:1h:long",
+    "name": "ema_cross_trend[n=20]:1h:long",
+    "source_phase": 22,
+    "classification": "PORTABLE_WITH_ASSET_DATA_GATE",
+    "requirement": "TECHNICAL_WARMUP",
+    "scientific_verdict": "INTERESTING",
+    "feature_version": "intraday_features_v1"
+  },
+  {
+    "hypothesis_id": "paperhyp_v2_b00a17a35025c6eff587e206a7722c52870138ceec72ac6aee837582caec4224",
+    "key": "ema_stretch_fade[k=3.0]:1h:long",
+    "name": "ema_stretch_fade[k=3.0]:1h:long",
+    "source_phase": 22,
+    "classification": "PORTABLE_WITH_ASSET_DATA_GATE",
+    "requirement": "TECHNICAL_WARMUP",
+    "scientific_verdict": "INTERESTING",
+    "feature_version": "intraday_features_v1"
+  },
+  {
+    "hypothesis_id": "paperhyp_v2_2b57c7a8a66a74c7eed636cc95bcc6750c197ebc8288fba9bbae1ac907f02f44",
+    "key": "ema_stretch_fade[k=4.0]:1h:long",
+    "name": "ema_stretch_fade[k=4.0]:1h:long",
+    "source_phase": 22,
+    "classification": "PORTABLE_WITH_ASSET_DATA_GATE",
+    "requirement": "TECHNICAL_WARMUP",
+    "scientific_verdict": "INTERESTING",
+    "feature_version": "intraday_features_v1"
+  },
+  {
+    "hypothesis_id": "paperhyp_v2_63ad3c28c8575535cc50499287df5c3390d2bd3a0d40356155ccfc5e1eada38e",
+    "key": "compression_breakout[n=24,pct=0.35]:1h:long",
+    "name": "compression_breakout[n=24,pct=0.35]:1h:long",
+    "source_phase": 22,
+    "classification": "PORTABLE_WITH_ASSET_DATA_GATE",
+    "requirement": "TECHNICAL_WARMUP",
+    "scientific_verdict": "INTERESTING",
+    "feature_version": "intraday_features_v1"
+  },
+  {
+    "hypothesis_id": "paperhyp_v2_1dc7b5553f6fdb7e56d29b8a29165a983e1b45a9bf250fbd7cf09097c6104a84",
+    "key": "expansion_continuation[k=3.0]:1h:long",
+    "name": "expansion_continuation[k=3.0]:1h:long",
+    "source_phase": 22,
+    "classification": "PORTABLE_WITH_ASSET_DATA_GATE",
+    "requirement": "TECHNICAL_WARMUP",
+    "scientific_verdict": "INTERESTING",
+    "feature_version": "intraday_features_v1"
+  },
+  {
+    "hypothesis_id": "paperhyp_v2_2094946c030a4c3dcf542094eb58f7430d65b033748bd1e88a6694de42e7c4c3",
+    "key": "expansion_fade[k=3.0]:1h:long",
+    "name": "expansion_fade[k=3.0]:1h:long",
+    "source_phase": 22,
+    "classification": "PORTABLE_WITH_ASSET_DATA_GATE",
+    "requirement": "TECHNICAL_WARMUP",
+    "scientific_verdict": "INTERESTING",
+    "feature_version": "intraday_features_v1"
+  },
+  {
+    "hypothesis_id": "paperhyp_v2_2ce630777e36493fc5ee0bd08f8369b6394d3bd21707a7f06bf7091d47ab48f3",
+    "key": "exhaustion[n=24,z=3.0,strong_close=no]:1h:long",
+    "name": "exhaustion[n=24,z=3.0,strong_close=no]:1h:long",
+    "source_phase": 22,
+    "classification": "PORTABLE_WITH_ASSET_DATA_GATE",
+    "requirement": "TECHNICAL_WARMUP",
+    "scientific_verdict": "INTERESTING",
+    "feature_version": "intraday_features_v1"
+  },
+  {
+    "hypothesis_id": "paperhyp_v2_f571a90267745016dc6e4358a3208264abde5d6d3452a5149a8e95d180739605",
+    "key": "ema_cross_trend[n=20]:1h:short",
+    "name": "ema_cross_trend[n=20]:1h:short",
+    "source_phase": 22,
+    "classification": "PORTABLE_WITH_ASSET_DATA_GATE",
+    "requirement": "TECHNICAL_WARMUP",
+    "scientific_verdict": "REJECTED",
+    "feature_version": "intraday_features_v1"
+  },
+  {
+    "hypothesis_id": "paperhyp_v2_ed49f9054684c713ebeb1121fb157e7fb3e388dc8e6c20e37627fe55f2802499",
+    "key": "ema_stretch_fade[k=3.0]:1h:short",
+    "name": "ema_stretch_fade[k=3.0]:1h:short",
+    "source_phase": 22,
+    "classification": "PORTABLE_WITH_ASSET_DATA_GATE",
+    "requirement": "TECHNICAL_WARMUP",
+    "scientific_verdict": "REJECTED",
+    "feature_version": "intraday_features_v1"
+  },
+  {
+    "hypothesis_id": "paperhyp_v2_41845cdf49ea18a9baa9f560e519b2e11a133942cacc3dd66259d0435af33033",
+    "key": "ema_stretch_fade[k=4.0]:1h:short",
+    "name": "ema_stretch_fade[k=4.0]:1h:short",
+    "source_phase": 22,
+    "classification": "PORTABLE_WITH_ASSET_DATA_GATE",
+    "requirement": "TECHNICAL_WARMUP",
+    "scientific_verdict": "REJECTED",
+    "feature_version": "intraday_features_v1"
+  },
+  {
+    "hypothesis_id": "paperhyp_v2_c0bf366033db18e84ba45d5caea1cc03617859eb43d302467e733d9049704c7a",
+    "key": "compression_breakout[n=24,pct=0.35]:1h:short",
+    "name": "compression_breakout[n=24,pct=0.35]:1h:short",
+    "source_phase": 22,
+    "classification": "PORTABLE_WITH_ASSET_DATA_GATE",
+    "requirement": "TECHNICAL_WARMUP",
+    "scientific_verdict": "REJECTED",
+    "feature_version": "intraday_features_v1"
+  },
+  {
+    "hypothesis_id": "paperhyp_v2_6857186d84739a33692d90a88980acda46406fcb84a4c18a2fff4d7fc6a21981",
+    "key": "expansion_continuation[k=3.0]:1h:short",
+    "name": "expansion_continuation[k=3.0]:1h:short",
+    "source_phase": 22,
+    "classification": "PORTABLE_WITH_ASSET_DATA_GATE",
+    "requirement": "TECHNICAL_WARMUP",
+    "scientific_verdict": "REJECTED",
+    "feature_version": "intraday_features_v1"
+  },
+  {
+    "hypothesis_id": "paperhyp_v2_48036ddceeebb266dd76acdc89f8a255f76688cba271abd1ebe895beef84de78",
+    "key": "expansion_fade[k=3.0]:1h:short",
+    "name": "expansion_fade[k=3.0]:1h:short",
+    "source_phase": 22,
+    "classification": "PORTABLE_WITH_ASSET_DATA_GATE",
+    "requirement": "TECHNICAL_WARMUP",
+    "scientific_verdict": "REJECTED",
+    "feature_version": "intraday_features_v1"
+  },
+  {
+    "hypothesis_id": "paperhyp_v2_cb375f99692e23ac79d317dc19bfd94f30f0640ef7fa251dd274e9f26f998f35",
+    "key": "exhaustion[n=24,z=3.0,strong_close=no]:1h:short",
+    "name": "exhaustion[n=24,z=3.0,strong_close=no]:1h:short",
+    "source_phase": 22,
+    "classification": "PORTABLE_WITH_ASSET_DATA_GATE",
+    "requirement": "TECHNICAL_WARMUP",
+    "scientific_verdict": "REJECTED",
+    "feature_version": "intraday_features_v1"
+  },
+  {
+    "hypothesis_id": "paperhyp_v2_672988356720caab07c14a0b4e45290a4cc369efa044d8765edbeaf431fa8822",
+    "key": "crowding_vulnerability",
+    "name": "crowding_vulnerability_long_v1",
+    "source_phase": 23,
+    "classification": "CORE_ONLY",
+    "requirement": "BINANCE_CORROBORATION_UNVALIDATED",
+    "scientific_verdict": null,
+    "feature_version": "positioning_context_v1"
+  },
+  {
+    "hypothesis_id": "paperhyp_v2_f75753d15d5b2d3daeb002c2f7fcb5a70111865f853b612ec3de2b536a4fc48d",
+    "key": "crowding_vulnerability",
+    "name": "crowding_vulnerability_short_v1",
+    "source_phase": 23,
+    "classification": "CORE_ONLY",
+    "requirement": "BINANCE_CORROBORATION_UNVALIDATED",
+    "scientific_verdict": null,
+    "feature_version": "positioning_context_v1"
+  },
+  {
+    "hypothesis_id": "paperhyp_v2_e60fe0f969b10d7b36c3ed8e071b8935af6fe31107f2b9fbc13fff0b011c7ab8",
+    "key": "oi_price_stall",
+    "name": "oi_price_stall_long_v1",
+    "source_phase": 23,
+    "classification": "NOT_YET_VALIDATED",
+    "requirement": "POSITIONING_CONTEXT_ASSET_REGISTRATION",
+    "scientific_verdict": null,
+    "feature_version": "positioning_context_v1"
+  },
+  {
+    "hypothesis_id": "paperhyp_v2_5f43b14ed741a2f5ef131467b08f7a2a3d75a9a2f1794ebfb60f0aecb34478d2",
+    "key": "oi_price_stall",
+    "name": "oi_price_stall_short_v1",
+    "source_phase": 23,
+    "classification": "NOT_YET_VALIDATED",
+    "requirement": "POSITIONING_CONTEXT_ASSET_REGISTRATION",
+    "scientific_verdict": null,
+    "feature_version": "positioning_context_v1"
+  },
+  {
+    "hypothesis_id": "paperhyp_v2_4b9fa473fb35d9ad580154e1ecf9ee3c9bdb2ebea84f55a14f276bb28742abb1",
+    "key": "oi_directional_pressure",
+    "name": "oi_directional_pressure_long_v1",
+    "source_phase": 23,
+    "classification": "NOT_YET_VALIDATED",
+    "requirement": "POSITIONING_CONTEXT_ASSET_REGISTRATION",
+    "scientific_verdict": null,
+    "feature_version": "positioning_context_v1"
+  },
+  {
+    "hypothesis_id": "paperhyp_v2_6e5d73727648c2e55a05d8a93a4d23e200e852ea58eeb6d7d23a665baf34ef52",
+    "key": "oi_directional_pressure",
+    "name": "oi_directional_pressure_short_v1",
+    "source_phase": 23,
+    "classification": "NOT_YET_VALIDATED",
+    "requirement": "POSITIONING_CONTEXT_ASSET_REGISTRATION",
+    "scientific_verdict": null,
+    "feature_version": "positioning_context_v1"
+  },
+  {
+    "hypothesis_id": "paperhyp_v2_14d6230d07e127eae327ed4101446da8443ca60dbbf0664e0e7ac5adf15f827f",
+    "key": "continuation_core",
+    "name": "continuation_core_long_v1",
+    "source_phase": 24,
+    "classification": "PORTABLE_WITH_ASSET_DATA_GATE",
+    "requirement": "MICRO_WARMUP",
+    "scientific_verdict": null,
+    "feature_version": "microdir_features_v1"
+  },
+  {
+    "hypothesis_id": "paperhyp_v2_f75d2f195e2a3c171806b813eb780b9f040bb73c297f66c9840b488dfc7e85ae",
+    "key": "continuation_core",
+    "name": "continuation_core_short_v1",
+    "source_phase": 24,
+    "classification": "PORTABLE_WITH_ASSET_DATA_GATE",
+    "requirement": "MICRO_WARMUP",
+    "scientific_verdict": null,
+    "feature_version": "microdir_features_v1"
+  },
+  {
+    "hypothesis_id": "paperhyp_v2_7c81a1f65eb9dd82de3bec0309e7e3b84052b9d7bdf741e9f637bbbb838e16f8",
+    "key": "absorption_book",
+    "name": "absorption_book_long_v1",
+    "source_phase": 24,
+    "classification": "PORTABLE_WITH_ASSET_DATA_GATE",
+    "requirement": "MICRO_WARMUP",
+    "scientific_verdict": null,
+    "feature_version": "microdir_features_v1"
+  },
+  {
+    "hypothesis_id": "paperhyp_v2_1eb184810cdb3037859a08c1ceb22f27cd2cd1f0e58e645695c4ce5a3e30d5c8",
+    "key": "absorption_book",
+    "name": "absorption_book_short_v1",
+    "source_phase": 24,
+    "classification": "PORTABLE_WITH_ASSET_DATA_GATE",
+    "requirement": "MICRO_WARMUP",
+    "scientific_verdict": null,
+    "feature_version": "microdir_features_v1"
+  },
+  {
+    "hypothesis_id": "paperhyp_v2_6d6616222bb56ba0cf50b14578c2c8c2184ed65fa1418c2460bf86a65d465172",
+    "key": "absorption_oi_rising",
+    "name": "absorption_oi_rising_long_v1",
+    "source_phase": 24,
+    "classification": "PORTABLE_WITH_ASSET_DATA_GATE",
+    "requirement": "MICRO_WARMUP",
+    "scientific_verdict": null,
+    "feature_version": "microdir_features_v1"
+  },
+  {
+    "hypothesis_id": "paperhyp_v2_4fe3778139d43857f196b756e75788eda9a5aaa5e1b283ce402471efc044f0c7",
+    "key": "absorption_oi_rising",
+    "name": "absorption_oi_rising_short_v1",
+    "source_phase": 24,
+    "classification": "PORTABLE_WITH_ASSET_DATA_GATE",
+    "requirement": "MICRO_WARMUP",
+    "scientific_verdict": null,
+    "feature_version": "microdir_features_v1"
+  },
+  {
+    "hypothesis_id": "paperhyp_v2_d593dea703587a4e6623be91fe5199cd6ca91118539abc044288fa29dec2f2be",
+    "key": "continuation_persistent",
+    "name": "continuation_persistent_long_v1",
+    "source_phase": 24,
+    "classification": "PORTABLE_WITH_ASSET_DATA_GATE",
+    "requirement": "MICRO_WARMUP",
+    "scientific_verdict": null,
+    "feature_version": "microdir_features_v1"
+  },
+  {
+    "hypothesis_id": "paperhyp_v2_df1f436fd5ec5aaf5340d080215812628526a4f799d1c55e0b6a0de72225dcbb",
+    "key": "continuation_persistent",
+    "name": "continuation_persistent_short_v1",
+    "source_phase": 24,
+    "classification": "PORTABLE_WITH_ASSET_DATA_GATE",
+    "requirement": "MICRO_WARMUP",
+    "scientific_verdict": null,
+    "feature_version": "microdir_features_v1"
+  },
+  {
+    "hypothesis_id": "eventhyp_v1_2e7602d4b3bce745eb03b8f073abfc936148db62891360f0005e83100aa10dfc",
+    "key": "venue_disruption",
+    "name": "venue_disruption_immediate_v1",
+    "source_phase": 30,
+    "classification": "CORE_ONLY",
+    "requirement": "FROZEN_EVENT_ASSET_MAPPING",
+    "feature_version": "paper_nimble_event_v1"
+  },
+  {
+    "hypothesis_id": "eventhyp_v1_18f5cc1cc3438ce6e1c38c9485e80b984b83b1176bf9dc52e0ac5f78c9f8faba",
+    "key": "venue_disruption",
+    "name": "venue_disruption_confirmed_v1",
+    "source_phase": 30,
+    "classification": "CORE_ONLY",
+    "requirement": "FROZEN_EVENT_ASSET_MAPPING",
+    "feature_version": "paper_nimble_event_v1"
+  },
+  {
+    "hypothesis_id": "eventhyp_v1_6c05496f3f3de01d531e395f5c41a8a8f59879c3ef499064af54ba0b0b4a468a",
+    "key": "protocol_stress",
+    "name": "protocol_stress_immediate_v1",
+    "source_phase": 30,
+    "classification": "CORE_ONLY",
+    "requirement": "FROZEN_EVENT_ASSET_MAPPING",
+    "feature_version": "paper_nimble_event_v1"
+  },
+  {
+    "hypothesis_id": "eventhyp_v1_4ed381762e6c23442d3f96a3601d104b820a90cb5166d77454c6491ba47d633c",
+    "key": "protocol_stress",
+    "name": "protocol_stress_confirmed_v1",
+    "source_phase": 30,
+    "classification": "CORE_ONLY",
+    "requirement": "FROZEN_EVENT_ASSET_MAPPING",
+    "feature_version": "paper_nimble_event_v1"
+  },
+  {
+    "hypothesis_id": "eventhyp_v1_71e29e619ed3413f528ccf76d5d82fe14647d262e03b23bec23b5d07d8363b88",
+    "key": "sec_spot_etf_approval_surprise",
+    "name": "sec_spot_etf_approval_surprise_immediate_v1",
+    "source_phase": 30,
+    "classification": "CORE_ONLY",
+    "requirement": "FROZEN_EVENT_ASSET_MAPPING",
+    "feature_version": "paper_nimble_event_v1"
+  },
+  {
+    "hypothesis_id": "eventhyp_v1_5fe63ecd1111d82541f304c39e474fbf31cec9006bffd645823f49e6365596b0",
+    "key": "sec_spot_etf_approval_surprise",
+    "name": "sec_spot_etf_approval_surprise_confirmed_v1",
+    "source_phase": 30,
+    "classification": "CORE_ONLY",
+    "requirement": "FROZEN_EVENT_ASSET_MAPPING",
+    "feature_version": "paper_nimble_event_v1"
+  }
+]

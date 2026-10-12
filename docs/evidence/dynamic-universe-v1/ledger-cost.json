@@ -1,0 +1,15 @@
+{
+  "policy_id": "universepolicy_5f88b1dcdf20d7d19047edffab329076d7a63936f8c0916c21ffc83bcf4d56ff",
+  "markets": 539,
+  "light_assets": 30,
+  "cpu_seconds": 0.8039701539999999,
+  "wall_seconds": 0.7422965139994631,
+  "db_selects": 162,
+  "db_mutations": 2,
+  "payload_bytes": 60188,
+  "uncompressed_bytes": 1373668,
+  "peak_rss_mib": 195.56640625,
+  "stage": "RANKING ONLY",
+  "note": "Empty scratch data history; real readiness reasons and 34 portability entries. No production, network, backfill or warmup claim. Store startup/migration excluded.",
+  "scratch_db_bytes_with_all_empty_schemas": 5779456
+}

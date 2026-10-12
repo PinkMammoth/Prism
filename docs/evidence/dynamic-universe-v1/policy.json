@@ -1,0 +1,71 @@
+{
+  "policy_id": "universepolicy_5f88b1dcdf20d7d19047edffab329076d7a63936f8c0916c21ffc83bcf4d56ff",
+  "definition": {
+    "version": "hyperliquid_dynamic_universe_v1",
+    "normalization_version": "finite_cross_section_midrank_missing_zero_v1",
+    "movement_version": "prospective_10m_log_rv_elapsed_scaled_1h_v1",
+    "portability_version": "hyperliquid_satellite_portability_v1",
+    "transition_version": "consecutive_rank_dwell_risk_override_v1",
+    "cost_version": "depth_impact_conservative_v1",
+    "candidate_cap": 30,
+    "satellite_cap": 6,
+    "rich_satellite_cap": 6,
+    "cadence_seconds": 600,
+    "stale_seconds": 180,
+    "listing_days": 7,
+    "volume_usd_min": 5000000,
+    "oi_usd_min": 2000000,
+    "spread_bps_max": 15,
+    "depth_usd_min": 25000,
+    "trades_per_minute_min": 2,
+    "promotion_rank": 6,
+    "demotion_rank": 10,
+    "promotion_evaluations": 3,
+    "demotion_evaluations": 6,
+    "minimum_dwell_seconds": 21600,
+    "score_min": 0.35,
+    "movement_cost_multiple": 3,
+    "fee_bps": 4.5,
+    "reference_notional_usd": 100,
+    "slippage_floor_bps": 3,
+    "light_observations": 7,
+    "light_max_gap_seconds": 900,
+    "micro_prior_windows": 288,
+    "micro_history_days": 7,
+    "technical_history_days": 45,
+    "positioning_observations": 2,
+    "positioning_max_history_minutes": 140,
+    "funding_max_age_minutes": 80,
+    "size_decimals_max": 8,
+    "budget_minimum_runway_days": 30,
+    "budget_max_age_seconds": 86400,
+    "budget_cpu_seconds_per_minute_max": 30,
+    "outcome_minutes": [
+      15,
+      30,
+      60,
+      120,
+      240
+    ],
+    "movement_weights": [
+      0.5,
+      0.3,
+      0.2
+    ],
+    "participation_weights": [
+      0.4,
+      0.3,
+      0.3
+    ],
+    "positioning_weights": [
+      0.5,
+      0.3,
+      0.2
+    ],
+    "blend_weights": [
+      0.45,
+      0.35,
+      0.2
+    ]
+  }
+}

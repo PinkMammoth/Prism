@@ -43,6 +43,7 @@ def _register_optional() -> None:
         "micro_cmds",
         "paper_v2_cmds",
         "paper_nimble_cmds",
+        "universe_cmds",
     ):
         try:
             m = importlib.import_module(f"market_signal.cli.{mod}")

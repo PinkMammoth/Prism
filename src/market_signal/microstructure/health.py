@@ -115,6 +115,16 @@ def evaluate(store: Store | None, spool: Spool, now: datetime | None = None) -> 
     if store is not None:
         cov = coverage(store, now)
         recent = coverage(store, now, minutes=GAP_WINDOW_MIN)
+        status = col["status"] or {}
+        dynamic = status.get("dynamic_universe", False)
+        if dynamic:
+            from market_signal.universe.policy import CORE
+
+            required = set(CORE) | set(status.get("coins", {}))
+            if len(cov):
+                cov = cov[cov.coin.isin(required)]
+            if len(recent):
+                recent = recent[recent.coin.isin(required)]
         for r in cov.itertuples():
             if r.newest_age_min is not None and r.newest_age_min * 60 > INGEST_LAG_S:
                 issues.append(f"{r.coin}: newest stored minute is {r.newest_age_min:.0f} min old")
@@ -126,6 +136,19 @@ def evaluate(store: Store | None, spool: Spool, now: datetime | None = None) -> 
         if dup:
             issues.append(f"{dup} duplicate minute keys stored in the last 2 days (ingest bug)")
         for r in recent.itertuples():
+            # Re-entry GAP rows remain evidence, but paused collection is not a feed failure.
+            # Current feature availability still requires exact COMPLETE history/windows.
+            if dynamic:
+                from market_signal.universe.policy import CORE
+
+                first = status.get("coins", {}).get(r.coin, {}).get("first_minute")
+                if (
+                    r.coin not in CORE
+                    and first
+                    and (pd.Timestamp(now or utcnow()) - pd.Timestamp(first)).total_seconds()
+                    < GAP_WINDOW_MIN * 60
+                ):
+                    continue
             total = sum(getattr(r, s) for s in d.STATUSES) + r.MISSING
             bad = total - r.COMPLETE
             if total >= 30 and bad / total > GAP_FRACTION_ALERT:

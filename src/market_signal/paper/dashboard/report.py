@@ -21,6 +21,7 @@ SYSTEMS = {"v2": "Paper v2 fixed-horizon baseline", "nimble": "paper_nimble_v1"}
 COHORTS = {
     "v2": SYSTEMS["v2"],
     "nimble": "Nimble · original",
+    "dynamic": "Nimble · dynamic universe v1",
     "event_immediate": "Nimble events · immediate",
     "event_confirmed": "Nimble events · confirmed",
 }
@@ -105,6 +106,8 @@ def runs(con) -> list[dict[str, Any]]:
             definition = _json(run["definition"])
             variant = definition.get("event_variant")
             cohort = "event_" + variant if system == "nimble" and variant else system
+            if definition.get("version") == "paper_nimble_dynamic_v1":
+                cohort = "dynamic"
             policy = (
                 con.execute(
                     "SELECT definition FROM paper_v2_policies WHERE policy_id=?",
@@ -272,6 +275,7 @@ def normalize(record, run) -> dict[str, Any]:
     event = p.get("event_entry") or {}
     p.update(
         cohort=run["cohort"],
+        universe_cohort=p.get("universe_cohort", "CORE"),
         source_phase=hypothesis.get("source_phase"),
         execution_component="event" if hypothesis.get("source_phase") == 30 else "original",
         event_id=event.get("state", {}).get("event_id"),
@@ -347,6 +351,8 @@ def normalize(record, run) -> dict[str, Any]:
         "cohort",
         "source_phase",
         "execution_component",
+        "universe_cohort",
+        "universe_context",
         "event_id",
         "event_class",
         "entry_variant",
@@ -570,6 +576,7 @@ class Report:
             "hypothesis_id",
             "family",
             "asset",
+            "universe_cohort",
             "side",
             "execution_component",
         }:

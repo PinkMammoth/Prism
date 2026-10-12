@@ -39,8 +39,41 @@ class LatestBooks:
                 mark=mark,
                 oracle=oracle,
             )
+            from market_signal.universe.policy import CORE
+
+            if coin not in CORE and mark and len(ev) >= 10:
+                self.contexts[coin]["impact_bps"] = max(
+                    (abs(x / mark - 1) * 10000 for x in ev[8:10] if x), default=0
+                )
         elif ev[0] == "X":
             self.books.clear()  # old connection quotes must not survive a disconnect
+
+    def feed_book(self, data, recv):
+        """Satellite nearby-depth lower bound from the actual public quote snapshot."""
+        from market_signal.universe.policy import CORE
+
+        coin = data["coin"]
+        if coin in CORE:
+            return
+        bids, asks = data["levels"]
+        if not bids or not asks:
+            self.books.pop(coin, None)
+            return
+        bid, ask = float(bids[0]["px"]), float(asks[0]["px"])
+        depth = min(
+            sum(float(x["px"]) * float(x["sz"]) for x in bids if float(x["px"]) >= bid * 0.999),
+            sum(float(x["px"]) * float(x["sz"]) for x in asks if float(x["px"]) <= ask * 1.001),
+        )
+        self.books[coin] = dict(
+            asset=coin,
+            at=timestamp(int(data["time"])),
+            received_at=timestamp(recv),
+            bid=bid,
+            ask=ask,
+            depth_usd=depth,
+            session_id=self.session_id,
+            kind="live_book",
+        )
 
     def publish(self, now_ms):
         payload = {
