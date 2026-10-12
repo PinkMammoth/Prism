@@ -13,8 +13,15 @@ revision at 11:33:30 UTC. Preflight: authoritative `railway-prism-runtime`, sche
 99.17–99.24% complete minutes over the preceding day. Six baseline coins only;
 Dynamic Universe stage remains off. Runtime CPU work is unchanged.
 
-Additional archive tooling deployment and post-offload inventory are recorded below
-when independently confirmed. GitHub authentication is unavailable; exact release
+Archive release **`8f9bc3473142eb6b8a5ea54a3987db8ef2bcb0cf`** was deployed as
+Railway deployment **`895a0a0c-113f-4616-9772-bd29420ba91f`**, created
+**2026-10-12T12:44:35.650Z**. Railway status is SUCCESS and `/app/REVISION`
+confirms the exact release. Gateway running/worker running, backlog 0, retry errors 0,
+alerts none. Post-restart microstructure healthy with no warnings/issues, complete
+minutes 99.10–99.17%; two missing minutes are visible in the 24h report after normal
+deployment restart. No market-data quality definitions were changed. Collectors,
+supercronic and one backup cron are confirmed running. Source data gathering
+continues; no source polling changes were deployed. GitHub authentication is unavailable; exact release
 history is preserved locally in `data/storage-retention-release.bundle` and the
 storage archive release bundle. Deployment uses a committed `git archive`, excluding
 unrelated dirty workspace code and all local data/secrets.
@@ -55,7 +62,7 @@ bounds; churn between samples can be missed.
 A prior exact inventory at **08:47:29 UTC** plus new inventories at 11:56:14 and
 12:20:42 UTC provide a **3h33m** bounded physical window. The 24-hour hourly sampler
 was started at 12:20:42 UTC, capped at 25 samples; completion is not claimed yet.
-Existing verified DB snapshots cover **23h18m38s**, and retained provider files
+Existing verified DB snapshots cover **24h32m25s** (four snapshots), and retained provider files
 supply seven complete captured-day observations. These are explicitly different
 measurements; no steady-state forecast is claimed.
 
@@ -94,6 +101,7 @@ or compacted. Only the ordinary pre-deployment backup checkpoint occurred.
 | Oct 11 12:11:22 | 624,177,152 | 1,862 | 580 | 262,144 |
 | Oct 12 08:37:38 | 906,768,384 | 2,452 | 1,100 | 262,144 |
 | Oct 12 11:30:00 | 960,770,048 | 2,495 | 1,178 | 262,144 |
+| Oct 12 12:43:47 | 968,110,080 | 2,599 | 1,174 | 262,144 |
 
 Occupied-block increase implies **181,622,439 bytes/day** over 20.44 hours and
 **94,171,088 bytes/day** over the recent 2.87 hours. File-size increases were larger;
@@ -109,8 +117,14 @@ This is the largest attributable growing table data allocation. The first 191 bl
 are about 50.1 MB, not all 154.7 MB of occupied growth: indexes and metadata remain
 unassigned and blocks may be shared. Trigger receipts grow about 26,600/day and
 microstructure minute rows about 8,630/day. Some tables (macro history and most bar
-history) hardly change. This is real retained row/data growth plus reusable/checkpoint
-space, not solely a file-size artifact. No paper evidence or payload definitions changed.
+history) hardly change. The fourth snapshot adds 936 opportunities and ten table data blocks in 1.23 hours.
+Its occupied-block proxy jumps at **532,080,670 bytes/day**, despite only 7.34 MB
+file growth. Across the full 24.54 hours the occupied proxy is 188,946,642 bytes/day;
+the median of the three interval proxies is 181,622,439. These counters include
+indexes/allocator behavior, and PRAGMA database_size does not exactly equal OS file
+size. The short proxy jump is not proof of that much permanent row growth. This is
+real retained row/data growth plus reusable/checkpoint/index allocation behavior,
+not solely a file-size artifact. No paper evidence or payload definitions changed.
 
 ## Provider archives: exact source attribution
 
@@ -170,8 +184,19 @@ Engine.replay, emitting 366 records with an explicit fresh start seed. This exer
 read/replay capability, not exact historical reconstruction without preceding state
 and calibration. A consumed spool hour (350 records/602,187 bytes) passes complete
 Spool.read_lines; calibration histogram passes the existing threshold reader. Full
-microstructure regression/restart/revision tests pass. Exact rates and consumed versus
-pending sizes are added to the final measured inventory below.
+microstructure regression/restart/revision tests pass. Exact normal complete-day rates: Oct 11 raw **36,419,783 gzip bytes/24 files**
+(36,544,512 allocated); spool **14,309,586 bytes/24 files** (14,458,880 allocated).
+Four complete spool days range **14,071,337–15,771,220 bytes/day**. Calibration
+completed days are 14,056–18,178 bytes/day. The short interval raw rate 43.87 MB/day
+is higher than the last complete day. Normal peaks at these rates are approximately
+88 MB raw/two calendar days and 142 MB spool/nine calendar days, with calibration
+under 0.25 MB; these are sensitivities, not observed future peaks. An ingest outage
+can expand spool past that bound. As of the verified 12:43:47 recovery boundary,
+114 of 115 spool files were fully committed at the 12:45:51 file sizes, 70,648,197
+bytes committed and at most 40,133 bytes not committed at that snapshot. The current
+12.jsonl file is active/protected. DB contains 41,277 revision-zero minute rows and
+three revision-one rows. Consumed files remain required for calibration/revision
+context until the existing watermark/day policy permits expiry; no v1 deletion.
 
 ## A/B/C classification and explicit eligibility
 
@@ -263,7 +288,37 @@ occupied growth is 94.2 MB/day of authoritative data; maintaining a full recover
 and safe next-copy headroom compounds capacity requirements. Raw archival alone
 cannot make evidence growth disappear. Previous 13.4/22.7 GB/month numbers remain
 historical sensitivities; new bounded observations are not proven steady-state rates.
-Final scenario inputs/results are stored in `runway.json` below. No storage upgrade,
+Final scenario inputs/results are stored in `runway.json`. At 12:53:05 UTC,
+free space is **2,596,896,768 bytes**. Reserves: next backup 968,110,080;
+checkpoint/copy overhead 193,622,016; additional raw/spool/log/receipt reserve
+268,435,456; filesystem comfort 241,924,915 bytes. Spendable after reserves:
+**924,804,301 bytes**.
+
+Expected sensitivity uses median occupied proxy **181,622,439 bytes/day** plus
+18,042,880 provider allocated bytes/day. Conservative repeats the higher short
+proxy **532,080,670** plus the largest retained captured-day provider burst
+54,460,416 (including a bootstrap day). Future growth multiplies by **3.2**: live
+DB + retained full backup + next backup reserve + 20% overhead. Micro/log normal
+bounded growth is covered by the operational reserve; ingest outage invalidates it.
+No automatic provider deletion or free-block capacity credit is assumed.
+
+Comfortable runway sensitivities are **0.53 days conservative**, **1.54 days
+expected**. These are **not proven disk-exhaustion forecasts**: reusable blocks,
+index/checkpoint behavior and batch timing can substantially change allocation.
+There is safe room for the next backup now; 30 days is not demonstrated. Even the
+lower recent occupied rate and proven table data growth do not justify declaring
+the current volume storage-safe.
+
+Indicative capacity: 22.79 GB measured filesystem for 30 days expected; 41.71 GB
+for 60 days expected; **59.35 GB for 30 days conservative**. Allowing filesystem
+metadata and rounding suggests **65 GB provisioned** for the conservative stress
+case, which also exceeds the 60-day expected requirement. This is a conservative
+sensitivity-based planning size, not a measured steady-state minimum. Volume
+usage at 65 GB fully consumed would be at most **$9.75/month**, or **$9/month**
+above 5 GB fully consumed, excluding unchanged CPU/RAM/egress/subscription costs.
+Billing is actual used volume bytes; unused provisioned capacity is not billed.
+Existing account resize/plan entitlement must be checked before any paid action.
+More hourly observations are required before using the stress case as a forecast. No storage upgrade,
 plan change, purchase, CPU optimization or semantic reduction is authorized/performed.
 Railway documents $0.15/GB-month volume usage and $0.05/GB egress; subscription credits
 and actual consumed bytes affect billing, not simply provisioned capacity. Sources:
@@ -287,8 +342,9 @@ three non-overlapping completion runs. Archive/recovery/provider/runtime/dashboa
 discovery regression run: 349 passed plus one environment-dependent fixture failure
 (process permissions). Fixture process scan was isolated; all 26 focused archive/
 attribution tests then passed, including the failed case and added protections.
+The union has **353 unique relevant cases with passing results and none unverified**.
 This is not a claim that the initial 350-case run was green. Repository-wide Ruff
-and formatting (439 Python files), shell syntax and diff checks pass.
+and formatting (440 Python files), shell syntax and diff checks pass.
 
 Tests cover backup global rotation, scheduler policy, local dashboard snapshots,
 physical attribution, ledger/context references, UTC/subsecond cutoffs, manifests,
@@ -298,7 +354,16 @@ logs, DB-only context restart with historical raw removed, and discovery compati
 
 For code rollback, deploy the exact retained retention release `15d9eb495e37033ebf40a7fbcce6ec76a162b0f6`
 from its Git bundle using the project-pinned deployment script; this preserves corrected
-retention. Avoid rolling back to the older rolling-backup implementation. Core schema
+retention. From the repository root:
+
+```sh
+git clone data/storage-retention-release.bundle /tmp/prism-storage-rollback
+cd /tmp/prism-storage-rollback
+PRISM_RAILWAY_PROJECT=3c479387-0ddf-40a5-b065-52e49cf3e2cd \
+  deploy/railway/deploy.sh 15d9eb495e37033ebf40a7fbcce6ec76a162b0f6
+```
+
+The normal pre-deploy backup guard and verified-export retention still apply. Avoid rolling back to the older rolling-backup implementation. Core schema
 is unchanged, so no DB rollback is required for the operator tooling.
 
 For historical raw restoration, verify artifact SHA against its `.manifest.json`,
@@ -315,3 +380,64 @@ DB per `docs/OPERATIONS.md` recovery procedure, retain authority metadata, and v
 all-table restore fingerprints, preflight, offsets/watermark, collector restart and
 paper receipts before resuming. Preserve the damaged DB/WAL separately for diagnosis.
 Raw archived files and their receipts remain available to extend recovery/replay.
+
+
+## Final cleanup and working set
+
+Provider apply ran **12:41:05.719174–12:41:57.358387 UTC**: exactly **6,255 files**,
+**98,233,925 gzip bytes** and **117,596,160 allocated bytes** removed only after
+verified export/read and complete dry-run. All 6,255 copies remain byte-identical
+off-host: 5,572 envelope files and 683 bundles. There are **12,510** fsynced intent/
+completion audit entries, 16,421,762 bytes, SHA
+`bae37e49c0356291157745605ee62ff210be9a5be8ee266f638b96e784d6676b`.
+The audit was also copied off-host, checksum matched against production, compressed
+to 1,023,057 bytes and parsed; every intent has its exact paired completion. It remains
+on Railway. Raw allocation saving less new audit allocation is about **101.2 MB**,
+not the entire logical export size as free-space gain.
+
+Two old recovery copies were rotated in this phase, gross **1,867,538,432 bytes/two
+files**, each already checksum/full-restore verified off-host. Their two replacements
+mean this is not 1.87 GB of net free-space saving. Current backup is exactly one:
+`/data/backups/manual/prism-20261012T124347Z-pre-deploy-8f9bc3473142.duckdb`,
+**968,110,080 bytes**, SHA
+`49546a1898ac3475cc8af94bbe1d873b7df996e74b38ac3503ce00084eed8b55`.
+It is full/schema 30, compatible with deployed code and verified off-host; no rollback
+pin exists. Pre-deploy backup creation independently exercised the new policy and
+pruned one eligible old copy without recreating a weekly set.
+
+| Logical bytes | Before 08:47:29 UTC | After 12:53:05 UTC |
+|---|---:|---:|
+| Authoritative DB | 901,525,504 | 959,197,184 |
+| One recovery backup | 906,768,384 | 968,110,080 |
+| Provider raw | 219,627,192 | 133,948,861 |
+| Microstructure raw | 52,536,100 | 60,650,156 |
+| Microstructure spool | 68,181,365 | 70,777,425 |
+| Calibration | 80,342 | 80,342 |
+| Journals/receipts/state | 1,255,851 | 17,707,065 |
+| Logs | 6,929,009 | 7,116,138 |
+| Evidence exports | 12,397 | 12,397 |
+| Backup metadata | 199,597 | 245,323 |
+| Temporary files | 63 | 63 |
+| Filesystem available | 2,639,220,736 | 2,596,896,768 |
+
+Files continue to grow during the operation; net free space fell 42,323,968 bytes
+across this four-hour phase despite safe raw offload. All exact allocated sizes/file
+counts are in `before-after.json`. Current provider working set: **1,556 files**,
+137,355,264 allocated bytes. It retains protected latest runs, the dormant Binance
+bundle, unmatched history, failed/rejected evidence, two invalid RSS responses and
+new captures beyond the recovery cutoff. These exceptions have no arbitrary age expiry.
+Current raw/spool are 37/115 files, calibration five, logs three, evidence exports two.
+No scientific evidence, raw microstructure journal, consumed spool or calibration was
+deleted by this workflow. Ordinary existing collector expiry remains unchanged.
+
+The post-offload full recovery snapshot restores without original provider files on
+Railway; existing context last_state readers successfully return state for all nine
+context providers from that restored DB, and the DB SHA remains unchanged. Actual
+production restart/preflight/gateway/collector health passed with older files absent.
+
+Evidence: `docs/evidence/storage-growth-attribution/`. Full manifests/artifacts are
+under `data/backup-archive/`, not committed into Git. Review production revision,
+backup inventory, complete apply/dry-run outputs, verified export summary, deletion
+audit digest, read/replay evidence, before/after inventory, DB snapshots, runway and
+test XML/summary. Hourly samples remain under `data/storage-growth-window/`; do not
+claim a completed 24h physical window until those samples exist.
