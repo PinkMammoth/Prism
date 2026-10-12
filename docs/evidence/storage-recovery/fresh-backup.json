@@ -1,0 +1,20 @@
+{
+  "path": "/data/backups/manual/prism-20261012T083738Z-storage-recovery-20261012.duckdb",
+  "sha256": "08bf19fb13e020f3db2cc314cfc7616453d7b29b7bcca6204351bd9212608e92",
+  "bytes": 906768384,
+  "schema_version": 30,
+  "paper_runs": [
+    {
+      "run_id": "paperrun_27b0a336e707c389a3fb574cd9d09a7800b563f0691612bf4fb4f1fd97029279",
+      "event_count": 12,
+      "last_event": {
+        "seq": 12,
+        "event_id": "paperevt_15f65540b2e8cef70023b77f593a869c0cf8643c294e5f2fa86134424f06af3e",
+        "event_type": "status_changed"
+      },
+      "latest_snapshot_id": "papersnap_37d668beb3a21d0a4d3c43513f01d624eac4a9c82be345788e8e286867818f91"
+    }
+  ],
+  "weekly": null,
+  "pruned": []
+}

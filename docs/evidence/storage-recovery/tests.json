@@ -1,0 +1,30 @@
+{
+  "unique_regression_cases": 1449,
+  "unique_cases_with_passing_results": 1449,
+  "unverified_cases": [],
+  "first_restricted_run_passed": 1248,
+  "completion_run": {
+    "passed": 208,
+    "initial_failure": "old intraday BACKUP_KEEP dictionary assumption; corrected",
+    "cases": 209
+  },
+  "intraday_corrected_module": {
+    "passed": 30
+  },
+  "focused_backup_runtime_dashboard": {
+    "passed": 50
+  },
+  "final_lifecycle_hardening": {
+    "passed": 13
+  },
+  "creator_provenance_tests": {
+    "passed": 2
+  },
+  "sandbox_limitations": [
+    "Two websocket tests could not bind 127.0.0.1; passed outside sandbox.",
+    "Threaded HTTP TestClient hung in the sandbox; a matched case passed outside it in 0.46s, and all incomplete cases were completed outside it."
+  ],
+  "production_deployment_changed": false,
+  "dynamic_stage": "off",
+  "new_paid_storage_added": false
+}

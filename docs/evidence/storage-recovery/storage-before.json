@@ -1,0 +1,59 @@
+{
+  "categories": {
+    "full recovery backups": {
+      "logical_bytes": 2806599680,
+      "allocated_bytes": 2806624256,
+      "files": 7
+    },
+    "evidence exports / baselines": {
+      "logical_bytes": 1089876,
+      "allocated_bytes": 1110016,
+      "files": 9
+    },
+    "source journals / receipts / state": {
+      "logical_bytes": 171479,
+      "allocated_bytes": 405504,
+      "files": 79
+    },
+    "temporary files": {
+      "logical_bytes": 63,
+      "allocated_bytes": 4096,
+      "files": 1
+    },
+    "logs": {
+      "logical_bytes": 6915935,
+      "allocated_bytes": 6926336,
+      "files": 3
+    },
+    "state / metadata / locks": {
+      "logical_bytes": 86484,
+      "allocated_bytes": 118784,
+      "files": 13
+    },
+    "microstructure raw": {
+      "logical_bytes": 52042584,
+      "allocated_bytes": 52207616,
+      "files": 33
+    },
+    "microstructure spool": {
+      "logical_bytes": 67888981,
+      "allocated_bytes": 68579328,
+      "files": 111
+    },
+    "authoritative live DB": {
+      "logical_bytes": 921448448,
+      "allocated_bytes": 921452544,
+      "files": 1
+    },
+    "provider raw archives": {
+      "logical_bytes": 219604692,
+      "allocated_bytes": 241520640,
+      "files": 7544
+    }
+  },
+  "free_bytes": 720523264,
+  "total_bytes": 4838498304,
+  "live_db_bytes": 921448448,
+  "backup_bytes": 2806599680,
+  "regular_file_allocated_bytes": 4098949120
+}

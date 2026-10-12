@@ -1,0 +1,10 @@
+{
+  "collected_latest": 1447,
+  "completed_passed_first_run": 1248,
+  "sandbox_failed_first_run": [
+    "tests/test_microstructure.py::test_runner_reconnects_and_resubscribes[drop] ",
+    "tests/test_microstructure.py::test_runner_reconnects_and_resubscribes[silent] "
+  ],
+  "remaining_including_new_cases": 199,
+  "reason_for_completion_rerun": "Restricted sandbox stalls threaded HTTP TestClient; matched case passes outside sandbox."
+}

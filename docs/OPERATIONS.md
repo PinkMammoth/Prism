@@ -158,10 +158,11 @@ These are infrastructure only, not trading policy.
 - Critical: the job does **not run** (exit 3), a "PRISM INFRA" Telegram alert is sent, and
   the heartbeat gets `/fail`. **Nothing is ever deleted** in response to low disk.
 - A backup refuses to start unless the copy fits above the critical line.
-- Logs cannot fill the disk: Railway retains stdout, and the file log rotates at 5 × 5 MB.
+- Logs cannot fill the disk: Railway retains stdout, and the file log has one current 5 MiB file plus five rotated copies (30 MiB maximum).
 - Railway also has native usage alerts on the volume at 80%, 95% and 100%, independent of
   Prism. The volume is 5 GB (Hobby plan: fixed; resizing needs Pro). If backups approach the
-  warning line, upgrade and grow it, or reduce `BACKUP_KEEP` further.
+  warning line, inventory physical duplication and verified off-host archives first. Do not
+  purchase capacity automatically; see [storage recovery](STORAGE_RECOVERY.md).
 
 ## Backups
 
@@ -173,14 +174,25 @@ These are infrastructure only, not trading policy.
 - **Verified every time:** the copy is opened read-only, and its schema version, paper run,
   ledger head, latest snapshot and every evidence-table digest must equal the live database
   at copy time. A `backup_verified` runtime event records the path, sha256 and size.
-- **Retention:** daily 3, weekly 2 (a hard link to the daily copy, taken at most once per
-  ~week), manual 3 (reduced 2026-10-07 from 7/5/6: the Railway Hobby volume is fixed at
-  5 GB and Phase 24A microstructure grows the database ~0.14 GiB/month). Pruning touches only
-  `backups/*/prism-*.duckdb` and never the live file. At most 8 copies, usually ~6. Intraday bars live in the database, so they are in every backup
-  (~18 B per bar; see docs/INTRADAY.md for the footprint). Raw provider archives
-  (`/data/raw`, including `*_intraday/`) are provenance and are not copied into backups.
-- **Off-host copy:** `deploy/railway/pull_backup.sh` (home PC) downloads the newest daily
-  backup, checks its sha256 against the server, and verifies it.
+- **Retention implementation:** one newest verified full backup globally, across daily/manual/weekly
+  directories. A named second copy requires a documented pre-migration rollback benefit. Older
+  copies are eligible for deletion only after checksum-matched, restore-tested off-host export.
+  The implementation refuses a third local full copy pending archive/retention. It does not
+  delete raw/spool/evidence or failed copy fragments. See [storage recovery](STORAGE_RECOVERY.md)
+  for dry-run commands, pin/release workflow and exact production cleanup evidence.
+  This integration is implemented locally and **not yet deployed** over `f30040c`; that
+  revision still has the legacy 3 daily / 2 weekly / 3 manual pruning code. The task removed
+  its accumulated copies safely and retained one fresh verified recovery copy. Continue
+  explicit off-host export/retention until the integration is deployed.
+- **Scope:** full DB copies include intraday bars, research snapshots and paper ledgers.
+  External `/data/raw` and microstructure raw/spool directories are not included. Off-host
+  DB recovery does not imply complete external event-journal recovery after volume loss.
+- **Off-host copy:** `deploy/railway/pull_backup.sh DESTINATION` (local PC) selects the newest
+  existing snapshot, downloads through compressed read-only SSH, verifies logical/artifact
+  checksums, decompression and all-table readability, and writes a provenance manifest.
+  Default destination is `data/backup-archive`; archives use `.duckdb.gz` and never overwrite
+  the active DB. `scripts/backup_archive.py DESTINATION --all --retain` preserves history and
+  previews cleanup; `--apply-retention` explicitly applies eligible cleanup after export.
 - **Restore rehearsal:** `market ops restore-test <backup>` copies to a temporary scratch dir,
   opens it writable as `scratch` (as a restore would), compares, and deletes it. Production is
   never the target of a test restore.
@@ -208,7 +220,7 @@ railway ssh --service prism-runtime -- market ops preflight   # revision, role, 
 railway ssh --service prism-runtime -- market lab paper status
 railway ssh --service prism-runtime -- tail -n 200 /data/logs/runtime.log
 railway logs --service prism-runtime                          # platform log stream
-deploy/railway/pull_backup.sh && uv run market --db data/remote/<file> status   # local copy
+deploy/railway/pull_backup.sh data/backup-archive  # verified compressed local archive + manifest
 ```
 
 `market status` keeps the strategy rows (Data, OI, Forward, Co-pilot, Paper) separate from the

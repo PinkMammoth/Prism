@@ -1,0 +1,85 @@
+{
+  "measured_at": 1791794849.003488,
+  "free_bytes": 2639220736,
+  "active_db_bytes": 901525504,
+  "retained_full_backups": 1,
+  "backup_headroom_required_now_bytes": 1323755520.0,
+  "raw_spool_total_reserve_bytes": 429967898.79753506,
+  "current_micro_allocated_bytes": 121577472,
+  "additional_raw_spool_reserve_bytes": 308390426.79753506,
+  "additional_log_reserve_bytes": 24514560,
+  "comfortable_budget_bytes": 982560229.2024649,
+  "recent_baseline_bytes_per_day": 331845743.7860172,
+  "baseline_measurement_seconds": 73576.0,
+  "gate": "BLOCKED",
+  "scenarios": [
+    {
+      "name": "expected measured-growth sensitivity",
+      "baseline_db_bytes_per_day": 193986560,
+      "dynamic_db_bytes_per_day": 20061137.594033033,
+      "provider_archive_bytes_per_day": 17818965.333333332,
+      "unbounded_micro_bytes_per_day": 0,
+      "physical_growth_bytes_per_30_days": 13377430815.641981,
+      "comfortable_runway_days": 1.3981217119617337,
+      "comfortable_runway_months": 0.04660405706539113,
+      "exhaustion_runway_days": 5.172104676121515,
+      "required_filesystem_capacity_30_days_bytes": 25997011672.23653
+    },
+    {
+      "name": "conservative recent-growth sensitivity",
+      "baseline_db_bytes_per_day": 331845743.7860172,
+      "dynamic_db_bytes_per_day": 20061137.594033033,
+      "provider_archive_bytes_per_day": 54460416,
+      "unbounded_micro_bytes_per_day": 0,
+      "physical_growth_bytes_per_30_days": 22748225362.80301,
+      "comfortable_runway_days": 0.8322814608477871,
+      "comfortable_runway_months": 0.027742715361592903,
+      "exhaustion_runway_days": 3.041532751350785,
+      "required_filesystem_capacity_30_days_bytes": 41085143423.24459
+    },
+    {
+      "name": "conservative plus stalled spool retention",
+      "baseline_db_bytes_per_day": 331845743.7860172,
+      "dynamic_db_bytes_per_day": 20061137.594033033,
+      "provider_archive_bytes_per_day": 54460416,
+      "unbounded_micro_bytes_per_day": 108992749.39876752,
+      "physical_growth_bytes_per_30_days": 26018007844.766037,
+      "comfortable_runway_days": 0.7619373253743622,
+      "comfortable_runway_months": 0.025397910845812072,
+      "exhaustion_runway_days": 2.6592917063015102,
+      "required_filesystem_capacity_30_days_bytes": 44527019720.047775
+    },
+    {
+      "name": "optimistic: zero baseline DB growth",
+      "baseline_db_bytes_per_day": 0,
+      "dynamic_db_bytes_per_day": 20061137.594033033,
+      "provider_archive_bytes_per_day": 17818965.333333332,
+      "unbounded_micro_bytes_per_day": 0,
+      "physical_growth_bytes_per_30_days": 1738237215.6419818,
+      "comfortable_runway_days": 11.980307917158,
+      "comfortable_runway_months": 0.39934359723859997,
+      "exhaustion_runway_days": 39.804390248611874,
+      "required_filesystem_capacity_30_days_bytes": 6394159293.289165
+    },
+    {
+      "name": "dynamic-only: zero baseline and provider archive growth",
+      "baseline_db_bytes_per_day": 0,
+      "dynamic_db_bytes_per_day": 20061137.594033033,
+      "provider_archive_bytes_per_day": 0,
+      "unbounded_micro_bytes_per_day": 0,
+      "physical_growth_bytes_per_30_days": 1203668255.641982,
+      "comfortable_runway_days": 15.305715849189879,
+      "comfortable_runway_months": 0.5101905283063293,
+      "exhaustion_runway_days": 57.48217762806367,
+      "required_filesystem_capacity_30_days_bytes": 5831455124.868113
+    }
+  ],
+  "limits": [
+    "Growth measurements span retirement/deployments and DuckDB checkpoints; they are sensitivities, not stationary forecasts.",
+    "A verified full local copy and live DB each grow; backup creation needs transient headroom that grows with the live DB.",
+    "Provider journal rates are allocated bytes grouped by capture mtime; calendar partial days excluded.",
+    "Raw/spool reserve assumes existing retention works; additional stalled-retention sensitivity is explicit.",
+    "Capacity is usable filesystem bytes, not a request to purchase or a nominal Railway plan size.",
+    "No dynamic activation or new storage purchase was performed."
+  ]
+}

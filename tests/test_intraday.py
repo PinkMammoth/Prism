@@ -766,3 +766,36 @@ def test_migration_18_is_market_data_only():
                        "intraday_execution_shadow"]  # fmt: skip
     assert not any(t.startswith(("lab_", "copilot_", "paper_")) for t in created)
     assert "ALTER" not in ddl and "DROP" not in ddl  # existing tables untouched
+
+
+def test_capacity_estimate_tracks_optional_two_backup_policy(store, tmp_path, monkeypatch):
+    import json
+
+    from market_signal.ops import runtime as rt
+
+    root = tmp_path / "backups"
+    root.mkdir()
+    monkeypatch.setenv("PRISM_BACKUP_DIR", str(root))
+    total = 4 * 2**30
+    monkeypatch.setattr(rt, "disk_state", lambda p: rt.DiskState(str(p), total, int(0.9 * total)))
+    estimate = {"rows": 1000, "db_bytes": 40000, "raw_bytes": 60000}
+    one = ing.check_disk(store.path, estimate)
+    (root / "retention-policy.json").write_text(
+        json.dumps({"keep": 2, "previous": "rollback", "reason": "migration"})
+    )
+    two = ing.check_disk(store.path, estimate)
+    assert one["backup_copies"] == 1 and two["backup_copies"] == 2
+    assert two["projected_bytes"] - one["projected_bytes"] == estimate["db_bytes"]
+
+
+def test_capacity_guard_preserves_next_full_backup_headroom(tmp_path, monkeypatch):
+    from market_signal.ops import runtime as rt
+
+    db = tmp_path / "prism.duckdb"
+    with db.open("wb") as f:
+        f.truncate(900 * 2**20)
+    total = 4 * 2**30
+    monkeypatch.setattr(rt, "disk_state", lambda p: rt.DiskState(str(p), total, int(2.4 * 2**30)))
+    monkeypatch.setenv("PRISM_BACKUP_DIR", str(tmp_path / "backups"))
+    with pytest.raises(ing.DiskUnsafe, match="Required capacity"):
+        ing.check_disk(db, {"rows": 1000, "db_bytes": 500 * 2**20, "raw_bytes": 50 * 2**20})

@@ -1,0 +1,16 @@
+{
+  "keep": [
+    "/data/backups/manual/prism-20261012T083738Z-storage-recovery-20261012.duckdb"
+  ],
+  "removed": [
+    {
+      "path": "/data/backups/manual/prism-20261011T121122Z-pre-deploy-f30040c06f53.duckdb",
+      "sha256": "f5117485f3a2f9de86f3d2c907fb1b7b60ebc9cce4066b2b432dd5a9068609cc",
+      "bytes": 624177152,
+      "at": "2026-10-12T08:46:00.685315+00:00"
+    }
+  ],
+  "blocked": [],
+  "dry_run": false,
+  "second_backup_reason": null
+}

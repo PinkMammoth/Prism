@@ -322,15 +322,18 @@ def estimate(plans: list[Plan], cfg: IntradayConfig) -> dict[str, float]:
 def check_disk(db: Path, est: dict[str, float]) -> dict[str, Any]:
     """Refuse (before any write) when free space after the write, the database's growth
     multiplied across every retained backup copy, and the raw archive would leave less than the
-    runtime's WARNING free fraction. Deletes nothing."""
-    from market_signal.ops.runtime import BACKUP_KEEP, DISK_WARN, disk_state
+    runtime's WARNING free fraction or the next full-backup headroom. Deletes nothing."""
+    from market_signal.ops import backups
+    from market_signal.ops.runtime import DISK_CRITICAL, DISK_WARN, backup_dir, disk_state
 
     if str(db) == ":memory:":
         return {"checked": False}
     d = disk_state(db)
-    copies = sum(BACKUP_KEEP.values())
+    copies = backups.policy(backup_dir(db))["keep"]
     need = est["db_bytes"] * (1 + copies) + est["raw_bytes"]
-    floor = DISK_WARN * d.total
+    size = db.stat().st_size if db.exists() else 0
+    backup_headroom = 1.2 * (size + est["db_bytes"]) + DISK_CRITICAL * d.total
+    floor = max(DISK_WARN * d.total, backup_headroom)
     out = {"checked": True, "free": d.free, "total": d.total, "projected_bytes": need,
            "backup_copies": copies, "free_after": d.free - need, "floor": floor}  # fmt: skip
     if d.free - need < floor:

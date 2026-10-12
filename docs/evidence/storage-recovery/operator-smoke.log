@@ -1,0 +1,10 @@
+Verified off-host archive: /home/matth/prism/data/backup-archive/storage-recovery-20261012/prism-20261012T083738Z-storage-recovery-20261012.duckdb.gz; logical SHA256 08bf19fb13e020f3db2cc314cfc7616453d7b29b7bcca6204351bd9212608e92; restore passed
+{
+  "keep": [
+    "/data/backups/manual/prism-20261012T083738Z-storage-recovery-20261012.duckdb"
+  ],
+  "removed": [],
+  "blocked": [],
+  "dry_run": true,
+  "second_backup_reason": null
+}

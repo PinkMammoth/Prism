@@ -184,9 +184,9 @@ ALERT_STREAK = {"microdir_daily": 2, "paper_v2": 3, "paper_v2_funding": 3}
 STEP_TIMEOUT = float(os.environ.get("PRISM_STEP_TIMEOUT", str(45 * 60)))
 
 DISK_WARN, DISK_CRITICAL = 0.15, 0.05  # free fraction of the database filesystem
-# Reduced 2026-10-07 (was 7/5/6): every copy is a full database, the Railway Hobby volume is
-# fixed at 5 GB, and Phase 24A microstructure grows the database ~0.14 GiB/month.
-BACKUP_KEEP = {"daily": 3, "weekly": 2, "manual": 3}
+# One verified copy globally; a second needs an explicitly pinned rollback benefit.
+BACKUP_KEEP = 1
+BACKUP_KINDS = frozenset({"daily", "weekly", "manual"})
 
 EXIT_FAILED, EXIT_REFUSED, EXIT_DISK, EXIT_BUSY = 1, 2, 3, 75
 
@@ -770,12 +770,17 @@ def backup_live(db: Path, *, kind: str = "daily", label: str | None = None,
     matching its fingerprint. Then prune to the retention policy (only ``prism-*.duckdb``
     inside the backup directory; never the live file).
     """
-    if kind not in BACKUP_KEEP:
-        raise ValueError(f"backup kind must be one of {sorted(BACKUP_KEEP)}")
+    if kind not in BACKUP_KINDS:
+        raise ValueError(f"backup kind must be one of {sorted(BACKUP_KINDS)}")
     if not locked:
         with runtime_lock(db, f"backup:{kind}", wait):
             return backup_live(db, kind=kind, label=label, locked=True)
     root = backup_dir(db)
+    from market_signal.ops import backups
+
+    pending = backups.inventory(root, db)
+    if len(pending) >= 2:
+        raise RuntimeError("two recovery copies already present; export and retain before creating another full copy")
     size = db.stat().st_size
     disk = disk_state(db)
     if disk.free - 1.2 * size < DISK_CRITICAL * disk.total:
@@ -785,10 +790,11 @@ def backup_live(db: Path, *, kind: str = "daily", label: str | None = None,
     with _store(db) as s:
         s.con.execute("CHECKPOINT")
     stamp = utcnow().strftime("%Y%m%dT%H%M%SZ")
-    name = f"prism-{stamp}" + (
-        f"-{''.join(c for c in label if c.isalnum() or c in '-_')}" if label else ""
-    )
+    clean_label = "".join(c for c in (label or "") if c.isalnum() or c in "-_")
+    name = f"prism-{stamp}" + (f"-{clean_label}" if clean_label else "")
     dest = root / kind / f"{name}.duckdb"
+    if dest.exists() or any(p.is_symlink() for p in (dest, *dest.parents, dest.with_name(dest.name + ".part"))):
+        raise RuntimeError("unsafe or existing backup destination")
     with _store(db, read_only=True) as ro:
         wal = db.with_name(db.name + ".wal")
         if wal.exists() and wal.stat().st_size > 0:
@@ -798,14 +804,11 @@ def backup_live(db: Path, *, kind: str = "daily", label: str | None = None,
         expected = fingerprint(ro)
         _copy_atomic(db, dest)
     result = verify_backup(dest, expected)
+    backups.register(root, dest, db, origin=os.environ.get("RAILWAY_ENVIRONMENT_NAME", "local"),
+                     source_revision=revision(_root()) or "unknown")
     weekly = None
-    if kind == "daily":
-        wk = sorted((root / "weekly").glob("prism-*.duckdb"))
-        if not wk or (utcnow().timestamp() - wk[-1].stat().st_mtime) > 6.5 * 86400:
-            weekly = root / "weekly" / dest.name
-            weekly.parent.mkdir(parents=True, exist_ok=True)
-            os.link(dest, weekly)  # same bytes, no extra space while both exist
-    pruned = prune_backups(root)
+    # No weekly link set. Unexported history is blocked, never silently deleted.
+    pruned = prune_backups(root, active_db=db)
     with _store(db) as s:
         _event(s, "backup_verified", {**result, "kind": kind, "weekly": str(weekly) if weekly else None,
                                       "pruned": pruned})  # fmt: skip
@@ -873,17 +876,15 @@ def restore_test(path: Path, scratch: Path | None = None) -> dict:
             "paper_runs": [r["run_id"] for r in fp.get("paper_runs") or []]}  # fmt: skip
 
 
-def prune_backups(root: Path) -> list[str]:
-    removed = []
-    for kind, keep in BACKUP_KEEP.items():
-        files = sorted((root / kind).glob("prism-*.duckdb"))
-        for f in files[: max(len(files) - keep, 0)]:
-            f.unlink()
-            removed.append(str(f))
-        for part in (root / kind).glob("*.part"):  # an interrupted copy, never a backup
-            part.unlink()
-            removed.append(str(part))
-    return removed
+def prune_backups(root: Path, *, active_db: Path | None = None) -> list[str]:
+    from market_signal.ops import backups
+
+    result = backups.retain(root, active_db or root.parent / "prism.duckdb",
+                            **backups.policy(root), apply=True)
+    if result["blocked"]:
+        log.warning("backup retention blocked: off-host verified export required for %d copies",
+                    len(result["blocked"]))
+    return [r["path"] for r in result["removed"]]
 
 
 # --------------------------------------------------------------------------- health
@@ -942,7 +943,7 @@ def health_rows(store: Store, now: datetime | None = None) -> list[dict]:
         p = json.loads(b[1])
         rows.append({"component": "Backups (infra)", "state": "OK" if bh <= 26 else "STALE",
                      "detail": f"latest verified {bh:.1f}h ago: {Path(p['path']).name} "
-                               f"({p['bytes'] / 2**20:.0f} MiB); keep {BACKUP_KEEP}"})  # fmt: skip
+                               f"({p['bytes'] / 2**20:.0f} MiB); keep {BACKUP_KEEP} globally (optional pinned rollback)"})  # fmt: skip
     if me or role() == "":
         d = disk_state(store.path)
         rows.append({"component": "Disk (infra)",

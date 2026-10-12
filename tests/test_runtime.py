@@ -332,9 +332,10 @@ def test_backup_is_verified_versioned_and_recorded(paper_live):
     before = _fp(db)
     out = rt.backup_live(db, kind="daily")
     assert out["paper_runs"][0]["run_id"] == rid and Path(out["path"]).exists()
-    assert out["weekly"] and os.path.samefile(
-        out["path"], out["weekly"]
-    )  # hard link, no extra space
+    assert out["weekly"] is None  # one global recovery copy; no weekly set
+    manifest = json.loads(Path(out["path"] + ".manifest.json").read_text())
+    assert manifest["source_revision"] == (rt.revision(rt._root()) or "unknown")
+    assert manifest["source_revision_basis"] == "backup creator REVISION"
     assert rt.verify_backup(Path(out["path"]))["sha256"] == out["sha256"]
     after = _fp(db)
     assert rt.compare(before, after) == []  # a backup never touches evidence
@@ -388,15 +389,12 @@ def test_retention_keeps_the_newest_and_never_touches_the_live_db(tmp_path):
     live = tmp_path / "prism.duckdb"
     live.write_bytes(b"live")
     removed = rt.prune_backups(root)
-    assert len(list((root / "daily").glob("prism-*"))) == rt.BACKUP_KEEP["daily"]
-    assert len(list((root / "weekly").glob("prism-*"))) == rt.BACKUP_KEEP["weekly"]
-    assert len(list((root / "manual").glob("prism-*"))) == min(3, rt.BACKUP_KEEP["manual"])
-    first_kept = 10 + 10 - rt.BACKUP_KEEP["daily"]  # the newest BACKUP_KEEP["daily"] of 10
-    assert (
-        sorted((root / "daily").glob("prism-*"))[0].name
-        == f"prism-202601{first_kept}T000000Z.duckdb"
-    )
-    assert live.exists() and all(Path(r).name != "prism.duckdb" for r in removed)
+    # Historical copies without verified off-host receipts are never deleted.
+    assert removed == []
+    assert len(list((root / "daily").glob("prism-*"))) == 10
+    assert len(list((root / "weekly").glob("prism-*"))) == 7
+    assert live.exists()
+
 
 
 def test_backup_job_via_runtime(paper_live):

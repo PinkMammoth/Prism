@@ -223,3 +223,55 @@ def crontab(executable: str = typer.Option("market", "--executable")) -> None:
 
 def register(app: typer.Typer) -> None:
     app.add_typer(ops, name="ops")
+
+
+@ops.command("backup-inventory")
+def backup_inventory() -> None:
+    """Read-only inventory of recovery backups and export receipts."""
+    from market_signal.ops import backups as b
+    from market_signal.ops import runtime as rt
+
+    db = _db(None)
+    console.print_json(json.dumps(b.inventory(rt.backup_dir(db), db)))
+
+
+@ops.command("backup-retain")
+def backup_retain(
+    apply: bool = typer.Option(
+        False, "--apply", help="Delete eligible exported copies; default dry-run."
+    ),
+    keep: int = typer.Option(1, "--keep"),
+    previous: Path = typer.Option(None, "--previous"),
+    reason: str = typer.Option("", "--reason"),
+) -> None:
+    """One global backup; a second requires a named rollback copy and reason."""
+    from market_signal.ops import backups as b
+    from market_signal.ops import runtime as rt
+
+    db = _db(None)
+    if apply:
+        rt.require_authoritative(db)
+    with rt.runtime_lock(db, "backup-retention", 600):
+        if apply:
+            b.save_policy(rt.backup_dir(db), db, keep=keep, previous=previous, reason=reason)
+        result = b.retain(
+            rt.backup_dir(db), db, keep=keep, previous=previous, reason=reason, apply=apply
+        )
+    console.print_json(json.dumps(result))
+
+
+@ops.command("backup-pin-latest")
+def backup_pin_latest(reason: str = typer.Option(..., "--reason")) -> None:
+    """Preserve the pre-deploy safety copy until health validation releases its rollback pin."""
+    from market_signal.ops import backups as b
+    from market_signal.ops import runtime as rt
+
+    db = _db(None)
+    rt.require_authoritative(db)
+    with rt.runtime_lock(db, "backup-pin", 600):
+        root = rt.backup_dir(db)
+        rows = [r for r in b.inventory(root, db) if r["manifest"].get("verification_result")]
+        if not rows:
+            _fail("No verified backup to pin", 1)
+        result = b.save_policy(root, db, keep=2, previous=Path(rows[-1]["path"]), reason=reason)
+    console.print_json(json.dumps(result))

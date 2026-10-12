@@ -1,0 +1,21 @@
+{
+  "archive": "data/backup-archive/storage-recovery-20261012/prism-20261012T083738Z-storage-recovery-20261012.duckdb.gz",
+  "database_layout": [
+    {
+      "database_name": "layout",
+      "database_size": "888.0 MiB",
+      "block_size": 262144,
+      "total_blocks": 3552,
+      "used_blocks": 2452,
+      "free_blocks": 1100,
+      "wal_size": "0 bytes",
+      "memory_usage": "153.7 MiB",
+      "memory_limit": "12.1 GiB"
+    }
+  ],
+  "limits": [
+    "Read-only layout audit on the fresh verified full snapshot; no active DB modification or compaction performed.",
+    "Free blocks are internal reusable space, not physical Railway free bytes.",
+    "Physical file-growth extrapolation can overstate future growth while internal free blocks are reused."
+  ]
+}
