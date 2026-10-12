@@ -396,7 +396,6 @@ def test_retention_keeps_the_newest_and_never_touches_the_live_db(tmp_path):
     assert live.exists()
 
 
-
 def test_backup_job_via_runtime(paper_live):
     out = rt.run_job("backup", trigger="schedule", wait=0)
     assert out["exit"] == 0 and out["steps"][0]["path"].endswith(".duckdb")
