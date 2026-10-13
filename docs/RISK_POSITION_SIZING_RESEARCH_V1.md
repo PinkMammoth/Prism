@@ -869,7 +869,60 @@ Regenerate the evidence with `market sizing study --out-dir docs/evidence/risk-p
 
 ## 17. Tests
 
-<<TESTS>>
+`tests/test_risk_sizing.py`: **42 passed**.
+
+Coverage:
+
+- deterministic sizing and the worked explanation;
+- zero, negative and non-finite equity;
+- missing invalidation (reject or fallback);
+- ultra-tight and huge invalidation;
+- high volatility;
+- illiquid depth cap and impact;
+- extreme costs (halve, then reject, never upsize);
+- adverse versus favourable funding;
+- venue rounding floor and the $10 minimum;
+- exact control size against `paper/v2/engine.size`;
+- policy and venue leverage caps;
+- liquidation-before-stop rejection;
+- one-per-asset, max positions and satellite concentration;
+- gross caps (control skips, candidates shrink);
+- correlated cluster cap;
+- drawdown ladder, halt and recovery;
+- regime throttle;
+- Kelly fallback, cap and non-positive rejection; causal size-independent evidence;
+- no confidence or outcome inputs, and policy hashing;
+- outcome fields cannot change any decision (look-ahead);
+- independent replay R geometry;
+- sequential capital release and skips;
+- tie ordering independent of input order;
+- liquidation and near-miss counting;
+- bootstrap reproducibility and seed sensitivity;
+- stresses only worsen;
+- drawdown metrics on a known curve;
+- deterministic causal scenarios;
+- vectorised exits matching the frozen `exit_condition`;
+- audit coverage of every hypothesis;
+- read-only ledger reconciliation of a real engine-closed trade;
+- unchanged Nimble/event/risk ids and the import boundary;
+- disabled prospective runtime;
+- thesis-to-request translation;
+- CLI policies/audit/replay and refusal of the live database path;
+- catalogue status rules.
+
+Full `pytest` on the final code (includes the Nimble, Dynamic Universe, profile-split, Phase
+27/30, paper and runtime suites): **1,589 passed, 0 failed, 0 skipped**. One existing
+Starlette deprecation warning.
+
+`ruff check`: all checks passed. `ruff format --check`: 415 files formatted.
+`git diff --check origin/main...HEAD`: clean.
+
+An earlier full run in this container had 14 runtime/profile failures. The runtime's
+disk-critical guard tripped at < 5% free while pytest temp directories (9.9 GB) and the study
+shared the disk. The same suites pass on unchanged `main` and on this branch once space was
+freed. A first full run also caught a real import-boundary violation
+(`research/` must not import `paper`). It was fixed by moving the package to
+`market_signal.sizing`.
 
 ## 18. Production state
 
