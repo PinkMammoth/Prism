@@ -13,6 +13,10 @@ independent provider metrics and causal reaction research. Prism support is depl
 Work schema refresh, saved-task activation and a qualifying live-event pilot remain gated.
 Work is a semantic sensor, not a trader; Phase 27 execution is unchanged.
 
+[Risk and position-sizing research v1](docs/RISK_POSITION_SIZING_RESEARCH_V1.md) adds an
+offline counterfactual sizing replay (`market sizing …`): versioned risk policies, a pure
+deterministic sizer and a disabled prospective-cohort design. Paper execution is unchanged.
+
 Prism is a **personal, local, £0/month** research system for slow, conservative capital
 accumulation across crypto, US equities/ETFs and commodity proxies. It does the
 following:
