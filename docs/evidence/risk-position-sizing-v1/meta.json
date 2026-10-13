@@ -1,0 +1,91 @@
+{
+ "assumptions": [
+  "signals, timestamps, prices, exit decisions and funding frozen per stream",
+  "15 s executable ticks; stop and target fills at the next tick after the decision",
+  "costs: 4.5 bps taker each side, frozen per-asset slippage, sqrt impact above $100",
+  "isolated margin; liquidation at 1/L - 1/(2*venue max leverage) adverse",
+  "sequential replay uses realized (closed-trade) equity for sizing and drawdown",
+  "state-rule invalidations, cost-decay and data-failure exits not simulated"
+ ],
+ "bootstrap": {
+  "block_days": [
+   5.0,
+   1.0
+  ],
+  "n": 200,
+  "seed": 7
+ },
+ "equities": [
+  100.0,
+  200.0,
+  500.0,
+  1000.0
+ ],
+ "finished_at": "2026-10-13T21:21:00.475083+00:00",
+ "kind": "COUNTERFACTUAL_SIZING_REPLAY on SYNTHETIC scenario streams (not Prism evidence)",
+ "revision": "76bbcd60c6cd82f5f8fda83cb04bdef7b6d56316",
+ "scenarios": {
+  "MODERATE_EDGE": {
+   "correlation": 0.6,
+   "days": 150,
+   "description": "Optimistic edge (control ~ +0.3R).",
+   "edge_calm": 2.2,
+   "edge_stressed": 2.2,
+   "name": "MODERATE_EDGE",
+   "scenario_id": "sizingscenario_8fce71af98d0166dc68fd177f45c8669ce608406b852de689ea2985ce9471491",
+   "seed": 20261013,
+   "signal_rate_per_day": 0.12,
+   "warmup_days": 30
+  },
+  "NEGATIVE_EDGE": {
+   "correlation": 0.6,
+   "days": 150,
+   "description": "Signals wrong (control ~ -0.65R).",
+   "edge_calm": -0.5,
+   "edge_stressed": -0.5,
+   "name": "NEGATIVE_EDGE",
+   "scenario_id": "sizingscenario_a3a62c8287ac38852ea055f593af46e3af97fe7ef6c04e6f31ba4dd19fe7497f",
+   "seed": 20261013,
+   "signal_rate_per_day": 0.12,
+   "warmup_days": 30
+  },
+  "NULL_EDGE": {
+   "correlation": 0.6,
+   "days": 150,
+   "description": "No planted edge; costs alone (control ~ -0.5R).",
+   "edge_calm": 0.0,
+   "edge_stressed": 0.0,
+   "name": "NULL_EDGE",
+   "scenario_id": "sizingscenario_3bf4fa3626a92d767088f0e3145518ac7793707551242fbccdaf7a7ca739a66f",
+   "seed": 20261013,
+   "signal_rate_per_day": 0.12,
+   "warmup_days": 30
+  },
+  "REGIME_FLIP": {
+   "correlation": 0.6,
+   "days": 150,
+   "description": "Edge in calm regimes that reverses in stressed regimes: clustered correlated losses.",
+   "edge_calm": 2.2,
+   "edge_stressed": -1.0,
+   "name": "REGIME_FLIP",
+   "scenario_id": "sizingscenario_62b262dc856c5bef462b9d24e08491514cc145306697f73e27f402acfa6f261d",
+   "seed": 20261013,
+   "signal_rate_per_day": 0.12,
+   "warmup_days": 30
+  },
+  "WEAK_EDGE": {
+   "correlation": 0.6,
+   "days": 150,
+   "description": "Weak edge after costs (control ~ +0.1R).",
+   "edge_calm": 1.5,
+   "edge_stressed": 1.5,
+   "name": "WEAK_EDGE",
+   "scenario_id": "sizingscenario_61c738b3e6f81c8898bbbfacf901e418435aaeb153428d2d1c8e80f78784b8d7",
+   "seed": 20261013,
+   "signal_rate_per_day": 0.12,
+   "warmup_days": 30
+  }
+ },
+ "started_at": "2026-10-13T20:40:37.023319+00:00",
+ "version": "risk_position_sizing_research_v1"
+}

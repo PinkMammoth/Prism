@@ -1,0 +1,5852 @@
+[
+ {
+  "equity": 100.0,
+  "longest_drawdown_days": {
+   "0.05": 97.83833333333334,
+   "0.25": 105.99518229166667,
+   "0.5": 112.96597222222222,
+   "0.75": 117.77951388888889,
+   "0.95": 119.7962326388889
+  },
+  "max_drawdown": {
+   "0.05": 0.4938794734614159,
+   "0.25": 0.49991939447617134,
+   "0.5": 0.500551084473745,
+   "0.75": 0.5011815207344841,
+   "0.95": 0.501948693882334
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 50.069793658561814,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 1.0,
+  "p_path_loss_20": 1.0,
+  "p_path_loss_30": 1.0,
+  "p_path_loss_50": 0.615,
+  "p_ruin": 0.615,
+  "p_terminal_below_start": 1.0,
+  "policy": "fixed_allocation_baseline_v1",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "NULL_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 49.85879666006247,
+   "0.25": 49.93320879496727,
+   "0.5": 49.98031976803854,
+   "0.75": 50.02024417728752,
+   "0.95": 50.71535248128728
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 119.05980902777777,
+   "0.25": 119.61306423611111,
+   "0.5": 119.796875,
+   "0.75": 119.90824652777778,
+   "0.95": 119.96501736111111
+  },
+  "max_drawdown": {
+   "0.05": 0.5153664969634575,
+   "0.25": 0.5536347317425918,
+   "0.5": 0.5711278644039813,
+   "0.75": 0.5928984792593291,
+   "0.95": 0.6166430034039733
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 85.86726206565977,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 1.0,
+  "p_path_loss_20": 1.0,
+  "p_path_loss_30": 1.0,
+  "p_path_loss_50": 0.995,
+  "p_ruin": 0.995,
+  "p_terminal_below_start": 1.0,
+  "policy": "fixed_allocation_baseline_v1",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "NULL_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 76.67139931920532,
+   "0.25": 81.45861050932358,
+   "0.5": 85.96511931489388,
+   "0.75": 89.44986771615014,
+   "0.95": 97.01305923632138
+  }
+ },
+ {
+  "equity": 100.0,
+  "longest_drawdown_days": {
+   "0.05": 118.97495659722222,
+   "0.25": 119.48984375,
+   "0.5": 119.70772569444445,
+   "0.75": 119.85555555555555,
+   "0.95": 119.93135416666667
+  },
+  "max_drawdown": {
+   "0.05": 0.8797770747973617,
+   "0.25": 0.8854118534060227,
+   "0.5": 0.8904648842666542,
+   "0.75": 0.8946758082703639,
+   "0.95": 0.897751176329924
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 11.082819057625134,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 1.0,
+  "p_path_loss_20": 1.0,
+  "p_path_loss_30": 1.0,
+  "p_path_loss_50": 1.0,
+  "p_ruin": 1.0,
+  "p_terminal_below_start": 1.0,
+  "policy": "fixed_fractional_risk_v1[r=0.5%,lev=3]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "NULL_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 10.277830599178897,
+   "0.25": 10.58176683028973,
+   "0.5": 10.989747570849017,
+   "0.75": 11.496267590609362,
+   "0.95": 12.084342055164477
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 119.32439236111111,
+   "0.25": 119.63758680555556,
+   "0.5": 119.790625,
+   "0.75": 119.8984375,
+   "0.95": 119.96078125
+  },
+  "max_drawdown": {
+   "0.05": 0.9076531723010854,
+   "0.25": 0.9178698038450148,
+   "0.5": 0.9229737325458889,
+   "0.75": 0.9275777223753743,
+   "0.95": 0.932847161622906
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 15.5969452520177,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 1.0,
+  "p_path_loss_20": 1.0,
+  "p_path_loss_30": 1.0,
+  "p_path_loss_50": 1.0,
+  "p_ruin": 1.0,
+  "p_terminal_below_start": 1.0,
+  "policy": "fixed_fractional_risk_v1[r=0.5%,lev=3]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "NULL_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 13.464029391877498,
+   "0.25": 14.532575274987417,
+   "0.5": 15.4401356781623,
+   "0.75": 16.452209446262305,
+   "0.95": 18.48500556671029
+  }
+ },
+ {
+  "equity": 100.0,
+  "longest_drawdown_days": {
+   "0.05": 118.62171006944445,
+   "0.25": 119.49613715277778,
+   "0.5": 119.70112847222222,
+   "0.75": 119.84665798611111,
+   "0.95": 119.95850694444445
+  },
+  "max_drawdown": {
+   "0.05": 0.7242668307718828,
+   "0.25": 0.7397643389771421,
+   "0.5": 0.7484701196206418,
+   "0.75": 0.7573138518586686,
+   "0.95": 0.772762635136741
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 25.29469230748893,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 1.0,
+  "p_path_loss_20": 1.0,
+  "p_path_loss_30": 1.0,
+  "p_path_loss_50": 1.0,
+  "p_ruin": 1.0,
+  "p_terminal_below_start": 1.0,
+  "policy": "invalidation_vol_risk_v1[r=0.5%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "NULL_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 22.952969656882583,
+   "0.25": 24.372973774422142,
+   "0.5": 25.188864251027095,
+   "0.75": 26.169193839235753,
+   "0.95": 27.574596706923238
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 119.11557291666666,
+   "0.25": 119.64722222222223,
+   "0.5": 119.81475694444444,
+   "0.75": 119.89670138888889,
+   "0.95": 119.96094618055555
+  },
+  "max_drawdown": {
+   "0.05": 0.7561903191290462,
+   "0.25": 0.7805667091381803,
+   "0.5": 0.7919895439730316,
+   "0.75": 0.8013261515218557,
+   "0.95": 0.8188433950247836
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 42.05817154866858,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 1.0,
+  "p_path_loss_20": 1.0,
+  "p_path_loss_30": 1.0,
+  "p_path_loss_50": 1.0,
+  "p_ruin": 1.0,
+  "p_terminal_below_start": 1.0,
+  "policy": "invalidation_vol_risk_v1[r=0.5%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "NULL_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 36.24050861253285,
+   "0.25": 39.88900802267295,
+   "0.5": 41.73783462291695,
+   "0.75": 43.90870191735212,
+   "0.95": 48.953948228908175
+  }
+ },
+ {
+  "equity": 100.0,
+  "longest_drawdown_days": {
+   "0.05": 86.18560763888888,
+   "0.25": 98.57808159722222,
+   "0.5": 105.57690972222221,
+   "0.75": 115.00455729166666,
+   "0.95": 119.62845486111111
+  },
+  "max_drawdown": {
+   "0.05": 0.1957969144510213,
+   "0.25": 0.20006502232984874,
+   "0.5": 0.20021547305005233,
+   "0.75": 0.2003650641580585,
+   "0.95": 0.20066148233877412
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 80.11772256853023,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 1.0,
+  "p_path_loss_20": 0.5,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 1.0,
+  "policy": "drawdown_throttled_risk_v1[r=0.25%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "NULL_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 79.94871411499491,
+   "0.25": 79.97697091478254,
+   "0.5": 80.00273876985165,
+   "0.75": 80.13716142102868,
+   "0.95": 80.65170917942405
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 118.54375868055556,
+   "0.25": 119.38081597222222,
+   "0.5": 119.61944444444444,
+   "0.75": 119.79253472222223,
+   "0.95": 119.93777777777777
+  },
+  "max_drawdown": {
+   "0.05": 0.2205425277424432,
+   "0.25": 0.22486894213172778,
+   "0.5": 0.2278819285155141,
+   "0.75": 0.2314744588499388,
+   "0.95": 0.23638246759144416
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 154.5707754056934,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 1.0,
+  "p_path_loss_20": 1.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 1.0,
+  "policy": "drawdown_throttled_risk_v1[r=0.25%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "NULL_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 152.92853104532148,
+   "0.25": 153.9145903251267,
+   "0.5": 154.62213299475442,
+   "0.75": 155.16883231319338,
+   "0.95": 156.07820209449895
+  }
+ },
+ {
+  "equity": 100.0,
+  "longest_drawdown_days": {
+   "0.05": 118.423828125,
+   "0.25": 119.3130642361111,
+   "0.5": 119.55199652777777,
+   "0.75": 119.75286458333333,
+   "0.95": 119.92538194444444
+  },
+  "max_drawdown": {
+   "0.05": 0.25731018605211603,
+   "0.25": 0.26613032861256747,
+   "0.5": 0.27140185292331864,
+   "0.75": 0.2777390110104584,
+   "0.95": 0.2850083809380258
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 73.03212697211634,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 1.0,
+  "p_path_loss_20": 1.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 1.0,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "NULL_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 71.55916221566282,
+   "0.25": 72.38882145464069,
+   "0.5": 73.06226506467848,
+   "0.75": 73.56948994635809,
+   "0.95": 74.45086767179191
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 88.84717881944445,
+   "0.25": 97.71202256944444,
+   "0.5": 102.34088541666667,
+   "0.75": 107.06801215277778,
+   "0.95": 113.43287326388887
+  },
+  "max_drawdown": {
+   "0.05": 0.3500298494458663,
+   "0.25": 0.3501076184300719,
+   "0.5": 0.35024892120424994,
+   "0.75": 0.35042313251609747,
+   "0.95": 0.35072088172421967
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 130.17651063599698,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 1.0,
+  "p_path_loss_10": 1.0,
+  "p_path_loss_20": 1.0,
+  "p_path_loss_30": 1.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 1.0,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "NULL_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 129.8636425556369,
+   "0.25": 129.950563118151,
+   "0.5": 129.9934138545523,
+   "0.75": 130.34783746551977,
+   "0.95": 130.9631065000163
+  }
+ },
+ {
+  "equity": 100.0,
+  "longest_drawdown_days": {
+   "0.05": 118.423828125,
+   "0.25": 119.3130642361111,
+   "0.5": 119.55199652777777,
+   "0.75": 119.75286458333333,
+   "0.95": 119.92538194444444
+  },
+  "max_drawdown": {
+   "0.05": 0.25778129545979794,
+   "0.25": 0.26618916901188594,
+   "0.5": 0.2714888727899647,
+   "0.75": 0.2776943905580824,
+   "0.95": 0.2851796599229737
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 73.02805384980685,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 1.0,
+  "p_path_loss_20": 1.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 1.0,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%,lev=2]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "NULL_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 71.55589390515459,
+   "0.25": 72.38759593826566,
+   "0.5": 73.03038672860862,
+   "0.75": 73.55063543046711,
+   "0.95": 74.43260997561234
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 88.84717881944445,
+   "0.25": 97.745703125,
+   "0.5": 102.23107638888888,
+   "0.75": 106.92964409722222,
+   "0.95": 113.40547743055555
+  },
+  "max_drawdown": {
+   "0.05": 0.350041462070703,
+   "0.25": 0.35011822913130247,
+   "0.5": 0.35024664383704707,
+   "0.75": 0.3504030065554931,
+   "0.95": 0.35075915184498324
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 130.1735888577276,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 1.0,
+  "p_path_loss_10": 1.0,
+  "p_path_loss_20": 1.0,
+  "p_path_loss_30": 1.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 1.0,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%,lev=2]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "NULL_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 129.85476241968493,
+   "0.25": 129.94999943577872,
+   "0.5": 129.99210493857598,
+   "0.75": 130.33432986545606,
+   "0.95": 130.97516575064446
+  }
+ },
+ {
+  "equity": 100.0,
+  "longest_drawdown_days": {
+   "0.05": 73.10362847222221,
+   "0.25": 80.12573784722223,
+   "0.5": 85.48463541666666,
+   "0.75": 90.42317708333333,
+   "0.95": 97.6862673611111
+  },
+  "max_drawdown": {
+   "0.05": 0.3500214111435531,
+   "0.25": 0.35013906279240703,
+   "0.5": 0.350346381868193,
+   "0.75": 0.35061083461023385,
+   "0.95": 0.3510643454975779
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 65.12757841024302,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 1.0,
+  "p_path_loss_10": 1.0,
+  "p_path_loss_20": 1.0,
+  "p_path_loss_30": 1.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 1.0,
+  "policy": "drawdown_throttled_risk_v1[r=0.75%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "NULL_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 64.90235772214483,
+   "0.25": 64.96051898265536,
+   "0.5": 64.99765069444452,
+   "0.75": 65.24628618067405,
+   "0.95": 65.57010891494063
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 51.317873263888885,
+   "0.25": 55.87330729166666,
+   "0.5": 59.58949652777778,
+   "0.75": 63.05746527777778,
+   "0.95": 69.09504340277778
+  },
+  "max_drawdown": {
+   "0.05": 0.35002609078081504,
+   "0.25": 0.35013867180081093,
+   "0.5": 0.35035353175394673,
+   "0.75": 0.3506274817638047,
+   "0.95": 0.35161814982992734
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 130.2157511747627,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 1.0,
+  "p_path_loss_10": 1.0,
+  "p_path_loss_20": 1.0,
+  "p_path_loss_30": 1.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 1.0,
+  "policy": "drawdown_throttled_risk_v1[r=0.75%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "NULL_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 129.73632508718373,
+   "0.25": 129.92343901157497,
+   "0.5": 129.99621434137413,
+   "0.75": 130.40389956647158,
+   "0.95": 131.11311587157994
+  }
+ },
+ {
+  "equity": 100.0,
+  "longest_drawdown_days": {
+   "0.05": 42.00520833333333,
+   "0.25": 46.78611111111111,
+   "0.5": 50.192621527777774,
+   "0.75": 54.21319444444444,
+   "0.95": 59.73795138888889
+  },
+  "max_drawdown": {
+   "0.05": 0.3500383840571866,
+   "0.25": 0.350178275441973,
+   "0.5": 0.3504324667213497,
+   "0.75": 0.35083410140007143,
+   "0.95": 0.3515702242713097
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 65.15903662778913,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 1.0,
+  "p_path_loss_10": 1.0,
+  "p_path_loss_20": 1.0,
+  "p_path_loss_30": 1.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 1.0,
+  "policy": "drawdown_throttled_risk_v1[r=1%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "NULL_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 64.88280789387969,
+   "0.25": 64.96089971213635,
+   "0.5": 64.99954896556059,
+   "0.75": 65.28168749809821,
+   "0.95": 65.62447601335859
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 35.858715277777776,
+   "0.25": 40.352213541666664,
+   "0.5": 43.43793402777778,
+   "0.75": 46.640625,
+   "0.95": 52.095616319444446
+  },
+  "max_drawdown": {
+   "0.05": 0.3500307059706991,
+   "0.25": 0.3502555571556256,
+   "0.5": 0.3505166959331236,
+   "0.75": 0.3511154706978065,
+   "0.95": 0.3521379788199653
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 130.21274340944615,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 1.0,
+  "p_path_loss_10": 1.0,
+  "p_path_loss_20": 1.0,
+  "p_path_loss_30": 1.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 1.0,
+  "policy": "drawdown_throttled_risk_v1[r=1%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "NULL_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 129.70996658943375,
+   "0.25": 129.88371107092595,
+   "0.5": 129.98157495055952,
+   "0.75": 130.41223481731407,
+   "0.95": 131.1008784774172
+  }
+ },
+ {
+  "equity": 100.0,
+  "longest_drawdown_days": {
+   "0.05": 118.34259548611111,
+   "0.25": 119.23567708333333,
+   "0.5": 119.55225694444445,
+   "0.75": 119.75772569444445,
+   "0.95": 119.92538194444444
+  },
+  "max_drawdown": {
+   "0.05": 0.25354794783326057,
+   "0.25": 0.2618986622889896,
+   "0.5": 0.26741291215926855,
+   "0.75": 0.27455205834939345,
+   "0.95": 0.2817785807439902
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 73.36196269287927,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 1.0,
+  "p_path_loss_20": 1.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 1.0,
+  "policy": "regime_throttled_risk_v1[r=0.5%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "NULL_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 71.89134394484104,
+   "0.25": 72.73948527417392,
+   "0.5": 73.38923665004087,
+   "0.75": 74.03178572000267,
+   "0.95": 74.848542193365
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 97.74335937500001,
+   "0.25": 106.57408854166667,
+   "0.5": 112.06701388888888,
+   "0.75": 117.63350694444445,
+   "0.95": 119.85549479166667
+  },
+  "max_drawdown": {
+   "0.05": 0.33936578286038216,
+   "0.25": 0.35005437026790753,
+   "0.5": 0.3501887657793574,
+   "0.75": 0.3503687414352026,
+   "0.95": 0.3506935431291626
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 130.4270142710912,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.855,
+  "p_path_loss_10": 1.0,
+  "p_path_loss_20": 1.0,
+  "p_path_loss_30": 1.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 1.0,
+  "policy": "regime_throttled_risk_v1[r=0.5%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "NULL_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 129.91013338231903,
+   "0.25": 129.96856434034083,
+   "0.5": 130.088716248001,
+   "0.75": 130.48851431942023,
+   "0.95": 132.29623804576124
+  }
+ },
+ {
+  "equity": 100.0,
+  "longest_drawdown_days": {
+   "0.05": 5.77615451388889,
+   "0.25": 7.010894097222222,
+   "0.5": 7.70390625,
+   "0.75": 8.601388888888888,
+   "0.95": 9.620277777777776
+  },
+  "max_drawdown": {
+   "0.05": 0.058348143727217854,
+   "0.25": 0.08148999701779125,
+   "0.5": 0.09119700126036684,
+   "0.75": 0.10155389414396218,
+   "0.95": 0.11131266654148353
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 91.2751032832159,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.255,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 1.0,
+  "policy": "fractional_kelly_research_v1[k=0.25,pooled]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "NULL_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 89.06612851206968,
+   "0.25": 90.09970424135811,
+   "0.5": 91.15146087084057,
+   "0.75": 92.11947854148406,
+   "0.95": 94.38739708528865
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 5.917890625,
+   "0.25": 7.039973958333333,
+   "0.5": 7.735416666666667,
+   "0.75": 8.601388888888888,
+   "0.95": 9.620277777777776
+  },
+  "max_drawdown": {
+   "0.05": 0.059336450860735815,
+   "0.25": 0.0819276140291029,
+   "0.5": 0.09301577960854929,
+   "0.75": 0.10263590117057356,
+   "0.95": 0.11257155275995687
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 182.32578904645402,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.27,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 1.0,
+  "policy": "fractional_kelly_research_v1[k=0.25,pooled]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "NULL_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 177.839793872491,
+   "0.25": 180.00177187853535,
+   "0.5": 182.0787047061068,
+   "0.75": 183.98079073413732,
+   "0.95": 188.60052562595115
+  }
+ },
+ {
+  "equity": 100.0,
+  "longest_drawdown_days": {
+   "0.05": 68.16289062499999,
+   "0.25": 75.89635416666667,
+   "0.5": 82.08758680555556,
+   "0.75": 89.18637152777778,
+   "0.95": 100.3727690972222
+  },
+  "max_drawdown": {
+   "0.05": 0.5000246866168159,
+   "0.25": 0.5003141676140994,
+   "0.5": 0.5007868544945054,
+   "0.75": 0.5012574223901146,
+   "0.95": 0.5021137250713287
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 49.93867554398085,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 1.0,
+  "p_path_loss_20": 1.0,
+  "p_path_loss_30": 1.0,
+  "p_path_loss_50": 0.96,
+  "p_ruin": 0.96,
+  "p_terminal_below_start": 1.0,
+  "policy": "fixed_allocation_baseline_v1",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "NEGATIVE_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 49.86430143501781,
+   "0.25": 49.89937287999214,
+   "0.5": 49.95046201158784,
+   "0.75": 49.97692318158412,
+   "0.95": 49.99839768642383
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 119.35321180555556,
+   "0.25": 119.69266493055557,
+   "0.5": 119.85260416666667,
+   "0.75": 119.91684027777778,
+   "0.95": 119.96477430555555
+  },
+  "max_drawdown": {
+   "0.05": 0.6482722638225601,
+   "0.25": 0.684823900094303,
+   "0.5": 0.6988803038587912,
+   "0.75": 0.7158868815206736,
+   "0.95": 0.7364401606060774
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 60.370012188654194,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 1.0,
+  "p_path_loss_20": 1.0,
+  "p_path_loss_30": 1.0,
+  "p_path_loss_50": 1.0,
+  "p_ruin": 1.0,
+  "p_terminal_below_start": 1.0,
+  "policy": "fixed_allocation_baseline_v1",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "NEGATIVE_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 52.727087039443404,
+   "0.25": 56.88252769436713,
+   "0.5": 60.23172770556474,
+   "0.75": 63.046745896904746,
+   "0.95": 70.34554723548796
+  }
+ },
+ {
+  "equity": 100.0,
+  "longest_drawdown_days": {
+   "0.05": 99.97866319444445,
+   "0.25": 107.43602430555555,
+   "0.5": 112.12552083333333,
+   "0.75": 117.03120659722222,
+   "0.95": 119.51549479166667
+  },
+  "max_drawdown": {
+   "0.05": 0.8997087013541777,
+   "0.25": 0.8999228647673978,
+   "0.5": 0.900158464407538,
+   "0.75": 0.9003960645794762,
+   "0.95": 0.9008665809728289
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 9.99770908339504,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 1.0,
+  "p_path_loss_20": 1.0,
+  "p_path_loss_30": 1.0,
+  "p_path_loss_50": 1.0,
+  "p_ruin": 1.0,
+  "p_terminal_below_start": 1.0,
+  "policy": "fixed_fractional_risk_v1[r=0.5%,lev=3]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "NEGATIVE_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 9.948140898588727,
+   "0.25": 9.979472743795993,
+   "0.5": 9.996315434032212,
+   "0.75": 10.014462324402311,
+   "0.95": 10.051692793244031
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 117.75223958333333,
+   "0.25": 119.05416666666666,
+   "0.5": 119.58975694444445,
+   "0.75": 119.75381944444445,
+   "0.95": 119.88327256944444
+  },
+  "max_drawdown": {
+   "0.05": 0.9453885630341339,
+   "0.25": 0.9473133894203296,
+   "0.5": 0.948709907987167,
+   "0.75": 0.9494251496903521,
+   "0.95": 0.9499129212289921
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 10.375651712721307,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 1.0,
+  "p_path_loss_20": 1.0,
+  "p_path_loss_30": 1.0,
+  "p_path_loss_50": 1.0,
+  "p_ruin": 1.0,
+  "p_terminal_below_start": 1.0,
+  "policy": "fixed_fractional_risk_v1[r=0.5%,lev=3]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "NEGATIVE_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 10.031480694183333,
+   "0.25": 10.125560073905529,
+   "0.5": 10.276197783998704,
+   "0.75": 10.568486244740946,
+   "0.95": 10.922287393173225
+  }
+ },
+ {
+  "equity": 100.0,
+  "longest_drawdown_days": {
+   "0.05": 118.88276909722222,
+   "0.25": 119.45794270833333,
+   "0.5": 119.66388888888889,
+   "0.75": 119.81666666666666,
+   "0.95": 119.93190104166666
+  },
+  "max_drawdown": {
+   "0.05": 0.8028310048351693,
+   "0.25": 0.8090462807213034,
+   "0.5": 0.814828881564637,
+   "0.75": 0.8184982816295624,
+   "0.95": 0.8242559251312409
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 18.648760386076535,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 1.0,
+  "p_path_loss_20": 1.0,
+  "p_path_loss_30": 1.0,
+  "p_path_loss_50": 1.0,
+  "p_ruin": 1.0,
+  "p_terminal_below_start": 1.0,
+  "policy": "invalidation_vol_risk_v1[r=0.5%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "NEGATIVE_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 17.640173500604536,
+   "0.25": 18.19624139223265,
+   "0.5": 18.566770899742608,
+   "0.75": 19.12522966613723,
+   "0.95": 19.807221793398163
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 119.3814670138889,
+   "0.25": 119.64913194444445,
+   "0.5": 119.78229166666667,
+   "0.75": 119.87612847222222,
+   "0.95": 119.95078124999999
+  },
+  "max_drawdown": {
+   "0.05": 0.8601384796448021,
+   "0.25": 0.8717963122626589,
+   "0.5": 0.8775263744105755,
+   "0.75": 0.8822811057353127,
+   "0.95": 0.8888774956000688
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 24.76778882949229,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 1.0,
+  "p_path_loss_20": 1.0,
+  "p_path_loss_30": 1.0,
+  "p_path_loss_50": 1.0,
+  "p_ruin": 1.0,
+  "p_terminal_below_start": 1.0,
+  "policy": "invalidation_vol_risk_v1[r=0.5%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "NEGATIVE_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 22.332426877277467,
+   "0.25": 23.627654682668062,
+   "0.5": 24.567596769868672,
+   "0.75": 25.68927895616768,
+   "0.95": 27.99010014252642
+  }
+ },
+ {
+  "equity": 100.0,
+  "longest_drawdown_days": {
+   "0.05": 61.98433159722222,
+   "0.25": 67.50603298611111,
+   "0.5": 72.46579861111111,
+   "0.75": 77.54722222222223,
+   "0.95": 84.70913194444445
+  },
+  "max_drawdown": {
+   "0.05": 0.20003504425020197,
+   "0.25": 0.20015367630075542,
+   "0.5": 0.20029752486746372,
+   "0.75": 0.20049142655194294,
+   "0.95": 0.20084432894115142
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 80.01330542266817,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 1.0,
+  "p_path_loss_20": 0.695,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 1.0,
+  "policy": "drawdown_throttled_risk_v1[r=0.25%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "NEGATIVE_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 79.91974023019851,
+   "0.25": 79.96208166476362,
+   "0.5": 79.98348265243419,
+   "0.75": 80.04081201731348,
+   "0.95": 80.23910476696291
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 119.05719618055556,
+   "0.25": 119.46740451388888,
+   "0.5": 119.66388888888889,
+   "0.75": 119.81358506944444,
+   "0.95": 119.93569444444444
+  },
+  "max_drawdown": {
+   "0.05": 0.24049721118907308,
+   "0.25": 0.24534915599818627,
+   "0.5": 0.24842289614392787,
+   "0.75": 0.2517737069424052,
+   "0.95": 0.2571923703006759
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 150.38207800453296,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 1.0,
+  "p_path_loss_20": 1.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 1.0,
+  "policy": "drawdown_throttled_risk_v1[r=0.25%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "NEGATIVE_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 148.60410938791762,
+   "0.25": 149.69832185674755,
+   "0.5": 150.43331920726627,
+   "0.75": 151.07686410984434,
+   "0.95": 151.98628375072957
+  }
+ },
+ {
+  "equity": 100.0,
+  "longest_drawdown_days": {
+   "0.05": 118.61765625,
+   "0.25": 119.25794270833333,
+   "0.5": 119.59479166666667,
+   "0.75": 119.77309027777778,
+   "0.95": 119.93060763888889
+  },
+  "max_drawdown": {
+   "0.05": 0.2871707389747731,
+   "0.25": 0.2942822832879848,
+   "0.5": 0.2987270476365556,
+   "0.75": 0.30364563382215515,
+   "0.95": 0.3097106415035698
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 70.24489754141199,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 1.0,
+  "p_path_loss_20": 1.0,
+  "p_path_loss_30": 0.385,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 1.0,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "NEGATIVE_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 69.15886152137696,
+   "0.25": 69.77192154369766,
+   "0.5": 70.26397645956094,
+   "0.75": 70.69823911062807,
+   "0.95": 71.32709689831623
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 61.85263020833334,
+   "0.25": 65.96141493055555,
+   "0.5": 69.32395833333334,
+   "0.75": 72.20629340277777,
+   "0.95": 77.57493055555555
+  },
+  "max_drawdown": {
+   "0.05": 0.3500341417199887,
+   "0.25": 0.3501343355718779,
+   "0.5": 0.3502866086157092,
+   "0.75": 0.35051947541975303,
+   "0.95": 0.35082776624631273
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 130.10295026124254,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 1.0,
+  "p_path_loss_10": 1.0,
+  "p_path_loss_20": 1.0,
+  "p_path_loss_30": 1.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 1.0,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "NEGATIVE_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 129.8489776998667,
+   "0.25": 129.9299271881878,
+   "0.5": 129.97760498665087,
+   "0.75": 130.1544602117727,
+   "0.95": 130.70066362926292
+  }
+ },
+ {
+  "equity": 100.0,
+  "longest_drawdown_days": {
+   "0.05": 118.61765625,
+   "0.25": 119.25638020833333,
+   "0.5": 119.5703125,
+   "0.75": 119.75716145833333,
+   "0.95": 119.93060763888889
+  },
+  "max_drawdown": {
+   "0.05": 0.28705544065949473,
+   "0.25": 0.2943385329139517,
+   "0.5": 0.29857044441173647,
+   "0.75": 0.3034508697302438,
+   "0.95": 0.30972637909443573
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 70.24532701875522,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 1.0,
+  "p_path_loss_20": 1.0,
+  "p_path_loss_30": 0.38,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 1.0,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%,lev=2]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "NEGATIVE_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 69.1469177207031,
+   "0.25": 69.76661415826496,
+   "0.5": 70.26723716470491,
+   "0.75": 70.68329747651076,
+   "0.95": 71.33862672984405
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 61.85917534722223,
+   "0.25": 66.10954861111111,
+   "0.5": 69.2670138888889,
+   "0.75": 72.15603298611111,
+   "0.95": 77.57493055555555
+  },
+  "max_drawdown": {
+   "0.05": 0.35002613033965585,
+   "0.25": 0.3501281392782141,
+   "0.5": 0.35027200046902734,
+   "0.75": 0.350500180129779,
+   "0.95": 0.3509276650008587
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 130.10322186978266,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 1.0,
+  "p_path_loss_10": 1.0,
+  "p_path_loss_20": 1.0,
+  "p_path_loss_30": 1.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 1.0,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%,lev=2]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "NEGATIVE_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 129.81648513472302,
+   "0.25": 129.92872810217227,
+   "0.5": 129.9757269844229,
+   "0.75": 130.16154421903653,
+   "0.95": 130.69417492181128
+  }
+ },
+ {
+  "equity": 100.0,
+  "longest_drawdown_days": {
+   "0.05": 49.29411458333333,
+   "0.25": 54.13155381944445,
+   "0.5": 57.35564236111111,
+   "0.75": 60.565668402777774,
+   "0.95": 65.11301215277777
+  },
+  "max_drawdown": {
+   "0.05": 0.3500303535616264,
+   "0.25": 0.3501449727823186,
+   "0.5": 0.3503770486582604,
+   "0.75": 0.350568966376561,
+   "0.95": 0.35110349586360773
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 65.08354344851794,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 1.0,
+  "p_path_loss_10": 1.0,
+  "p_path_loss_20": 1.0,
+  "p_path_loss_30": 1.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 1.0,
+  "policy": "drawdown_throttled_risk_v1[r=0.75%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "NEGATIVE_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 64.90534597076939,
+   "0.25": 64.95661692669881,
+   "0.5": 64.9888657647532,
+   "0.75": 65.14400958871971,
+   "0.95": 65.48712510616895
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 34.285251736111114,
+   "0.25": 38.512196180555556,
+   "0.5": 40.77413194444445,
+   "0.75": 43.53567708333333,
+   "0.95": 48.252265625
+  },
+  "max_drawdown": {
+   "0.05": 0.3500412763881145,
+   "0.25": 0.3502136136017765,
+   "0.5": 0.3504522718145483,
+   "0.75": 0.3507994498234011,
+   "0.95": 0.3513918277630922
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 130.12509023965612,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 1.0,
+  "p_path_loss_10": 1.0,
+  "p_path_loss_20": 1.0,
+  "p_path_loss_30": 1.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 1.0,
+  "policy": "drawdown_throttled_risk_v1[r=0.75%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "NEGATIVE_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 129.741214239587,
+   "0.25": 129.88697922295532,
+   "0.5": 129.95893105451373,
+   "0.75": 130.25438874915642,
+   "0.95": 130.9407780207023
+  }
+ },
+ {
+  "equity": 100.0,
+  "longest_drawdown_days": {
+   "0.05": 28.325711805555557,
+   "0.25": 32.0078125,
+   "0.5": 34.272222222222226,
+   "0.75": 36.85633680555556,
+   "0.95": 40.40381076388889
+  },
+  "max_drawdown": {
+   "0.05": 0.3500343965709634,
+   "0.25": 0.3501913370805192,
+   "0.5": 0.35041182720392783,
+   "0.75": 0.35084675544088734,
+   "0.95": 0.3515038383144997
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 65.10332440990375,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 1.0,
+  "p_path_loss_10": 1.0,
+  "p_path_loss_20": 1.0,
+  "p_path_loss_30": 1.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 1.0,
+  "policy": "drawdown_throttled_risk_v1[r=1%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "NEGATIVE_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 64.86540074103361,
+   "0.25": 64.94089746369468,
+   "0.5": 64.98600227040194,
+   "0.75": 65.17055600514439,
+   "0.95": 65.55874315947736
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 24.618055555555557,
+   "0.25": 27.38064236111111,
+   "0.5": 30.098871527777778,
+   "0.75": 32.509982638888886,
+   "0.95": 35.93346354166666
+  },
+  "max_drawdown": {
+   "0.05": 0.3500534759979019,
+   "0.25": 0.35026384656873655,
+   "0.5": 0.3505240235865994,
+   "0.75": 0.35110096927297885,
+   "0.95": 0.35220714540555703
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 130.12997111930696,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 1.0,
+  "p_path_loss_10": 1.0,
+  "p_path_loss_20": 1.0,
+  "p_path_loss_30": 1.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 1.0,
+  "policy": "drawdown_throttled_risk_v1[r=1%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "NEGATIVE_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 129.64781740212862,
+   "0.25": 129.83340665311601,
+   "0.5": 129.94025845277997,
+   "0.75": 130.2499097972431,
+   "0.95": 130.95192623954355
+  }
+ },
+ {
+  "equity": 100.0,
+  "longest_drawdown_days": {
+   "0.05": 118.27534722222222,
+   "0.25": 119.23276909722223,
+   "0.5": 119.58472222222223,
+   "0.75": 119.78081597222223,
+   "0.95": 119.93060763888889
+  },
+  "max_drawdown": {
+   "0.05": 0.2836821683697498,
+   "0.25": 0.2911219918603293,
+   "0.5": 0.29601914492744397,
+   "0.75": 0.3010511546611822,
+   "0.95": 0.30801111008907495
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 70.50423827532057,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 1.0,
+  "p_path_loss_20": 1.0,
+  "p_path_loss_30": 0.255,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 1.0,
+  "policy": "regime_throttled_risk_v1[r=0.5%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "NEGATIVE_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 69.23838434122537,
+   "0.25": 69.9873540348789,
+   "0.5": 70.49871380507055,
+   "0.75": 71.00668079474988,
+   "0.95": 71.69071873370196
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 66.672734375,
+   "0.25": 71.79466145833334,
+   "0.5": 75.49739583333333,
+   "0.75": 79.69548611111111,
+   "0.95": 86.54449652777777
+  },
+  "max_drawdown": {
+   "0.05": 0.35002876105129915,
+   "0.25": 0.3501305904783328,
+   "0.5": 0.3502558864079926,
+   "0.75": 0.3505082996647709,
+   "0.95": 0.35084409565832286
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 130.08260689216647,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 1.0,
+  "p_path_loss_10": 1.0,
+  "p_path_loss_20": 1.0,
+  "p_path_loss_30": 1.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 1.0,
+  "policy": "regime_throttled_risk_v1[r=0.5%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "NEGATIVE_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 129.84953918476495,
+   "0.25": 129.9246384851468,
+   "0.5": 129.97872468209368,
+   "0.75": 130.16389746632768,
+   "0.95": 130.73430323649902
+  }
+ },
+ {
+  "equity": 100.0,
+  "longest_drawdown_days": {
+   "0.05": 6.1244531250000005,
+   "0.25": 7.092621527777777,
+   "0.5": 7.81875,
+   "0.75": 8.639930555555555,
+   "0.95": 9.661753472222221
+  },
+  "max_drawdown": {
+   "0.05": 0.089667850668603,
+   "0.25": 0.10603064117925654,
+   "0.5": 0.1132562103544672,
+   "0.75": 0.1202469128426201,
+   "0.95": 0.1285350941260563
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 88.93134112792448,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.83,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 1.0,
+  "policy": "fractional_kelly_research_v1[k=0.25,pooled]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "NEGATIVE_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 87.25508682981491,
+   "0.25": 88.08724777399874,
+   "0.5": 88.83435006308684,
+   "0.75": 89.5403057655037,
+   "0.95": 91.26041998990432
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 6.1244531250000005,
+   "0.25": 7.092621527777777,
+   "0.5": 7.8234375,
+   "0.75": 8.639930555555555,
+   "0.95": 9.661753472222221
+  },
+  "max_drawdown": {
+   "0.05": 0.09083501294407521,
+   "0.25": 0.10669238852814064,
+   "0.5": 0.11544953364597466,
+   "0.75": 0.1234504991544498,
+   "0.95": 0.13357437948581202
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 177.44661290729033,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.85,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 1.0,
+  "policy": "fractional_kelly_research_v1[k=0.25,pooled]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "NEGATIVE_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 173.71860926475324,
+   "0.25": 175.55884070235697,
+   "0.5": 177.23199395838793,
+   "0.75": 178.92427162355966,
+   "0.95": 182.27503395177962
+  }
+ },
+ {
+  "equity": 100.0,
+  "longest_drawdown_days": {
+   "0.05": 6.325321180555556,
+   "0.25": 8.746961805555557,
+   "0.5": 11.08515625,
+   "0.75": 15.113758680555556,
+   "0.95": 22.947829861111085
+  },
+  "max_drawdown": {
+   "0.05": 0.01527804314042554,
+   "0.25": 0.016220015464961768,
+   "0.5": 0.017871704764471585,
+   "0.75": 0.021019574261898932,
+   "0.95": 0.026264798336775648
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 147.1084272560046,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "fixed_allocation_baseline_v1",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "WEAK_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 128.2019152605423,
+   "0.25": 137.0151384069715,
+   "0.5": 145.18579323179114,
+   "0.75": 154.79063094567866,
+   "0.95": 173.82634870161675
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 6.325321180555556,
+   "0.25": 8.746961805555557,
+   "0.5": 11.200173611111111,
+   "0.75": 15.165842013888888,
+   "0.95": 22.947829861111085
+  },
+  "max_drawdown": {
+   "0.05": 0.015304820386372504,
+   "0.25": 0.01611374227607998,
+   "0.5": 0.017973524136120966,
+   "0.75": 0.021135364726707878,
+   "0.95": 0.02644831142847088
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 295.13752889354436,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "fixed_allocation_baseline_v1",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "WEAK_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 256.93325470762653,
+   "0.25": 274.8972342704065,
+   "0.5": 291.3418320322137,
+   "0.75": 310.67751434729496,
+   "0.95": 348.3300734815837
+  }
+ },
+ {
+  "equity": 100.0,
+  "longest_drawdown_days": {
+   "0.05": 12.752881944444445,
+   "0.25": 17.572786458333333,
+   "0.5": 22.16388888888889,
+   "0.75": 29.60234375,
+   "0.95": 49.325121527777775
+  },
+  "max_drawdown": {
+   "0.05": 0.0649525821130011,
+   "0.25": 0.0779025359591782,
+   "0.5": 0.08810459298328399,
+   "0.75": 0.1057255795999004,
+   "0.95": 0.13364902744834292
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 206.27361926109515,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.01,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "fixed_fractional_risk_v1[r=0.5%,lev=3]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "WEAK_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 149.41329594024305,
+   "0.25": 175.51545499367563,
+   "0.5": 201.50296358352688,
+   "0.75": 230.22559706632794,
+   "0.95": 294.79203301493317
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 17.835260416666667,
+   "0.25": 25.850303819444445,
+   "0.5": 34.62447916666666,
+   "0.75": 49.69765625,
+   "0.95": 78.99587673611111
+  },
+  "max_drawdown": {
+   "0.05": 0.08447099140297916,
+   "0.25": 0.10611251490795276,
+   "0.5": 0.12575388181744446,
+   "0.75": 0.150496859358945,
+   "0.95": 0.1928315620849814
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 302.1859475232951,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.06,
+  "p_path_loss_20": 0.005,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.01,
+  "policy": "fixed_fractional_risk_v1[r=0.5%,lev=3]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "WEAK_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 230.13299341530546,
+   "0.25": 262.59072006587087,
+   "0.5": 295.4918882979939,
+   "0.75": 331.342616853869,
+   "0.95": 411.4372492650159
+  }
+ },
+ {
+  "equity": 100.0,
+  "longest_drawdown_days": {
+   "0.05": 5.697309027777778,
+   "0.25": 7.584722222222222,
+   "0.5": 9.68185763888889,
+   "0.75": 11.925086805555555,
+   "0.95": 18.771805555555545
+  },
+  "max_drawdown": {
+   "0.05": 0.026754238800030077,
+   "0.25": 0.029356377833974684,
+   "0.5": 0.03202553092869781,
+   "0.75": 0.03690301497606685,
+   "0.95": 0.04457609051826815
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 214.74284611703789,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "invalidation_vol_risk_v1[r=0.5%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "WEAK_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 171.16592816007264,
+   "0.25": 190.9141074207207,
+   "0.5": 211.19511788936836,
+   "0.75": 230.92745535224182,
+   "0.95": 273.64084629834696
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 8.118697916666667,
+   "0.25": 10.799175347222222,
+   "0.5": 13.48220486111111,
+   "0.75": 18.017578125,
+   "0.95": 25.998515625
+  },
+  "max_drawdown": {
+   "0.05": 0.02890111018947117,
+   "0.25": 0.032633765677967275,
+   "0.5": 0.037381456268524016,
+   "0.75": 0.04349547169795184,
+   "0.95": 0.05336877947963577
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 385.6011039459279,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "invalidation_vol_risk_v1[r=0.5%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "WEAK_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 315.74076132537294,
+   "0.25": 350.4341887649241,
+   "0.5": 379.17914521397086,
+   "0.75": 413.84629190502403,
+   "0.95": 475.1487661670348
+  }
+ },
+ {
+  "equity": 100.0,
+  "longest_drawdown_days": {
+   "0.05": 5.267960069444444,
+   "0.25": 7.467057291666666,
+   "0.5": 9.137413194444445,
+   "0.75": 11.793706597222222,
+   "0.95": 18.06642361111111
+  },
+  "max_drawdown": {
+   "0.05": 0.013193454981849395,
+   "0.25": 0.014498078258471325,
+   "0.5": 0.015744334644662128,
+   "0.75": 0.01805220045139741,
+   "0.95": 0.02232191525693347
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 145.11340920777835,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "drawdown_throttled_risk_v1[r=0.25%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "WEAK_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 130.0771770949255,
+   "0.25": 137.34688642941086,
+   "0.5": 143.54832436841707,
+   "0.75": 150.93558196596342,
+   "0.95": 164.01253754811836
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 5.434131944444444,
+   "0.25": 7.467057291666666,
+   "0.5": 9.081944444444446,
+   "0.75": 11.679427083333334,
+   "0.95": 17.731484374999997
+  },
+  "max_drawdown": {
+   "0.05": 0.013306106485891294,
+   "0.25": 0.01447880835456572,
+   "0.5": 0.015861123382857445,
+   "0.75": 0.018093255372658573,
+   "0.95": 0.022234190245374336
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 294.8333798631249,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "drawdown_throttled_risk_v1[r=0.25%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "WEAK_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 263.1154930132639,
+   "0.25": 278.70295395747155,
+   "0.5": 292.66805045054116,
+   "0.75": 305.8212896035852,
+   "0.95": 336.95296139876814
+  }
+ },
+ {
+  "equity": 100.0,
+  "longest_drawdown_days": {
+   "0.05": 5.697309027777778,
+   "0.25": 7.584722222222222,
+   "0.5": 9.68185763888889,
+   "0.75": 11.925086805555555,
+   "0.95": 18.771805555555545
+  },
+  "max_drawdown": {
+   "0.05": 0.026754238800030077,
+   "0.25": 0.029356377833974684,
+   "0.5": 0.03202553092869781,
+   "0.75": 0.03690301497606685,
+   "0.95": 0.04457609051826815
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 214.73987310560838,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "WEAK_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 171.16592816007264,
+   "0.25": 190.9141074207207,
+   "0.5": 211.19511788936836,
+   "0.75": 230.92745535224182,
+   "0.95": 273.64084629834696
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 8.118697916666667,
+   "0.25": 10.799175347222222,
+   "0.5": 13.512934027777778,
+   "0.75": 18.11050347222222,
+   "0.95": 25.998515625
+  },
+  "max_drawdown": {
+   "0.05": 0.02890111018947117,
+   "0.25": 0.032633765677967275,
+   "0.5": 0.037381456268524016,
+   "0.75": 0.04349547169795184,
+   "0.95": 0.053321007639588844
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 385.54498050310025,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "WEAK_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 315.17383426052334,
+   "0.25": 350.4341887649241,
+   "0.5": 379.17914521397086,
+   "0.75": 413.84629190502403,
+   "0.95": 475.1487661670348
+  }
+ },
+ {
+  "equity": 100.0,
+  "longest_drawdown_days": {
+   "0.05": 5.741918402777778,
+   "0.25": 7.584722222222222,
+   "0.5": 9.921180555555555,
+   "0.75": 12.10173611111111,
+   "0.95": 19.347760416666667
+  },
+  "max_drawdown": {
+   "0.05": 0.02709134588556446,
+   "0.25": 0.029075055848973574,
+   "0.5": 0.031487550944445775,
+   "0.75": 0.03647466102041286,
+   "0.95": 0.0443735600928656
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 213.03099327864146,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%,lev=2]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "WEAK_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 169.89304916341905,
+   "0.25": 189.730226735845,
+   "0.5": 209.77415619911477,
+   "0.75": 228.62290379926674,
+   "0.95": 272.1312311401087
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 7.395868055555556,
+   "0.25": 10.48359375,
+   "0.5": 13.082638888888889,
+   "0.75": 17.2046875,
+   "0.95": 26.33914930555554
+  },
+  "max_drawdown": {
+   "0.05": 0.02900971370389216,
+   "0.25": 0.03248489959722997,
+   "0.5": 0.03674964676884285,
+   "0.75": 0.04266218098747912,
+   "0.95": 0.05357981670464813
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 383.7473231082198,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%,lev=2]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "WEAK_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 315.13383275377356,
+   "0.25": 348.4876185981333,
+   "0.5": 377.3534324709733,
+   "0.75": 411.2495881887058,
+   "0.95": 473.78130589511073
+  }
+ },
+ {
+  "equity": 100.0,
+  "longest_drawdown_days": {
+   "0.05": 7.698246527777778,
+   "0.25": 10.48984375,
+   "0.5": 13.495225694444443,
+   "0.75": 17.618532986111113,
+   "0.95": 26.870694444444435
+  },
+  "max_drawdown": {
+   "0.05": 0.04325402986187735,
+   "0.25": 0.047685527020256135,
+   "0.5": 0.05450849505711913,
+   "0.75": 0.06146180593886316,
+   "0.95": 0.07493950314360226
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 258.9915909577568,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "drawdown_throttled_risk_v1[r=0.75%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "WEAK_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 191.7759656800118,
+   "0.25": 224.81334875044743,
+   "0.5": 252.5433665837017,
+   "0.75": 286.0328987570124,
+   "0.95": 342.4925981894887
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 12.920147569444445,
+   "0.25": 16.898394097222223,
+   "0.5": 21.133506944444445,
+   "0.75": 26.76076388888889,
+   "0.95": 40.83499999999997
+  },
+  "max_drawdown": {
+   "0.05": 0.05289233284839851,
+   "0.25": 0.061668556164067745,
+   "0.5": 0.06756171974648278,
+   "0.75": 0.0782054298546721,
+   "0.95": 0.09385821081629406
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 393.023355319574,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "drawdown_throttled_risk_v1[r=0.75%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "WEAK_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 306.67950691873824,
+   "0.25": 347.38617353509466,
+   "0.5": 385.2574444641379,
+   "0.75": 430.8503717028279,
+   "0.95": 506.9672005729954
+  }
+ },
+ {
+  "equity": 100.0,
+  "longest_drawdown_days": {
+   "0.05": 9.157378472222222,
+   "0.25": 13.392100694444444,
+   "0.5": 16.295399305555556,
+   "0.75": 22.40056423611111,
+   "0.95": 36.71154513888888
+  },
+  "max_drawdown": {
+   "0.05": 0.056736585987746294,
+   "0.25": 0.06422296606138125,
+   "0.5": 0.07098074803027576,
+   "0.75": 0.08208188622178783,
+   "0.95": 0.10242651529481273
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 269.21468311108254,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "drawdown_throttled_risk_v1[r=1%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "WEAK_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 196.4961937432787,
+   "0.25": 230.1433704370239,
+   "0.5": 259.7138953412734,
+   "0.75": 300.25377673548996,
+   "0.95": 362.1551084214433
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 14.93201388888889,
+   "0.25": 20.59878472222222,
+   "0.5": 25.396788194444444,
+   "0.75": 33.94505208333334,
+   "0.95": 51.69935763888885
+  },
+  "max_drawdown": {
+   "0.05": 0.06744702176922995,
+   "0.25": 0.08187800259621666,
+   "0.5": 0.09283304026233963,
+   "0.75": 0.10690301138927494,
+   "0.95": 0.12257507586443754
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 373.9858120620066,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "drawdown_throttled_risk_v1[r=1%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "WEAK_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 285.33475085136183,
+   "0.25": 325.99406881966235,
+   "0.5": 367.9694187797933,
+   "0.75": 409.3293758306468,
+   "0.95": 487.3525953498705
+  }
+ },
+ {
+  "equity": 100.0,
+  "longest_drawdown_days": {
+   "0.05": 5.353151041666667,
+   "0.25": 7.450217013888889,
+   "0.5": 8.906510416666666,
+   "0.75": 11.437109375,
+   "0.95": 17.045633680555525
+  },
+  "max_drawdown": {
+   "0.05": 0.02473297980366791,
+   "0.25": 0.027489398166025664,
+   "0.5": 0.029792277797348277,
+   "0.75": 0.034203595040209506,
+   "0.95": 0.039967594291989615
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 190.03987757857757,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "regime_throttled_risk_v1[r=0.5%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "WEAK_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 161.14418285789907,
+   "0.25": 174.2807508469444,
+   "0.5": 186.9216243967715,
+   "0.75": 203.06859580622503,
+   "0.95": 230.80241461851952
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 7.4441145833333335,
+   "0.25": 9.812630208333333,
+   "0.5": 12.344357638888889,
+   "0.75": 16.507074652777778,
+   "0.95": 25.014678819444445
+  },
+  "max_drawdown": {
+   "0.05": 0.02753492965516413,
+   "0.25": 0.03042314737457491,
+   "0.5": 0.033960701426090645,
+   "0.75": 0.03920842517546269,
+   "0.95": 0.04855295403898964
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 348.75517690595996,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "regime_throttled_risk_v1[r=0.5%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "WEAK_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 300.79884211739875,
+   "0.25": 322.86242783405,
+   "0.5": 342.82815258099663,
+   "0.75": 370.4521746395346,
+   "0.95": 416.36747439411033
+  }
+ },
+ {
+  "equity": 100.0,
+  "longest_drawdown_days": {
+   "0.05": 11.73951388888889,
+   "0.25": 18.329253472222224,
+   "0.5": 25.59331597222222,
+   "0.75": 45.787326388888886,
+   "0.95": 77.64526041666664
+  },
+  "max_drawdown": {
+   "0.05": 0.025845391325549683,
+   "0.25": 0.05057394942030696,
+   "0.5": 0.07146030042047075,
+   "0.75": 0.08913788770931452,
+   "0.95": 0.12011424980225414
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 209.43748861495337,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "fractional_kelly_research_v1[k=0.25,pooled]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "WEAK_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 108.60931116927982,
+   "0.25": 166.50600960715286,
+   "0.5": 206.26599488171723,
+   "0.75": 246.79083044234486,
+   "0.95": 325.0523135423344
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 16.584609375,
+   "0.25": 26.02356770833333,
+   "0.5": 36.034375,
+   "0.75": 50.24244791666666,
+   "0.95": 80.87839409722223
+  },
+  "max_drawdown": {
+   "0.05": 0.024466445230555717,
+   "0.25": 0.06311136326350339,
+   "0.5": 0.09161785227855823,
+   "0.75": 0.11715904705973879,
+   "0.95": 0.1488197118414341
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 314.74399171644677,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "fractional_kelly_research_v1[k=0.25,pooled]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "WEAK_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 211.17274072822426,
+   "0.25": 276.27944019747065,
+   "0.5": 306.86879126352443,
+   "0.75": 354.77855993304433,
+   "0.95": 420.508778010172
+  }
+ },
+ {
+  "equity": 100.0,
+  "longest_drawdown_days": {
+   "0.05": 2.217361111111111,
+   "0.25": 2.3899305555555554,
+   "0.5": 2.6213541666666664,
+   "0.75": 3.350564236111111,
+   "0.95": 4.569730902777777
+  },
+  "max_drawdown": {
+   "0.05": 0.011151723778916833,
+   "0.25": 0.013416042472572803,
+   "0.5": 0.01652503428825758,
+   "0.75": 0.016659302856047165,
+   "0.95": 0.016735880094968552
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 220.48694201471676,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "fixed_allocation_baseline_v1",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "MODERATE_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 186.88075564538164,
+   "0.25": 203.80032439542885,
+   "0.5": 217.57582047602085,
+   "0.75": 234.577391986868,
+   "0.95": 269.20464454256296
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 2.217361111111111,
+   "0.25": 2.3899305555555554,
+   "0.5": 2.576128472222222,
+   "0.75": 3.352126736111111,
+   "0.95": 4.568940972222221
+  },
+  "max_drawdown": {
+   "0.05": 0.011181969659901458,
+   "0.25": 0.013440105618620385,
+   "0.5": 0.016698343454979836,
+   "0.75": 0.0167516045469856,
+   "0.95": 0.016786803614792057
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 443.54238839038067,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "fixed_allocation_baseline_v1",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "MODERATE_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 375.3042666885595,
+   "0.25": 410.0448968386979,
+   "0.5": 437.33313033706315,
+   "0.75": 471.8483206123021,
+   "0.95": 541.7724915535534
+  }
+ },
+ {
+  "equity": 100.0,
+  "longest_drawdown_days": {
+   "0.05": 4.587456597222222,
+   "0.25": 6.378645833333334,
+   "0.5": 7.708506944444444,
+   "0.75": 10.721744791666666,
+   "0.95": 16.067178819444443
+  },
+  "max_drawdown": {
+   "0.05": 0.03521019409438972,
+   "0.25": 0.044132032651447606,
+   "0.5": 0.04581713324667214,
+   "0.75": 0.049509782206181574,
+   "0.95": 0.06349481977846966
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 496.23598766557086,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "fixed_fractional_risk_v1[r=0.5%,lev=3]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "MODERATE_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 375.5936442918263,
+   "0.25": 440.29864531855605,
+   "0.5": 484.90630360245797,
+   "0.75": 552.1631597039385,
+   "0.95": 653.9269790709061
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 6.929765625,
+   "0.25": 9.13259548611111,
+   "0.5": 12.059722222222224,
+   "0.75": 16.282942708333334,
+   "0.95": 23.516883680555534
+  },
+  "max_drawdown": {
+   "0.05": 0.04154776752488011,
+   "0.25": 0.048633047815945185,
+   "0.5": 0.05520371726702772,
+   "0.75": 0.06424708996807171,
+   "0.95": 0.08338106813618945
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 663.7496998553175,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "fixed_fractional_risk_v1[r=0.5%,lev=3]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "MODERATE_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 519.6677343299978,
+   "0.25": 594.8474832222357,
+   "0.5": 652.0813351042173,
+   "0.75": 731.2066008440543,
+   "0.95": 847.6005395601496
+  }
+ },
+ {
+  "equity": 100.0,
+  "longest_drawdown_days": {
+   "0.05": 2.2748871527777776,
+   "0.25": 2.413064236111111,
+   "0.5": 3.014409722222222,
+   "0.75": 3.7582899305555557,
+   "0.95": 4.662743055555555
+  },
+  "max_drawdown": {
+   "0.05": 0.016352353484148503,
+   "0.25": 0.01874755486069088,
+   "0.5": 0.02536513476237562,
+   "0.75": 0.025702704181227748,
+   "0.95": 0.02610052106980302
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 438.3153759702067,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "invalidation_vol_risk_v1[r=0.5%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "MODERATE_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 352.45037617206657,
+   "0.25": 396.0072558009638,
+   "0.5": 428.9878108662385,
+   "0.75": 477.0664768108452,
+   "0.95": 540.9078617262599
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 2.688715277777778,
+   "0.25": 3.5900173611111112,
+   "0.5": 4.212413194444444,
+   "0.75": 5.206857638888889,
+   "0.95": 8.544713541666665
+  },
+  "max_drawdown": {
+   "0.05": 0.01780320064053495,
+   "0.25": 0.020470668735701053,
+   "0.5": 0.025809618300859982,
+   "0.75": 0.02650774276319126,
+   "0.95": 0.02852906260754974
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 713.3439597917069,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "invalidation_vol_risk_v1[r=0.5%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "MODERATE_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 591.1202121120025,
+   "0.25": 652.052828361124,
+   "0.5": 702.005301383514,
+   "0.75": 772.3244705681234,
+   "0.95": 861.0833520594784
+  }
+ },
+ {
+  "equity": 100.0,
+  "longest_drawdown_days": {
+   "0.05": 1.9973958333333333,
+   "0.25": 2.3274305555555554,
+   "0.5": 2.502690972222222,
+   "0.75": 3.1638888888888888,
+   "0.95": 4.172986111111107
+  },
+  "max_drawdown": {
+   "0.05": 0.00790906988719709,
+   "0.25": 0.010254927864135122,
+   "0.5": 0.01192327029367829,
+   "0.75": 0.012675683435679874,
+   "0.95": 0.012748276044042
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 216.10371861327235,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "drawdown_throttled_risk_v1[r=0.25%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "MODERATE_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 192.29661022448937,
+   "0.25": 204.74986132787734,
+   "0.5": 214.63986081715663,
+   "0.75": 226.7346654710252,
+   "0.95": 247.07457523146303
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 1.9973958333333333,
+   "0.25": 2.326866319444444,
+   "0.5": 2.515625,
+   "0.75": 3.2072482638888893,
+   "0.95": 4.178628472222222
+  },
+  "max_drawdown": {
+   "0.05": 0.00800013188429366,
+   "0.25": 0.009054849448285551,
+   "0.5": 0.01272005288166056,
+   "0.75": 0.012778739158279234,
+   "0.95": 0.01284374661744867
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 437.0442307618782,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "drawdown_throttled_risk_v1[r=0.25%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "MODERATE_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 386.7965627767078,
+   "0.25": 413.10435165447427,
+   "0.5": 433.0579945646125,
+   "0.75": 458.45238409167797,
+   "0.95": 499.4364129435358
+  }
+ },
+ {
+  "equity": 100.0,
+  "longest_drawdown_days": {
+   "0.05": 2.2748871527777776,
+   "0.25": 2.413064236111111,
+   "0.5": 3.014409722222222,
+   "0.75": 3.7582899305555557,
+   "0.95": 4.662743055555555
+  },
+  "max_drawdown": {
+   "0.05": 0.016352353484148503,
+   "0.25": 0.01874755486069088,
+   "0.5": 0.02536513476237562,
+   "0.75": 0.025702704181227748,
+   "0.95": 0.02610052106980302
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 438.3153759702067,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "MODERATE_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 352.45037617206657,
+   "0.25": 396.0072558009638,
+   "0.5": 428.9878108662385,
+   "0.75": 477.0664768108452,
+   "0.95": 540.9078617262599
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 2.688715277777778,
+   "0.25": 3.5900173611111112,
+   "0.5": 4.212413194444444,
+   "0.75": 5.206857638888889,
+   "0.95": 8.544713541666665
+  },
+  "max_drawdown": {
+   "0.05": 0.01780320064053495,
+   "0.25": 0.020470668735701053,
+   "0.5": 0.025809618300859982,
+   "0.75": 0.02650774276319126,
+   "0.95": 0.02852906260754974
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 713.3439597917069,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "MODERATE_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 591.1202121120025,
+   "0.25": 652.052828361124,
+   "0.5": 702.005301383514,
+   "0.75": 772.3244705681234,
+   "0.95": 861.0833520594784
+  }
+ },
+ {
+  "equity": 100.0,
+  "longest_drawdown_days": {
+   "0.05": 2.233159722222222,
+   "0.25": 2.387890625,
+   "0.5": 2.9762152777777775,
+   "0.75": 3.6838541666666664,
+   "0.95": 4.654140624999999
+  },
+  "max_drawdown": {
+   "0.05": 0.016120689005286105,
+   "0.25": 0.018652016857224424,
+   "0.5": 0.02523801035133405,
+   "0.75": 0.025587564643946847,
+   "0.95": 0.026038090702225496
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 433.8902207681788,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%,lev=2]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "MODERATE_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 349.2217008147172,
+   "0.25": 392.79869071433615,
+   "0.5": 424.8469576028713,
+   "0.75": 472.916039418482,
+   "0.95": 535.9895328879164
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 2.688715277777778,
+   "0.25": 3.6273871527777777,
+   "0.5": 4.14375,
+   "0.75": 5.101475694444445,
+   "0.95": 7.951571180555552
+  },
+  "max_drawdown": {
+   "0.05": 0.017639614247940572,
+   "0.25": 0.020329830645776537,
+   "0.5": 0.025689394085920025,
+   "0.75": 0.02644694704155201,
+   "0.95": 0.02817468438088229
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 708.7594645405421,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%,lev=2]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "MODERATE_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 585.8447194680666,
+   "0.25": 650.3135173519978,
+   "0.5": 697.0117304017836,
+   "0.75": 767.6890682356914,
+   "0.95": 852.5128711248124
+  }
+ },
+ {
+  "equity": 100.0,
+  "longest_drawdown_days": {
+   "0.05": 3.031875,
+   "0.25": 4.161197916666667,
+   "0.5": 5.133072916666666,
+   "0.75": 6.759375,
+   "0.95": 10.008090277777773
+  },
+  "max_drawdown": {
+   "0.05": 0.026587039356932123,
+   "0.25": 0.033407436598003826,
+   "0.5": 0.042032818009712036,
+   "0.75": 0.04336256367084243,
+   "0.95": 0.045603831536823985
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 589.230170686365,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "drawdown_throttled_risk_v1[r=0.75%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "MODERATE_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 454.30698732766996,
+   "0.25": 520.8816266315835,
+   "0.5": 576.6903902431296,
+   "0.75": 648.8532528221929,
+   "0.95": 750.8440561131046
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 4.785052083333333,
+   "0.25": 6.659027777777778,
+   "0.5": 8.222743055555554,
+   "0.75": 11.042838541666667,
+   "0.95": 17.165572916666665
+  },
+  "max_drawdown": {
+   "0.05": 0.03158593957970192,
+   "0.25": 0.04214355899855626,
+   "0.5": 0.044312397230270084,
+   "0.75": 0.04756316443964753,
+   "0.95": 0.05788277298932073
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 803.4428502393479,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "drawdown_throttled_risk_v1[r=0.75%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "MODERATE_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 639.8634422912253,
+   "0.25": 721.7957009735261,
+   "0.5": 788.2200871674233,
+   "0.75": 881.1910918255905,
+   "0.95": 1003.8382312346491
+  }
+ },
+ {
+  "equity": 100.0,
+  "longest_drawdown_days": {
+   "0.05": 4.189765625000001,
+   "0.25": 5.723046875,
+   "0.5": 7.7666666666666675,
+   "0.75": 10.719270833333333,
+   "0.95": 16.188237847222208
+  },
+  "max_drawdown": {
+   "0.05": 0.03711027700623757,
+   "0.25": 0.049805760665747656,
+   "0.5": 0.05309672913542823,
+   "0.75": 0.05762152526587261,
+   "0.95": 0.06776414631253799
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 635.6507088656049,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "drawdown_throttled_risk_v1[r=1%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "MODERATE_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 487.75263601209633,
+   "0.25": 562.3681905527033,
+   "0.5": 616.8242881656615,
+   "0.75": 700.3322205996257,
+   "0.95": 826.2334336054203
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 6.550269097222222,
+   "0.25": 9.197786458333333,
+   "0.5": 12.59939236111111,
+   "0.75": 16.573046875000003,
+   "0.95": 26.012213541666664
+  },
+  "max_drawdown": {
+   "0.05": 0.04804046551230235,
+   "0.25": 0.05506133753600634,
+   "0.5": 0.06050741161454848,
+   "0.75": 0.06942813766800252,
+   "0.95": 0.08367945562473393
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 795.4805924649504,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "drawdown_throttled_risk_v1[r=1%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "MODERATE_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 630.2638019886468,
+   "0.25": 709.168156481206,
+   "0.5": 779.3707858558,
+   "0.75": 872.4954540452856,
+   "0.95": 1008.54224512726
+  }
+ },
+ {
+  "equity": 100.0,
+  "longest_drawdown_days": {
+   "0.05": 2.2081944444444446,
+   "0.25": 2.355729166666667,
+   "0.5": 2.8190104166666665,
+   "0.75": 3.5387586805555555,
+   "0.95": 4.30987847222222
+  },
+  "max_drawdown": {
+   "0.05": 0.016247782397634514,
+   "0.25": 0.01790078139545409,
+   "0.5": 0.01819870101306792,
+   "0.75": 0.019866754196612657,
+   "0.95": 0.02372199533454303
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 373.54728342887904,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "regime_throttled_risk_v1[r=0.5%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "MODERATE_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 319.3813734373203,
+   "0.25": 349.14728981440516,
+   "0.5": 368.9720140780598,
+   "0.75": 399.5681550575548,
+   "0.95": 437.30429548498915
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 2.4685677083333335,
+   "0.25": 3.331987847222222,
+   "0.5": 4.076302083333333,
+   "0.75": 4.680425347222222,
+   "0.95": 6.577196180555554
+  },
+  "max_drawdown": {
+   "0.05": 0.017618390423068418,
+   "0.25": 0.018376289551047587,
+   "0.5": 0.019066276238759172,
+   "0.75": 0.020639431142704473,
+   "0.95": 0.026009149837384234
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 626.6382607298386,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "regime_throttled_risk_v1[r=0.5%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "MODERATE_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 548.8710247246552,
+   "0.25": 587.3479782945766,
+   "0.5": 619.7889334071414,
+   "0.75": 666.4087336672039,
+   "0.95": 732.1559888739386
+  }
+ },
+ {
+  "equity": 100.0,
+  "longest_drawdown_days": {
+   "0.05": 6.009444444444445,
+   "0.25": 8.058116319444444,
+   "0.5": 10.79609375,
+   "0.75": 14.615234375,
+   "0.95": 23.091154513888878
+  },
+  "max_drawdown": {
+   "0.05": 0.04948116397232526,
+   "0.25": 0.06263580267109514,
+   "0.5": 0.06725013221918341,
+   "0.75": 0.07874737509371152,
+   "0.95": 0.09264155350152867
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 599.2682855216561,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "fractional_kelly_research_v1[k=0.25,pooled]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "MODERATE_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 463.0886853662765,
+   "0.25": 519.9016249965522,
+   "0.5": 584.8810651242522,
+   "0.75": 671.7947592659874,
+   "0.95": 788.1139976491093
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 8.982968750000001,
+   "0.25": 11.849001736111111,
+   "0.5": 16.771267361111114,
+   "0.75": 21.124305555555555,
+   "0.95": 34.54854166666663
+  },
+  "max_drawdown": {
+   "0.05": 0.05960766422165638,
+   "0.25": 0.0715323412069411,
+   "0.5": 0.08414312156771414,
+   "0.75": 0.09589007231072946,
+   "0.95": 0.11670632317861898
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 717.7058108974867,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "fractional_kelly_research_v1[k=0.25,pooled]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "MODERATE_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 562.8980584236474,
+   "0.25": 631.9520210610765,
+   "0.5": 707.1721802774526,
+   "0.75": 797.7093937548519,
+   "0.95": 926.2892130577384
+  }
+ },
+ {
+  "equity": 100.0,
+  "longest_drawdown_days": {
+   "0.05": 7.556553819444446,
+   "0.25": 13.087326388888888,
+   "0.5": 17.577864583333334,
+   "0.75": 24.839800347222223,
+   "0.95": 41.15855902777778
+  },
+  "max_drawdown": {
+   "0.05": 0.05395131323313518,
+   "0.25": 0.061132896009530896,
+   "0.5": 0.07439447646250469,
+   "0.75": 0.08405831565653038,
+   "0.95": 0.11256205327419877
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 146.6475355228729,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "fixed_allocation_baseline_v1",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "REGIME_FLIP",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 125.49065161090051,
+   "0.25": 138.17812223442064,
+   "0.5": 145.64607297339182,
+   "0.75": 155.4732551267211,
+   "0.95": 170.10409715569102
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 7.560807291666667,
+   "0.25": 13.102430555555555,
+   "0.5": 17.6015625,
+   "0.75": 24.23480902777778,
+   "0.95": 40.76467881944445
+  },
+  "max_drawdown": {
+   "0.05": 0.0542965174100646,
+   "0.25": 0.06093979350018014,
+   "0.5": 0.0747848113908815,
+   "0.75": 0.08466561344446971,
+   "0.95": 0.11244841645196099
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 294.3299828615867,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "fixed_allocation_baseline_v1",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "REGIME_FLIP",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 251.35768439523727,
+   "0.25": 277.6155518614931,
+   "0.5": 292.2592870286262,
+   "0.75": 312.0050400959626,
+   "0.95": 341.70512099067975
+  }
+ },
+ {
+  "equity": 100.0,
+  "longest_drawdown_days": {
+   "0.05": 7.37515625,
+   "0.25": 9.412152777777777,
+   "0.5": 12.667013888888889,
+   "0.75": 18.020269097222222,
+   "0.95": 27.624635416666663
+  },
+  "max_drawdown": {
+   "0.05": 0.0893699471852744,
+   "0.25": 0.12457055578917203,
+   "0.5": 0.12705500091277733,
+   "0.75": 0.1412678683732444,
+   "0.95": 0.17387124947945887
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 291.87639819705606,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.03,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "fixed_fractional_risk_v1[r=0.5%,lev=3]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "REGIME_FLIP",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 229.19279821420412,
+   "0.25": 266.9416006155875,
+   "0.5": 289.3542262893758,
+   "0.75": 312.52168955109084,
+   "0.95": 373.6304685087979
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 9.675026041666666,
+   "0.25": 13.299956597222222,
+   "0.5": 18.225954861111113,
+   "0.75": 26.361067708333334,
+   "0.95": 41.51566840277778
+  },
+  "max_drawdown": {
+   "0.05": 0.09086164656445261,
+   "0.25": 0.12675154714811854,
+   "0.5": 0.1341044340913165,
+   "0.75": 0.15879082714943396,
+   "0.95": 0.19849959105480586
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 406.98834271529745,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.03,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "fixed_fractional_risk_v1[r=0.5%,lev=3]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "REGIME_FLIP",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 326.5991745578898,
+   "0.25": 371.0116234127071,
+   "0.5": 404.320140095189,
+   "0.75": 432.9261061564729,
+   "0.95": 507.06865091322885
+  }
+ },
+ {
+  "equity": 100.0,
+  "longest_drawdown_days": {
+   "0.05": 5.3747395833333345,
+   "0.25": 8.28884548611111,
+   "0.5": 11.02109375,
+   "0.75": 14.220355902777778,
+   "0.95": 21.535251736111107
+  },
+  "max_drawdown": {
+   "0.05": 0.06332682060070735,
+   "0.25": 0.08259256541594284,
+   "0.5": 0.0881122877393144,
+   "0.75": 0.09291268568932595,
+   "0.95": 0.11982694073996247
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 266.9789784159459,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.005,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "invalidation_vol_risk_v1[r=0.5%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "REGIME_FLIP",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 216.98953091268532,
+   "0.25": 245.80103645139496,
+   "0.5": 266.49292991239497,
+   "0.75": 285.23108366564634,
+   "0.95": 328.00052724791703
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 6.069730902777778,
+   "0.25": 9.477473958333333,
+   "0.5": 12.382204861111111,
+   "0.75": 17.564930555555556,
+   "0.95": 24.04196180555555
+  },
+  "max_drawdown": {
+   "0.05": 0.06474976147368246,
+   "0.25": 0.08383402824810177,
+   "0.5": 0.08921253905523052,
+   "0.75": 0.09880044817519393,
+   "0.95": 0.12337497756466256
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 460.11263840549947,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.005,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "invalidation_vol_risk_v1[r=0.5%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "REGIME_FLIP",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 383.59848389962025,
+   "0.25": 429.6323688317521,
+   "0.5": 459.90012735100544,
+   "0.75": 487.146773068649,
+   "0.95": 555.5514669109041
+  }
+ },
+ {
+  "equity": 100.0,
+  "longest_drawdown_days": {
+   "0.05": 5.545902777777778,
+   "0.25": 7.835460069444444,
+   "0.5": 10.10546875,
+   "0.75": 13.344921874999999,
+   "0.95": 20.823142361111106
+  },
+  "max_drawdown": {
+   "0.05": 0.029604137582822997,
+   "0.25": 0.039549746325057006,
+   "0.5": 0.04217594551493031,
+   "0.75": 0.04490117705799235,
+   "0.95": 0.055328133742123885
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 165.54381031937942,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "drawdown_throttled_risk_v1[r=0.25%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "REGIME_FLIP",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 148.64964362547983,
+   "0.25": 158.33044357384853,
+   "0.5": 165.09816225712115,
+   "0.75": 172.32419274029343,
+   "0.95": 185.27843851913835
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 5.374539930555557,
+   "0.25": 8.046354166666667,
+   "0.5": 10.8203125,
+   "0.75": 14.042881944444446,
+   "0.95": 21.02677083333332
+  },
+  "max_drawdown": {
+   "0.05": 0.03195405457605926,
+   "0.25": 0.04190880536764585,
+   "0.5": 0.04483306629069789,
+   "0.75": 0.046901792447143986,
+   "0.95": 0.0590480201997427
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 331.71374967941307,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "drawdown_throttled_risk_v1[r=0.25%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "REGIME_FLIP",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 297.54893964467806,
+   "0.25": 316.83485563479076,
+   "0.5": 332.2602441333102,
+   "0.75": 344.9795195442402,
+   "0.95": 371.5561644200476
+  }
+ },
+ {
+  "equity": 100.0,
+  "longest_drawdown_days": {
+   "0.05": 5.485703125,
+   "0.25": 8.969835069444445,
+   "0.5": 11.385763888888889,
+   "0.75": 15.35177951388889,
+   "0.95": 21.78386284722222
+  },
+  "max_drawdown": {
+   "0.05": 0.06007750105165506,
+   "0.25": 0.07634369333450869,
+   "0.5": 0.08061538838219579,
+   "0.75": 0.08505043441132087,
+   "0.95": 0.10533169244380966
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 264.89835375929005,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "REGIME_FLIP",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 215.2690107710775,
+   "0.25": 243.49796875713264,
+   "0.5": 264.77232689610855,
+   "0.75": 282.857262994844,
+   "0.95": 327.998629320355
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 6.618541666666667,
+   "0.25": 9.84140625,
+   "0.5": 12.882638888888888,
+   "0.75": 18.05564236111111,
+   "0.95": 25.92059895833333
+  },
+  "max_drawdown": {
+   "0.05": 0.061485229636564595,
+   "0.25": 0.07725094774913255,
+   "0.5": 0.0815040984865344,
+   "0.75": 0.09047801119373974,
+   "0.95": 0.10628548425161437
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 457.98143577644834,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.005,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "REGIME_FLIP",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 381.37262388642614,
+   "0.25": 427.3991284026816,
+   "0.5": 458.14611622428515,
+   "0.75": 483.38768891704586,
+   "0.95": 553.967397873515
+  }
+ },
+ {
+  "equity": 100.0,
+  "longest_drawdown_days": {
+   "0.05": 5.4763368055555555,
+   "0.25": 8.918923611111111,
+   "0.5": 11.625520833333333,
+   "0.75": 15.50759548611111,
+   "0.95": 21.928194444444436
+  },
+  "max_drawdown": {
+   "0.05": 0.05997989175772508,
+   "0.25": 0.0763865182901575,
+   "0.5": 0.08098538580761361,
+   "0.75": 0.08516166732170358,
+   "0.95": 0.10528472629915578
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 261.9563097281912,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%,lev=2]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "REGIME_FLIP",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 212.31516447494252,
+   "0.25": 239.58944560309695,
+   "0.5": 261.5425596578101,
+   "0.75": 280.5122795444362,
+   "0.95": 325.7749643641127
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 5.85671875,
+   "0.25": 9.825564236111111,
+   "0.5": 12.813454861111111,
+   "0.75": 17.73207465277778,
+   "0.95": 26.246918402777776
+  },
+  "max_drawdown": {
+   "0.05": 0.06082375552184101,
+   "0.25": 0.07730341361417689,
+   "0.5": 0.08147576488567715,
+   "0.75": 0.09042310603413448,
+   "0.95": 0.10606696996652523
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 454.87994867238524,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.005,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%,lev=2]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "REGIME_FLIP",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 379.5663596735167,
+   "0.25": 425.9891679653029,
+   "0.5": 455.7545147810173,
+   "0.75": 478.94837559404175,
+   "0.95": 550.8983385794197
+  }
+ },
+ {
+  "equity": 100.0,
+  "longest_drawdown_days": {
+   "0.05": 6.074262152777778,
+   "0.25": 10.101171875,
+   "0.5": 12.801215277777779,
+   "0.75": 18.336848958333334,
+   "0.95": 26.257725694444442
+  },
+  "max_drawdown": {
+   "0.05": 0.08599717650339447,
+   "0.25": 0.10708935649174689,
+   "0.5": 0.11005428922798494,
+   "0.75": 0.11783285705554927,
+   "0.95": 0.13548262210938028
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 326.8271337779381,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.015,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "drawdown_throttled_risk_v1[r=0.75%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "REGIME_FLIP",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 255.1030691870492,
+   "0.25": 298.86809913595675,
+   "0.5": 326.07419688536316,
+   "0.75": 353.10374805516875,
+   "0.95": 422.6580674583735
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 8.782656249999999,
+   "0.25": 11.773394097222223,
+   "0.5": 16.469097222222224,
+   "0.75": 21.706119791666666,
+   "0.95": 32.617534722222196
+  },
+  "max_drawdown": {
+   "0.05": 0.09273289414435716,
+   "0.25": 0.10858764398217907,
+   "0.5": 0.11230422183404681,
+   "0.75": 0.12298037943436424,
+   "0.95": 0.14254737123050815
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 478.3639635312848,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.015,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "drawdown_throttled_risk_v1[r=0.75%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "REGIME_FLIP",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 389.4279779201877,
+   "0.25": 444.2647794264776,
+   "0.5": 478.66193477210174,
+   "0.75": 511.88646637838536,
+   "0.95": 594.0459384906948
+  }
+ },
+ {
+  "equity": 100.0,
+  "longest_drawdown_days": {
+   "0.05": 8.175642361111112,
+   "0.25": 11.257335069444444,
+   "0.5": 15.518315972222222,
+   "0.75": 20.8328125,
+   "0.95": 30.663411458333332
+  },
+  "max_drawdown": {
+   "0.05": 0.10746247777357525,
+   "0.25": 0.1305607674658349,
+   "0.5": 0.13403470290371017,
+   "0.75": 0.14560525345157008,
+   "0.95": 0.17004808877505048
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 336.54716879431317,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.025,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "drawdown_throttled_risk_v1[r=1%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "REGIME_FLIP",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 260.5943117288025,
+   "0.25": 305.03991023129464,
+   "0.5": 336.5726009891748,
+   "0.75": 364.97299957239954,
+   "0.95": 436.7221214553528
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 10.831770833333334,
+   "0.25": 14.170833333333333,
+   "0.5": 18.987239583333334,
+   "0.75": 26.226171875,
+   "0.95": 41.50282986111109
+  },
+  "max_drawdown": {
+   "0.05": 0.11339934102083583,
+   "0.25": 0.1321768384158266,
+   "0.5": 0.13975464380190855,
+   "0.75": 0.15270461810150068,
+   "0.95": 0.17520612018385792
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 454.5562059123576,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.03,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "drawdown_throttled_risk_v1[r=1%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "REGIME_FLIP",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 364.4744954167699,
+   "0.25": 419.07753270895216,
+   "0.5": 454.1583711546315,
+   "0.75": 486.3907479861115,
+   "0.95": 571.6786759195506
+  }
+ },
+ {
+  "equity": 100.0,
+  "longest_drawdown_days": {
+   "0.05": 4.210312500000001,
+   "0.25": 7.456944444444445,
+   "0.5": 8.45234375,
+   "0.75": 10.132899305555556,
+   "0.95": 14.171041666666662
+  },
+  "max_drawdown": {
+   "0.05": 0.037873733982801985,
+   "0.25": 0.05252086564196681,
+   "0.5": 0.056222625739065224,
+   "0.75": 0.05944697925495279,
+   "0.95": 0.07017584209708477
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 273.9164584409978,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "regime_throttled_risk_v1[r=0.5%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "REGIME_FLIP",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 228.90992366625798,
+   "0.25": 255.65029478397855,
+   "0.5": 273.18913826336143,
+   "0.75": 289.3482985248679,
+   "0.95": 323.4655807354899
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 4.998038194444445,
+   "0.25": 7.867057291666667,
+   "0.5": 9.690538194444445,
+   "0.75": 12.23454861111111,
+   "0.95": 18.820972222222206
+  },
+  "max_drawdown": {
+   "0.05": 0.03889003572849802,
+   "0.25": 0.053023714255430315,
+   "0.5": 0.05933504164626563,
+   "0.75": 0.0615198361582244,
+   "0.95": 0.0741479991365866
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 472.2623004459315,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "regime_throttled_risk_v1[r=0.5%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "REGIME_FLIP",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 405.44090137062153,
+   "0.25": 445.42776405327265,
+   "0.5": 470.4879743789418,
+   "0.75": 496.04656839418664,
+   "0.95": 548.0442371551068
+  }
+ },
+ {
+  "equity": 100.0,
+  "longest_drawdown_days": {
+   "0.05": 10.104973958333334,
+   "0.25": 13.918836805555555,
+   "0.5": 19.051996527777778,
+   "0.75": 25.191015625,
+   "0.95": 42.24765624999999
+  },
+  "max_drawdown": {
+   "0.05": 0.10579470386091296,
+   "0.25": 0.1635492608690734,
+   "0.5": 0.1744535388210227,
+   "0.75": 0.19584875036000388,
+   "0.95": 0.21739434418381245
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 297.1028965190164,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "fractional_kelly_research_v1[k=0.25,pooled]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "REGIME_FLIP",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 210.3749882309592,
+   "0.25": 265.5966975032282,
+   "0.5": 296.5900803290266,
+   "0.75": 327.27225978443505,
+   "0.95": 402.1332872353994
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 13.532508680555555,
+   "0.25": 20.10881076388889,
+   "0.5": 25.733593749999997,
+   "0.75": 33.698741319444444,
+   "0.95": 49.93573784722221
+  },
+  "max_drawdown": {
+   "0.05": 0.11170951452805586,
+   "0.25": 0.16882281341518604,
+   "0.5": 0.1778913174404157,
+   "0.75": 0.2035195800983092,
+   "0.95": 0.22508484785527702
+  },
+  "mean_block_days": 5.0,
+  "mean_terminal_equity": 391.84125892248994,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.005,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "fractional_kelly_research_v1[k=0.25,pooled]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "REGIME_FLIP",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 309.0333912599686,
+   "0.25": 355.8596522140788,
+   "0.5": 390.2405421953092,
+   "0.75": 418.78471550580866,
+   "0.95": 497.18708898275617
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 119.15575520833333,
+   "0.25": 119.61527777777778,
+   "0.5": 119.79574652777777,
+   "0.75": 119.90347222222222,
+   "0.95": 119.96509548611111
+  },
+  "max_drawdown": {
+   "0.05": 0.52963768451737,
+   "0.25": 0.5557023360343329,
+   "0.5": 0.5742536604780191,
+   "0.75": 0.5940412719734881,
+   "0.95": 0.6198323574227979
+  },
+  "mean_block_days": 1.0,
+  "mean_terminal_equity": 85.43227809303012,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 1.0,
+  "p_path_loss_20": 1.0,
+  "p_path_loss_30": 1.0,
+  "p_path_loss_50": 0.98,
+  "p_ruin": 0.98,
+  "p_terminal_below_start": 1.0,
+  "policy": "fixed_allocation_baseline_v1",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "NULL_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 76.12056846358986,
+   "0.25": 81.33029849847674,
+   "0.5": 85.30014335462027,
+   "0.75": 89.04018116720952,
+   "0.95": 94.45631854817493
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 119.40355034722222,
+   "0.25": 119.62838541666667,
+   "0.5": 119.79236111111112,
+   "0.75": 119.90707465277778,
+   "0.95": 119.96514756944444
+  },
+  "max_drawdown": {
+   "0.05": 0.9098393502538035,
+   "0.25": 0.9183569807753971,
+   "0.5": 0.9231746793571525,
+   "0.75": 0.9283183592323867,
+   "0.95": 0.9345281383215799
+  },
+  "mean_block_days": 1.0,
+  "mean_terminal_equity": 15.444807185149994,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 1.0,
+  "p_path_loss_20": 1.0,
+  "p_path_loss_30": 1.0,
+  "p_path_loss_50": 1.0,
+  "p_ruin": 1.0,
+  "p_terminal_below_start": 1.0,
+  "policy": "fixed_fractional_risk_v1[r=0.5%,lev=3]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "NULL_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 13.149980840315617,
+   "0.25": 14.345302487642329,
+   "0.5": 15.405862353157339,
+   "0.75": 16.413347017159733,
+   "0.95": 18.089772783104173
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 119.21943576388888,
+   "0.25": 119.62595486111111,
+   "0.5": 119.80694444444444,
+   "0.75": 119.90078125000001,
+   "0.95": 119.9633767361111
+  },
+  "max_drawdown": {
+   "0.05": 0.7579830764882383,
+   "0.25": 0.7803536879987916,
+   "0.5": 0.7931524017038123,
+   "0.75": 0.8072342396410469,
+   "0.95": 0.8219390199592359
+  },
+  "mean_block_days": 1.0,
+  "mean_terminal_equity": 41.67028385988303,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 1.0,
+  "p_path_loss_20": 1.0,
+  "p_path_loss_30": 1.0,
+  "p_path_loss_50": 1.0,
+  "p_ruin": 1.0,
+  "p_terminal_below_start": 1.0,
+  "policy": "invalidation_vol_risk_v1[r=0.5%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "NULL_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 35.86667682363079,
+   "0.25": 38.756742397654996,
+   "0.5": 41.4606530629151,
+   "0.75": 44.01484681427336,
+   "0.95": 48.53675631571422
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 118.92100694444444,
+   "0.25": 119.40403645833334,
+   "0.5": 119.61015625,
+   "0.75": 119.78220486111111,
+   "0.95": 119.92360243055555
+  },
+  "max_drawdown": {
+   "0.05": 0.22150904802436372,
+   "0.25": 0.22483590685158245,
+   "0.5": 0.2282186382896338,
+   "0.75": 0.23199754890571198,
+   "0.95": 0.23644364041847857
+  },
+  "mean_block_days": 1.0,
+  "mean_terminal_equity": 154.48613066589084,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 1.0,
+  "p_path_loss_20": 1.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 1.0,
+  "policy": "drawdown_throttled_risk_v1[r=0.25%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "NULL_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 152.94902578361135,
+   "0.25": 153.8058732585171,
+   "0.5": 154.54581906663992,
+   "0.75": 155.20384732159667,
+   "0.95": 155.93446414359224
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 90.4734201388889,
+   "0.25": 95.29704861111111,
+   "0.5": 100.98055555555555,
+   "0.75": 107.10429687499999,
+   "0.95": 113.94641493055556
+  },
+  "max_drawdown": {
+   "0.05": 0.35001598970351083,
+   "0.25": 0.35014255043902553,
+   "0.5": 0.3502880284575614,
+   "0.75": 0.35048206432157863,
+   "0.95": 0.3507863427542221
+  },
+  "mean_block_days": 1.0,
+  "mean_terminal_equity": 130.22681629522168,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.995,
+  "p_path_loss_10": 1.0,
+  "p_path_loss_20": 1.0,
+  "p_path_loss_30": 1.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 1.0,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "NULL_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 129.8555190153571,
+   "0.25": 129.942617310669,
+   "0.5": 130.02797939423016,
+   "0.75": 130.3484038668075,
+   "0.95": 131.12001286495297
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 90.4734201388889,
+   "0.25": 95.39097222222222,
+   "0.5": 101.25894097222222,
+   "0.75": 107.07222222222222,
+   "0.95": 113.44125868055555
+  },
+  "max_drawdown": {
+   "0.05": 0.35001608491399455,
+   "0.25": 0.3500990982247333,
+   "0.5": 0.3502664364194112,
+   "0.75": 0.35048854178192523,
+   "0.95": 0.35083912682567636
+  },
+  "mean_block_days": 1.0,
+  "mean_terminal_equity": 130.22796743295183,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.995,
+  "p_path_loss_10": 1.0,
+  "p_path_loss_20": 1.0,
+  "p_path_loss_30": 1.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 1.0,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%,lev=2]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "NULL_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 129.85728463495707,
+   "0.25": 129.94618192934627,
+   "0.5": 130.05142676458473,
+   "0.75": 130.3448929137319,
+   "0.95": 131.1142586578041
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 50.15923611111111,
+   "0.25": 55.77730034722222,
+   "0.5": 59.44236111111111,
+   "0.75": 63.875086805555554,
+   "0.95": 69.82592013888889
+  },
+  "max_drawdown": {
+   "0.05": 0.350036339536738,
+   "0.25": 0.35017453969267825,
+   "0.5": 0.35041692840333,
+   "0.75": 0.3507739975877036,
+   "0.95": 0.3514790708231427
+  },
+  "mean_block_days": 1.0,
+  "mean_terminal_equity": 130.29081186765416,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 1.0,
+  "p_path_loss_10": 1.0,
+  "p_path_loss_20": 1.0,
+  "p_path_loss_30": 1.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 1.0,
+  "policy": "drawdown_throttled_risk_v1[r=0.75%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "NULL_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 129.77549126452365,
+   "0.25": 129.92593003848725,
+   "0.5": 130.06213737338493,
+   "0.75": 130.47348478644525,
+   "0.95": 131.6296426600491
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 35.13607638888889,
+   "0.25": 39.95130208333333,
+   "0.5": 43.79210069444444,
+   "0.75": 47.06206597222222,
+   "0.95": 51.89721354166666
+  },
+  "max_drawdown": {
+   "0.05": 0.3500574907230575,
+   "0.25": 0.35026949428764426,
+   "0.5": 0.35050655074885567,
+   "0.75": 0.3508123130518366,
+   "0.95": 0.3515774847242653
+  },
+  "mean_block_days": 1.0,
+  "mean_terminal_equity": 130.33442116265212,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 1.0,
+  "p_path_loss_10": 1.0,
+  "p_path_loss_20": 1.0,
+  "p_path_loss_30": 1.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 1.0,
+  "policy": "drawdown_throttled_risk_v1[r=1%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "NULL_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 129.74397192105982,
+   "0.25": 129.9066110587694,
+   "0.5": 130.06574135947892,
+   "0.75": 130.53432996773319,
+   "0.95": 131.69414701965587
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 96.77914930555555,
+   "0.25": 104.70520833333333,
+   "0.5": 110.33081597222223,
+   "0.75": 117.44570312500001,
+   "0.95": 119.84874131944444
+  },
+  "max_drawdown": {
+   "0.05": 0.34396974380279294,
+   "0.25": 0.350047310585344,
+   "0.5": 0.3502361775396275,
+   "0.75": 0.3504218365299826,
+   "0.95": 0.3508141532325229
+  },
+  "mean_block_days": 1.0,
+  "mean_terminal_equity": 130.41790526479258,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.84,
+  "p_path_loss_10": 1.0,
+  "p_path_loss_20": 1.0,
+  "p_path_loss_30": 1.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 1.0,
+  "policy": "regime_throttled_risk_v1[r=0.5%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "NULL_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 129.88434085111288,
+   "0.25": 129.9653831389646,
+   "0.5": 130.15450845222057,
+   "0.75": 130.44669962088815,
+   "0.95": 131.95458477228976
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 6.054392361111111,
+   "0.25": 6.99296875,
+   "0.5": 7.603385416666667,
+   "0.75": 8.281423611111112,
+   "0.95": 9.444366319444445
+  },
+  "max_drawdown": {
+   "0.05": 0.06496402659085018,
+   "0.25": 0.08079223322019494,
+   "0.5": 0.09063332643035721,
+   "0.75": 0.10070385144497437,
+   "0.95": 0.11135009137407315
+  },
+  "mean_block_days": 1.0,
+  "mean_terminal_equity": 182.7171011586798,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.255,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 1.0,
+  "policy": "fractional_kelly_research_v1[k=0.25,pooled]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "NULL_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 178.24398782962356,
+   "0.25": 180.26840434409823,
+   "0.5": 182.54232276778777,
+   "0.75": 184.73719811487686,
+   "0.95": 187.9313287174402
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 119.44088541666667,
+   "0.25": 119.6703125,
+   "0.5": 119.84079861111111,
+   "0.75": 119.91901041666667,
+   "0.95": 119.96883680555555
+  },
+  "max_drawdown": {
+   "0.05": 0.6604016571251894,
+   "0.25": 0.6849484369380335,
+   "0.5": 0.7002989108975756,
+   "0.75": 0.7161299279830831,
+   "0.95": 0.7352600585269107
+  },
+  "mean_block_days": 1.0,
+  "mean_terminal_equity": 60.11761961524995,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 1.0,
+  "p_path_loss_20": 1.0,
+  "p_path_loss_30": 1.0,
+  "p_path_loss_50": 1.0,
+  "p_ruin": 1.0,
+  "p_terminal_below_start": 1.0,
+  "policy": "fixed_allocation_baseline_v1",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "NEGATIVE_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 52.98760436356463,
+   "0.25": 56.82635187590975,
+   "0.5": 60.043068628906035,
+   "0.75": 63.08394432742538,
+   "0.95": 67.98951871834625
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 117.24583333333332,
+   "0.25": 118.96271701388889,
+   "0.5": 119.40850694444444,
+   "0.75": 119.71015625,
+   "0.95": 119.91907118055556
+  },
+  "max_drawdown": {
+   "0.05": 0.9451258182996087,
+   "0.25": 0.9476040819123699,
+   "0.5": 0.9487307881090892,
+   "0.75": 0.9495032991156751,
+   "0.95": 0.9500625490457509
+  },
+  "mean_block_days": 1.0,
+  "mean_terminal_equity": 10.353477034679862,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 1.0,
+  "p_path_loss_20": 1.0,
+  "p_path_loss_30": 1.0,
+  "p_path_loss_50": 1.0,
+  "p_ruin": 1.0,
+  "p_terminal_below_start": 1.0,
+  "policy": "fixed_fractional_risk_v1[r=0.5%,lev=3]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "NEGATIVE_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 10.012548418904135,
+   "0.25": 10.118870655149411,
+   "0.5": 10.272803692818506,
+   "0.75": 10.511401594412083,
+   "0.95": 11.044684842074208
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 119.28742187499999,
+   "0.25": 119.62651909722223,
+   "0.5": 119.77543402777778,
+   "0.75": 119.88914930555555,
+   "0.95": 119.96362847222223
+  },
+  "max_drawdown": {
+   "0.05": 0.864411810483694,
+   "0.25": 0.8714284485622721,
+   "0.5": 0.8772962884054156,
+   "0.75": 0.8829409569394294,
+   "0.95": 0.8902662501104242
+  },
+  "mean_block_days": 1.0,
+  "mean_terminal_equity": 24.61024934204053,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 1.0,
+  "p_path_loss_20": 1.0,
+  "p_path_loss_30": 1.0,
+  "p_path_loss_50": 1.0,
+  "p_ruin": 1.0,
+  "p_terminal_below_start": 1.0,
+  "policy": "invalidation_vol_risk_v1[r=0.5%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "NEGATIVE_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 21.979341504617576,
+   "0.25": 23.478665913172254,
+   "0.5": 24.604868841315493,
+   "0.75": 25.79774222255996,
+   "0.95": 27.186741617015407
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 119.00235243055555,
+   "0.25": 119.4361545138889,
+   "0.5": 119.66232638888889,
+   "0.75": 119.79518229166666,
+   "0.95": 119.93753472222222
+  },
+  "max_drawdown": {
+   "0.05": 0.24024193560861992,
+   "0.25": 0.24563493817920978,
+   "0.5": 0.24934130325402465,
+   "0.75": 0.2526331980336008,
+   "0.95": 0.25792806000424745
+  },
+  "mean_block_days": 1.0,
+  "mean_terminal_equity": 150.272799863605,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 1.0,
+  "p_path_loss_20": 1.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 1.0,
+  "policy": "drawdown_throttled_risk_v1[r=0.25%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "NEGATIVE_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 148.69885923472415,
+   "0.25": 149.55277307909316,
+   "0.5": 150.27412289140815,
+   "0.75": 150.95560350911364,
+   "0.95": 152.02740092415044
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 62.573368055555555,
+   "0.25": 65.84014756944444,
+   "0.5": 68.98368055555557,
+   "0.75": 72.4185763888889,
+   "0.95": 77.55635416666665
+  },
+  "max_drawdown": {
+   "0.05": 0.3500223685976566,
+   "0.25": 0.35012418091125963,
+   "0.5": 0.3502381070511403,
+   "0.75": 0.3504307258667396,
+   "0.95": 0.350823500760761
+  },
+  "mean_block_days": 1.0,
+  "mean_terminal_equity": 130.10435166955406,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 1.0,
+  "p_path_loss_10": 1.0,
+  "p_path_loss_20": 1.0,
+  "p_path_loss_30": 1.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 1.0,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "NEGATIVE_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 129.85603863389696,
+   "0.25": 129.941498325462,
+   "0.5": 129.9824639086653,
+   "0.75": 130.18791710977214,
+   "0.95": 130.68112889742275
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 62.573368055555555,
+   "0.25": 65.83025173611111,
+   "0.5": 69.04696180555555,
+   "0.75": 72.37738715277777,
+   "0.95": 77.60962673611111
+  },
+  "max_drawdown": {
+   "0.05": 0.35001997092910037,
+   "0.25": 0.35010914802888216,
+   "0.5": 0.3502393363694902,
+   "0.75": 0.35042950227755315,
+   "0.95": 0.35080264305484066
+  },
+  "mean_block_days": 1.0,
+  "mean_terminal_equity": 130.1037809465858,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 1.0,
+  "p_path_loss_10": 1.0,
+  "p_path_loss_20": 1.0,
+  "p_path_loss_30": 1.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 1.0,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%,lev=2]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "NEGATIVE_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 129.86922899105141,
+   "0.25": 129.94069758923146,
+   "0.5": 129.985098466583,
+   "0.75": 130.18568816269965,
+   "0.95": 130.64909279149927
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 34.80606770833334,
+   "0.25": 38.55243055555556,
+   "0.5": 41.23402777777778,
+   "0.75": 44.166796875,
+   "0.95": 47.95107638888889
+  },
+  "max_drawdown": {
+   "0.05": 0.35003055095513586,
+   "0.25": 0.3501652787891619,
+   "0.5": 0.35036563477232946,
+   "0.75": 0.35067002583600765,
+   "0.95": 0.3511951678027833
+  },
+  "mean_block_days": 1.0,
+  "mean_terminal_equity": 130.13376260651256,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 1.0,
+  "p_path_loss_10": 1.0,
+  "p_path_loss_20": 1.0,
+  "p_path_loss_30": 1.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 1.0,
+  "policy": "drawdown_throttled_risk_v1[r=0.75%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "NEGATIVE_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 129.78648641553482,
+   "0.25": 129.91172063825294,
+   "0.5": 129.97199862904154,
+   "0.75": 130.24421147528005,
+   "0.95": 130.72871644146895
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 25.22237847222222,
+   "0.25": 27.889192708333333,
+   "0.5": 30.320659722222224,
+   "0.75": 32.85308159722222,
+   "0.95": 36.290286458333334
+  },
+  "max_drawdown": {
+   "0.05": 0.3500214764455379,
+   "0.25": 0.3502194466366337,
+   "0.5": 0.3506047035820705,
+   "0.75": 0.3510767402601284,
+   "0.95": 0.35197605926442016
+  },
+  "mean_block_days": 1.0,
+  "mean_terminal_equity": 130.11357578645476,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 1.0,
+  "p_path_loss_10": 1.0,
+  "p_path_loss_20": 1.0,
+  "p_path_loss_30": 1.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 1.0,
+  "policy": "drawdown_throttled_risk_v1[r=1%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "NEGATIVE_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 129.6405200685141,
+   "0.25": 129.8338572428082,
+   "0.5": 129.96678007354726,
+   "0.75": 130.28125206430207,
+   "0.95": 130.9116477621994
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 66.93295138888888,
+   "0.25": 71.72703993055555,
+   "0.5": 76.01901041666667,
+   "0.75": 78.88975694444444,
+   "0.95": 85.09309027777778
+  },
+  "max_drawdown": {
+   "0.05": 0.35002325984485394,
+   "0.25": 0.35010055002803897,
+   "0.5": 0.35024495675878486,
+   "0.75": 0.35044078188937394,
+   "0.95": 0.3507429130112748
+  },
+  "mean_block_days": 1.0,
+  "mean_terminal_equity": 130.08637991503917,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 1.0,
+  "p_path_loss_10": 1.0,
+  "p_path_loss_20": 1.0,
+  "p_path_loss_30": 1.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 1.0,
+  "policy": "regime_throttled_risk_v1[r=0.5%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "NEGATIVE_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 129.86737270919178,
+   "0.25": 129.94033203374406,
+   "0.5": 129.98725877324816,
+   "0.75": 130.1641888952919,
+   "0.95": 130.65514502571676
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 6.110321180555556,
+   "0.25": 7.044227430555556,
+   "0.5": 7.66171875,
+   "0.75": 8.301736111111111,
+   "0.95": 9.460668402777777
+  },
+  "max_drawdown": {
+   "0.05": 0.09463981096810535,
+   "0.25": 0.10861291256615058,
+   "0.5": 0.1143747478932865,
+   "0.75": 0.12107536742463051,
+   "0.95": 0.12979075808034732
+  },
+  "mean_block_days": 1.0,
+  "mean_terminal_equity": 177.49847792473264,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.885,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 1.0,
+  "policy": "fractional_kelly_research_v1[k=0.25,pooled]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "NEGATIVE_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 174.32136353685777,
+   "0.25": 176.01967857009663,
+   "0.5": 177.39835726635334,
+   "0.75": 178.63299675621323,
+   "0.95": 181.75297663266497
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 6.491866319444444,
+   "0.25": 8.867534722222222,
+   "0.5": 11.542013888888889,
+   "0.75": 15.210677083333334,
+   "0.95": 23.16124999999999
+  },
+  "max_drawdown": {
+   "0.05": 0.015337696565519587,
+   "0.25": 0.018486295353565857,
+   "0.5": 0.020824930373986084,
+   "0.75": 0.02441688300861483,
+   "0.95": 0.030042734040783642
+  },
+  "mean_block_days": 1.0,
+  "mean_terminal_equity": 293.6795826674279,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "fixed_allocation_baseline_v1",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "WEAK_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 259.73339477487286,
+   "0.25": 276.9173920395032,
+   "0.5": 293.2545422148031,
+   "0.75": 306.30459163843625,
+   "0.95": 332.55784091568546
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 14.611571180555556,
+   "0.25": 23.37660590277778,
+   "0.5": 31.526822916666667,
+   "0.75": 45.190928819444444,
+   "0.95": 62.866597222222204
+  },
+  "max_drawdown": {
+   "0.05": 0.07447444282066329,
+   "0.25": 0.0959210388970256,
+   "0.5": 0.11536150007774193,
+   "0.75": 0.14181474491194965,
+   "0.95": 0.1907391759378483
+  },
+  "mean_block_days": 1.0,
+  "mean_terminal_equity": 300.32588006078385,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.03,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "fixed_fractional_risk_v1[r=0.5%,lev=3]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "WEAK_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 233.1567824785971,
+   "0.25": 269.73095783039514,
+   "0.5": 294.5162480825247,
+   "0.75": 324.9756483420326,
+   "0.95": 377.8931388867691
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 6.636119791666667,
+   "0.25": 9.462977430555554,
+   "0.5": 11.826649305555556,
+   "0.75": 15.109331597222223,
+   "0.95": 24.72186631944444
+  },
+  "max_drawdown": {
+   "0.05": 0.028911920891540082,
+   "0.25": 0.03470911732886042,
+   "0.5": 0.04199938445449031,
+   "0.75": 0.04889380590486586,
+   "0.95": 0.06627475314189712
+  },
+  "mean_block_days": 1.0,
+  "mean_terminal_equity": 385.46931302042475,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "invalidation_vol_risk_v1[r=0.5%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "WEAK_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 322.4759069745507,
+   "0.25": 360.8719887374255,
+   "0.5": 383.3655757230415,
+   "0.75": 403.71196928748935,
+   "0.95": 453.60448629892653
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 5.150451388888889,
+   "0.25": 7.481032986111111,
+   "0.5": 9.21484375,
+   "0.75": 11.99296875,
+   "0.95": 20.817664930555544
+  },
+  "max_drawdown": {
+   "0.05": 0.013264020752259752,
+   "0.25": 0.015781078540649085,
+   "0.5": 0.018359560419525744,
+   "0.75": 0.020977505919015982,
+   "0.95": 0.029154970618584863
+  },
+  "mean_block_days": 1.0,
+  "mean_terminal_equity": 295.03452217539694,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "drawdown_throttled_risk_v1[r=0.25%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "WEAK_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 265.5398161514582,
+   "0.25": 282.7356076795807,
+   "0.5": 294.9114821757022,
+   "0.75": 304.687974259004,
+   "0.95": 325.35636859133945
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 6.636119791666667,
+   "0.25": 9.462977430555554,
+   "0.5": 11.826649305555556,
+   "0.75": 15.170746527777776,
+   "0.95": 24.788810763888883
+  },
+  "max_drawdown": {
+   "0.05": 0.028911920891540082,
+   "0.25": 0.03470911732886042,
+   "0.5": 0.04199938445449031,
+   "0.75": 0.04889380590486586,
+   "0.95": 0.0641543621458209
+  },
+  "mean_block_days": 1.0,
+  "mean_terminal_equity": 385.4415785132023,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "WEAK_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 322.4616636599027,
+   "0.25": 360.59798197237467,
+   "0.5": 383.3655757230415,
+   "0.75": 403.28760849684306,
+   "0.95": 453.60448629892653
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 6.681857638888889,
+   "0.25": 9.502213541666666,
+   "0.5": 11.832291666666666,
+   "0.75": 14.967317708333333,
+   "0.95": 24.788810763888883
+  },
+  "max_drawdown": {
+   "0.05": 0.028658138797298133,
+   "0.25": 0.03418863172320144,
+   "0.5": 0.041276792879573254,
+   "0.75": 0.04763547083483452,
+   "0.95": 0.06351172218615826
+  },
+  "mean_block_days": 1.0,
+  "mean_terminal_equity": 383.6704043671998,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%,lev=2]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "WEAK_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 321.58694868610473,
+   "0.25": 358.67204918311296,
+   "0.5": 382.1551070899043,
+   "0.75": 401.20206222435553,
+   "0.95": 449.6320299574032
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 8.975217013888889,
+   "0.25": 13.126388888888888,
+   "0.5": 16.483680555555555,
+   "0.75": 23.261848958333335,
+   "0.95": 35.52361111111111
+  },
+  "max_drawdown": {
+   "0.05": 0.051031105011199694,
+   "0.25": 0.06144503351791816,
+   "0.5": 0.06901036799125077,
+   "0.75": 0.07929627172489756,
+   "0.95": 0.09654544370625508
+  },
+  "mean_block_days": 1.0,
+  "mean_terminal_equity": 391.38958919733295,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "drawdown_throttled_risk_v1[r=0.75%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "WEAK_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 316.08843815444754,
+   "0.25": 360.65786609497076,
+   "0.5": 386.7939357649318,
+   "0.75": 416.82176433842073,
+   "0.95": 478.3890420987526
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 12.585442708333334,
+   "0.25": 17.015928819444447,
+   "0.5": 23.440364583333334,
+   "0.75": 31.746744791666668,
+   "0.95": 49.93707465277777
+  },
+  "max_drawdown": {
+   "0.05": 0.06907782437095059,
+   "0.25": 0.08157918091942265,
+   "0.5": 0.09278172712679283,
+   "0.75": 0.10577255284382356,
+   "0.95": 0.12161621321483204
+  },
+  "mean_block_days": 1.0,
+  "mean_terminal_equity": 370.3303124550164,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.005,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "drawdown_throttled_risk_v1[r=1%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "WEAK_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 294.69307406017066,
+   "0.25": 338.1367184577255,
+   "0.5": 364.51834098016695,
+   "0.75": 396.7789434196837,
+   "0.95": 458.2519222134356
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 6.2503125,
+   "0.25": 9.194184027777778,
+   "0.5": 11.900086805555556,
+   "0.75": 14.94474826388889,
+   "0.95": 24.80107638888888
+  },
+  "max_drawdown": {
+   "0.05": 0.027339786117587063,
+   "0.25": 0.03195394203428095,
+   "0.5": 0.038532817920608475,
+   "0.75": 0.04515873551531857,
+   "0.95": 0.0601080501391018
+  },
+  "mean_block_days": 1.0,
+  "mean_terminal_equity": 349.12220219433294,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "regime_throttled_risk_v1[r=0.5%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "WEAK_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 303.8885476237357,
+   "0.25": 328.91690163925966,
+   "0.5": 348.6677344168651,
+   "0.75": 366.3374311276508,
+   "0.95": 408.9639196245573
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 15.321215277777778,
+   "0.25": 24.119661458333333,
+   "0.5": 32.01128472222222,
+   "0.75": 47.16879340277778,
+   "0.95": 80.28671874999999
+  },
+  "max_drawdown": {
+   "0.05": 0.024305586382744788,
+   "0.25": 0.0705664740768572,
+   "0.5": 0.09371173602498933,
+   "0.75": 0.11458883065650502,
+   "0.95": 0.149726425820914
+  },
+  "mean_block_days": 1.0,
+  "mean_terminal_equity": 311.92087185364386,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.005,
+  "policy": "fractional_kelly_research_v1[k=0.25,pooled]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "WEAK_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 228.89939562832848,
+   "0.25": 281.2319911098724,
+   "0.5": 311.3964286043537,
+   "0.75": 342.21281324040393,
+   "0.95": 406.86535435053634
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 2.3066493055555557,
+   "0.25": 2.9027777777777777,
+   "0.5": 3.5900173611111112,
+   "0.75": 4.214279513888888,
+   "0.95": 5.723133680555555
+  },
+  "max_drawdown": {
+   "0.05": 0.010344310994111205,
+   "0.25": 0.01342780278005748,
+   "0.5": 0.013449260586828382,
+   "0.75": 0.014036301920619831,
+   "0.95": 0.01684411639899549
+  },
+  "mean_block_days": 1.0,
+  "mean_terminal_equity": 440.04267706774715,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "fixed_allocation_baseline_v1",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "MODERATE_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 381.5746575764033,
+   "0.25": 417.169307489339,
+   "0.5": 441.26609844816085,
+   "0.75": 462.64385502897636,
+   "0.95": 499.36849852161674
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 6.6760850694444445,
+   "0.25": 8.318619791666666,
+   "0.5": 10.733333333333334,
+   "0.75": 14.033767361111112,
+   "0.95": 22.94174479166666
+  },
+  "max_drawdown": {
+   "0.05": 0.04189856425651851,
+   "0.25": 0.05066289105870822,
+   "0.5": 0.05787254757690874,
+   "0.75": 0.07102166574579777,
+   "0.95": 0.08999974757384396
+  },
+  "mean_block_days": 1.0,
+  "mean_terminal_equity": 655.4541311427453,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "fixed_fractional_risk_v1[r=0.5%,lev=3]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "MODERATE_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 516.3336866140689,
+   "0.25": 594.2976106469999,
+   "0.5": 658.5027608793973,
+   "0.75": 702.7721255186535,
+   "0.95": 792.4065827246558
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 2.8930121527777777,
+   "0.25": 3.8603732638888886,
+   "0.5": 4.884722222222222,
+   "0.75": 5.833420138888889,
+   "0.95": 8.292717013888886
+  },
+  "max_drawdown": {
+   "0.05": 0.018380939020128384,
+   "0.25": 0.02115647317325023,
+   "0.5": 0.023497490391485187,
+   "0.75": 0.026679422585789314,
+   "0.95": 0.033395282864751914
+  },
+  "mean_block_days": 1.0,
+  "mean_terminal_equity": 708.902962157841,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "invalidation_vol_risk_v1[r=0.5%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "MODERATE_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 596.0026663728614,
+   "0.25": 663.2758077837154,
+   "0.5": 708.2714408467888,
+   "0.75": 748.7922002520227,
+   "0.95": 827.221445647839
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 2.2593836805555556,
+   "0.25": 2.901258680555556,
+   "0.5": 3.4052951388888886,
+   "0.75": 4.108333333333333,
+   "0.95": 5.843958333333331
+  },
+  "max_drawdown": {
+   "0.05": 0.008600204947357287,
+   "0.25": 0.009462365972687792,
+   "0.5": 0.010501849284530462,
+   "0.75": 0.011647565984761882,
+   "0.95": 0.014400951491774122
+  },
+  "mean_block_days": 1.0,
+  "mean_terminal_equity": 435.981704896503,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "drawdown_throttled_risk_v1[r=0.25%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "MODERATE_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 391.71761788804525,
+   "0.25": 419.0656688326865,
+   "0.5": 435.493562698282,
+   "0.75": 452.8708144468569,
+   "0.95": 482.24241970757413
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 2.8930121527777777,
+   "0.25": 3.8603732638888886,
+   "0.5": 4.884722222222222,
+   "0.75": 5.833420138888889,
+   "0.95": 8.292717013888886
+  },
+  "max_drawdown": {
+   "0.05": 0.018380939020128384,
+   "0.25": 0.02115647317325023,
+   "0.5": 0.023497490391485187,
+   "0.75": 0.026679422585789314,
+   "0.95": 0.033395282864751914
+  },
+  "mean_block_days": 1.0,
+  "mean_terminal_equity": 708.902962157841,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "MODERATE_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 596.0026663728614,
+   "0.25": 663.2758077837154,
+   "0.5": 708.2714408467888,
+   "0.75": 748.7922002520227,
+   "0.95": 827.221445647839
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 2.8930121527777777,
+   "0.25": 3.825173611111111,
+   "0.5": 4.758072916666666,
+   "0.75": 5.823220486111111,
+   "0.95": 8.281371527777779
+  },
+  "max_drawdown": {
+   "0.05": 0.01796708295660815,
+   "0.25": 0.020848485310822507,
+   "0.5": 0.0231874526177136,
+   "0.75": 0.0260673207485079,
+   "0.95": 0.03280176701095462
+  },
+  "mean_block_days": 1.0,
+  "mean_terminal_equity": 704.5743596334265,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%,lev=2]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "MODERATE_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 591.7677755567747,
+   "0.25": 659.1343676659792,
+   "0.5": 703.8812473026182,
+   "0.75": 745.5394920789231,
+   "0.95": 822.3336852778267
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 4.845182291666666,
+   "0.25": 6.209505208333333,
+   "0.5": 7.867968749999999,
+   "0.75": 10.121961805555557,
+   "0.95": 14.031015624999995
+  },
+  "max_drawdown": {
+   "0.05": 0.03128968118923077,
+   "0.25": 0.03818418924543787,
+   "0.5": 0.04255083987675673,
+   "0.75": 0.05022798069071335,
+   "0.95": 0.06224338114265684
+  },
+  "mean_block_days": 1.0,
+  "mean_terminal_equity": 796.2928623913642,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "drawdown_throttled_risk_v1[r=0.75%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "MODERATE_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 652.073886819107,
+   "0.25": 735.5814878194021,
+   "0.5": 796.3816371330355,
+   "0.75": 848.3746363146729,
+   "0.95": 952.583826284272
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 6.517265625,
+   "0.25": 8.433723958333333,
+   "0.5": 10.959809027777778,
+   "0.75": 14.304296875,
+   "0.95": 22.036241319444425
+  },
+  "max_drawdown": {
+   "0.05": 0.04576260590890249,
+   "0.25": 0.054622098888050225,
+   "0.5": 0.061943610452366626,
+   "0.75": 0.07053641587963413,
+   "0.95": 0.08813862334992419
+  },
+  "mean_block_days": 1.0,
+  "mean_terminal_equity": 787.5930045085007,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "drawdown_throttled_risk_v1[r=1%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "MODERATE_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 627.5719025251308,
+   "0.25": 730.0320353924241,
+   "0.5": 785.7331265358525,
+   "0.75": 849.8862403538011,
+   "0.95": 943.3582710031908
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 2.766171875,
+   "0.25": 3.6557725694444443,
+   "0.5": 4.463454861111111,
+   "0.75": 5.571571180555555,
+   "0.95": 7.529774305555554
+  },
+  "max_drawdown": {
+   "0.05": 0.017195284338529647,
+   "0.25": 0.019467284348600206,
+   "0.5": 0.022164762410483985,
+   "0.75": 0.024963159608004687,
+   "0.95": 0.029696115135539942
+  },
+  "mean_block_days": 1.0,
+  "mean_terminal_equity": 624.7988543467284,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "regime_throttled_risk_v1[r=0.5%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "MODERATE_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 545.8881416537612,
+   "0.25": 584.6924055569914,
+   "0.5": 624.6435187159718,
+   "0.75": 657.1659784081337,
+   "0.95": 715.4668273328518
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 8.809418402777778,
+   "0.25": 11.82282986111111,
+   "0.5": 14.862586805555555,
+   "0.75": 19.269053819444444,
+   "0.95": 27.389383680555543
+  },
+  "max_drawdown": {
+   "0.05": 0.06221636041371526,
+   "0.25": 0.07367652399483396,
+   "0.5": 0.08630556217586488,
+   "0.75": 0.09843260774665025,
+   "0.95": 0.12131391508430299
+  },
+  "mean_block_days": 1.0,
+  "mean_terminal_equity": 707.5029341913896,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "fractional_kelly_research_v1[k=0.25,pooled]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "MODERATE_EDGE",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 555.1642389621,
+   "0.25": 651.1615040135549,
+   "0.5": 706.5624883111564,
+   "0.75": 765.0063323501288,
+   "0.95": 855.2172723652252
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 8.8834375,
+   "0.25": 12.409331597222222,
+   "0.5": 18.27664930555556,
+   "0.75": 29.021831597222224,
+   "0.95": 47.087951388888875
+  },
+  "max_drawdown": {
+   "0.05": 0.03232557227545262,
+   "0.25": 0.05136989890034674,
+   "0.5": 0.06804503482271518,
+   "0.75": 0.0850604263720442,
+   "0.95": 0.1140445663328369
+  },
+  "mean_block_days": 1.0,
+  "mean_terminal_equity": 296.249743396296,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.015,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "fixed_allocation_baseline_v1",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "REGIME_FLIP",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 251.81750526397636,
+   "0.25": 276.4915498919896,
+   "0.5": 294.1519715928988,
+   "0.75": 314.8698542332143,
+   "0.95": 344.0988053605878
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 11.613376736111112,
+   "0.25": 16.039105902777777,
+   "0.5": 22.447309027777777,
+   "0.75": 31.65542534722222,
+   "0.95": 44.859296874999984
+  },
+  "max_drawdown": {
+   "0.05": 0.08255655119873942,
+   "0.25": 0.10221834387509102,
+   "0.5": 0.12636511203896467,
+   "0.75": 0.15744861034249982,
+   "0.95": 0.2189058153520225
+  },
+  "mean_block_days": 1.0,
+  "mean_terminal_equity": 411.20707933914105,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.03,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "fixed_fractional_risk_v1[r=0.5%,lev=3]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "REGIME_FLIP",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 324.10902280947323,
+   "0.25": 367.1570961420755,
+   "0.5": 405.29304445751086,
+   "0.75": 449.18996900637853,
+   "0.95": 508.24921789527315
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 7.695078125,
+   "0.25": 9.833072916666666,
+   "0.5": 12.977690972222222,
+   "0.75": 17.88181423611111,
+   "0.95": 28.838993055555555
+  },
+  "max_drawdown": {
+   "0.05": 0.052594742360543345,
+   "0.25": 0.06518791766038862,
+   "0.5": 0.0774293393585791,
+   "0.75": 0.09693687669054141,
+   "0.95": 0.12505924392673784
+  },
+  "mean_block_days": 1.0,
+  "mean_terminal_equity": 464.4670680307762,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "invalidation_vol_risk_v1[r=0.5%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "REGIME_FLIP",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 384.1593184754009,
+   "0.25": 425.4745641542792,
+   "0.5": 458.4112498785935,
+   "0.75": 497.5767165266012,
+   "0.95": 556.7986620290892
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 5.811579861111111,
+   "0.25": 8.043359375,
+   "0.5": 10.030902777777778,
+   "0.75": 15.576519097222222,
+   "0.95": 22.063576388888876
+  },
+  "max_drawdown": {
+   "0.05": 0.02489695408518649,
+   "0.25": 0.032579741043348515,
+   "0.5": 0.03677414983016747,
+   "0.75": 0.0462867857783717,
+   "0.95": 0.05796765823177165
+  },
+  "mean_block_days": 1.0,
+  "mean_terminal_equity": 333.5560329178156,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "drawdown_throttled_risk_v1[r=0.25%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "REGIME_FLIP",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 299.12151120564806,
+   "0.25": 318.4983413794526,
+   "0.5": 331.5632345096386,
+   "0.75": 347.84838360038214,
+   "0.95": 377.61036415724305
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 7.695078125,
+   "0.25": 9.90451388888889,
+   "0.5": 13.242013888888888,
+   "0.75": 18.596223958333333,
+   "0.95": 28.43980902777777
+  },
+  "max_drawdown": {
+   "0.05": 0.052981521371027095,
+   "0.25": 0.06355047458662419,
+   "0.5": 0.0731653194009092,
+   "0.75": 0.08933824772665647,
+   "0.95": 0.10644641850447595
+  },
+  "mean_block_days": 1.0,
+  "mean_terminal_equity": 463.10882280547276,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "REGIME_FLIP",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 385.7799735203078,
+   "0.25": 427.96036177134476,
+   "0.5": 457.69821999939177,
+   "0.75": 494.15290517771876,
+   "0.95": 556.6426865115885
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 7.695078125,
+   "0.25": 9.90451388888889,
+   "0.5": 13.1078125,
+   "0.75": 18.576692708333333,
+   "0.95": 28.43980902777777
+  },
+  "max_drawdown": {
+   "0.05": 0.053154277471218384,
+   "0.25": 0.06342528266962896,
+   "0.5": 0.07334612309129163,
+   "0.75": 0.08929129883819795,
+   "0.95": 0.10657776505372306
+  },
+  "mean_block_days": 1.0,
+  "mean_terminal_equity": 460.12940505308126,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%,lev=2]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "REGIME_FLIP",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 382.87520332105873,
+   "0.25": 424.86457927662224,
+   "0.5": 453.77363557480453,
+   "0.75": 492.5433020719124,
+   "0.95": 553.5070100079521
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 10.022430555555555,
+   "0.25": 13.198480902777778,
+   "0.5": 17.117534722222224,
+   "0.75": 24.064756944444444,
+   "0.95": 35.5689236111111
+  },
+  "max_drawdown": {
+   "0.05": 0.07796924012009304,
+   "0.25": 0.08978042166237321,
+   "0.5": 0.10788479181574134,
+   "0.75": 0.12242553055372843,
+   "0.95": 0.145504713043666
+  },
+  "mean_block_days": 1.0,
+  "mean_terminal_equity": 483.6902291919338,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "drawdown_throttled_risk_v1[r=0.75%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "REGIME_FLIP",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 388.36238526323507,
+   "0.25": 437.5374705927718,
+   "0.5": 478.2713729087711,
+   "0.75": 528.6271588694966,
+   "0.95": 594.7997390791922
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 11.118836805555556,
+   "0.25": 15.917621527777778,
+   "0.5": 21.76215277777778,
+   "0.75": 28.30998263888889,
+   "0.95": 42.144713541666654
+  },
+  "max_drawdown": {
+   "0.05": 0.10073063151933594,
+   "0.25": 0.1134297803241513,
+   "0.5": 0.1321727406933308,
+   "0.75": 0.15357313347982,
+   "0.95": 0.1807717934832934
+  },
+  "mean_block_days": 1.0,
+  "mean_terminal_equity": 460.3706805910852,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.045,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "drawdown_throttled_risk_v1[r=1%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "REGIME_FLIP",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 365.36879716767334,
+   "0.25": 414.4749959184652,
+   "0.5": 452.33471795591356,
+   "0.75": 507.6347012341801,
+   "0.95": 570.738241786804
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 5.529453125000001,
+   "0.25": 7.464670138888889,
+   "0.5": 9.347222222222221,
+   "0.75": 13.565190972222222,
+   "0.95": 19.78716145833333
+  },
+  "max_drawdown": {
+   "0.05": 0.032822371796509736,
+   "0.25": 0.04745614164903844,
+   "0.5": 0.05211427681576719,
+   "0.75": 0.0604071630911758,
+   "0.95": 0.07547231508856922
+  },
+  "mean_block_days": 1.0,
+  "mean_terminal_equity": 476.1364936428781,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "regime_throttled_risk_v1[r=0.5%]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "REGIME_FLIP",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 415.1795482121672,
+   "0.25": 442.7423125137084,
+   "0.5": 473.11638187052404,
+   "0.75": 505.2096594259574,
+   "0.95": 552.2744138204265
+  }
+ },
+ {
+  "equity": 200.0,
+  "longest_drawdown_days": {
+   "0.05": 15.276432291666667,
+   "0.25": 21.471614583333334,
+   "0.5": 27.884114583333336,
+   "0.75": 35.64118923611112,
+   "0.95": 51.90306423611102
+  },
+  "max_drawdown": {
+   "0.05": 0.10648490396051676,
+   "0.25": 0.14423468571124481,
+   "0.5": 0.1684146993023854,
+   "0.75": 0.19878662517239276,
+   "0.95": 0.22145283750513176
+  },
+  "mean_block_days": 1.0,
+  "mean_terminal_equity": 395.08614894317435,
+  "method": "calendar_day_stationary_block_bootstrap",
+  "p_halted": 0.0,
+  "p_path_loss_10": 0.0,
+  "p_path_loss_20": 0.0,
+  "p_path_loss_30": 0.0,
+  "p_path_loss_50": 0.0,
+  "p_ruin": 0.0,
+  "p_terminal_below_start": 0.0,
+  "policy": "fractional_kelly_research_v1[k=0.25,pooled]",
+  "ruin_definition": "path equity at or below 50% of start (experiment cannot continue)",
+  "samples": 200,
+  "scenario": "REGIME_FLIP",
+  "seed": 7,
+  "terminal_equity": {
+   "0.05": 296.049038074105,
+   "0.25": 352.29994466008856,
+   "0.5": 388.49279754538964,
+   "0.75": 435.09784462926666,
+   "0.95": 493.2276566890566
+  }
+ }
+]

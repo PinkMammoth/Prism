@@ -1,0 +1,100 @@
+{
+ "post_hoc_single_factor_stresses": {
+  "best": "drawdown_throttled_risk_v1[r=0.75%]",
+  "failures": {
+   "drawdown_throttled_risk_v1[r=0.25%]": [],
+   "drawdown_throttled_risk_v1[r=0.5%,lev=2]": [],
+   "drawdown_throttled_risk_v1[r=0.5%]": [],
+   "drawdown_throttled_risk_v1[r=0.75%]": [],
+   "drawdown_throttled_risk_v1[r=1%]": [],
+   "fixed_fractional_risk_v1[r=0.5%,lev=3]": [
+    "NEGATIVE_EDGE $100: P(ruin) 1.00 > control 0.96",
+    "NULL_EDGE $100: P(ruin) 1.00 > control 0.61",
+    "NULL_EDGE $200: P(ruin) 1.00 > control 0.99",
+    "stress slippage_x2: terminal 100.3",
+    "stress payoff_degraded_25pct: terminal 127.3"
+   ],
+   "invalidation_vol_risk_v1[r=0.5%]": [
+    "NEGATIVE_EDGE $100: P(ruin) 1.00 > control 0.96",
+    "NULL_EDGE $100: P(ruin) 1.00 > control 0.61",
+    "NULL_EDGE $200: P(ruin) 1.00 > control 0.99"
+   ],
+   "regime_throttled_risk_v1[r=0.5%]": []
+  },
+  "label": "POST-HOC: excludes the composite stress combined_fees1.5_slip2_payoff after the strict rule admitted no survivor; the composite turns the WEAK_EDGE stream negative for every policy, the control included",
+  "plateau": [
+   "drawdown_throttled_risk_v1[r=0.5%]",
+   "drawdown_throttled_risk_v1[r=0.5%,lev=2]",
+   "drawdown_throttled_risk_v1[r=0.75%]",
+   "drawdown_throttled_risk_v1[r=1%]"
+  ],
+  "selected": "drawdown_throttled_risk_v1[r=0.5%,lev=2]",
+  "survivors": [
+   "drawdown_throttled_risk_v1[r=0.25%]",
+   "drawdown_throttled_risk_v1[r=0.5%]",
+   "drawdown_throttled_risk_v1[r=0.5%,lev=2]",
+   "drawdown_throttled_risk_v1[r=0.75%]",
+   "drawdown_throttled_risk_v1[r=1%]",
+   "regime_throttled_risk_v1[r=0.5%]"
+  ],
+  "weak_edge_median_terminal": {
+   "drawdown_throttled_risk_v1[r=0.25%]": 292.66805045054116,
+   "drawdown_throttled_risk_v1[r=0.5%,lev=2]": 377.3534324709733,
+   "drawdown_throttled_risk_v1[r=0.5%]": 379.17914521397086,
+   "drawdown_throttled_risk_v1[r=0.75%]": 385.2574444641379,
+   "drawdown_throttled_risk_v1[r=1%]": 367.9694187797933,
+   "regime_throttled_risk_v1[r=0.5%]": 342.82815258099663
+  }
+ },
+ "rule": {
+  "constraints": [
+   "every scenario, $100 and $200: block-bootstrap P(path loss >= 50%) <= the control's",
+   "WEAK_EDGE, MODERATE_EDGE, REGIME_FLIP, $100 and $200: P(path loss >= 30%) <= 5%",
+   "WEAK_EDGE, MODERATE_EDGE, REGIME_FLIP, $100 and $200: median max drawdown <= 20%",
+   "WEAK_EDGE $200 stresses: terminal >= 80% of start under every stress",
+   "zero liquidations in every replay"
+  ],
+  "eligible": "status == CANDIDATE (never CONTROL, RESEARCH_ONLY or STRESS_ONLY)",
+  "ranking": "WEAK_EDGE $200 bootstrap median terminal equity; then prefer the LOWEST risk policy whose median lies within the best survivor's interquartile range (plateau preference, not the single best parameter)"
+ },
+ "selected": "drawdown_throttled_risk_v1[r=0.5%,lev=2]",
+ "selected_under": "post_hoc_single_factor_stresses",
+ "strict": {
+  "failures": {
+   "drawdown_throttled_risk_v1[r=0.25%]": [
+    "stress combined_fees1.5_slip2_payoff: terminal 157.5"
+   ],
+   "drawdown_throttled_risk_v1[r=0.5%,lev=2]": [
+    "stress combined_fees1.5_slip2_payoff: terminal 134.3"
+   ],
+   "drawdown_throttled_risk_v1[r=0.5%]": [
+    "stress combined_fees1.5_slip2_payoff: terminal 134.4"
+   ],
+   "drawdown_throttled_risk_v1[r=0.75%]": [
+    "stress combined_fees1.5_slip2_payoff: terminal 130.0"
+   ],
+   "drawdown_throttled_risk_v1[r=1%]": [
+    "stress combined_fees1.5_slip2_payoff: terminal 129.9"
+   ],
+   "fixed_fractional_risk_v1[r=0.5%,lev=3]": [
+    "NEGATIVE_EDGE $100: P(ruin) 1.00 > control 0.96",
+    "NULL_EDGE $100: P(ruin) 1.00 > control 0.61",
+    "NULL_EDGE $200: P(ruin) 1.00 > control 0.99",
+    "stress slippage_x2: terminal 100.3",
+    "stress payoff_degraded_25pct: terminal 127.3",
+    "stress combined_fees1.5_slip2_payoff: terminal 22.1"
+   ],
+   "invalidation_vol_risk_v1[r=0.5%]": [
+    "NEGATIVE_EDGE $100: P(ruin) 1.00 > control 0.96",
+    "NULL_EDGE $100: P(ruin) 1.00 > control 0.61",
+    "NULL_EDGE $200: P(ruin) 1.00 > control 0.99",
+    "stress combined_fees1.5_slip2_payoff: terminal 65.2"
+   ],
+   "regime_throttled_risk_v1[r=0.5%]": [
+    "stress combined_fees1.5_slip2_payoff: terminal 135.0"
+   ]
+  },
+  "selected": null,
+  "survivors": []
+ }
+}

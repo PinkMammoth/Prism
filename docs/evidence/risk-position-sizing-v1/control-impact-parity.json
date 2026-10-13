@@ -1,0 +1,194 @@
+[
+ {
+  "equity": 100.0,
+  "expectancy_r": 0.11681114974524598,
+  "max_drawdown": 0.01712079292075175,
+  "policy": "control_constant_slippage",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 146.48561474850322
+ },
+ {
+  "equity": 200.0,
+  "expectancy_r": 0.11681114974524598,
+  "max_drawdown": 0.01722462353861054,
+  "policy": "control_constant_slippage",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 293.7151596843109
+ },
+ {
+  "equity": 500.0,
+  "expectancy_r": 0.11681114974524598,
+  "max_drawdown": 0.0171185272032357,
+  "policy": "control_constant_slippage",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 735.6726904658126
+ },
+ {
+  "equity": 1000.0,
+  "expectancy_r": 0.11757006619631576,
+  "max_drawdown": 0.017205899214232434,
+  "policy": "control_constant_slippage",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 1474.5570520977683
+ },
+ {
+  "equity": 100.0,
+  "expectancy_r": 0.11681114974524598,
+  "max_drawdown": 0.01712079292075175,
+  "policy": "control_sqrt_impact",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 146.48561474850322
+ },
+ {
+  "equity": 200.0,
+  "expectancy_r": 0.11681114974524598,
+  "max_drawdown": 0.01722462353861054,
+  "policy": "control_sqrt_impact",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 293.7151596843109
+ },
+ {
+  "equity": 500.0,
+  "expectancy_r": 0.09867211268356088,
+  "max_drawdown": 0.018447035374869913,
+  "policy": "control_sqrt_impact",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 710.435176087196
+ },
+ {
+  "equity": 1000.0,
+  "expectancy_r": 0.02057379776884288,
+  "max_drawdown": 0.03593555672721516,
+  "policy": "control_sqrt_impact",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 1199.7181806876038
+ },
+ {
+  "equity": 100.0,
+  "expectancy_r": -0.5026457621555244,
+  "max_drawdown": 0.5011043686551447,
+  "policy": "control_constant_slippage",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 49.88956313448553
+ },
+ {
+  "equity": 200.0,
+  "expectancy_r": -0.4932141909051657,
+  "max_drawdown": 0.5713017834837444,
+  "policy": "control_constant_slippage",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 85.75447311948655
+ },
+ {
+  "equity": 500.0,
+  "expectancy_r": -0.4932141909051657,
+  "max_drawdown": 0.5743756757661806,
+  "policy": "control_constant_slippage",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 212.83574538115096
+ },
+ {
+  "equity": 1000.0,
+  "expectancy_r": -0.49284678744183813,
+  "max_drawdown": 0.5750717720015344,
+  "policy": "control_constant_slippage",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 424.9743750586718
+ },
+ {
+  "equity": 100.0,
+  "expectancy_r": -0.5026457621555244,
+  "max_drawdown": 0.5011043686551447,
+  "policy": "control_sqrt_impact",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 49.88956313448553
+ },
+ {
+  "equity": 200.0,
+  "expectancy_r": -0.4932141909051657,
+  "max_drawdown": 0.5713017834837444,
+  "policy": "control_sqrt_impact",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 85.75447311948655
+ },
+ {
+  "equity": 500.0,
+  "expectancy_r": -0.4932141909051657,
+  "max_drawdown": 0.5743756757661806,
+  "policy": "control_sqrt_impact",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 212.83574538115096
+ },
+ {
+  "equity": 1000.0,
+  "expectancy_r": -0.5059362718154046,
+  "max_drawdown": 0.6010100719716633,
+  "policy": "control_sqrt_impact",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 399.0313428390305
+ },
+ {
+  "equity": 100.0,
+  "expectancy_r": 0.3152693131264563,
+  "max_drawdown": 0.01669160501237843,
+  "policy": "control_constant_slippage",
+  "scenario": "MODERATE_EDGE",
+  "terminal_equity": 218.1915418543472
+ },
+ {
+  "equity": 200.0,
+  "expectancy_r": 0.3152693131264563,
+  "max_drawdown": 0.016746115263100436,
+  "policy": "control_constant_slippage",
+  "scenario": "MODERATE_EDGE",
+  "terminal_equity": 438.71293553599617
+ },
+ {
+  "equity": 500.0,
+  "expectancy_r": 0.31486598044410197,
+  "max_drawdown": 0.016800286132168996,
+  "policy": "control_constant_slippage",
+  "scenario": "MODERATE_EDGE",
+  "terminal_equity": 1099.1160918839948
+ },
+ {
+  "equity": 1000.0,
+  "expectancy_r": 0.31486598044410197,
+  "max_drawdown": 0.016815204413697993,
+  "policy": "control_constant_slippage",
+  "scenario": "MODERATE_EDGE",
+  "terminal_equity": 2200.4619515633817
+ },
+ {
+  "equity": 100.0,
+  "expectancy_r": 0.3152693131264563,
+  "max_drawdown": 0.01669160501237843,
+  "policy": "control_sqrt_impact",
+  "scenario": "MODERATE_EDGE",
+  "terminal_equity": 218.1915418543472
+ },
+ {
+  "equity": 200.0,
+  "expectancy_r": 0.3152693131264563,
+  "max_drawdown": 0.016746115263100436,
+  "policy": "control_sqrt_impact",
+  "scenario": "MODERATE_EDGE",
+  "terminal_equity": 438.71293553599617
+ },
+ {
+  "equity": 500.0,
+  "expectancy_r": 0.26507446998431866,
+  "max_drawdown": 0.016988379814319776,
+  "policy": "control_sqrt_impact",
+  "scenario": "MODERATE_EDGE",
+  "terminal_equity": 1010.2981606711186
+ },
+ {
+  "equity": 1000.0,
+  "expectancy_r": 0.16924987125552285,
+  "max_drawdown": 0.018937590429247808,
+  "policy": "control_sqrt_impact",
+  "scenario": "MODERATE_EDGE",
+  "terminal_equity": 1668.9216046210195
+ }
+]

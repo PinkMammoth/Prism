@@ -1,0 +1,2402 @@
+[
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 100.0,
+  "expectancy_r": 0.11681114974524598,
+  "fees": 31.248667026408253,
+  "max_drawdown": 0.01712079292075175,
+  "policy": "fixed_allocation_baseline_v1",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 146.48561474850322
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 200.0,
+  "expectancy_r": 0.11681114974524598,
+  "fees": 63.21324037238898,
+  "max_drawdown": 0.01722462353861054,
+  "policy": "fixed_allocation_baseline_v1",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 293.7151596843109
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 500.0,
+  "expectancy_r": 0.11681114974524598,
+  "fees": 159.167261738816,
+  "max_drawdown": 0.0171185272032357,
+  "policy": "fixed_allocation_baseline_v1",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 735.6726904658126
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 1000.0,
+  "expectancy_r": 0.11757006619631576,
+  "fees": 319.25695504213877,
+  "max_drawdown": 0.017205899214232434,
+  "policy": "fixed_allocation_baseline_v1",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 1474.5570520977683
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 100.0,
+  "expectancy_r": 0.11681114974524598,
+  "fees": 31.248667026408253,
+  "max_drawdown": 0.01712079292075175,
+  "policy": "fixed_allocation_baseline_v1",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 146.48561474850322
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 200.0,
+  "expectancy_r": 0.11681114974524598,
+  "fees": 63.21324037238898,
+  "max_drawdown": 0.01722462353861054,
+  "policy": "fixed_allocation_baseline_v1",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 293.7151596843109
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 500.0,
+  "expectancy_r": 0.11681114974524598,
+  "fees": 159.167261738816,
+  "max_drawdown": 0.0171185272032357,
+  "policy": "fixed_allocation_baseline_v1",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 735.6726904658126
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 1000.0,
+  "expectancy_r": 0.11757006619631576,
+  "fees": 319.25695504213877,
+  "max_drawdown": 0.017205899214232434,
+  "policy": "fixed_allocation_baseline_v1",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 1474.5570520977683
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 100.0,
+  "expectancy_r": 0.11681114974524598,
+  "fees": 31.248667026408253,
+  "max_drawdown": 0.01712079292075175,
+  "policy": "fixed_allocation_baseline_v1",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 146.48561474850322
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 200.0,
+  "expectancy_r": 0.11376850835798491,
+  "fees": 63.17700663064045,
+  "max_drawdown": 0.01722462353861054,
+  "policy": "fixed_allocation_baseline_v1",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 292.2573048725813
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 500.0,
+  "expectancy_r": 0.02059456181913677,
+  "fees": 143.88180510277553,
+  "max_drawdown": 0.035911200668858445,
+  "policy": "fixed_allocation_baseline_v1",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 599.6222502903768
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 1000.0,
+  "expectancy_r": -0.06113912484331109,
+  "fees": 257.19941184443513,
+  "max_drawdown": 0.09941860455800355,
+  "policy": "fixed_allocation_baseline_v1",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 964.2784698141986
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 100.0,
+  "expectancy_r": 0.08782428446207212,
+  "fees": 133.39499025781004,
+  "max_drawdown": 0.07531409657723964,
+  "policy": "fixed_fractional_risk_v1[r=0.5%,lev=3]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 209.54597325446747
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 200.0,
+  "expectancy_r": 0.04226234721887095,
+  "fees": 224.13180738306542,
+  "max_drawdown": 0.10635532569248018,
+  "policy": "fixed_fractional_risk_v1[r=0.5%,lev=3]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 311.5580985896948
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 500.0,
+  "expectancy_r": -0.027607771681205484,
+  "fees": 410.6768464815605,
+  "max_drawdown": 0.23895123584714217,
+  "policy": "fixed_fractional_risk_v1[r=0.5%,lev=3]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 471.68799596177683
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 1000.0,
+  "expectancy_r": -0.08252662212737245,
+  "fees": 638.869315280699,
+  "max_drawdown": 0.44900737472313534,
+  "policy": "fixed_fractional_risk_v1[r=0.5%,lev=3]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 626.8684243019025
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 100.0,
+  "expectancy_r": 0.10753939065659096,
+  "fees": 139.28953014449343,
+  "max_drawdown": 0.06209572165732413,
+  "policy": "fixed_fractional_risk_v1[r=0.5%,lev=3]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 234.797684065585
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 200.0,
+  "expectancy_r": 0.10726606096537034,
+  "fees": 279.52266637883923,
+  "max_drawdown": 0.062169342204801414,
+  "policy": "fixed_fractional_risk_v1[r=0.5%,lev=3]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 470.6961505353762
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 500.0,
+  "expectancy_r": 0.10770488559683085,
+  "fees": 700.2068423790993,
+  "max_drawdown": 0.06238341431953065,
+  "policy": "fixed_fractional_risk_v1[r=0.5%,lev=3]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 1178.1115413644088
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 1000.0,
+  "expectancy_r": 0.10770488559683083,
+  "fees": 1401.1615121619852,
+  "max_drawdown": 0.06241574193482957,
+  "policy": "fixed_fractional_risk_v1[r=0.5%,lev=3]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 2356.897307039957
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 100.0,
+  "expectancy_r": 0.0428950209601386,
+  "fees": 111.59975456915252,
+  "max_drawdown": 0.10569133162761601,
+  "policy": "fixed_fractional_risk_v1[r=0.5%,lev=3]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 155.24823054721062
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 200.0,
+  "expectancy_r": -0.010307593959653628,
+  "fees": 177.55986916748557,
+  "max_drawdown": 0.1956673811450701,
+  "policy": "fixed_fractional_risk_v1[r=0.5%,lev=3]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 214.3693487300257
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 500.0,
+  "expectancy_r": -0.08254666099542378,
+  "fees": 319.19413901311646,
+  "max_drawdown": 0.4488501145890458,
+  "policy": "fixed_fractional_risk_v1[r=0.5%,lev=3]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 313.4435723324946
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 1000.0,
+  "expectancy_r": -0.1373974975565132,
+  "fees": 494.74828606859126,
+  "max_drawdown": 0.6199069791218099,
+  "policy": "fixed_fractional_risk_v1[r=0.5%,lev=3]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 412.2390184607541
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 100.0,
+  "expectancy_r": 0.11918104221206512,
+  "fees": 87.81063746326808,
+  "max_drawdown": 0.029259394684538975,
+  "policy": "invalidation_vol_risk_v1[r=0.5%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 215.73709197649168
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 200.0,
+  "expectancy_r": 0.09353575129906634,
+  "fees": 166.77601443116023,
+  "max_drawdown": 0.032372588753514564,
+  "policy": "invalidation_vol_risk_v1[r=0.5%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 390.79551217292857
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 500.0,
+  "expectancy_r": 0.01665627304672092,
+  "fees": 338.0568541140004,
+  "max_drawdown": 0.05555108859082569,
+  "policy": "invalidation_vol_risk_v1[r=0.5%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 703.738478485852
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 1000.0,
+  "expectancy_r": -0.05173405105455268,
+  "fees": 550.5900907671728,
+  "max_drawdown": 0.12024699891365709,
+  "policy": "invalidation_vol_risk_v1[r=0.5%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 1024.7459786767506
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 100.0,
+  "expectancy_r": 0.12139527983619713,
+  "fees": 88.04975294634596,
+  "max_drawdown": 0.029259394684538975,
+  "policy": "invalidation_vol_risk_v1[r=0.5%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 217.4082941692873
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 200.0,
+  "expectancy_r": 0.12110589453550075,
+  "fees": 176.95661762014,
+  "max_drawdown": 0.02931264121945998,
+  "policy": "invalidation_vol_risk_v1[r=0.5%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 435.6769915881562
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 500.0,
+  "expectancy_r": 0.12110589453550075,
+  "fees": 443.5671899188637,
+  "max_drawdown": 0.029554418476801514,
+  "policy": "invalidation_vol_risk_v1[r=0.5%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 1090.2755274264064
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 1000.0,
+  "expectancy_r": 0.12110589453550073,
+  "fees": 888.0689085519617,
+  "max_drawdown": 0.02954758011381542,
+  "policy": "invalidation_vol_risk_v1[r=0.5%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 2181.785057207795
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 100.0,
+  "expectancy_r": 0.09385757847053637,
+  "fees": 83.03869079713705,
+  "max_drawdown": 0.03235616344575265,
+  "policy": "invalidation_vol_risk_v1[r=0.5%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 195.11513570699
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 200.0,
+  "expectancy_r": 0.03776338220569241,
+  "fees": 143.23552525093191,
+  "max_drawdown": 0.047598776381236774,
+  "policy": "invalidation_vol_risk_v1[r=0.5%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 308.5926004999921
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 500.0,
+  "expectancy_r": -0.051731199395107084,
+  "fees": 274.968244554792,
+  "max_drawdown": 0.12016455369174295,
+  "policy": "invalidation_vol_risk_v1[r=0.5%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 512.311163099373
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 1000.0,
+  "expectancy_r": -0.11993457801771333,
+  "fees": 439.15548521050465,
+  "max_drawdown": 0.31757188160508876,
+  "policy": "invalidation_vol_risk_v1[r=0.5%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 723.2656938642866
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 100.0,
+  "expectancy_r": 0.11490361921021976,
+  "fees": 35.69259177154703,
+  "max_drawdown": 0.015229957817377793,
+  "policy": "drawdown_throttled_risk_v1[r=0.25%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 144.9581784896146
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 200.0,
+  "expectancy_r": 0.12093962639025528,
+  "fees": 72.86408677888453,
+  "max_drawdown": 0.014584058140022393,
+  "policy": "drawdown_throttled_risk_v1[r=0.25%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 295.69140111391215
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 500.0,
+  "expectancy_r": 0.09044532157660683,
+  "fees": 175.68746291015532,
+  "max_drawdown": 0.016094502732157512,
+  "policy": "drawdown_throttled_risk_v1[r=0.25%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 697.0039333556086
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 1000.0,
+  "expectancy_r": 0.02530996121015734,
+  "fees": 317.7807727089581,
+  "max_drawdown": 0.024766731622354654,
+  "policy": "drawdown_throttled_risk_v1[r=0.25%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 1211.6286181205712
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 100.0,
+  "expectancy_r": 0.11490361921021976,
+  "fees": 35.69259177154703,
+  "max_drawdown": 0.015229957817377793,
+  "policy": "drawdown_throttled_risk_v1[r=0.25%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 144.9581784896146
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 200.0,
+  "expectancy_r": 0.1211371907260805,
+  "fees": 72.87475188385814,
+  "max_drawdown": 0.014584058140022393,
+  "policy": "drawdown_throttled_risk_v1[r=0.25%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 295.7772816310216
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 500.0,
+  "expectancy_r": 0.12110589453550075,
+  "fees": 183.45800068646582,
+  "max_drawdown": 0.014755160527289868,
+  "policy": "drawdown_throttled_risk_v1[r=0.25%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 741.6885467287976
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 1000.0,
+  "expectancy_r": 0.12110589453550075,
+  "fees": 367.7194507683231,
+  "max_drawdown": 0.01482182996230208,
+  "policy": "drawdown_throttled_risk_v1[r=0.25%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 1484.0958493376497
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 100.0,
+  "expectancy_r": 0.11473639891054747,
+  "fees": 35.68923205121627,
+  "max_drawdown": 0.015229957817377793,
+  "policy": "drawdown_throttled_risk_v1[r=0.25%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 144.9316134283582
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 200.0,
+  "expectancy_r": 0.10453791078140509,
+  "fees": 71.19650691974459,
+  "max_drawdown": 0.015148515400007168,
+  "policy": "drawdown_throttled_risk_v1[r=0.25%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 285.92880128467664
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 500.0,
+  "expectancy_r": 0.025328622935696314,
+  "fees": 158.52159351929149,
+  "max_drawdown": 0.024752203566717146,
+  "policy": "drawdown_throttled_risk_v1[r=0.25%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 605.6005489259526
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 1000.0,
+  "expectancy_r": -0.05160642875795985,
+  "fees": 274.98170970883535,
+  "max_drawdown": 0.0584473245290017,
+  "policy": "drawdown_throttled_risk_v1[r=0.25%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 1011.088261482626
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 100.0,
+  "expectancy_r": 0.11918104221206512,
+  "fees": 87.81063746326808,
+  "max_drawdown": 0.029259394684538975,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 215.73709197649168
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 200.0,
+  "expectancy_r": 0.09353575129906634,
+  "fees": 166.77601443116023,
+  "max_drawdown": 0.032372588753514564,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 390.79551217292857
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 500.0,
+  "expectancy_r": 0.01710961364920757,
+  "fees": 337.0839893247509,
+  "max_drawdown": 0.05408094241842165,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 702.6618644274406
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 1000.0,
+  "expectancy_r": -0.04027045236733498,
+  "fees": 509.6974997286541,
+  "max_drawdown": 0.0866734426836755,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 1061.5805266659174
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 100.0,
+  "expectancy_r": 0.12139527983619713,
+  "fees": 88.04975294634596,
+  "max_drawdown": 0.029259394684538975,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 217.4082941692873
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 200.0,
+  "expectancy_r": 0.12110589453550075,
+  "fees": 176.95661762014,
+  "max_drawdown": 0.02931264121945998,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 435.6769915881562
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 500.0,
+  "expectancy_r": 0.12110589453550075,
+  "fees": 443.5671899188637,
+  "max_drawdown": 0.029554418476801514,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 1090.2755274264064
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 1000.0,
+  "expectancy_r": 0.12110589453550073,
+  "fees": 888.0689085519617,
+  "max_drawdown": 0.02954758011381542,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 2181.785057207795
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 100.0,
+  "expectancy_r": 0.09385757847053637,
+  "fees": 83.03869079713705,
+  "max_drawdown": 0.03235616344575265,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 195.11513570699
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 200.0,
+  "expectancy_r": 0.03776338220569241,
+  "fees": 143.23552525093191,
+  "max_drawdown": 0.047598776381236774,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 308.5926004999921
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 500.0,
+  "expectancy_r": -0.04044384978321997,
+  "fees": 254.69047138609287,
+  "max_drawdown": 0.08610866896976643,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 531.1232482409195
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 1000.0,
+  "expectancy_r": -0.0681392122968387,
+  "fees": 322.14823195450475,
+  "max_drawdown": 0.13268346436075062,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 910.6111173884756
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 100.0,
+  "expectancy_r": 0.11926158820357234,
+  "fees": 85.97577301534963,
+  "max_drawdown": 0.02912244032474498,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%,lev=2]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 213.89093274682116
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 200.0,
+  "expectancy_r": 0.09369470412098929,
+  "fees": 164.12568176246944,
+  "max_drawdown": 0.032425135388726045,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%,lev=2]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 389.14128580110287
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 500.0,
+  "expectancy_r": 0.017192222618025176,
+  "fees": 333.2360977709344,
+  "max_drawdown": 0.05347855226794229,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%,lev=2]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 701.5867137980484
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 1000.0,
+  "expectancy_r": -0.040645523964274045,
+  "fees": 507.36840404968,
+  "max_drawdown": 0.08616199206702735,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%,lev=2]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 1062.68970587096
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 100.0,
+  "expectancy_r": 0.12139527983619716,
+  "fees": 86.11496105500575,
+  "max_drawdown": 0.02912244032474498,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%,lev=2]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 215.31676706690266
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 200.0,
+  "expectancy_r": 0.12110589453550075,
+  "fees": 173.10548292187158,
+  "max_drawdown": 0.029114601109746063,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%,lev=2]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 431.64535269968513
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 500.0,
+  "expectancy_r": 0.12110589453550073,
+  "fees": 434.12897951189746,
+  "max_drawdown": 0.02935510647140871,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%,lev=2]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 1080.860201768998
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 1000.0,
+  "expectancy_r": 0.12110589453550073,
+  "fees": 869.2026588783131,
+  "max_drawdown": 0.029382007978408287,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%,lev=2]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 2162.663612525198
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 100.0,
+  "expectancy_r": 0.0940574227783795,
+  "fees": 81.64759799778574,
+  "max_drawdown": 0.03240662049881882,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%,lev=2]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 194.12146397920722
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 200.0,
+  "expectancy_r": 0.03790351924782202,
+  "fees": 141.38443325653364,
+  "max_drawdown": 0.04614412207385554,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%,lev=2]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 307.8123595702599
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 500.0,
+  "expectancy_r": -0.04063996875054692,
+  "fees": 253.3375505693821,
+  "max_drawdown": 0.08611240701039613,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%,lev=2]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 531.2979684984713
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 1000.0,
+  "expectancy_r": -0.06825517185761594,
+  "fees": 321.80216926360487,
+  "max_drawdown": 0.13287434443174106,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%,lev=2]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 910.5392497950925
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 100.0,
+  "expectancy_r": 0.09559902090684198,
+  "fees": 139.52829819591147,
+  "max_drawdown": 0.0464708055412425,
+  "policy": "drawdown_throttled_risk_v1[r=0.75%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 264.55586789549307
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 200.0,
+  "expectancy_r": 0.052650525808162,
+  "fees": 237.20792436474872,
+  "max_drawdown": 0.06072824081487027,
+  "policy": "drawdown_throttled_risk_v1[r=0.75%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 404.2353430631328
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 500.0,
+  "expectancy_r": -0.014547161389155539,
+  "fees": 409.4205610803243,
+  "max_drawdown": 0.09213816894097138,
+  "policy": "drawdown_throttled_risk_v1[r=0.75%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 637.4110614858337
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 1000.0,
+  "expectancy_r": -0.04925566557080434,
+  "fees": 554.7032785256721,
+  "max_drawdown": 0.13195476317569022,
+  "policy": "drawdown_throttled_risk_v1[r=0.75%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 964.3037079470397
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 100.0,
+  "expectancy_r": 0.11391544946951161,
+  "fees": 145.22384410653066,
+  "max_drawdown": 0.046496455997450115,
+  "policy": "drawdown_throttled_risk_v1[r=0.75%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 292.3542196430584
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 200.0,
+  "expectancy_r": 0.11631397867526912,
+  "fees": 291.9301758541926,
+  "max_drawdown": 0.04656887288155864,
+  "policy": "drawdown_throttled_risk_v1[r=0.75%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 587.2920919172465
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 500.0,
+  "expectancy_r": 0.11631397867526912,
+  "fees": 731.2713809818512,
+  "max_drawdown": 0.046732302543179394,
+  "policy": "drawdown_throttled_risk_v1[r=0.75%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 1470.0693109499184
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 1000.0,
+  "expectancy_r": 0.11631397867526912,
+  "fees": 1463.334123630597,
+  "max_drawdown": 0.04675371100508541,
+  "policy": "drawdown_throttled_risk_v1[r=0.75%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 2940.864153851152
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 100.0,
+  "expectancy_r": 0.05091526030760675,
+  "fees": 118.11648156161564,
+  "max_drawdown": 0.06033193002028714,
+  "policy": "drawdown_throttled_risk_v1[r=0.75%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 201.81967163732025
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 200.0,
+  "expectancy_r": 0.00022134527631395055,
+  "fees": 178.97901659976293,
+  "max_drawdown": 0.08376865128755584,
+  "policy": "drawdown_throttled_risk_v1[r=0.75%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 280.5194242405691
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 500.0,
+  "expectancy_r": -0.04923919009752088,
+  "fees": 276.9830795615062,
+  "max_drawdown": 0.13192898556294674,
+  "policy": "drawdown_throttled_risk_v1[r=0.75%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 482.0432551688625
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 1000.0,
+  "expectancy_r": -0.07805388082023447,
+  "fees": 351.9772435956992,
+  "max_drawdown": 0.21140786730844852,
+  "policy": "drawdown_throttled_risk_v1[r=0.75%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 830.1235259339761
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 100.0,
+  "expectancy_r": 0.07414550763791093,
+  "fees": 169.54809462160213,
+  "max_drawdown": 0.0629443897102927,
+  "policy": "drawdown_throttled_risk_v1[r=1%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 277.31816175294523
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 200.0,
+  "expectancy_r": 0.026306700795519725,
+  "fees": 264.9277545529907,
+  "max_drawdown": 0.09292489472957755,
+  "policy": "drawdown_throttled_risk_v1[r=1%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 385.09492841357536
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 500.0,
+  "expectancy_r": -0.029431241619977868,
+  "fees": 431.8501881349458,
+  "max_drawdown": 0.11873992575895653,
+  "policy": "drawdown_throttled_risk_v1[r=1%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 574.6123890263968
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 1000.0,
+  "expectancy_r": -0.0589206049729136,
+  "fees": 581.829802078692,
+  "max_drawdown": 0.17892908221940484,
+  "policy": "drawdown_throttled_risk_v1[r=1%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 918.268441118466
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 100.0,
+  "expectancy_r": 0.10849712967178894,
+  "fees": 186.4479881098437,
+  "max_drawdown": 0.056131528211074255,
+  "policy": "drawdown_throttled_risk_v1[r=1%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 348.31115058564643
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 200.0,
+  "expectancy_r": 0.10893824502861818,
+  "fees": 373.60917720842224,
+  "max_drawdown": 0.05626967741212685,
+  "policy": "drawdown_throttled_risk_v1[r=1%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 697.2960588327411
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 500.0,
+  "expectancy_r": 0.11032805742952803,
+  "fees": 935.9327593755665,
+  "max_drawdown": 0.05627349457515729,
+  "policy": "drawdown_throttled_risk_v1[r=1%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 1746.0829250347397
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 1000.0,
+  "expectancy_r": 0.11032805742952803,
+  "fees": 1872.5114313032261,
+  "max_drawdown": 0.0563257914994878,
+  "policy": "drawdown_throttled_risk_v1[r=1%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 3492.664220137424
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 100.0,
+  "expectancy_r": 0.02715146269820318,
+  "fees": 132.47096708086792,
+  "max_drawdown": 0.09239961219455484,
+  "policy": "drawdown_throttled_risk_v1[r=1%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 193.29264808562368
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 200.0,
+  "expectancy_r": -0.020544973490389043,
+  "fees": 195.21116425377204,
+  "max_drawdown": 0.11318543150478311,
+  "policy": "drawdown_throttled_risk_v1[r=1%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 261.31529298465335
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 500.0,
+  "expectancy_r": -0.05934570937161237,
+  "fees": 290.75041786922645,
+  "max_drawdown": 0.1786327464916515,
+  "policy": "drawdown_throttled_risk_v1[r=1%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 459.2468566259112
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 1000.0,
+  "expectancy_r": -0.07082838346963569,
+  "fees": 342.442553657509,
+  "max_drawdown": 0.2284983285821065,
+  "policy": "drawdown_throttled_risk_v1[r=1%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 815.4317521788639
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 100.0,
+  "expectancy_r": 0.1152549772121381,
+  "fees": 78.79180960252562,
+  "max_drawdown": 0.028270712209313653,
+  "policy": "regime_throttled_risk_v1[r=0.5%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 189.99303147979532
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 200.0,
+  "expectancy_r": 0.09948815131069985,
+  "fees": 151.59958513022139,
+  "max_drawdown": 0.03171354050280806,
+  "policy": "regime_throttled_risk_v1[r=0.5%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 352.34616536258386
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 500.0,
+  "expectancy_r": 0.030652579647435462,
+  "fees": 311.8471258229793,
+  "max_drawdown": 0.05200635121778929,
+  "policy": "regime_throttled_risk_v1[r=0.5%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 651.3533910252294
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 1000.0,
+  "expectancy_r": -0.020867305999133855,
+  "fees": 472.15313210767545,
+  "max_drawdown": 0.08209568778078669,
+  "policy": "regime_throttled_risk_v1[r=0.5%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 1011.1762621134287
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 100.0,
+  "expectancy_r": 0.11621138759184685,
+  "fees": 78.90056147736135,
+  "max_drawdown": 0.027683781086434767,
+  "policy": "regime_throttled_risk_v1[r=0.5%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 190.7933918020542
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 200.0,
+  "expectancy_r": 0.1206182896325084,
+  "fees": 159.45628966880773,
+  "max_drawdown": 0.02772014654775823,
+  "policy": "regime_throttled_risk_v1[r=0.5%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 385.8297851272479
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 500.0,
+  "expectancy_r": 0.12061828963250835,
+  "fees": 399.94860354093566,
+  "max_drawdown": 0.02780077100234879,
+  "policy": "regime_throttled_risk_v1[r=0.5%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 965.9450519024504
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 1000.0,
+  "expectancy_r": 0.12061828963250837,
+  "fees": 800.7409401567506,
+  "max_drawdown": 0.027824978081532836,
+  "policy": "regime_throttled_risk_v1[r=0.5%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 1932.6986049552238
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 100.0,
+  "expectancy_r": 0.09519926314025262,
+  "fees": 75.07149389947631,
+  "max_drawdown": 0.031497590074719084,
+  "policy": "regime_throttled_risk_v1[r=0.5%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 174.7432663807679
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 200.0,
+  "expectancy_r": 0.04959749260248549,
+  "fees": 131.61618750658536,
+  "max_drawdown": 0.044769133930883886,
+  "policy": "regime_throttled_risk_v1[r=0.5%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 283.36202691516957
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 500.0,
+  "expectancy_r": -0.02075287488319834,
+  "fees": 235.63122227577298,
+  "max_drawdown": 0.0818202034698351,
+  "policy": "regime_throttled_risk_v1[r=0.5%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 505.40097024641767
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 1000.0,
+  "expectancy_r": -0.0457663531388065,
+  "fees": 295.2265680709025,
+  "max_drawdown": 0.13608584156838066,
+  "policy": "regime_throttled_risk_v1[r=0.5%]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 897.807886289737
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 100.0,
+  "expectancy_r": 0.1281363034583275,
+  "fees": 68.3198071227883,
+  "max_drawdown": 0.04539519581055185,
+  "policy": "fractional_kelly_research_v1[k=0.25,pooled]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 191.24585668375641
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 200.0,
+  "expectancy_r": 0.08874667973450998,
+  "fees": 125.58550698716532,
+  "max_drawdown": 0.06389491358302513,
+  "policy": "fractional_kelly_research_v1[k=0.25,pooled]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 324.18792391582446
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 500.0,
+  "expectancy_r": 0.02027778826159579,
+  "fees": 236.68069539142746,
+  "max_drawdown": 0.11164631032448835,
+  "policy": "fractional_kelly_research_v1[k=0.25,pooled]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 593.2951171643367
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 1000.0,
+  "expectancy_r": -0.0341830614770406,
+  "fees": 362.19877362305783,
+  "max_drawdown": 0.1425963961440978,
+  "policy": "fractional_kelly_research_v1[k=0.25,pooled]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 966.5411494185186
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 100.0,
+  "expectancy_r": 0.141864672321446,
+  "fees": 69.33203375810153,
+  "max_drawdown": 0.04346336864339595,
+  "policy": "fractional_kelly_research_v1[k=0.25,pooled]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 200.34702704565714
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 200.0,
+  "expectancy_r": 0.14206337515099152,
+  "fees": 139.93869381049862,
+  "max_drawdown": 0.043687503295849583,
+  "policy": "fractional_kelly_research_v1[k=0.25,pooled]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 403.1455541479093
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 500.0,
+  "expectancy_r": 0.14697796768168914,
+  "fees": 350.8639054155215,
+  "max_drawdown": 0.043732261646970416,
+  "policy": "fractional_kelly_research_v1[k=0.25,pooled]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 1009.6760433826552
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 1000.0,
+  "expectancy_r": 0.1452332533278425,
+  "fees": 702.2464971754181,
+  "max_drawdown": 0.04374529348843259,
+  "policy": "fractional_kelly_research_v1[k=0.25,pooled]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 2019.876493468368
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 100.0,
+  "expectancy_r": 0.0862099818585527,
+  "fees": 62.28674794166326,
+  "max_drawdown": 0.06312824522031402,
+  "policy": "fractional_kelly_research_v1[k=0.25,pooled]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 161.27132292297057
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 200.0,
+  "expectancy_r": 0.03585488888282572,
+  "fees": 102.75928380858396,
+  "max_drawdown": 0.1038767559096504,
+  "policy": "fractional_kelly_research_v1[k=0.25,pooled]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 257.4322833424421
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 500.0,
+  "expectancy_r": -0.03303543911150521,
+  "fees": 180.90238937050324,
+  "max_drawdown": 0.14258541402586744,
+  "policy": "fractional_kelly_research_v1[k=0.25,pooled]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 483.18554349226196
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 1000.0,
+  "expectancy_r": -0.078395752893181,
+  "fees": 261.9033184030343,
+  "max_drawdown": 0.207809441377648,
+  "policy": "fractional_kelly_research_v1[k=0.25,pooled]",
+  "scenario": "WEAK_EDGE",
+  "terminal_equity": 819.2200111947244
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 100.0,
+  "expectancy_r": -0.5026457621555244,
+  "fees": 15.160431023875203,
+  "max_drawdown": 0.5011043686551447,
+  "policy": "fixed_allocation_baseline_v1",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 49.88956313448553
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 200.0,
+  "expectancy_r": -0.4932141909051657,
+  "fees": 35.23649897509797,
+  "max_drawdown": 0.5713017834837444,
+  "policy": "fixed_allocation_baseline_v1",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 85.75447311948655
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 500.0,
+  "expectancy_r": -0.4932141909051657,
+  "fees": 88.81097272161237,
+  "max_drawdown": 0.5743756757661806,
+  "policy": "fixed_allocation_baseline_v1",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 212.83574538115096
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 1000.0,
+  "expectancy_r": -0.49284678744183813,
+  "fees": 178.08373461919814,
+  "max_drawdown": 0.5750717720015344,
+  "policy": "fixed_allocation_baseline_v1",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 424.9743750586718
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 100.0,
+  "expectancy_r": -0.5026457621555244,
+  "fees": 15.160431023875203,
+  "max_drawdown": 0.5011043686551447,
+  "policy": "fixed_allocation_baseline_v1",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 49.88956313448553
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 200.0,
+  "expectancy_r": -0.4932141909051657,
+  "fees": 35.23649897509797,
+  "max_drawdown": 0.5713017834837444,
+  "policy": "fixed_allocation_baseline_v1",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 85.75447311948655
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 500.0,
+  "expectancy_r": -0.4932141909051657,
+  "fees": 88.81097272161237,
+  "max_drawdown": 0.5743756757661806,
+  "policy": "fixed_allocation_baseline_v1",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 212.83574538115096
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 1000.0,
+  "expectancy_r": -0.49284678744183813,
+  "fees": 178.08373461919814,
+  "max_drawdown": 0.5750717720015344,
+  "policy": "fixed_allocation_baseline_v1",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 424.9743750586718
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 100.0,
+  "expectancy_r": -0.5026457621555244,
+  "fees": 15.160431023875203,
+  "max_drawdown": 0.5011043686551447,
+  "policy": "fixed_allocation_baseline_v1",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 49.88956313448553
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 200.0,
+  "expectancy_r": -0.4932141909051657,
+  "fees": 35.23649897509797,
+  "max_drawdown": 0.5713017834837444,
+  "policy": "fixed_allocation_baseline_v1",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 85.75447311948655
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 500.0,
+  "expectancy_r": -0.5050899130207656,
+  "fees": 85.24202466852994,
+  "max_drawdown": 0.5988176825737066,
+  "policy": "fixed_allocation_baseline_v1",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 200.61451980495048
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 1000.0,
+  "expectancy_r": -0.533871703578233,
+  "fees": 157.93865597037873,
+  "max_drawdown": 0.6601515761693724,
+  "policy": "fixed_allocation_baseline_v1",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 339.8484238306276
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 100.0,
+  "expectancy_r": -0.5170844287258132,
+  "fees": 32.32413154239636,
+  "max_drawdown": 0.884888496008738,
+  "policy": "fixed_fractional_risk_v1[r=0.5%,lev=3]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 11.511150399126196
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 200.0,
+  "expectancy_r": -0.5105936195227484,
+  "fees": 63.918884537346536,
+  "max_drawdown": 0.9222448530118286,
+  "policy": "fixed_fractional_risk_v1[r=0.5%,lev=3]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 15.55102939763428
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 500.0,
+  "expectancy_r": -0.5072058495080692,
+  "fees": 145.6018834088712,
+  "max_drawdown": 0.9410021412626689,
+  "policy": "fixed_fractional_risk_v1[r=0.5%,lev=3]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 29.498929368665532
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 1000.0,
+  "expectancy_r": -0.5184325569340718,
+  "fees": 261.21170565453025,
+  "max_drawdown": 0.9516123749721502,
+  "policy": "fixed_fractional_risk_v1[r=0.5%,lev=3]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 48.38762502784975
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 100.0,
+  "expectancy_r": -0.5170844287258132,
+  "fees": 32.32413154239636,
+  "max_drawdown": 0.884888496008738,
+  "policy": "fixed_fractional_risk_v1[r=0.5%,lev=3]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 11.511150399126196
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 200.0,
+  "expectancy_r": -0.5056944255681651,
+  "fees": 65.38946407864339,
+  "max_drawdown": 0.9206233924479822,
+  "policy": "fixed_fractional_risk_v1[r=0.5%,lev=3]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 15.875321510403559
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 500.0,
+  "expectancy_r": -0.49187601017109217,
+  "fees": 164.41953822125893,
+  "max_drawdown": 0.9317904391349392,
+  "policy": "fixed_fractional_risk_v1[r=0.5%,lev=3]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 34.104780432530404
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 1000.0,
+  "expectancy_r": -0.49159443139391046,
+  "fees": 329.03103300065794,
+  "max_drawdown": 0.9345146071954623,
+  "policy": "fixed_fractional_risk_v1[r=0.5%,lev=3]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 65.48539280453772
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 100.0,
+  "expectancy_r": -0.5208034629206444,
+  "fees": 31.692718796572482,
+  "max_drawdown": 0.8873648427111566,
+  "policy": "fixed_fractional_risk_v1[r=0.5%,lev=3]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 11.26351572888434
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 200.0,
+  "expectancy_r": -0.5233153544671194,
+  "fees": 59.50854082491866,
+  "max_drawdown": 0.9259117393300448,
+  "policy": "fixed_fractional_risk_v1[r=0.5%,lev=3]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 14.817652133991041
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 500.0,
+  "expectancy_r": -0.5281243926108493,
+  "fees": 130.32164403153257,
+  "max_drawdown": 0.9501353489547903,
+  "policy": "fixed_fractional_risk_v1[r=0.5%,lev=3]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 24.93232552260484
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 1000.0,
+  "expectancy_r": -0.5375536178923997,
+  "fees": 229.2692575620067,
+  "max_drawdown": 0.9605995990980338,
+  "policy": "fixed_fractional_risk_v1[r=0.5%,lev=3]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 39.40040090196616
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 100.0,
+  "expectancy_r": -0.48132189818016136,
+  "fees": 29.533251835963362,
+  "max_drawdown": 0.7463442339336902,
+  "policy": "invalidation_vol_risk_v1[r=0.5%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 25.437950597198043
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 200.0,
+  "expectancy_r": -0.4873386645600233,
+  "fees": 59.964908236696516,
+  "max_drawdown": 0.790580854083993,
+  "policy": "invalidation_vol_risk_v1[r=0.5%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 41.930697115825
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 500.0,
+  "expectancy_r": -0.4919351300400573,
+  "fees": 141.4697700484285,
+  "max_drawdown": 0.8091383272882988,
+  "policy": "invalidation_vol_risk_v1[r=0.5%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 95.52821473338456
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 1000.0,
+  "expectancy_r": -0.5106017144145513,
+  "fees": 255.74399692858026,
+  "max_drawdown": 0.8345310020598333,
+  "policy": "invalidation_vol_risk_v1[r=0.5%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 165.63244256732196
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 100.0,
+  "expectancy_r": -0.48132189818016136,
+  "fees": 29.533251835963362,
+  "max_drawdown": 0.7463442339336902,
+  "policy": "invalidation_vol_risk_v1[r=0.5%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 25.437950597198043
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 200.0,
+  "expectancy_r": -0.48693271893092327,
+  "fees": 60.1666377718246,
+  "max_drawdown": 0.7898901348259872,
+  "policy": "invalidation_vol_risk_v1[r=0.5%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 42.06884096742615
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 500.0,
+  "expectancy_r": -0.48174061460089795,
+  "fees": 151.39420457403602,
+  "max_drawdown": 0.7947968965573589,
+  "policy": "invalidation_vol_risk_v1[r=0.5%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 102.71000204092367
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 1000.0,
+  "expectancy_r": -0.4811729480966758,
+  "fees": 302.9851567881436,
+  "max_drawdown": 0.7955431929339021,
+  "policy": "invalidation_vol_risk_v1[r=0.5%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 204.66504128630945
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 100.0,
+  "expectancy_r": -0.4812893346086061,
+  "fees": 29.439568844810005,
+  "max_drawdown": 0.7466605282938016,
+  "policy": "invalidation_vol_risk_v1[r=0.5%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 25.40632116118691
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 200.0,
+  "expectancy_r": -0.49473531505158963,
+  "fees": 57.517934276125956,
+  "max_drawdown": 0.7992985032594617,
+  "policy": "invalidation_vol_risk_v1[r=0.5%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 40.18278097827264
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 500.0,
+  "expectancy_r": -0.5112504296538964,
+  "fees": 127.76302870198678,
+  "max_drawdown": 0.8337503578861856,
+  "policy": "invalidation_vol_risk_v1[r=0.5%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 83.20747808670704
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 1000.0,
+  "expectancy_r": -0.5362608885916403,
+  "fees": 224.4731607569894,
+  "max_drawdown": 0.8648177682743368,
+  "policy": "invalidation_vol_risk_v1[r=0.5%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 135.27567608031427
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 100.0,
+  "expectancy_r": -0.47621415625441266,
+  "fees": 9.30935573469627,
+  "max_drawdown": 0.20021601022975843,
+  "policy": "drawdown_throttled_risk_v1[r=0.25%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 79.97839897702416
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 200.0,
+  "expectancy_r": -0.4656838760195454,
+  "fees": 19.29942054626656,
+  "max_drawdown": 0.22704171153685138,
+  "policy": "drawdown_throttled_risk_v1[r=0.25%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 154.64648647336236
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 500.0,
+  "expectancy_r": -0.49002276806578804,
+  "fees": 53.8590895252672,
+  "max_drawdown": 0.2815354718090681,
+  "policy": "drawdown_throttled_risk_v1[r=0.25%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 359.279238214012
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 1000.0,
+  "expectancy_r": -0.49043779188576603,
+  "fees": 103.7722480981137,
+  "max_drawdown": 0.2895312958867534,
+  "policy": "drawdown_throttled_risk_v1[r=0.25%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 710.5604591991095
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 100.0,
+  "expectancy_r": -0.47621415625441266,
+  "fees": 9.30935573469627,
+  "max_drawdown": 0.20021601022975843,
+  "policy": "drawdown_throttled_risk_v1[r=0.25%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 79.97839897702416
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 200.0,
+  "expectancy_r": -0.4656838760195454,
+  "fees": 19.29942054626656,
+  "max_drawdown": 0.22704171153685138,
+  "policy": "drawdown_throttled_risk_v1[r=0.25%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 154.64648647336236
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 500.0,
+  "expectancy_r": -0.48908715294768706,
+  "fees": 54.69340885681843,
+  "max_drawdown": 0.2813248957430803,
+  "policy": "drawdown_throttled_risk_v1[r=0.25%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 359.3845262470059
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 1000.0,
+  "expectancy_r": -0.483817827693383,
+  "fees": 110.6160277826867,
+  "max_drawdown": 0.28591741088217626,
+  "policy": "drawdown_throttled_risk_v1[r=0.25%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 714.1765373549159
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 100.0,
+  "expectancy_r": -0.47621415625441266,
+  "fees": 9.30935573469627,
+  "max_drawdown": 0.20021601022975843,
+  "policy": "drawdown_throttled_risk_v1[r=0.25%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 79.97839897702416
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 200.0,
+  "expectancy_r": -0.4652845510624769,
+  "fees": 19.237864273539415,
+  "max_drawdown": 0.22720185688054884,
+  "policy": "drawdown_throttled_risk_v1[r=0.25%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 154.61445740462287
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 500.0,
+  "expectancy_r": -0.49285767240744266,
+  "fees": 51.266049600779084,
+  "max_drawdown": 0.28329507421211364,
+  "policy": "drawdown_throttled_risk_v1[r=0.25%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 358.3994370124893
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 1000.0,
+  "expectancy_r": -0.5020950840824916,
+  "fees": 96.38519008537108,
+  "max_drawdown": 0.29678351751697196,
+  "policy": "drawdown_throttled_risk_v1[r=0.25%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 703.3015740400995
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 100.0,
+  "expectancy_r": -0.46034499823619607,
+  "fees": 12.450698863887284,
+  "max_drawdown": 0.27270570890737955,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 72.77987158753606
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 200.0,
+  "expectancy_r": -0.4824630565995331,
+  "fees": 29.05244256442349,
+  "max_drawdown": 0.350875246212358,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 129.8249507575284
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 500.0,
+  "expectancy_r": -0.49611105041445336,
+  "fees": 64.78369931601236,
+  "max_drawdown": 0.3514304373698113,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 324.28478131509434
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 1000.0,
+  "expectancy_r": -0.5078992874521138,
+  "fees": 115.17147605926746,
+  "max_drawdown": 0.35031843007793007,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 649.6815699220699
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 100.0,
+  "expectancy_r": -0.46034499823619607,
+  "fees": 12.450698863887284,
+  "max_drawdown": 0.27270570890737955,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 72.77987158753606
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 200.0,
+  "expectancy_r": -0.48231377860004476,
+  "fees": 29.146636791242933,
+  "max_drawdown": 0.3502591126464665,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 129.9481774707067
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 500.0,
+  "expectancy_r": -0.4939022268188885,
+  "fees": 69.2992077863858,
+  "max_drawdown": 0.3501896917569989,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 324.9051541215006
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 1000.0,
+  "expectancy_r": -0.4930130773884025,
+  "fees": 137.51175800578963,
+  "max_drawdown": 0.3501139839338867,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 649.8860160661133
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 100.0,
+  "expectancy_r": -0.46069818207125507,
+  "fees": 12.377656641536559,
+  "max_drawdown": 0.2727181783729671,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 72.77862464097731
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 200.0,
+  "expectancy_r": -0.4848890138769664,
+  "fees": 27.811468105668467,
+  "max_drawdown": 0.35010418773518237,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 129.97916245296352
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 500.0,
+  "expectancy_r": -0.508688975080012,
+  "fees": 57.6280296455774,
+  "max_drawdown": 0.35085985574162126,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 324.5700721291894
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 1000.0,
+  "expectancy_r": -0.5318640064058114,
+  "fees": 101.68210073491774,
+  "max_drawdown": 0.35099932297832814,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 649.0006770216719
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 100.0,
+  "expectancy_r": -0.46302719173896506,
+  "fees": 12.440233582819667,
+  "max_drawdown": 0.27401000076679494,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%,lev=2]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 72.64944240159453
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 200.0,
+  "expectancy_r": -0.4824635410235168,
+  "fees": 29.040119540111686,
+  "max_drawdown": 0.350166548817898,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%,lev=2]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 129.9666902364204
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 500.0,
+  "expectancy_r": -0.49611191402998517,
+  "fees": 64.80214628691775,
+  "max_drawdown": 0.3514651137668462,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%,lev=2]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 324.2674431165769
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 1000.0,
+  "expectancy_r": -0.5078967303830391,
+  "fees": 115.14798329621323,
+  "max_drawdown": 0.3504042581923935,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%,lev=2]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 649.5957418076065
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 100.0,
+  "expectancy_r": -0.46302719173896506,
+  "fees": 12.440233582819667,
+  "max_drawdown": 0.27401000076679494,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%,lev=2]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 72.64944240159453
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 200.0,
+  "expectancy_r": -0.48231377860004476,
+  "fees": 29.119624409666912,
+  "max_drawdown": 0.35027713193135324,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%,lev=2]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 129.94457361372935
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 500.0,
+  "expectancy_r": -0.4939022268188885,
+  "fees": 69.23225102187293,
+  "max_drawdown": 0.350118478272759,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%,lev=2]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 324.9407608636205
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 1000.0,
+  "expectancy_r": -0.4924582672484722,
+  "fees": 138.0359104388885,
+  "max_drawdown": 0.3500136554734864,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%,lev=2]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 649.9863445265136
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 100.0,
+  "expectancy_r": -0.46424432106345837,
+  "fees": 12.386567584345388,
+  "max_drawdown": 0.2739877745710264,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%,lev=2]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 72.65166502117138
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 200.0,
+  "expectancy_r": -0.4844835786071879,
+  "fees": 27.756730176608986,
+  "max_drawdown": 0.35014967975864986,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%,lev=2]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 129.97006404827002
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 500.0,
+  "expectancy_r": -0.5075778968424343,
+  "fees": 57.5629809368594,
+  "max_drawdown": 0.3500253370903762,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%,lev=2]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 324.9873314548119
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 1000.0,
+  "expectancy_r": -0.5318640064058114,
+  "fees": 101.68210073491774,
+  "max_drawdown": 0.35099932297832814,
+  "policy": "drawdown_throttled_risk_v1[r=0.5%,lev=2]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 649.0006770216719
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 100.0,
+  "expectancy_r": -0.47850175612500045,
+  "fees": 14.71917478331869,
+  "max_drawdown": 0.35055839457908633,
+  "policy": "drawdown_throttled_risk_v1[r=0.75%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 64.94416054209137
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 200.0,
+  "expectancy_r": -0.4964991424235279,
+  "fees": 27.266760217870132,
+  "max_drawdown": 0.350585754877068,
+  "policy": "drawdown_throttled_risk_v1[r=0.75%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 129.8828490245864
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 500.0,
+  "expectancy_r": -0.5022852917971153,
+  "fees": 62.69737088412844,
+  "max_drawdown": 0.35009543677074606,
+  "policy": "drawdown_throttled_risk_v1[r=0.75%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 324.952281614627
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 1000.0,
+  "expectancy_r": -0.5258860177715872,
+  "fees": 109.74476449753283,
+  "max_drawdown": 0.3500913164184213,
+  "policy": "drawdown_throttled_risk_v1[r=0.75%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 649.9086835815788
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 100.0,
+  "expectancy_r": -0.47850175612500045,
+  "fees": 14.71917478331869,
+  "max_drawdown": 0.35055839457908633,
+  "policy": "drawdown_throttled_risk_v1[r=0.75%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 64.94416054209137
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 200.0,
+  "expectancy_r": -0.4899864966460902,
+  "fees": 27.56579482750158,
+  "max_drawdown": 0.3501704308230673,
+  "policy": "drawdown_throttled_risk_v1[r=0.75%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 129.96591383538654
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 500.0,
+  "expectancy_r": -0.49735050243698053,
+  "fees": 68.32984806191546,
+  "max_drawdown": 0.35078838397354717,
+  "policy": "drawdown_throttled_risk_v1[r=0.75%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 324.6058080132264
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 1000.0,
+  "expectancy_r": -0.49632381720090907,
+  "fees": 136.76882497569133,
+  "max_drawdown": 0.3506088707414301,
+  "policy": "drawdown_throttled_risk_v1[r=0.75%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 649.3911292585699
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 100.0,
+  "expectancy_r": -0.4796542001547301,
+  "fees": 14.607969342936729,
+  "max_drawdown": 0.35021170756156306,
+  "policy": "drawdown_throttled_risk_v1[r=0.75%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 64.97882924384369
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 200.0,
+  "expectancy_r": -0.5027285517691316,
+  "fees": 25.87068219987694,
+  "max_drawdown": 0.3503957491943984,
+  "policy": "drawdown_throttled_risk_v1[r=0.75%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 129.9208501611203
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 500.0,
+  "expectancy_r": -0.528136101284316,
+  "fees": 54.924670725656064,
+  "max_drawdown": 0.35007887675422644,
+  "policy": "drawdown_throttled_risk_v1[r=0.75%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 324.96056162288676
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 1000.0,
+  "expectancy_r": -0.5610254517681555,
+  "fees": 93.38308496068322,
+  "max_drawdown": 0.3508517808431826,
+  "policy": "drawdown_throttled_risk_v1[r=0.75%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 649.1482191568174
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 100.0,
+  "expectancy_r": -0.49557551123820315,
+  "fees": 14.308862179101816,
+  "max_drawdown": 0.35071512036058705,
+  "policy": "drawdown_throttled_risk_v1[r=1%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 64.9284879639413
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 200.0,
+  "expectancy_r": -0.510190611169081,
+  "fees": 27.10437580945297,
+  "max_drawdown": 0.3506535945999927,
+  "policy": "drawdown_throttled_risk_v1[r=1%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 129.86928108000146
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 500.0,
+  "expectancy_r": -0.5078883000841729,
+  "fees": 61.674354948235624,
+  "max_drawdown": 0.3511564848426868,
+  "policy": "drawdown_throttled_risk_v1[r=1%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 324.4217575786566
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 1000.0,
+  "expectancy_r": -0.5341104127279399,
+  "fees": 103.78790124119125,
+  "max_drawdown": 0.3509354973244252,
+  "policy": "drawdown_throttled_risk_v1[r=1%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 650.1557601188523
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 100.0,
+  "expectancy_r": -0.49557551123820315,
+  "fees": 14.308862179101816,
+  "max_drawdown": 0.35071512036058705,
+  "policy": "drawdown_throttled_risk_v1[r=1%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 64.9284879639413
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 200.0,
+  "expectancy_r": -0.5094191452758949,
+  "fees": 27.6835697391085,
+  "max_drawdown": 0.3504287497225359,
+  "policy": "drawdown_throttled_risk_v1[r=1%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 129.91425005549283
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 500.0,
+  "expectancy_r": -0.5076201283801506,
+  "fees": 69.34125386025582,
+  "max_drawdown": 0.3513417250993125,
+  "policy": "drawdown_throttled_risk_v1[r=1%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 324.32913745034375
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 1000.0,
+  "expectancy_r": -0.5076201283801505,
+  "fees": 138.90124739326973,
+  "max_drawdown": 0.35039401025871453,
+  "policy": "drawdown_throttled_risk_v1[r=1%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 649.6059897412855
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 100.0,
+  "expectancy_r": -0.5000643470024819,
+  "fees": 13.87697118072236,
+  "max_drawdown": 0.3509141488994699,
+  "policy": "drawdown_throttled_risk_v1[r=1%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 64.90858511005301
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 200.0,
+  "expectancy_r": -0.5117371611193734,
+  "fees": 25.463722238255123,
+  "max_drawdown": 0.3503731614975173,
+  "policy": "drawdown_throttled_risk_v1[r=1%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 129.92536770049654
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 500.0,
+  "expectancy_r": -0.5341334531707986,
+  "fees": 51.799462474957735,
+  "max_drawdown": 0.35025329492195234,
+  "policy": "drawdown_throttled_risk_v1[r=1%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 325.41893972914386
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 1000.0,
+  "expectancy_r": -0.5561185416487935,
+  "fees": 85.84358780958738,
+  "max_drawdown": 0.3519696699725504,
+  "policy": "drawdown_throttled_risk_v1[r=1%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 648.0303300274496
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 100.0,
+  "expectancy_r": -0.4676411722680297,
+  "fees": 12.20083744316715,
+  "max_drawdown": 0.2701769391497141,
+  "policy": "regime_throttled_risk_v1[r=0.5%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 73.03274856330262
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 200.0,
+  "expectancy_r": -0.48621035147931063,
+  "fees": 29.135052988779428,
+  "max_drawdown": 0.35066110102065184,
+  "policy": "regime_throttled_risk_v1[r=0.5%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 129.86777979586964
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 500.0,
+  "expectancy_r": -0.5023481370125091,
+  "fees": 64.63834093474381,
+  "max_drawdown": 0.3500510080597512,
+  "policy": "regime_throttled_risk_v1[r=0.5%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 324.9744959701244
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 1000.0,
+  "expectancy_r": -0.5035400880581972,
+  "fees": 114.87634523417674,
+  "max_drawdown": 0.3501173590831851,
+  "policy": "regime_throttled_risk_v1[r=0.5%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 649.8826409168149
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 100.0,
+  "expectancy_r": -0.4676411722680297,
+  "fees": 12.20083744316715,
+  "max_drawdown": 0.2701769391497141,
+  "policy": "regime_throttled_risk_v1[r=0.5%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 73.03274856330262
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 200.0,
+  "expectancy_r": -0.4860606549433752,
+  "fees": 29.201366980218175,
+  "max_drawdown": 0.35004626806895134,
+  "policy": "regime_throttled_risk_v1[r=0.5%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 129.99074638620974
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 500.0,
+  "expectancy_r": -0.49224498467147076,
+  "fees": 70.06264051492401,
+  "max_drawdown": 0.35051599887067386,
+  "policy": "regime_throttled_risk_v1[r=0.5%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 324.74200056466304
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 1000.0,
+  "expectancy_r": -0.5008479498061361,
+  "fees": 137.51195464109333,
+  "max_drawdown": 0.35018986429472365,
+  "policy": "regime_throttled_risk_v1[r=0.5%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 649.8101357052764
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 100.0,
+  "expectancy_r": -0.4678868692117903,
+  "fees": 12.164742192646516,
+  "max_drawdown": 0.2708511523710836,
+  "policy": "regime_throttled_risk_v1[r=0.5%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 72.96532724116567
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 200.0,
+  "expectancy_r": -0.4865218426327739,
+  "fees": 28.122406298002304,
+  "max_drawdown": 0.35028610315294184,
+  "policy": "regime_throttled_risk_v1[r=0.5%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 130.00933736875857
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 500.0,
+  "expectancy_r": -0.5040677483509055,
+  "fees": 57.540761894983355,
+  "max_drawdown": 0.35019585843419476,
+  "policy": "regime_throttled_risk_v1[r=0.5%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 324.9020707829026
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 1000.0,
+  "expectancy_r": -0.5303436184444922,
+  "fees": 101.42731914903021,
+  "max_drawdown": 0.35035995103641515,
+  "policy": "regime_throttled_risk_v1[r=0.5%]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 649.6400489635848
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 100.0,
+  "expectancy_r": -0.40413388947731516,
+  "fees": 3.591294544301308,
+  "max_drawdown": 0.07644884770371274,
+  "policy": "fractional_kelly_research_v1[k=0.25,pooled]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 92.35511522962872
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 200.0,
+  "expectancy_r": -0.40571439848122,
+  "fees": 7.169679626082091,
+  "max_drawdown": 0.07797629832345043,
+  "policy": "fractional_kelly_research_v1[k=0.25,pooled]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 184.40474033530992
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 500.0,
+  "expectancy_r": -0.4383138385588058,
+  "fees": 16.690623488500176,
+  "max_drawdown": 0.08733546013273985,
+  "policy": "fractional_kelly_research_v1[k=0.25,pooled]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 456.3322699336301
+ },
+ {
+  "cost_model": "sqrt_impact_ref_100",
+  "equity": 1000.0,
+  "expectancy_r": -0.47308224736556675,
+  "fees": 30.720379666250967,
+  "max_drawdown": 0.09882680520695541,
+  "policy": "fractional_kelly_research_v1[k=0.25,pooled]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 901.1731947930446
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 100.0,
+  "expectancy_r": -0.40413388947731516,
+  "fees": 3.591294544301308,
+  "max_drawdown": 0.07644884770371274,
+  "policy": "fractional_kelly_research_v1[k=0.25,pooled]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 92.35511522962872
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 200.0,
+  "expectancy_r": -0.40413388947731516,
+  "fees": 7.2024187365216505,
+  "max_drawdown": 0.07682111441492767,
+  "policy": "fractional_kelly_research_v1[k=0.25,pooled]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 184.63577711701447
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 500.0,
+  "expectancy_r": -0.40413388947731516,
+  "fees": 18.095275760463377,
+  "max_drawdown": 0.07722465449532012,
+  "policy": "fractional_kelly_research_v1[k=0.25,pooled]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 461.38767275233994
+ },
+ {
+  "cost_model": "no_impact",
+  "equity": 1000.0,
+  "expectancy_r": -0.40413388947731516,
+  "fees": 36.129052882674316,
+  "max_drawdown": 0.0777404930134088,
+  "policy": "fractional_kelly_research_v1[k=0.25,pooled]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 922.2595069865912
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 100.0,
+  "expectancy_r": -0.40571856252366845,
+  "fees": 3.565472706214577,
+  "max_drawdown": 0.07721360434843982,
+  "policy": "fractional_kelly_research_v1[k=0.25,pooled]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 92.27863956515601
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 200.0,
+  "expectancy_r": -0.42741751029681907,
+  "fees": 6.755374706447356,
+  "max_drawdown": 0.08402533482593799,
+  "policy": "fractional_kelly_research_v1[k=0.25,pooled]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 183.1949330348124
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 500.0,
+  "expectancy_r": -0.47308815930883835,
+  "fees": 15.342300759582095,
+  "max_drawdown": 0.09867649034777226,
+  "policy": "fractional_kelly_research_v1[k=0.25,pooled]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 450.66175482611385
+ },
+ {
+  "cost_model": "sqrt_impact_ref_50",
+  "equity": 1000.0,
+  "expectancy_r": -0.5137659878282844,
+  "fees": 28.104290608437175,
+  "max_drawdown": 0.10987074335682234,
+  "policy": "fractional_kelly_research_v1[k=0.25,pooled]",
+  "scenario": "NULL_EDGE",
+  "terminal_equity": 890.1292566431777
+ }
+]
