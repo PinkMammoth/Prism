@@ -10,6 +10,7 @@ from market_signal.context import ledger
 from market_signal.context.gateway.ingest import _InTransaction
 from market_signal.context.gateway.spool import now
 from market_signal.context.model import Observation
+from market_signal.intelligence.publication import publish_context_commit
 from market_signal.research.lab.common import canonical_json, content_id
 
 
@@ -29,7 +30,7 @@ def _exact_key(store, obs):
     return obs
 
 
-def drain(store, spool, *, limit=20):
+def drain(store, spool, *, limit=20, consumers=None):
     count = errors = 0
     for rec in spool.pending()[:limit]:
         rid = rec["receipt_id"]
@@ -115,22 +116,12 @@ def drain(store, spool, *, limit=20):
                     context_available_at=available,
                     gateway_received_at=result["gateway_received_at"],
                 )
-                from market_signal.context.work_research import enroll
-                from market_signal.ops.evaluation_triggers import gateway_wakeup
+                subscribers = consumers
+                if subscribers is None:
+                    from market_signal.ops.context_consumers import free_source_consumers
 
-                gateway_wakeup(store, completion, {})
-                raw = outcome["observation"]
-                enroll(
-                    store,
-                    completion,
-                    {
-                        "receipt_id": completion["receipt_id"],
-                        "auth_identity": "public_free_source",
-                        "gateway_received_at": result["gateway_received_at"],
-                        "payload": {"item": raw},
-                    },
-                    origin="free",
-                )
+                    subscribers = free_source_consumers(store, completion, outcome["observation"])
+                publish_context_commit(completion, {}, consumers=subscribers)
             spool.complete(rid, result)
             count += 1
         except Exception as exc:

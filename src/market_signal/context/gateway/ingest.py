@@ -10,6 +10,7 @@ from market_signal.context import ledger
 from market_signal.context.gateway.spool import Spool, now
 from market_signal.context.model import Observation
 from market_signal.context.work_monitors import PROVIDER_IDS
+from market_signal.intelligence.publication import publish_context_commit
 from market_signal.research.lab.common import content_id
 
 
@@ -23,7 +24,7 @@ class _InTransaction:
         return nullcontext()
 
 
-def drain(store, spool: Spool, *, limit: int = 50) -> dict:
+def drain(store, spool: Spool, *, limit: int = 50, consumers=None) -> dict:
     count, errors = 0, 0
     for rec in spool.pending()[:limit]:
         rid = rec["receipt_id"]
@@ -144,14 +145,13 @@ def drain(store, spool: Spool, *, limit: int = 50) -> dict:
                     ).isoformat(),
                     recovered_after_commit=True,
                 )
-            # Information-only outbox; the public server cannot reach a paper evaluator.
-            from market_signal.ops.evaluation_triggers import gateway_wakeup
+            # Publication is neutral; runtime-specific subscribers retain legacy behavior.
+            subscribers = consumers
+            if subscribers is None:
+                from market_signal.ops.context_consumers import gateway_consumers
 
-            gateway_wakeup(store, result, rec["payload"])
-            if result.get("provider") in PROVIDER_IDS and result["ingest_status"] == "INGESTED":
-                from market_signal.context.work_research import enroll
-
-                enroll(store, result, rec)
+                subscribers = gateway_consumers(store, result, rec)
+            publish_context_commit(result, rec["payload"], consumers=subscribers)
             spool.complete(rid, result)
             count += 1
         except Exception as exc:

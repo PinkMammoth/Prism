@@ -1,0 +1,31 @@
+{
+  "baseline": "401301ff2924a3684a423139113bd8f6867e603d",
+  "fixture": "synthetic; six assets x80 closed hourly bars; AAVE 169 hourly OI/funding samples; one event; no execution schema",
+  "measurements": [
+    {
+      "wall_seconds": 0.18515325300018048,
+      "cpu_seconds": 0.19835830000000065,
+      "selects": 30
+    },
+    {
+      "wall_seconds": 0.19382725900004516,
+      "cpu_seconds": 0.20686138399999976,
+      "selects": 30
+    },
+    {
+      "wall_seconds": 0.18018959599999107,
+      "cpu_seconds": 0.1931186270000005,
+      "selects": 30
+    }
+  ],
+  "peak_process_rss_mib": 218.1171875,
+  "package_bytes": 560706,
+  "gzip_package_bytes": 64815,
+  "evidence_records": 577,
+  "definition_id": "intelligencedef_1ea6a6df270ca46ba7ca51db2d38bb88fb776dea5362648dad209f4be30bcb9a",
+  "package_id": "intpackage_b84c2e9110e5614bd44ba8b8a19bf5bf0937921f26661065d10569d213f53f19",
+  "deterministic": true,
+  "daily_complete": true,
+  "weekly_complete": true,
+  "note": "Local synthetic fixture; RSS includes imports/setup. Concurrent full-suite validation; no network, production history, writer contention, deployment or activation. Not a runtime capacity guarantee."
+}

@@ -1,0 +1,54 @@
+{
+  "baseline": "401301ff2924a3684a423139113bd8f6867e603d",
+  "full_suite": {
+    "tests": 1568,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 1568,
+    "warnings": 2,
+    "wall_seconds": 2074.46,
+    "exit_code": 0,
+    "execution": "outside sandbox; temporary test fixtures"
+  },
+  "full_suite_command": ".venv/bin/python -m pytest -n 2 --dist=loadscope -o addopts='' -q --junitxml=/tmp/prism-shared-intelligence-phase-a-full.xml",
+  "targeted": {
+    "passed": 21,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "ruff_check": "passed",
+  "ruff_format": {
+    "passed": true,
+    "files": 409
+  },
+  "diff_check": "passed",
+  "frozen_sources": {
+    "src/market_signal/context/snapshot.py": {
+      "unchanged_from_approved_main": true,
+      "sha256": "551c880db879ccb01f689762f96e803d4991558b7d57a8d9917d3450678820a7"
+    },
+    "src/market_signal/context/positioning.py": {
+      "unchanged_from_approved_main": true,
+      "sha256": "b7232cdb9959a7dc2763607c296dbfead99af9e6386f7d9868821709127d0e18"
+    },
+    "src/market_signal/context/ledger.py": {
+      "unchanged_from_approved_main": true,
+      "sha256": "76f3ad8c87e4a9caead02d04148be21fe1e9ee43958a3d0be6926ba744019d2b"
+    },
+    "src/market_signal/context/taxonomy.py": {
+      "unchanged_from_approved_main": true,
+      "sha256": "9742207d8f3a51898e07e0d2d7f634671d7001f4b3c2484669050609ea7a041b"
+    },
+    "src/market_signal/data/store.py": {
+      "unchanged_from_approved_main": true,
+      "sha256": "38fe40a3a6c67dd295ce5ae3df4406fc3463b76ee12aa93bc80773c244537a3c"
+    },
+    "src/market_signal/ops/profiles.py": {
+      "unchanged_from_approved_main": true,
+      "sha256": "d6ba8b7d0fb53cc931b325db6c9615d0463a871a8bbf50af6309539fb52ae045"
+    }
+  },
+  "deployment_or_activation": false
+}
