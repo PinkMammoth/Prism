@@ -1,0 +1,21 @@
+# Passive soak sampler (validation only; not part of any profile). A supervised loop, not a
+# timer: prism-scheduler stays the only scheduling authority. Install for the soak window:
+#   install -m 0644 prism-soak.service /etc/systemd/system/ && systemctl start prism-soak
+[Unit]
+Description=Prism soak sampler (read-only observation)
+After=prism.target
+
+[Service]
+Type=simple
+User=prism
+Group=prism
+WorkingDirectory=/opt/prism/current
+EnvironmentFile=/etc/prism/prism.env
+ExecStart=/opt/prism/current/.venv/bin/python scripts/vps_soak.py sample --interval 300 --out /data/validation/soak.jsonl
+Restart=always
+RestartSec=30
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+ReadWritePaths=/data/validation
+MemoryMax=512M

@@ -64,6 +64,14 @@ class TelegramClient:
         """Send an HTML-formatted message (split if it exceeds Telegram's limit)."""
         if not self.chat_id:
             raise TelegramError("no chat id")
+        from market_signal.ops import profiles
+
+        try:
+            allowed = profiles.resolve().external_actions_allowed
+        except profiles.ProfileError:
+            allowed = False
+        if not allowed:  # a rehearsal/zero-authority runtime never duplicates a real message
+            raise TelegramError("not sent: this runtime profile has no external-action authority")
         for chunk in _chunks(html_text):
             self._call("sendMessage", {"chat_id": self.chat_id, "text": chunk, "parse_mode": "HTML",
                                        "disable_web_page_preview": True})  # fmt: skip

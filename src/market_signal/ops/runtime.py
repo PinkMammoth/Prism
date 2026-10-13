@@ -106,6 +106,8 @@ def active_steps(store, job: str) -> list[tuple[str, list[str]]]:
         and not store.con.execute("SELECT 1 FROM paper_nimble_runs").fetchone()
     ):
         return []
+    if job in _unconditional_jobs():
+        return JOBS[job]
     if job in ("paper_v2", "paper_v2_brief", "paper_v2_funding"):
         from market_signal.paper.v2.engine import work_needed
 
@@ -127,6 +129,17 @@ def active_steps(store, job: str) -> list[tuple[str, list[str]]]:
             if needed or name not in ("paper", "brief", "shadow")
         ]
     return JOBS[job]
+
+
+def _unconditional_jobs() -> tuple[str, ...]:
+    """Data jobs a profile always runs (the lab collects funding before its first run)."""
+    from market_signal.ops import profiles
+
+    try:
+        r = profiles.resolve()
+    except profiles.ProfileError:
+        return ()
+    return r.profile.unconditional_jobs if r.explicit else ()
 
 
 # UTC. Daily bars close at 00:00 UTC and Hyperliquid serves the closed candle and the settled
@@ -380,8 +393,21 @@ def setup_logging() -> None:
 # --------------------------------------------------------------------------- notifications
 
 
+def _external_actions_allowed() -> bool:
+    """Only a profile's full-authority runtime notifies or pings (legacy: unchanged)."""
+    from market_signal.ops import profiles
+
+    try:
+        return profiles.resolve().external_actions_allowed
+    except profiles.ProfileError:
+        return False
+
+
 def infra_alert(text: str) -> None:
     """Best-effort Telegram message about the runtime itself (never about trading)."""
+    if not _external_actions_allowed():
+        log.warning("infra alert suppressed (no external-action authority): %s", text)
+        return
     try:
         from market_signal.config import get_settings
         from market_signal.portfolio.telegram import TelegramClient
@@ -397,6 +423,10 @@ def heartbeat(ok: bool) -> None:
     """Ping PRISM_HEARTBEAT_URL (healthchecks.io style: ``/fail`` suffix on failure)."""
     url = os.environ.get("PRISM_HEARTBEAT_URL", "").strip()
     if not url:
+        return
+    if not _external_actions_allowed():
+        # a rehearsal ping on the production check would mask a real outage
+        log.warning("heartbeat suppressed (no external-action authority)")
         return
     try:
         import httpx
@@ -441,6 +471,17 @@ def run_job(job: str, *, trigger: str, wait: float,
     """Run one job as the authoritative runtime. Returns a summary with ``exit``."""
     if job not in JOBS:
         raise ValueError(f"unknown job {job!r}; jobs: {sorted(JOBS)}")
+    from market_signal.ops import profiles
+
+    try:
+        prof = profiles.resolve()
+    except profiles.ProfileError as exc:
+        raise RuntimeRefused(str(exc)) from None
+    if not prof.job_allowed(job):
+        raise RuntimeRefused(
+            f"job {job} is not part of profile {prof.profile.identity} at authority "
+            f"{prof.authority}; nothing was run"
+        )
     root, db = _root(), _db()
     rev = revision(root)
     require_authoritative(db)
@@ -475,7 +516,8 @@ def run_job(job: str, *, trigger: str, wait: float,
             s.con.execute(
                 "INSERT INTO runtime_cycles VALUES (?, ?, ?, ?, ?, ?, NULL, 'running', ?)",
                 [cycle_id, job, runtime_id(), trigger, rev, started,
-                 json.dumps({"disk": disk.describe(), "host": socket.gethostname()})],
+                 json.dumps({"disk": disk.describe(), "host": socket.gethostname(),
+                             "profile": prof.record()})],
             )  # fmt: skip
         steps = []
         if job == "backup":
@@ -494,6 +536,7 @@ def run_job(job: str, *, trigger: str, wait: float,
         status = "ok" if ok else "failed"
         finished = utcnow()
         summary = {"steps": steps, "disk": disk.describe(), "host": socket.gethostname(),
+                   "profile": prof.record(),
                    "seconds": round((finished - started).total_seconds(), 1)}  # fmt: skip
         with _store(db) as s:
             s.con.execute(
@@ -812,7 +855,9 @@ def backup_live(db: Path, *, kind: str = "daily", label: str | None = None,
         root,
         dest,
         db,
-        origin=os.environ.get("RAILWAY_ENVIRONMENT_NAME", "local"),
+        origin=os.environ.get("RAILWAY_ENVIRONMENT_NAME")
+        or os.environ.get("PRISM_DEPLOYMENT_TARGET")
+        or "local",
         source_revision=revision(_root()) or "unknown",
     )
     weekly = None
@@ -824,6 +869,17 @@ def backup_live(db: Path, *, kind: str = "daily", label: str | None = None,
     log.info("backup %s verified (%s MiB, sha256 %s…); pruned %d", dest, round(size / 2**20, 1),
              result["sha256"][:12], len(pruned))  # fmt: skip
     return {**result, "weekly": str(weekly) if weekly else None, "pruned": pruned}
+
+
+def _requires_paper_run() -> bool:
+    """The research/legacy database always holds the v1 paper run; the lab's never does."""
+    from market_signal.ops import profiles
+
+    try:
+        r = profiles.resolve()
+    except profiles.ProfileError:
+        return True
+    return r.profile.name != "autotrader_lab"
 
 
 def verify_backup(path: Path, expected: dict | None = None) -> dict:
@@ -841,7 +897,7 @@ def verify_backup(path: Path, expected: dict | None = None) -> dict:
     problems = []
     if fp["schema_version"] != len(MIGRATIONS):
         problems.append(f"schema version {fp['schema_version']} != {len(MIGRATIONS)}")
-    if not fp.get("paper_runs"):
+    if not fp.get("paper_runs") and _requires_paper_run():
         problems.append("no paper run")
     if expected is not None:
         problems += compare(expected, fp, allow={"oi"})

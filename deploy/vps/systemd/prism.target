@@ -1,0 +1,7 @@
+# All Prism units. `systemctl restart prism-<one>.service` restarts one component only.
+[Unit]
+Description=Prism runtime (profile-gated units)
+Wants=prism-microstructure.service prism-free-sources.service prism-free-source-ingest.service prism-context-gateway.service prism-context-ingest.service prism-nimble.service prism-universe.service prism-scheduler.service
+
+[Install]
+WantedBy=multi-user.target

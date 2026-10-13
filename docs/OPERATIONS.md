@@ -48,6 +48,13 @@ works from both regions. **Do not move the service to a US region.**
 containers: it logs to stdout and waits for running jobs on SIGTERM. Locking, failure state
 and history are not left to it. They live in Prism (below).
 
+## Runtime profiles
+
+Which processes and jobs a deployment runs is decided by a versioned runtime profile
+(`market ops profile`): `research` (Railway) or `autotrader_lab` (VPS), each with its own
+database, runtime id and authority mode. Without `PRISM_PROFILE` the runtime is `legacy`, the
+exact pre-split behaviour. See [RUNTIME_PROFILE_SPLIT_AND_VPS_LAB.md](RUNTIME_PROFILE_SPLIT_AND_VPS_LAB.md).
+
 ## The single-writer rule
 
 1. **Authority claim, in the database.** Migration 17 adds `runtime_events`. The newest

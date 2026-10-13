@@ -1,0 +1,849 @@
+{
+  "frontier": "2026-10-09T01:30:00+00:00",
+  "kind": "seed_rehearsal",
+  "note": "Local scratch rehearsal on a copy of production backup prism-20261009T013002Z (schema 24, migrated on the copy to 30). Nothing was sent anywhere; no authority claimed.",
+  "schema31_rerun": {
+    "base": "cc311d0 (approved main with Dynamic Universe, migration 31)",
+    "seed_bytes": 90189824,
+    "seed_peak_rss_kib": 867144,
+    "seed_policy_digest": "e4d467b9eefa666f794a3fc97117093354040650e18f67213ff541eb1f490236",
+    "seed_wall_s": 10.53,
+    "source_migrated_to": 31,
+    "sufficiency": "18/18 identical (same method)",
+    "universe_tables": "all excluded (prospective; policy self-registers)"
+  },
+  "seed_bytes": 90189824,
+  "seed_peak_rss_kib": 1058028,
+  "seed_policy": "lab_seed_v1",
+  "seed_policy_digest": "e4d467b9eefa666f794a3fc97117093354040650e18f67213ff541eb1f490236",
+  "seed_wall_s": 6.7,
+  "source_backup_sha256": "87dd7c929f19c7df492417df766de5ae6d88237dec468e413052e21370b0e3c0",
+  "source_bytes": 233582592,
+  "sufficiency": {
+    "all_equal": true,
+    "checks": 18,
+    "method": "context_snapshot (Phase 23 positioning/macro/events) and point-in-time 15m/1h bars, source vs seed, 6 coins x 3 instants <= frontier",
+    "results": {
+      "2026-10-01T00:00:00+00:00 AAVE": {
+        "bars_equal": true,
+        "context_equal": true,
+        "context_sha256": "3c1aabe5d9c7b851425e9c3ccc172a45095f1ed497462e5dab6545c1ecfbef7a"
+      },
+      "2026-10-01T00:00:00+00:00 BTC": {
+        "bars_equal": true,
+        "context_equal": true,
+        "context_sha256": "88a2e20c4055238492f149173a56ec607916b65c2e9e9f589fdee5c93809066a"
+      },
+      "2026-10-01T00:00:00+00:00 ETH": {
+        "bars_equal": true,
+        "context_equal": true,
+        "context_sha256": "168a5cad9f6264a8eec4e9989c7e967fdb9282a6068a29687f5dc6449f257ac5"
+      },
+      "2026-10-01T00:00:00+00:00 HYPE": {
+        "bars_equal": true,
+        "context_equal": true,
+        "context_sha256": "b1e691f8470d3b881f2fefd41d6440d97b1f65a1b539b72fcd213674a83e768c"
+      },
+      "2026-10-01T00:00:00+00:00 LINK": {
+        "bars_equal": true,
+        "context_equal": true,
+        "context_sha256": "b3d07876d17a0653f409de03a51498311fab23848ce3b3306a0b04da795b7b5a"
+      },
+      "2026-10-01T00:00:00+00:00 SOL": {
+        "bars_equal": true,
+        "context_equal": true,
+        "context_sha256": "5f666ee3c3e0909b5c2774ac0bc5ea6535d2e310dda43257d2117cdc4cbccb0b"
+      },
+      "2026-10-08T12:00:00+00:00 AAVE": {
+        "bars_equal": true,
+        "context_equal": true,
+        "context_sha256": "2920c17976010edd23edfba9a640d81908ba10768efa54701a4529e4ead926b0"
+      },
+      "2026-10-08T12:00:00+00:00 BTC": {
+        "bars_equal": true,
+        "context_equal": true,
+        "context_sha256": "5150aa693c1f16c54a5b216898c51809947179e9e376818f66af15f78ec9e1c3"
+      },
+      "2026-10-08T12:00:00+00:00 ETH": {
+        "bars_equal": true,
+        "context_equal": true,
+        "context_sha256": "592ed70075e252d89195543eddef62b74d81787a8c90561588b7c5dabf8c9d28"
+      },
+      "2026-10-08T12:00:00+00:00 HYPE": {
+        "bars_equal": true,
+        "context_equal": true,
+        "context_sha256": "d4e3e8f0d43c4e609d2b4d246cb20f502661115f5d3d612554512d4d02b600fd"
+      },
+      "2026-10-08T12:00:00+00:00 LINK": {
+        "bars_equal": true,
+        "context_equal": true,
+        "context_sha256": "be18e6549d313e131981a8d195c41b27a674b2279f34fffae5145e2cb3a965ea"
+      },
+      "2026-10-08T12:00:00+00:00 SOL": {
+        "bars_equal": true,
+        "context_equal": true,
+        "context_sha256": "75bbe2cab28295b12c2f2c4a5b96ba226d709e90b2012e90dfdd8a1207d08463"
+      },
+      "2026-10-09T01:30:00+00:00 AAVE": {
+        "bars_equal": true,
+        "context_equal": true,
+        "context_sha256": "16b0c151a158de67ef2d6788d50be527d8c6a5512a65cfe13332ff4b5700daf5"
+      },
+      "2026-10-09T01:30:00+00:00 BTC": {
+        "bars_equal": true,
+        "context_equal": true,
+        "context_sha256": "fcd035ae1fd014f68fdf266a2bd1765803e6d58713231f7e06233dedee2b818b"
+      },
+      "2026-10-09T01:30:00+00:00 ETH": {
+        "bars_equal": true,
+        "context_equal": true,
+        "context_sha256": "e6cfc50f2976c58c79ac0ae3b0475991c6dd118fa7ebdb1b954d0d7916e16c9e"
+      },
+      "2026-10-09T01:30:00+00:00 HYPE": {
+        "bars_equal": true,
+        "context_equal": true,
+        "context_sha256": "250207bb8921a66d796fe53866434969f9112177b8f7faa90181557c158fe48e"
+      },
+      "2026-10-09T01:30:00+00:00 LINK": {
+        "bars_equal": true,
+        "context_equal": true,
+        "context_sha256": "26d24b411b17b9e01e7028247a5987c8b8e5f297b36248076d6e925dc26535ff"
+      },
+      "2026-10-09T01:30:00+00:00 SOL": {
+        "bars_equal": true,
+        "context_equal": true,
+        "context_sha256": "538b378920ddeb4b8819ee3c4e3ea3810d00c85fa209910667417de2fb9553bc"
+      }
+    }
+  },
+  "tables": {
+    "alert_events": {
+      "reason": "not a lab trading input",
+      "rule": "exclude",
+      "source_rows": 37
+    },
+    "alert_rules": {
+      "reason": "not a lab trading input",
+      "rule": "exclude",
+      "source_rows": 4
+    },
+    "assets": {
+      "reason": "asset reference",
+      "rule": "all",
+      "seeded_rows": 18,
+      "source_rows": 18
+    },
+    "bar_revisions": {
+      "reason": "not a lab trading input",
+      "rule": "exclude",
+      "source_rows": 0
+    },
+    "bars": {
+      "reason": "not a lab trading input",
+      "rule": "exclude",
+      "source_rows": 99201
+    },
+    "context_asset_links": {
+      "reason": "links of seeded events",
+      "rule": "child",
+      "seeded_rows": 654,
+      "source_rows": 654
+    },
+    "context_event_updates": {
+      "reason": "updates of seeded events",
+      "rule": "child",
+      "seeded_rows": 4,
+      "source_rows": 4
+    },
+    "context_events": {
+      "reason": "ongoing event episodes",
+      "rule": "upto",
+      "seeded_rows": 79,
+      "source_rows": 79
+    },
+    "context_free_ingests": {
+      "reason": "host collector receipts",
+      "rule": "exclude",
+      "source_rows": 0
+    },
+    "context_free_observations": {
+      "reason": "host collector receipts",
+      "rule": "exclude",
+      "source_rows": 0
+    },
+    "context_gateway_ingests": {
+      "reason": "Railway ingress receipts",
+      "rule": "exclude",
+      "source_rows": 0
+    },
+    "context_hl_oi_hourly": {
+      "reason": "Phase 23 OI warmup",
+      "rule": "upto",
+      "seeded_rows": 192,
+      "source_rows": 192
+    },
+    "context_ls_ratios": {
+      "reason": "positioning crowding",
+      "rule": "upto",
+      "seeded_rows": 17778,
+      "source_rows": 17778
+    },
+    "context_provider_runs": {
+      "reason": "not a lab trading input",
+      "rule": "exclude",
+      "source_rows": 144
+    },
+    "context_snapshots": {
+      "reason": "not a lab trading input",
+      "rule": "exclude",
+      "source_rows": 0
+    },
+    "context_sources": {
+      "reason": "context source registry",
+      "rule": "all",
+      "seeded_rows": 11,
+      "source_rows": 11
+    },
+    "context_theses": {
+      "reason": "not a lab trading input",
+      "rule": "exclude",
+      "source_rows": 0
+    },
+    "context_work_observations": {
+      "reason": "Railway ingress receipts",
+      "rule": "exclude",
+      "source_rows": 0
+    },
+    "context_work_reactions": {
+      "reason": "Railway ingress receipts",
+      "rule": "exclude",
+      "source_rows": 0
+    },
+    "context_work_research_pending": {
+      "reason": "Railway ingress receipts",
+      "rule": "exclude",
+      "source_rows": 0
+    },
+    "copilot_decisions": {
+      "reason": "research/copilot authority stays on Railway",
+      "rule": "exclude",
+      "source_rows": 0
+    },
+    "copilot_deliveries": {
+      "reason": "research/copilot authority stays on Railway",
+      "rule": "exclude",
+      "source_rows": 0
+    },
+    "copilot_policies": {
+      "reason": "research/copilot authority stays on Railway",
+      "rule": "exclude",
+      "source_rows": 1
+    },
+    "copilot_runs": {
+      "reason": "research/copilot authority stays on Railway",
+      "rule": "exclude",
+      "source_rows": 38
+    },
+    "copilot_software": {
+      "reason": "research/copilot authority stays on Railway",
+      "rule": "exclude",
+      "source_rows": 9
+    },
+    "copilot_watch_status": {
+      "reason": "research/copilot authority stays on Railway",
+      "rule": "exclude",
+      "source_rows": 2
+    },
+    "copilot_watchlist": {
+      "reason": "research/copilot authority stays on Railway",
+      "rule": "exclude",
+      "source_rows": 2
+    },
+    "corporate_actions": {
+      "reason": "not a lab trading input",
+      "rule": "exclude",
+      "source_rows": 354
+    },
+    "crypto_metrics": {
+      "reason": "not a lab trading input",
+      "rule": "exclude",
+      "source_rows": 9806
+    },
+    "data_quality_issues": {
+      "reason": "not a lab trading input",
+      "rule": "exclude",
+      "source_rows": 4973
+    },
+    "fundamental_facts": {
+      "reason": "not a lab trading input",
+      "rule": "exclude",
+      "source_rows": 8840
+    },
+    "incubation_decisions": {
+      "reason": "research authority stays on Railway",
+      "rule": "exclude",
+      "source_rows": 1536
+    },
+    "incubation_evaluations": {
+      "reason": "research authority stays on Railway",
+      "rule": "exclude",
+      "source_rows": 512
+    },
+    "incubation_freezes": {
+      "reason": "research authority stays on Railway",
+      "rule": "exclude",
+      "source_rows": 1
+    },
+    "incubation_intents": {
+      "reason": "research authority stays on Railway",
+      "rule": "exclude",
+      "source_rows": 0
+    },
+    "incubation_outcomes": {
+      "reason": "research authority stays on Railway",
+      "rule": "exclude",
+      "source_rows": 0
+    },
+    "incubation_runs": {
+      "reason": "research authority stays on Railway",
+      "rule": "exclude",
+      "source_rows": 24
+    },
+    "incubation_transitions": {
+      "reason": "research authority stays on Railway",
+      "rule": "exclude",
+      "source_rows": 395
+    },
+    "ingestion_runs": {
+      "reason": "not a lab trading input",
+      "rule": "exclude",
+      "source_rows": 2546
+    },
+    "intraday_execution_shadow": {
+      "reason": "not a lab trading input",
+      "rule": "exclude",
+      "source_rows": 0
+    },
+    "journal_entries": {
+      "reason": "not a lab trading input",
+      "rule": "exclude",
+      "source_rows": 0
+    },
+    "lab_batch_analyses": {
+      "reason": "research authority stays on Railway",
+      "rule": "exclude",
+      "source_rows": 1
+    },
+    "lab_batch_members": {
+      "reason": "research authority stays on Railway",
+      "rule": "exclude",
+      "source_rows": 40
+    },
+    "lab_batch_runs": {
+      "reason": "research authority stays on Railway",
+      "rule": "exclude",
+      "source_rows": 1
+    },
+    "lab_batches": {
+      "reason": "research authority stays on Railway",
+      "rule": "exclude",
+      "source_rows": 1
+    },
+    "lab_corroboration_registrations": {
+      "reason": "research authority stays on Railway",
+      "rule": "exclude",
+      "source_rows": 2
+    },
+    "lab_corroboration_results": {
+      "reason": "research authority stays on Railway",
+      "rule": "exclude",
+      "source_rows": 2
+    },
+    "lab_corroboration_runs": {
+      "reason": "research authority stays on Railway",
+      "rule": "exclude",
+      "source_rows": 2
+    },
+    "lab_dataset_blobs": {
+      "reason": "research authority stays on Railway",
+      "rule": "exclude",
+      "source_rows": 22
+    },
+    "lab_datasets": {
+      "reason": "research authority stays on Railway",
+      "rule": "exclude",
+      "source_rows": 2
+    },
+    "lab_edge_profiles": {
+      "reason": "research authority stays on Railway",
+      "rule": "exclude",
+      "source_rows": 0
+    },
+    "lab_evidence_policies": {
+      "reason": "research authority stays on Railway",
+      "rule": "exclude",
+      "source_rows": 1
+    },
+    "lab_evidence_profiles": {
+      "reason": "research authority stays on Railway",
+      "rule": "exclude",
+      "source_rows": 44
+    },
+    "lab_experiments": {
+      "reason": "research authority stays on Railway",
+      "rule": "exclude",
+      "source_rows": 47
+    },
+    "lab_forward_entries": {
+      "reason": "research authority stays on Railway",
+      "rule": "exclude",
+      "source_rows": 0
+    },
+    "lab_forward_evaluations": {
+      "reason": "research authority stays on Railway",
+      "rule": "exclude",
+      "source_rows": 60
+    },
+    "lab_forward_inputs": {
+      "reason": "research authority stays on Railway",
+      "rule": "exclude",
+      "source_rows": 54
+    },
+    "lab_forward_outcomes": {
+      "reason": "research authority stays on Railway",
+      "rule": "exclude",
+      "source_rows": 48
+    },
+    "lab_forward_runs": {
+      "reason": "research authority stays on Railway",
+      "rule": "exclude",
+      "source_rows": 78
+    },
+    "lab_forward_status": {
+      "reason": "research authority stays on Railway",
+      "rule": "exclude",
+      "source_rows": 4
+    },
+    "lab_forward_summaries": {
+      "reason": "research authority stays on Railway",
+      "rule": "exclude",
+      "source_rows": 0
+    },
+    "lab_forward_trackings": {
+      "reason": "research authority stays on Railway",
+      "rule": "exclude",
+      "source_rows": 3
+    },
+    "lab_hypotheses": {
+      "reason": "research authority stays on Railway",
+      "rule": "exclude",
+      "source_rows": 40
+    },
+    "lab_inspections": {
+      "reason": "research authority stays on Railway",
+      "rule": "exclude",
+      "source_rows": 47
+    },
+    "lab_plans": {
+      "reason": "research authority stays on Railway",
+      "rule": "exclude",
+      "source_rows": 3
+    },
+    "lab_prospective_checkpoints": {
+      "reason": "24B labels (descriptive)",
+      "rule": "upto",
+      "seeded_rows": 1,
+      "source_rows": 1
+    },
+    "lab_prospective_results": {
+      "reason": "24B labels (descriptive)",
+      "rule": "upto",
+      "seeded_rows": 1,
+      "source_rows": 1
+    },
+    "lab_prospective_studies": {
+      "reason": "24B labels (descriptive)",
+      "rule": "upto",
+      "seeded_rows": 1,
+      "source_rows": 1
+    },
+    "lab_research_policies": {
+      "reason": "research authority stays on Railway",
+      "rule": "exclude",
+      "source_rows": 4
+    },
+    "lab_research_registrations": {
+      "reason": "research authority stays on Railway",
+      "rule": "exclude",
+      "source_rows": 2
+    },
+    "lab_research_results": {
+      "reason": "research authority stays on Railway",
+      "rule": "exclude",
+      "source_rows": 4
+    },
+    "lab_research_runs": {
+      "reason": "research authority stays on Railway",
+      "rule": "exclude",
+      "source_rows": 4
+    },
+    "lab_results": {
+      "reason": "research authority stays on Railway",
+      "rule": "exclude",
+      "source_rows": 47
+    },
+    "lab_snapshot_blobs": {
+      "reason": "research authority stays on Railway",
+      "rule": "exclude",
+      "source_rows": 22
+    },
+    "lab_software": {
+      "reason": "software provenance referenced by 24B labels",
+      "rule": "all",
+      "seeded_rows": 14,
+      "source_rows": 14
+    },
+    "lab_starts": {
+      "reason": "research authority stays on Railway",
+      "rule": "exclude",
+      "source_rows": 47
+    },
+    "lab_strategies": {
+      "reason": "research authority stays on Railway",
+      "rule": "exclude",
+      "source_rows": 40
+    },
+    "lab_structure_results": {
+      "reason": "research authority stays on Railway",
+      "rule": "exclude",
+      "source_rows": 0
+    },
+    "lab_structure_runs": {
+      "reason": "research authority stays on Railway",
+      "rule": "exclude",
+      "source_rows": 0
+    },
+    "lab_structure_studies": {
+      "reason": "research authority stays on Railway",
+      "rule": "exclude",
+      "source_rows": 0
+    },
+    "lab_structure_study_datasets": {
+      "reason": "research authority stays on Railway",
+      "rule": "exclude",
+      "source_rows": 0
+    },
+    "lab_submissions": {
+      "reason": "research authority stays on Railway",
+      "rule": "exclude",
+      "source_rows": 40
+    },
+    "macro_observations": {
+      "reason": "context snapshot macro",
+      "rule": "upto",
+      "seeded_rows": 1093504,
+      "source_rows": 1093504
+    },
+    "microstructure_cutover": {
+      "reason": "lab collects its own; warmup starts at its first authoritative minute",
+      "rule": "exclude",
+      "source_rows": 1
+    },
+    "microstructure_ingest_offsets": {
+      "reason": "lab collects its own; warmup starts at its first authoritative minute",
+      "rule": "exclude",
+      "source_rows": 32
+    },
+    "microstructure_late_events": {
+      "reason": "lab collects its own; warmup starts at its first authoritative minute",
+      "rule": "exclude",
+      "source_rows": 0
+    },
+    "microstructure_lp_thresholds": {
+      "reason": "lab collects its own; warmup starts at its first authoritative minute",
+      "rule": "exclude",
+      "source_rows": 18
+    },
+    "microstructure_minutes": {
+      "reason": "lab collects its own; warmup starts at its first authoritative minute",
+      "rule": "exclude",
+      "source_rows": 11262
+    },
+    "microstructure_provider_runs": {
+      "reason": "lab collects its own; warmup starts at its first authoritative minute",
+      "rule": "exclude",
+      "source_rows": 18
+    },
+    "microstructure_revisions": {
+      "reason": "lab collects its own; warmup starts at its first authoritative minute",
+      "rule": "exclude",
+      "source_rows": 0
+    },
+    "paper_briefs": {
+      "reason": "execution/paper history: the lab starts a new frontier",
+      "rule": "exclude",
+      "source_rows": 5
+    },
+    "paper_cycles": {
+      "reason": "execution/paper history: the lab starts a new frontier",
+      "rule": "exclude",
+      "source_rows": 38
+    },
+    "paper_event_evidence": {
+      "reason": "execution/paper history: the lab starts a new frontier",
+      "rule": "exclude",
+      "source_rows": 0
+    },
+    "paper_event_pending": {
+      "reason": "execution/paper history: the lab starts a new frontier",
+      "rule": "exclude",
+      "source_rows": 0
+    },
+    "paper_events": {
+      "reason": "execution/paper history: the lab starts a new frontier",
+      "rule": "exclude",
+      "source_rows": 11
+    },
+    "paper_evidence": {
+      "reason": "execution/paper history: the lab starts a new frontier",
+      "rule": "exclude",
+      "source_rows": 0
+    },
+    "paper_nimble_accounts": {
+      "reason": "execution/paper history: the lab starts a new frontier",
+      "rule": "exclude",
+      "source_rows": 0
+    },
+    "paper_nimble_deliveries": {
+      "reason": "execution/paper history: the lab starts a new frontier",
+      "rule": "exclude",
+      "source_rows": 0
+    },
+    "paper_nimble_events": {
+      "reason": "execution/paper history: the lab starts a new frontier",
+      "rule": "exclude",
+      "source_rows": 0
+    },
+    "paper_nimble_opportunities": {
+      "reason": "execution/paper history: the lab starts a new frontier",
+      "rule": "exclude",
+      "source_rows": 0
+    },
+    "paper_nimble_policies": {
+      "reason": "frozen released definitions",
+      "rule": "upto",
+      "seeded_rows": 0,
+      "source_rows": 0
+    },
+    "paper_nimble_positions": {
+      "reason": "execution/paper history: the lab starts a new frontier",
+      "rule": "exclude",
+      "source_rows": 0
+    },
+    "paper_nimble_reports": {
+      "reason": "execution/paper history: the lab starts a new frontier",
+      "rule": "exclude",
+      "source_rows": 0
+    },
+    "paper_nimble_research": {
+      "reason": "execution/paper history: the lab starts a new frontier",
+      "rule": "exclude",
+      "source_rows": 0
+    },
+    "paper_nimble_research_pending": {
+      "reason": "execution/paper history: the lab starts a new frontier",
+      "rule": "exclude",
+      "source_rows": 0
+    },
+    "paper_nimble_runs": {
+      "reason": "execution/paper history: the lab starts a new frontier",
+      "rule": "exclude",
+      "source_rows": 0
+    },
+    "paper_nimble_theses": {
+      "reason": "execution/paper history: the lab starts a new frontier",
+      "rule": "exclude",
+      "source_rows": 0
+    },
+    "paper_nimble_trigger_receipts": {
+      "reason": "execution/paper history: the lab starts a new frontier",
+      "rule": "exclude",
+      "source_rows": 0
+    },
+    "paper_nimble_triggers": {
+      "reason": "execution/paper history: the lab starts a new frontier",
+      "rule": "exclude",
+      "source_rows": 0
+    },
+    "paper_notifications": {
+      "reason": "execution/paper history: the lab starts a new frontier",
+      "rule": "exclude",
+      "source_rows": 10
+    },
+    "paper_policies": {
+      "reason": "execution/paper history: the lab starts a new frontier",
+      "rule": "exclude",
+      "source_rows": 5
+    },
+    "paper_retirements": {
+      "reason": "execution/paper history: the lab starts a new frontier",
+      "rule": "exclude",
+      "source_rows": 0
+    },
+    "paper_runs": {
+      "reason": "execution/paper history: the lab starts a new frontier",
+      "rule": "exclude",
+      "source_rows": 1
+    },
+    "paper_snapshots": {
+      "reason": "execution/paper history: the lab starts a new frontier",
+      "rule": "exclude",
+      "source_rows": 6
+    },
+    "paper_software": {
+      "reason": "execution/paper history: the lab starts a new frontier",
+      "rule": "exclude",
+      "source_rows": 8
+    },
+    "paper_v2_context_snapshots": {
+      "reason": "execution/paper history: the lab starts a new frontier",
+      "rule": "exclude",
+      "source_rows": 0
+    },
+    "paper_v2_deliveries": {
+      "reason": "execution/paper history: the lab starts a new frontier",
+      "rule": "exclude",
+      "source_rows": 0
+    },
+    "paper_v2_evaluations": {
+      "reason": "execution/paper history: the lab starts a new frontier",
+      "rule": "exclude",
+      "source_rows": 0
+    },
+    "paper_v2_events": {
+      "reason": "execution/paper history: the lab starts a new frontier",
+      "rule": "exclude",
+      "source_rows": 0
+    },
+    "paper_v2_opportunities": {
+      "reason": "execution/paper history: the lab starts a new frontier",
+      "rule": "exclude",
+      "source_rows": 0
+    },
+    "paper_v2_outcomes": {
+      "reason": "execution/paper history: the lab starts a new frontier",
+      "rule": "exclude",
+      "source_rows": 0
+    },
+    "paper_v2_policies": {
+      "reason": "execution/paper history: the lab starts a new frontier",
+      "rule": "exclude",
+      "source_rows": 0
+    },
+    "paper_v2_reports": {
+      "reason": "execution/paper history: the lab starts a new frontier",
+      "rule": "exclude",
+      "source_rows": 0
+    },
+    "paper_v2_runs": {
+      "reason": "execution/paper history: the lab starts a new frontier",
+      "rule": "exclude",
+      "source_rows": 0
+    },
+    "paper_v2_universes": {
+      "reason": "execution/paper history: the lab starts a new frontier",
+      "rule": "exclude",
+      "source_rows": 0
+    },
+    "perp_bars": {
+      "reason": "daily context",
+      "rule": "upto",
+      "seeded_rows": 23739,
+      "source_rows": 23739
+    },
+    "perp_funding": {
+      "reason": "funding continuity",
+      "rule": "upto",
+      "seeded_rows": 184128,
+      "source_rows": 184128
+    },
+    "perp_intraday_bars": {
+      "reason": "Phase 22 15m/1h warmup",
+      "rule": "upto",
+      "seeded_rows": 864386,
+      "source_rows": 864386
+    },
+    "perp_intraday_coverage": {
+      "reason": "derived coverage/revisions are rebuilt by the lab",
+      "rule": "exclude",
+      "source_rows": 36
+    },
+    "perp_intraday_revisions": {
+      "reason": "derived coverage/revisions are rebuilt by the lab",
+      "rule": "exclude",
+      "source_rows": 0
+    },
+    "perp_oi_history": {
+      "reason": "positioning context",
+      "rule": "upto",
+      "seeded_rows": 5034,
+      "source_rows": 5034
+    },
+    "perp_oi_observations": {
+      "reason": "not a lab trading input",
+      "rule": "exclude",
+      "source_rows": 5442
+    },
+    "perp_paper_checks": {
+      "reason": "not a lab trading input",
+      "rule": "exclude",
+      "source_rows": 138
+    },
+    "perp_snapshots": {
+      "reason": "positioning context",
+      "rule": "upto",
+      "seeded_rows": 408,
+      "source_rows": 408
+    },
+    "positions": {
+      "reason": "not a lab trading input",
+      "rule": "exclude",
+      "source_rows": 0
+    },
+    "research_runs": {
+      "reason": "not a lab trading input",
+      "rule": "exclude",
+      "source_rows": 13
+    },
+    "runtime_cycles": {
+      "reason": "host runtime state/authority: never copied between runtimes",
+      "rule": "exclude",
+      "source_rows": 650
+    },
+    "runtime_events": {
+      "reason": "host runtime state/authority: never copied between runtimes",
+      "rule": "exclude",
+      "source_rows": 17
+    },
+    "scan_results": {
+      "reason": "not a lab trading input",
+      "rule": "exclude",
+      "source_rows": 198
+    },
+    "scan_runs": {
+      "reason": "not a lab trading input",
+      "rule": "exclude",
+      "source_rows": 11
+    },
+    "schema_version": {
+      "reason": "created by migrations",
+      "rule": "exclude",
+      "source_rows": 30
+    },
+    "series_changes": {
+      "reason": "not a lab trading input",
+      "rule": "exclude",
+      "source_rows": 0
+    }
+  }
+}

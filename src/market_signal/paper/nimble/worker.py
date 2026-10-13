@@ -345,6 +345,8 @@ def pd_delta(**kwargs):
 
 if __name__ == "__main__":
     from market_signal.config import get_settings
+    from market_signal.ops.profiles import main_guard
 
+    main_guard("nimble_worker")
     logging.basicConfig(level=logging.INFO)
     Worker(get_settings().paths.db).run()

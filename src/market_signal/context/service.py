@@ -29,9 +29,9 @@ def stale_hours(settings: Settings) -> dict[str, float]:
         for k, v in (cfg.get("providers") or {}).items()
         if v.get("enabled", True)
     }
-    import os
+    from market_signal.ops.profiles import free_sources_enabled
 
-    if os.environ.get("PRISM_FREE_SOURCES", "off") == "on":
+    if free_sources_enabled():
         from market_signal.context.free_sources.registry import active, load
 
         owned = {s.get("legacy_feed_id") for s in active(load())}
@@ -73,9 +73,9 @@ def build(settings: Settings, store: Store, group: str, transport: Any = None) -
             out.append(HyperliquidUniverseProvider(reg.http("hyperliquid")))
         if _enabled(cfg, "rss"):
             feeds = cfg.get("feeds") or {}
-            import os
+            from market_signal.ops.profiles import free_sources_enabled
 
-            if os.environ.get("PRISM_FREE_SOURCES", "off") == "on":
+            if free_sources_enabled():
                 from market_signal.context.free_sources.registry import active, load
 
                 owned = {s.get("legacy_feed_id") for s in active(load())}
