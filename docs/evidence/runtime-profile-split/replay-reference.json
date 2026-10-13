@@ -1,13 +1,19 @@
 {
-  "base_commit": "36d7563 + this branch (uncommitted at measurement)",
+  "base_commit": "cc311d0 (approved main: storage b90a29e + Dynamic Universe v1) + this branch",
   "benchmark_digests_timing_stripped": {
     "event_benchmark": "be8d3a1951740cfd48e6adefdab9c231b921f1c8c36e9ffacec0b1ad3e1b7392",
-    "nimble_benchmark": "661ac3932a45bb2ea8a3d95df216daee2cadaedc8c27ce7fb5b3698231299afa"
+    "nimble_benchmark": "d32419143d5ea9dddd1eaafebcdc84a8e31ebfb8e1bc184ace6ff36b9c9ea2e5"
   },
-  "determinism_finding": "db_bytes (DuckDB physical size) varies run to run and is excluded; all counts, rows and payload bytes are stable.",
+  "determinism_finding": "DuckDB physical file size (db_bytes / database_bytes) varies with block allocation run to run and is excluded; all counts, rows and payload bytes are stable.",
   "host": "local development machine (WSL2)",
   "kind": "local_reference_replay",
-  "note": "Reference digests for comparing a VPS run of deploy/vps/validate/replay.sh at the same commit. Two independent local runs produced identical results.",
+  "note": "Two independent runs on 2026-10-13 after the Dynamic Universe rebase produced identical results. The Tranche A combined evidence digest is unchanged from the pre-rebase reference (2026-10-12), so the Dynamic Universe merge changed no stored execution evidence.",
+  "semantic_suite": {
+    "errors": 0,
+    "failures": 0,
+    "includes": "Nimble, events, Paper v2, microstructure, intraday, 24B features, runtime, profiles, Dynamic Universe, backup lifecycle",
+    "tests": 450
+  },
   "tranche_a_differential": {
     "combined_evidence_sha256": "77cad631ef99ee3705e0349b32a573a741b385d6f1cefc8e4c8a2a64039ee62b",
     "exact_equivalence": true,

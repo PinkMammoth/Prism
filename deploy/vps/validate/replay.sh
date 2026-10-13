@@ -30,7 +30,7 @@ import hashlib, json, sys
 from pathlib import Path
 out = Path(sys.argv[1])
 def volatile(k):  # host-dependent timing/memory/physical size; counts and digests stay
-    return any(t in k for t in ("second", "wall", "cpu", "rss", "db_bytes")) or k.endswith(
+    return any(t in k for t in ("second", "wall", "cpu", "rss", "db_bytes", "database_bytes")) or k.endswith(
         ("_s", "_ms", "_at"))
 def strip(x):
     if isinstance(x, dict):
