@@ -15,7 +15,7 @@ strategy backtest. It does not optimise signals, thresholds, ranking, TP/SL or d
 
 **Verdict: <<VERDICT>>.** See [Verdict](#verdict).
 
-Code: `src/market_signal/research/sizing/` (policy, engine, model, replay, metrics,
+Code: `src/market_signal/sizing/` (policy, engine, model, replay, metrics,
 bootstrap, stress, audit, ledger, scenario, study, prospective), `market sizing …` CLI
 (`src/market_signal/cli/sizing_cmds.py`), `tests/test_risk_sizing.py`.
 Evidence: [`evidence/risk-position-sizing-v1/`](evidence/risk-position-sizing-v1/).
@@ -313,23 +313,23 @@ leverage, account risk or liquidation tolerance: those fields do not exist on th
 
 | Added (disabled / offline) | Purpose |
 |---|---|
-| `research/sizing/policy.py` | Versioned content-hashed policies and the frozen catalogue |
-| `research/sizing/engine.py` | Pure deterministic sizer with structured explanation |
-| `research/sizing/model.py` | Causal `SizingRequest`, `TradeRecord` (outcomes are evaluation-only), account |
-| `research/sizing/replay.py`, `metrics.py` | Independent and sequential replay; every metric in §19 of the brief |
-| `research/sizing/bootstrap.py`, `stress.py` | Day-block bootstrap; deterministic stresses (sizer unaware of realised costs) |
-| `research/sizing/audit.py` | Invalidation audit |
-| `research/sizing/ledger.py` | Read-only Nimble ledger adapter; JSONL; control reconciliation |
-| `research/sizing/scenario.py` | Synthetic streams on frozen Prism geometry |
-| `research/sizing/study.py` | Evidence generation and mechanical selection |
-| `research/sizing/prospective.py` | Disabled cohort design and runtime adapter (raises) |
+| `sizing/policy.py` | Versioned content-hashed policies and the frozen catalogue |
+| `sizing/engine.py` | Pure deterministic sizer with structured explanation |
+| `sizing/model.py` | Causal `SizingRequest`, `TradeRecord` (outcomes are evaluation-only), account |
+| `sizing/replay.py`, `metrics.py` | Independent and sequential replay; every metric in §19 of the brief |
+| `sizing/bootstrap.py`, `stress.py` | Day-block bootstrap; deterministic stresses (sizer unaware of realised costs) |
+| `sizing/audit.py` | Invalidation audit |
+| `sizing/ledger.py` | Read-only Nimble ledger adapter; JSONL; control reconciliation |
+| `sizing/scenario.py` | Synthetic streams on frozen Prism geometry |
+| `sizing/study.py` | Evidence generation and mechanical selection |
+| `sizing/prospective.py` | Disabled cohort design and runtime adapter (raises) |
 | `cli/sizing_cmds.py` | `market sizing policies | audit | scenario | replay | study` |
 
 `market research sizing-replay` was not possible: `market research` is already a leaf command.
 The group is therefore `market sizing`. Counterfactual results go to files only. Each records
 source run, source trade ids, policy identity, code revision, replay time, starting account
 and assumptions. Nothing writes to any ledger. The paper, universe and ops packages do not
-import `research.sizing` (AST-tested), and the Nimble, event and risk policy ids are unchanged
+import `sizing` (AST-tested), and the Nimble, event and risk policy ids are unchanged
 (tested against the committed Phase 30 evidence values).
 
 Regenerate the evidence with `market sizing study --out-dir docs/evidence/risk-position-sizing-v1`

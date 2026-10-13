@@ -13,7 +13,7 @@ import pandas as pd
 import pytest
 from typer.testing import CliRunner
 
-from market_signal.research.sizing import (
+from market_signal.sizing import (
     audit,
     bootstrap,
     engine,
@@ -25,7 +25,7 @@ from market_signal.research.sizing import (
     scenario,
     stress,
 )
-from market_signal.research.sizing.model import (
+from market_signal.sizing.model import (
     OUTCOME_FIELDS,
     AccountSnapshot,
     FamilyEvidence,
@@ -651,7 +651,7 @@ def test_existing_execution_identities_and_import_boundary():
                     if isinstance(node, ast.ImportFrom)
                     else [a.name for a in node.names]
                 )
-                assert not any("research.sizing" in m for m in mods), f
+                assert not any(m.startswith("market_signal.sizing") for m in mods), f
 
 
 def test_prospective_design_disabled_and_runtime_refuses():

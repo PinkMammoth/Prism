@@ -31,7 +31,7 @@ def _out(value, as_json, path: Path | None = None):
 @sizing.command("policies")
 def policies(as_json: bool = JSON):
     """List every versioned sizing policy and its content hash."""
-    from market_signal.research.sizing import policy
+    from market_signal.sizing import policy
 
     rows = [
         {"name": p.name, "status": p.status, "policy_id": p.policy_id} for p in policy.catalogue()
@@ -42,7 +42,7 @@ def policies(as_json: bool = JSON):
 @sizing.command("audit")
 def audit_cmd(as_json: bool = JSON):
     """Stop/invalidation audit of every registered hypothesis."""
-    from market_signal.research.sizing import audit
+    from market_signal.sizing import audit
 
     a = audit.audit()
     if as_json:
@@ -56,7 +56,7 @@ def audit_cmd(as_json: bool = JSON):
 @sizing.command("scenario")
 def scenario_cmd(name: str, out: Path = typer.Option(..., "--out")):
     """Write a SYNTHETIC scenario trade stream (JSONL). Not market data."""
-    from market_signal.research.sizing import ledger, scenario
+    from market_signal.sizing import ledger, scenario
 
     trades = scenario.generate(scenario.SCENARIOS[name])
     ledger.write_jsonl(trades, out)
@@ -80,8 +80,8 @@ def replay_cmd(
 ):
     """Replay frozen trades under sizing policies. Results go to a file, never a ledger."""
     from market_signal.config import get_settings
-    from market_signal.research.sizing import ledger, metrics, policy, replay
-    from market_signal.research.sizing.study import _revision
+    from market_signal.sizing import ledger, metrics, policy, replay
+    from market_signal.sizing.study import _revision
 
     if (db is None) == (trades_file is None):
         raise typer.BadParameter("give exactly one of --db or --trades")
@@ -146,7 +146,7 @@ def study_cmd(
     processes: int = typer.Option(4, "--processes"),
 ):
     """Regenerate the full SYNTHETIC-scenario sizing study evidence."""
-    from market_signal.research.sizing import study
+    from market_signal.sizing import study
 
     _out(study.run(out_dir, bootstrap_n=bootstrap_n, processes=processes), True)
 
