@@ -214,13 +214,17 @@ def _evidence(
 
 
 def source_r(trades) -> list[tuple[float, str, float]]:
-    """Source-stream outcomes in R at a standard unit risk (for causal evidence only)."""
-    from .policy import fixed_fractional
+    """Source-stream outcomes in R as executed by the control (frozen costs, no impact).
 
-    unit = fixed_fractional(0.01)
+    Evidence must describe the signal, not a hypothetical size: measuring R at a large
+    counterfactual notional would let size-dependent impact masquerade as lack of edge.
+    """
+    from .policy import baseline
+
+    unit = baseline()
     out = []
     for t in trades:
-        o = evaluate(t, size(t.request(), AccountSnapshot(1000.0, 1000.0), unit), unit, 1000.0)
+        o = evaluate(t, size(t.request(), AccountSnapshot(100.0, 100.0), unit), unit, 100.0)
         if o.accepted and o.r is not None:
             out.append((_ts(t.exit_at), t.hypothesis_id, o.r))
     return out

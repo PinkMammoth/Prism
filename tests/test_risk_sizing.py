@@ -434,6 +434,16 @@ def test_liquidation_counted_when_mae_reaches_isolated_liquidation():
     assert not safe.liquidated and safe.near_miss
 
 
+def test_causal_evidence_is_size_independent_and_strictly_prior():
+    ts = [trade(i, minutes=i * 60, exit_mid=103.0 if i % 2 else 97.9) for i in range(10)]
+    src = replay.source_r(ts)
+    assert len(src) == 10
+    control = replay.independent(ts, policy.baseline(), 100.0)
+    assert [r for *_, r in src] == [o.r for o in control]  # R as executed, no impact
+    ev = replay._evidence(src, replay._ts(ts[3].exit_at), {})
+    assert ev["h1"].samples == 3  # exits strictly before the decision only
+
+
 def test_bootstrap_reproducible_and_seed_sensitive():
     ts = [
         trade(

@@ -241,6 +241,29 @@ def select(boot_rows, stress_rows, replay_rows) -> dict:
     }
 
 
+def control_impact_parity(streams) -> list[dict]:
+    """The control keeps today's constant slippage in every main replay. At $500+ its $100+
+    notionals would also pay impact, so compare it on the candidates' cost model here."""
+    rows = []
+    sized = policy.baseline()
+    parity = sized.model_copy(update={"cost_model": policy.CostModel()})
+    for n in ("WEAK_EDGE", "NULL_EDGE", "MODERATE_EDGE"):
+        for p, label in ((sized, "control_constant_slippage"), (parity, "control_sqrt_impact")):
+            for eq in PRIMARY_EQUITY + SENSITIVITY_EQUITY:
+                s = metrics.sequential_summary(replay.sequential(streams[n], p, eq))
+                rows.append(
+                    {
+                        "scenario": n,
+                        "policy": label,
+                        "equity": eq,
+                        "terminal_equity": s["terminal_equity"],
+                        "max_drawdown": s["max_drawdown"],
+                        "expectancy_r": s["expectancy_r"],
+                    }
+                )
+    return rows
+
+
 def run(out_dir: Path, *, bootstrap_n: int = 200, processes: int = 4) -> dict:
     out_dir.mkdir(parents=True, exist_ok=True)
     started = datetime.now(UTC).isoformat()
@@ -338,6 +361,7 @@ def run(out_dir: Path, *, bootstrap_n: int = 200, processes: int = 4) -> dict:
         "bootstrap.json": boot_rows,
         "stress.json": stress_rows,
         "cost-sensitivity.json": cost_rows,
+        "control-impact-parity.json": control_impact_parity(streams),
         "selection.json": selection,
     }
     import gzip
