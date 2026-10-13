@@ -57,9 +57,9 @@ def _summary(xs: list[float]) -> dict:
     }
 
 
-def _cmd(*args: str) -> str | None:
+def _cmd(*args: str, timeout: float = 20) -> str | None:
     try:
-        return subprocess.run(args, capture_output=True, text=True, timeout=20).stdout.strip()
+        return subprocess.run(args, capture_output=True, text=True, timeout=timeout).stdout.strip()
     except (OSError, subprocess.SubprocessError):
         return None
 
@@ -216,11 +216,14 @@ def disk(args) -> dict:
         "rand4k_read_ms_maybe_cached": _summary(rlat),
     }
     if shutil.which("fio"):  # optional cross-check with direct IO
+        # 60 s time-based run plus file layout: the default 20 s _cmd timeout dropped it silently.
         res = _cmd("fio", "--name=prism", f"--directory={d}", "--rw=randrw", "--bs=4k",
                    "--size=512M", "--runtime=60", "--time_based", "--direct=1",
                    "--ioengine=libaio", "--iodepth=16", "--fsync=32",
-                   "--output-format=json")  # fmt: skip
-        if res:
+                   "--output-format=json", timeout=120)  # fmt: skip
+        if not res:
+            out["fio_randrw_4k"] = {"error": "fio failed or timed out"}
+        else:
             j = json.loads(res)["jobs"][0]
             out["fio_randrw_4k"] = {
                 "read_iops": j["read"]["iops"],
