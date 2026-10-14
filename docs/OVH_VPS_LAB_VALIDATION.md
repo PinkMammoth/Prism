@@ -165,7 +165,10 @@ should fall by roughly half, and memory by roughly 2–3 GB at rest.
 - No Dynamic Universe ranking, warming or execution (the radar is gated and the collector is in core-six mode).
 - No historical evidence deleted. The Railway Nimble runs, Paper v2 and all Railway data are intact.
 - No DNS, OAuth or gateway change; no production DB migration; no production DB copy on the VPS (seed only).
-- **Incident:** during the Railway audit, the value of `PRISM_CONTEXT_GATEWAY_TOKENS` was printed into the session transcript by a filtering mistake. It is not in any evidence file. **Rotate it.**
+- **Incident (resolved):** during the Railway audit, the value of `PRISM_CONTEXT_GATEWAY_TOKENS` was printed into the session transcript by a filtering mistake. It never reached any evidence file or commit.
+  - **Rotated at 2026-10-14T17:14Z:** a new 64-character `secrets` token under the same identity (`prism_activation_cli_v1`), set via stdin and loaded by Railway deployment `3ef1c302` (same `8f9bc34` build; Nimble still off). No values were printed.
+  - **Consumers:** Railway `prism-runtime` was the only stored holder. The CLI smoke command takes the token at invocation; ChatGPT Work uses OAuth, and the in-container health monitor uses no token.
+  - **Proof:** on `POST /context/v1/events` with a deliberately malformed body (so no event is created), the old token was authenticated before rotation (400 `schema_rejected`). After rotation the new token is authenticated (400) and the old and random tokens are rejected (401 `auth_rejected`).
 
 ## Next gates
 
