@@ -1,0 +1,98 @@
+{
+ "window": [
+  "2026-10-13T15:36:00+00:00",
+  "2026-10-14T15:36:00+00:00"
+ ],
+ "expected_minutes_per_coin": 1440,
+ "status_total": {
+  "COMPLETE": 8592,
+  "PARTIAL": 48
+ },
+ "complete_fraction_of_expected": 0.9944444444444445,
+ "missing_minutes": 0,
+ "per_coin": {
+  "AAVE": {
+   "COMPLETE": 1432,
+   "PARTIAL": 8
+  },
+  "BTC": {
+   "COMPLETE": 1432,
+   "PARTIAL": 8
+  },
+  "ETH": {
+   "COMPLETE": 1432,
+   "PARTIAL": 8
+  },
+  "HYPE": {
+   "COMPLETE": 1432,
+   "PARTIAL": 8
+  },
+  "LINK": {
+   "COMPLETE": 1432,
+   "PARTIAL": 8
+  },
+  "SOL": {
+   "COMPLETE": 1432,
+   "PARTIAL": 8
+  }
+ },
+ "flags": {
+  "disconnect": 48,
+  "connect": 48
+ },
+ "late_prints": 0,
+ "run_starts": 0,
+ "disconnects": 8,
+ "disconnect_total_s": 11.4,
+ "disconnect_max_s": 1.5,
+ "closes": [
+  {
+   "at": "2026-10-13T18:26:24.938000",
+   "reason": "ConnectionClosedOK: received 1000 (OK) Expired; then sent 1000 (OK) Expired",
+   "lived_s": 10253.1,
+   "down_s": 1.5
+  },
+  {
+   "at": "2026-10-13T21:26:40.624000",
+   "reason": "ConnectionClosedOK: received 1000 (OK) Expired; then sent 1000 (OK) Expired",
+   "lived_s": 10814.1,
+   "down_s": 1.5
+  },
+  {
+   "at": "2026-10-14T00:20:17.407000",
+   "reason": "ConnectionClosedOK: received 1000 (OK) Expired; then sent 1000 (OK) Expired",
+   "lived_s": 10415.3,
+   "down_s": 1.5
+  },
+  {
+   "at": "2026-10-14T03:11:09.903000",
+   "reason": "ConnectionClosedOK: received 1000 (OK) Expired; then sent 1000 (OK) Expired",
+   "lived_s": 10251.0,
+   "down_s": 1.4
+  },
+  {
+   "at": "2026-10-14T06:10:57.201000",
+   "reason": "ConnectionClosedOK: received 1000 (OK) Expired; then sent 1000 (OK) Expired",
+   "lived_s": 10785.9,
+   "down_s": 1.4
+  },
+  {
+   "at": "2026-10-14T08:58:53.435000",
+   "reason": "ConnectionClosedOK: received 1000 (OK) Expired; then sent 1000 (OK) Expired",
+   "lived_s": 10074.8,
+   "down_s": 1.4
+  },
+  {
+   "at": "2026-10-14T11:55:11.035000",
+   "reason": "ConnectionClosedOK: received 1000 (OK) Expired; then sent 1000 (OK) Expired",
+   "lived_s": 10576.2,
+   "down_s": 1.3
+  },
+  {
+   "at": "2026-10-14T14:42:45.619000",
+   "reason": "ConnectionClosedOK: received 1000 (OK) Expired; then sent 1000 (OK) Expired",
+   "lived_s": 10053.3,
+   "down_s": 1.4
+  }
+ ]
+}

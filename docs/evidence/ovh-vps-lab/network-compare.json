@@ -1,0 +1,19 @@
+hyperliquid_ws.connects                                                       1                  1      1.0
+hyperliquid_ws.disconnects                                                    0                  0         
+hyperliquid_ws.l2book_gap_s.max                              1.6408206755295396 1.6156250909989467    0.985
+hyperliquid_ws.l2book_gap_s.mean                             0.4920543175228548 0.49205548049633074      1.0
+hyperliquid_ws.l2book_gap_s.n                                             43884              43878      1.0
+hyperliquid_ws.l2book_gap_s.p50                              0.5304846996441483 0.5301543899986427    0.999
+hyperliquid_ws.l2book_gap_s.p95                               0.722216528840363 0.7581004239982576     1.05
+hyperliquid_ws.l2book_gap_s.p99                              0.8671291144564748 0.9261635439979727    1.068
+hyperliquid_ws.l2book_gaps_over_stale_threshold                               0                  0         
+hyperliquid_ws.messages                                                   76737              76740      1.0
+hyperliquid_ws.messages_per_s                                21.315833333333334 21.316666666666666      1.0
+hyperliquid_ws.ping_rtt_ms.max                               268.99081096053123  588.3548689998861    2.187
+hyperliquid_ws.ping_rtt_ms.mean                                225.772796370903 255.73442204193333    1.133
+hyperliquid_ws.ping_rtt_ms.n                                                119                119      1.0
+hyperliquid_ws.ping_rtt_ms.p50                               223.17694406956434 228.94697399897268    1.026
+hyperliquid_ws.ping_rtt_ms.p95                               241.76510237157345 371.07922499853885    1.535
+hyperliquid_ws.ping_rtt_ms.p99                               261.51656452566385 423.54612500275834     1.62
+hyperliquid_ws.seconds                                                     3600               3600      1.0
+hyperliquid_ws.stale_book_threshold_s                                      10.0               10.0      1.0

@@ -1,0 +1,75 @@
+{
+  "version": "paper_nimble_event_v1",
+  "policy_id": "paperexecution_event_12208f088bec2bcfaa8dfe10af41ccac81975d012cd2e5b0919ec5918712c885",
+  "quiet_1000_filesystem_polls": {
+    "wall_seconds": 0.01641661600297084,
+    "cpu_seconds": 0.016076753,
+    "db_writes": 0
+  },
+  "loads": [
+    {
+      "events": 0,
+      "quiet_active_minutes_sampled": 60,
+      "quiet_cpu_daily_estimate": 57.862336991999996,
+      "cohorts": 2,
+      "burst": false,
+      "wall_seconds": 1.8854384930018568,
+      "cpu_seconds": 2.410930708,
+      "peak_rss_mib": 213.6328125,
+      "evidence_rows": 0,
+      "execution_ledger_rows": 122,
+      "payload_bytes": 18696,
+      "db_bytes": 6828032,
+      "average_added_vcpu_daily": 2.790429060185185e-05,
+      "limitations": "synthetic causal quotes/geometry; includes DB admission and lifecycle; excludes existing technical adapters, network/writer wait and steady production billing"
+    },
+    {
+      "events": 10,
+      "quiet_active_minutes_sampled": 0,
+      "quiet_cpu_daily_estimate": null,
+      "cohorts": 2,
+      "burst": false,
+      "wall_seconds": 5.861831953003275,
+      "cpu_seconds": 7.076236220999999,
+      "peak_rss_mib": 256.2734375,
+      "evidence_rows": 60,
+      "execution_ledger_rows": 182,
+      "payload_bytes": 640324,
+      "db_bytes": 13905920,
+      "average_added_vcpu_daily": 8.19008821875e-05,
+      "limitations": "synthetic causal quotes/geometry; includes DB admission and lifecycle; excludes existing technical adapters, network/writer wait and steady production billing"
+    },
+    {
+      "events": 100,
+      "quiet_active_minutes_sampled": 0,
+      "quiet_cpu_daily_estimate": null,
+      "cohorts": 2,
+      "burst": false,
+      "wall_seconds": 56.05179337200025,
+      "cpu_seconds": 68.954588601,
+      "peak_rss_mib": 323.37109375,
+      "evidence_rows": 600,
+      "execution_ledger_rows": 1802,
+      "payload_bytes": 6466838,
+      "db_bytes": 43003904,
+      "average_added_vcpu_daily": 0.0007980855162152778,
+      "limitations": "synthetic causal quotes/geometry; includes DB admission and lifecycle; excludes existing technical adapters, network/writer wait and steady production billing"
+    },
+    {
+      "events": 100,
+      "quiet_active_minutes_sampled": 0,
+      "quiet_cpu_daily_estimate": null,
+      "cohorts": 2,
+      "burst": true,
+      "wall_seconds": 18.83318003399836,
+      "cpu_seconds": 23.073708728,
+      "peak_rss_mib": 323.37109375,
+      "evidence_rows": 10,
+      "execution_ledger_rows": 406,
+      "payload_bytes": 169134,
+      "db_bytes": 15740928,
+      "average_added_vcpu_daily": 0.0002670568139814815,
+      "limitations": "synthetic causal quotes/geometry; includes DB admission and lifecycle; excludes existing technical adapters, network/writer wait and steady production billing"
+    }
+  ]
+}

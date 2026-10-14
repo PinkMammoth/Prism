@@ -1,0 +1,30 @@
+Using CPython 3.12.3
+Creating virtual environment at: .venv
+   Building prism-market-signal @ file:///home/debian/replay-src
+Downloading cryptography (4.5MiB)
+Downloading pygments (1.2MiB)
+Downloading pandas (10.3MiB)
+Downloading pillow (6.6MiB)
+Downloading numpy (15.9MiB)
+Downloading pyarrow (47.8MiB)
+Downloading ruff (9.8MiB)
+Downloading pydeck (10.9MiB)
+Downloading pydantic-core (2.0MiB)
+Downloading streamlit (9.6MiB)
+Downloading duckdb (20.5MiB)
+Downloading plotly (9.2MiB)
+ Downloaded pydantic-core
+ Downloaded pygments
+      Built prism-market-signal @ file:///home/debian/replay-src
+ Downloaded cryptography
+ Downloaded pillow
+ Downloaded ruff
+ Downloaded pydeck
+ Downloaded streamlit
+ Downloaded numpy
+ Downloaded duckdb
+ Downloaded plotly
+ Downloaded pandas
+ Downloaded pyarrow
+Installed 67 packages in 66ms
+.............................                                            [100%]

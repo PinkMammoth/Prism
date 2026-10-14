@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+exec ssh -o BatchMode=yes -o ControlMaster=auto -o ControlPath=~/.ssh/cm/%C -o ControlPersist=30m -o ServerAliveInterval=30 debian@178.33.95.139 "$@"

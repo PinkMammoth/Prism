@@ -1,0 +1,15 @@
+2026-10-14T16:25:26Z
+pid=220 rss_mb=183 cpu_avg_cores=0.009 age_h=0.35 :: /app/.venv/bin/python3 /app/.venv/bin/market microstructure collect 
+pid=223 rss_mb=146 cpu_avg_cores=0.004 age_h=0.35 :: python -m market_signal.context.gateway.launch 
+pid=225 rss_mb=1882 cpu_avg_cores=0.092 age_h=0.35 :: python -m market_signal.context.gateway.worker 
+pid=228 rss_mb=169 cpu_avg_cores=0.002 age_h=0.35 :: python -m market_signal.context.free_sources.collector 
+pid=3 rss_mb=15 cpu_avg_cores=0.000 age_h=0.36 :: supercronic -passthrough-logs /tmp/prism.crontab 
+memory.current=3436490752 memory.peak=4029112320
+anon 2231754752
+file 1151668224
+usage_usec 556390208
+nr_throttled 73
+throttled_usec 82804848
+7356035.25 311639061.02
+/dev/zd6608    4838498304 3257663488 1564057600  68% /data
+-rw-r--r-- 1 root root 1646276608 Oct 14 16:21 /data/prism.duckdb

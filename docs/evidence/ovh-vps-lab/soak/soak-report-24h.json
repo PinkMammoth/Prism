@@ -1,0 +1,77 @@
+{
+  "kind": "soak_report",
+  "from": "2026-10-13T15:36:27.066467+00:00",
+  "to": "2026-10-14T15:32:09.399161+00:00",
+  "hours": 23.93,
+  "samples": 288,
+  "host_cpu_busy_fraction": 0.025371170214147698,
+  "host_steal_fraction": 4.976428163749688e-05,
+  "mem_available_min": 11125096448,
+  "swap_used_max": 0,
+  "disk_free_final": 98302545920,
+  "growth_bytes_per_day": {
+    "db": 0.0,
+    "wal": 0.0,
+    "microstructure": 63268386.810003474,
+    "free_event_sources": 19368.76269565211,
+    "context_gateway": 0.0,
+    "raw": 0.0,
+    "backups": 0.0,
+    "logs": 0.0,
+    "state": 0.0
+  },
+  "units": {
+    "prism-microstructure": {
+      "final_state": "active",
+      "restarts": 0,
+      "cpu_equivalents": 0.010549126934233752,
+      "mem_peak_sample": 207925248
+    },
+    "prism-free-sources": {
+      "final_state": "active",
+      "restarts": 0,
+      "cpu_equivalents": 0.0012734759968676917,
+      "mem_peak_sample": 116908032
+    },
+    "prism-free-source-ingest": {
+      "final_state": "inactive",
+      "restarts": 0,
+      "cpu_equivalents": 0.0,
+      "mem_peak_sample": null
+    },
+    "prism-context-gateway": {
+      "final_state": "inactive",
+      "restarts": 0,
+      "cpu_equivalents": 0.0,
+      "mem_peak_sample": null
+    },
+    "prism-context-ingest": {
+      "final_state": "inactive",
+      "restarts": 0,
+      "cpu_equivalents": 0.0,
+      "mem_peak_sample": null
+    },
+    "prism-nimble": {
+      "final_state": "inactive",
+      "restarts": 0,
+      "cpu_equivalents": 0.0,
+      "mem_peak_sample": null
+    },
+    "prism-scheduler": {
+      "final_state": "inactive",
+      "restarts": 0,
+      "cpu_equivalents": 0.0,
+      "mem_peak_sample": null
+    }
+  },
+  "micro_minute_status": {
+    "PARTIAL": 66,
+    "COMPLETE": 10044
+  },
+  "micro_complete_fraction": 0.9934718100890207,
+  "micro_expected_minutes": 8614,
+  "db_busy_samples": 0,
+  "heartbeat_max_age_s": {
+    "free_sources": 29.938129
+  }
+}
