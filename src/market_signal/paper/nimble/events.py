@@ -20,7 +20,7 @@ from market_signal.research.lab.common import canonical_json, content_id
 
 from . import engine
 from . import event_spec as rules
-from .model import StateUpdate, sign
+from .model import StateUpdate, sign, volatility_definition
 
 TERMINAL_STATUS = {"resolved", "completed", "denied", "monitoring"}
 
@@ -276,6 +276,11 @@ def reference(source, asset, first_seen):
             "quote_at": at,
             "available_at": available,
             "volatility_move": vol,
+            "volatility_move_definition": volatility_definition(
+                "sqrt(15) * mean_15_minutes(max(high-low, abs(high-prev_mid), abs(low-prev_mid))) / final_bid_ask_mid; first prev_mid unavailable",
+                "causal_15_complete_ingested_minutes_before_prism_first_seen",
+                df["available_at"].max(),
+            ),
             "local_low": df["low_px"].min(),
             "local_high": df["high_px"].max(),
             "basis": "causal_pre_first_seen_minute_bid_ask",

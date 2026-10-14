@@ -7,12 +7,23 @@ from dataclasses import dataclass
 from typing import Literal
 
 import pandas as pd
-from pydantic import Field
+from pydantic import Field, model_serializer
 
 from market_signal.paper.v2.data import ts
 from market_signal.research.lab.common import LabModel, content_id
 
 from . import event_spec, spec
+
+
+def volatility_definition(formula, source, available_at):
+    """Definition of the existing geometry input, in fractional price-move units."""
+    return {
+        "version": "entry_volatility_move_v1",
+        "units": "fractional_price_move",
+        "formula": formula,
+        "source": source,
+        "available_at": ts(available_at).isoformat(),
+    }
 
 
 @dataclass(frozen=True)
@@ -74,6 +85,8 @@ class ExecutionThesis(LabModel):
     positioning_state: dict
     microstructure_state: dict
     entry_reference_price: float = Field(gt=0, allow_inf_nan=False)
+    volatility_move: float | None = Field(default=None, gt=0, allow_inf_nan=False)
+    volatility_move_definition: dict | None = None
     objective: dict
     invalidation: dict
     expiry: dict
@@ -84,6 +97,15 @@ class ExecutionThesis(LabModel):
     research_horizons_minutes: tuple[int, ...]
     episode_id: str
     source_latency: dict
+
+    @model_serializer(mode="wrap")
+    def _preserve_legacy_payload(self, handler):
+        payload = handler(self)
+        # Historical content hashes must not acquire newly defaulted null fields.
+        for name in ("volatility_move", "volatility_move_definition"):
+            if name not in self.model_fields_set:
+                payload.pop(name, None)
+        return payload
 
     @property
     def thesis_id(self):
@@ -170,6 +192,16 @@ def build_thesis(h, observation, q, geometry, now) -> ExecutionThesis:
         positioning_state=ev.get("positioning", ctx.get("positioning") or {}),
         microstructure_state=geometry.get("microstructure", {}),
         entry_reference_price=ref,
+        volatility_move=geometry.get("volatility_move"),
+        volatility_move_definition=geometry.get("volatility_move_definition")
+        or volatility_definition(
+            "geometry.volatility_move",
+            geometry.get("geometry_source") or geometry.get("basis") or "source_geometry",
+            max(
+                ts(geometry.get("available_at") or observation.available_at),
+                ts(observation.available_at),
+            ),
+        ),
         objective={"family": family, "price": target, "definition": p},
         invalidation={
             "price": invalidation,

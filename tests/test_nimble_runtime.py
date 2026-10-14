@@ -212,13 +212,16 @@ def test_min_notional_and_large_gap_loss_cap(store):
 
 
 @pytest.mark.parametrize("phase", [22, 23])
-def test_non_microstructure_geometry_causal_bar_fallback(store, monkeypatch, phase):
+@pytest.mark.parametrize("atr", [None, 0.03])
+def test_non_microstructure_geometry_causal_bar_fallback(store, monkeypatch, phase, atr):
+    import math
+
     import pandas as pd
 
     from market_signal.paper.nimble import data, spec
 
     hh = next(h for h in spec.baseline.bootstrap() if h.source_phase == phase)
-    o = observation(hh, minute=60)
+    o = observation(hh, minute=60, evidence={"atr": atr})
     monkeypatch.setattr(data, "load_microstructure", lambda *a, **kw: pd.DataFrame())
 
     def bars(*args, **kwargs):
@@ -240,6 +243,35 @@ def test_non_microstructure_geometry_causal_bar_fallback(store, monkeypatch, pha
     assert geometry["local_low"] == 99 and geometry["local_high"] == 101
     assert geometry["microstructure"] == {} and geometry["geometry_source"].endswith("bar_fallback")
     assert geometry["available_at"] <= time(60).isoformat()
+    assert geometry["volatility_move"] == pytest.approx(math.expm1(atr) if atr else 0.02)
+    definition = geometry["volatility_move_definition"]
+    assert definition["version"] == "entry_volatility_move_v1"
+    assert definition["available_at"] <= time(60).isoformat()
+    assert ("expm1" in definition["formula"]) == bool(atr)
+
+
+@pytest.mark.parametrize("atr", [None, 0.03])
+def test_entry_volatility_uses_only_known_minutes(store, atr):
+    import math
+
+    from market_signal.paper.nimble import data
+    from tests.test_event_reaction import seed_minutes
+
+    seed_minutes(store)
+    source = data.Sources(store, time(1, 15))
+    o = observation(evidence={"atr": atr})
+    geometry = source.geometry("BTC", o)
+    expected = math.expm1(atr) if atr else math.sqrt(15) * 0.4 / 100
+    assert geometry["volatility_move"] == pytest.approx(expected)
+    definition = geometry["volatility_move_definition"]
+    assert definition["version"] == "entry_volatility_move_v1"
+    assert definition["available_at"] == time(1, 6).isoformat()
+    assert ("expm1" in definition["formula"]) == bool(atr)
+    # A later price spike cannot leak into the entry input or its definition.
+    store.con.execute(
+        "UPDATE microstructure_minutes SET high_px=10000 WHERE minute_open>=?", [time(1)]
+    )
+    assert source.geometry("BTC", o) == geometry
 
 
 def test_phase25a_postmortem_includes_separate_nimble_execution(store, project, monkeypatch):

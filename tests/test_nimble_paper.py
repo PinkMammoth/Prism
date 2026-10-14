@@ -418,7 +418,77 @@ def test_known_at_and_activation(store, run, mutation):
 
 def test_geometry_known_at_future_blocks(store, run):
     admit(store, run, source=Source(available_at=time(2).isoformat()))
-    assert report.signals(store, run)[0]["reason"] == "INVALID_TIMING"
+    opportunity = report.signals(store, run)[0]
+    assert opportunity["reason"] == "INVALID_TIMING"
+    assert opportunity["volatility_move"] is None
+    assert opportunity["volatility_move_definition"] is None
+
+
+def test_entry_volatility_survives_lifecycle_repeated_admission_and_recovery(store, run):
+    source = Source(volatility=0.03)
+    admit(store, run, source=source)
+    pending = next(iter(engine.state(store, run)["pending"].values()))
+    frozen = pending["thesis"]
+    assert frozen["volatility_move"] == 0.03
+    definition = frozen["volatility_move_definition"]
+    assert definition["version"] == "entry_volatility_move_v1"
+    assert definition["available_at"] <= frozen["frozen_at"]
+    original_theses = store.con.execute("SELECT * FROM paper_nimble_theses").fetchall()
+    original_opportunities = store.con.execute(
+        "SELECT * FROM paper_nimble_opportunities"
+    ).fetchall()
+    op = json.loads(original_opportunities[0][-1])
+    assert op["volatility_move"] == frozen["volatility_move"]
+    assert op["volatility_move_definition"] == definition
+    source.volatility = 0.9
+    assert admit(store, run, source=source) == {}
+    monitor(store, run, 1, 2)
+    opened_position = next(iter(engine.state(store, run)["open"].values()))
+    assert (
+        opened_position["units"]
+        == baseline_engine.size(100, fill(quote(1, 2), "long", entry=True), "BTC")[0]
+    )
+    monitor(store, run, 2, 0, 102)
+    monitor(store, run, 2, 2, 102)
+    before = engine.state(store, run)
+    assert before["closed"][0]["thesis"] == frozen
+    engine.recover(store, run)
+    assert engine.state(store, run) == before
+    assert store.con.execute("SELECT * FROM paper_nimble_theses").fetchall() == original_theses
+    assert (
+        store.con.execute("SELECT * FROM paper_nimble_opportunities").fetchall()
+        == original_opportunities
+    )
+
+
+def test_legacy_thesis_keeps_original_payload_hash_and_recovers(store, run):
+    from market_signal.research.lab.common import canonical_json, content_id
+
+    p = opened(store, run)
+    legacy = {
+        k: v
+        for k, v in p["thesis"].items()
+        if k not in ("volatility_move", "volatility_move_definition")
+    }
+    original_id = content_id("executionthesis_", legacy)
+    th = ExecutionThesis.model_validate(legacy)
+    assert th.volatility_move is None and th.volatility_move_definition is None
+    assert th.model_dump(mode="json") == legacy
+    assert th.thesis_id == original_id
+    # Simulate a ledger written before the additive evidence fields existed.
+    store.con.execute(
+        "UPDATE paper_nimble_theses SET thesis_id=?,payload=? WHERE thesis_id=?",
+        [original_id, canonical_json(legacy), p["thesis_id"]],
+    )
+    for seq, payload in store.con.execute("SELECT seq,payload FROM paper_nimble_events").fetchall():
+        store.con.execute(
+            "UPDATE paper_nimble_events SET payload=? WHERE run_id=? AND seq=?",
+            [payload.replace(p["thesis_id"], original_id), run, seq],
+        )
+    engine.recover(store, run)
+    restored = next(iter(engine.state(store, run)["open"].values()))
+    assert restored["thesis"] == legacy and restored["thesis_id"] == original_id
+    assert restored["units"] == p["units"]
 
 
 def test_data_failure_queues_close_without_inventing_fill(store, run):

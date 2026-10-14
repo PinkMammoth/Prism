@@ -591,14 +591,21 @@ def test_invalidation_audit_covers_every_hypothesis():
     assert tech and all(r["classification"] == "DERIVABLE_INVALIDATION" for r in tech)
 
 
-def test_nimble_ledger_adapter_reconciles_real_engine_trade(store):
+@pytest.mark.parametrize("objective", ["volatility", "structural", "risk_multiple"])
+def test_nimble_ledger_adapter_reconciles_real_engine_trade(store, objective):
     """End-to-end: a trade closed by the frozen paper engine is reproduced exactly."""
     import tests.test_nimble_paper as nimble_tests
     from market_signal.paper.nimble import engine as nimble
+    from market_signal.paper.nimble import spec as nimble_spec
 
     nimble.register(store, now=nimble_tests.T0)
     rid = nimble.create(store, now=nimble_tests.T0)["run_id"]
-    closed = nimble_tests.closed_tp(store, rid)
+    hh = next(
+        h
+        for h in nimble_spec.baseline.bootstrap()
+        if h.side == "long" and nimble_spec.mapping(h)["objective"] == objective
+    )
+    closed = nimble_tests.closed_tp(store, rid, hh=hh)
     assert closed["state"] == "CLOSED"
     path = Path(store.path) if hasattr(store, "path") else None
     store.con.execute("CHECKPOINT")
@@ -608,6 +615,15 @@ def test_nimble_ledger_adapter_reconciles_real_engine_trade(store):
     assert meta["opened_read_only"] and len(trades) == 1
     t = trades[0]
     assert t.trade_id == closed["trade_id"] and t.recorded_net_pnl == closed["net_pnl"]
+    assert t.causal_volatility == closed["thesis"]["volatility_move"] == 0.02
+    # Preserve the legacy objective fallback; other families remain nullable.
+    legacy = {**closed, "thesis": dict(closed["thesis"])}
+    legacy["thesis"].pop("volatility_move")
+    old_vol = ledger.from_nimble_position(legacy, meta["runs"][0]).causal_volatility
+    if objective == "volatility":
+        assert old_vol == pytest.approx(0.02)
+    else:
+        assert old_vol is None
     rec = ledger.reconcile(trades)
     assert rec["all_units_match"] and rec["max_net_pnl_error"] < 1e-9
     # The adapter never wrote: payload unchanged after the read.

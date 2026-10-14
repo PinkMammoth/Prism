@@ -17,7 +17,7 @@ from market_signal.paper.v2.data import Sources as BaselineSources
 from market_signal.paper.v2.data import clean, ts
 
 from . import spec
-from .model import ExecutableQuote, StateUpdate
+from .model import ExecutableQuote, StateUpdate, volatility_definition
 
 
 class Sources(BaselineSources):
@@ -92,11 +92,21 @@ class Sources(BaselineSources):
             )
             if not math.isfinite(volatility) or volatility <= 0:
                 raise ValueError("GEOMETRY_UNAVAILABLE")
+            available = max(
+                ts(last["close_time"]), ts(last["first_observed_at"]), ts(observation.available_at)
+            )
             return clean(
                 {
                     "local_low": last["low"],
                     "local_high": last["high"],
                     "volatility_move": volatility,
+                    "volatility_move_definition": volatility_definition(
+                        "expm1(observation.evidence.atr)"
+                        if atr is not None and math.isfinite(atr) and atr > 0
+                        else "(last_bar.high - last_bar.low) / last_bar.close",
+                        f"causal_{timeframe.value}_bar_fallback",
+                        available,
+                    ),
                     "available_at": max(ts(last["close_time"]), ts(last["first_observed_at"])),
                     "geometry_source": f"causal_{timeframe.value}_bar_fallback",
                     "microstructure": {},
@@ -129,6 +139,13 @@ class Sources(BaselineSources):
                 "local_low": lo,
                 "local_high": hi,
                 "volatility_move": volatility,
+                "volatility_move_definition": volatility_definition(
+                    "expm1(observation.evidence.atr)"
+                    if atr is not None and math.isfinite(atr) and atr > 0
+                    else "sqrt(15) * mean_15_minutes(max(high-low, abs(high-prev_mid), abs(low-prev_mid))) / final_mid_end; first prev_mid unavailable",
+                    "causal_15_complete_ingested_minutes",
+                    max(ts(df["available_at"].max()), ts(observation.available_at)),
+                ),
                 "available_at": df["available_at"].max(),
                 "microstructure": {
                     "bid5": r["bid5_end"],

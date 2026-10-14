@@ -249,6 +249,8 @@ def test_immediate_confirmed_separate_and_fast_future_fill(store, cohorts, sourc
     assert evaluate(store, cohorts["confirmed"], source, [trigger]) == {"CONFIRMATION_MISSING": 1}
     p = engine.positions(store, cohorts["immediate"])[0]
     assert p["state"] == "PENDING"
+    assert p["thesis"]["volatility_move"] == 0.02
+    assert p["thesis"]["volatility_move_definition"]["version"] == "entry_volatility_move_v1"
     assert (
         p["thesis"]["episode_id"]
         and p["thesis"]["context_snapshot"]["event_entry"]["state"]["event_id"] == eid
@@ -548,6 +550,13 @@ def test_real_reference_confirmation_adapters_are_causal(store):
     ref = events.reference(source, "BTC", time(1, 15))
     assert ref["price"] == 100 and ref["quote_at"] == time(1).isoformat()
     assert ref["available_at"] == time(1, 6).isoformat()
+    assert ref["volatility_move"] == pytest.approx(15**0.5 * 0.4 / 100)
+    definition = ref["volatility_move_definition"]
+    assert definition["version"] == "entry_volatility_move_v1"
+    assert definition["available_at"] < time(1, 15).isoformat()
+    assert "final_bid_ask_mid" in definition["formula"]
+    # Later known minutes cannot change the frozen pre-first-seen reference.
+    assert events.reference(source, "BTC", time(1, 15)) == ref
     assert events.confirmation(source, "BTC", time(1, 15), "short", time(3, 4)) is None
     c = events.confirmation(source, "BTC", time(1, 15), "short", time(3, 10))
     assert c["observed_at"] == time(3).isoformat() and c["available_at"] == time(3, 6).isoformat()

@@ -1240,6 +1240,8 @@ def admit(store, rid, observations, qs, source, contexts=None, *, now=None):
                 else baseline.HORIZONS,
                 "evaluated_at": at.isoformat(),
                 "execution_thesis_id": thesis.thesis_id if thesis else None,
+                "volatility_move": thesis.volatility_move if thesis else None,
+                "volatility_move_definition": thesis.volatility_move_definition if thesis else None,
                 "capital_blockers": [
                     {
                         "trade_id": p["trade_id"],

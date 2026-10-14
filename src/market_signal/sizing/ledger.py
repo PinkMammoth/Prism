@@ -30,8 +30,8 @@ def from_nimble_position(p: dict, run: dict) -> TradeRecord:
     s = 1 if p["side"] == "long" else -1
     ref = th["entry_reference_price"]
     obj = th["objective"]
-    vol = None
-    if obj.get("family") == "volatility":  # target = ref * (1 + s * 0.5 * volatility_move)
+    vol = th.get("volatility_move")
+    if vol is None and obj.get("family") == "volatility":  # legacy target encodes volatility
         vol = 2 * s * (obj["price"] / ref - 1)
         vol = vol if vol > 0 else None
     asset = p["asset"]

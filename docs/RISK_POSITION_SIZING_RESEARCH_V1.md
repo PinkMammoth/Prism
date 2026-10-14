@@ -831,6 +831,17 @@ Each entry must record what today's thesis does not: sizing policy id and explan
 `volatility_move`, regime ratio, predicted funding, venue max leverage, szDecimals, depth, and
 equity/peak/open exposures at sizing.
 
+Entry evidence update (2026-10-14, local implementation): new Nimble theses now freeze the
+existing causal geometry's `volatility_move`, in fractional price-move units, together with
+`volatility_move_definition` (version `entry_volatility_move_v1`, formula, source and
+availability time). The value is copied into the append-only opportunity evidence whenever
+a thesis is built, including economic/minimum-notional rejections. Opportunities rejected
+before geometry evaluation carry nulls. The value is retained through fills, exits and
+recovery; it is never recalculated from later data. Legacy theses load with nullable fields
+and retain their original content hashes. Offline sizing replay uses the frozen value when
+present, retaining the existing objective-based fallback for legacy volatility objectives.
+Current sizing, execution policy identities and cohort activation remain unchanged.
+
 `ENABLED = False` and `REGISTERED = False` are module constants with no environment override.
 `runtime_size()` raises until a reviewed activation phase changes them.
 
