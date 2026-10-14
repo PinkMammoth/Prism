@@ -1,0 +1,14 @@
+{
+  "kind": "duckdb",
+  "at": "2026-10-13T15:39:38.992869+00:00",
+  "backup_bytes": 220737536,
+  "backup_copy_fsync_s": 1.016,
+  "verify_backup_s": 0.515,
+  "write_and_checkpoint_s": 0.279,
+  "rows_total": 1500031,
+  "full_count_scan_s": 0.088,
+  "restore_test_s": 1.059,
+  "restored_ok": true,
+  "archive_gz_bytes": 199342706,
+  "archive_gzip_s": 3.987
+}

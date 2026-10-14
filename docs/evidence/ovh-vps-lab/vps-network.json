@@ -1,0 +1,140 @@
+{
+  "kind": "network",
+  "at": "2026-10-13T16:26:12.951815+00:00",
+  "http": [
+    {
+      "name": "hyperliquid_info",
+      "url": "https://api.hyperliquid.xyz/info",
+      "latency_ms": {
+        "n": 20,
+        "p50": 275.4740780001157,
+        "p95": 561.8900540030154,
+        "p99": 569.7497649998695,
+        "max": 569.7497649998695,
+        "mean": 347.1109042995522
+      },
+      "errors": []
+    },
+    {
+      "name": "binance_fapi",
+      "url": "https://fapi.binance.com/fapi/v1/time",
+      "latency_ms": {
+        "n": 20,
+        "p50": 230.13366000304813,
+        "p95": 237.10588199901395,
+        "p99": 303.92930299785803,
+        "max": 303.92930299785803,
+        "mean": 233.62696310014144
+      },
+      "errors": []
+    },
+    {
+      "name": "coinbase_status",
+      "url": "https://status.coinbase.com/api/v2/status.json",
+      "latency_ms": {
+        "n": 20,
+        "p50": 173.22029400020256,
+        "p95": 209.2567030013015,
+        "p99": 315.7667589985067,
+        "max": 315.7667589985067,
+        "mean": 181.86062995009706
+      },
+      "errors": []
+    },
+    {
+      "name": "kraken_status",
+      "url": "https://status.kraken.com/api/v2/status.json",
+      "latency_ms": {
+        "n": 20,
+        "p50": 10.539725997659843,
+        "p95": 12.534296001831535,
+        "p99": 26.81316199959838,
+        "max": 26.81316199959838,
+        "mean": 11.192885099808336
+      },
+      "errors": []
+    },
+    {
+      "name": "fred",
+      "url": "https://fred.stlouisfed.org/",
+      "latency_ms": {
+        "n": 20,
+        "p50": 18.754166001599515,
+        "p95": 53.0262779975601,
+        "p99": 226.53905600236612,
+        "max": 226.53905600236612,
+        "mean": 33.059857899934286
+      },
+      "errors": []
+    },
+    {
+      "name": "sec",
+      "url": "https://www.sec.gov/news/pressreleases.rss",
+      "latency_ms": {
+        "n": 20,
+        "p50": 20.643037001718767,
+        "p95": 37.16769499806105,
+        "p99": 38.2254340001964,
+        "max": 38.2254340001964,
+        "mean": 22.69823109927529
+      },
+      "errors": []
+    },
+    {
+      "name": "defillama",
+      "url": "https://api.llama.fi/protocols",
+      "latency_ms": {
+        "n": 20,
+        "p50": 167.02962499766727,
+        "p95": 179.04815500151017,
+        "p99": 343.4999999990396,
+        "max": 343.4999999990396,
+        "mean": 168.44238044977828
+      },
+      "errors": []
+    },
+    {
+      "name": "auth0_jwks",
+      "url": "https://dev-spoapkyacre0gg6s.us.auth0.com/.well-known/jwks.json",
+      "latency_ms": {
+        "n": 20,
+        "p50": 20.365733998914948,
+        "p95": 26.547323999693617,
+        "p99": 504.7742720016686,
+        "max": 504.7742720016686,
+        "mean": 44.83133764988452
+      },
+      "errors": []
+    }
+  ],
+  "icmp_hyperliquid": [
+    "50 packets transmitted, 50 received, 0% packet loss, time 9840ms",
+    "rtt min/avg/max/mdev = 4.950/5.048/5.177/0.048 ms"
+  ],
+  "hyperliquid_ws": {
+    "connects": 1,
+    "disconnects": 0,
+    "messages": 76740,
+    "errors": [],
+    "seconds": 3600,
+    "messages_per_s": 21.316666666666666,
+    "l2book_gap_s": {
+      "n": 43878,
+      "p50": 0.5301543899986427,
+      "p95": 0.7581004239982576,
+      "p99": 0.9261635439979727,
+      "max": 1.6156250909989467,
+      "mean": 0.49205548049633074
+    },
+    "stale_book_threshold_s": 10.0,
+    "l2book_gaps_over_stale_threshold": 0,
+    "ping_rtt_ms": {
+      "n": 119,
+      "p50": 228.94697399897268,
+      "p95": 371.07922499853885,
+      "p99": 423.54612500275834,
+      "max": 588.3548689998861,
+      "mean": 255.73442204193333
+    }
+  }
+}

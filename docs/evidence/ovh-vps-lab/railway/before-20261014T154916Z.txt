@@ -1,0 +1,26 @@
+2026-10-14T15:49:18Z
+pid=1 rss_mb=1 cpu_avg_cores=0.000 age_h=51.1 :: /run/podman-init -- /usr/bin/tini -- /app/deploy/railway/entrypoint.sh
+pid=136 rss_mb=1 cpu_avg_cores=0.000 age_h=51.1 :: /bin/sh /app/deploy/railway/entrypoint.sh 
+pid=138 rss_mb=222 cpu_avg_cores=0.005 age_h=51.1 :: /app/.venv/bin/python3 /app/.venv/bin/market microstructure collect 
+pid=139 rss_mb=1 cpu_avg_cores=0.000 age_h=51.1 :: /bin/sh /app/deploy/railway/entrypoint.sh 
+pid=140 rss_mb=160 cpu_avg_cores=0.002 age_h=51.1 :: python -m market_signal.context.gateway.launch 
+pid=141 rss_mb=1 cpu_avg_cores=0.000 age_h=51.1 :: /bin/sh /app/deploy/railway/entrypoint.sh 
+pid=142 rss_mb=253 cpu_avg_cores=0.052 age_h=51.1 :: python -m market_signal.context.gateway.worker 
+pid=144 rss_mb=1 cpu_avg_cores=0.000 age_h=51.1 :: /bin/sh /app/deploy/railway/entrypoint.sh 
+pid=145 rss_mb=1 cpu_avg_cores=0.000 age_h=51.1 :: /bin/sh /app/deploy/railway/entrypoint.sh 
+pid=146 rss_mb=187 cpu_avg_cores=0.001 age_h=51.1 :: python -m market_signal.context.free_sources.collector 
+pid=148 rss_mb=2030 cpu_avg_cores=0.449 age_h=51.1 :: python -m market_signal.paper.nimble.worker 
+pid=2 rss_mb=2 cpu_avg_cores=0.000 age_h=51.1 :: /usr/bin/tini -- /app/deploy/railway/entrypoint.sh 
+pid=3 rss_mb=15 cpu_avg_cores=0.000 age_h=51.1 :: supercronic -passthrough-logs /tmp/prism.crontab 
+memory.current=5089378304 memory.peak=8000000000
+anon 2573230080
+file 2426851328
+usage_usec 126598592354
+nr_periods 1731352
+nr_throttled 7566
+throttled_usec 10114430945
+/dev/zd6608    4838498304 3197431808 1624289280  67% /data
+-rw-r--r-- 1 root root 1588080640 Oct 14 15:49 /data/prism.duckdb
+34
+5 * * * * market ops cycle paper_v2_funding --trigger schedule --wait 3600
+14 0 * * * market ops cycle paper_nimble_brief --trigger schedule --wait 3600

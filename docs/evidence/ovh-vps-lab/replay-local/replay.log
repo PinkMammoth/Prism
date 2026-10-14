@@ -1,0 +1,6 @@
+Using CPython 3.12.3 interpreter at: /usr/bin/python3
+Creating virtual environment at: .venv
+   Building prism-market-signal @ file:///tmp/claude-1000/-home-matth-prism/1da574a2-d467-482c-80a4-22e8bfcf35a2/scratchpad/rsrc
+      Built prism-market-signal @ file:///tmp/claude-1000/-home-matth-prism/1da574a2-d467-482c-80a4-22e8bfcf35a2/scratchpad/rsrc
+Installed 67 packages in 556ms
+.............................                                            [100%]

@@ -1,0 +1,22 @@
+17072 /tmp/vps_validate.py
+{
+  "kind": "host",
+  "at": "2026-10-13T15:41:01.761324+00:00",
+  "hostname": "a39697db2cc9",
+  "os": "Debian GNU/Linux 12 (bookworm)",
+  "kernel": "6.18.15+deb13-cloud-amd64",
+  "virtualization": null,
+  "cpu_model": "AMD EPYC 9655P 96-Core Processor",
+  "cpus": 48,
+  "cgroup_cpu_max": "800000 100000",
+  "cgroup_memory_max": "8000000000",
+  "mem_total": 346488958976,
+  "mem_available": 172494909440,
+  "swap_total": 240048402432,
+  "swap_free": 239425359872,
+  "data_path": "/data",
+  "disk_total": 4838498304,
+  "disk_free": 1856135168,
+  "time_sync": null,
+  "python": "3.12.3"
+}

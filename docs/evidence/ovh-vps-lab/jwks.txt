@@ -1,0 +1,1 @@
+https://dev-spoapkyacre0gg6s.us.auth0.com/.well-known/jwks.json
