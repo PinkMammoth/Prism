@@ -1,0 +1,124 @@
+{
+  "spec_id": "prospective_sizing_cohort_v2",
+  "spec_sha256": "8073b20d4cc61dd15b8e7ab55a12b3b343288a4a4172d1c81203753fbb40df17",
+  "based_on_main_revision": "6c2530a08d902c356cd6f76c74d5954c2e481763",
+  "focused": {
+    "command": ".venv/bin/pytest tests/test_prospective_sizing_cohort_spec.py tests/test_prospective_sizing_cohort_costs.py tests/test_risk_sizing.py",
+    "passed": 141,
+    "failed": 0,
+    "errors": 0,
+    "status": "PASS",
+    "log": "focused.log"
+  },
+  "full_suite": {
+    "status": "PASS",
+    "command": ".venv/bin/python -m pytest -n 2 --dist=loadscope -o addopts='' -vv -o faulthandler_timeout=300 --junitxml=/tmp/prism-sizing-finalization-known-good.xml",
+    "environment": "outside sandbox, local .venv, isolated temporary fixtures; same two-worker loadscope setup as merged Shared Intelligence validation",
+    "known_good_reference": "docs/evidence/shared-intelligence-phase-a/validation.json",
+    "collected": 1715,
+    "excluded_tests": [],
+    "timeout_seconds": null,
+    "tests": 1715,
+    "passed": 1715,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "uncompleted": 0,
+    "exit_code": 0,
+    "wall_seconds": 2367.77,
+    "warnings": 2,
+    "log": "full-suite.log.gz",
+    "junit": "full-suite.xml",
+    "log_sha256": "14a918b6f27f3ab7f178eb10a16f16ace5ca2915fef1c12b85a13c6964c2f82b",
+    "junit_sha256": "e9d25d5a9e541df93b82e98df6c4540dc9eb1e2e4caeae6964901fb2923e2f4f",
+    "all_collected_tests_completed": true,
+    "prior_failures_retested": {
+      "tests/test_context.py::test_snapshot_performance_is_cheap": "PASS",
+      "tests/test_runtime.py::test_backup_is_verified_versioned_and_recorded": "PASS"
+    }
+  },
+  "prior_attempt": {
+    "status": "INTERRUPTED_NOT_PASS",
+    "exit_code": 2,
+    "workers": 8,
+    "distribution": "loadfile",
+    "reported_passed": 1098,
+    "reported_failed": 2,
+    "junit_failures": 1,
+    "junit_errors": 1,
+    "uncompleted": 615,
+    "wall_seconds": 564.74,
+    "ingestion_seconds": 191.47228011699917,
+    "ingestion_items": 400,
+    "ingestion_limit_seconds_per_item": 0.2,
+    "other_failure": "worker gw3 crashed during backup test; no accounting assertion report",
+    "reason_for_restart": "repeat exact documented two-worker loadscope environment rather than accept performance/worker-crash failures",
+    "log": "eight-worker-interrupted.log.gz",
+    "junit": "eight-worker-interrupted.xml.gz",
+    "backup_diagnostic": "interrupted local fixture setup with Query interrupted; not a test pass/failure diagnosis"
+  },
+  "format_and_lint": {
+    "ruff_check": "PASS (src tests dashboard)",
+    "ruff_format_check": "PASS (428 files)",
+    "git_diff_check": "PASS",
+    "added_artifact_whitespace": "PASS"
+  },
+  "slippage_audit": {
+    "only_historical_parameter_difference": "impact none versus sqrt_reference_notional",
+    "historical_definitions_changed": false,
+    "resolution": "one common prospective impact=none cost function for estimates and fills, preserving current control; risk/account parameters unchanged",
+    "common_cost_model_id": "prospectivecostmodel_29df68d7eed12d84ad1b9f3a016d0e46a24f2f954bafcd23c34b2001a84aeac4",
+    "candidate_effective_policy_id": "sizingpolicy_6ab51a0af05c0d4a28fd5e04c8f301bf63b3dfc4f4163ad62409bd4efb402cd1",
+    "adapter_runtime_wired": false
+  },
+  "commissioning": {
+    "minimum_wall_hours": 24,
+    "opportunities": 30,
+    "finalized_trades": 10,
+    "distinct_assets": 2,
+    "distinct_hypotheses": 2,
+    "combine": "ALL",
+    "unresolved_material_incidents_allowed": 0,
+    "chosen_before_outcomes": true
+  },
+  "dependencies": {
+    "duckdb": "1.5.5",
+    "pandas": "3.0.6",
+    "numpy": "2.5.3",
+    "pyarrow": "25.0.1",
+    "pytest": "9.1.1",
+    "pytest-xdist": "3.8.0",
+    "anyio": "4.15.1",
+    "starlette": "1.7.0"
+  },
+  "activation": {
+    "existing_prospective_enabled": false,
+    "existing_prospective_registered": false,
+    "cohorts_registered": false,
+    "cohorts_started": false,
+    "lab_paper_accounts_created": false,
+    "runtime_or_profile_changed": false,
+    "deployed": false,
+    "railway_action": false,
+    "ovh_action": false,
+    "dynamic_universe_activated": false,
+    "current_sizing_changed": false
+  },
+  "limitations": [
+    "Paper costs and liquidation approximation not prospectively validated; no additional quantity-dependent impact in common legacy law.",
+    "Single correlated account paths and unavailable causal regimes may limit inference.",
+    "Future runtime dispatcher/lifecycle rehearsal, profile integration, sealed activation metadata and approval remain start prerequisites."
+  ],
+  "verdict": "SPEC FINALIZED AND READY FOR LATER ACTIVATION",
+  "activation_gate_satisfied": false,
+  "activation_note": "Full-suite PASS proves this local main plus offline freeze artifacts. It does not authorize activation or satisfy other prerequisites. Full suite must pass again on the eventual integration/activation revision.",
+  "artifact_sha256": {
+    "docs/PROSPECTIVE_SIZING_COHORT_V2.md": "73481aab0e4f9365457eeac54b2ddac57ede0883ba5c7b1991378ff8c9678405",
+    "specs/sizing/prospective_sizing_cohort_v2.json": "632dd64510ed6197ecd4916369aad9b301deffb25f849909543b7e045313bc44",
+    "specs/sizing/prospective_sizing_cohort_v2.sha256": "d0a25f321f4691098198145cb5c04b9b8b82fa73e053b9da16fd7c6498e694a5",
+    "src/market_signal/sizing/cohort_spec.py": "15dfdeb4a22f11dd2e82b178640440c2a752d1139200575ab328de092b991770",
+    "src/market_signal/sizing/cohort_costs.py": "622ed8239ea12e5cf822865fd6884720277021a788801766789c819abaf33678",
+    "tests/test_prospective_sizing_cohort_spec.py": "6ef901d604a441c23971aa70a4a2b60ebae2e4593911ee12e1283fe21d1ed8ad",
+    "tests/test_prospective_sizing_cohort_costs.py": "1c93991793c87b2dba74f4b0df500e082d1dca38801c9f973aa1fac025b476f4"
+  }
+}

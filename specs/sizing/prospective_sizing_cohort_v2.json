@@ -1,0 +1,4564 @@
+{
+  "activation_contract": {
+    "code_revision": "pin exact later approved commit; source semantic parity against frozen manifests or new spec/cohort version; integration changes require reviewed tests before activation",
+    "current_profile_reference": {
+      "digest": "f898e2f01ccc5f744ae52e67fbc8edce7428cdf0256647fffa77d926ea102d19",
+      "dynamic_universe": "gated",
+      "identity": "prism_autotrader_lab_v1"
+    },
+    "freeze_method": "append-only content-addressed activation manifest referencing this spec hash; ALL pending facts populated and sealed before registration or any opportunity; no edits to this specification to insert activation facts",
+    "funding_authority": "public market data + simulated paper ledger only; no exchange/fund-movement keys; later real-money readiness separate",
+    "no_capital_transfers": true,
+    "pending_fields": [
+      "activation_code_revision",
+      "runtime_profile_definition_and_hash",
+      "start_frontier",
+      "activation_timestamp",
+      "approval_evidence"
+    ],
+    "required_metadata": [
+      "cohort_id",
+      "schema_version",
+      "sizing_policy_id",
+      "sizing_policy_hash",
+      "hypothesis_rule_manifest",
+      "universe_policy_id",
+      "cost_model_id",
+      "slippage_model_id",
+      "code_revision",
+      "runtime_profile",
+      "account_starting_equity_usd",
+      "start_frontier",
+      "activation_timestamp",
+      "parent_spec_id",
+      "parent_spec_hash",
+      "parent_sizing_policy_id",
+      "parent_sizing_policy_hash",
+      "execution_cost_adapter_version",
+      "execution_cost_input_contract"
+    ],
+    "runtime_limitation": "current profile gates Dynamic Universe; later independently approved infrastructure successor must be pinned in activation manifest and cannot alter frozen signal/trade semantics",
+    "runtime_profile_family": "autotrader_lab",
+    "same_frontier": "identical activation timestamp and source/data frontier for both; signal must be strictly later, no queued commissioning ideas; fresh independent $100 cash/peak/equity each, zero positions/debt",
+    "sensitivity_equities_research_only": [
+      100,
+      200,
+      500,
+      1000
+    ]
+  },
+  "analysis_cadence": {
+    "dashboards": "operational health, raw account state and incidents; no winner ranking/leaderboard or superiority badges; primary comparisons only at scheduled checkpoints",
+    "evidence_checkpoint_days": [
+      7,
+      14,
+      30,
+      60,
+      90,
+      120,
+      150,
+      180
+    ],
+    "interim": "first four checkpoints descriptive/preliminary even if counts accumulate early; primary decision no earlier than day90; no policy changes between or at checkpoints under same IDs",
+    "operational_checks": "daily; continuous machine integrity guards",
+    "registration": "freeze this spec before observing new Dynamic Universe evidence; checkpoint reports append with exact input frontier/hash/code and preserve prior reports"
+  },
+  "attribution": {
+    "current_manifest": "28 Phase 22/23/24 hypotheses only; event is an empty labeled stratum, not permission to add Phase 30",
+    "dimensions": [
+      "hypothesis_family",
+      "asset",
+      "CORE_vs_SATELLITE",
+      "long_vs_short",
+      "event_technical_positioning_microstructure",
+      "existing_causal_regime_context"
+    ],
+    "subgroup": "descriptive only unless >=100 both-taken finalized pairs, >=30 days, >=2 causal regimes; no promotion/selection from exploratory multiple comparisons; new confirmatory spec required"
+  },
+  "cohorts": {
+    "dynamic_lab_fixed_v1": {
+      "account_created": false,
+      "account_starting_equity_usd": 100.0,
+      "capital_transfers_allowed": false,
+      "cohort_id": "dynamic_lab_fixed_v1",
+      "cost_model_id": "prospectivecostmodel_29df68d7eed12d84ad1b9f3a016d0e46a24f2f954bafcd23c34b2001a84aeac4",
+      "parent_sizing_policy": {
+        "capacity_mode": "skip",
+        "cluster_risk_multiple": null,
+        "cost_model": {
+          "depth_participation_max": 0.1,
+          "fee_bps": 4.5,
+          "funding_reserve": "adverse_predicted_per_started_hour",
+          "impact": "none",
+          "impact_reference_notional": 100.0,
+          "name": "prism_paper_costs_sqrt_impact_v1"
+        },
+        "cost_risk_reduce_above": null,
+        "cost_risk_reject_above": null,
+        "distance": "none",
+        "drawdown_steps": [],
+        "enforce_liquidation_safety": false,
+        "evidence_ceiling_multiplier": 1.0,
+        "evidence_floor_multiplier": 0.5,
+        "evidence_max_risk_fraction": null,
+        "evidence_min_samples": 100,
+        "evidence_scope": "hypothesis",
+        "fallback_notional_fraction": 0.1,
+        "family": "fixed_allocation",
+        "framework": "risk_position_sizing_research_v1",
+        "gross_fraction": 0.6,
+        "halt_drawdown": 0.75,
+        "include_costs_in_risk": true,
+        "kelly_fraction": null,
+        "leverage_cap": 2.0,
+        "leverage_mode": "fixed",
+        "liquidation_buffer_multiple": 2.0,
+        "liquidation_min_distance": 0.125,
+        "max_margin_fraction_per_position": 1.0,
+        "max_net_directional_fraction": null,
+        "max_notional_fraction": 0.2,
+        "max_positions": 3,
+        "max_total_margin_fraction": 1.0,
+        "min_loss_distance": 0.0,
+        "min_notional": 10.0,
+        "missing_invalidation": "fallback_notional",
+        "name": "fixed_allocation_baseline_v1",
+        "notional_fraction": 0.2,
+        "per_setup_max_positions": null,
+        "policy_id": "sizingpolicy_f967b56580b521ac27b99a3d29990e1894d324212b01176eb38639760108040e",
+        "portfolio_risk_multiple": null,
+        "regime_multiplier": 1.0,
+        "regime_ratio_threshold": null,
+        "regime_unavailable_multiplier": 1.0,
+        "risk_fraction": null,
+        "rounding": "venue_size_decimals_floor",
+        "satellite_beta": 1.5,
+        "satellite_max_positions": 2,
+        "status": "CONTROL",
+        "version": 1,
+        "volatility_k": 0.0
+      },
+      "parent_spec_id": "prospective_sizing_cohort_v2",
+      "registered": false,
+      "role": "CONTROL",
+      "schema_version": 2,
+      "sizing_policy_definition": {
+        "capacity_mode": "skip",
+        "cluster_risk_multiple": null,
+        "cost_model": {
+          "depth_participation_max": 0.1,
+          "fee_bps": 4.5,
+          "funding_reserve": "adverse_predicted_per_started_hour",
+          "impact": "none",
+          "impact_reference_notional": 100.0,
+          "name": "prism_paper_costs_sqrt_impact_v1"
+        },
+        "cost_risk_reduce_above": null,
+        "cost_risk_reject_above": null,
+        "distance": "none",
+        "drawdown_steps": [],
+        "enforce_liquidation_safety": false,
+        "evidence_ceiling_multiplier": 1.0,
+        "evidence_floor_multiplier": 0.5,
+        "evidence_max_risk_fraction": null,
+        "evidence_min_samples": 100,
+        "evidence_scope": "hypothesis",
+        "fallback_notional_fraction": 0.1,
+        "family": "fixed_allocation",
+        "framework": "risk_position_sizing_research_v1",
+        "gross_fraction": 0.6,
+        "halt_drawdown": 0.75,
+        "include_costs_in_risk": true,
+        "kelly_fraction": null,
+        "leverage_cap": 2.0,
+        "leverage_mode": "fixed",
+        "liquidation_buffer_multiple": 2.0,
+        "liquidation_min_distance": 0.125,
+        "max_margin_fraction_per_position": 1.0,
+        "max_net_directional_fraction": null,
+        "max_notional_fraction": 0.2,
+        "max_positions": 3,
+        "max_total_margin_fraction": 1.0,
+        "min_loss_distance": 0.0,
+        "min_notional": 10.0,
+        "missing_invalidation": "fallback_notional",
+        "name": "fixed_allocation_baseline_v1",
+        "notional_fraction": 0.2,
+        "per_setup_max_positions": null,
+        "portfolio_risk_multiple": null,
+        "regime_multiplier": 1.0,
+        "regime_ratio_threshold": null,
+        "regime_unavailable_multiplier": 1.0,
+        "risk_fraction": null,
+        "rounding": "venue_size_decimals_floor",
+        "satellite_beta": 1.5,
+        "satellite_max_positions": 2,
+        "status": "CONTROL",
+        "version": 1,
+        "volatility_k": 0.0
+      },
+      "sizing_policy_hash": "f967b56580b521ac27b99a3d29990e1894d324212b01176eb38639760108040e",
+      "sizing_policy_id": "sizingpolicy_f967b56580b521ac27b99a3d29990e1894d324212b01176eb38639760108040e",
+      "slippage_model_id": "prospectiveslippage_93f23619de057d5db33f26e9165b0d700e8558b843daf392f3ada58ddb25f1e1",
+      "started": false,
+      "starting_equity_source": "approved sizing v1 prospective design + current lab RiskPolicy"
+    },
+    "dynamic_lab_risk_sizing_v1": {
+      "account_created": false,
+      "account_starting_equity_usd": 100.0,
+      "capital_transfers_allowed": false,
+      "cohort_id": "dynamic_lab_risk_sizing_v1",
+      "cost_model_id": "prospectivecostmodel_29df68d7eed12d84ad1b9f3a016d0e46a24f2f954bafcd23c34b2001a84aeac4",
+      "parent_sizing_policy": {
+        "capacity_mode": "reduce_to_fit",
+        "cluster_risk_multiple": 2.0,
+        "cost_model": {
+          "depth_participation_max": 0.1,
+          "fee_bps": 4.5,
+          "funding_reserve": "adverse_predicted_per_started_hour",
+          "impact": "sqrt_reference_notional",
+          "impact_reference_notional": 100.0,
+          "name": "prism_paper_costs_sqrt_impact_v1"
+        },
+        "cost_risk_reduce_above": 0.25,
+        "cost_risk_reject_above": 0.5,
+        "distance": "max_invalidation_volatility",
+        "drawdown_steps": [
+          {
+            "drawdown": 0.05,
+            "multiplier": 0.75
+          },
+          {
+            "drawdown": 0.1,
+            "multiplier": 0.5
+          },
+          {
+            "drawdown": 0.2,
+            "multiplier": 0.25
+          }
+        ],
+        "enforce_liquidation_safety": true,
+        "evidence_ceiling_multiplier": 1.0,
+        "evidence_floor_multiplier": 0.5,
+        "evidence_max_risk_fraction": null,
+        "evidence_min_samples": 100,
+        "evidence_scope": "hypothesis",
+        "fallback_notional_fraction": 0.1,
+        "family": "invalidation_vol",
+        "framework": "risk_position_sizing_research_v1",
+        "gross_fraction": 1.5,
+        "halt_drawdown": 0.35,
+        "include_costs_in_risk": true,
+        "kelly_fraction": null,
+        "leverage_cap": 2.0,
+        "leverage_mode": "minimal",
+        "liquidation_buffer_multiple": 2.0,
+        "liquidation_min_distance": 0.125,
+        "max_margin_fraction_per_position": 0.34,
+        "max_net_directional_fraction": 1.5,
+        "max_notional_fraction": 1.0,
+        "max_positions": 3,
+        "max_total_margin_fraction": 0.9,
+        "min_loss_distance": 0.0025,
+        "min_notional": 10.0,
+        "missing_invalidation": "reject",
+        "name": "drawdown_throttled_risk_v1[r=0.5%,lev=2]",
+        "notional_fraction": null,
+        "per_setup_max_positions": null,
+        "policy_id": "sizingpolicy_4a388694567e95a884f5e42e4736240bce6690a3fce07caf10105f051c962983",
+        "portfolio_risk_multiple": 3.0,
+        "regime_multiplier": 1.0,
+        "regime_ratio_threshold": null,
+        "regime_unavailable_multiplier": 1.0,
+        "risk_fraction": 0.005,
+        "rounding": "venue_size_decimals_floor",
+        "satellite_beta": 1.5,
+        "satellite_max_positions": 2,
+        "status": "CANDIDATE",
+        "version": 1,
+        "volatility_k": 0.5
+      },
+      "parent_spec_id": "prospective_sizing_cohort_v2",
+      "registered": false,
+      "role": "CANDIDATE",
+      "schema_version": 2,
+      "sizing_policy_definition": {
+        "capacity_mode": "reduce_to_fit",
+        "cluster_risk_multiple": 2.0,
+        "cost_model": {
+          "depth_participation_max": 0.1,
+          "fee_bps": 4.5,
+          "funding_reserve": "adverse_predicted_per_started_hour",
+          "impact": "none",
+          "impact_reference_notional": 100.0,
+          "name": "prism_paper_costs_sqrt_impact_v1"
+        },
+        "cost_risk_reduce_above": 0.25,
+        "cost_risk_reject_above": 0.5,
+        "distance": "max_invalidation_volatility",
+        "drawdown_steps": [
+          {
+            "drawdown": 0.05,
+            "multiplier": 0.75
+          },
+          {
+            "drawdown": 0.1,
+            "multiplier": 0.5
+          },
+          {
+            "drawdown": 0.2,
+            "multiplier": 0.25
+          }
+        ],
+        "enforce_liquidation_safety": true,
+        "evidence_ceiling_multiplier": 1.0,
+        "evidence_floor_multiplier": 0.5,
+        "evidence_max_risk_fraction": null,
+        "evidence_min_samples": 100,
+        "evidence_scope": "hypothesis",
+        "fallback_notional_fraction": 0.1,
+        "family": "invalidation_vol",
+        "framework": "risk_position_sizing_research_v1",
+        "gross_fraction": 1.5,
+        "halt_drawdown": 0.35,
+        "include_costs_in_risk": true,
+        "kelly_fraction": null,
+        "leverage_cap": 2.0,
+        "leverage_mode": "minimal",
+        "liquidation_buffer_multiple": 2.0,
+        "liquidation_min_distance": 0.125,
+        "max_margin_fraction_per_position": 0.34,
+        "max_net_directional_fraction": 1.5,
+        "max_notional_fraction": 1.0,
+        "max_positions": 3,
+        "max_total_margin_fraction": 0.9,
+        "min_loss_distance": 0.0025,
+        "min_notional": 10.0,
+        "missing_invalidation": "reject",
+        "name": "prospective_drawdown_throttled_risk_v1[r=0.5%,lev=2]",
+        "notional_fraction": null,
+        "per_setup_max_positions": null,
+        "portfolio_risk_multiple": 3.0,
+        "regime_multiplier": 1.0,
+        "regime_ratio_threshold": null,
+        "regime_unavailable_multiplier": 1.0,
+        "risk_fraction": 0.005,
+        "rounding": "venue_size_decimals_floor",
+        "satellite_beta": 1.5,
+        "satellite_max_positions": 2,
+        "status": "CANDIDATE",
+        "version": 1,
+        "volatility_k": 0.5
+      },
+      "sizing_policy_hash": "6ab51a0af05c0d4a28fd5e04c8f301bf63b3dfc4f4163ad62409bd4efb402cd1",
+      "sizing_policy_id": "sizingpolicy_6ab51a0af05c0d4a28fd5e04c8f301bf63b3dfc4f4163ad62409bd4efb402cd1",
+      "slippage_model_id": "prospectiveslippage_93f23619de057d5db33f26e9165b0d700e8558b843daf392f3ada58ddb25f1e1",
+      "started": false,
+      "starting_equity_source": "approved sizing v1 prospective design + current lab RiskPolicy"
+    }
+  },
+  "commissioning": {
+    "baseline_only": true,
+    "checks": [
+      "signal_flow",
+      "quotes_fills",
+      "execution_lifecycle",
+      "accounting_reconciliation",
+      "exits",
+      "DB_runtime",
+      "throughput",
+      "volatility_entry_evidence",
+      "restart_recovery"
+    ],
+    "clean_after_material_fix_finalized_trades": 5,
+    "clean_after_material_fix_hours": 24,
+    "combine": "ALL",
+    "exclusion": "commissioning trades never enter paired evidence; both cohorts later start fresh at $100 at identical new frontier; no first-trade activation",
+    "minimum_distinct_assets": 2,
+    "minimum_distinct_hypotheses": 2,
+    "minimum_eligible_source_opportunities": 30,
+    "minimum_finalized_trades": 10,
+    "minimum_wall_hours": 24,
+    "purpose": "24h covers a full daily cycle and hourly funding boundaries; counts/diversity require actual lifecycle exercise and keep low-flow periods closed. No independent safety test was identified for a 72h floor; infrastructure soak and readiness gates remain separate. Counts are cumulative from baseline activation, with additional clean window after a material fix. Chosen before observing trading outcomes.",
+    "throughput": "no unaccounted source rows or unresolved worker backlog; lifecycle ticks and quote freshness comply with frozen execution deadlines",
+    "unresolved_material_incidents_allowed": 0
+  },
+  "drawdown": {
+    "below_first_multiplier": 1.0,
+    "boundary": "inclusive >= thresholds; halt latched; cancel unfilled new-entry intents at halt; existing filled positions continue frozen stop/target/expiry/hold/funding obligations; no same-ID restart",
+    "candidate_algorithm": "approved engine.size order including two impact passes, cost throttle evaluated at initial base geometry, final intended risk at actual invalidation, capacity risk based on unthrottled base budget; exact source hashes govern, no numerical cleanups",
+    "candidate_halt_drawdown": 0.35,
+    "candidate_peak": "marked equity peak, monotonically nondecreasing; no reset",
+    "control": "unchanged STOPPED catastrophe guard when marked equity <=25% peak; current stop_reason/exit_condition behavior preserved; no candidate ladder added",
+    "ladder": [
+      {
+        "drawdown": 0.05,
+        "multiplier": 0.75
+      },
+      {
+        "drawdown": 0.1,
+        "multiplier": 0.5
+      },
+      {
+        "drawdown": 0.2,
+        "multiplier": 0.25
+      }
+    ],
+    "recovery": "current approved ladder is state-based: multiplier can recover when drawdown improves; this restores but never exceeds base risk; halt is absorbing",
+    "transition_fields": [
+      "prior_equity_peak",
+      "current_equity",
+      "drawdown_percentage",
+      "old_risk_multiplier",
+      "new_risk_multiplier",
+      "trigger_timestamp",
+      "account_snapshot_id",
+      "cohort_id"
+    ]
+  },
+  "evidence": {
+    "count_definitions": {
+      "both_taken_finalized": "source IDs with one finalized new trade in each cohort; SUPPORTED/pending not trades",
+      "family_diversity": "distinct preexisting family labels among both-taken finalized pairs, >=10 pairs each",
+      "finalized_per_cohort": "accounting_final CLOSED trades, excluding commissioning and legacy history",
+      "hypothesis_diversity": "distinct hypothesis IDs among both-taken finalized pairs, >=5 pairs each",
+      "market_days": "UTC wall time since common activation, plus observed source-health coverage >=95%; any operational kill censors experiment rather than resetting clock",
+      "regime_diversity": "preexisting causally timestamped regime/context classes with pinned definition; >=20 both-taken pairs each; unavailable does not count; no retrospective labels",
+      "settled_paired_opportunities": "eligible source IDs with both terminal decisions and all associated trades accounting_final; both skipped count here only"
+    },
+    "halt_exception": "a frozen account halt/safe depletion can prevent count minima forever; report descriptive survival failure, never relax thresholds or reset account",
+    "horizon": "Formal primary decision at first scheduled checkpoint on/after day 90 satisfying DECISION_ELIGIBLE; fixed administrative end day 180 regardless of outcomes; if unmet by then INCONCLUSIVE. Once chosen, primary frontier is immutable; later checkpoints are secondary. Never extend or terminate based on PnL.",
+    "inference": "thresholds are governance minima, not a power calculation; one correlated adaptive account path cannot establish general superiority. Insufficient diversity or uncertainty means INCONCLUSIVE, even with enough trades",
+    "state_rule": "highest state whose ALL minima pass, at scheduled checkpoints only; no unresolved material incident; absent causal regime taxonomy blocks DECISION_ELIGIBLE",
+    "states": {
+      "DECISION_ELIGIBLE": {
+        "both_taken_finalized": 200,
+        "families": 3,
+        "finalized_per_cohort": 200,
+        "hypotheses": 6,
+        "market_days": 60,
+        "regimes": 2,
+        "settled_paired_opportunities": 500
+      },
+      "DESCRIPTIVE_ONLY": {
+        "both_taken_finalized": 30,
+        "families": 1,
+        "finalized_per_cohort": 30,
+        "hypotheses": 2,
+        "market_days": 7,
+        "regimes": 0,
+        "settled_paired_opportunities": 50
+      },
+      "PRELIMINARY": {
+        "both_taken_finalized": 100,
+        "families": 2,
+        "finalized_per_cohort": 100,
+        "hypotheses": 4,
+        "market_days": 30,
+        "regimes": 0,
+        "settled_paired_opportunities": 200
+      },
+      "TOO_EARLY": {
+        "default": true
+      }
+    },
+    "terminal": "day 180 stops new admissions; existing lifecycle drains naturally; scientific snapshot stays at fixed frontier; no forced expiry/exit to meet counts"
+  },
+  "execution_cost_contract": {
+    "adapter_source": "src/market_signal/sizing/cohort_costs.py",
+    "adapter_source_sha256": "622ed8239ea12e5cf822865fd6884720277021a788801766789c819abaf33678",
+    "bindings": {
+      "dynamic_lab_fixed_v1": {
+        "adapter_version": "prospective_sizing_common_cost_adapter_v1",
+        "cohort_id": "dynamic_lab_fixed_v1",
+        "effective_sizing_policy": {
+          "capacity_mode": "skip",
+          "cluster_risk_multiple": null,
+          "cost_model": {
+            "depth_participation_max": 0.1,
+            "fee_bps": 4.5,
+            "funding_reserve": "adverse_predicted_per_started_hour",
+            "impact": "none",
+            "impact_reference_notional": 100.0,
+            "name": "prism_paper_costs_sqrt_impact_v1"
+          },
+          "cost_risk_reduce_above": null,
+          "cost_risk_reject_above": null,
+          "distance": "none",
+          "drawdown_steps": [],
+          "enforce_liquidation_safety": false,
+          "evidence_ceiling_multiplier": 1.0,
+          "evidence_floor_multiplier": 0.5,
+          "evidence_max_risk_fraction": null,
+          "evidence_min_samples": 100,
+          "evidence_scope": "hypothesis",
+          "fallback_notional_fraction": 0.1,
+          "family": "fixed_allocation",
+          "framework": "risk_position_sizing_research_v1",
+          "gross_fraction": 0.6,
+          "halt_drawdown": 0.75,
+          "include_costs_in_risk": true,
+          "kelly_fraction": null,
+          "leverage_cap": 2.0,
+          "leverage_mode": "fixed",
+          "liquidation_buffer_multiple": 2.0,
+          "liquidation_min_distance": 0.125,
+          "max_margin_fraction_per_position": 1.0,
+          "max_net_directional_fraction": null,
+          "max_notional_fraction": 0.2,
+          "max_positions": 3,
+          "max_total_margin_fraction": 1.0,
+          "min_loss_distance": 0.0,
+          "min_notional": 10.0,
+          "missing_invalidation": "fallback_notional",
+          "name": "fixed_allocation_baseline_v1",
+          "notional_fraction": 0.2,
+          "per_setup_max_positions": null,
+          "policy_id": "sizingpolicy_f967b56580b521ac27b99a3d29990e1894d324212b01176eb38639760108040e",
+          "portfolio_risk_multiple": null,
+          "regime_multiplier": 1.0,
+          "regime_ratio_threshold": null,
+          "regime_unavailable_multiplier": 1.0,
+          "risk_fraction": null,
+          "rounding": "venue_size_decimals_floor",
+          "satellite_beta": 1.5,
+          "satellite_max_positions": 2,
+          "status": "CONTROL",
+          "version": 1,
+          "volatility_k": 0.0
+        },
+        "execution_cost_model_id": "prospectivecostmodel_29df68d7eed12d84ad1b9f3a016d0e46a24f2f954bafcd23c34b2001a84aeac4",
+        "parent_sizing_policy": {
+          "capacity_mode": "skip",
+          "cluster_risk_multiple": null,
+          "cost_model": {
+            "depth_participation_max": 0.1,
+            "fee_bps": 4.5,
+            "funding_reserve": "adverse_predicted_per_started_hour",
+            "impact": "none",
+            "impact_reference_notional": 100.0,
+            "name": "prism_paper_costs_sqrt_impact_v1"
+          },
+          "cost_risk_reduce_above": null,
+          "cost_risk_reject_above": null,
+          "distance": "none",
+          "drawdown_steps": [],
+          "enforce_liquidation_safety": false,
+          "evidence_ceiling_multiplier": 1.0,
+          "evidence_floor_multiplier": 0.5,
+          "evidence_max_risk_fraction": null,
+          "evidence_min_samples": 100,
+          "evidence_scope": "hypothesis",
+          "fallback_notional_fraction": 0.1,
+          "family": "fixed_allocation",
+          "framework": "risk_position_sizing_research_v1",
+          "gross_fraction": 0.6,
+          "halt_drawdown": 0.75,
+          "include_costs_in_risk": true,
+          "kelly_fraction": null,
+          "leverage_cap": 2.0,
+          "leverage_mode": "fixed",
+          "liquidation_buffer_multiple": 2.0,
+          "liquidation_min_distance": 0.125,
+          "max_margin_fraction_per_position": 1.0,
+          "max_net_directional_fraction": null,
+          "max_notional_fraction": 0.2,
+          "max_positions": 3,
+          "max_total_margin_fraction": 1.0,
+          "min_loss_distance": 0.0,
+          "min_notional": 10.0,
+          "missing_invalidation": "fallback_notional",
+          "name": "fixed_allocation_baseline_v1",
+          "notional_fraction": 0.2,
+          "per_setup_max_positions": null,
+          "policy_id": "sizingpolicy_f967b56580b521ac27b99a3d29990e1894d324212b01176eb38639760108040e",
+          "portfolio_risk_multiple": null,
+          "regime_multiplier": 1.0,
+          "regime_ratio_threshold": null,
+          "regime_unavailable_multiplier": 1.0,
+          "risk_fraction": null,
+          "rounding": "venue_size_decimals_floor",
+          "satellite_beta": 1.5,
+          "satellite_max_positions": 2,
+          "status": "CONTROL",
+          "version": 1,
+          "volatility_k": 0.0
+        },
+        "slippage_model_id": "prospectiveslippage_93f23619de057d5db33f26e9165b0d700e8558b843daf392f3ada58ddb25f1e1"
+      },
+      "dynamic_lab_risk_sizing_v1": {
+        "adapter_version": "prospective_sizing_common_cost_adapter_v1",
+        "cohort_id": "dynamic_lab_risk_sizing_v1",
+        "effective_sizing_policy": {
+          "capacity_mode": "reduce_to_fit",
+          "cluster_risk_multiple": 2.0,
+          "cost_model": {
+            "depth_participation_max": 0.1,
+            "fee_bps": 4.5,
+            "funding_reserve": "adverse_predicted_per_started_hour",
+            "impact": "none",
+            "impact_reference_notional": 100.0,
+            "name": "prism_paper_costs_sqrt_impact_v1"
+          },
+          "cost_risk_reduce_above": 0.25,
+          "cost_risk_reject_above": 0.5,
+          "distance": "max_invalidation_volatility",
+          "drawdown_steps": [
+            {
+              "drawdown": 0.05,
+              "multiplier": 0.75
+            },
+            {
+              "drawdown": 0.1,
+              "multiplier": 0.5
+            },
+            {
+              "drawdown": 0.2,
+              "multiplier": 0.25
+            }
+          ],
+          "enforce_liquidation_safety": true,
+          "evidence_ceiling_multiplier": 1.0,
+          "evidence_floor_multiplier": 0.5,
+          "evidence_max_risk_fraction": null,
+          "evidence_min_samples": 100,
+          "evidence_scope": "hypothesis",
+          "fallback_notional_fraction": 0.1,
+          "family": "invalidation_vol",
+          "framework": "risk_position_sizing_research_v1",
+          "gross_fraction": 1.5,
+          "halt_drawdown": 0.35,
+          "include_costs_in_risk": true,
+          "kelly_fraction": null,
+          "leverage_cap": 2.0,
+          "leverage_mode": "minimal",
+          "liquidation_buffer_multiple": 2.0,
+          "liquidation_min_distance": 0.125,
+          "max_margin_fraction_per_position": 0.34,
+          "max_net_directional_fraction": 1.5,
+          "max_notional_fraction": 1.0,
+          "max_positions": 3,
+          "max_total_margin_fraction": 0.9,
+          "min_loss_distance": 0.0025,
+          "min_notional": 10.0,
+          "missing_invalidation": "reject",
+          "name": "prospective_drawdown_throttled_risk_v1[r=0.5%,lev=2]",
+          "notional_fraction": null,
+          "per_setup_max_positions": null,
+          "policy_id": "sizingpolicy_6ab51a0af05c0d4a28fd5e04c8f301bf63b3dfc4f4163ad62409bd4efb402cd1",
+          "portfolio_risk_multiple": 3.0,
+          "regime_multiplier": 1.0,
+          "regime_ratio_threshold": null,
+          "regime_unavailable_multiplier": 1.0,
+          "risk_fraction": 0.005,
+          "rounding": "venue_size_decimals_floor",
+          "satellite_beta": 1.5,
+          "satellite_max_positions": 2,
+          "status": "CANDIDATE",
+          "version": 1,
+          "volatility_k": 0.5
+        },
+        "execution_cost_model_id": "prospectivecostmodel_29df68d7eed12d84ad1b9f3a016d0e46a24f2f954bafcd23c34b2001a84aeac4",
+        "parent_sizing_policy": {
+          "capacity_mode": "reduce_to_fit",
+          "cluster_risk_multiple": 2.0,
+          "cost_model": {
+            "depth_participation_max": 0.1,
+            "fee_bps": 4.5,
+            "funding_reserve": "adverse_predicted_per_started_hour",
+            "impact": "sqrt_reference_notional",
+            "impact_reference_notional": 100.0,
+            "name": "prism_paper_costs_sqrt_impact_v1"
+          },
+          "cost_risk_reduce_above": 0.25,
+          "cost_risk_reject_above": 0.5,
+          "distance": "max_invalidation_volatility",
+          "drawdown_steps": [
+            {
+              "drawdown": 0.05,
+              "multiplier": 0.75
+            },
+            {
+              "drawdown": 0.1,
+              "multiplier": 0.5
+            },
+            {
+              "drawdown": 0.2,
+              "multiplier": 0.25
+            }
+          ],
+          "enforce_liquidation_safety": true,
+          "evidence_ceiling_multiplier": 1.0,
+          "evidence_floor_multiplier": 0.5,
+          "evidence_max_risk_fraction": null,
+          "evidence_min_samples": 100,
+          "evidence_scope": "hypothesis",
+          "fallback_notional_fraction": 0.1,
+          "family": "invalidation_vol",
+          "framework": "risk_position_sizing_research_v1",
+          "gross_fraction": 1.5,
+          "halt_drawdown": 0.35,
+          "include_costs_in_risk": true,
+          "kelly_fraction": null,
+          "leverage_cap": 2.0,
+          "leverage_mode": "minimal",
+          "liquidation_buffer_multiple": 2.0,
+          "liquidation_min_distance": 0.125,
+          "max_margin_fraction_per_position": 0.34,
+          "max_net_directional_fraction": 1.5,
+          "max_notional_fraction": 1.0,
+          "max_positions": 3,
+          "max_total_margin_fraction": 0.9,
+          "min_loss_distance": 0.0025,
+          "min_notional": 10.0,
+          "missing_invalidation": "reject",
+          "name": "drawdown_throttled_risk_v1[r=0.5%,lev=2]",
+          "notional_fraction": null,
+          "per_setup_max_positions": null,
+          "policy_id": "sizingpolicy_4a388694567e95a884f5e42e4736240bce6690a3fce07caf10105f051c962983",
+          "portfolio_risk_multiple": 3.0,
+          "regime_multiplier": 1.0,
+          "regime_ratio_threshold": null,
+          "regime_unavailable_multiplier": 1.0,
+          "risk_fraction": 0.005,
+          "rounding": "venue_size_decimals_floor",
+          "satellite_beta": 1.5,
+          "satellite_max_positions": 2,
+          "status": "CANDIDATE",
+          "version": 1,
+          "volatility_k": 0.5
+        },
+        "slippage_model_id": "prospectiveslippage_93f23619de057d5db33f26e9165b0d700e8558b843daf392f3ada58ddb25f1e1"
+      }
+    },
+    "candidate_policy_difference_from_parent": [
+      "name",
+      "cost_model.impact"
+    ],
+    "cost_evaluation": "both arms route cohort_costs with independently derived final venue-rounded quantities; identical quantities and shared inputs must yield identical costs; no cohort override field",
+    "definition": {
+      "adapter_version": "prospective_sizing_common_cost_adapter_v1",
+      "fee_schedule": {
+        "bps_each_side": 4.5,
+        "version": "paper_taker_4_5bps_v1"
+      },
+      "fill": "entry long ask*(1+slip); entry short bid*(1-slip); exit long bid*(1-slip); exit short ask*(1+slip); full rounded quantity",
+      "funding": "hourly settled entry notional plus adverse predicted reserve per started holding hour; same rate/frontier and treatment, quantity changes dollars",
+      "historical_definitions": "unchanged; original policy hashes retained as parents, prospective effective policy hashes recorded separately",
+      "liquidity_inputs": "same quote/depth evidence ID and source snapshot; candidate depth participation limit is an admission constraint, not another fill model",
+      "minimum_notional_usd": 10.0,
+      "mode": "offline_paper_experiment_contract_only",
+      "quote_source": "same frozen causal Hyperliquid bid/ask and cost-classification snapshot",
+      "risk_estimation": "same common impact=none CostModel for both prospective sizing estimates and execution; never mix the historical candidate's sqrt estimates with common fills",
+      "rounding": "venue_size_decimals_floor; adapter rejects an unrounded quantity, never rounds up",
+      "runtime_wired": false,
+      "slippage": {
+        "cohort_specific_overrides": false,
+        "core_bps": {
+          "AAVE": 8.0,
+          "BTC": 2.0,
+          "ETH": 2.0,
+          "HYPE": 6.0,
+          "LINK": 6.0,
+          "SOL": 4.0
+        },
+        "impact": "none",
+        "quantity_impact_formula": "slippage_bps = frozen_quote_base_slippage_bps",
+        "satellite_classification": "depth_impact_conservative_v1",
+        "satellite_formula": "max(3, 20*100/depth_usd, venue_impact_bps, 0.05*rv_bps); same causal quote classification for both arms",
+        "satellite_reference_notional_usd": 100.0,
+        "version": "shared_current_paper_slippage_v1"
+      },
+      "version": "prospective_common_paper_costs_v1"
+    },
+    "model_id": "prospectivecostmodel_29df68d7eed12d84ad1b9f3a016d0e46a24f2f954bafcd23c34b2001a84aeac4",
+    "no_runtime_integration": true,
+    "parent_audit": {
+      "historical_formula": "base_bps * max(1, sqrt(notional / 100))",
+      "inference": "account-level sizing/account-path comparison conditional on one shared current paper execution-cost model; no role-specific impact setting",
+      "only_parameter_difference": "impact: control none; historical candidate sqrt_reference_notional",
+      "resolution": "both prospective estimates and fills use current control impact=none law; no historical edits or risk-parameter retuning"
+    },
+    "required_shared_inputs": [
+      "quote_id",
+      "liquidity_evidence_id",
+      "asset",
+      "bid",
+      "ask",
+      "base_slippage_bps",
+      "predicted_funding_rate_hourly",
+      "max_hold_minutes",
+      "size_decimals",
+      "depth_usd"
+    ],
+    "sizing_cost_model_definition": {
+      "depth_participation_max": 0.1,
+      "fee_bps": 4.5,
+      "funding_reserve": "adverse_predicted_per_started_hour",
+      "impact": "none",
+      "impact_reference_notional": 100.0,
+      "name": "prism_paper_costs_sqrt_impact_v1"
+    },
+    "slippage_model_id": "prospectiveslippage_93f23619de057d5db33f26e9165b0d700e8558b843daf392f3ada58ddb25f1e1",
+    "snapshot_parity": "one causal source quote/cost/depth snapshot per opportunity or lifecycle tick for both arms; mismatching sizing/fill inputs reject with COMMON_COST_INPUT_MISMATCH; missing candidate depth rejects while existing control may continue"
+  },
+  "future_compatibility": {
+    "LLM": "no LLM thesis contribution in this v1; future layer requires new spec/cohorts if inputs change; an LLM never sets size, leverage, risk fraction or drawdown thresholds",
+    "manual_copilot": "cannot inject/remove/reprioritize these cohort opportunities",
+    "shared_intelligence": "improved feeds must retain frozen causal semantics; schema/availability/hypothesis changes require successor experiment"
+  },
+  "immutability": {
+    "bug_fix": "explicit incident record, result impact, successor cohort, cutover frontier; no silent semantic patch",
+    "fields": [
+      "risk_fraction",
+      "leverage_cap",
+      "drawdown_ladder",
+      "volatility_floor_formula",
+      "exposure_caps",
+      "slippage_model",
+      "fee_model",
+      "stop_logic",
+      "target_logic",
+      "hypothesis_definitions",
+      "signal_timing",
+      "universe_ranking_definition",
+      "admission_priority",
+      "starting_equity",
+      "cost_gate",
+      "liquidation_rule",
+      "cooldown",
+      "degradation",
+      "evidence_thresholds",
+      "primary_endpoint",
+      "analysis_cadence",
+      "missing_data_rules"
+    ],
+    "proof": "canonical JSON external SHA256 pinned in offline validator and regression tests; hash is tamper evidence, not access control; commit/review provenance required",
+    "semantic_change_requires": "new specification ID/version/hash AND versioned successor cohort IDs; never reuse _v1"
+  },
+  "limitations": [
+    "No prospective Dynamic Universe paired evidence; future integration and activation metadata not implemented or sealed by this task.",
+    "Liquidation is approximate 1/L - 1/(2*venue_max_leverage); tiered maintenance/liquidity gaps not prospectively validated.",
+    "Single adaptive correlated market/account path, sparse strata and absent causal regime labels may prevent DECISION_ELIGIBLE or robust inference within 180 days.",
+    "The prospective contract adds fail-closed required volatility/depth evidence without changing existing sizing behavior; later adapter must prove enforcement.",
+    "Common current paper costs are not prospectively validated; no extra quantity-dependent impact term is modeled. Shared offline adapter is not a runtime dispatcher/lifecycle integration."
+  ],
+  "missing_data": {
+    "candidate_required_inputs": {
+      "ask": {
+        "kind": "positive",
+        "reason": "QUOTE_UNAVAILABLE"
+      },
+      "bid": {
+        "kind": "positive",
+        "reason": "QUOTE_UNAVAILABLE"
+      },
+      "depth_evidence": {
+        "kind": "object",
+        "reason": "LIQUIDITY_EVIDENCE_UNAVAILABLE"
+      },
+      "depth_usd": {
+        "kind": "positive",
+        "reason": "LIQUIDITY_DEPTH_UNAVAILABLE"
+      },
+      "equity": {
+        "kind": "positive",
+        "reason": "EQUITY_UNAVAILABLE"
+      },
+      "fee_bps": {
+        "kind": "nonnegative",
+        "reason": "FEE_INPUT_UNAVAILABLE"
+      },
+      "funding_rate_hourly": {
+        "kind": "finite",
+        "reason": "FUNDING_UNAVAILABLE"
+      },
+      "invalidation_price": {
+        "kind": "positive",
+        "reason": "MISSING_OR_INVALID_INVALIDATION"
+      },
+      "margin_constraints": {
+        "kind": "object",
+        "reason": "MARGIN_CONSTRAINTS_UNAVAILABLE"
+      },
+      "max_hold_minutes": {
+        "kind": "positive",
+        "reason": "HOLD_CONSTRAINT_UNAVAILABLE"
+      },
+      "open_exposures": {
+        "kind": "exposures",
+        "reason": "ACCOUNT_EXPOSURES_UNAVAILABLE"
+      },
+      "peak_equity": {
+        "kind": "positive",
+        "reason": "PEAK_EQUITY_UNAVAILABLE"
+      },
+      "quote_evidence": {
+        "kind": "object",
+        "reason": "QUOTE_EVIDENCE_UNAVAILABLE"
+      },
+      "size_decimals": {
+        "kind": "size_decimals",
+        "reason": "VENUE_SIZE_CONSTRAINTS_UNAVAILABLE"
+      },
+      "slippage_bps": {
+        "kind": "nonnegative",
+        "reason": "SLIPPAGE_UNAVAILABLE"
+      },
+      "venue_max_leverage": {
+        "kind": "positive",
+        "reason": "VENUE_MARGIN_CONSTRAINTS_UNAVAILABLE"
+      },
+      "volatility_move": {
+        "kind": "positive",
+        "reason": "VOLATILITY_MOVE_UNAVAILABLE"
+      },
+      "volatility_move_definition": {
+        "kind": "object",
+        "reason": "VOLATILITY_DEFINITION_UNAVAILABLE"
+      }
+    },
+    "consistency_codes": [
+      "STALE_QUOTE",
+      "NONCAUSAL_INPUT",
+      "POLICY_INPUT_MISMATCH",
+      "INVALID_SIDE",
+      "INVALID_QUOTE",
+      "INVALIDATION_BREACHED",
+      "INVALID_EQUITY_PEAK",
+      "IMPOSSIBLE_RISK_OUTPUT"
+    ],
+    "control": "continue only as current frozen policy permits; prospective candidate precheck does not change current engine or control; record divergence",
+    "freshness": "quote <=3s; every availability frontier <=decision; volatility definition source/time coherent with source thesis; depth from same contemporaneous quote snapshot; pinned fee, margin, size and funding definitions; stale/noncausal/mismatch => explicit UNAVAILABLE/REJECTED",
+    "implementation": "offline contract checker is not runtime enforcement; approved historical sizer allows missing volatility, prospective adapter must reject it before sizing",
+    "no_fallback": true,
+    "reason_order": "declared required input order; deduplicate codes; retain every missing field; no zero funding/no volatility/imagined depth substitution"
+  },
+  "operational_stop": {
+    "action": "fail closed on new admissions for both cohorts at first detected material condition; preserve source/decision/liquidity/account evidence; existing lifecycle safety obligations continue; no reset; append incident and last sound/first bad frontiers",
+    "conditions": [
+      "accounting_corruption",
+      "duplicate_source_opportunity",
+      "broken_pairing",
+      "stale_market_data",
+      "execution_lifecycle_defect",
+      "policy_hash_mismatch",
+      "impossible_risk_output",
+      "liquidation_safety_violation"
+    ],
+    "fix": "any result-affecting fix requires incident + versioned successor cohorts/spec if semantics change + clear cutover frontier; original remains stopped/censored; no deletion of bad segment to improve performance",
+    "scientific": "bad but safe performance alone does not kill or retune; follow scheduled checkpoint/account halt rules",
+    "stale": "current <=3s quote age prevents admission; transient rejected quote recorded; continuous required feed failure >=180s or unresolved causal frontier corruption triggers operational kill"
+  },
+  "paired_analysis": {
+    "capacity": "record reservations/free capital/risk immediately before and after each source decision plus links to later capacity rejection IDs; no invented counterfactual outcome for untaken trade",
+    "compare": [
+      "size",
+      "intended_risk",
+      "realized_PnL",
+      "realized_R",
+      "cost",
+      "capital_usage",
+      "later_capacity"
+    ],
+    "denominator": "all eligible source opportunities after common start and <=checkpoint; unavailable inputs, cancelled entries, SUPPORTED and halted decisions retained by explicit substatus; never inner-join away divergent admissions",
+    "metrics_definition": {
+      "cost_drag": "spread + slippage + entry/exit fees separately in dollars and % starting equity; funding separate; no double counting",
+      "drawdown_duration": "longest UTC time underwater from peak through recovery or censored checkpoint",
+      "expectancy_R": "arithmetic mean final net PnL / frozen intended stop loss; invalid/nonpositive denominator UNAVAILABLE, never zero",
+      "exposures": "time-weighted mean and max gross notional/equity, margin/equity, net exposure; no stale interpolation",
+      "geometric_return": "daily net equity ratio product and mean log daily return only for strictly positive equity and complete marks; no annualization",
+      "liquidation": "observed threshold breach or nonzero isolated liquidation adjustment; one count per trade; approximation, not venue liquidation confirmation",
+      "liquidation_near_miss": "any observed adverse path reaches >=80% of frozen liquidation distance; one count per trade; report observation resolution and gaps",
+      "realized_loss_beyond_intended_risk": "count, dollars, quantiles and worst ratio of -net PnL / intended loss >1"
+    },
+    "outcomes": "pending trades separately right-censored; settled means accounting_final; funding true-ups append provenance, never silently revise checkpoint",
+    "partitions": [
+      "both_taken",
+      "control_only",
+      "risk_only",
+      "both_skipped"
+    ]
+  },
+  "pairing_contract": {
+    "account_snapshot": "content-addressed equity, cash, peak, marked open exposures, pending reservations, gross/net/margin/open-risk/cluster risk, cooldown/episode/degradation states, halt status, mark quotes and frontier",
+    "admission_values": [
+      "ADMITTED",
+      "REJECTED",
+      "UNAVAILABLE",
+      "SUPPORTED",
+      "HALTED"
+    ],
+    "cohort_fields": [
+      "source_opportunity_id",
+      "source_record_hash",
+      "cohort_id",
+      "sizing_policy_id",
+      "sizing_policy_hash",
+      "account_snapshot_id",
+      "account_snapshot",
+      "decision_timestamp",
+      "admission",
+      "reason_codes",
+      "quantity",
+      "notional",
+      "risk_budget",
+      "intended_risk",
+      "risk_basis",
+      "leverage",
+      "margin",
+      "cost_estimate",
+      "sizing_explanation",
+      "sizing_input_hash",
+      "trade_id",
+      "lifecycle_state",
+      "fill_quote_id",
+      "depth_evidence_id",
+      "capacity_before",
+      "capacity_after"
+    ],
+    "decisions": "append-only sizing/admission record plus append-only lifecycle events; no overwrites; trade_id nullable for nonentries; SUPPORTED is unchanged existing exposure, not a new trade",
+    "identity_fields": [
+      "source_hypothesis_id",
+      "source_hypothesis_version",
+      "signal_timestamp",
+      "asset",
+      "side",
+      "source_episode_id"
+    ],
+    "identity_formula": "sourceopportunity_ + SHA256(canonical JSON of identity_fields); excludes cohort/run/account/evaluation outcome",
+    "nullable_fields": [
+      "entry_reference_price",
+      "entry_quote",
+      "thesis_evidence",
+      "volatility_move",
+      "volatility_move_definition",
+      "stop_invalidation",
+      "target",
+      "expiry",
+      "max_hold_minutes"
+    ],
+    "pair_key": [
+      "source_opportunity_id",
+      "cohort_id"
+    ],
+    "required_liquidity_evidence": [
+      "bid_ask_and_timestamps",
+      "depth_by_side_and_price_band",
+      "depth_timestamp",
+      "provider_session",
+      "impact_classification",
+      "reference_notional",
+      "predicted_cost",
+      "fill_quote",
+      "fill_price",
+      "simulated_fill_cost",
+      "actual_notional",
+      "cost_model_id"
+    ],
+    "source_fields": [
+      "source_opportunity_id",
+      "source_hypothesis_id",
+      "source_hypothesis_version",
+      "signal_timestamp",
+      "asset",
+      "side",
+      "source_episode_id",
+      "entry_reference_price",
+      "entry_quote",
+      "entry_quote_id",
+      "causal_market_data_frontier",
+      "eligibility_evaluated_at",
+      "thesis_evidence",
+      "thesis_evidence_hash",
+      "volatility_move",
+      "volatility_move_definition",
+      "stop_invalidation",
+      "target",
+      "expiry",
+      "max_hold_minutes",
+      "policy_independent_eligibility",
+      "unavailable_reason_codes",
+      "universe_snapshot_id",
+      "priority_inputs",
+      "attribution"
+    ],
+    "source_nonempty_fields": [
+      "source_hypothesis_id",
+      "source_hypothesis_version",
+      "asset",
+      "source_episode_id",
+      "entry_quote_id",
+      "universe_snapshot_id"
+    ],
+    "source_record_hash": "SHA256(canonical JSON of complete source record); first causal finalized record is immutable; conflicting payload under same ID is a kill incident",
+    "source_shapes": {
+      "attribution": "family, source_phase, asset, CORE/SATELLITE, side, existing causal regime/context/version or UNAVAILABLE",
+      "entry_quote": "bid, ask, observed/received/available timestamps, provider/session, quote ID; <=3s old at eligibility and actual fill",
+      "expiry": "full expiry payload",
+      "priority_inputs": "RV, round_trip_cost, score, asset, hypothesis, signal timestamp + universe evaluation ID",
+      "stop_invalidation": "full frozen thesis invalidation including price, state rule, emergency price",
+      "target": "full objective payload",
+      "volatility_move_definition": "entry_volatility_move_v1; fractional_price_move; formula/source/available_at; unchanged causal entry geometry"
+    },
+    "timestamp_encoding": "All timestamps: timezone-aware UTC ISO-8601 with exactly six fractional second digits and +00:00 suffix; normalize before creating source identity/record hash. Reject aliases, naive or noncanonical source records rather than giving one instant multiple IDs.",
+    "unavailable": "explicit nulls and unavailable_reason_codes; do not fabricate missing thesis/quotes; ineligible rows retained and excluded from eligible-opportunity denominator"
+  },
+  "permitted_divergence": [
+    "quantity",
+    "notional",
+    "margin_used",
+    "available_equity",
+    "gross_exposure",
+    "concurrent_position_capacity",
+    "capital_or_risk_admission",
+    "account_drawdown",
+    "drawdown_throttle_state",
+    "cohort_halt",
+    "funding_dollars",
+    "quantity_dependent_common_cost_dollars",
+    "account_local_cooldown",
+    "account_local_episode_deduplication",
+    "account_local_support_conflict",
+    "account_local_hypothesis_degradation",
+    "fill_failure_due_to_size_cost_constraints",
+    "later_capacity",
+    "loss_cap_liquidation_adjustment"
+  ],
+  "primary_endpoint": {
+    "comparison_frontier": "same fixed UTC checkpoint for both accounts, including marked open positions, fees, simulated execution costs, settled funding and adverse reserves; halted cash remains in path",
+    "equations": {
+      "floor_budget": "sizing distance budget is separate from intended risk at actual thesis stop",
+      "max_drawdown": "max_t(1 - marked_equity(t)/running_peak(t))",
+      "net_return": "marked_equity(T)/100 - 1",
+      "trade_R": "final_net_PnL/frozen_intended_loss_at_thesis_invalidation_including_costs"
+    },
+    "id": "ordered_return_drawdown_dominance_v1",
+    "mark_grid": "same observed two-second lifecycle marks; use joint timestamp union with causally carried last known quotes only while fresh; stale segments flagged, never interpolated to suppress drawdown",
+    "ordered_rule": [
+      "integrity first: material protocol/accounting defects or unresolved missing marks => INVALID_FOR_DECISION",
+      "safety/continuity: candidate liquidation, liquidation-safety breach, or candidate halt while control survives => NO_CANDIDATE_PREFERENCE; both halt => NO_SUPERIORITY; control-only halt is reported, not automatic proof",
+      "evidence minima and scheduled horizon must pass; otherwise descriptive/inconclusive",
+      "candidate supports preference only if net return >= control, max drawdown <= control, and at least one exceeds practical threshold: >=1 percentage point more return OR >=0.5 percentage point less drawdown; candidate net return must be positive",
+      "control dominance uses symmetric return/drawdown inequalities and practical thresholds; both losing => NO_POSITIVE_EDGE; mixed return/drawdown => INCONCLUSIVE; within thresholds => NO_MATERIAL_DIFFERENCE",
+      "intended/realized risk, excess losses, capacity skips, halts and exposure accompany verdict; any unexplained impossible risk or safety breach vetoes preference; never trade extra drawdown for return using a retuned ratio"
+    ],
+    "practical_thresholds": {
+      "drawdown_percentage_points": 0.5,
+      "return_percentage_points": 1.0
+    },
+    "rationale": "dominance avoids unstable return/drawdown ratios near zero and does not reward a higher balance bought with higher drawdown; survival and risk fidelity remain visible",
+    "uncertainty": {
+      "method": "Paired joint 7-UTC-day moving-block resampling of aligned intraday account mark-return increments, retaining the full observed mark grid inside each block; 10000 draws; seed 20261014. Sample overlapping whole-day-start blocks uniformly with replacement for both cohorts together, concatenate until the original market-time length, trim excess, reconstruct equity from $100 and recompute net return and intraday maximum drawdown. Report 95% percentile intervals, number of available blocks and serial dependence. This does not rerun adaptive admission or sizing; daily-close drawdown is not a substitute for the primary marked drawdown.",
+      "support": "preference stays descriptive unless return-difference interval lower bound >=0 and drawdown-difference upper bound <=0; wide intervals => INCONCLUSIVE; joint block resampling is conditional sensitivity, not a calibrated claim of policy superiority"
+    }
+  },
+  "protocol_deviations": {
+    "cost_model_parity": "any cohort-specific fee, slippage/impact formula or parameter, quote/depth snapshot, funding treatment or rounding semantics is a material protocol deviation",
+    "forbidden": [
+      "different_source_signal",
+      "different_hypothesis",
+      "different_source_quote",
+      "different_thesis",
+      "different_exit_geometry",
+      "different_universe_or_ranking",
+      "different_priority",
+      "different_market_data_availability",
+      "different_fee_or_funding_rule",
+      "unapproved_slippage_change"
+    ],
+    "rule": "every divergence outside frozen sizing/account-path effects is an incident; preserve both records and affected source frontier; material deviations kill admissions and invalidate confirmatory conclusions"
+  },
+  "provenance": {
+    "approved_main_revision": "6c2530a08d902c356cd6f76c74d5954c2e481763",
+    "canonicalization": "market_signal.research.lab.common.canonical_json; UTF-8; sorted object keys; compact separators; finite numbers; array order preserved; external SHA-256",
+    "prior_design_id": "sizingcohortdesign_09bcf71cd4fc13325909e115fdc5978befce15aaeed9268e0ddb9b4e0c25277e",
+    "sizing_evidence": "docs/evidence/risk-position-sizing-v1/policies.json",
+    "sizing_evidence_sha256": "8e9bd9df572352e468cdf8832c02f89530405ca7c1ee869bc3e8aaf7784727ab",
+    "source_hashes": {
+      "src/market_signal/ops/profiles.py": "d6ba8b7d0fb53cc931b325db6c9615d0463a871a8bbf50af6309539fb52ae045",
+      "src/market_signal/paper/nimble/__init__.py": "8fa497cf42591274a41c4e74ec3dcc68e2590527107e51caa11d16d817f9e5fc",
+      "src/market_signal/paper/nimble/data.py": "f448cd70174e2b69f2a224277dfd8aab66eb743376b66d56385f64030ab1681a",
+      "src/market_signal/paper/nimble/dynamic_spec.py": "d47672421ca2bf785cb2135dd0d4a849cfc78f850e399e0f6e4363be1d9fbd45",
+      "src/market_signal/paper/nimble/engine.py": "a14d9f43410c29fbe9f90a6309053ce67c2e2dbd49acca868157c173a8b1bf1c",
+      "src/market_signal/paper/nimble/event_report.py": "3c1b57a8ca91ee276df5986c4eade5cc01e4e678f6776da5443d77a978194dd9",
+      "src/market_signal/paper/nimble/event_spec.py": "1af2b1aed70bbbc5145b043806c38fd89f7d0f99ab5a0c5971d3241646fa8a24",
+      "src/market_signal/paper/nimble/events.py": "0cd90ac7c0bde132bceebe227f4c43f472ee32894d096f310240e9460521e4c6",
+      "src/market_signal/paper/nimble/model.py": "0bc5cfbd63d37b0a5f813d80a3e8b59afbc880c43a16944755cc17b2e21f2a49",
+      "src/market_signal/paper/nimble/report.py": "9c6b5d83d7e4c49603448cd8f9221c5ad62696a2c063d6ca40b5c0462a88eab6",
+      "src/market_signal/paper/nimble/spec.py": "a3cdbaacfc429e0da3e15628e357f8ec381f9656c57c40d7f83826dec8115847",
+      "src/market_signal/paper/nimble/triggers.py": "df4a52f945ce1f935c465297516da30b9dc8febba8b4e8c50e1575b677de72f9",
+      "src/market_signal/paper/nimble/worker.py": "a9cb84729004f7c7bedccdaad490534ef72814bf0862ae6fbfbddafb15457958",
+      "src/market_signal/paper/v2/__init__.py": "d5de75bcffd2a25eb0791ed482f86217a15c59207cdaec936f7e3312f86548b7",
+      "src/market_signal/paper/v2/data.py": "b5d3825a15fa7df604e7301334be779b26029ff12ad11820387a82eb702c6da3",
+      "src/market_signal/paper/v2/engine.py": "66345de05a0788e5902b45cba546ebdfdfc7110cb05fcf5ff76c775a02d26410",
+      "src/market_signal/paper/v2/report.py": "de01c65c09896a4ab385bed25ca577fc333e1f96fdb92ff71775ee3a2ebde1fb",
+      "src/market_signal/paper/v2/spec.py": "686b248120913b5c519b0b3220f30606cc7807fcc22ca7751824826c8ab790d5",
+      "src/market_signal/sizing/__init__.py": "9b632ec67c7a1e57eb722fc54dedd1f7d1aa0c8f566e0b234057c579d82b8ca3",
+      "src/market_signal/sizing/audit.py": "fedb37a9e5643863cd10838c11c52374825b190f24af4725189b4343c795fa41",
+      "src/market_signal/sizing/bootstrap.py": "3550a011ebec2a2ae959dfc58be1804e3f1e01cac62048a98ae0f2d4eea35225",
+      "src/market_signal/sizing/engine.py": "dfdf3997dbd00c948e33aa2c4cae265427b58ca7d0537c5e4ceb2a92705c8b91",
+      "src/market_signal/sizing/ledger.py": "436aff86fac99b4983aff40a431dfdadcd75b73c017ccfb32324e919d3865f11",
+      "src/market_signal/sizing/metrics.py": "b420cdc3a6a2ebd213832dec37c5b592a174a867981c85c21abdb5ec05945431",
+      "src/market_signal/sizing/model.py": "8a42e5da41418aae0886b2d7e71bc67310366f0a2c94deb2184d7b5e05e81f22",
+      "src/market_signal/sizing/policy.py": "20c6b2d445e5a9cf255b340ce749409ff429ef5f945c64965c95bd630c90cad7",
+      "src/market_signal/sizing/prospective.py": "afaf1011d7683c66c4993f891719d63b0f292a8ac3bcb4fdd62c23770fb93ead",
+      "src/market_signal/sizing/replay.py": "3663b9acbe4267b121cc539e63f3311f67dbb939eee45a091719515a0acb7305",
+      "src/market_signal/sizing/scenario.py": "77d612c416ab1610e60ec69d91a1f164b4a09e7954db10b006d1494946e87723",
+      "src/market_signal/sizing/stress.py": "c0bf28fed2ff128c8cba565f6f45ec202b34d4fea4c25df7b8a88a767962ef1d",
+      "src/market_signal/sizing/study.py": "69fe2f1349895b43721660fa9120a4a650f5f2e2ce14b0a7a673a84f1e729625",
+      "src/market_signal/universe/__init__.py": "273ebd658ed983adb6b9e883cfc69cdf56940739b2b07b1d78813d2b3f8eda25",
+      "src/market_signal/universe/budget.py": "1a4ba6580ad212584832031810b84e9877b831cb4d8538bf18fc4bbd649c34ec",
+      "src/market_signal/universe/engine.py": "63624a0da1b1a2c42b61b1840448e8d52ebc75002ab93f29541d5552e8c1c538",
+      "src/market_signal/universe/execution.py": "4f7d0aa1ea9a55a78475ac055ab8bd527efd07579865406e23ea95018e6ef827",
+      "src/market_signal/universe/ledger.py": "844fa27a27d47de1aab74c3cfdc6ace826a47c7c254212bafa717169ba043622",
+      "src/market_signal/universe/policy.py": "593becb6cb3f3c507ea8ca83bc23066dcb424f5afa1c16cc0b01fb6ba30ea478",
+      "src/market_signal/universe/portability.py": "a750614d7d4b578a32c0d6ade3e223793898c1d439d3c0087c4dfc1f5a19d0e5",
+      "src/market_signal/universe/rich.py": "26db612a0e3343d938acfd1a17167679301fd4f26392b8e6e4e6361285d82d23",
+      "src/market_signal/universe/source.py": "f017dcd56ec356a92784173a0c1aaf244495205786bc5762eede7b77bc07c2a3",
+      "src/market_signal/universe/subscriptions.py": "27d616297bfd327d8fa7a37f64a3a65fd25d64c1a55821c1f7c4b79a6e178847",
+      "src/market_signal/universe/worker.py": "55bc073d1e45f9a7367aa22eea4efb4952fc02b4a4efbad61b367e0597c56622"
+    },
+    "supersedes": {
+      "reason": "pre-activation shared execution-cost normalization and commissioning wall-time review; v1 retained without edits",
+      "sha256": "a0a06bf429b405c9dc45423fa6aa09fd17b746b3ec1194b02fd5643ee78116dd",
+      "spec_id": "prospective_sizing_cohort_v1"
+    }
+  },
+  "schema_version": 2,
+  "scientific_question": "Does deterministic risk-normalized sizing improve the account-level return/drawdown profile relative to Prism\u2019s current fixed-allocation sizing when both consume the same prospective trade stream?",
+  "scope": {
+    "db_writes_allowed": false,
+    "deploy_allowed": false,
+    "exchange_authority_allowed": false,
+    "excluded": [
+      "signal_quality",
+      "exit_optimization",
+      "universe_optimization",
+      "leverage_optimization",
+      "LLM_confidence",
+      "hypothesis_ranking",
+      "live_readiness"
+    ],
+    "fund_movement_keys_allowed": false,
+    "infrastructure_actions_allowed": false,
+    "mode": "paper_only",
+    "real_orders_allowed": false,
+    "register_allowed": false,
+    "runtime_profile_changes_allowed": false,
+    "sizing_enabled": false,
+    "specification_only": true,
+    "start_allowed": false
+  },
+  "secondary_metrics": [
+    "terminal_equity",
+    "total_net_return",
+    "geometric_return",
+    "max_drawdown",
+    "drawdown_duration",
+    "expectancy_R",
+    "realized_R_distribution",
+    "average_intended_risk",
+    "realized_loss_beyond_intended_risk",
+    "gross_exposure",
+    "average_margin_use",
+    "max_margin_use",
+    "trade_count",
+    "paired_opportunity_count",
+    "skipped_opportunities",
+    "admission_divergence",
+    "cost_drag",
+    "funding_drag",
+    "cohort_halt_events",
+    "liquidation_near_miss_count",
+    "liquidation_count",
+    "intended_risk_budget_vs_stop_risk",
+    "source_health_coverage",
+    "hypothesis_degradation_events"
+  ],
+  "shared_components": {
+    "control": "current admit/monitor/mark/close behavior from pinned main; baseline replay sizer is not a replacement for runtime control",
+    "cooldown": "same current rule/duration; last admitted instant is account-local; never filters source stream",
+    "current_control_risk_definition": {
+      "averaging": false,
+      "catastrophe_drawdown": 0.75,
+      "gross_fraction": 0.6,
+      "leverage": 2.0,
+      "margin_mode": "isolated",
+      "max_entry_wait_minutes": 20,
+      "max_leverage": {
+        "AAVE": 10,
+        "BTC": 40,
+        "ETH": 25,
+        "HYPE": 10,
+        "LINK": 10,
+        "SOL": 20
+      },
+      "max_positions": 3,
+      "min_notional": 10.0,
+      "mode": "paper",
+      "name": "paper_exploratory_risk_v2",
+      "notional_fraction": 0.2,
+      "pyramiding": false,
+      "size_decimals": {
+        "AAVE": 2,
+        "BTC": 5,
+        "ETH": 4,
+        "HYPE": 2,
+        "LINK": 1,
+        "SOL": 2
+      },
+      "starting_equity": 100.0,
+      "version": 1
+    },
+    "current_control_risk_id": "paperrisk_v2_475b7c1e87fc2934eba4bb288f07cc818ed7dadb9fc8b9ab8d24a594a772e8b9",
+    "degradation": "same current rule: 100 finalized hypothesis trades, recent 50, mean trade_return <= -0.005 and >=40 losses; permanent per account; never changes upstream hypothesis availability",
+    "dynamic_execution_definition": {
+      "activation": "requires_prospective_history_and_validated_storage_budget",
+      "comparison": "six_asset_control_and_frozen_Phase30_cohorts_unchanged",
+      "entry_universe_id": "paperuniverse_dynamic_b464802676611836fde5362944113558a1430b67673e0f86b12235804d5fee0f",
+      "event_contracts": {
+        "event_reaction_confirmed_short_v1": {
+          "confirmation": "negative_complete_minute_price_and_flow",
+          "entry": "same_event_plus_negative_price_and_flow",
+          "episode": "canonical_logical_event_id_or_chain_tx_id",
+          "invalidation": "pre_event_level_reclaimed_or_two_minute_flow_reversal",
+          "max_hold_minutes": 30,
+          "objective": "event_reaction",
+          "reaction_window_minutes": 15,
+          "registered": false,
+          "side": "short"
+        },
+        "event_reaction_immediate_short_v1": {
+          "confirmation": "none",
+          "entry": "trusted_source_high_materiality_bearish_salience",
+          "episode": "canonical_logical_event_id_or_chain_tx_id",
+          "invalidation": "pre_event_level_reclaimed_or_two_minute_flow_reversal",
+          "max_hold_minutes": 15,
+          "objective": "event_reaction",
+          "reaction_window_minutes": 5,
+          "registered": false,
+          "side": "short"
+        }
+      },
+      "execution": {
+        "ambiguous": "INVALIDATED_with_AMBIGUOUS_ordering_no_wick_fill",
+        "conflict": "existing_invalidation_first_then_cancel_opposing_fresh",
+        "data_failure_seconds": 180,
+        "degradation": {
+          "losses": 40,
+          "mean_net": -0.005,
+          "minimum_trades": 100,
+          "recent": 50
+        },
+        "economic_cost_multiple": 2.0,
+        "emergency_adverse_move": 0.1,
+        "entry": "first_observed_future_bid_ask",
+        "entry_wait_seconds": 60,
+        "exit": "first_observed_future_bid_ask_after_decision",
+        "fee_bps": 4.5,
+        "fill": "taker_bid_ask_plus_adverse_slippage_full_position",
+        "funding_near_seconds": 120,
+        "funding_remaining_edge_fraction": 0.25,
+        "funding_stale_lifetime_fraction": 0.5,
+        "funding_tp_near_fraction": 0.8,
+        "gap_loss_guard": "isolated_initial_margin_cap_with_explicit_liquidation_adjustment",
+        "mode": "paper",
+        "monitor_seconds": 2,
+        "notifications": "daily_summary_and_failure_streak_default",
+        "quote_max_age_seconds": 3,
+        "slippage_bps": {
+          "AAVE": 8,
+          "BTC": 2,
+          "ETH": 2,
+          "HYPE": 6,
+          "LINK": 6,
+          "SOL": 4
+        },
+        "state_monitor_seconds": 60,
+        "version": "paper_nimble_v1"
+      },
+      "exit_version": "thesis_exit_v1",
+      "geometry": {
+        "defended_book_remaining_fraction": 0.5,
+        "expiry_min_progress_target_fraction": 0.25,
+        "flow_reversal_fraction": 0.35,
+        "flow_reversal_minutes": 2,
+        "invalidation": "prior_15m_extreme_plus_one_spread",
+        "non_microstructure_fallback": "latest_known_1h_bar_technical_else_15m_bar_positioning",
+        "prior_complete_minutes": 15,
+        "risk_multiple": 1.0,
+        "structural_target": "opposite_prior_15m_extreme",
+        "volatility_target": "half_mean_true_range_15m_or_half_hourly_log_ATR"
+      },
+      "holding_regimes": [
+        5,
+        15,
+        30,
+        60,
+        120,
+        240,
+        480
+      ],
+      "hypotheses": [
+        {
+          "cadence_minutes": 60,
+          "definition_version": "paper_hypothesis_v2_1",
+          "family": "EXPLORATORY_TECHNICAL:momentum",
+          "feature_version": "intraday_features_v1",
+          "horizon_minutes": 480,
+          "name": "ema_cross_trend[n=20]:1h:long",
+          "parameters": {
+            "baseline_digest": "d6c9e4a060b69b02da40c3a260a40a337aaa8a3007e6ac382ce87ca089b7c4ad",
+            "strategy": {
+              "baseline": "ema_cross[n=20]:1h:long",
+              "bh_family": "momentum",
+              "catalogue": "intraday_catalogue_v1",
+              "complexity": {
+                "conditions": 2,
+                "feature_families": 1,
+                "score": 4,
+                "thresholds": 1,
+                "timeframes": 1
+              },
+              "context_timeframe": "none",
+              "entry": "next_15m_open_after_availability_v1",
+              "exit": "fixed_horizon_close_v1",
+              "family": "a_momentum",
+              "feature_version": "intraday_features_v1",
+              "horizons": [
+                4,
+                8,
+                24
+              ],
+              "hypothesis": "A cross above the n-bar EMA while that EMA is rising continues.",
+              "params": [
+                [
+                  "n",
+                  20
+                ]
+              ],
+              "primary_horizon": 8,
+              "rule": "ema_cross_trend",
+              "side": "long",
+              "symmetric": true,
+              "timeframe": "1h",
+              "universe": "all"
+            },
+            "strategy_id": "istrat_f8d8df3e68fc541806d0242ab1b041f6d5ed5c011c857824078780a2354a86d9",
+            "warmup_rule": "required_primitives_finite_current_and_previous_v1"
+          },
+          "scientific_verdict": "INTERESTING",
+          "side": "long",
+          "source_key": "ema_cross_trend[n=20]:1h:long",
+          "source_phase": 22
+        },
+        {
+          "cadence_minutes": 60,
+          "definition_version": "paper_hypothesis_v2_1",
+          "family": "EXPLORATORY_TECHNICAL:mean_reversion",
+          "feature_version": "intraday_features_v1",
+          "horizon_minutes": 240,
+          "name": "ema_stretch_fade[k=3.0]:1h:long",
+          "parameters": {
+            "baseline_digest": "d6c9e4a060b69b02da40c3a260a40a337aaa8a3007e6ac382ce87ca089b7c4ad",
+            "strategy": {
+              "baseline": null,
+              "bh_family": "mean_reversion",
+              "catalogue": "intraday_catalogue_v1",
+              "complexity": {
+                "conditions": 1,
+                "feature_families": 2,
+                "score": 4,
+                "thresholds": 1,
+                "timeframes": 1
+              },
+              "context_timeframe": "none",
+              "entry": "next_15m_open_after_availability_v1",
+              "exit": "fixed_horizon_close_v1",
+              "family": "i_exhaustion",
+              "feature_version": "intraday_features_v1",
+              "horizons": [
+                1,
+                4,
+                12
+              ],
+              "hypothesis": "Price stretched k ATR below its 20-bar EMA snaps back.",
+              "params": [
+                [
+                  "k",
+                  3.0
+                ]
+              ],
+              "primary_horizon": 4,
+              "rule": "ema_stretch_fade",
+              "side": "long",
+              "symmetric": true,
+              "timeframe": "1h",
+              "universe": "all"
+            },
+            "strategy_id": "istrat_446cfc83f79f695e56a05862e5b1132c586d61d8cbb459957d226771e077e5dd",
+            "warmup_rule": "required_primitives_finite_current_and_previous_v1"
+          },
+          "scientific_verdict": "INTERESTING",
+          "side": "long",
+          "source_key": "ema_stretch_fade[k=3.0]:1h:long",
+          "source_phase": 22
+        },
+        {
+          "cadence_minutes": 60,
+          "definition_version": "paper_hypothesis_v2_1",
+          "family": "EXPLORATORY_TECHNICAL:mean_reversion",
+          "feature_version": "intraday_features_v1",
+          "horizon_minutes": 240,
+          "name": "ema_stretch_fade[k=4.0]:1h:long",
+          "parameters": {
+            "baseline_digest": "d6c9e4a060b69b02da40c3a260a40a337aaa8a3007e6ac382ce87ca089b7c4ad",
+            "strategy": {
+              "baseline": null,
+              "bh_family": "mean_reversion",
+              "catalogue": "intraday_catalogue_v1",
+              "complexity": {
+                "conditions": 1,
+                "feature_families": 2,
+                "score": 4,
+                "thresholds": 1,
+                "timeframes": 1
+              },
+              "context_timeframe": "none",
+              "entry": "next_15m_open_after_availability_v1",
+              "exit": "fixed_horizon_close_v1",
+              "family": "i_exhaustion",
+              "feature_version": "intraday_features_v1",
+              "horizons": [
+                1,
+                4,
+                12
+              ],
+              "hypothesis": "Price stretched k ATR below its 20-bar EMA snaps back.",
+              "params": [
+                [
+                  "k",
+                  4.0
+                ]
+              ],
+              "primary_horizon": 4,
+              "rule": "ema_stretch_fade",
+              "side": "long",
+              "symmetric": true,
+              "timeframe": "1h",
+              "universe": "all"
+            },
+            "strategy_id": "istrat_2802eae87127a19e265e5261665f1cee0dcf5e78863f71fa31a1806a93cbc690",
+            "warmup_rule": "required_primitives_finite_current_and_previous_v1"
+          },
+          "scientific_verdict": "INTERESTING",
+          "side": "long",
+          "source_key": "ema_stretch_fade[k=4.0]:1h:long",
+          "source_phase": 22
+        },
+        {
+          "cadence_minutes": 60,
+          "definition_version": "paper_hypothesis_v2_1",
+          "family": "EXPLORATORY_TECHNICAL:compression",
+          "feature_version": "intraday_features_v1",
+          "horizon_minutes": 240,
+          "name": "compression_breakout[n=24,pct=0.35]:1h:long",
+          "parameters": {
+            "baseline_digest": "d6c9e4a060b69b02da40c3a260a40a337aaa8a3007e6ac382ce87ca089b7c4ad",
+            "strategy": {
+              "baseline": "breakout[n=24]:1h:long",
+              "bh_family": "compression",
+              "catalogue": "intraday_catalogue_v1",
+              "complexity": {
+                "conditions": 2,
+                "feature_families": 2,
+                "score": 6,
+                "thresholds": 2,
+                "timeframes": 1
+              },
+              "context_timeframe": "none",
+              "entry": "next_15m_open_after_availability_v1",
+              "exit": "fixed_horizon_close_v1",
+              "family": "e_compression",
+              "feature_version": "intraday_features_v1",
+              "horizons": [
+                1,
+                4,
+                12
+              ],
+              "hypothesis": "A breakout from a compressed range continues.",
+              "params": [
+                [
+                  "n",
+                  24
+                ],
+                [
+                  "pct",
+                  0.35
+                ]
+              ],
+              "primary_horizon": 4,
+              "rule": "compression_breakout",
+              "side": "long",
+              "symmetric": true,
+              "timeframe": "1h",
+              "universe": "all"
+            },
+            "strategy_id": "istrat_168729004dba077e08c523c97b707a593958fd8894c5bfdd7e7dafea19e83f04",
+            "warmup_rule": "required_primitives_finite_current_and_previous_v1"
+          },
+          "scientific_verdict": "INTERESTING",
+          "side": "long",
+          "source_key": "compression_breakout[n=24,pct=0.35]:1h:long",
+          "source_phase": 22
+        },
+        {
+          "cadence_minutes": 60,
+          "definition_version": "paper_hypothesis_v2_1",
+          "family": "EXPLORATORY_TECHNICAL:expansion_exhaustion",
+          "feature_version": "intraday_features_v1",
+          "horizon_minutes": 240,
+          "name": "expansion_continuation[k=3.0]:1h:long",
+          "parameters": {
+            "baseline_digest": "d6c9e4a060b69b02da40c3a260a40a337aaa8a3007e6ac382ce87ca089b7c4ad",
+            "strategy": {
+              "baseline": null,
+              "bh_family": "expansion_exhaustion",
+              "catalogue": "intraday_catalogue_v1",
+              "complexity": {
+                "conditions": 3,
+                "feature_families": 2,
+                "score": 6,
+                "thresholds": 1,
+                "timeframes": 1
+              },
+              "context_timeframe": "none",
+              "entry": "next_15m_open_after_availability_v1",
+              "exit": "fixed_horizon_close_v1",
+              "family": "h_expansion",
+              "feature_version": "intraday_features_v1",
+              "horizons": [
+                1,
+                4,
+                12
+              ],
+              "hypothesis": "An abnormally large up-bar closing near its high continues.",
+              "params": [
+                [
+                  "k",
+                  3.0
+                ]
+              ],
+              "primary_horizon": 4,
+              "rule": "expansion_continuation",
+              "side": "long",
+              "symmetric": true,
+              "timeframe": "1h",
+              "universe": "all"
+            },
+            "strategy_id": "istrat_b34d8eb52691f31d320a1015fbe9d902d0ee01a0227847ccfe408a98a8f2e5ed",
+            "warmup_rule": "required_primitives_finite_current_and_previous_v1"
+          },
+          "scientific_verdict": "INTERESTING",
+          "side": "long",
+          "source_key": "expansion_continuation[k=3.0]:1h:long",
+          "source_phase": 22
+        },
+        {
+          "cadence_minutes": 60,
+          "definition_version": "paper_hypothesis_v2_1",
+          "family": "EXPLORATORY_TECHNICAL:expansion_exhaustion",
+          "feature_version": "intraday_features_v1",
+          "horizon_minutes": 240,
+          "name": "expansion_fade[k=3.0]:1h:long",
+          "parameters": {
+            "baseline_digest": "d6c9e4a060b69b02da40c3a260a40a337aaa8a3007e6ac382ce87ca089b7c4ad",
+            "strategy": {
+              "baseline": null,
+              "bh_family": "expansion_exhaustion",
+              "catalogue": "intraday_catalogue_v1",
+              "complexity": {
+                "conditions": 3,
+                "feature_families": 2,
+                "score": 6,
+                "thresholds": 1,
+                "timeframes": 1
+              },
+              "context_timeframe": "none",
+              "entry": "next_15m_open_after_availability_v1",
+              "exit": "fixed_horizon_close_v1",
+              "family": "h_expansion",
+              "feature_version": "intraday_features_v1",
+              "horizons": [
+                1,
+                4,
+                12
+              ],
+              "hypothesis": "An abnormally large down-bar closing near its low reverts upward.",
+              "params": [
+                [
+                  "k",
+                  3.0
+                ]
+              ],
+              "primary_horizon": 4,
+              "rule": "expansion_fade",
+              "side": "long",
+              "symmetric": true,
+              "timeframe": "1h",
+              "universe": "all"
+            },
+            "strategy_id": "istrat_d3f505b175f53c39654e125714b7591115453866146efe8b2b2e4d908bc15cfb",
+            "warmup_rule": "required_primitives_finite_current_and_previous_v1"
+          },
+          "scientific_verdict": "INTERESTING",
+          "side": "long",
+          "source_key": "expansion_fade[k=3.0]:1h:long",
+          "source_phase": 22
+        },
+        {
+          "cadence_minutes": 60,
+          "definition_version": "paper_hypothesis_v2_1",
+          "family": "EXPLORATORY_TECHNICAL:expansion_exhaustion",
+          "feature_version": "intraday_features_v1",
+          "horizon_minutes": 240,
+          "name": "exhaustion[n=24,z=3.0,strong_close=no]:1h:long",
+          "parameters": {
+            "baseline_digest": "d6c9e4a060b69b02da40c3a260a40a337aaa8a3007e6ac382ce87ca089b7c4ad",
+            "strategy": {
+              "baseline": null,
+              "bh_family": "expansion_exhaustion",
+              "catalogue": "intraday_catalogue_v1",
+              "complexity": {
+                "conditions": 2,
+                "feature_families": 2,
+                "score": 6,
+                "thresholds": 2,
+                "timeframes": 1
+              },
+              "context_timeframe": "none",
+              "entry": "next_15m_open_after_availability_v1",
+              "exit": "fixed_horizon_close_v1",
+              "family": "i_exhaustion",
+              "feature_version": "intraday_features_v1",
+              "horizons": [
+                1,
+                4,
+                12
+              ],
+              "hypothesis": "After an extreme n-bar decline (optionally with a strong close) price rebounds.",
+              "params": [
+                [
+                  "n",
+                  24
+                ],
+                [
+                  "z",
+                  3.0
+                ],
+                [
+                  "strong_close",
+                  "no"
+                ]
+              ],
+              "primary_horizon": 4,
+              "rule": "exhaustion",
+              "side": "long",
+              "symmetric": true,
+              "timeframe": "1h",
+              "universe": "all"
+            },
+            "strategy_id": "istrat_e5197126cabee8e15e8ee0320e342a30cec27c55ed0e1bb1d90f5c3614cacf73",
+            "warmup_rule": "required_primitives_finite_current_and_previous_v1"
+          },
+          "scientific_verdict": "INTERESTING",
+          "side": "long",
+          "source_key": "exhaustion[n=24,z=3.0,strong_close=no]:1h:long",
+          "source_phase": 22
+        },
+        {
+          "cadence_minutes": 60,
+          "definition_version": "paper_hypothesis_v2_1",
+          "family": "EXPLORATORY_TECHNICAL_CONTROL:momentum",
+          "feature_version": "intraday_features_v1",
+          "horizon_minutes": 480,
+          "name": "ema_cross_trend[n=20]:1h:short",
+          "parameters": {
+            "baseline_digest": "d6c9e4a060b69b02da40c3a260a40a337aaa8a3007e6ac382ce87ca089b7c4ad",
+            "scientific_verdict_reasons": [
+              "contemporary net effect credibly negative"
+            ],
+            "strategy": {
+              "baseline": "ema_cross[n=20]:1h:short",
+              "bh_family": "momentum",
+              "catalogue": "intraday_catalogue_v1",
+              "complexity": {
+                "conditions": 2,
+                "feature_families": 1,
+                "score": 4,
+                "thresholds": 1,
+                "timeframes": 1
+              },
+              "context_timeframe": "none",
+              "entry": "next_15m_open_after_availability_v1",
+              "exit": "fixed_horizon_close_v1",
+              "family": "a_momentum",
+              "feature_version": "intraday_features_v1",
+              "horizons": [
+                4,
+                8,
+                24
+              ],
+              "hypothesis": "[mirror] A cross above the n-bar EMA while that EMA is rising continues.",
+              "params": [
+                [
+                  "n",
+                  20
+                ]
+              ],
+              "primary_horizon": 8,
+              "rule": "ema_cross_trend",
+              "side": "short",
+              "symmetric": true,
+              "timeframe": "1h",
+              "universe": "all"
+            },
+            "strategy_id": "istrat_893dc65d6b31db4def124a2953e054fac19f29357180390e50242231781dc578",
+            "warmup_rule": "required_primitives_finite_current_and_previous_v1"
+          },
+          "scientific_verdict": "REJECTED",
+          "side": "short",
+          "source_key": "ema_cross_trend[n=20]:1h:short",
+          "source_phase": 22
+        },
+        {
+          "cadence_minutes": 60,
+          "definition_version": "paper_hypothesis_v2_1",
+          "family": "EXPLORATORY_TECHNICAL_CONTROL:mean_reversion",
+          "feature_version": "intraday_features_v1",
+          "horizon_minutes": 240,
+          "name": "ema_stretch_fade[k=3.0]:1h:short",
+          "parameters": {
+            "baseline_digest": "d6c9e4a060b69b02da40c3a260a40a337aaa8a3007e6ac382ce87ca089b7c4ad",
+            "scientific_verdict_reasons": [
+              "contemporary net effect credibly negative"
+            ],
+            "strategy": {
+              "baseline": null,
+              "bh_family": "mean_reversion",
+              "catalogue": "intraday_catalogue_v1",
+              "complexity": {
+                "conditions": 1,
+                "feature_families": 2,
+                "score": 4,
+                "thresholds": 1,
+                "timeframes": 1
+              },
+              "context_timeframe": "none",
+              "entry": "next_15m_open_after_availability_v1",
+              "exit": "fixed_horizon_close_v1",
+              "family": "i_exhaustion",
+              "feature_version": "intraday_features_v1",
+              "horizons": [
+                1,
+                4,
+                12
+              ],
+              "hypothesis": "[mirror] Price stretched k ATR below its 20-bar EMA snaps back.",
+              "params": [
+                [
+                  "k",
+                  3.0
+                ]
+              ],
+              "primary_horizon": 4,
+              "rule": "ema_stretch_fade",
+              "side": "short",
+              "symmetric": true,
+              "timeframe": "1h",
+              "universe": "all"
+            },
+            "strategy_id": "istrat_9bfccf528ac976522d0a5e38ad4ee813b85e34e5e387a8341650ea1cf9896f9d",
+            "warmup_rule": "required_primitives_finite_current_and_previous_v1"
+          },
+          "scientific_verdict": "REJECTED",
+          "side": "short",
+          "source_key": "ema_stretch_fade[k=3.0]:1h:short",
+          "source_phase": 22
+        },
+        {
+          "cadence_minutes": 60,
+          "definition_version": "paper_hypothesis_v2_1",
+          "family": "EXPLORATORY_TECHNICAL_CONTROL:mean_reversion",
+          "feature_version": "intraday_features_v1",
+          "horizon_minutes": 240,
+          "name": "ema_stretch_fade[k=4.0]:1h:short",
+          "parameters": {
+            "baseline_digest": "d6c9e4a060b69b02da40c3a260a40a337aaa8a3007e6ac382ce87ca089b7c4ad",
+            "scientific_verdict_reasons": [
+              "contemporary net effect credibly negative"
+            ],
+            "strategy": {
+              "baseline": null,
+              "bh_family": "mean_reversion",
+              "catalogue": "intraday_catalogue_v1",
+              "complexity": {
+                "conditions": 1,
+                "feature_families": 2,
+                "score": 4,
+                "thresholds": 1,
+                "timeframes": 1
+              },
+              "context_timeframe": "none",
+              "entry": "next_15m_open_after_availability_v1",
+              "exit": "fixed_horizon_close_v1",
+              "family": "i_exhaustion",
+              "feature_version": "intraday_features_v1",
+              "horizons": [
+                1,
+                4,
+                12
+              ],
+              "hypothesis": "[mirror] Price stretched k ATR below its 20-bar EMA snaps back.",
+              "params": [
+                [
+                  "k",
+                  4.0
+                ]
+              ],
+              "primary_horizon": 4,
+              "rule": "ema_stretch_fade",
+              "side": "short",
+              "symmetric": true,
+              "timeframe": "1h",
+              "universe": "all"
+            },
+            "strategy_id": "istrat_922bc3404d7eaf8044967a258217134803ace6eac5b8ac3730f0493080c8504f",
+            "warmup_rule": "required_primitives_finite_current_and_previous_v1"
+          },
+          "scientific_verdict": "REJECTED",
+          "side": "short",
+          "source_key": "ema_stretch_fade[k=4.0]:1h:short",
+          "source_phase": 22
+        },
+        {
+          "cadence_minutes": 60,
+          "definition_version": "paper_hypothesis_v2_1",
+          "family": "EXPLORATORY_TECHNICAL_CONTROL:compression",
+          "feature_version": "intraday_features_v1",
+          "horizon_minutes": 240,
+          "name": "compression_breakout[n=24,pct=0.35]:1h:short",
+          "parameters": {
+            "baseline_digest": "d6c9e4a060b69b02da40c3a260a40a337aaa8a3007e6ac382ce87ca089b7c4ad",
+            "scientific_verdict_reasons": [
+              "contemporary net effect credibly negative"
+            ],
+            "strategy": {
+              "baseline": "breakout[n=24]:1h:short",
+              "bh_family": "compression",
+              "catalogue": "intraday_catalogue_v1",
+              "complexity": {
+                "conditions": 2,
+                "feature_families": 2,
+                "score": 6,
+                "thresholds": 2,
+                "timeframes": 1
+              },
+              "context_timeframe": "none",
+              "entry": "next_15m_open_after_availability_v1",
+              "exit": "fixed_horizon_close_v1",
+              "family": "e_compression",
+              "feature_version": "intraday_features_v1",
+              "horizons": [
+                1,
+                4,
+                12
+              ],
+              "hypothesis": "[mirror] A breakout from a compressed range continues.",
+              "params": [
+                [
+                  "n",
+                  24
+                ],
+                [
+                  "pct",
+                  0.35
+                ]
+              ],
+              "primary_horizon": 4,
+              "rule": "compression_breakout",
+              "side": "short",
+              "symmetric": true,
+              "timeframe": "1h",
+              "universe": "all"
+            },
+            "strategy_id": "istrat_9e255e3fd5a28936679d2a0e6d63799acb1c94db4eff931829fe31ee22823018",
+            "warmup_rule": "required_primitives_finite_current_and_previous_v1"
+          },
+          "scientific_verdict": "REJECTED",
+          "side": "short",
+          "source_key": "compression_breakout[n=24,pct=0.35]:1h:short",
+          "source_phase": 22
+        },
+        {
+          "cadence_minutes": 60,
+          "definition_version": "paper_hypothesis_v2_1",
+          "family": "EXPLORATORY_TECHNICAL_CONTROL:expansion_exhaustion",
+          "feature_version": "intraday_features_v1",
+          "horizon_minutes": 240,
+          "name": "expansion_continuation[k=3.0]:1h:short",
+          "parameters": {
+            "baseline_digest": "d6c9e4a060b69b02da40c3a260a40a337aaa8a3007e6ac382ce87ca089b7c4ad",
+            "scientific_verdict_reasons": [
+              "contemporary net effect credibly negative"
+            ],
+            "strategy": {
+              "baseline": null,
+              "bh_family": "expansion_exhaustion",
+              "catalogue": "intraday_catalogue_v1",
+              "complexity": {
+                "conditions": 3,
+                "feature_families": 2,
+                "score": 6,
+                "thresholds": 1,
+                "timeframes": 1
+              },
+              "context_timeframe": "none",
+              "entry": "next_15m_open_after_availability_v1",
+              "exit": "fixed_horizon_close_v1",
+              "family": "h_expansion",
+              "feature_version": "intraday_features_v1",
+              "horizons": [
+                1,
+                4,
+                12
+              ],
+              "hypothesis": "[mirror] An abnormally large up-bar closing near its high continues.",
+              "params": [
+                [
+                  "k",
+                  3.0
+                ]
+              ],
+              "primary_horizon": 4,
+              "rule": "expansion_continuation",
+              "side": "short",
+              "symmetric": true,
+              "timeframe": "1h",
+              "universe": "all"
+            },
+            "strategy_id": "istrat_e507ad0e30b8d5a2cccedad58fa07a9e89a0eb93f50c343474bb70ede0dc56d6",
+            "warmup_rule": "required_primitives_finite_current_and_previous_v1"
+          },
+          "scientific_verdict": "REJECTED",
+          "side": "short",
+          "source_key": "expansion_continuation[k=3.0]:1h:short",
+          "source_phase": 22
+        },
+        {
+          "cadence_minutes": 60,
+          "definition_version": "paper_hypothesis_v2_1",
+          "family": "EXPLORATORY_TECHNICAL_CONTROL:expansion_exhaustion",
+          "feature_version": "intraday_features_v1",
+          "horizon_minutes": 240,
+          "name": "expansion_fade[k=3.0]:1h:short",
+          "parameters": {
+            "baseline_digest": "d6c9e4a060b69b02da40c3a260a40a337aaa8a3007e6ac382ce87ca089b7c4ad",
+            "scientific_verdict_reasons": [
+              "contemporary net effect credibly negative"
+            ],
+            "strategy": {
+              "baseline": null,
+              "bh_family": "expansion_exhaustion",
+              "catalogue": "intraday_catalogue_v1",
+              "complexity": {
+                "conditions": 3,
+                "feature_families": 2,
+                "score": 6,
+                "thresholds": 1,
+                "timeframes": 1
+              },
+              "context_timeframe": "none",
+              "entry": "next_15m_open_after_availability_v1",
+              "exit": "fixed_horizon_close_v1",
+              "family": "h_expansion",
+              "feature_version": "intraday_features_v1",
+              "horizons": [
+                1,
+                4,
+                12
+              ],
+              "hypothesis": "[mirror] An abnormally large down-bar closing near its low reverts upward.",
+              "params": [
+                [
+                  "k",
+                  3.0
+                ]
+              ],
+              "primary_horizon": 4,
+              "rule": "expansion_fade",
+              "side": "short",
+              "symmetric": true,
+              "timeframe": "1h",
+              "universe": "all"
+            },
+            "strategy_id": "istrat_85d676c644398ed5618866230cb96ed1196c04e12640500a5185d0466ebbed0c",
+            "warmup_rule": "required_primitives_finite_current_and_previous_v1"
+          },
+          "scientific_verdict": "REJECTED",
+          "side": "short",
+          "source_key": "expansion_fade[k=3.0]:1h:short",
+          "source_phase": 22
+        },
+        {
+          "cadence_minutes": 60,
+          "definition_version": "paper_hypothesis_v2_1",
+          "family": "EXPLORATORY_TECHNICAL_CONTROL:expansion_exhaustion",
+          "feature_version": "intraday_features_v1",
+          "horizon_minutes": 240,
+          "name": "exhaustion[n=24,z=3.0,strong_close=no]:1h:short",
+          "parameters": {
+            "baseline_digest": "d6c9e4a060b69b02da40c3a260a40a337aaa8a3007e6ac382ce87ca089b7c4ad",
+            "scientific_verdict_reasons": [
+              "contemporary net effect credibly negative"
+            ],
+            "strategy": {
+              "baseline": null,
+              "bh_family": "expansion_exhaustion",
+              "catalogue": "intraday_catalogue_v1",
+              "complexity": {
+                "conditions": 2,
+                "feature_families": 2,
+                "score": 6,
+                "thresholds": 2,
+                "timeframes": 1
+              },
+              "context_timeframe": "none",
+              "entry": "next_15m_open_after_availability_v1",
+              "exit": "fixed_horizon_close_v1",
+              "family": "i_exhaustion",
+              "feature_version": "intraday_features_v1",
+              "horizons": [
+                1,
+                4,
+                12
+              ],
+              "hypothesis": "[mirror] After an extreme n-bar decline (optionally with a strong close) price rebounds.",
+              "params": [
+                [
+                  "n",
+                  24
+                ],
+                [
+                  "z",
+                  3.0
+                ],
+                [
+                  "strong_close",
+                  "no"
+                ]
+              ],
+              "primary_horizon": 4,
+              "rule": "exhaustion",
+              "side": "short",
+              "symmetric": true,
+              "timeframe": "1h",
+              "universe": "all"
+            },
+            "strategy_id": "istrat_2d01d0221012a7b4593cb1e2e69ccc4ce817e1976758b18799e2b765455697ca",
+            "warmup_rule": "required_primitives_finite_current_and_previous_v1"
+          },
+          "scientific_verdict": "REJECTED",
+          "side": "short",
+          "source_key": "exhaustion[n=24,z=3.0,strong_close=no]:1h:short",
+          "source_phase": 22
+        },
+        {
+          "cadence_minutes": 60,
+          "definition_version": "paper_hypothesis_v2_1",
+          "family": "positioning:crowding_vulnerability",
+          "feature_version": "positioning_context_v1",
+          "horizon_minutes": 120,
+          "name": "crowding_vulnerability_long_v1",
+          "parameters": {
+            "funding_hourly_extreme": 2.5e-05,
+            "oi_change_1h_pct_min": 0.5,
+            "price_progress_1h_pct": 0.1,
+            "skew": "crowded_short_like"
+          },
+          "scientific_verdict": null,
+          "side": "long",
+          "source_key": "crowding_vulnerability",
+          "source_phase": 23
+        },
+        {
+          "cadence_minutes": 60,
+          "definition_version": "paper_hypothesis_v2_1",
+          "family": "positioning:crowding_vulnerability",
+          "feature_version": "positioning_context_v1",
+          "horizon_minutes": 120,
+          "name": "crowding_vulnerability_short_v1",
+          "parameters": {
+            "funding_hourly_extreme": 2.5e-05,
+            "oi_change_1h_pct_min": 0.5,
+            "price_progress_1h_pct": 0.1,
+            "skew": "crowded_long_like"
+          },
+          "scientific_verdict": null,
+          "side": "short",
+          "source_key": "crowding_vulnerability",
+          "source_phase": 23
+        },
+        {
+          "cadence_minutes": 60,
+          "definition_version": "paper_hypothesis_v2_1",
+          "family": "positioning:oi_price_stall",
+          "feature_version": "positioning_context_v1",
+          "horizon_minutes": 60,
+          "name": "oi_price_stall_long_v1",
+          "parameters": {
+            "funding_hourly_extreme": 2.5e-05,
+            "oi_change_1h_pct_min": 0.5,
+            "price_progress_1h_pct": 0.1,
+            "skew": "crowded_short_like"
+          },
+          "scientific_verdict": null,
+          "side": "long",
+          "source_key": "oi_price_stall",
+          "source_phase": 23
+        },
+        {
+          "cadence_minutes": 60,
+          "definition_version": "paper_hypothesis_v2_1",
+          "family": "positioning:oi_price_stall",
+          "feature_version": "positioning_context_v1",
+          "horizon_minutes": 60,
+          "name": "oi_price_stall_short_v1",
+          "parameters": {
+            "funding_hourly_extreme": 2.5e-05,
+            "oi_change_1h_pct_min": 0.5,
+            "price_progress_1h_pct": 0.1,
+            "skew": "crowded_long_like"
+          },
+          "scientific_verdict": null,
+          "side": "short",
+          "source_key": "oi_price_stall",
+          "source_phase": 23
+        },
+        {
+          "cadence_minutes": 60,
+          "definition_version": "paper_hypothesis_v2_1",
+          "family": "positioning:oi_directional_pressure",
+          "feature_version": "positioning_context_v1",
+          "horizon_minutes": 120,
+          "name": "oi_directional_pressure_long_v1",
+          "parameters": {
+            "funding_hourly_extreme": 2.5e-05,
+            "oi_change_1h_pct_min": 0.5,
+            "price_progress_1h_pct": 0.1,
+            "skew": "crowded_short_like"
+          },
+          "scientific_verdict": null,
+          "side": "long",
+          "source_key": "oi_directional_pressure",
+          "source_phase": 23
+        },
+        {
+          "cadence_minutes": 60,
+          "definition_version": "paper_hypothesis_v2_1",
+          "family": "positioning:oi_directional_pressure",
+          "feature_version": "positioning_context_v1",
+          "horizon_minutes": 120,
+          "name": "oi_directional_pressure_short_v1",
+          "parameters": {
+            "funding_hourly_extreme": 2.5e-05,
+            "oi_change_1h_pct_min": 0.5,
+            "price_progress_1h_pct": 0.1,
+            "skew": "crowded_long_like"
+          },
+          "scientific_verdict": null,
+          "side": "short",
+          "source_key": "oi_directional_pressure",
+          "source_phase": 23
+        },
+        {
+          "cadence_minutes": 15,
+          "definition_version": "paper_hypothesis_v2_1",
+          "family": "microstructure:flow_continuation",
+          "feature_version": "microdir_features_v1",
+          "horizon_minutes": 15,
+          "name": "continuation_core_long_v1",
+          "parameters": {
+            "action": "follow",
+            "normalization_min_prior_windows": 288,
+            "requires": [
+              "resp_efficient"
+            ]
+          },
+          "scientific_verdict": null,
+          "side": "long",
+          "source_key": "continuation_core",
+          "source_phase": 24
+        },
+        {
+          "cadence_minutes": 15,
+          "definition_version": "paper_hypothesis_v2_1",
+          "family": "microstructure:flow_continuation",
+          "feature_version": "microdir_features_v1",
+          "horizon_minutes": 15,
+          "name": "continuation_core_short_v1",
+          "parameters": {
+            "action": "follow",
+            "normalization_min_prior_windows": 288,
+            "requires": [
+              "resp_efficient"
+            ]
+          },
+          "scientific_verdict": null,
+          "side": "short",
+          "source_key": "continuation_core",
+          "source_phase": 24
+        },
+        {
+          "cadence_minutes": 15,
+          "definition_version": "paper_hypothesis_v2_1",
+          "family": "microstructure:absorption",
+          "feature_version": "microdir_features_v1",
+          "horizon_minutes": 60,
+          "name": "absorption_book_long_v1",
+          "parameters": {
+            "action": "fade",
+            "normalization_min_prior_windows": 288,
+            "requires": [
+              "resp_weak",
+              "opp_resilient"
+            ]
+          },
+          "scientific_verdict": null,
+          "side": "long",
+          "source_key": "absorption_book",
+          "source_phase": 24
+        },
+        {
+          "cadence_minutes": 15,
+          "definition_version": "paper_hypothesis_v2_1",
+          "family": "microstructure:absorption",
+          "feature_version": "microdir_features_v1",
+          "horizon_minutes": 60,
+          "name": "absorption_book_short_v1",
+          "parameters": {
+            "action": "fade",
+            "normalization_min_prior_windows": 288,
+            "requires": [
+              "resp_weak",
+              "opp_resilient"
+            ]
+          },
+          "scientific_verdict": null,
+          "side": "short",
+          "source_key": "absorption_book",
+          "source_phase": 24
+        },
+        {
+          "cadence_minutes": 15,
+          "definition_version": "paper_hypothesis_v2_1",
+          "family": "microstructure:absorption_oi",
+          "feature_version": "microdir_features_v1",
+          "horizon_minutes": 60,
+          "name": "absorption_oi_rising_long_v1",
+          "parameters": {
+            "action": "fade",
+            "normalization_min_prior_windows": 288,
+            "requires": [
+              "resp_weak",
+              "oi_rising"
+            ]
+          },
+          "scientific_verdict": null,
+          "side": "long",
+          "source_key": "absorption_oi_rising",
+          "source_phase": 24
+        },
+        {
+          "cadence_minutes": 15,
+          "definition_version": "paper_hypothesis_v2_1",
+          "family": "microstructure:absorption_oi",
+          "feature_version": "microdir_features_v1",
+          "horizon_minutes": 60,
+          "name": "absorption_oi_rising_short_v1",
+          "parameters": {
+            "action": "fade",
+            "normalization_min_prior_windows": 288,
+            "requires": [
+              "resp_weak",
+              "oi_rising"
+            ]
+          },
+          "scientific_verdict": null,
+          "side": "short",
+          "source_key": "absorption_oi_rising",
+          "source_phase": 24
+        },
+        {
+          "cadence_minutes": 15,
+          "definition_version": "paper_hypothesis_v2_1",
+          "family": "microstructure:persistence",
+          "feature_version": "microdir_features_v1",
+          "horizon_minutes": 30,
+          "name": "continuation_persistent_long_v1",
+          "parameters": {
+            "action": "follow",
+            "normalization_min_prior_windows": 288,
+            "requires": [
+              "resp_efficient",
+              "persistent"
+            ]
+          },
+          "scientific_verdict": null,
+          "side": "long",
+          "source_key": "continuation_persistent",
+          "source_phase": 24
+        },
+        {
+          "cadence_minutes": 15,
+          "definition_version": "paper_hypothesis_v2_1",
+          "family": "microstructure:persistence",
+          "feature_version": "microdir_features_v1",
+          "horizon_minutes": 30,
+          "name": "continuation_persistent_short_v1",
+          "parameters": {
+            "action": "follow",
+            "normalization_min_prior_windows": 288,
+            "requires": [
+              "resp_efficient",
+              "persistent"
+            ]
+          },
+          "scientific_verdict": null,
+          "side": "short",
+          "source_key": "continuation_persistent",
+          "source_phase": 24
+        }
+      ],
+      "mappings": {
+        "paperhyp_v2_14d6230d07e127eae327ed4101446da8443ca60dbbf0664e0e7ac5adf15f827f": {
+          "cooldown_minutes": 2,
+          "expiry_minutes": 5,
+          "max_hold_minutes": 15,
+          "objective": "volatility",
+          "state_rule": "flow_reversal_two_minutes"
+        },
+        "paperhyp_v2_1dc7b5553f6fdb7e56d29b8a29165a983e1b45a9bf250fbd7cf09097c6104a84": {
+          "cooldown_minutes": 30,
+          "expiry_minutes": 60,
+          "max_hold_minutes": 240,
+          "objective": "volatility",
+          "state_rule": "price_structure_only"
+        },
+        "paperhyp_v2_1eb184810cdb3037859a08c1ceb22f27cd2cd1f0e58e645695c4ce5a3e30d5c8": {
+          "cooldown_minutes": 5,
+          "expiry_minutes": 30,
+          "max_hold_minutes": 60,
+          "objective": "structural",
+          "state_rule": "absorption_defence_lost"
+        },
+        "paperhyp_v2_2094946c030a4c3dcf542094eb58f7430d65b033748bd1e88a6694de42e7c4c3": {
+          "cooldown_minutes": 30,
+          "expiry_minutes": 60,
+          "max_hold_minutes": 240,
+          "objective": "volatility",
+          "state_rule": "price_structure_only"
+        },
+        "paperhyp_v2_2b57c7a8a66a74c7eed636cc95bcc6750c197ebc8288fba9bbae1ac907f02f44": {
+          "cooldown_minutes": 30,
+          "expiry_minutes": 60,
+          "max_hold_minutes": 240,
+          "objective": "volatility",
+          "state_rule": "price_structure_only"
+        },
+        "paperhyp_v2_2ce630777e36493fc5ee0bd08f8369b6394d3bd21707a7f06bf7091d47ab48f3": {
+          "cooldown_minutes": 30,
+          "expiry_minutes": 60,
+          "max_hold_minutes": 240,
+          "objective": "volatility",
+          "state_rule": "price_structure_only"
+        },
+        "paperhyp_v2_41845cdf49ea18a9baa9f560e519b2e11a133942cacc3dd66259d0435af33033": {
+          "cooldown_minutes": 30,
+          "expiry_minutes": 60,
+          "max_hold_minutes": 240,
+          "objective": "volatility",
+          "state_rule": "price_structure_only"
+        },
+        "paperhyp_v2_48036ddceeebb266dd76acdc89f8a255f76688cba271abd1ebe895beef84de78": {
+          "cooldown_minutes": 30,
+          "expiry_minutes": 60,
+          "max_hold_minutes": 240,
+          "objective": "volatility",
+          "state_rule": "price_structure_only"
+        },
+        "paperhyp_v2_4b9fa473fb35d9ad580154e1ecf9ee3c9bdb2ebea84f55a14f276bb28742abb1": {
+          "cooldown_minutes": 15,
+          "expiry_minutes": 60,
+          "max_hold_minutes": 120,
+          "objective": "risk_multiple",
+          "state_rule": "oi_expansion_lost"
+        },
+        "paperhyp_v2_4fe3778139d43857f196b756e75788eda9a5aaa5e1b283ce402471efc044f0c7": {
+          "cooldown_minutes": 5,
+          "expiry_minutes": 30,
+          "max_hold_minutes": 60,
+          "objective": "structural",
+          "state_rule": "absorption_defence_lost"
+        },
+        "paperhyp_v2_5f43b14ed741a2f5ef131467b08f7a2a3d75a9a2f1794ebfb60f0aecb34478d2": {
+          "cooldown_minutes": 15,
+          "expiry_minutes": 30,
+          "max_hold_minutes": 60,
+          "objective": "risk_multiple",
+          "state_rule": "oi_expansion_lost"
+        },
+        "paperhyp_v2_63ad3c28c8575535cc50499287df5c3390d2bd3a0d40356155ccfc5e1eada38e": {
+          "cooldown_minutes": 30,
+          "expiry_minutes": 60,
+          "max_hold_minutes": 240,
+          "objective": "volatility",
+          "state_rule": "price_structure_only"
+        },
+        "paperhyp_v2_672988356720caab07c14a0b4e45290a4cc369efa044d8765edbeaf431fa8822": {
+          "cooldown_minutes": 15,
+          "expiry_minutes": 60,
+          "max_hold_minutes": 240,
+          "objective": "risk_multiple",
+          "state_rule": "crowding_normalized"
+        },
+        "paperhyp_v2_6857186d84739a33692d90a88980acda46406fcb84a4c18a2fff4d7fc6a21981": {
+          "cooldown_minutes": 30,
+          "expiry_minutes": 60,
+          "max_hold_minutes": 240,
+          "objective": "volatility",
+          "state_rule": "price_structure_only"
+        },
+        "paperhyp_v2_6d6616222bb56ba0cf50b14578c2c8c2184ed65fa1418c2460bf86a65d465172": {
+          "cooldown_minutes": 5,
+          "expiry_minutes": 30,
+          "max_hold_minutes": 60,
+          "objective": "structural",
+          "state_rule": "absorption_defence_lost"
+        },
+        "paperhyp_v2_6e5d73727648c2e55a05d8a93a4d23e200e852ea58eeb6d7d23a665baf34ef52": {
+          "cooldown_minutes": 15,
+          "expiry_minutes": 60,
+          "max_hold_minutes": 120,
+          "objective": "risk_multiple",
+          "state_rule": "oi_expansion_lost"
+        },
+        "paperhyp_v2_7c81a1f65eb9dd82de3bec0309e7e3b84052b9d7bdf741e9f637bbbb838e16f8": {
+          "cooldown_minutes": 5,
+          "expiry_minutes": 30,
+          "max_hold_minutes": 60,
+          "objective": "structural",
+          "state_rule": "absorption_defence_lost"
+        },
+        "paperhyp_v2_b00a17a35025c6eff587e206a7722c52870138ceec72ac6aee837582caec4224": {
+          "cooldown_minutes": 30,
+          "expiry_minutes": 60,
+          "max_hold_minutes": 240,
+          "objective": "volatility",
+          "state_rule": "price_structure_only"
+        },
+        "paperhyp_v2_c0bf366033db18e84ba45d5caea1cc03617859eb43d302467e733d9049704c7a": {
+          "cooldown_minutes": 30,
+          "expiry_minutes": 60,
+          "max_hold_minutes": 240,
+          "objective": "volatility",
+          "state_rule": "price_structure_only"
+        },
+        "paperhyp_v2_cb375f99692e23ac79d317dc19bfd94f30f0640ef7fa251dd274e9f26f998f35": {
+          "cooldown_minutes": 30,
+          "expiry_minutes": 60,
+          "max_hold_minutes": 240,
+          "objective": "volatility",
+          "state_rule": "price_structure_only"
+        },
+        "paperhyp_v2_d593dea703587a4e6623be91fe5199cd6ca91118539abc044288fa29dec2f2be": {
+          "cooldown_minutes": 5,
+          "expiry_minutes": 15,
+          "max_hold_minutes": 30,
+          "objective": "volatility",
+          "state_rule": "flow_reversal_two_minutes"
+        },
+        "paperhyp_v2_df1f436fd5ec5aaf5340d080215812628526a4f799d1c55e0b6a0de72225dcbb": {
+          "cooldown_minutes": 5,
+          "expiry_minutes": 15,
+          "max_hold_minutes": 30,
+          "objective": "volatility",
+          "state_rule": "flow_reversal_two_minutes"
+        },
+        "paperhyp_v2_e60fe0f969b10d7b36c3ed8e071b8935af6fe31107f2b9fbc13fff0b011c7ab8": {
+          "cooldown_minutes": 15,
+          "expiry_minutes": 30,
+          "max_hold_minutes": 60,
+          "objective": "risk_multiple",
+          "state_rule": "oi_expansion_lost"
+        },
+        "paperhyp_v2_ed49f9054684c713ebeb1121fb157e7fb3e388dc8e6c20e37627fe55f2802499": {
+          "cooldown_minutes": 30,
+          "expiry_minutes": 60,
+          "max_hold_minutes": 240,
+          "objective": "volatility",
+          "state_rule": "price_structure_only"
+        },
+        "paperhyp_v2_f16591d589f4847f62f5193ec718c4e334e5b7fda80a3368ab783f507eb22b39": {
+          "cooldown_minutes": 30,
+          "expiry_minutes": 240,
+          "max_hold_minutes": 480,
+          "objective": "volatility",
+          "state_rule": "price_structure_only"
+        },
+        "paperhyp_v2_f571a90267745016dc6e4358a3208264abde5d6d3452a5149a8e95d180739605": {
+          "cooldown_minutes": 30,
+          "expiry_minutes": 240,
+          "max_hold_minutes": 480,
+          "objective": "volatility",
+          "state_rule": "price_structure_only"
+        },
+        "paperhyp_v2_f75753d15d5b2d3daeb002c2f7fcb5a70111865f853b612ec3de2b536a4fc48d": {
+          "cooldown_minutes": 15,
+          "expiry_minutes": 60,
+          "max_hold_minutes": 240,
+          "objective": "risk_multiple",
+          "state_rule": "crowding_normalized"
+        },
+        "paperhyp_v2_f75d2f195e2a3c171806b813eb780b9f040bb73c297f66c9840b488dfc7e85ae": {
+          "cooldown_minutes": 2,
+          "expiry_minutes": 5,
+          "max_hold_minutes": 15,
+          "objective": "volatility",
+          "state_rule": "flow_reversal_two_minutes"
+        }
+      },
+      "portability": [
+        {
+          "classification": "PORTABLE_WITH_ASSET_DATA_GATE",
+          "feature_version": "intraday_features_v1",
+          "hypothesis_id": "paperhyp_v2_f16591d589f4847f62f5193ec718c4e334e5b7fda80a3368ab783f507eb22b39",
+          "key": "ema_cross_trend[n=20]:1h:long",
+          "name": "ema_cross_trend[n=20]:1h:long",
+          "requirement": "TECHNICAL_WARMUP",
+          "scientific_verdict": "INTERESTING",
+          "source_phase": 22
+        },
+        {
+          "classification": "PORTABLE_WITH_ASSET_DATA_GATE",
+          "feature_version": "intraday_features_v1",
+          "hypothesis_id": "paperhyp_v2_b00a17a35025c6eff587e206a7722c52870138ceec72ac6aee837582caec4224",
+          "key": "ema_stretch_fade[k=3.0]:1h:long",
+          "name": "ema_stretch_fade[k=3.0]:1h:long",
+          "requirement": "TECHNICAL_WARMUP",
+          "scientific_verdict": "INTERESTING",
+          "source_phase": 22
+        },
+        {
+          "classification": "PORTABLE_WITH_ASSET_DATA_GATE",
+          "feature_version": "intraday_features_v1",
+          "hypothesis_id": "paperhyp_v2_2b57c7a8a66a74c7eed636cc95bcc6750c197ebc8288fba9bbae1ac907f02f44",
+          "key": "ema_stretch_fade[k=4.0]:1h:long",
+          "name": "ema_stretch_fade[k=4.0]:1h:long",
+          "requirement": "TECHNICAL_WARMUP",
+          "scientific_verdict": "INTERESTING",
+          "source_phase": 22
+        },
+        {
+          "classification": "PORTABLE_WITH_ASSET_DATA_GATE",
+          "feature_version": "intraday_features_v1",
+          "hypothesis_id": "paperhyp_v2_63ad3c28c8575535cc50499287df5c3390d2bd3a0d40356155ccfc5e1eada38e",
+          "key": "compression_breakout[n=24,pct=0.35]:1h:long",
+          "name": "compression_breakout[n=24,pct=0.35]:1h:long",
+          "requirement": "TECHNICAL_WARMUP",
+          "scientific_verdict": "INTERESTING",
+          "source_phase": 22
+        },
+        {
+          "classification": "PORTABLE_WITH_ASSET_DATA_GATE",
+          "feature_version": "intraday_features_v1",
+          "hypothesis_id": "paperhyp_v2_1dc7b5553f6fdb7e56d29b8a29165a983e1b45a9bf250fbd7cf09097c6104a84",
+          "key": "expansion_continuation[k=3.0]:1h:long",
+          "name": "expansion_continuation[k=3.0]:1h:long",
+          "requirement": "TECHNICAL_WARMUP",
+          "scientific_verdict": "INTERESTING",
+          "source_phase": 22
+        },
+        {
+          "classification": "PORTABLE_WITH_ASSET_DATA_GATE",
+          "feature_version": "intraday_features_v1",
+          "hypothesis_id": "paperhyp_v2_2094946c030a4c3dcf542094eb58f7430d65b033748bd1e88a6694de42e7c4c3",
+          "key": "expansion_fade[k=3.0]:1h:long",
+          "name": "expansion_fade[k=3.0]:1h:long",
+          "requirement": "TECHNICAL_WARMUP",
+          "scientific_verdict": "INTERESTING",
+          "source_phase": 22
+        },
+        {
+          "classification": "PORTABLE_WITH_ASSET_DATA_GATE",
+          "feature_version": "intraday_features_v1",
+          "hypothesis_id": "paperhyp_v2_2ce630777e36493fc5ee0bd08f8369b6394d3bd21707a7f06bf7091d47ab48f3",
+          "key": "exhaustion[n=24,z=3.0,strong_close=no]:1h:long",
+          "name": "exhaustion[n=24,z=3.0,strong_close=no]:1h:long",
+          "requirement": "TECHNICAL_WARMUP",
+          "scientific_verdict": "INTERESTING",
+          "source_phase": 22
+        },
+        {
+          "classification": "PORTABLE_WITH_ASSET_DATA_GATE",
+          "feature_version": "intraday_features_v1",
+          "hypothesis_id": "paperhyp_v2_f571a90267745016dc6e4358a3208264abde5d6d3452a5149a8e95d180739605",
+          "key": "ema_cross_trend[n=20]:1h:short",
+          "name": "ema_cross_trend[n=20]:1h:short",
+          "requirement": "TECHNICAL_WARMUP",
+          "scientific_verdict": "REJECTED",
+          "source_phase": 22
+        },
+        {
+          "classification": "PORTABLE_WITH_ASSET_DATA_GATE",
+          "feature_version": "intraday_features_v1",
+          "hypothesis_id": "paperhyp_v2_ed49f9054684c713ebeb1121fb157e7fb3e388dc8e6c20e37627fe55f2802499",
+          "key": "ema_stretch_fade[k=3.0]:1h:short",
+          "name": "ema_stretch_fade[k=3.0]:1h:short",
+          "requirement": "TECHNICAL_WARMUP",
+          "scientific_verdict": "REJECTED",
+          "source_phase": 22
+        },
+        {
+          "classification": "PORTABLE_WITH_ASSET_DATA_GATE",
+          "feature_version": "intraday_features_v1",
+          "hypothesis_id": "paperhyp_v2_41845cdf49ea18a9baa9f560e519b2e11a133942cacc3dd66259d0435af33033",
+          "key": "ema_stretch_fade[k=4.0]:1h:short",
+          "name": "ema_stretch_fade[k=4.0]:1h:short",
+          "requirement": "TECHNICAL_WARMUP",
+          "scientific_verdict": "REJECTED",
+          "source_phase": 22
+        },
+        {
+          "classification": "PORTABLE_WITH_ASSET_DATA_GATE",
+          "feature_version": "intraday_features_v1",
+          "hypothesis_id": "paperhyp_v2_c0bf366033db18e84ba45d5caea1cc03617859eb43d302467e733d9049704c7a",
+          "key": "compression_breakout[n=24,pct=0.35]:1h:short",
+          "name": "compression_breakout[n=24,pct=0.35]:1h:short",
+          "requirement": "TECHNICAL_WARMUP",
+          "scientific_verdict": "REJECTED",
+          "source_phase": 22
+        },
+        {
+          "classification": "PORTABLE_WITH_ASSET_DATA_GATE",
+          "feature_version": "intraday_features_v1",
+          "hypothesis_id": "paperhyp_v2_6857186d84739a33692d90a88980acda46406fcb84a4c18a2fff4d7fc6a21981",
+          "key": "expansion_continuation[k=3.0]:1h:short",
+          "name": "expansion_continuation[k=3.0]:1h:short",
+          "requirement": "TECHNICAL_WARMUP",
+          "scientific_verdict": "REJECTED",
+          "source_phase": 22
+        },
+        {
+          "classification": "PORTABLE_WITH_ASSET_DATA_GATE",
+          "feature_version": "intraday_features_v1",
+          "hypothesis_id": "paperhyp_v2_48036ddceeebb266dd76acdc89f8a255f76688cba271abd1ebe895beef84de78",
+          "key": "expansion_fade[k=3.0]:1h:short",
+          "name": "expansion_fade[k=3.0]:1h:short",
+          "requirement": "TECHNICAL_WARMUP",
+          "scientific_verdict": "REJECTED",
+          "source_phase": 22
+        },
+        {
+          "classification": "PORTABLE_WITH_ASSET_DATA_GATE",
+          "feature_version": "intraday_features_v1",
+          "hypothesis_id": "paperhyp_v2_cb375f99692e23ac79d317dc19bfd94f30f0640ef7fa251dd274e9f26f998f35",
+          "key": "exhaustion[n=24,z=3.0,strong_close=no]:1h:short",
+          "name": "exhaustion[n=24,z=3.0,strong_close=no]:1h:short",
+          "requirement": "TECHNICAL_WARMUP",
+          "scientific_verdict": "REJECTED",
+          "source_phase": 22
+        },
+        {
+          "classification": "CORE_ONLY",
+          "feature_version": "positioning_context_v1",
+          "hypothesis_id": "paperhyp_v2_672988356720caab07c14a0b4e45290a4cc369efa044d8765edbeaf431fa8822",
+          "key": "crowding_vulnerability",
+          "name": "crowding_vulnerability_long_v1",
+          "requirement": "BINANCE_CORROBORATION_UNVALIDATED",
+          "scientific_verdict": null,
+          "source_phase": 23
+        },
+        {
+          "classification": "CORE_ONLY",
+          "feature_version": "positioning_context_v1",
+          "hypothesis_id": "paperhyp_v2_f75753d15d5b2d3daeb002c2f7fcb5a70111865f853b612ec3de2b536a4fc48d",
+          "key": "crowding_vulnerability",
+          "name": "crowding_vulnerability_short_v1",
+          "requirement": "BINANCE_CORROBORATION_UNVALIDATED",
+          "scientific_verdict": null,
+          "source_phase": 23
+        },
+        {
+          "classification": "NOT_YET_VALIDATED",
+          "feature_version": "positioning_context_v1",
+          "hypothesis_id": "paperhyp_v2_e60fe0f969b10d7b36c3ed8e071b8935af6fe31107f2b9fbc13fff0b011c7ab8",
+          "key": "oi_price_stall",
+          "name": "oi_price_stall_long_v1",
+          "requirement": "POSITIONING_CONTEXT_ASSET_REGISTRATION",
+          "scientific_verdict": null,
+          "source_phase": 23
+        },
+        {
+          "classification": "NOT_YET_VALIDATED",
+          "feature_version": "positioning_context_v1",
+          "hypothesis_id": "paperhyp_v2_5f43b14ed741a2f5ef131467b08f7a2a3d75a9a2f1794ebfb60f0aecb34478d2",
+          "key": "oi_price_stall",
+          "name": "oi_price_stall_short_v1",
+          "requirement": "POSITIONING_CONTEXT_ASSET_REGISTRATION",
+          "scientific_verdict": null,
+          "source_phase": 23
+        },
+        {
+          "classification": "NOT_YET_VALIDATED",
+          "feature_version": "positioning_context_v1",
+          "hypothesis_id": "paperhyp_v2_4b9fa473fb35d9ad580154e1ecf9ee3c9bdb2ebea84f55a14f276bb28742abb1",
+          "key": "oi_directional_pressure",
+          "name": "oi_directional_pressure_long_v1",
+          "requirement": "POSITIONING_CONTEXT_ASSET_REGISTRATION",
+          "scientific_verdict": null,
+          "source_phase": 23
+        },
+        {
+          "classification": "NOT_YET_VALIDATED",
+          "feature_version": "positioning_context_v1",
+          "hypothesis_id": "paperhyp_v2_6e5d73727648c2e55a05d8a93a4d23e200e852ea58eeb6d7d23a665baf34ef52",
+          "key": "oi_directional_pressure",
+          "name": "oi_directional_pressure_short_v1",
+          "requirement": "POSITIONING_CONTEXT_ASSET_REGISTRATION",
+          "scientific_verdict": null,
+          "source_phase": 23
+        },
+        {
+          "classification": "PORTABLE_WITH_ASSET_DATA_GATE",
+          "feature_version": "microdir_features_v1",
+          "hypothesis_id": "paperhyp_v2_14d6230d07e127eae327ed4101446da8443ca60dbbf0664e0e7ac5adf15f827f",
+          "key": "continuation_core",
+          "name": "continuation_core_long_v1",
+          "requirement": "MICRO_WARMUP",
+          "scientific_verdict": null,
+          "source_phase": 24
+        },
+        {
+          "classification": "PORTABLE_WITH_ASSET_DATA_GATE",
+          "feature_version": "microdir_features_v1",
+          "hypothesis_id": "paperhyp_v2_f75d2f195e2a3c171806b813eb780b9f040bb73c297f66c9840b488dfc7e85ae",
+          "key": "continuation_core",
+          "name": "continuation_core_short_v1",
+          "requirement": "MICRO_WARMUP",
+          "scientific_verdict": null,
+          "source_phase": 24
+        },
+        {
+          "classification": "PORTABLE_WITH_ASSET_DATA_GATE",
+          "feature_version": "microdir_features_v1",
+          "hypothesis_id": "paperhyp_v2_7c81a1f65eb9dd82de3bec0309e7e3b84052b9d7bdf741e9f637bbbb838e16f8",
+          "key": "absorption_book",
+          "name": "absorption_book_long_v1",
+          "requirement": "MICRO_WARMUP",
+          "scientific_verdict": null,
+          "source_phase": 24
+        },
+        {
+          "classification": "PORTABLE_WITH_ASSET_DATA_GATE",
+          "feature_version": "microdir_features_v1",
+          "hypothesis_id": "paperhyp_v2_1eb184810cdb3037859a08c1ceb22f27cd2cd1f0e58e645695c4ce5a3e30d5c8",
+          "key": "absorption_book",
+          "name": "absorption_book_short_v1",
+          "requirement": "MICRO_WARMUP",
+          "scientific_verdict": null,
+          "source_phase": 24
+        },
+        {
+          "classification": "PORTABLE_WITH_ASSET_DATA_GATE",
+          "feature_version": "microdir_features_v1",
+          "hypothesis_id": "paperhyp_v2_6d6616222bb56ba0cf50b14578c2c8c2184ed65fa1418c2460bf86a65d465172",
+          "key": "absorption_oi_rising",
+          "name": "absorption_oi_rising_long_v1",
+          "requirement": "MICRO_WARMUP",
+          "scientific_verdict": null,
+          "source_phase": 24
+        },
+        {
+          "classification": "PORTABLE_WITH_ASSET_DATA_GATE",
+          "feature_version": "microdir_features_v1",
+          "hypothesis_id": "paperhyp_v2_4fe3778139d43857f196b756e75788eda9a5aaa5e1b283ce402471efc044f0c7",
+          "key": "absorption_oi_rising",
+          "name": "absorption_oi_rising_short_v1",
+          "requirement": "MICRO_WARMUP",
+          "scientific_verdict": null,
+          "source_phase": 24
+        },
+        {
+          "classification": "PORTABLE_WITH_ASSET_DATA_GATE",
+          "feature_version": "microdir_features_v1",
+          "hypothesis_id": "paperhyp_v2_d593dea703587a4e6623be91fe5199cd6ca91118539abc044288fa29dec2f2be",
+          "key": "continuation_persistent",
+          "name": "continuation_persistent_long_v1",
+          "requirement": "MICRO_WARMUP",
+          "scientific_verdict": null,
+          "source_phase": 24
+        },
+        {
+          "classification": "PORTABLE_WITH_ASSET_DATA_GATE",
+          "feature_version": "microdir_features_v1",
+          "hypothesis_id": "paperhyp_v2_df1f436fd5ec5aaf5340d080215812628526a4f799d1c55e0b6a0de72225dcbb",
+          "key": "continuation_persistent",
+          "name": "continuation_persistent_short_v1",
+          "requirement": "MICRO_WARMUP",
+          "scientific_verdict": null,
+          "source_phase": 24
+        },
+        {
+          "classification": "CORE_ONLY",
+          "feature_version": "paper_nimble_event_v1",
+          "hypothesis_id": "eventhyp_v1_2e7602d4b3bce745eb03b8f073abfc936148db62891360f0005e83100aa10dfc",
+          "key": "venue_disruption",
+          "name": "venue_disruption_immediate_v1",
+          "requirement": "FROZEN_EVENT_ASSET_MAPPING",
+          "source_phase": 30
+        },
+        {
+          "classification": "CORE_ONLY",
+          "feature_version": "paper_nimble_event_v1",
+          "hypothesis_id": "eventhyp_v1_18f5cc1cc3438ce6e1c38c9485e80b984b83b1176bf9dc52e0ac5f78c9f8faba",
+          "key": "venue_disruption",
+          "name": "venue_disruption_confirmed_v1",
+          "requirement": "FROZEN_EVENT_ASSET_MAPPING",
+          "source_phase": 30
+        },
+        {
+          "classification": "CORE_ONLY",
+          "feature_version": "paper_nimble_event_v1",
+          "hypothesis_id": "eventhyp_v1_6c05496f3f3de01d531e395f5c41a8a8f59879c3ef499064af54ba0b0b4a468a",
+          "key": "protocol_stress",
+          "name": "protocol_stress_immediate_v1",
+          "requirement": "FROZEN_EVENT_ASSET_MAPPING",
+          "source_phase": 30
+        },
+        {
+          "classification": "CORE_ONLY",
+          "feature_version": "paper_nimble_event_v1",
+          "hypothesis_id": "eventhyp_v1_4ed381762e6c23442d3f96a3601d104b820a90cb5166d77454c6491ba47d633c",
+          "key": "protocol_stress",
+          "name": "protocol_stress_confirmed_v1",
+          "requirement": "FROZEN_EVENT_ASSET_MAPPING",
+          "source_phase": 30
+        },
+        {
+          "classification": "CORE_ONLY",
+          "feature_version": "paper_nimble_event_v1",
+          "hypothesis_id": "eventhyp_v1_71e29e619ed3413f528ccf76d5d82fe14647d262e03b23bec23b5d07d8363b88",
+          "key": "sec_spot_etf_approval_surprise",
+          "name": "sec_spot_etf_approval_surprise_immediate_v1",
+          "requirement": "FROZEN_EVENT_ASSET_MAPPING",
+          "source_phase": 30
+        },
+        {
+          "classification": "CORE_ONLY",
+          "feature_version": "paper_nimble_event_v1",
+          "hypothesis_id": "eventhyp_v1_5fe63ecd1111d82541f304c39e474fbf31cec9006bffd645823f49e6365596b0",
+          "key": "sec_spot_etf_approval_surprise",
+          "name": "sec_spot_etf_approval_surprise_confirmed_v1",
+          "requirement": "FROZEN_EVENT_ASSET_MAPPING",
+          "source_phase": 30
+        }
+      ],
+      "priority": "economic_ratio_desc_score_desc_asset_hypothesis_signal",
+      "research_horizons": [
+        15,
+        30,
+        60,
+        120,
+        240,
+        480
+      ],
+      "risk": {
+        "averaging": false,
+        "catastrophe_drawdown": 0.75,
+        "gross_fraction": 0.6,
+        "leverage": 2.0,
+        "margin_mode": "isolated",
+        "max_entry_wait_minutes": 20,
+        "max_leverage": {
+          "AAVE": 10,
+          "BTC": 40,
+          "ETH": 25,
+          "HYPE": 10,
+          "LINK": 10,
+          "SOL": 20
+        },
+        "max_positions": 3,
+        "min_notional": 10.0,
+        "mode": "paper",
+        "name": "paper_exploratory_risk_v2",
+        "notional_fraction": 0.2,
+        "pyramiding": false,
+        "size_decimals": {
+          "AAVE": 2,
+          "BTC": 5,
+          "ETH": 4,
+          "HYPE": 2,
+          "LINK": 1,
+          "SOL": 2
+        },
+        "starting_equity": 100.0,
+        "version": 1
+      },
+      "satellite_fill": "fresh_future_bid_ask_plus_depth_impact_conservative_v1",
+      "satellite_max_positions": 2,
+      "size": "venue_szDecimals_floor_existing_20pct_notional_2x_leverage",
+      "thesis_version": "execution_thesis_v1",
+      "universe_policy": {
+        "blend_weights": [
+          0.45,
+          0.35,
+          0.2
+        ],
+        "budget_cpu_seconds_per_minute_max": 30,
+        "budget_max_age_seconds": 86400,
+        "budget_minimum_runway_days": 30,
+        "cadence_seconds": 600,
+        "candidate_cap": 30,
+        "cost_version": "depth_impact_conservative_v1",
+        "demotion_evaluations": 6,
+        "demotion_rank": 10,
+        "depth_usd_min": 25000,
+        "fee_bps": 4.5,
+        "funding_max_age_minutes": 80,
+        "light_max_gap_seconds": 900,
+        "light_observations": 7,
+        "listing_days": 7,
+        "micro_history_days": 7,
+        "micro_prior_windows": 288,
+        "minimum_dwell_seconds": 21600,
+        "movement_cost_multiple": 3,
+        "movement_version": "prospective_10m_log_rv_elapsed_scaled_1h_v1",
+        "movement_weights": [
+          0.5,
+          0.3,
+          0.2
+        ],
+        "normalization_version": "finite_cross_section_midrank_missing_zero_v1",
+        "oi_usd_min": 2000000,
+        "outcome_minutes": [
+          15,
+          30,
+          60,
+          120,
+          240
+        ],
+        "participation_weights": [
+          0.4,
+          0.3,
+          0.3
+        ],
+        "portability_version": "hyperliquid_satellite_portability_v1",
+        "positioning_max_history_minutes": 140,
+        "positioning_observations": 2,
+        "positioning_weights": [
+          0.5,
+          0.3,
+          0.2
+        ],
+        "promotion_evaluations": 3,
+        "promotion_rank": 6,
+        "reference_notional_usd": 100,
+        "rich_satellite_cap": 6,
+        "satellite_cap": 6,
+        "score_min": 0.35,
+        "size_decimals_max": 8,
+        "slippage_floor_bps": 3,
+        "spread_bps_max": 15,
+        "stale_seconds": 180,
+        "technical_history_days": 45,
+        "trades_per_minute_min": 2,
+        "transition_version": "consecutive_rank_dwell_risk_override_v1",
+        "version": "hyperliquid_dynamic_universe_v1",
+        "volume_usd_min": 5000000
+      },
+      "universe_policy_id": "universepolicy_5f88b1dcdf20d7d19047edffab329076d7a63936f8c0916c21ffc83bcf4d56ff",
+      "version": "paper_nimble_dynamic_v1"
+    },
+    "dynamic_execution_policy_id": "paperexecution_dynamic_69050ae79e786f08978ab66628b3ba7cd2d5865712c3adbcf41f814980b95250",
+    "exit_geometry": "unchanged; TP/SL study excluded; +0.8-0.9R TP vs -1.08R stops is motivation for a later study only",
+    "funding": "same hourly settled funding + adverse reserve; notional changes dollars",
+    "hypothesis_manifest": [
+      {
+        "definition": {
+          "cadence_minutes": 60,
+          "definition_version": "paper_hypothesis_v2_1",
+          "family": "EXPLORATORY_TECHNICAL:momentum",
+          "feature_version": "intraday_features_v1",
+          "horizon_minutes": 480,
+          "name": "ema_cross_trend[n=20]:1h:long",
+          "parameters": {
+            "baseline_digest": "d6c9e4a060b69b02da40c3a260a40a337aaa8a3007e6ac382ce87ca089b7c4ad",
+            "strategy": {
+              "baseline": "ema_cross[n=20]:1h:long",
+              "bh_family": "momentum",
+              "catalogue": "intraday_catalogue_v1",
+              "complexity": {
+                "conditions": 2,
+                "feature_families": 1,
+                "score": 4,
+                "thresholds": 1,
+                "timeframes": 1
+              },
+              "context_timeframe": "none",
+              "entry": "next_15m_open_after_availability_v1",
+              "exit": "fixed_horizon_close_v1",
+              "family": "a_momentum",
+              "feature_version": "intraday_features_v1",
+              "horizons": [
+                4,
+                8,
+                24
+              ],
+              "hypothesis": "A cross above the n-bar EMA while that EMA is rising continues.",
+              "params": [
+                [
+                  "n",
+                  20
+                ]
+              ],
+              "primary_horizon": 8,
+              "rule": "ema_cross_trend",
+              "side": "long",
+              "symmetric": true,
+              "timeframe": "1h",
+              "universe": "all"
+            },
+            "strategy_id": "istrat_f8d8df3e68fc541806d0242ab1b041f6d5ed5c011c857824078780a2354a86d9",
+            "warmup_rule": "required_primitives_finite_current_and_previous_v1"
+          },
+          "scientific_verdict": "INTERESTING",
+          "side": "long",
+          "source_key": "ema_cross_trend[n=20]:1h:long",
+          "source_phase": 22
+        },
+        "execution_mapping": {
+          "cooldown_minutes": 30,
+          "expiry_minutes": 240,
+          "max_hold_minutes": 480,
+          "objective": "volatility",
+          "state_rule": "price_structure_only"
+        },
+        "hypothesis_id": "paperhyp_v2_f16591d589f4847f62f5193ec718c4e334e5b7fda80a3368ab783f507eb22b39"
+      },
+      {
+        "definition": {
+          "cadence_minutes": 60,
+          "definition_version": "paper_hypothesis_v2_1",
+          "family": "EXPLORATORY_TECHNICAL:mean_reversion",
+          "feature_version": "intraday_features_v1",
+          "horizon_minutes": 240,
+          "name": "ema_stretch_fade[k=3.0]:1h:long",
+          "parameters": {
+            "baseline_digest": "d6c9e4a060b69b02da40c3a260a40a337aaa8a3007e6ac382ce87ca089b7c4ad",
+            "strategy": {
+              "baseline": null,
+              "bh_family": "mean_reversion",
+              "catalogue": "intraday_catalogue_v1",
+              "complexity": {
+                "conditions": 1,
+                "feature_families": 2,
+                "score": 4,
+                "thresholds": 1,
+                "timeframes": 1
+              },
+              "context_timeframe": "none",
+              "entry": "next_15m_open_after_availability_v1",
+              "exit": "fixed_horizon_close_v1",
+              "family": "i_exhaustion",
+              "feature_version": "intraday_features_v1",
+              "horizons": [
+                1,
+                4,
+                12
+              ],
+              "hypothesis": "Price stretched k ATR below its 20-bar EMA snaps back.",
+              "params": [
+                [
+                  "k",
+                  3.0
+                ]
+              ],
+              "primary_horizon": 4,
+              "rule": "ema_stretch_fade",
+              "side": "long",
+              "symmetric": true,
+              "timeframe": "1h",
+              "universe": "all"
+            },
+            "strategy_id": "istrat_446cfc83f79f695e56a05862e5b1132c586d61d8cbb459957d226771e077e5dd",
+            "warmup_rule": "required_primitives_finite_current_and_previous_v1"
+          },
+          "scientific_verdict": "INTERESTING",
+          "side": "long",
+          "source_key": "ema_stretch_fade[k=3.0]:1h:long",
+          "source_phase": 22
+        },
+        "execution_mapping": {
+          "cooldown_minutes": 30,
+          "expiry_minutes": 60,
+          "max_hold_minutes": 240,
+          "objective": "volatility",
+          "state_rule": "price_structure_only"
+        },
+        "hypothesis_id": "paperhyp_v2_b00a17a35025c6eff587e206a7722c52870138ceec72ac6aee837582caec4224"
+      },
+      {
+        "definition": {
+          "cadence_minutes": 60,
+          "definition_version": "paper_hypothesis_v2_1",
+          "family": "EXPLORATORY_TECHNICAL:mean_reversion",
+          "feature_version": "intraday_features_v1",
+          "horizon_minutes": 240,
+          "name": "ema_stretch_fade[k=4.0]:1h:long",
+          "parameters": {
+            "baseline_digest": "d6c9e4a060b69b02da40c3a260a40a337aaa8a3007e6ac382ce87ca089b7c4ad",
+            "strategy": {
+              "baseline": null,
+              "bh_family": "mean_reversion",
+              "catalogue": "intraday_catalogue_v1",
+              "complexity": {
+                "conditions": 1,
+                "feature_families": 2,
+                "score": 4,
+                "thresholds": 1,
+                "timeframes": 1
+              },
+              "context_timeframe": "none",
+              "entry": "next_15m_open_after_availability_v1",
+              "exit": "fixed_horizon_close_v1",
+              "family": "i_exhaustion",
+              "feature_version": "intraday_features_v1",
+              "horizons": [
+                1,
+                4,
+                12
+              ],
+              "hypothesis": "Price stretched k ATR below its 20-bar EMA snaps back.",
+              "params": [
+                [
+                  "k",
+                  4.0
+                ]
+              ],
+              "primary_horizon": 4,
+              "rule": "ema_stretch_fade",
+              "side": "long",
+              "symmetric": true,
+              "timeframe": "1h",
+              "universe": "all"
+            },
+            "strategy_id": "istrat_2802eae87127a19e265e5261665f1cee0dcf5e78863f71fa31a1806a93cbc690",
+            "warmup_rule": "required_primitives_finite_current_and_previous_v1"
+          },
+          "scientific_verdict": "INTERESTING",
+          "side": "long",
+          "source_key": "ema_stretch_fade[k=4.0]:1h:long",
+          "source_phase": 22
+        },
+        "execution_mapping": {
+          "cooldown_minutes": 30,
+          "expiry_minutes": 60,
+          "max_hold_minutes": 240,
+          "objective": "volatility",
+          "state_rule": "price_structure_only"
+        },
+        "hypothesis_id": "paperhyp_v2_2b57c7a8a66a74c7eed636cc95bcc6750c197ebc8288fba9bbae1ac907f02f44"
+      },
+      {
+        "definition": {
+          "cadence_minutes": 60,
+          "definition_version": "paper_hypothesis_v2_1",
+          "family": "EXPLORATORY_TECHNICAL:compression",
+          "feature_version": "intraday_features_v1",
+          "horizon_minutes": 240,
+          "name": "compression_breakout[n=24,pct=0.35]:1h:long",
+          "parameters": {
+            "baseline_digest": "d6c9e4a060b69b02da40c3a260a40a337aaa8a3007e6ac382ce87ca089b7c4ad",
+            "strategy": {
+              "baseline": "breakout[n=24]:1h:long",
+              "bh_family": "compression",
+              "catalogue": "intraday_catalogue_v1",
+              "complexity": {
+                "conditions": 2,
+                "feature_families": 2,
+                "score": 6,
+                "thresholds": 2,
+                "timeframes": 1
+              },
+              "context_timeframe": "none",
+              "entry": "next_15m_open_after_availability_v1",
+              "exit": "fixed_horizon_close_v1",
+              "family": "e_compression",
+              "feature_version": "intraday_features_v1",
+              "horizons": [
+                1,
+                4,
+                12
+              ],
+              "hypothesis": "A breakout from a compressed range continues.",
+              "params": [
+                [
+                  "n",
+                  24
+                ],
+                [
+                  "pct",
+                  0.35
+                ]
+              ],
+              "primary_horizon": 4,
+              "rule": "compression_breakout",
+              "side": "long",
+              "symmetric": true,
+              "timeframe": "1h",
+              "universe": "all"
+            },
+            "strategy_id": "istrat_168729004dba077e08c523c97b707a593958fd8894c5bfdd7e7dafea19e83f04",
+            "warmup_rule": "required_primitives_finite_current_and_previous_v1"
+          },
+          "scientific_verdict": "INTERESTING",
+          "side": "long",
+          "source_key": "compression_breakout[n=24,pct=0.35]:1h:long",
+          "source_phase": 22
+        },
+        "execution_mapping": {
+          "cooldown_minutes": 30,
+          "expiry_minutes": 60,
+          "max_hold_minutes": 240,
+          "objective": "volatility",
+          "state_rule": "price_structure_only"
+        },
+        "hypothesis_id": "paperhyp_v2_63ad3c28c8575535cc50499287df5c3390d2bd3a0d40356155ccfc5e1eada38e"
+      },
+      {
+        "definition": {
+          "cadence_minutes": 60,
+          "definition_version": "paper_hypothesis_v2_1",
+          "family": "EXPLORATORY_TECHNICAL:expansion_exhaustion",
+          "feature_version": "intraday_features_v1",
+          "horizon_minutes": 240,
+          "name": "expansion_continuation[k=3.0]:1h:long",
+          "parameters": {
+            "baseline_digest": "d6c9e4a060b69b02da40c3a260a40a337aaa8a3007e6ac382ce87ca089b7c4ad",
+            "strategy": {
+              "baseline": null,
+              "bh_family": "expansion_exhaustion",
+              "catalogue": "intraday_catalogue_v1",
+              "complexity": {
+                "conditions": 3,
+                "feature_families": 2,
+                "score": 6,
+                "thresholds": 1,
+                "timeframes": 1
+              },
+              "context_timeframe": "none",
+              "entry": "next_15m_open_after_availability_v1",
+              "exit": "fixed_horizon_close_v1",
+              "family": "h_expansion",
+              "feature_version": "intraday_features_v1",
+              "horizons": [
+                1,
+                4,
+                12
+              ],
+              "hypothesis": "An abnormally large up-bar closing near its high continues.",
+              "params": [
+                [
+                  "k",
+                  3.0
+                ]
+              ],
+              "primary_horizon": 4,
+              "rule": "expansion_continuation",
+              "side": "long",
+              "symmetric": true,
+              "timeframe": "1h",
+              "universe": "all"
+            },
+            "strategy_id": "istrat_b34d8eb52691f31d320a1015fbe9d902d0ee01a0227847ccfe408a98a8f2e5ed",
+            "warmup_rule": "required_primitives_finite_current_and_previous_v1"
+          },
+          "scientific_verdict": "INTERESTING",
+          "side": "long",
+          "source_key": "expansion_continuation[k=3.0]:1h:long",
+          "source_phase": 22
+        },
+        "execution_mapping": {
+          "cooldown_minutes": 30,
+          "expiry_minutes": 60,
+          "max_hold_minutes": 240,
+          "objective": "volatility",
+          "state_rule": "price_structure_only"
+        },
+        "hypothesis_id": "paperhyp_v2_1dc7b5553f6fdb7e56d29b8a29165a983e1b45a9bf250fbd7cf09097c6104a84"
+      },
+      {
+        "definition": {
+          "cadence_minutes": 60,
+          "definition_version": "paper_hypothesis_v2_1",
+          "family": "EXPLORATORY_TECHNICAL:expansion_exhaustion",
+          "feature_version": "intraday_features_v1",
+          "horizon_minutes": 240,
+          "name": "expansion_fade[k=3.0]:1h:long",
+          "parameters": {
+            "baseline_digest": "d6c9e4a060b69b02da40c3a260a40a337aaa8a3007e6ac382ce87ca089b7c4ad",
+            "strategy": {
+              "baseline": null,
+              "bh_family": "expansion_exhaustion",
+              "catalogue": "intraday_catalogue_v1",
+              "complexity": {
+                "conditions": 3,
+                "feature_families": 2,
+                "score": 6,
+                "thresholds": 1,
+                "timeframes": 1
+              },
+              "context_timeframe": "none",
+              "entry": "next_15m_open_after_availability_v1",
+              "exit": "fixed_horizon_close_v1",
+              "family": "h_expansion",
+              "feature_version": "intraday_features_v1",
+              "horizons": [
+                1,
+                4,
+                12
+              ],
+              "hypothesis": "An abnormally large down-bar closing near its low reverts upward.",
+              "params": [
+                [
+                  "k",
+                  3.0
+                ]
+              ],
+              "primary_horizon": 4,
+              "rule": "expansion_fade",
+              "side": "long",
+              "symmetric": true,
+              "timeframe": "1h",
+              "universe": "all"
+            },
+            "strategy_id": "istrat_d3f505b175f53c39654e125714b7591115453866146efe8b2b2e4d908bc15cfb",
+            "warmup_rule": "required_primitives_finite_current_and_previous_v1"
+          },
+          "scientific_verdict": "INTERESTING",
+          "side": "long",
+          "source_key": "expansion_fade[k=3.0]:1h:long",
+          "source_phase": 22
+        },
+        "execution_mapping": {
+          "cooldown_minutes": 30,
+          "expiry_minutes": 60,
+          "max_hold_minutes": 240,
+          "objective": "volatility",
+          "state_rule": "price_structure_only"
+        },
+        "hypothesis_id": "paperhyp_v2_2094946c030a4c3dcf542094eb58f7430d65b033748bd1e88a6694de42e7c4c3"
+      },
+      {
+        "definition": {
+          "cadence_minutes": 60,
+          "definition_version": "paper_hypothesis_v2_1",
+          "family": "EXPLORATORY_TECHNICAL:expansion_exhaustion",
+          "feature_version": "intraday_features_v1",
+          "horizon_minutes": 240,
+          "name": "exhaustion[n=24,z=3.0,strong_close=no]:1h:long",
+          "parameters": {
+            "baseline_digest": "d6c9e4a060b69b02da40c3a260a40a337aaa8a3007e6ac382ce87ca089b7c4ad",
+            "strategy": {
+              "baseline": null,
+              "bh_family": "expansion_exhaustion",
+              "catalogue": "intraday_catalogue_v1",
+              "complexity": {
+                "conditions": 2,
+                "feature_families": 2,
+                "score": 6,
+                "thresholds": 2,
+                "timeframes": 1
+              },
+              "context_timeframe": "none",
+              "entry": "next_15m_open_after_availability_v1",
+              "exit": "fixed_horizon_close_v1",
+              "family": "i_exhaustion",
+              "feature_version": "intraday_features_v1",
+              "horizons": [
+                1,
+                4,
+                12
+              ],
+              "hypothesis": "After an extreme n-bar decline (optionally with a strong close) price rebounds.",
+              "params": [
+                [
+                  "n",
+                  24
+                ],
+                [
+                  "z",
+                  3.0
+                ],
+                [
+                  "strong_close",
+                  "no"
+                ]
+              ],
+              "primary_horizon": 4,
+              "rule": "exhaustion",
+              "side": "long",
+              "symmetric": true,
+              "timeframe": "1h",
+              "universe": "all"
+            },
+            "strategy_id": "istrat_e5197126cabee8e15e8ee0320e342a30cec27c55ed0e1bb1d90f5c3614cacf73",
+            "warmup_rule": "required_primitives_finite_current_and_previous_v1"
+          },
+          "scientific_verdict": "INTERESTING",
+          "side": "long",
+          "source_key": "exhaustion[n=24,z=3.0,strong_close=no]:1h:long",
+          "source_phase": 22
+        },
+        "execution_mapping": {
+          "cooldown_minutes": 30,
+          "expiry_minutes": 60,
+          "max_hold_minutes": 240,
+          "objective": "volatility",
+          "state_rule": "price_structure_only"
+        },
+        "hypothesis_id": "paperhyp_v2_2ce630777e36493fc5ee0bd08f8369b6394d3bd21707a7f06bf7091d47ab48f3"
+      },
+      {
+        "definition": {
+          "cadence_minutes": 60,
+          "definition_version": "paper_hypothesis_v2_1",
+          "family": "EXPLORATORY_TECHNICAL_CONTROL:momentum",
+          "feature_version": "intraday_features_v1",
+          "horizon_minutes": 480,
+          "name": "ema_cross_trend[n=20]:1h:short",
+          "parameters": {
+            "baseline_digest": "d6c9e4a060b69b02da40c3a260a40a337aaa8a3007e6ac382ce87ca089b7c4ad",
+            "scientific_verdict_reasons": [
+              "contemporary net effect credibly negative"
+            ],
+            "strategy": {
+              "baseline": "ema_cross[n=20]:1h:short",
+              "bh_family": "momentum",
+              "catalogue": "intraday_catalogue_v1",
+              "complexity": {
+                "conditions": 2,
+                "feature_families": 1,
+                "score": 4,
+                "thresholds": 1,
+                "timeframes": 1
+              },
+              "context_timeframe": "none",
+              "entry": "next_15m_open_after_availability_v1",
+              "exit": "fixed_horizon_close_v1",
+              "family": "a_momentum",
+              "feature_version": "intraday_features_v1",
+              "horizons": [
+                4,
+                8,
+                24
+              ],
+              "hypothesis": "[mirror] A cross above the n-bar EMA while that EMA is rising continues.",
+              "params": [
+                [
+                  "n",
+                  20
+                ]
+              ],
+              "primary_horizon": 8,
+              "rule": "ema_cross_trend",
+              "side": "short",
+              "symmetric": true,
+              "timeframe": "1h",
+              "universe": "all"
+            },
+            "strategy_id": "istrat_893dc65d6b31db4def124a2953e054fac19f29357180390e50242231781dc578",
+            "warmup_rule": "required_primitives_finite_current_and_previous_v1"
+          },
+          "scientific_verdict": "REJECTED",
+          "side": "short",
+          "source_key": "ema_cross_trend[n=20]:1h:short",
+          "source_phase": 22
+        },
+        "execution_mapping": {
+          "cooldown_minutes": 30,
+          "expiry_minutes": 240,
+          "max_hold_minutes": 480,
+          "objective": "volatility",
+          "state_rule": "price_structure_only"
+        },
+        "hypothesis_id": "paperhyp_v2_f571a90267745016dc6e4358a3208264abde5d6d3452a5149a8e95d180739605"
+      },
+      {
+        "definition": {
+          "cadence_minutes": 60,
+          "definition_version": "paper_hypothesis_v2_1",
+          "family": "EXPLORATORY_TECHNICAL_CONTROL:mean_reversion",
+          "feature_version": "intraday_features_v1",
+          "horizon_minutes": 240,
+          "name": "ema_stretch_fade[k=3.0]:1h:short",
+          "parameters": {
+            "baseline_digest": "d6c9e4a060b69b02da40c3a260a40a337aaa8a3007e6ac382ce87ca089b7c4ad",
+            "scientific_verdict_reasons": [
+              "contemporary net effect credibly negative"
+            ],
+            "strategy": {
+              "baseline": null,
+              "bh_family": "mean_reversion",
+              "catalogue": "intraday_catalogue_v1",
+              "complexity": {
+                "conditions": 1,
+                "feature_families": 2,
+                "score": 4,
+                "thresholds": 1,
+                "timeframes": 1
+              },
+              "context_timeframe": "none",
+              "entry": "next_15m_open_after_availability_v1",
+              "exit": "fixed_horizon_close_v1",
+              "family": "i_exhaustion",
+              "feature_version": "intraday_features_v1",
+              "horizons": [
+                1,
+                4,
+                12
+              ],
+              "hypothesis": "[mirror] Price stretched k ATR below its 20-bar EMA snaps back.",
+              "params": [
+                [
+                  "k",
+                  3.0
+                ]
+              ],
+              "primary_horizon": 4,
+              "rule": "ema_stretch_fade",
+              "side": "short",
+              "symmetric": true,
+              "timeframe": "1h",
+              "universe": "all"
+            },
+            "strategy_id": "istrat_9bfccf528ac976522d0a5e38ad4ee813b85e34e5e387a8341650ea1cf9896f9d",
+            "warmup_rule": "required_primitives_finite_current_and_previous_v1"
+          },
+          "scientific_verdict": "REJECTED",
+          "side": "short",
+          "source_key": "ema_stretch_fade[k=3.0]:1h:short",
+          "source_phase": 22
+        },
+        "execution_mapping": {
+          "cooldown_minutes": 30,
+          "expiry_minutes": 60,
+          "max_hold_minutes": 240,
+          "objective": "volatility",
+          "state_rule": "price_structure_only"
+        },
+        "hypothesis_id": "paperhyp_v2_ed49f9054684c713ebeb1121fb157e7fb3e388dc8e6c20e37627fe55f2802499"
+      },
+      {
+        "definition": {
+          "cadence_minutes": 60,
+          "definition_version": "paper_hypothesis_v2_1",
+          "family": "EXPLORATORY_TECHNICAL_CONTROL:mean_reversion",
+          "feature_version": "intraday_features_v1",
+          "horizon_minutes": 240,
+          "name": "ema_stretch_fade[k=4.0]:1h:short",
+          "parameters": {
+            "baseline_digest": "d6c9e4a060b69b02da40c3a260a40a337aaa8a3007e6ac382ce87ca089b7c4ad",
+            "scientific_verdict_reasons": [
+              "contemporary net effect credibly negative"
+            ],
+            "strategy": {
+              "baseline": null,
+              "bh_family": "mean_reversion",
+              "catalogue": "intraday_catalogue_v1",
+              "complexity": {
+                "conditions": 1,
+                "feature_families": 2,
+                "score": 4,
+                "thresholds": 1,
+                "timeframes": 1
+              },
+              "context_timeframe": "none",
+              "entry": "next_15m_open_after_availability_v1",
+              "exit": "fixed_horizon_close_v1",
+              "family": "i_exhaustion",
+              "feature_version": "intraday_features_v1",
+              "horizons": [
+                1,
+                4,
+                12
+              ],
+              "hypothesis": "[mirror] Price stretched k ATR below its 20-bar EMA snaps back.",
+              "params": [
+                [
+                  "k",
+                  4.0
+                ]
+              ],
+              "primary_horizon": 4,
+              "rule": "ema_stretch_fade",
+              "side": "short",
+              "symmetric": true,
+              "timeframe": "1h",
+              "universe": "all"
+            },
+            "strategy_id": "istrat_922bc3404d7eaf8044967a258217134803ace6eac5b8ac3730f0493080c8504f",
+            "warmup_rule": "required_primitives_finite_current_and_previous_v1"
+          },
+          "scientific_verdict": "REJECTED",
+          "side": "short",
+          "source_key": "ema_stretch_fade[k=4.0]:1h:short",
+          "source_phase": 22
+        },
+        "execution_mapping": {
+          "cooldown_minutes": 30,
+          "expiry_minutes": 60,
+          "max_hold_minutes": 240,
+          "objective": "volatility",
+          "state_rule": "price_structure_only"
+        },
+        "hypothesis_id": "paperhyp_v2_41845cdf49ea18a9baa9f560e519b2e11a133942cacc3dd66259d0435af33033"
+      },
+      {
+        "definition": {
+          "cadence_minutes": 60,
+          "definition_version": "paper_hypothesis_v2_1",
+          "family": "EXPLORATORY_TECHNICAL_CONTROL:compression",
+          "feature_version": "intraday_features_v1",
+          "horizon_minutes": 240,
+          "name": "compression_breakout[n=24,pct=0.35]:1h:short",
+          "parameters": {
+            "baseline_digest": "d6c9e4a060b69b02da40c3a260a40a337aaa8a3007e6ac382ce87ca089b7c4ad",
+            "scientific_verdict_reasons": [
+              "contemporary net effect credibly negative"
+            ],
+            "strategy": {
+              "baseline": "breakout[n=24]:1h:short",
+              "bh_family": "compression",
+              "catalogue": "intraday_catalogue_v1",
+              "complexity": {
+                "conditions": 2,
+                "feature_families": 2,
+                "score": 6,
+                "thresholds": 2,
+                "timeframes": 1
+              },
+              "context_timeframe": "none",
+              "entry": "next_15m_open_after_availability_v1",
+              "exit": "fixed_horizon_close_v1",
+              "family": "e_compression",
+              "feature_version": "intraday_features_v1",
+              "horizons": [
+                1,
+                4,
+                12
+              ],
+              "hypothesis": "[mirror] A breakout from a compressed range continues.",
+              "params": [
+                [
+                  "n",
+                  24
+                ],
+                [
+                  "pct",
+                  0.35
+                ]
+              ],
+              "primary_horizon": 4,
+              "rule": "compression_breakout",
+              "side": "short",
+              "symmetric": true,
+              "timeframe": "1h",
+              "universe": "all"
+            },
+            "strategy_id": "istrat_9e255e3fd5a28936679d2a0e6d63799acb1c94db4eff931829fe31ee22823018",
+            "warmup_rule": "required_primitives_finite_current_and_previous_v1"
+          },
+          "scientific_verdict": "REJECTED",
+          "side": "short",
+          "source_key": "compression_breakout[n=24,pct=0.35]:1h:short",
+          "source_phase": 22
+        },
+        "execution_mapping": {
+          "cooldown_minutes": 30,
+          "expiry_minutes": 60,
+          "max_hold_minutes": 240,
+          "objective": "volatility",
+          "state_rule": "price_structure_only"
+        },
+        "hypothesis_id": "paperhyp_v2_c0bf366033db18e84ba45d5caea1cc03617859eb43d302467e733d9049704c7a"
+      },
+      {
+        "definition": {
+          "cadence_minutes": 60,
+          "definition_version": "paper_hypothesis_v2_1",
+          "family": "EXPLORATORY_TECHNICAL_CONTROL:expansion_exhaustion",
+          "feature_version": "intraday_features_v1",
+          "horizon_minutes": 240,
+          "name": "expansion_continuation[k=3.0]:1h:short",
+          "parameters": {
+            "baseline_digest": "d6c9e4a060b69b02da40c3a260a40a337aaa8a3007e6ac382ce87ca089b7c4ad",
+            "scientific_verdict_reasons": [
+              "contemporary net effect credibly negative"
+            ],
+            "strategy": {
+              "baseline": null,
+              "bh_family": "expansion_exhaustion",
+              "catalogue": "intraday_catalogue_v1",
+              "complexity": {
+                "conditions": 3,
+                "feature_families": 2,
+                "score": 6,
+                "thresholds": 1,
+                "timeframes": 1
+              },
+              "context_timeframe": "none",
+              "entry": "next_15m_open_after_availability_v1",
+              "exit": "fixed_horizon_close_v1",
+              "family": "h_expansion",
+              "feature_version": "intraday_features_v1",
+              "horizons": [
+                1,
+                4,
+                12
+              ],
+              "hypothesis": "[mirror] An abnormally large up-bar closing near its high continues.",
+              "params": [
+                [
+                  "k",
+                  3.0
+                ]
+              ],
+              "primary_horizon": 4,
+              "rule": "expansion_continuation",
+              "side": "short",
+              "symmetric": true,
+              "timeframe": "1h",
+              "universe": "all"
+            },
+            "strategy_id": "istrat_e507ad0e30b8d5a2cccedad58fa07a9e89a0eb93f50c343474bb70ede0dc56d6",
+            "warmup_rule": "required_primitives_finite_current_and_previous_v1"
+          },
+          "scientific_verdict": "REJECTED",
+          "side": "short",
+          "source_key": "expansion_continuation[k=3.0]:1h:short",
+          "source_phase": 22
+        },
+        "execution_mapping": {
+          "cooldown_minutes": 30,
+          "expiry_minutes": 60,
+          "max_hold_minutes": 240,
+          "objective": "volatility",
+          "state_rule": "price_structure_only"
+        },
+        "hypothesis_id": "paperhyp_v2_6857186d84739a33692d90a88980acda46406fcb84a4c18a2fff4d7fc6a21981"
+      },
+      {
+        "definition": {
+          "cadence_minutes": 60,
+          "definition_version": "paper_hypothesis_v2_1",
+          "family": "EXPLORATORY_TECHNICAL_CONTROL:expansion_exhaustion",
+          "feature_version": "intraday_features_v1",
+          "horizon_minutes": 240,
+          "name": "expansion_fade[k=3.0]:1h:short",
+          "parameters": {
+            "baseline_digest": "d6c9e4a060b69b02da40c3a260a40a337aaa8a3007e6ac382ce87ca089b7c4ad",
+            "scientific_verdict_reasons": [
+              "contemporary net effect credibly negative"
+            ],
+            "strategy": {
+              "baseline": null,
+              "bh_family": "expansion_exhaustion",
+              "catalogue": "intraday_catalogue_v1",
+              "complexity": {
+                "conditions": 3,
+                "feature_families": 2,
+                "score": 6,
+                "thresholds": 1,
+                "timeframes": 1
+              },
+              "context_timeframe": "none",
+              "entry": "next_15m_open_after_availability_v1",
+              "exit": "fixed_horizon_close_v1",
+              "family": "h_expansion",
+              "feature_version": "intraday_features_v1",
+              "horizons": [
+                1,
+                4,
+                12
+              ],
+              "hypothesis": "[mirror] An abnormally large down-bar closing near its low reverts upward.",
+              "params": [
+                [
+                  "k",
+                  3.0
+                ]
+              ],
+              "primary_horizon": 4,
+              "rule": "expansion_fade",
+              "side": "short",
+              "symmetric": true,
+              "timeframe": "1h",
+              "universe": "all"
+            },
+            "strategy_id": "istrat_85d676c644398ed5618866230cb96ed1196c04e12640500a5185d0466ebbed0c",
+            "warmup_rule": "required_primitives_finite_current_and_previous_v1"
+          },
+          "scientific_verdict": "REJECTED",
+          "side": "short",
+          "source_key": "expansion_fade[k=3.0]:1h:short",
+          "source_phase": 22
+        },
+        "execution_mapping": {
+          "cooldown_minutes": 30,
+          "expiry_minutes": 60,
+          "max_hold_minutes": 240,
+          "objective": "volatility",
+          "state_rule": "price_structure_only"
+        },
+        "hypothesis_id": "paperhyp_v2_48036ddceeebb266dd76acdc89f8a255f76688cba271abd1ebe895beef84de78"
+      },
+      {
+        "definition": {
+          "cadence_minutes": 60,
+          "definition_version": "paper_hypothesis_v2_1",
+          "family": "EXPLORATORY_TECHNICAL_CONTROL:expansion_exhaustion",
+          "feature_version": "intraday_features_v1",
+          "horizon_minutes": 240,
+          "name": "exhaustion[n=24,z=3.0,strong_close=no]:1h:short",
+          "parameters": {
+            "baseline_digest": "d6c9e4a060b69b02da40c3a260a40a337aaa8a3007e6ac382ce87ca089b7c4ad",
+            "scientific_verdict_reasons": [
+              "contemporary net effect credibly negative"
+            ],
+            "strategy": {
+              "baseline": null,
+              "bh_family": "expansion_exhaustion",
+              "catalogue": "intraday_catalogue_v1",
+              "complexity": {
+                "conditions": 2,
+                "feature_families": 2,
+                "score": 6,
+                "thresholds": 2,
+                "timeframes": 1
+              },
+              "context_timeframe": "none",
+              "entry": "next_15m_open_after_availability_v1",
+              "exit": "fixed_horizon_close_v1",
+              "family": "i_exhaustion",
+              "feature_version": "intraday_features_v1",
+              "horizons": [
+                1,
+                4,
+                12
+              ],
+              "hypothesis": "[mirror] After an extreme n-bar decline (optionally with a strong close) price rebounds.",
+              "params": [
+                [
+                  "n",
+                  24
+                ],
+                [
+                  "z",
+                  3.0
+                ],
+                [
+                  "strong_close",
+                  "no"
+                ]
+              ],
+              "primary_horizon": 4,
+              "rule": "exhaustion",
+              "side": "short",
+              "symmetric": true,
+              "timeframe": "1h",
+              "universe": "all"
+            },
+            "strategy_id": "istrat_2d01d0221012a7b4593cb1e2e69ccc4ce817e1976758b18799e2b765455697ca",
+            "warmup_rule": "required_primitives_finite_current_and_previous_v1"
+          },
+          "scientific_verdict": "REJECTED",
+          "side": "short",
+          "source_key": "exhaustion[n=24,z=3.0,strong_close=no]:1h:short",
+          "source_phase": 22
+        },
+        "execution_mapping": {
+          "cooldown_minutes": 30,
+          "expiry_minutes": 60,
+          "max_hold_minutes": 240,
+          "objective": "volatility",
+          "state_rule": "price_structure_only"
+        },
+        "hypothesis_id": "paperhyp_v2_cb375f99692e23ac79d317dc19bfd94f30f0640ef7fa251dd274e9f26f998f35"
+      },
+      {
+        "definition": {
+          "cadence_minutes": 60,
+          "definition_version": "paper_hypothesis_v2_1",
+          "family": "positioning:crowding_vulnerability",
+          "feature_version": "positioning_context_v1",
+          "horizon_minutes": 120,
+          "name": "crowding_vulnerability_long_v1",
+          "parameters": {
+            "funding_hourly_extreme": 2.5e-05,
+            "oi_change_1h_pct_min": 0.5,
+            "price_progress_1h_pct": 0.1,
+            "skew": "crowded_short_like"
+          },
+          "scientific_verdict": null,
+          "side": "long",
+          "source_key": "crowding_vulnerability",
+          "source_phase": 23
+        },
+        "execution_mapping": {
+          "cooldown_minutes": 15,
+          "expiry_minutes": 60,
+          "max_hold_minutes": 240,
+          "objective": "risk_multiple",
+          "state_rule": "crowding_normalized"
+        },
+        "hypothesis_id": "paperhyp_v2_672988356720caab07c14a0b4e45290a4cc369efa044d8765edbeaf431fa8822"
+      },
+      {
+        "definition": {
+          "cadence_minutes": 60,
+          "definition_version": "paper_hypothesis_v2_1",
+          "family": "positioning:crowding_vulnerability",
+          "feature_version": "positioning_context_v1",
+          "horizon_minutes": 120,
+          "name": "crowding_vulnerability_short_v1",
+          "parameters": {
+            "funding_hourly_extreme": 2.5e-05,
+            "oi_change_1h_pct_min": 0.5,
+            "price_progress_1h_pct": 0.1,
+            "skew": "crowded_long_like"
+          },
+          "scientific_verdict": null,
+          "side": "short",
+          "source_key": "crowding_vulnerability",
+          "source_phase": 23
+        },
+        "execution_mapping": {
+          "cooldown_minutes": 15,
+          "expiry_minutes": 60,
+          "max_hold_minutes": 240,
+          "objective": "risk_multiple",
+          "state_rule": "crowding_normalized"
+        },
+        "hypothesis_id": "paperhyp_v2_f75753d15d5b2d3daeb002c2f7fcb5a70111865f853b612ec3de2b536a4fc48d"
+      },
+      {
+        "definition": {
+          "cadence_minutes": 60,
+          "definition_version": "paper_hypothesis_v2_1",
+          "family": "positioning:oi_price_stall",
+          "feature_version": "positioning_context_v1",
+          "horizon_minutes": 60,
+          "name": "oi_price_stall_long_v1",
+          "parameters": {
+            "funding_hourly_extreme": 2.5e-05,
+            "oi_change_1h_pct_min": 0.5,
+            "price_progress_1h_pct": 0.1,
+            "skew": "crowded_short_like"
+          },
+          "scientific_verdict": null,
+          "side": "long",
+          "source_key": "oi_price_stall",
+          "source_phase": 23
+        },
+        "execution_mapping": {
+          "cooldown_minutes": 15,
+          "expiry_minutes": 30,
+          "max_hold_minutes": 60,
+          "objective": "risk_multiple",
+          "state_rule": "oi_expansion_lost"
+        },
+        "hypothesis_id": "paperhyp_v2_e60fe0f969b10d7b36c3ed8e071b8935af6fe31107f2b9fbc13fff0b011c7ab8"
+      },
+      {
+        "definition": {
+          "cadence_minutes": 60,
+          "definition_version": "paper_hypothesis_v2_1",
+          "family": "positioning:oi_price_stall",
+          "feature_version": "positioning_context_v1",
+          "horizon_minutes": 60,
+          "name": "oi_price_stall_short_v1",
+          "parameters": {
+            "funding_hourly_extreme": 2.5e-05,
+            "oi_change_1h_pct_min": 0.5,
+            "price_progress_1h_pct": 0.1,
+            "skew": "crowded_long_like"
+          },
+          "scientific_verdict": null,
+          "side": "short",
+          "source_key": "oi_price_stall",
+          "source_phase": 23
+        },
+        "execution_mapping": {
+          "cooldown_minutes": 15,
+          "expiry_minutes": 30,
+          "max_hold_minutes": 60,
+          "objective": "risk_multiple",
+          "state_rule": "oi_expansion_lost"
+        },
+        "hypothesis_id": "paperhyp_v2_5f43b14ed741a2f5ef131467b08f7a2a3d75a9a2f1794ebfb60f0aecb34478d2"
+      },
+      {
+        "definition": {
+          "cadence_minutes": 60,
+          "definition_version": "paper_hypothesis_v2_1",
+          "family": "positioning:oi_directional_pressure",
+          "feature_version": "positioning_context_v1",
+          "horizon_minutes": 120,
+          "name": "oi_directional_pressure_long_v1",
+          "parameters": {
+            "funding_hourly_extreme": 2.5e-05,
+            "oi_change_1h_pct_min": 0.5,
+            "price_progress_1h_pct": 0.1,
+            "skew": "crowded_short_like"
+          },
+          "scientific_verdict": null,
+          "side": "long",
+          "source_key": "oi_directional_pressure",
+          "source_phase": 23
+        },
+        "execution_mapping": {
+          "cooldown_minutes": 15,
+          "expiry_minutes": 60,
+          "max_hold_minutes": 120,
+          "objective": "risk_multiple",
+          "state_rule": "oi_expansion_lost"
+        },
+        "hypothesis_id": "paperhyp_v2_4b9fa473fb35d9ad580154e1ecf9ee3c9bdb2ebea84f55a14f276bb28742abb1"
+      },
+      {
+        "definition": {
+          "cadence_minutes": 60,
+          "definition_version": "paper_hypothesis_v2_1",
+          "family": "positioning:oi_directional_pressure",
+          "feature_version": "positioning_context_v1",
+          "horizon_minutes": 120,
+          "name": "oi_directional_pressure_short_v1",
+          "parameters": {
+            "funding_hourly_extreme": 2.5e-05,
+            "oi_change_1h_pct_min": 0.5,
+            "price_progress_1h_pct": 0.1,
+            "skew": "crowded_long_like"
+          },
+          "scientific_verdict": null,
+          "side": "short",
+          "source_key": "oi_directional_pressure",
+          "source_phase": 23
+        },
+        "execution_mapping": {
+          "cooldown_minutes": 15,
+          "expiry_minutes": 60,
+          "max_hold_minutes": 120,
+          "objective": "risk_multiple",
+          "state_rule": "oi_expansion_lost"
+        },
+        "hypothesis_id": "paperhyp_v2_6e5d73727648c2e55a05d8a93a4d23e200e852ea58eeb6d7d23a665baf34ef52"
+      },
+      {
+        "definition": {
+          "cadence_minutes": 15,
+          "definition_version": "paper_hypothesis_v2_1",
+          "family": "microstructure:flow_continuation",
+          "feature_version": "microdir_features_v1",
+          "horizon_minutes": 15,
+          "name": "continuation_core_long_v1",
+          "parameters": {
+            "action": "follow",
+            "normalization_min_prior_windows": 288,
+            "requires": [
+              "resp_efficient"
+            ]
+          },
+          "scientific_verdict": null,
+          "side": "long",
+          "source_key": "continuation_core",
+          "source_phase": 24
+        },
+        "execution_mapping": {
+          "cooldown_minutes": 2,
+          "expiry_minutes": 5,
+          "max_hold_minutes": 15,
+          "objective": "volatility",
+          "state_rule": "flow_reversal_two_minutes"
+        },
+        "hypothesis_id": "paperhyp_v2_14d6230d07e127eae327ed4101446da8443ca60dbbf0664e0e7ac5adf15f827f"
+      },
+      {
+        "definition": {
+          "cadence_minutes": 15,
+          "definition_version": "paper_hypothesis_v2_1",
+          "family": "microstructure:flow_continuation",
+          "feature_version": "microdir_features_v1",
+          "horizon_minutes": 15,
+          "name": "continuation_core_short_v1",
+          "parameters": {
+            "action": "follow",
+            "normalization_min_prior_windows": 288,
+            "requires": [
+              "resp_efficient"
+            ]
+          },
+          "scientific_verdict": null,
+          "side": "short",
+          "source_key": "continuation_core",
+          "source_phase": 24
+        },
+        "execution_mapping": {
+          "cooldown_minutes": 2,
+          "expiry_minutes": 5,
+          "max_hold_minutes": 15,
+          "objective": "volatility",
+          "state_rule": "flow_reversal_two_minutes"
+        },
+        "hypothesis_id": "paperhyp_v2_f75d2f195e2a3c171806b813eb780b9f040bb73c297f66c9840b488dfc7e85ae"
+      },
+      {
+        "definition": {
+          "cadence_minutes": 15,
+          "definition_version": "paper_hypothesis_v2_1",
+          "family": "microstructure:absorption",
+          "feature_version": "microdir_features_v1",
+          "horizon_minutes": 60,
+          "name": "absorption_book_long_v1",
+          "parameters": {
+            "action": "fade",
+            "normalization_min_prior_windows": 288,
+            "requires": [
+              "resp_weak",
+              "opp_resilient"
+            ]
+          },
+          "scientific_verdict": null,
+          "side": "long",
+          "source_key": "absorption_book",
+          "source_phase": 24
+        },
+        "execution_mapping": {
+          "cooldown_minutes": 5,
+          "expiry_minutes": 30,
+          "max_hold_minutes": 60,
+          "objective": "structural",
+          "state_rule": "absorption_defence_lost"
+        },
+        "hypothesis_id": "paperhyp_v2_7c81a1f65eb9dd82de3bec0309e7e3b84052b9d7bdf741e9f637bbbb838e16f8"
+      },
+      {
+        "definition": {
+          "cadence_minutes": 15,
+          "definition_version": "paper_hypothesis_v2_1",
+          "family": "microstructure:absorption",
+          "feature_version": "microdir_features_v1",
+          "horizon_minutes": 60,
+          "name": "absorption_book_short_v1",
+          "parameters": {
+            "action": "fade",
+            "normalization_min_prior_windows": 288,
+            "requires": [
+              "resp_weak",
+              "opp_resilient"
+            ]
+          },
+          "scientific_verdict": null,
+          "side": "short",
+          "source_key": "absorption_book",
+          "source_phase": 24
+        },
+        "execution_mapping": {
+          "cooldown_minutes": 5,
+          "expiry_minutes": 30,
+          "max_hold_minutes": 60,
+          "objective": "structural",
+          "state_rule": "absorption_defence_lost"
+        },
+        "hypothesis_id": "paperhyp_v2_1eb184810cdb3037859a08c1ceb22f27cd2cd1f0e58e645695c4ce5a3e30d5c8"
+      },
+      {
+        "definition": {
+          "cadence_minutes": 15,
+          "definition_version": "paper_hypothesis_v2_1",
+          "family": "microstructure:absorption_oi",
+          "feature_version": "microdir_features_v1",
+          "horizon_minutes": 60,
+          "name": "absorption_oi_rising_long_v1",
+          "parameters": {
+            "action": "fade",
+            "normalization_min_prior_windows": 288,
+            "requires": [
+              "resp_weak",
+              "oi_rising"
+            ]
+          },
+          "scientific_verdict": null,
+          "side": "long",
+          "source_key": "absorption_oi_rising",
+          "source_phase": 24
+        },
+        "execution_mapping": {
+          "cooldown_minutes": 5,
+          "expiry_minutes": 30,
+          "max_hold_minutes": 60,
+          "objective": "structural",
+          "state_rule": "absorption_defence_lost"
+        },
+        "hypothesis_id": "paperhyp_v2_6d6616222bb56ba0cf50b14578c2c8c2184ed65fa1418c2460bf86a65d465172"
+      },
+      {
+        "definition": {
+          "cadence_minutes": 15,
+          "definition_version": "paper_hypothesis_v2_1",
+          "family": "microstructure:absorption_oi",
+          "feature_version": "microdir_features_v1",
+          "horizon_minutes": 60,
+          "name": "absorption_oi_rising_short_v1",
+          "parameters": {
+            "action": "fade",
+            "normalization_min_prior_windows": 288,
+            "requires": [
+              "resp_weak",
+              "oi_rising"
+            ]
+          },
+          "scientific_verdict": null,
+          "side": "short",
+          "source_key": "absorption_oi_rising",
+          "source_phase": 24
+        },
+        "execution_mapping": {
+          "cooldown_minutes": 5,
+          "expiry_minutes": 30,
+          "max_hold_minutes": 60,
+          "objective": "structural",
+          "state_rule": "absorption_defence_lost"
+        },
+        "hypothesis_id": "paperhyp_v2_4fe3778139d43857f196b756e75788eda9a5aaa5e1b283ce402471efc044f0c7"
+      },
+      {
+        "definition": {
+          "cadence_minutes": 15,
+          "definition_version": "paper_hypothesis_v2_1",
+          "family": "microstructure:persistence",
+          "feature_version": "microdir_features_v1",
+          "horizon_minutes": 30,
+          "name": "continuation_persistent_long_v1",
+          "parameters": {
+            "action": "follow",
+            "normalization_min_prior_windows": 288,
+            "requires": [
+              "resp_efficient",
+              "persistent"
+            ]
+          },
+          "scientific_verdict": null,
+          "side": "long",
+          "source_key": "continuation_persistent",
+          "source_phase": 24
+        },
+        "execution_mapping": {
+          "cooldown_minutes": 5,
+          "expiry_minutes": 15,
+          "max_hold_minutes": 30,
+          "objective": "volatility",
+          "state_rule": "flow_reversal_two_minutes"
+        },
+        "hypothesis_id": "paperhyp_v2_d593dea703587a4e6623be91fe5199cd6ca91118539abc044288fa29dec2f2be"
+      },
+      {
+        "definition": {
+          "cadence_minutes": 15,
+          "definition_version": "paper_hypothesis_v2_1",
+          "family": "microstructure:persistence",
+          "feature_version": "microdir_features_v1",
+          "horizon_minutes": 30,
+          "name": "continuation_persistent_short_v1",
+          "parameters": {
+            "action": "follow",
+            "normalization_min_prior_windows": 288,
+            "requires": [
+              "resp_efficient",
+              "persistent"
+            ]
+          },
+          "scientific_verdict": null,
+          "side": "short",
+          "source_key": "continuation_persistent",
+          "source_phase": 24
+        },
+        "execution_mapping": {
+          "cooldown_minutes": 5,
+          "expiry_minutes": 15,
+          "max_hold_minutes": 30,
+          "objective": "volatility",
+          "state_rule": "flow_reversal_two_minutes"
+        },
+        "hypothesis_id": "paperhyp_v2_df1f436fd5ec5aaf5340d080215812628526a4f799d1c55e0b6a0de72225dcbb"
+      }
+    ],
+    "identical": [
+      "universe_ranking_source",
+      "hypothesis_definition_version",
+      "asset",
+      "side",
+      "thesis",
+      "entry_eligibility",
+      "entry_timing",
+      "quote_source",
+      "stop_invalidation",
+      "volatility_move_input",
+      "target",
+      "expiry",
+      "max_hold",
+      "exit_logic",
+      "fee_model",
+      "base_slippage_classification",
+      "funding_treatment",
+      "market_data_availability",
+      "hypothesis_cooldown_rule",
+      "lifecycle_semantics",
+      "admission_priority",
+      "hypothesis_degradation_rule",
+      "episode_deduplication_rule"
+    ],
+    "lifecycle": "same state machine and exit predicates; candidate drawdown admission halt leaves monitoring/exits/funding/accounting obligations active",
+    "priority": "economic_ratio_desc_score_desc_asset_hypothesis_signal; identical frozen source priority inputs; no cohort-dependent reorder",
+    "rule_manifest_hash": "69050ae79e786f08978ab66628b3ba7cd2d5865712c3adbcf41f814980b95250",
+    "universe_policy_definition": {
+      "blend_weights": [
+        0.45,
+        0.35,
+        0.2
+      ],
+      "budget_cpu_seconds_per_minute_max": 30,
+      "budget_max_age_seconds": 86400,
+      "budget_minimum_runway_days": 30,
+      "cadence_seconds": 600,
+      "candidate_cap": 30,
+      "cost_version": "depth_impact_conservative_v1",
+      "demotion_evaluations": 6,
+      "demotion_rank": 10,
+      "depth_usd_min": 25000,
+      "fee_bps": 4.5,
+      "funding_max_age_minutes": 80,
+      "light_max_gap_seconds": 900,
+      "light_observations": 7,
+      "listing_days": 7,
+      "micro_history_days": 7,
+      "micro_prior_windows": 288,
+      "minimum_dwell_seconds": 21600,
+      "movement_cost_multiple": 3,
+      "movement_version": "prospective_10m_log_rv_elapsed_scaled_1h_v1",
+      "movement_weights": [
+        0.5,
+        0.3,
+        0.2
+      ],
+      "normalization_version": "finite_cross_section_midrank_missing_zero_v1",
+      "oi_usd_min": 2000000,
+      "outcome_minutes": [
+        15,
+        30,
+        60,
+        120,
+        240
+      ],
+      "participation_weights": [
+        0.4,
+        0.3,
+        0.3
+      ],
+      "portability_version": "hyperliquid_satellite_portability_v1",
+      "positioning_max_history_minutes": 140,
+      "positioning_observations": 2,
+      "positioning_weights": [
+        0.5,
+        0.3,
+        0.2
+      ],
+      "promotion_evaluations": 3,
+      "promotion_rank": 6,
+      "reference_notional_usd": 100,
+      "rich_satellite_cap": 6,
+      "satellite_cap": 6,
+      "score_min": 0.35,
+      "size_decimals_max": 8,
+      "slippage_floor_bps": 3,
+      "spread_bps_max": 15,
+      "stale_seconds": 180,
+      "technical_history_days": 45,
+      "trades_per_minute_min": 2,
+      "transition_version": "consecutive_rank_dwell_risk_override_v1",
+      "version": "hyperliquid_dynamic_universe_v1",
+      "volume_usd_min": 5000000
+    },
+    "universe_policy_id": "universepolicy_5f88b1dcdf20d7d19047edffab329076d7a63936f8c0916c21ffc83bcf4d56ff"
+  },
+  "signal_contract": {
+    "account_filters": "support/conflict, episode deduplication, cooldown, degradation, capacity and halt applied locally using unchanged rules",
+    "dispatch": "every source row produces exactly two cohort decisions including unavailable/halted; no dropped rows, no backfills before start frontier",
+    "generation": "one causal source stream before account-dependent admit; one immutable source record fan-out to both cohorts",
+    "pins": "cohort risk pins retain lifecycle data; they cannot confer source entry eligibility or alter ranking/promotion; shared acquisition must cover union of obligations without selection feedback",
+    "principle": "Cohort assignment must not change whether the underlying trade idea exists.",
+    "prohibited_upstream_inputs": [
+      "cohort_id",
+      "run_id",
+      "account_snapshot",
+      "equity",
+      "capacity",
+      "PnL",
+      "drawdown",
+      "halt",
+      "admission",
+      "degradation",
+      "cooldown_from_cohort"
+    ],
+    "schedule": "same source evaluation batch and quote frontier; prior fills/exits/funding/marks applied in current engine order, identical timestamp ordering across cohorts; source priority evaluated before account filters",
+    "source_eligibility": "hypothesis registration/side/predicate, causal timing, warmup, health, context, universe readiness, shared quote/funding availability, thesis geometry and current base-cost economics; no account state",
+    "timing": "same first observed fresh future bid/ask after intent; no cohort choosing a better quote; later source ideas can have divergent admission; rejected opportunity is never retried using a later quote under same ID"
+  },
+  "slippage_limitation": {
+    "historical_model": "research-only candidate sqrt impact remains frozen in original policy/evidence/replay; not used by either prospective arm",
+    "qualification": "common current paper model removes role-dependent cost confounding, but omits extra quantity-dependent impact. Conclusions are conditional on simulated costs, not prospectively validated venue execution or market impact.",
+    "shared_model": "both prospective arms use impact=none current paper cost law, identical snapshot/classification, fees, funding and rounding; dollars differ with quantity, bps are quantity-invariant at a shared snapshot",
+    "statement": "Current size-dependent slippage is a modeled assumption, not yet prospectively validated.",
+    "validation": "retain contemporaneous quotes/depth/price bands/model predictions and simulated fills for every source and trade; simulated fill agreement is not real execution validation; no mid-cohort recalibration"
+  },
+  "spec_id": "prospective_sizing_cohort_v2",
+  "start_gate": {
+    "all_required": true,
+    "current_state": "NOT_EVALUATED_NOT_AUTHORIZED",
+    "prerequisites": [
+      "OVH zero-authority soak PASS or explicitly approved PASS WITH LIMITATION",
+      "rehearsal authority passes",
+      "Dynamic Universe baseline path operational",
+      "required warmup/readiness gates satisfied naturally without backdating",
+      "baseline commissioning gate passes",
+      "current merged full suite passes on activation revision",
+      "real entry evidence records positive causal volatility_move with correct definition/version and immutable lifecycle propagation",
+      "read-only offline sizing replay reconciles every finalized historical trade: control units/notional/net PnL within existing reconcile tolerances, no unexplained discrepancy; unavailable legacy inputs disclosed",
+      "future dispatcher/lifecycle rehearsal proves complete pairing, shared cost snapshot and adapter binding, fail-closed inputs, exact frozen control, throttle/halt and lifecycle behavior without authority",
+      "activation metadata sealed before first source opportunity, paper-only authority boundary verified",
+      "explicit user approval to register/activate both named cohorts under this frozen common prospective cost model"
+    ]
+  }
+}

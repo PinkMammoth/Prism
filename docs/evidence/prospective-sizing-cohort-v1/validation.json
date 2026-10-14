@@ -1,0 +1,46 @@
+{
+  "spec_id": "prospective_sizing_cohort_v1",
+  "spec_sha256": "a0a06bf429b405c9dc45423fa6aa09fd17b746b3ec1194b02fd5643ee78116dd",
+  "based_on_main_revision": "6c2530a08d902c356cd6f76c74d5954c2e481763",
+  "focused": {
+    "command": ".venv/bin/pytest tests/test_prospective_sizing_cohort_spec.py tests/test_risk_sizing.py",
+    "passed": 93,
+    "failed": 0,
+    "status": "PASS",
+    "log_sha256": "d469a94d5a0c775c91ed56d9d6e455d33ce67e205b35057ac6a3570723514bc8"
+  },
+  "full_suite": {
+    "command": "timeout --foreground 1800 .venv/bin/pytest -n 8 --dist loadfile --junitxml=/tmp/prism-prospective-sizing-final-full-suite.xml",
+    "environment": "local, outside sandbox (local async IPC smoke passes; sandbox smoke times out)",
+    "collected": 1667,
+    "reported_passed": 1610,
+    "reported_failed": 0,
+    "reported_errors": 0,
+    "uncompleted": 57,
+    "exit_code": 124,
+    "status": "INCOMPLETE_TIMEOUT_NOT_PASS",
+    "time_limit_seconds": 1800,
+    "log_sha256": "a7a1d759f3b2b498c7b1c37781842e2bc041c022f9d6a448e19e6562ae606398",
+    "start_gate_proven": false
+  },
+  "format_and_lint": "PASS for added Python files; git diff --check clean",
+  "activation": {
+    "existing_prospective_enabled": false,
+    "existing_prospective_registered": false,
+    "cohorts_registered": false,
+    "cohorts_started": false,
+    "lab_paper_accounts_created": false,
+    "runtime_or_profile_changed": false,
+    "deployed": false,
+    "railway_action": false,
+    "ovh_action": false,
+    "dynamic_universe_activated": false,
+    "current_sizing_changed": false
+  },
+  "limitations": [
+    "full merged suite not proven PASS in this session; repeat to completion before later activation",
+    "exact approved control/candidate impact flags differ; no pure cost-parity inference",
+    "future adapter/runtime profile and sealed activation facts remain pending",
+    "single correlated account paths/causal-regime availability may prevent robust inference"
+  ]
+}
