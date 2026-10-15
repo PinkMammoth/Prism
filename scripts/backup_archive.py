@@ -50,7 +50,8 @@ z=zlib.compressobj(6,zlib.DEFLATED,31)
 with open(sys.argv[1], 'rb') as f:
     while chunk:=f.read(2**20):
         data=z.compress(chunk)
-        if data: print('PRISM_CHUNK '+base64.b64encode(data).decode(),flush=True)
+        for start in range(0,len(data),16384):
+            print('PRISM_CHUNK '+base64.b64encode(data[start:start+16384]).decode(),flush=True)
 print('PRISM_CHUNK '+base64.b64encode(z.flush()).decode(),flush=True)
 print('PRISM_DONE',flush=True)
 """
