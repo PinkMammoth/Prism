@@ -1,0 +1,40 @@
+# Research off-host backup (Google Drive via restic+rclone). Separate backup identity;
+# reads the sealed Research DB only. Never a DB writer; never claims runtime authority.
+[Unit]
+Description=Prism Research backup -> Google Drive (verify upload, restore-from-Drive, prune)
+After=network-online.target
+Wants=network-online.target
+# Hourly retry after failure (Restart=on-failure below), at most 6 attempts per day.
+StartLimitIntervalSec=1d
+StartLimitBurst=6
+
+[Service]
+Type=oneshot
+User=prism-research-backup
+Group=prism-research-backup
+SupplementaryGroups=prism-research
+UMask=0077
+WorkingDirectory=/opt/prism/research/current
+EnvironmentFile=/etc/prism-research-backup/backup.env
+Environment=HOME=/var/lib/prism-research-backup
+Environment=PATH=/opt/prism/research-backup/tools/bin:/usr/bin:/bin
+ExecCondition=/usr/bin/test -s /etc/prism-research-backup/restic-password
+ExecStart=/opt/prism/research/current/.venv/bin/python /opt/prism/research/current/scripts/research_backup.py scheduled --config /etc/prism-research-backup/backup.json
+Restart=on-failure
+RestartSec=1h
+TimeoutStartSec=3h
+Nice=19
+IOSchedulingClass=idle
+CPUQuota=100%
+MemoryMax=3G
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=yes
+ReadWritePaths=/var/lib/prism-research-backup /etc/prism-research-backup
+ReadOnlyPaths=/var/lib/prism-research/import
+InaccessiblePaths=/data /etc/prism
+ProtectKernelTunables=yes
+ProtectControlGroups=yes
+RestrictSUIDSGID=yes
+LockPersonality=yes

@@ -1,0 +1,11 @@
+# Nightly; clear of the Lab backup (01:30 UTC). Persistent catches a missed run after boot.
+[Unit]
+Description=Nightly Prism Research backup to Google Drive
+
+[Timer]
+OnCalendar=*-*-* 03:15:00 UTC
+RandomizedDelaySec=10min
+Persistent=true
+
+[Install]
+WantedBy=timers.target

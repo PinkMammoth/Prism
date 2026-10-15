@@ -1,8 +1,14 @@
 {
-  "approved_independent_destination": false,
-  "dedicated_repository": false,
-  "destination_id": "UNCONFIGURED",
-  "retention": "7 daily, 4 weekly, 3 monthly; host/tag scoped",
-  "local_retention": "one verified compressed generation; transient restore staging",
-  "activation_gate": "Choose independent provider/account/bucket, provision credentials, install restic, initialize dedicated encrypted repository, prove off-host recovery before any authority transfer."
+  "approved_independent_destination": true,
+  "dedicated_repository": true,
+  "destination_id": "google-drive:Prism/backups/research (rclone drive.file scope)",
+  "manifest_remote": "prism-gdrive:Prism/backups/research/manifests",
+  "retention": {"daily": 7, "weekly": 4, "monthly": 3},
+  "db": "/var/lib/prism-research/import/prism.duckdb",
+  "source_descriptor": "/etc/prism-research-backup/source.json",
+  "local_root": "/var/lib/prism-research-backup/generations",
+  "scratch_root": "/var/lib/prism-research-backup/scratch",
+  "status_path": "/var/lib/prism-research-backup/state/last-run.json",
+  "local_retention": "latest generation; plus the last off-host-verified one until the new one is verified",
+  "authority_note": "Non-authoritative imported candidate. A future authoritative Research writer must hand this pipeline a sealed backup produced under its owner lock/checkpoint protocol."
 }
