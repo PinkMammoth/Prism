@@ -190,8 +190,10 @@ grants in the Google account if needed. Client secret: rotate in the Cloud conso
 Held **outside** the VPS (password manager of the owner):
 
 1. **Restic custodian recovery password** — a second repository key added by the owner
-   with `research_backup_recovery_key.sh` (key host `custodian-recovery`). Losing the VPS
-   machine key does not lose the backups.
+   with `research_backup_recovery_key.sh` (key `6f78b5ae…`, host `custodian-recovery`,
+   2026-10-15 17:38Z) and **proven to open the repository without the VPS key**. The VPS
+   machine key is `b6a269bc…`. Losing the VPS key does not lose the backups
+   ([recovery-keys.log](evidence/google-drive-backup/20261015/recovery-keys.log)).
 2. **OAuth client JSON** for the Desktop client (`client_secret_848206253839-….json`; the client ID is not secret, the secret is), because
    `drive.file` access is per client. Fallback without it: download
    `Prism/backups/research/restic/` from the Drive web UI and use it as a local repository.

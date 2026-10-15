@@ -14,4 +14,8 @@ echo "Step 1/2: choose a NEW recovery password (store it in your password manage
 run 'restic --no-cache key add --host custodian-recovery --user prism-owner'
 echo "Step 2/2: type the SAME recovery password again to prove it works without the VPS key."
 run 'unset RESTIC_PASSWORD_FILE; restic --no-cache cat config >/dev/null && echo "recovery key verified: repository opened without the VPS key"'
-run 'restic --no-cache key list --json' | python3 -I -c 'import json,sys; k=json.load(sys.stdin); print(f"repository keys: {len(k)} ({sorted(x[\"hostName\"] for x in k)})")'
+run 'restic --no-cache key list --json' | python3 -I -c '
+import json, sys
+keys = json.load(sys.stdin)
+print("repository keys:", len(keys), sorted(k["hostName"] for k in keys))
+'

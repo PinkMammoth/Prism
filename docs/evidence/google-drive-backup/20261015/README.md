@@ -20,6 +20,8 @@ No authority transfer; no secret values. See [GOOGLE_DRIVE_BACKUP_RECOVERY.md](.
 - `automation-and-permissions.log`: timer enabled, credential file owners/modes (sizes of secret files
   redacted), Research/Lab users cannot read credentials, zero token strings in the journal.
 - `tests.log`: focused test run.
+- `recovery-keys.log`: two repository keys — VPS machine key and the owner's custodian recovery key
+  (added and verified interactively by the owner; its password never left their terminal).
 
 Not retained: OAuth tokens, client secret, restic passwords. A first authorization used rclone's
 retiring shared client; its token was shredded before any Drive write.
