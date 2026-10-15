@@ -9,6 +9,10 @@ is configured. Local import, application parity, clock isolation, schema rehears
 local backup/restore passed. A frozen prospective-cohort source-hash guard also remains
 failing on clean starting main; its manifest was preserved. This is not approval to start Research writers.
 
+**Update 2026-10-15 (later):** the off-host blocker is addressed by an encrypted Google Drive
+restic repository with a proven restore-from-Drive and zero-difference read parity; see
+[Google Drive backup and recovery](GOOGLE_DRIVE_BACKUP_RECOVERY.md). Authority is still not transferred.
+
 Evidence: [20261015](evidence/ovh-research-namespace/20261015/), particularly
 [source validation](evidence/ovh-research-namespace/20261015/source-validation.json),
 [candidate validation](evidence/ovh-research-namespace/20261015/candidate-validation.json.gz),

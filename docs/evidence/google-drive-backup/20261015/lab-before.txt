@@ -1,0 +1,12 @@
+2026-10-15T14:23:10Z
+MainPID=38976 NRestarts=0 ExecMainStartTimestamp=Wed 2026-10-14 15:44:37 UTC ActiveState=active 
+MainPID=39022 NRestarts=0 ExecMainStartTimestamp=Wed 2026-10-14 15:44:38 UTC ActiveState=active 
+MainPID=38972 NRestarts=0 ExecMainStartTimestamp=Wed 2026-10-14 15:44:37 UTC ActiveState=active 
+MainPID=38966 NRestarts=0 ExecMainStartTimestamp=Wed 2026-10-14 15:44:36 UTC ActiveState=active 
+MainPID=9843 NRestarts=0 ExecMainStartTimestamp=Tue 2026-10-13 15:36:26 UTC ActiveState=active 
+/opt/prism/releases/530ba0d18c3009352eee21bb7f1a1c01004ab73a
+/opt/prism/research/releases/c5b81f302f69504b08a4022a9f6515c733dae197-7190e0cb53c2
+93116e83a9169e6ee8cb0cbcb5d7532766465c3569412ffce39540e0f5071439 /etc/prism/prism.env
+226bceddfad201e6c512f54c022bc56b88ced05cb20637c085e3a6e53bf75c03 /data/state/prism.crontab
+/dev/sda1      105467994112 6035304448 95095603200   6% /
+Mem:     12256591872  1092055040  5661388800      528384  5831733248 11164536832

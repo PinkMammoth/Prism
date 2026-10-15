@@ -1,0 +1,28 @@
+Result=success
+NRestarts=0
+{
+ "status": "ok",
+ "started_at": "2026-10-15T17:23:27.771286+00:00",
+ "finished_at": "2026-10-15T17:27:46.439885+00:00",
+ "removed_local": [],
+ "snapshot_id": "c67a73c4de6f7b6be2a2e752e939d5b9a5d91219fe2cc249b7e5bc3c9dc0b7be",
+ "generation": "generation-20261015T172517321985Z",
+ "compressed_sha256": "023c3240e029eb87686905a1a9dfe3475397ba173ac0d7f9a38b1473c3e7892b",
+ "data_added_packed": 11217,
+ "retained_snapshots": 2,
+ "pruned_manifests": [],
+ "timings": {
+  "upload_seconds": 21.558976812986657,
+  "remote_check_seconds": 39.61524382699281,
+  "restore_seconds": 55.8712732809945,
+  "retention_seconds": 23.211765540996566
+ },
+ "restore_verified": true
+}
+f 136 latest.json
+d 4096 generation-20261015T172517321985Z
+f 1061 generation-20261015T172517321985Z/offhost-receipt.json
+f 24495 generation-20261015T172517321985Z/manifest.json
+f 135614775 generation-20261015T172517321985Z/research.duckdb.gz
+f 0 .backup.lock
+{"count":19,"bytes":131108543,"sizeless":0}

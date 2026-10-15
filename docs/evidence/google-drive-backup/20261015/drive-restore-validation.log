@@ -1,0 +1,93 @@
+36ec76dc6089e3628e44df00bbec21002ef5c9e2e1ed99a886484ca1a284b1cb /var/lib/prism-research/state/import-receipt.json
+36ec76dc6089e3628e44df00bbec21002ef5c9e2e1ed99a886484ca1a284b1cb /var/lib/prism-research-backup/state/reference-import-receipt.json
+3bdc70d2e63267ba76c6b7ef5ecc1c0e3d76af24e38b1f99da0279d6159b5e5e /var/lib/prism-research/state/candidate-validation.json
+3bdc70d2e63267ba76c6b7ef5ecc1c0e3d76af24e38b1f99da0279d6159b5e5e /var/lib/prism-research-backup/state/reference-candidate-validation.json
+validate exit=0 wall seconds: 196
+{
+ "passed": true,
+ "differences": [],
+ "frontier": "2026-10-15 11:31:40.099798+00:00",
+ "sha256": "dbaa5a3c31ebd738cca69bbd714263f4583722331f515ee2d239d4be77d9726f",
+ "schema": 31,
+ "relations": 146,
+ "reads": [
+  "context/AAVE/2026-10-08T11:31:40.099798+00:00",
+  "context/AAVE/2026-10-14T11:31:40.099798+00:00",
+  "context/AAVE/2026-10-15T11:31:40.099798+00:00",
+  "context/BTC/2026-10-08T11:31:40.099798+00:00",
+  "context/BTC/2026-10-14T11:31:40.099798+00:00",
+  "context/BTC/2026-10-15T11:31:40.099798+00:00",
+  "context/update-chains",
+  "copilot/governed-watches",
+  "intelligence/AAVE/2026-10-08T11:31:40.099798+00:00",
+  "intelligence/AAVE/2026-10-14T11:31:40.099798+00:00",
+  "intelligence/AAVE/2026-10-15T11:31:40.099798+00:00",
+  "intelligence/BTC/2026-10-08T11:31:40.099798+00:00",
+  "intelligence/BTC/2026-10-14T11:31:40.099798+00:00",
+  "intelligence/BTC/2026-10-15T11:31:40.099798+00:00",
+  "macro/intraday-coverage",
+  "macro/pit-vintages",
+  "macro/source-health",
+  "phase24b/checkpoints",
+  "phase24b/definitions",
+  "phase24b/outcomes",
+  "positioning/funding-coverage",
+  "positioning/oi-coverage",
+  "research/datasets",
+  "research/definitions",
+  "research/experiments",
+  "research/forward/tracking_250f844abeca870821d716faf66b014158a2e1a1e93eebbde5974c34ac97ddd7",
+  "research/forward/tracking_65febaadc2c10fc2d42b488ec631702e607cb540060f5b30eb1f23d4a6cade67",
+  "research/forward/tracking_942898993c90a261c00de6b336564a657e78c2287d64f0101541b09bbaa70e4c",
+  "research/lifecycle",
+  "research/science"
+ ],
+ "clock_proofs": [
+  [
+   "BTC",
+   {
+    "origin-observed/2026-10-15T11:31:40.099798+00:00": 9027,
+    "origin-committed/2026-10-15T11:31:40.099798+00:00": 0,
+    "origin-committed/2026-10-15T11:36:50.031621+00:00": 9027,
+    "consumer-available/2026-10-15T12:31:22.492498+00:00": 0,
+    "consumer-available/2026-10-15T12:31:22.493899+00:00": 9015
+   }
+  ],
+  [
+   "AAVE",
+   {
+    "origin-observed/2026-10-15T11:31:40.099798+00:00": 9025,
+    "origin-committed/2026-10-15T11:31:40.099798+00:00": 0,
+    "origin-committed/2026-10-15T11:36:50.031621+00:00": 9025,
+    "consumer-available/2026-10-15T12:31:22.492498+00:00": 0,
+    "consumer-available/2026-10-15T12:31:22.493899+00:00": 9013
+   }
+  ]
+ ],
+ "prepared_tables": 142,
+ "missing": [],
+ "new_schema31": [
+  "microstructure_subscription_events",
+  "universe_evaluations",
+  "universe_outcomes",
+  "universe_policies"
+ ],
+ "ambiguous": [
+  "alert_events",
+  "alert_rules",
+  "journal_entries",
+  "positions"
+ ],
+ "may_resume_authority_any": false,
+ "authority": [
+  "railway-prism-runtime",
+  "2026-10-04 17:46:19.092023+00:00"
+ ],
+ "last_finished_cycle": "2026-10-15 11:31:40.099798+00:00",
+ "resources": {
+  "wall_seconds": 192.19157157698646,
+  "cpu_seconds": 192.12603970400002,
+  "peak_rss_bytes": 2086666240,
+  "db_bytes": 1646276608
+ }
+}

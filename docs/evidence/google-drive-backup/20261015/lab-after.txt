@@ -1,0 +1,15 @@
+2026-10-15T17:28:42Z
+MainPID=38976 NRestarts=0 ExecMainStartTimestamp=Wed 2026-10-14 15:44:37 UTC ActiveState=active 
+MainPID=39022 NRestarts=0 ExecMainStartTimestamp=Wed 2026-10-14 15:44:38 UTC ActiveState=active 
+MainPID=38972 NRestarts=0 ExecMainStartTimestamp=Wed 2026-10-14 15:44:37 UTC ActiveState=active 
+MainPID=38966 NRestarts=0 ExecMainStartTimestamp=Wed 2026-10-14 15:44:36 UTC ActiveState=active 
+MainPID=9843 NRestarts=0 ExecMainStartTimestamp=Tue 2026-10-13 15:36:26 UTC ActiveState=active 
+/opt/prism/releases/530ba0d18c3009352eee21bb7f1a1c01004ab73a
+/opt/prism/research/releases/13e35bea5996073f117c8e3c5ce4d35eddd205a4
+93116e83a9169e6ee8cb0cbcb5d7532766465c3569412ffce39540e0f5071439 /etc/prism/prism.env
+226bceddfad201e6c512f54c022bc56b88ced05cb20637c085e3a6e53bf75c03 /data/state/prism.crontab
+prism-research-backup.service loaded inactive dead    Prism Research backup -> Google Drive (verify upload, restore-from-Drive, prune)
+prism-research-backup.timer   loaded active   waiting Nightly Prism Research backup to Google Drive
+Fri 2026-10-16 03:19:22 UTC 9h left - - prism-research-backup.timer prism-research-backup.service
+/dev/sda1      105467994112 6365429760 94765477888   7% /
+Mem:     12256591872  1105068032  5306216448      532480  6173896704 11151523840

@@ -1,0 +1,30 @@
+73b5de8e3f1040634db0d61fb166d73f38c18a1cd87dc1dd996c3ff70ce047fb  /tmp/release-13e35bea5996073f117c8e3c5ce4d35eddd205a4.tar.gz
+ + uvicorn==0.53.0
+ + watchdog==6.0.0
+ + websockets==16.1.1
+research current: /opt/prism/research/releases/c5b81f302f69504b08a4022a9f6515c733dae197-7190e0cb53c2 -> /opt/prism/research/releases/13e35bea5996073f117c8e3c5ce4d35eddd205a4
+13e35bea5996073f117c8e3c5ce4d35eddd205a4
+uid=992(prism-research-backup) gid=991(prism-research-backup) groups=991(prism-research-backup),992(prism-research)
+/etc/prism-research-backup:
+total 32
+drwx------  2 prism-research-backup prism-research-backup 4096 Oct 15 14:23 .
+drwxr-xr-x 73 root                  root                  4096 Oct 15 14:23 ..
+-rw-------  1 prism-research-backup prism-research-backup  620 Oct 15 14:23 backup.env
+-rw-------  1 prism-research-backup prism-research-backup  903 Oct 15 14:23 backup.json
+-r--------  1 prism-research-backup prism-research-backup   64 Oct 15 14:23 restic-password
+-rw-------  1 prism-research-backup prism-research-backup 9902 Oct 15 14:23 source.json
+
+/var/lib/prism-research-backup:
+total 20
+drwx------  5 prism-research-backup prism-research-backup 4096 Oct 15 14:23 .
+drwxr-xr-x 27 root                  root                  4096 Oct 15 14:23 ..
+drwx------  2 prism-research-backup prism-research-backup 4096 Oct 15 14:23 generations
+drwx------  2 prism-research-backup prism-research-backup 4096 Oct 15 14:23 scratch
+drwx------  2 prism-research-backup prism-research-backup 4096 Oct 15 14:23 state
+total 113592
+drwxr-xr-x 2 root root     4096 Oct 15 14:23 .
+drwxr-xr-x 3 root root     4096 Oct 15 14:23 ..
+-rwxr-xr-x 1 root root 85360802 Oct 15 14:23 rclone
+-rwxr-xr-x 1 root root 30941346 Oct 15 14:23 restic
+restic 0.19.1 compiled with go1.26.4 on linux/amd64
+disabled

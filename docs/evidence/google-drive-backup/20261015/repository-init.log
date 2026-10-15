@@ -1,0 +1,11 @@
+repo: rclone:prism-gdrive:Prism/backups/research/restic
+{'message_type': 'initialized', 'id': '148cfeaa9c717db0e0d6d1c304891e44565a1ebc0d343dd0be3181e1709c6742'}
+version 2
+backups/
+backups/research/
+backups/research/restic/
+backups/research/restic/snapshots/
+backups/research/restic/locks/
+backups/research/restic/keys/
+backups/research/restic/index/
+backups/research/restic/data/

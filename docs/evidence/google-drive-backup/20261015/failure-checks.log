@@ -1,0 +1,6 @@
+wrong repository key -> RuntimeError: restic snapshots failed (status 12): repository key failure
+expired/revoked OAuth (rclone) -> RuntimeError: rclone lsf failed (status 1): authentication failure
+expired/revoked OAuth (restic) -> RuntimeError: restic snapshots failed (status 1): authentication failure
+missing repository -> RuntimeError: restic snapshots failed (status 10): missing failure
+missing rclone config -> protected rclone config required
+real config still valid: 1 snapshot(s)

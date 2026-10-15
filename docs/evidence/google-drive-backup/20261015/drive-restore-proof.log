@@ -1,0 +1,30 @@
+== A. remove local generation; prove no usable local copy
+d 4096 /var/lib/prism-research-backup/generations
+f 136 /var/lib/prism-research-backup/generations/latest.json
+f 0 /var/lib/prism-research-backup/generations/.backup.lock
+d 4096 /var/lib/prism-research-backup/generations/generation-20261015T171356752321Z
+f 1065 /var/lib/prism-research-backup/generations/generation-20261015T171356752321Z/offhost-receipt.json
+f 24494 /var/lib/prism-research-backup/generations/generation-20261015T171356752321Z/manifest.json
+f 135614775 /var/lib/prism-research-backup/generations/generation-20261015T171356752321Z/research.duckdb.gz
+no local generation, no scratch content
+old research-namespace backup dir: not readable by backup identity
+== B. restore from Google Drive (sandbox: no local backups/source DB/railway archive visible)
+bash: line 23: bc: command not found
+restore wall seconds: 
+{'snapshot': '28eea1d3c22438cdea99ae5ae5819c37b36426ebc36eb1fe50e7936bda6ede12', 'download_seconds': 19.255252347007627, 'materialize_verify_seconds': 36.52971615100978, 'compressed_sha256': '023c3240e029eb87686905a1a9dfe3475397ba173ac0d7f9a38b1473c3e7892b', 'sha256': 'dbaa5a3c31ebd738cca69bbd714263f4583722331f515ee2d239d4be77d9726f', 'tables': 146, 'schema_version': 31, 'verified': True, 'restored_db': '/var/lib/prism-research-backup/scratch/drive-restore-proof/verified.duckdb'}
+dbaa5a3c31ebd738cca69bbd714263f4583722331f515ee2d239d4be77d9726f /var/lib/prism-research-backup/scratch/drive-restore-proof/verified.duckdb
+023c3240e029eb87686905a1a9dfe3475397ba173ac0d7f9a38b1473c3e7892b /var/lib/prism-research-backup/scratch/drive-restore-proof/research.duckdb.gz
+== C. offline read parity on the Drive-restored DB (no network)
+Traceback (most recent call last):
+  File "/opt/prism/research/current/scripts/ovh_research_validate.py", line 300, in <module>
+    main()
+  File "/opt/prism/research/current/scripts/ovh_research_validate.py", line 246, in main
+    receipt = json.loads(args.receipt.read_text())
+                         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/prism/python/cpython-3.12.3-linux-x86_64-gnu/lib/python3.12/pathlib.py", line 1027, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/prism/python/cpython-3.12.3-linux-x86_64-gnu/lib/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [Errno 13] Permission denied: '/var/lib/prism-research/state/import-receipt.json'

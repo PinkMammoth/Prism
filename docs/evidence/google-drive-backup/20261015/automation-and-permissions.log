@@ -1,0 +1,22 @@
+Created symlink /etc/systemd/system/timers.target.wants/prism-research-backup.timer → /etc/systemd/system/prism-research-backup.timer.
+Fri 2026-10-16 03:19:22 UTC 9h left - - prism-research-backup.timer prism-research-backup.service
+static
+enabled
+prism-research-backup:prism-research-backup 700 /etc/prism-research-backup
+root:root 755 /opt/prism/research-backup/tools/bin/rclone
+root:root 755 /opt/prism/research-backup/tools/bin/restic
+stat: cannot statx '/etc/prism-research-backup/*': No such file or directory
+prism-research cannot read backup credentials
+prism cannot read backup credentials
+0
+prism-research-backup:prism-research-backup 700 4096 /etc/prism-research-backup
+prism-research-backup:prism-research-backup 600 903 /etc/prism-research-backup/backup.json
+prism-research-backup:prism-research-backup 400 <size> /etc/prism-research-backup/restic-password
+prism-research-backup:prism-research-backup 600 9902 /etc/prism-research-backup/source.json
+prism-research-backup:prism-research-backup 600 <size> /etc/prism-research-backup/rclone.conf
+prism-research-backup:prism-research-backup 600 620 /etc/prism-research-backup/backup.env
+EnvironmentFile=/etc/prism-research-backup/backup.env
+Environment=HOME=/var/lib/prism-research-backup
+Environment=PATH=/opt/prism/research-backup/tools/bin:/usr/bin:/bin
+ExecStart=/opt/prism/research/current/.venv/bin/python /opt/prism/research/current/scripts/research_backup.py scheduled --config /etc/prism-research-backup/backup.json
+Environment=HOME=/var/lib/prism-research-backup PATH=/opt/prism/research-backup/tools/bin:/usr/bin:/bin
