@@ -1,0 +1,102 @@
+{
+  "source_relations": 142,
+  "candidate_relations": 146,
+  "physical_candidate_tables": 145,
+  "views": 1,
+  "read_parity_source_to_candidate": 30,
+  "read_parity_candidate_to_restore": 30,
+  "candidate_passed": true,
+  "restore_passed": true,
+  "candidate_differences": [
+    {
+      "table": "microstructure_subscription_events",
+      "expected": null,
+      "actual": {
+        "rows": 0,
+        "value_hash": null
+      },
+      "classification": "EXPECTED_PATH/ENVIRONMENT_DIFFERENCE",
+      "reason": "rehearsed schema 30->31: version row and four empty additive tables"
+    },
+    {
+      "table": "schema_version",
+      "expected": {
+        "rows": 30,
+        "value_hash": 8982624645668389596
+      },
+      "actual": {
+        "rows": 31,
+        "value_hash": 14192710874645283034
+      },
+      "classification": "EXPECTED_PATH/ENVIRONMENT_DIFFERENCE",
+      "reason": "rehearsed schema 30->31: version row and four empty additive tables"
+    },
+    {
+      "table": "universe_evaluations",
+      "expected": null,
+      "actual": {
+        "rows": 0,
+        "value_hash": null
+      },
+      "classification": "EXPECTED_PATH/ENVIRONMENT_DIFFERENCE",
+      "reason": "rehearsed schema 30->31: version row and four empty additive tables"
+    },
+    {
+      "table": "universe_outcomes",
+      "expected": null,
+      "actual": {
+        "rows": 0,
+        "value_hash": null
+      },
+      "classification": "EXPECTED_PATH/ENVIRONMENT_DIFFERENCE",
+      "reason": "rehearsed schema 30->31: version row and four empty additive tables"
+    },
+    {
+      "table": "universe_policies",
+      "expected": null,
+      "actual": {
+        "rows": 0,
+        "value_hash": null
+      },
+      "classification": "EXPECTED_PATH/ENVIRONMENT_DIFFERENCE",
+      "reason": "rehearsed schema 30->31: version row and four empty additive tables"
+    }
+  ],
+  "restore_differences": [],
+  "ownership_classes": {
+    "Research-owned": 66,
+    "shared factual history": 18,
+    "Context-owned": 14,
+    "scheduled/runtime state that must NOT transfer as authority": 12,
+    "legacy execution evidence": 32,
+    "Lab-only": 4
+  },
+  "ambiguous_tables": [
+    "alert_events",
+    "alert_rules",
+    "journal_entries",
+    "positions"
+  ],
+  "independent_offhost_backup": "UNCONFIGURED / NOT PROVED",
+  "verdict": "BLOCKED \u2014 PARITY/BACKUP/CAPACITY ISSUE",
+  "blocker": "Independent destination/repository/credentials and recovery custody must be selected and actual off-host restore proof completed.",
+  "tests": {
+    "focused_unique_passed": 113,
+    "full_run_passed": 1756,
+    "full_run_failed": 2,
+    "full_run_seconds": 2284.87,
+    "context_timing_serial_retry": "passed in 13.40 s",
+    "frozen_prospective_source_hash_guard": "fails on unchanged clean starting main; preserved",
+    "ruff": "passed",
+    "formatting": "passed",
+    "git_diff_check": "passed"
+  },
+  "safety": {
+    "railway_authoritative": true,
+    "ovh_research_production_write_authority": false,
+    "duplicate_schedulers_started": false,
+    "context_dns_oauth_cutover": false,
+    "lab_configuration_or_service_identity_changes": false,
+    "dynamic_universe_or_paper_activation": false
+  }
+}

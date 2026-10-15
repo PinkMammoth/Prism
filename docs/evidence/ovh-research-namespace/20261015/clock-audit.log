@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/var/lib/prism-research/state/clock-audit.py", line 19, in <module>
+    with ns.connect(root / "import/prism.duckdb") as con:
+  File "/var/lib/prism-research/state/clock-audit.py", line 52, in <module>
+    assert all(
+           ^^^^
+AssertionError

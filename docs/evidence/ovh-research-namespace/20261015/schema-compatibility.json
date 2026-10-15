@@ -1,0 +1,19 @@
+{
+  "source": {
+    "physical_tables": 141,
+    "views": 1,
+    "schema_sha256": "d2a41cf20cb1eef2c366d13c94e91744b6505812c25b72ffacfeb8f7e15f2503"
+  },
+  "candidate": {
+    "physical_tables": 145,
+    "views": 1,
+    "schema_sha256": "778f401ce1140c9d15b507f6c5e16c338a7672a00059d131ed69661d4f8ccf87"
+  },
+  "changed_existing_ddl": [],
+  "new_relations": [
+    "microstructure_subscription_events",
+    "universe_evaluations",
+    "universe_outcomes",
+    "universe_policies"
+  ]
+}

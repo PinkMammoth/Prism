@@ -1,0 +1,15 @@
+{
+  "writable_store_refused": {
+    "exception": "IOException",
+    "message": "IO Error: Cannot open file \"/var/lib/prism-research/import/prism.duckdb\": Permission denied"
+  },
+  "read_only_insert_refused": {
+    "exception": "InvalidInputException",
+    "message": "Invalid Input Error: Cannot execute statement of type \"INSERT\" on database \"prism\" which is attached in read-only mode!"
+  },
+  "source_claim": [
+    "railway-prism-runtime",
+    "2026-10-04 17:46:19.092023+00:00"
+  ],
+  "checksum_unchanged": true
+}

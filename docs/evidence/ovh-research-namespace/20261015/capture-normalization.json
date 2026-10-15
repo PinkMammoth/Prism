@@ -1,0 +1,26 @@
+{
+  "baseline-frozen-provenance-test.log": {
+    "original_sha256": "484d33e6fd1aa12a7c77559bbf72765c4a678d7aa11c4de35f311f88b374143d",
+    "normalized_sha256": "b20e252b7bcff572a8077b277236475b4b3102202265172019219b1eeaf458c2",
+    "original_capture": "raw-captures/baseline-frozen-provenance-test.log.gz",
+    "normalization": "trailing spaces/tabs/CR and extra blank EOF lines only; original bytes retained losslessly"
+  },
+  "focused-collected.txt": {
+    "original_sha256": "99780f1e4108375974f6cd354624689d04c7a9b742a8178099069d477a48d955",
+    "normalized_sha256": "3277c8c49cf27bb996a0518e24f1d6b51703c97108d858d5af20db99e747662d",
+    "original_capture": "raw-captures/focused-collected.txt.gz",
+    "normalization": "trailing spaces/tabs/CR and extra blank EOF lines only; original bytes retained losslessly"
+  },
+  "full-suite-parallel.log": {
+    "original_sha256": "1ede7deaedc9b4794a52eeda01b7d018e776c27bdacb2c338027ac664d497b31",
+    "normalized_sha256": "92fc9d8d74b34ff8156a026060cdbb9ce9b3fc6cb982af3cd32c4de96a951461",
+    "original_capture": "raw-captures/full-suite-parallel.log.gz",
+    "normalization": "trailing spaces/tabs/CR and extra blank EOF lines only; original bytes retained losslessly"
+  },
+  "service-audit.txt": {
+    "original_sha256": "20f03ee82f353361bf308ef1356ec16880bc9f8a394c010961ebf3360a32d773",
+    "normalized_sha256": "abbd8d437c16b344ec3e4f821b291fe91535718b17eefb81fd673e32eb24c5d5",
+    "original_capture": "raw-captures/service-audit.txt.gz",
+    "normalization": "trailing spaces/tabs/CR and extra blank EOF lines only; original bytes retained losslessly"
+  }
+}

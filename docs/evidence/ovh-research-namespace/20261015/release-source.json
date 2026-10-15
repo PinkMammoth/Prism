@@ -1,0 +1,15 @@
+{
+  "upstream_main": "020896fd3a9d13bd9c4e99e11dac7d3e4e6a2543",
+  "local_prepared_main": "c5b81f302f69504b08a4022a9f6515c733dae197",
+  "overlay_sha256": "f3729d4f72a557873a463e77c2089855b30242f54b852c19943d926e6bd98571",
+  "files": {
+    "src/market_signal/ops/research_namespace.py": "9003fffdcff20821785381acd44a66606263394ca2dd1f0acc5b88a1849b171e",
+    "scripts/ovh_research_validate.py": "aa5072028829099ff6af4db74bb990c00d1adf47ea048cd498975ae0eba63c7b",
+    "deploy/consolidated/research.env.example": "74df8c1fcec07fdaac57d34b1aa26e38d69e78a478c26eb2438a6c5b03996a4e",
+    "deploy/consolidated/prism-research@.service": "dc59d4a48676d6e191501fbf982d4592ffe81752978b1ff1a0bd93e6355cdaa3",
+    "deploy/consolidated/install_research_disabled.sh": "43919187f5df55de2acdd164bed658d9aca9ba9ec3ce201f98fc2bd7b557d7ce",
+    "deploy/consolidated/research-backup.env.example": "a3ceb6c17f868c2838ef13aba4544aa0e4457abb2a3f53c8d16160a818fdc7d3",
+    "deploy/consolidated/research-backup.json.example": "505e568621ce5cb467ccfe14c511dee51dc24cc9c20027e442b607a615d86da4"
+  },
+  "unrelated_dirty_files_excluded": true
+}

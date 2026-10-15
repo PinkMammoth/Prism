@@ -1,0 +1,32 @@
+{
+  "checks": [
+    {
+      "user": "prism-research",
+      "path": "/data/prism.duckdb",
+      "readable": false,
+      "writable": false,
+      "parent_writable": false
+    },
+    {
+      "user": "prism",
+      "path": "/var/lib/prism-research/import/prism.duckdb",
+      "readable": false,
+      "writable": false,
+      "parent_writable": false
+    },
+    {
+      "user": "prism-research",
+      "path": "/var/lib/prism-research/import/prism.duckdb",
+      "readable": true,
+      "writable": false,
+      "parent_writable": false
+    }
+  ],
+  "research_groups": [
+    992
+  ],
+  "lab_groups": [
+    994
+  ],
+  "research_secret_file_bytes": 0
+}

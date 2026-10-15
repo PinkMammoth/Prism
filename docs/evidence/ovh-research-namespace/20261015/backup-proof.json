@@ -1,0 +1,1463 @@
+{
+  "sha256": "dbaa5a3c31ebd738cca69bbd714263f4583722331f515ee2d239d4be77d9726f",
+  "bytes": 1646276608,
+  "schema_version": 31,
+  "duckdb_version": "1.5.5",
+  "tables": {
+    "alert_events": {
+      "rows": 91,
+      "value_hash": 17247595242399832431
+    },
+    "alert_rules": {
+      "rows": 4,
+      "value_hash": 9669272483362578522
+    },
+    "assets": {
+      "rows": 18,
+      "value_hash": 12079047196793743767
+    },
+    "bar_revisions": {
+      "rows": 1,
+      "value_hash": 16867430999976028958
+    },
+    "bars": {
+      "rows": 99555,
+      "value_hash": 8744305602971157004
+    },
+    "context_asset_links": {
+      "rows": 833,
+      "value_hash": 10562393917820265229
+    },
+    "context_event_updates": {
+      "rows": 67,
+      "value_hash": 2909764181281504644
+    },
+    "context_events": {
+      "rows": 102,
+      "value_hash": 14431977902646827090
+    },
+    "context_free_ingests": {
+      "rows": 40,
+      "value_hash": 17826094169822033019
+    },
+    "context_free_observations": {
+      "rows": 40,
+      "value_hash": 11502545651452405256
+    },
+    "context_gateway_ingests": {
+      "rows": 9,
+      "value_hash": 13606154544704433097
+    },
+    "context_hl_oi_hourly": {
+      "rows": 1110,
+      "value_hash": 4818582239978968244
+    },
+    "context_ls_ratios": {
+      "rows": 21474,
+      "value_hash": 11248430768545023577
+    },
+    "context_provider_runs": {
+      "rows": 642,
+      "value_hash": 6105024067304340754
+    },
+    "context_snapshots": {
+      "rows": 0,
+      "value_hash": null
+    },
+    "context_sources": {
+      "rows": 15,
+      "value_hash": 7399039429712119179
+    },
+    "context_theses": {
+      "rows": 0,
+      "value_hash": null
+    },
+    "context_work_observations": {
+      "rows": 0,
+      "value_hash": null
+    },
+    "context_work_reactions": {
+      "rows": 824,
+      "value_hash": 9578737090620199429
+    },
+    "context_work_research_pending": {
+      "rows": 177,
+      "value_hash": 11553615960230074620
+    },
+    "copilot_decisions": {
+      "rows": 1,
+      "value_hash": 5243362028966794778
+    },
+    "copilot_deliveries": {
+      "rows": 2,
+      "value_hash": 3161357255033589845
+    },
+    "copilot_policies": {
+      "rows": 1,
+      "value_hash": 4128736006916441010
+    },
+    "copilot_runs": {
+      "rows": 95,
+      "value_hash": 8492963954459763958
+    },
+    "copilot_software": {
+      "rows": 24,
+      "value_hash": 9781609595244481912
+    },
+    "copilot_watch_status": {
+      "rows": 2,
+      "value_hash": 14443971861232125636
+    },
+    "copilot_watchlist": {
+      "rows": 2,
+      "value_hash": 17707115839132338041
+    },
+    "corporate_actions": {
+      "rows": 354,
+      "value_hash": 3154910590819947145
+    },
+    "crypto_metrics": {
+      "rows": 9911,
+      "value_hash": 6198971946128760019
+    },
+    "data_quality_issues": {
+      "rows": 4973,
+      "value_hash": 15933957905173422425
+    },
+    "fundamental_facts": {
+      "rows": 8840,
+      "value_hash": 4589754444957258559
+    },
+    "incubation_decisions": {
+      "rows": 3840,
+      "value_hash": 11620898487715803499
+    },
+    "incubation_evaluations": {
+      "rows": 1280,
+      "value_hash": 10150160061753713943
+    },
+    "incubation_freezes": {
+      "rows": 1,
+      "value_hash": 10569600882940242057
+    },
+    "incubation_intents": {
+      "rows": 21,
+      "value_hash": 949020488461127011
+    },
+    "incubation_outcomes": {
+      "rows": 0,
+      "value_hash": null
+    },
+    "incubation_runs": {
+      "rows": 81,
+      "value_hash": 10846075386215572999
+    },
+    "incubation_transitions": {
+      "rows": 402,
+      "value_hash": 12692404119821601052
+    },
+    "ingestion_runs": {
+      "rows": 9026,
+      "value_hash": 10669957174750456280
+    },
+    "intraday_execution_shadow": {
+      "rows": 0,
+      "value_hash": null
+    },
+    "journal_entries": {
+      "rows": 0,
+      "value_hash": null
+    },
+    "lab_batch_analyses": {
+      "rows": 1,
+      "value_hash": 5177520770835178362
+    },
+    "lab_batch_members": {
+      "rows": 40,
+      "value_hash": 467884306206015066
+    },
+    "lab_batch_runs": {
+      "rows": 1,
+      "value_hash": 12332271671823039076
+    },
+    "lab_batches": {
+      "rows": 1,
+      "value_hash": 9404282933660446556
+    },
+    "lab_corroboration_registrations": {
+      "rows": 2,
+      "value_hash": 12496321505401253820
+    },
+    "lab_corroboration_results": {
+      "rows": 2,
+      "value_hash": 2946488699125534235
+    },
+    "lab_corroboration_runs": {
+      "rows": 2,
+      "value_hash": 7475148591905251522
+    },
+    "lab_dataset_blobs": {
+      "rows": 22,
+      "value_hash": 5734429529397150932
+    },
+    "lab_datasets": {
+      "rows": 2,
+      "value_hash": 1733929028225184876
+    },
+    "lab_edge_profiles": {
+      "rows": 0,
+      "value_hash": null
+    },
+    "lab_evidence_policies": {
+      "rows": 1,
+      "value_hash": 9959254396369796849
+    },
+    "lab_evidence_profiles": {
+      "rows": 44,
+      "value_hash": 6998608492496632059
+    },
+    "lab_experiments": {
+      "rows": 47,
+      "value_hash": 2125073900173524203
+    },
+    "lab_forward_entries": {
+      "rows": 1,
+      "value_hash": 17485741330867619266
+    },
+    "lab_forward_evaluations": {
+      "rows": 132,
+      "value_hash": 16340806207363860609
+    },
+    "lab_forward_inputs": {
+      "rows": 168,
+      "value_hash": 6267980523864996612
+    },
+    "lab_forward_outcomes": {
+      "rows": 204,
+      "value_hash": 11234618619892545731
+    },
+    "lab_forward_runs": {
+      "rows": 192,
+      "value_hash": 17282097834412789142
+    },
+    "lab_forward_status": {
+      "rows": 4,
+      "value_hash": 17695625165889948952
+    },
+    "lab_forward_summaries": {
+      "rows": 0,
+      "value_hash": null
+    },
+    "lab_forward_trackings": {
+      "rows": 3,
+      "value_hash": 14979162061327154597
+    },
+    "lab_hypotheses": {
+      "rows": 40,
+      "value_hash": 10103972147386419891
+    },
+    "lab_inspections": {
+      "rows": 47,
+      "value_hash": 11038702008687266489
+    },
+    "lab_plans": {
+      "rows": 3,
+      "value_hash": 778666489892547871
+    },
+    "lab_prospective_checkpoints": {
+      "rows": 8,
+      "value_hash": 12120271818234969867
+    },
+    "lab_prospective_results": {
+      "rows": 8,
+      "value_hash": 17305193325521152994
+    },
+    "lab_prospective_studies": {
+      "rows": 1,
+      "value_hash": 6826053177352508313
+    },
+    "lab_research_policies": {
+      "rows": 4,
+      "value_hash": 6252889691790983201
+    },
+    "lab_research_registrations": {
+      "rows": 2,
+      "value_hash": 13098455314852049657
+    },
+    "lab_research_results": {
+      "rows": 4,
+      "value_hash": 2882007551277244577
+    },
+    "lab_research_runs": {
+      "rows": 4,
+      "value_hash": 3083019889428397194
+    },
+    "lab_results": {
+      "rows": 47,
+      "value_hash": 3464351347965692049
+    },
+    "lab_snapshot_blobs": {
+      "rows": 22,
+      "value_hash": 8990137579415068303
+    },
+    "lab_software": {
+      "rows": 29,
+      "value_hash": 10703251916040707999
+    },
+    "lab_starts": {
+      "rows": 47,
+      "value_hash": 14932118058545502065
+    },
+    "lab_strategies": {
+      "rows": 40,
+      "value_hash": 12144051023904209342
+    },
+    "lab_structure_results": {
+      "rows": 0,
+      "value_hash": null
+    },
+    "lab_structure_runs": {
+      "rows": 0,
+      "value_hash": null
+    },
+    "lab_structure_studies": {
+      "rows": 0,
+      "value_hash": null
+    },
+    "lab_structure_study_datasets": {
+      "rows": 0,
+      "value_hash": null
+    },
+    "lab_submissions": {
+      "rows": 40,
+      "value_hash": 1848696866874668081
+    },
+    "macro_observations": {
+      "rows": 1093572,
+      "value_hash": 366464695317848758
+    },
+    "microstructure_cutover": {
+      "rows": 1,
+      "value_hash": 2357758482667801206
+    },
+    "microstructure_ingest_offsets": {
+      "rows": 186,
+      "value_hash": 10637060563784927481
+    },
+    "microstructure_late_events": {
+      "rows": 204,
+      "value_hash": 3618689412589456922
+    },
+    "microstructure_lp_thresholds": {
+      "rows": 54,
+      "value_hash": 15390379271499334179
+    },
+    "microstructure_minutes": {
+      "rows": 66708,
+      "value_hash": 12830315526811020044
+    },
+    "microstructure_provider_runs": {
+      "rows": 108,
+      "value_hash": 14022869260900760924
+    },
+    "microstructure_revisions": {
+      "rows": 31,
+      "value_hash": 12545020249317125621
+    },
+    "microstructure_subscription_events": {
+      "rows": 0,
+      "value_hash": null
+    },
+    "paper_briefs": {
+      "rows": 5,
+      "value_hash": 5729876729490885831
+    },
+    "paper_cycles": {
+      "rows": 41,
+      "value_hash": 8996575157728250976
+    },
+    "paper_event_evidence": {
+      "rows": 51,
+      "value_hash": 3778338080635836499
+    },
+    "paper_event_pending": {
+      "rows": 0,
+      "value_hash": null
+    },
+    "paper_events": {
+      "rows": 12,
+      "value_hash": 15228037030339624203
+    },
+    "paper_evidence": {
+      "rows": 0,
+      "value_hash": null
+    },
+    "paper_nimble_accounts": {
+      "rows": 3,
+      "value_hash": 7315971479690792714
+    },
+    "paper_nimble_deliveries": {
+      "rows": 10,
+      "value_hash": 14469602903584790929
+    },
+    "paper_nimble_events": {
+      "rows": 18237,
+      "value_hash": 7818215394726071790
+    },
+    "paper_nimble_opportunities": {
+      "rows": 78888,
+      "value_hash": 339235588283082382
+    },
+    "paper_nimble_policies": {
+      "rows": 2,
+      "value_hash": 17620281814868853486
+    },
+    "paper_nimble_positions": {
+      "rows": 198,
+      "value_hash": 8065947231174572065
+    },
+    "paper_nimble_reports": {
+      "rows": 15,
+      "value_hash": 5013667493405745344
+    },
+    "paper_nimble_research": {
+      "rows": 9246,
+      "value_hash": 8448115715587216992
+    },
+    "paper_nimble_research_pending": {
+      "rows": 216,
+      "value_hash": 1949524013092172387
+    },
+    "paper_nimble_runs": {
+      "rows": 3,
+      "value_hash": 3705937473281803329
+    },
+    "paper_nimble_theses": {
+      "rows": 198,
+      "value_hash": 176179215580178706
+    },
+    "paper_nimble_trigger_receipts": {
+      "rows": 108772,
+      "value_hash": 16770555867230669308
+    },
+    "paper_nimble_triggers": {
+      "rows": 45184,
+      "value_hash": 3134450229807461812
+    },
+    "paper_notifications": {
+      "rows": 10,
+      "value_hash": 4965068097740341907
+    },
+    "paper_policies": {
+      "rows": 5,
+      "value_hash": 270132773460432516
+    },
+    "paper_retirements": {
+      "rows": 1,
+      "value_hash": 9718130779566177543
+    },
+    "paper_runs": {
+      "rows": 1,
+      "value_hash": 12635696425689540592
+    },
+    "paper_snapshots": {
+      "rows": 6,
+      "value_hash": 7692272481186616091
+    },
+    "paper_software": {
+      "rows": 9,
+      "value_hash": 2792490924974917018
+    },
+    "paper_v2_context_snapshots": {
+      "rows": 780,
+      "value_hash": 4463666922046302225
+    },
+    "paper_v2_deliveries": {
+      "rows": 2,
+      "value_hash": 10671744814979302648
+    },
+    "paper_v2_evaluations": {
+      "rows": 143,
+      "value_hash": 8739974122641213161
+    },
+    "paper_v2_events": {
+      "rows": 162,
+      "value_hash": 16186911561060008834
+    },
+    "paper_v2_opportunities": {
+      "rows": 10200,
+      "value_hash": 17230264422408200381
+    },
+    "paper_v2_outcomes": {
+      "rows": 29,
+      "value_hash": 11108479923708869473
+    },
+    "paper_v2_policies": {
+      "rows": 3,
+      "value_hash": 15747861922162102906
+    },
+    "paper_v2_reports": {
+      "rows": 1,
+      "value_hash": 5194569068325838705
+    },
+    "paper_v2_runs": {
+      "rows": 1,
+      "value_hash": 15839854967552780510
+    },
+    "paper_v2_universes": {
+      "rows": 1,
+      "value_hash": 7536442629600639621
+    },
+    "perp_bars": {
+      "rows": 23810,
+      "value_hash": 11690967453315686086
+    },
+    "perp_funding": {
+      "rows": 185163,
+      "value_hash": 15176841141682490872
+    },
+    "perp_intraday_bars": {
+      "rows": 868922,
+      "value_hash": 15885698212752402762
+    },
+    "perp_intraday_coverage": {
+      "rows": 36,
+      "value_hash": 3367249984090303483
+    },
+    "perp_intraday_revisions": {
+      "rows": 0,
+      "value_hash": null
+    },
+    "perp_oi_history": {
+      "rows": 5976,
+      "value_hash": 17938700389993757425
+    },
+    "perp_oi_observations": {
+      "rows": 6912,
+      "value_hash": 4590372961551497521
+    },
+    "perp_paper_checks": {
+      "rows": 306,
+      "value_hash": 13965486549956170515
+    },
+    "perp_snapshots": {
+      "rows": 936,
+      "value_hash": 13891517654603000264
+    },
+    "positions": {
+      "rows": 0,
+      "value_hash": null
+    },
+    "research_runs": {
+      "rows": 13,
+      "value_hash": 1920349106870625841
+    },
+    "runtime_cycles": {
+      "rows": 2770,
+      "value_hash": 2462800286035028653
+    },
+    "runtime_events": {
+      "rows": 57,
+      "value_hash": 7735501233750621657
+    },
+    "scan_results": {
+      "rows": 324,
+      "value_hash": 11701468775674227960
+    },
+    "scan_runs": {
+      "rows": 18,
+      "value_hash": 7736956618711172968
+    },
+    "schema_version": {
+      "rows": 31,
+      "value_hash": 14192710874645283034
+    },
+    "series_changes": {
+      "rows": 0,
+      "value_hash": null
+    },
+    "universe_evaluations": {
+      "rows": 0,
+      "value_hash": null
+    },
+    "universe_outcomes": {
+      "rows": 0,
+      "value_hash": null
+    },
+    "universe_policies": {
+      "rows": 0,
+      "value_hash": null
+    }
+  },
+  "authority": [
+    "railway-prism-runtime",
+    "2026-10-04 17:46:19.092023+00:00"
+  ],
+  "last_finished_cycle": "2026-10-15 11:31:40.099798+00:00",
+  "compressed_sha256": "023c3240e029eb87686905a1a9dfe3475397ba173ac0d7f9a38b1473c3e7892b",
+  "compressed_bytes": 135614775,
+  "source": {
+    "sha256": "dbaa5a3c31ebd738cca69bbd714263f4583722331f515ee2d239d4be77d9726f",
+    "source_snapshot_sha256": "1caa6c9677e1f87e4f04fc087a2534b3d8a4eac89d1e93d7fe0fc025213333c6",
+    "source_runtime": "railway-prism-runtime",
+    "consumer_id": "vps-prism-research-offline",
+    "source_revision": "8f9bc3473142eb6b8a5ea54a3987db8ef2bcb0cf",
+    "source_frontier": "2026-10-15 11:31:40.099798+00:00",
+    "target_software": {
+      "upstream_main": "020896fd3a9d13bd9c4e99e11dac7d3e4e6a2543",
+      "local_prepared_main": "c5b81f302f69504b08a4022a9f6515c733dae197",
+      "overlay_sha256": "7190e0cb53c27f94b9e3c9e9af3de34334ac12e823f27a70889772c1210426e7",
+      "files": {
+        "src/market_signal/ops/research_namespace.py": "9003fffdcff20821785381acd44a66606263394ca2dd1f0acc5b88a1849b171e",
+        "scripts/ovh_research_validate.py": "af4e92f2068cccc73b1c45b4cf23da220c2096cf5b5cba3894abeceb7906d356",
+        "scripts/research_backup.py": "95e9d302f04d30fc95b09c7dee9c3379ebb52c479ce7d60fbe5a99b82c0ca368",
+        "deploy/consolidated/research.env.example": "eeaf58458b7935921d40decf5ceb53a7d9326588e6e314bafbda693feebf9982",
+        "deploy/consolidated/prism-research@.service": "06e42eb57f1b8ca3638ff99c0cc7034ba69098fdfa12716f0ab05f82f1416358",
+        "deploy/consolidated/install_research_disabled.sh": "2325185174c99a169c774d140d7c2c96c6668c868216790015cca2ca2ababb36",
+        "deploy/consolidated/research-backup.env.example": "970418a8aed16193aa1dc1b55c0a6d30556d8c35756d075f08afa2cc0586f103",
+        "deploy/consolidated/research-backup.json.example": "505e568621ce5cb467ccfe14c511dee51dc24cc9c20027e442b607a615d86da4"
+      },
+      "unrelated_dirty_files_excluded": true
+    },
+    "source_snapshot_metadata": {
+      "name": "prism-20261015T113557Z.duckdb",
+      "sha256": "1caa6c9677e1f87e4f04fc087a2534b3d8a4eac89d1e93d7fe0fc025213333c6",
+      "source_size": 1646276608,
+      "schema_version": 30,
+      "source_manifest": {
+        "sha256": "1caa6c9677e1f87e4f04fc087a2534b3d8a4eac89d1e93d7fe0fc025213333c6",
+        "db_file_size": 1646276608,
+        "schema_version": 30,
+        "source_revision": "8f9bc3473142eb6b8a5ea54a3987db8ef2bcb0cf",
+        "run_ids": {
+          "paper_nimble_runs": [
+            "paperrun_nimble_a8aef8be36c02700688053a1e57d2f908573fe8898860450b00b889d4f98f54c",
+            "paperrun_nimble_a5fafb2cf008686ad99d2e1e039d428cd95349423d2e31778409810be6cce3d3",
+            "paperrun_nimble_981fac864a79b04053e1ca081731a692db95b5e69cec9f29e74618e6e84e0528"
+          ],
+          "paper_runs": [
+            "paperrun_27b0a336e707c389a3fb574cd9d09a7800b563f0691612bf4fb4f1fd97029279"
+          ],
+          "paper_v2_runs": [
+            "paperrun_v2_3811cccc40db4fbe6413ebd018c129d1026748f3cd72e619ec80ba88e47ada95"
+          ]
+        },
+        "policy_ids": {
+          "copilot_policies": [
+            "copolicy_e235b9dedbfe8cdb77404d15afe7c3069ca947b65e875f85c5d9c6196c745a27"
+          ],
+          "lab_evidence_policies": [
+            "evpolicy_03600728d5dc5171db1b3b62e06613ada959058b4645ddca1480acad7d05a0df"
+          ],
+          "lab_research_policies": [
+            "frpolicy_9d67a9d1b6728d5a2d300c684fd633129ab3355697f0bec71e6f4d8800563c42",
+            "valpolicy_50407ad3fecb4a25b1dfc9a3edfb3ea93b1c8aad5683703ca11ee3e6010092f7",
+            "extpolicy_7220564072e995c4fa3f5079061b34ccb85208b3e907271dcc64ef2a3295fae9",
+            "xvpolicy_712462d813c2081b0ad2bf2115d2e697f1ecea4f74b90efe34632b3365fc4b33"
+          ],
+          "paper_nimble_policies": [
+            "paperexecution_nimble_ec40a2968bcc33f7c7654a1c8d7dcc200361e88bca99079cb4f45738ba785501",
+            "paperexecution_event_12208f088bec2bcfaa8dfe10af41ccac81975d012cd2e5b0919ec5918712c885"
+          ],
+          "paper_policies": [
+            "appolicy_1f0b69cff1c4c5d0584a62f124f0a5902d37a7b9f0a3d05f388db80e27ce0277",
+            "riskpolicy_e755fb81dd3154b593f75385a9916177bee00e6240f68f1cfd8799750db67181",
+            "execmodel_3a94bdf5f64156550972b53c1067c48e05a4baede915d6b075cdcfde34108f39",
+            "exitpolicy_4ef7a1b26f9d6d4c24d32e942ce5257372827464e956490bcc23dcc2c8103812",
+            "papermaturity_0b19dee3e95d87645f9eb62d9362600a3fd24764a303583224e144d27dbde620"
+          ],
+          "paper_v2_policies": [
+            "paperadmission_v2_f756f122a75360aeb58bcac27b38f5e72ee911011edf1944138f160d0c28d39e",
+            "paperrisk_v2_475b7c1e87fc2934eba4bb288f07cc818ed7dadb9fc8b9ab8d24a594a772e8b9",
+            "paperexecution_v2_1d468dd57dd04acf3389bf67cb48c5353eb03e0d919fe744993d2ce21742f08d"
+          ]
+        },
+        "tables_read": {
+          "alert_events": 91,
+          "alert_rules": 4,
+          "assets": 18,
+          "bar_revisions": 1,
+          "bars": 99555,
+          "context_asset_links": 833,
+          "context_event_updates": 67,
+          "context_events": 102,
+          "context_free_ingests": 40,
+          "context_free_observations": 40,
+          "context_gateway_ingests": 9,
+          "context_hl_oi_hourly": 1110,
+          "context_ls_ratios": 21474,
+          "context_provider_runs": 642,
+          "context_snapshots": 0,
+          "context_sources": 15,
+          "context_theses": 0,
+          "context_work_observations": 0,
+          "context_work_reactions": 824,
+          "context_work_research_pending": 177,
+          "copilot_decisions": 1,
+          "copilot_deliveries": 2,
+          "copilot_policies": 1,
+          "copilot_runs": 95,
+          "copilot_software": 24,
+          "copilot_watch_status": 2,
+          "copilot_watchlist": 2,
+          "corporate_actions": 354,
+          "crypto_metrics": 9911,
+          "data_quality_issues": 4973,
+          "fundamental_facts": 8840,
+          "incubation_decisions": 3840,
+          "incubation_evaluations": 1280,
+          "incubation_freezes": 1,
+          "incubation_intents": 21,
+          "incubation_outcomes": 0,
+          "incubation_runs": 81,
+          "incubation_transitions": 402,
+          "ingestion_runs": 9026,
+          "intraday_execution_shadow": 0,
+          "journal_entries": 0,
+          "lab_batch_analyses": 1,
+          "lab_batch_members": 40,
+          "lab_batch_runs": 1,
+          "lab_batches": 1,
+          "lab_corroboration_registrations": 2,
+          "lab_corroboration_results": 2,
+          "lab_corroboration_runs": 2,
+          "lab_dataset_blobs": 22,
+          "lab_datasets": 2,
+          "lab_edge_profiles": 0,
+          "lab_evidence_policies": 1,
+          "lab_evidence_profiles": 44,
+          "lab_experiments": 47,
+          "lab_forward_entries": 1,
+          "lab_forward_evaluations": 132,
+          "lab_forward_inputs": 168,
+          "lab_forward_outcomes": 204,
+          "lab_forward_runs": 192,
+          "lab_forward_status": 4,
+          "lab_forward_summaries": 0,
+          "lab_forward_trackings": 3,
+          "lab_hypotheses": 40,
+          "lab_inspections": 47,
+          "lab_plans": 3,
+          "lab_prospective_checkpoints": 8,
+          "lab_prospective_results": 8,
+          "lab_prospective_studies": 1,
+          "lab_research_policies": 4,
+          "lab_research_registrations": 2,
+          "lab_research_results": 4,
+          "lab_research_runs": 4,
+          "lab_results": 47,
+          "lab_snapshot_blobs": 22,
+          "lab_software": 29,
+          "lab_starts": 47,
+          "lab_strategies": 40,
+          "lab_structure_results": 0,
+          "lab_structure_runs": 0,
+          "lab_structure_studies": 0,
+          "lab_structure_study_datasets": 0,
+          "lab_submissions": 40,
+          "macro_observations": 1093572,
+          "microstructure_cutover": 1,
+          "microstructure_ingest_offsets": 186,
+          "microstructure_late_events": 204,
+          "microstructure_lp_thresholds": 54,
+          "microstructure_minutes": 66708,
+          "microstructure_provider_runs": 108,
+          "microstructure_revisions": 31,
+          "paper_briefs": 5,
+          "paper_cycles": 41,
+          "paper_event_evidence": 51,
+          "paper_event_pending": 0,
+          "paper_events": 12,
+          "paper_evidence": 0,
+          "paper_nimble_accounts": 3,
+          "paper_nimble_deliveries": 10,
+          "paper_nimble_events": 18237,
+          "paper_nimble_opportunities": 78888,
+          "paper_nimble_policies": 2,
+          "paper_nimble_positions": 198,
+          "paper_nimble_reports": 15,
+          "paper_nimble_research": 9246,
+          "paper_nimble_research_pending": 216,
+          "paper_nimble_runs": 3,
+          "paper_nimble_theses": 198,
+          "paper_nimble_trigger_receipts": 108772,
+          "paper_nimble_triggers": 45184,
+          "paper_notifications": 10,
+          "paper_policies": 5,
+          "paper_retirements": 1,
+          "paper_runs": 1,
+          "paper_snapshots": 6,
+          "paper_software": 9,
+          "paper_v2_context_snapshots": 780,
+          "paper_v2_deliveries": 2,
+          "paper_v2_evaluations": 143,
+          "paper_v2_events": 162,
+          "paper_v2_opportunities": 10200,
+          "paper_v2_outcomes": 29,
+          "paper_v2_policies": 3,
+          "paper_v2_reports": 1,
+          "paper_v2_runs": 1,
+          "paper_v2_universes": 1,
+          "perp_bars": 23810,
+          "perp_funding": 185163,
+          "perp_intraday_bars": 868922,
+          "perp_intraday_coverage": 36,
+          "perp_intraday_revisions": 0,
+          "perp_oi_history": 5976,
+          "perp_oi_observations": 6912,
+          "perp_paper_checks": 306,
+          "perp_snapshots": 936,
+          "positions": 0,
+          "research_runs": 13,
+          "runtime_cycles": 2770,
+          "runtime_events": 57,
+          "scan_results": 324,
+          "scan_runs": 18,
+          "schema_version": 30,
+          "series_changes": 0
+        },
+        "verification_result": "all tables readable; checksum stable",
+        "source_revision_basis": "backup creator REVISION",
+        "backup_timestamp": "2026-10-15T11:35:57+00:00",
+        "origin_environment": "production",
+        "verified_at": "2026-10-15T11:36:50.031621+00:00",
+        "rollback_reason": ""
+      }
+    },
+    "profile_identity": "prism_research_vps_runtime_v1",
+    "authority_mode": "none",
+    "runtime_role": "reader",
+    "received_at_here": "2026-10-15T12:31:22.492499+00:00",
+    "available_at_here": "2026-10-15T12:31:22.493899+00:00"
+  },
+  "created_at": "2026-10-15T12:38:17.630046+00:00",
+  "mode": "non-authoritative-sealed-candidate",
+  "off_host_verified": false,
+  "lock_seconds": 0,
+  "lock_scope": "backup files only; no live DB owner lock",
+  "backup_seconds": 82.792606256,
+  "restore_seconds": 45.93449284901726,
+  "independent_fresh_scratch_restore": {
+    "seconds": 40.161537593987305,
+    "verified": true,
+    "inspection": {
+      "sha256": "dbaa5a3c31ebd738cca69bbd714263f4583722331f515ee2d239d4be77d9726f",
+      "bytes": 1646276608,
+      "schema_version": 31,
+      "duckdb_version": "1.5.5",
+      "tables": {
+        "alert_events": {
+          "rows": 91,
+          "value_hash": 17247595242399832431
+        },
+        "alert_rules": {
+          "rows": 4,
+          "value_hash": 9669272483362578522
+        },
+        "assets": {
+          "rows": 18,
+          "value_hash": 12079047196793743767
+        },
+        "bar_revisions": {
+          "rows": 1,
+          "value_hash": 16867430999976028958
+        },
+        "bars": {
+          "rows": 99555,
+          "value_hash": 8744305602971157004
+        },
+        "context_asset_links": {
+          "rows": 833,
+          "value_hash": 10562393917820265229
+        },
+        "context_event_updates": {
+          "rows": 67,
+          "value_hash": 2909764181281504644
+        },
+        "context_events": {
+          "rows": 102,
+          "value_hash": 14431977902646827090
+        },
+        "context_free_ingests": {
+          "rows": 40,
+          "value_hash": 17826094169822033019
+        },
+        "context_free_observations": {
+          "rows": 40,
+          "value_hash": 11502545651452405256
+        },
+        "context_gateway_ingests": {
+          "rows": 9,
+          "value_hash": 13606154544704433097
+        },
+        "context_hl_oi_hourly": {
+          "rows": 1110,
+          "value_hash": 4818582239978968244
+        },
+        "context_ls_ratios": {
+          "rows": 21474,
+          "value_hash": 11248430768545023577
+        },
+        "context_provider_runs": {
+          "rows": 642,
+          "value_hash": 6105024067304340754
+        },
+        "context_snapshots": {
+          "rows": 0,
+          "value_hash": null
+        },
+        "context_sources": {
+          "rows": 15,
+          "value_hash": 7399039429712119179
+        },
+        "context_theses": {
+          "rows": 0,
+          "value_hash": null
+        },
+        "context_work_observations": {
+          "rows": 0,
+          "value_hash": null
+        },
+        "context_work_reactions": {
+          "rows": 824,
+          "value_hash": 9578737090620199429
+        },
+        "context_work_research_pending": {
+          "rows": 177,
+          "value_hash": 11553615960230074620
+        },
+        "copilot_decisions": {
+          "rows": 1,
+          "value_hash": 5243362028966794778
+        },
+        "copilot_deliveries": {
+          "rows": 2,
+          "value_hash": 3161357255033589845
+        },
+        "copilot_policies": {
+          "rows": 1,
+          "value_hash": 4128736006916441010
+        },
+        "copilot_runs": {
+          "rows": 95,
+          "value_hash": 8492963954459763958
+        },
+        "copilot_software": {
+          "rows": 24,
+          "value_hash": 9781609595244481912
+        },
+        "copilot_watch_status": {
+          "rows": 2,
+          "value_hash": 14443971861232125636
+        },
+        "copilot_watchlist": {
+          "rows": 2,
+          "value_hash": 17707115839132338041
+        },
+        "corporate_actions": {
+          "rows": 354,
+          "value_hash": 3154910590819947145
+        },
+        "crypto_metrics": {
+          "rows": 9911,
+          "value_hash": 6198971946128760019
+        },
+        "data_quality_issues": {
+          "rows": 4973,
+          "value_hash": 15933957905173422425
+        },
+        "fundamental_facts": {
+          "rows": 8840,
+          "value_hash": 4589754444957258559
+        },
+        "incubation_decisions": {
+          "rows": 3840,
+          "value_hash": 11620898487715803499
+        },
+        "incubation_evaluations": {
+          "rows": 1280,
+          "value_hash": 10150160061753713943
+        },
+        "incubation_freezes": {
+          "rows": 1,
+          "value_hash": 10569600882940242057
+        },
+        "incubation_intents": {
+          "rows": 21,
+          "value_hash": 949020488461127011
+        },
+        "incubation_outcomes": {
+          "rows": 0,
+          "value_hash": null
+        },
+        "incubation_runs": {
+          "rows": 81,
+          "value_hash": 10846075386215572999
+        },
+        "incubation_transitions": {
+          "rows": 402,
+          "value_hash": 12692404119821601052
+        },
+        "ingestion_runs": {
+          "rows": 9026,
+          "value_hash": 10669957174750456280
+        },
+        "intraday_execution_shadow": {
+          "rows": 0,
+          "value_hash": null
+        },
+        "journal_entries": {
+          "rows": 0,
+          "value_hash": null
+        },
+        "lab_batch_analyses": {
+          "rows": 1,
+          "value_hash": 5177520770835178362
+        },
+        "lab_batch_members": {
+          "rows": 40,
+          "value_hash": 467884306206015066
+        },
+        "lab_batch_runs": {
+          "rows": 1,
+          "value_hash": 12332271671823039076
+        },
+        "lab_batches": {
+          "rows": 1,
+          "value_hash": 9404282933660446556
+        },
+        "lab_corroboration_registrations": {
+          "rows": 2,
+          "value_hash": 12496321505401253820
+        },
+        "lab_corroboration_results": {
+          "rows": 2,
+          "value_hash": 2946488699125534235
+        },
+        "lab_corroboration_runs": {
+          "rows": 2,
+          "value_hash": 7475148591905251522
+        },
+        "lab_dataset_blobs": {
+          "rows": 22,
+          "value_hash": 5734429529397150932
+        },
+        "lab_datasets": {
+          "rows": 2,
+          "value_hash": 1733929028225184876
+        },
+        "lab_edge_profiles": {
+          "rows": 0,
+          "value_hash": null
+        },
+        "lab_evidence_policies": {
+          "rows": 1,
+          "value_hash": 9959254396369796849
+        },
+        "lab_evidence_profiles": {
+          "rows": 44,
+          "value_hash": 6998608492496632059
+        },
+        "lab_experiments": {
+          "rows": 47,
+          "value_hash": 2125073900173524203
+        },
+        "lab_forward_entries": {
+          "rows": 1,
+          "value_hash": 17485741330867619266
+        },
+        "lab_forward_evaluations": {
+          "rows": 132,
+          "value_hash": 16340806207363860609
+        },
+        "lab_forward_inputs": {
+          "rows": 168,
+          "value_hash": 6267980523864996612
+        },
+        "lab_forward_outcomes": {
+          "rows": 204,
+          "value_hash": 11234618619892545731
+        },
+        "lab_forward_runs": {
+          "rows": 192,
+          "value_hash": 17282097834412789142
+        },
+        "lab_forward_status": {
+          "rows": 4,
+          "value_hash": 17695625165889948952
+        },
+        "lab_forward_summaries": {
+          "rows": 0,
+          "value_hash": null
+        },
+        "lab_forward_trackings": {
+          "rows": 3,
+          "value_hash": 14979162061327154597
+        },
+        "lab_hypotheses": {
+          "rows": 40,
+          "value_hash": 10103972147386419891
+        },
+        "lab_inspections": {
+          "rows": 47,
+          "value_hash": 11038702008687266489
+        },
+        "lab_plans": {
+          "rows": 3,
+          "value_hash": 778666489892547871
+        },
+        "lab_prospective_checkpoints": {
+          "rows": 8,
+          "value_hash": 12120271818234969867
+        },
+        "lab_prospective_results": {
+          "rows": 8,
+          "value_hash": 17305193325521152994
+        },
+        "lab_prospective_studies": {
+          "rows": 1,
+          "value_hash": 6826053177352508313
+        },
+        "lab_research_policies": {
+          "rows": 4,
+          "value_hash": 6252889691790983201
+        },
+        "lab_research_registrations": {
+          "rows": 2,
+          "value_hash": 13098455314852049657
+        },
+        "lab_research_results": {
+          "rows": 4,
+          "value_hash": 2882007551277244577
+        },
+        "lab_research_runs": {
+          "rows": 4,
+          "value_hash": 3083019889428397194
+        },
+        "lab_results": {
+          "rows": 47,
+          "value_hash": 3464351347965692049
+        },
+        "lab_snapshot_blobs": {
+          "rows": 22,
+          "value_hash": 8990137579415068303
+        },
+        "lab_software": {
+          "rows": 29,
+          "value_hash": 10703251916040707999
+        },
+        "lab_starts": {
+          "rows": 47,
+          "value_hash": 14932118058545502065
+        },
+        "lab_strategies": {
+          "rows": 40,
+          "value_hash": 12144051023904209342
+        },
+        "lab_structure_results": {
+          "rows": 0,
+          "value_hash": null
+        },
+        "lab_structure_runs": {
+          "rows": 0,
+          "value_hash": null
+        },
+        "lab_structure_studies": {
+          "rows": 0,
+          "value_hash": null
+        },
+        "lab_structure_study_datasets": {
+          "rows": 0,
+          "value_hash": null
+        },
+        "lab_submissions": {
+          "rows": 40,
+          "value_hash": 1848696866874668081
+        },
+        "macro_observations": {
+          "rows": 1093572,
+          "value_hash": 366464695317848758
+        },
+        "microstructure_cutover": {
+          "rows": 1,
+          "value_hash": 2357758482667801206
+        },
+        "microstructure_ingest_offsets": {
+          "rows": 186,
+          "value_hash": 10637060563784927481
+        },
+        "microstructure_late_events": {
+          "rows": 204,
+          "value_hash": 3618689412589456922
+        },
+        "microstructure_lp_thresholds": {
+          "rows": 54,
+          "value_hash": 15390379271499334179
+        },
+        "microstructure_minutes": {
+          "rows": 66708,
+          "value_hash": 12830315526811020044
+        },
+        "microstructure_provider_runs": {
+          "rows": 108,
+          "value_hash": 14022869260900760924
+        },
+        "microstructure_revisions": {
+          "rows": 31,
+          "value_hash": 12545020249317125621
+        },
+        "microstructure_subscription_events": {
+          "rows": 0,
+          "value_hash": null
+        },
+        "paper_briefs": {
+          "rows": 5,
+          "value_hash": 5729876729490885831
+        },
+        "paper_cycles": {
+          "rows": 41,
+          "value_hash": 8996575157728250976
+        },
+        "paper_event_evidence": {
+          "rows": 51,
+          "value_hash": 3778338080635836499
+        },
+        "paper_event_pending": {
+          "rows": 0,
+          "value_hash": null
+        },
+        "paper_events": {
+          "rows": 12,
+          "value_hash": 15228037030339624203
+        },
+        "paper_evidence": {
+          "rows": 0,
+          "value_hash": null
+        },
+        "paper_nimble_accounts": {
+          "rows": 3,
+          "value_hash": 7315971479690792714
+        },
+        "paper_nimble_deliveries": {
+          "rows": 10,
+          "value_hash": 14469602903584790929
+        },
+        "paper_nimble_events": {
+          "rows": 18237,
+          "value_hash": 7818215394726071790
+        },
+        "paper_nimble_opportunities": {
+          "rows": 78888,
+          "value_hash": 339235588283082382
+        },
+        "paper_nimble_policies": {
+          "rows": 2,
+          "value_hash": 17620281814868853486
+        },
+        "paper_nimble_positions": {
+          "rows": 198,
+          "value_hash": 8065947231174572065
+        },
+        "paper_nimble_reports": {
+          "rows": 15,
+          "value_hash": 5013667493405745344
+        },
+        "paper_nimble_research": {
+          "rows": 9246,
+          "value_hash": 8448115715587216992
+        },
+        "paper_nimble_research_pending": {
+          "rows": 216,
+          "value_hash": 1949524013092172387
+        },
+        "paper_nimble_runs": {
+          "rows": 3,
+          "value_hash": 3705937473281803329
+        },
+        "paper_nimble_theses": {
+          "rows": 198,
+          "value_hash": 176179215580178706
+        },
+        "paper_nimble_trigger_receipts": {
+          "rows": 108772,
+          "value_hash": 16770555867230669308
+        },
+        "paper_nimble_triggers": {
+          "rows": 45184,
+          "value_hash": 3134450229807461812
+        },
+        "paper_notifications": {
+          "rows": 10,
+          "value_hash": 4965068097740341907
+        },
+        "paper_policies": {
+          "rows": 5,
+          "value_hash": 270132773460432516
+        },
+        "paper_retirements": {
+          "rows": 1,
+          "value_hash": 9718130779566177543
+        },
+        "paper_runs": {
+          "rows": 1,
+          "value_hash": 12635696425689540592
+        },
+        "paper_snapshots": {
+          "rows": 6,
+          "value_hash": 7692272481186616091
+        },
+        "paper_software": {
+          "rows": 9,
+          "value_hash": 2792490924974917018
+        },
+        "paper_v2_context_snapshots": {
+          "rows": 780,
+          "value_hash": 4463666922046302225
+        },
+        "paper_v2_deliveries": {
+          "rows": 2,
+          "value_hash": 10671744814979302648
+        },
+        "paper_v2_evaluations": {
+          "rows": 143,
+          "value_hash": 8739974122641213161
+        },
+        "paper_v2_events": {
+          "rows": 162,
+          "value_hash": 16186911561060008834
+        },
+        "paper_v2_opportunities": {
+          "rows": 10200,
+          "value_hash": 17230264422408200381
+        },
+        "paper_v2_outcomes": {
+          "rows": 29,
+          "value_hash": 11108479923708869473
+        },
+        "paper_v2_policies": {
+          "rows": 3,
+          "value_hash": 15747861922162102906
+        },
+        "paper_v2_reports": {
+          "rows": 1,
+          "value_hash": 5194569068325838705
+        },
+        "paper_v2_runs": {
+          "rows": 1,
+          "value_hash": 15839854967552780510
+        },
+        "paper_v2_universes": {
+          "rows": 1,
+          "value_hash": 7536442629600639621
+        },
+        "perp_bars": {
+          "rows": 23810,
+          "value_hash": 11690967453315686086
+        },
+        "perp_funding": {
+          "rows": 185163,
+          "value_hash": 15176841141682490872
+        },
+        "perp_intraday_bars": {
+          "rows": 868922,
+          "value_hash": 15885698212752402762
+        },
+        "perp_intraday_coverage": {
+          "rows": 36,
+          "value_hash": 3367249984090303483
+        },
+        "perp_intraday_revisions": {
+          "rows": 0,
+          "value_hash": null
+        },
+        "perp_oi_history": {
+          "rows": 5976,
+          "value_hash": 17938700389993757425
+        },
+        "perp_oi_observations": {
+          "rows": 6912,
+          "value_hash": 4590372961551497521
+        },
+        "perp_paper_checks": {
+          "rows": 306,
+          "value_hash": 13965486549956170515
+        },
+        "perp_snapshots": {
+          "rows": 936,
+          "value_hash": 13891517654603000264
+        },
+        "positions": {
+          "rows": 0,
+          "value_hash": null
+        },
+        "research_runs": {
+          "rows": 13,
+          "value_hash": 1920349106870625841
+        },
+        "runtime_cycles": {
+          "rows": 2770,
+          "value_hash": 2462800286035028653
+        },
+        "runtime_events": {
+          "rows": 57,
+          "value_hash": 7735501233750621657
+        },
+        "scan_results": {
+          "rows": 324,
+          "value_hash": 11701468775674227960
+        },
+        "scan_runs": {
+          "rows": 18,
+          "value_hash": 7736956618711172968
+        },
+        "schema_version": {
+          "rows": 31,
+          "value_hash": 14192710874645283034
+        },
+        "series_changes": {
+          "rows": 0,
+          "value_hash": null
+        },
+        "universe_evaluations": {
+          "rows": 0,
+          "value_hash": null
+        },
+        "universe_outcomes": {
+          "rows": 0,
+          "value_hash": null
+        },
+        "universe_policies": {
+          "rows": 0,
+          "value_hash": null
+        }
+      },
+      "authority": [
+        "railway-prism-runtime",
+        "2026-10-04 17:46:19.092023+00:00"
+      ],
+      "last_finished_cycle": "2026-10-15 11:31:40.099798+00:00"
+    }
+  },
+  "resources": {
+    "wall_seconds": 169.89613809800358,
+    "cpu_seconds": 164.877041978,
+    "peak_rss_bytes": 1996132352,
+    "before": {
+      "logical_bytes": 3292553216,
+      "allocated_bytes": 3292561408,
+      "free_bytes": 93742444544,
+      "temporary_bytes": 0
+    },
+    "after": {
+      "logical_bytes": 5074469224,
+      "allocated_bytes": 5074489344,
+      "free_bytes": 91960176640,
+      "temporary_bytes": 0
+    },
+    "sample_interval_seconds": 0.2,
+    "peak_research_logical_bytes": 5074469224,
+    "peak_research_allocated_bytes": 5074489344,
+    "peak_temporary_bytes": 1781891383,
+    "minimum_host_free_bytes": 91960176640
+  }
+}

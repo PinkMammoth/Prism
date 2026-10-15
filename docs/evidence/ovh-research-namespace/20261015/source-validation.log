@@ -1,0 +1,15 @@
+chown: cannot access '/var/lib/prism-research/state/*.json': No such file or directory
+chmod: cannot access '/var/lib/prism-research/state/*.json': No such file or directory
+Traceback (most recent call last):
+  File "/opt/prism/research/current/scripts/ovh_research_validate.py", line 295, in <module>
+    main()
+  File "/opt/prism/research/current/scripts/ovh_research_validate.py", line 241, in main
+    receipt = json.loads(args.receipt.read_text())
+                         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/prism/python/cpython-3.12.3-linux-x86_64-gnu/lib/python3.12/pathlib.py", line 1027, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/prism/python/cpython-3.12.3-linux-x86_64-gnu/lib/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [Errno 13] Permission denied: '/var/lib/prism-research/state/source-receipt.json'

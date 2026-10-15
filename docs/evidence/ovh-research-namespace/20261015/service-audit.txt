@@ -1,0 +1,26 @@
+Thu Oct 15 12:56:14 UTC 2026
+UNIT FILE STATE PRESET
+
+0 unit files listed.
+  UNIT LOAD ACTIVE SUB DESCRIPTION
+0 loaded units listed.
+To show all installed unit files use 'systemctl list-unit-files'.
+Netid State  Recv-Q Send-Q      Local Address:Port Peer Address:PortProcess
+udp   UNCONN 0      0                 0.0.0.0:5355      0.0.0.0:*    users:(("systemd-resolve",pid=461,fd=11))
+udp   UNCONN 0      0              127.0.0.54:53        0.0.0.0:*    users:(("systemd-resolve",pid=461,fd=20))
+udp   UNCONN 0      0           127.0.0.53%lo:53        0.0.0.0:*    users:(("systemd-resolve",pid=461,fd=18))
+udp   UNCONN 0      0      178.33.95.139%ens3:68        0.0.0.0:*    users:(("systemd-network",pid=507,fd=10))
+udp   UNCONN 0      0               127.0.0.1:323       0.0.0.0:*    users:(("chronyd",pid=3897,fd=5))
+udp   UNCONN 0      0                    [::]:5355         [::]:*    users:(("systemd-resolve",pid=461,fd=13))
+udp   UNCONN 0      0                   [::1]:323          [::]:*    users:(("chronyd",pid=3897,fd=6))
+tcp   LISTEN 0      128               0.0.0.0:22        0.0.0.0:*    users:(("sshd",pid=604,fd=3))
+tcp   LISTEN 0      4096        127.0.0.53%lo:53        0.0.0.0:*    users:(("systemd-resolve",pid=461,fd=19))
+tcp   LISTEN 0      4096              0.0.0.0:5355      0.0.0.0:*    users:(("systemd-resolve",pid=461,fd=12))
+tcp   LISTEN 0      4096           127.0.0.54:53        0.0.0.0:*    users:(("systemd-resolve",pid=461,fd=21))
+tcp   LISTEN 0      128                  [::]:22           [::]:*    users:(("sshd",pid=604,fd=4))
+tcp   LISTEN 0      4096                 [::]:5355         [::]:*    users:(("systemd-resolve",pid=461,fd=14))
+research_crontab_absent
+latest.json 136
+.backup.lock 0
+generation-20261015T123904063259Z/manifest.json 24489
+generation-20261015T123904063259Z/research.duckdb.gz 135614775

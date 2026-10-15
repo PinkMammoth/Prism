@@ -1,0 +1,2043 @@
+{
+  "at": "2026-10-15T12:28:31.716723+00:00",
+  "frontier": "2026-10-15 11:31:40.099798+00:00",
+  "inspection": {
+    "sha256": "1caa6c9677e1f87e4f04fc087a2534b3d8a4eac89d1e93d7fe0fc025213333c6",
+    "bytes": 1646276608,
+    "schema_version": 30,
+    "duckdb_version": "1.5.5",
+    "tables": {
+      "alert_events": {
+        "rows": 91,
+        "value_hash": 17247595242399832431
+      },
+      "alert_rules": {
+        "rows": 4,
+        "value_hash": 9669272483362578522
+      },
+      "assets": {
+        "rows": 18,
+        "value_hash": 12079047196793743767
+      },
+      "bar_revisions": {
+        "rows": 1,
+        "value_hash": 16867430999976028958
+      },
+      "bars": {
+        "rows": 99555,
+        "value_hash": 8744305602971157004
+      },
+      "context_asset_links": {
+        "rows": 833,
+        "value_hash": 10562393917820265229
+      },
+      "context_event_updates": {
+        "rows": 67,
+        "value_hash": 2909764181281504644
+      },
+      "context_events": {
+        "rows": 102,
+        "value_hash": 14431977902646827090
+      },
+      "context_free_ingests": {
+        "rows": 40,
+        "value_hash": 17826094169822033019
+      },
+      "context_free_observations": {
+        "rows": 40,
+        "value_hash": 11502545651452405256
+      },
+      "context_gateway_ingests": {
+        "rows": 9,
+        "value_hash": 13606154544704433097
+      },
+      "context_hl_oi_hourly": {
+        "rows": 1110,
+        "value_hash": 4818582239978968244
+      },
+      "context_ls_ratios": {
+        "rows": 21474,
+        "value_hash": 11248430768545023577
+      },
+      "context_provider_runs": {
+        "rows": 642,
+        "value_hash": 6105024067304340754
+      },
+      "context_snapshots": {
+        "rows": 0,
+        "value_hash": null
+      },
+      "context_sources": {
+        "rows": 15,
+        "value_hash": 7399039429712119179
+      },
+      "context_theses": {
+        "rows": 0,
+        "value_hash": null
+      },
+      "context_work_observations": {
+        "rows": 0,
+        "value_hash": null
+      },
+      "context_work_reactions": {
+        "rows": 824,
+        "value_hash": 9578737090620199429
+      },
+      "context_work_research_pending": {
+        "rows": 177,
+        "value_hash": 11553615960230074620
+      },
+      "copilot_decisions": {
+        "rows": 1,
+        "value_hash": 5243362028966794778
+      },
+      "copilot_deliveries": {
+        "rows": 2,
+        "value_hash": 3161357255033589845
+      },
+      "copilot_policies": {
+        "rows": 1,
+        "value_hash": 4128736006916441010
+      },
+      "copilot_runs": {
+        "rows": 95,
+        "value_hash": 8492963954459763958
+      },
+      "copilot_software": {
+        "rows": 24,
+        "value_hash": 9781609595244481912
+      },
+      "copilot_watch_status": {
+        "rows": 2,
+        "value_hash": 14443971861232125636
+      },
+      "copilot_watchlist": {
+        "rows": 2,
+        "value_hash": 17707115839132338041
+      },
+      "corporate_actions": {
+        "rows": 354,
+        "value_hash": 3154910590819947145
+      },
+      "crypto_metrics": {
+        "rows": 9911,
+        "value_hash": 6198971946128760019
+      },
+      "data_quality_issues": {
+        "rows": 4973,
+        "value_hash": 15933957905173422425
+      },
+      "fundamental_facts": {
+        "rows": 8840,
+        "value_hash": 4589754444957258559
+      },
+      "incubation_decisions": {
+        "rows": 3840,
+        "value_hash": 11620898487715803499
+      },
+      "incubation_evaluations": {
+        "rows": 1280,
+        "value_hash": 10150160061753713943
+      },
+      "incubation_freezes": {
+        "rows": 1,
+        "value_hash": 10569600882940242057
+      },
+      "incubation_intents": {
+        "rows": 21,
+        "value_hash": 949020488461127011
+      },
+      "incubation_outcomes": {
+        "rows": 0,
+        "value_hash": null
+      },
+      "incubation_runs": {
+        "rows": 81,
+        "value_hash": 10846075386215572999
+      },
+      "incubation_transitions": {
+        "rows": 402,
+        "value_hash": 12692404119821601052
+      },
+      "ingestion_runs": {
+        "rows": 9026,
+        "value_hash": 10669957174750456280
+      },
+      "intraday_execution_shadow": {
+        "rows": 0,
+        "value_hash": null
+      },
+      "journal_entries": {
+        "rows": 0,
+        "value_hash": null
+      },
+      "lab_batch_analyses": {
+        "rows": 1,
+        "value_hash": 5177520770835178362
+      },
+      "lab_batch_members": {
+        "rows": 40,
+        "value_hash": 467884306206015066
+      },
+      "lab_batch_runs": {
+        "rows": 1,
+        "value_hash": 12332271671823039076
+      },
+      "lab_batches": {
+        "rows": 1,
+        "value_hash": 9404282933660446556
+      },
+      "lab_corroboration_registrations": {
+        "rows": 2,
+        "value_hash": 12496321505401253820
+      },
+      "lab_corroboration_results": {
+        "rows": 2,
+        "value_hash": 2946488699125534235
+      },
+      "lab_corroboration_runs": {
+        "rows": 2,
+        "value_hash": 7475148591905251522
+      },
+      "lab_dataset_blobs": {
+        "rows": 22,
+        "value_hash": 5734429529397150932
+      },
+      "lab_datasets": {
+        "rows": 2,
+        "value_hash": 1733929028225184876
+      },
+      "lab_edge_profiles": {
+        "rows": 0,
+        "value_hash": null
+      },
+      "lab_evidence_policies": {
+        "rows": 1,
+        "value_hash": 9959254396369796849
+      },
+      "lab_evidence_profiles": {
+        "rows": 44,
+        "value_hash": 6998608492496632059
+      },
+      "lab_experiments": {
+        "rows": 47,
+        "value_hash": 2125073900173524203
+      },
+      "lab_forward_entries": {
+        "rows": 1,
+        "value_hash": 17485741330867619266
+      },
+      "lab_forward_evaluations": {
+        "rows": 132,
+        "value_hash": 16340806207363860609
+      },
+      "lab_forward_inputs": {
+        "rows": 168,
+        "value_hash": 6267980523864996612
+      },
+      "lab_forward_outcomes": {
+        "rows": 204,
+        "value_hash": 11234618619892545731
+      },
+      "lab_forward_runs": {
+        "rows": 192,
+        "value_hash": 17282097834412789142
+      },
+      "lab_forward_status": {
+        "rows": 4,
+        "value_hash": 17695625165889948952
+      },
+      "lab_forward_summaries": {
+        "rows": 0,
+        "value_hash": null
+      },
+      "lab_forward_trackings": {
+        "rows": 3,
+        "value_hash": 14979162061327154597
+      },
+      "lab_hypotheses": {
+        "rows": 40,
+        "value_hash": 10103972147386419891
+      },
+      "lab_inspections": {
+        "rows": 47,
+        "value_hash": 11038702008687266489
+      },
+      "lab_plans": {
+        "rows": 3,
+        "value_hash": 778666489892547871
+      },
+      "lab_prospective_checkpoints": {
+        "rows": 8,
+        "value_hash": 12120271818234969867
+      },
+      "lab_prospective_results": {
+        "rows": 8,
+        "value_hash": 17305193325521152994
+      },
+      "lab_prospective_studies": {
+        "rows": 1,
+        "value_hash": 6826053177352508313
+      },
+      "lab_research_policies": {
+        "rows": 4,
+        "value_hash": 6252889691790983201
+      },
+      "lab_research_registrations": {
+        "rows": 2,
+        "value_hash": 13098455314852049657
+      },
+      "lab_research_results": {
+        "rows": 4,
+        "value_hash": 2882007551277244577
+      },
+      "lab_research_runs": {
+        "rows": 4,
+        "value_hash": 3083019889428397194
+      },
+      "lab_results": {
+        "rows": 47,
+        "value_hash": 3464351347965692049
+      },
+      "lab_snapshot_blobs": {
+        "rows": 22,
+        "value_hash": 8990137579415068303
+      },
+      "lab_software": {
+        "rows": 29,
+        "value_hash": 10703251916040707999
+      },
+      "lab_starts": {
+        "rows": 47,
+        "value_hash": 14932118058545502065
+      },
+      "lab_strategies": {
+        "rows": 40,
+        "value_hash": 12144051023904209342
+      },
+      "lab_structure_results": {
+        "rows": 0,
+        "value_hash": null
+      },
+      "lab_structure_runs": {
+        "rows": 0,
+        "value_hash": null
+      },
+      "lab_structure_studies": {
+        "rows": 0,
+        "value_hash": null
+      },
+      "lab_structure_study_datasets": {
+        "rows": 0,
+        "value_hash": null
+      },
+      "lab_submissions": {
+        "rows": 40,
+        "value_hash": 1848696866874668081
+      },
+      "macro_observations": {
+        "rows": 1093572,
+        "value_hash": 366464695317848758
+      },
+      "microstructure_cutover": {
+        "rows": 1,
+        "value_hash": 2357758482667801206
+      },
+      "microstructure_ingest_offsets": {
+        "rows": 186,
+        "value_hash": 10637060563784927481
+      },
+      "microstructure_late_events": {
+        "rows": 204,
+        "value_hash": 3618689412589456922
+      },
+      "microstructure_lp_thresholds": {
+        "rows": 54,
+        "value_hash": 15390379271499334179
+      },
+      "microstructure_minutes": {
+        "rows": 66708,
+        "value_hash": 12830315526811020044
+      },
+      "microstructure_provider_runs": {
+        "rows": 108,
+        "value_hash": 14022869260900760924
+      },
+      "microstructure_revisions": {
+        "rows": 31,
+        "value_hash": 12545020249317125621
+      },
+      "paper_briefs": {
+        "rows": 5,
+        "value_hash": 5729876729490885831
+      },
+      "paper_cycles": {
+        "rows": 41,
+        "value_hash": 8996575157728250976
+      },
+      "paper_event_evidence": {
+        "rows": 51,
+        "value_hash": 3778338080635836499
+      },
+      "paper_event_pending": {
+        "rows": 0,
+        "value_hash": null
+      },
+      "paper_events": {
+        "rows": 12,
+        "value_hash": 15228037030339624203
+      },
+      "paper_evidence": {
+        "rows": 0,
+        "value_hash": null
+      },
+      "paper_nimble_accounts": {
+        "rows": 3,
+        "value_hash": 7315971479690792714
+      },
+      "paper_nimble_deliveries": {
+        "rows": 10,
+        "value_hash": 14469602903584790929
+      },
+      "paper_nimble_events": {
+        "rows": 18237,
+        "value_hash": 7818215394726071790
+      },
+      "paper_nimble_opportunities": {
+        "rows": 78888,
+        "value_hash": 339235588283082382
+      },
+      "paper_nimble_policies": {
+        "rows": 2,
+        "value_hash": 17620281814868853486
+      },
+      "paper_nimble_positions": {
+        "rows": 198,
+        "value_hash": 8065947231174572065
+      },
+      "paper_nimble_reports": {
+        "rows": 15,
+        "value_hash": 5013667493405745344
+      },
+      "paper_nimble_research": {
+        "rows": 9246,
+        "value_hash": 8448115715587216992
+      },
+      "paper_nimble_research_pending": {
+        "rows": 216,
+        "value_hash": 1949524013092172387
+      },
+      "paper_nimble_runs": {
+        "rows": 3,
+        "value_hash": 3705937473281803329
+      },
+      "paper_nimble_theses": {
+        "rows": 198,
+        "value_hash": 176179215580178706
+      },
+      "paper_nimble_trigger_receipts": {
+        "rows": 108772,
+        "value_hash": 16770555867230669308
+      },
+      "paper_nimble_triggers": {
+        "rows": 45184,
+        "value_hash": 3134450229807461812
+      },
+      "paper_notifications": {
+        "rows": 10,
+        "value_hash": 4965068097740341907
+      },
+      "paper_policies": {
+        "rows": 5,
+        "value_hash": 270132773460432516
+      },
+      "paper_retirements": {
+        "rows": 1,
+        "value_hash": 9718130779566177543
+      },
+      "paper_runs": {
+        "rows": 1,
+        "value_hash": 12635696425689540592
+      },
+      "paper_snapshots": {
+        "rows": 6,
+        "value_hash": 7692272481186616091
+      },
+      "paper_software": {
+        "rows": 9,
+        "value_hash": 2792490924974917018
+      },
+      "paper_v2_context_snapshots": {
+        "rows": 780,
+        "value_hash": 4463666922046302225
+      },
+      "paper_v2_deliveries": {
+        "rows": 2,
+        "value_hash": 10671744814979302648
+      },
+      "paper_v2_evaluations": {
+        "rows": 143,
+        "value_hash": 8739974122641213161
+      },
+      "paper_v2_events": {
+        "rows": 162,
+        "value_hash": 16186911561060008834
+      },
+      "paper_v2_opportunities": {
+        "rows": 10200,
+        "value_hash": 17230264422408200381
+      },
+      "paper_v2_outcomes": {
+        "rows": 29,
+        "value_hash": 11108479923708869473
+      },
+      "paper_v2_policies": {
+        "rows": 3,
+        "value_hash": 15747861922162102906
+      },
+      "paper_v2_reports": {
+        "rows": 1,
+        "value_hash": 5194569068325838705
+      },
+      "paper_v2_runs": {
+        "rows": 1,
+        "value_hash": 15839854967552780510
+      },
+      "paper_v2_universes": {
+        "rows": 1,
+        "value_hash": 7536442629600639621
+      },
+      "perp_bars": {
+        "rows": 23810,
+        "value_hash": 11690967453315686086
+      },
+      "perp_funding": {
+        "rows": 185163,
+        "value_hash": 15176841141682490872
+      },
+      "perp_intraday_bars": {
+        "rows": 868922,
+        "value_hash": 15885698212752402762
+      },
+      "perp_intraday_coverage": {
+        "rows": 36,
+        "value_hash": 3367249984090303483
+      },
+      "perp_intraday_revisions": {
+        "rows": 0,
+        "value_hash": null
+      },
+      "perp_oi_history": {
+        "rows": 5976,
+        "value_hash": 17938700389993757425
+      },
+      "perp_oi_observations": {
+        "rows": 6912,
+        "value_hash": 4590372961551497521
+      },
+      "perp_paper_checks": {
+        "rows": 306,
+        "value_hash": 13965486549956170515
+      },
+      "perp_snapshots": {
+        "rows": 936,
+        "value_hash": 13891517654603000264
+      },
+      "positions": {
+        "rows": 0,
+        "value_hash": null
+      },
+      "research_runs": {
+        "rows": 13,
+        "value_hash": 1920349106870625841
+      },
+      "runtime_cycles": {
+        "rows": 2770,
+        "value_hash": 2462800286035028653
+      },
+      "runtime_events": {
+        "rows": 57,
+        "value_hash": 7735501233750621657
+      },
+      "scan_results": {
+        "rows": 324,
+        "value_hash": 11701468775674227960
+      },
+      "scan_runs": {
+        "rows": 18,
+        "value_hash": 7736956618711172968
+      },
+      "schema_version": {
+        "rows": 30,
+        "value_hash": 8982624645668389596
+      },
+      "series_changes": {
+        "rows": 0,
+        "value_hash": null
+      }
+    },
+    "authority": [
+      "railway-prism-runtime",
+      "2026-10-04 17:46:19.092023+00:00"
+    ],
+    "last_finished_cycle": "2026-10-15 11:31:40.099798+00:00"
+  },
+  "report": {
+    "reads": {
+      "copilot/governed-watches": {
+        "sha256": "f9f1c9181f97e715145eccadbfb3667287d1c13b9263f576a369ecdff057e5a4"
+      },
+      "research/forward/tracking_250f844abeca870821d716faf66b014158a2e1a1e93eebbde5974c34ac97ddd7": {
+        "sha256": "a5bc30573e06982952c9f688abd805a4f6c9e5d6bebc5ad9c54eb26a04db4186"
+      },
+      "research/forward/tracking_65febaadc2c10fc2d42b488ec631702e607cb540060f5b30eb1f23d4a6cade67": {
+        "sha256": "fc3c3144e581e88dfcd841e5530e8d901a10f6d63a495d351e44b776f3e0304d"
+      },
+      "research/forward/tracking_942898993c90a261c00de6b336564a657e78c2287d64f0101541b09bbaa70e4c": {
+        "sha256": "767d1603570f389134b96ba10423d619fb034b6e76d77430dcf5767c520041c1"
+      },
+      "context/BTC/2026-10-15T11:31:40.099798+00:00": {
+        "sha256": "00f7a5cd6b3b003d5bfc6e6bbcdb8d8b5dd21b60fa0c9e1ac7fa4490c1072c1c"
+      },
+      "intelligence/BTC/2026-10-15T11:31:40.099798+00:00": {
+        "sha256": "10c769ff1e454295de0d5d4df9e53cd07693355c365f3b831324da06d405558d",
+        "package_id": "intpackage_4942268ada1f3e08533185093b67dbd9619d1255f6d34cbf9995260181ab92b3",
+        "evidence_count": 9027,
+        "positioning_sha256": "40b2c870fc45fb0b09135ed8127944d97d31f64babe6a5b83a1f12c07ee62caa"
+      },
+      "context/AAVE/2026-10-15T11:31:40.099798+00:00": {
+        "sha256": "b61c0504a18bcf898e93155fca723519bdeea587836c94f5fc389bc75ca4f37b"
+      },
+      "intelligence/AAVE/2026-10-15T11:31:40.099798+00:00": {
+        "sha256": "78f4ce5b2f7bde2c3dc66981fd4a38d53ed3346ea4668f02abc53f3515ff1d68",
+        "package_id": "intpackage_562bf5cd42094b0a55752520f801dd39897a06c99b8e9bed62b063c32aca68d6",
+        "evidence_count": 9025,
+        "positioning_sha256": "cba213ce343342d55dfd6a303e9270ba4acc0e5048083021fed911902dc4b02e"
+      },
+      "context/BTC/2026-10-14T11:31:40.099798+00:00": {
+        "sha256": "d31b30ed8b16514e00e5328f965cb2ec80e7f7e6a84c7fbd148c6bc153a492ad"
+      },
+      "intelligence/BTC/2026-10-14T11:31:40.099798+00:00": {
+        "sha256": "8ce03ef4d7e6aa80e8e9f0c7e1933882c2ede6a3df05115ebcb6880f9feaf1c6",
+        "package_id": "intpackage_cff6e6d8b65189193773d525aab05ee8c16a8d135b781e81009e476f8fa31737",
+        "evidence_count": 8723,
+        "positioning_sha256": "32171ade919d5f3e491db00f6f5c55670e0d2cd050837eb3ddf52fb8556526d7"
+      },
+      "context/AAVE/2026-10-14T11:31:40.099798+00:00": {
+        "sha256": "417808732d5ce40dc257d6e0c10c64451922a2b99ccba321321445f00a1102d1"
+      },
+      "intelligence/AAVE/2026-10-14T11:31:40.099798+00:00": {
+        "sha256": "6d002064b02f64a4397b841cb70c0b6c4442bae313b5836a78fa770655e142d3",
+        "package_id": "intpackage_848667f2ec1c18f337ce5fea5c953729618ca88ce37618c86e8c19f5cb1df669",
+        "evidence_count": 8721,
+        "positioning_sha256": "d774fbdbc95551c800b8b6b5dc02982434cbb1014b20156486d66258a5400d98"
+      },
+      "context/BTC/2026-10-08T11:31:40.099798+00:00": {
+        "sha256": "2adf1658164ec5708e63258fb52e9af24c9d07bc5c3aed287a3910fa9a6d7a85"
+      },
+      "intelligence/BTC/2026-10-08T11:31:40.099798+00:00": {
+        "sha256": "9e499c26aa207707aa164bccb0a213e5ea084504787bbfeb498d65f806005747",
+        "package_id": "intpackage_293bef665d2c6de29e3d0a76e485827467417dbbce3e23fa619d31da1b17c41f",
+        "evidence_count": 8385,
+        "positioning_sha256": "2c1a6bed3dd33dad0f09ce0aa12a94a0a31a29669e974e867bcfadb5109d37f6"
+      },
+      "context/AAVE/2026-10-08T11:31:40.099798+00:00": {
+        "sha256": "5db11324e7ebc3e919868ed4e7b1157d8fa3451a537d69e259135abe1e0fc0b7"
+      },
+      "intelligence/AAVE/2026-10-08T11:31:40.099798+00:00": {
+        "sha256": "7cc8bd12c897dddc58ea02ac31b9356e005081b990bf175a0287f61d38ea2a46",
+        "package_id": "intpackage_3dec6178bef3e9229596b1c437bc98765e39fa9ee78c9c7be45bdd3d084dec2c",
+        "evidence_count": 8384,
+        "positioning_sha256": "a85d9efa711b35c01398356688f04a6029c45c328b495ba27c82d1faf236af3d"
+      },
+      "context/update-chains": {
+        "sha256": "7aff1eef6555620919478fdba6dfd31452033d5bae817aa2833a31a4c39958fc",
+        "rows": 28
+      },
+      "positioning/oi-coverage": {
+        "sha256": "fc37a98199ac403587e82419f2380794782da8bc6dcaa8d85c646dda863e5514",
+        "rows": 6
+      },
+      "positioning/funding-coverage": {
+        "sha256": "353a4ca49561f96b71615bb4453885618cd3f7bf256870cced911a9dc9acc5ea",
+        "rows": 11
+      },
+      "macro/pit-vintages": {
+        "sha256": "c9bc11b84e1f9a6ccab59881a763bf941b00c7eb6bb5d810f8e7b3d962a2109e",
+        "rows": 19
+      },
+      "macro/intraday-coverage": {
+        "sha256": "a8e552cd7549fc4b4fb4970e539a354bac3be343b81b215b15751cf363751ec4",
+        "rows": 36
+      },
+      "macro/source-health": {
+        "sha256": "0f0dfb0cbfa0735c23864cc6ae73ccad4c87b61b0a3f77b6f7344bc48cac95d2",
+        "rows": 28
+      },
+      "phase24b/checkpoints": {
+        "sha256": "c14847eea1ddb604d770a948bc54602a4be113a6ab1ae8b117d8cd75a22d9c47",
+        "rows": 8
+      },
+      "phase24b/definitions": {
+        "sha256": "750d173844da564e0262e688fe7d971e1d16059855a1d8161e577a81eb60ed17",
+        "rows": 1
+      },
+      "phase24b/outcomes": {
+        "sha256": "599d8be5a3938f2f3ccb469a9e17e515552b7f1bdcbda92add489decbeb5431b",
+        "rows": 8
+      },
+      "research/definitions": {
+        "sha256": "5e25821255cb409592006c60485f1b7c86fe1a825aecf19aa87bb79d7f4e0545",
+        "rows": 40
+      },
+      "research/datasets": {
+        "sha256": "8abb3e670a27c54f3c2eed911c0a8282721faff8c2dd8cff9b787c4f05559510",
+        "rows": 2
+      },
+      "research/experiments": {
+        "sha256": "57002ad9007b417a2fbac8d53e1c9cfb87950a2de85714378fa0ea63313ee8a2",
+        "rows": 47
+      },
+      "research/science": {
+        "sha256": "caf3fd902225ec9f763d9a4451dd2fcfa93d42cdf036718d0483a3e3995e8807",
+        "rows": 4
+      },
+      "research/lifecycle": {
+        "sha256": "8eb88d78296cc270db4d4aa88108c2dffcbef3a93deb9b570891076867b158ee",
+        "rows": 402
+      }
+    },
+    "latency_seconds": {
+      "copilot/governed-watches": 1.7565432639967185,
+      "research/forward/tracking_250f844abeca870821d716faf66b014158a2e1a1e93eebbde5974c34ac97ddd7": 3.5186409880116116,
+      "research/forward/tracking_65febaadc2c10fc2d42b488ec631702e607cb540060f5b30eb1f23d4a6cade67": 3.6793026459927205,
+      "research/forward/tracking_942898993c90a261c00de6b336564a657e78c2287d64f0101541b09bbaa70e4c": 3.6062243820051663,
+      "context/BTC/2026-10-15T11:31:40.099798+00:00": 0.4471614329959266,
+      "intelligence/BTC/2026-10-15T11:31:40.099798+00:00": 4.721879738994176,
+      "context/AAVE/2026-10-15T11:31:40.099798+00:00": 0.35893456399207935,
+      "intelligence/AAVE/2026-10-15T11:31:40.099798+00:00": 4.375995827023871,
+      "context/BTC/2026-10-14T11:31:40.099798+00:00": 0.3469407049997244,
+      "intelligence/BTC/2026-10-14T11:31:40.099798+00:00": 4.389297349000117,
+      "context/AAVE/2026-10-14T11:31:40.099798+00:00": 0.3855432390118949,
+      "intelligence/AAVE/2026-10-14T11:31:40.099798+00:00": 4.918993255996611,
+      "context/BTC/2026-10-08T11:31:40.099798+00:00": 0.2981908049841877,
+      "intelligence/BTC/2026-10-08T11:31:40.099798+00:00": 4.429201357997954,
+      "context/AAVE/2026-10-08T11:31:40.099798+00:00": 0.34606043898384087,
+      "intelligence/AAVE/2026-10-08T11:31:40.099798+00:00": 4.545756362989778,
+      "context/update-chains": 0.0037760940031148493,
+      "positioning/oi-coverage": 0.0025928439863491803,
+      "positioning/funding-coverage": 0.007522155006881803,
+      "macro/pit-vintages": 0.05425204199855216,
+      "macro/intraday-coverage": 0.03360344099928625,
+      "macro/source-health": 0.002676029980648309,
+      "phase24b/checkpoints": 0.0013954259920865297,
+      "phase24b/definitions": 0.0014855089830234647,
+      "phase24b/outcomes": 0.0027723129896912724,
+      "research/definitions": 0.001769774011336267,
+      "research/datasets": 0.001369292993331328,
+      "research/experiments": 0.0033480619895271957,
+      "research/science": 0.0015523940091952682,
+      "research/lifecycle": 0.00806750199990347
+    },
+    "clock_proof": []
+  },
+  "ownership": {
+    "tables": {
+      "alert_events": {
+        "rows": 91,
+        "value_hash": 17247595242399832431,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": "manual portfolio/journal/alert authority needs explicit design"
+      },
+      "alert_rules": {
+        "rows": 4,
+        "value_hash": 9669272483362578522,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": "manual portfolio/journal/alert authority needs explicit design"
+      },
+      "assets": {
+        "rows": 18,
+        "value_hash": 12079047196793743767,
+        "owner_class": "shared factual history",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "bar_revisions": {
+        "rows": 1,
+        "value_hash": 16867430999976028958,
+        "owner_class": "shared factual history",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "bars": {
+        "rows": 99555,
+        "value_hash": 8744305602971157004,
+        "owner_class": "shared factual history",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "context_asset_links": {
+        "rows": 833,
+        "value_hash": 10562393917820265229,
+        "owner_class": "Context-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "context_event_updates": {
+        "rows": 67,
+        "value_hash": 2909764181281504644,
+        "owner_class": "Context-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "context_events": {
+        "rows": 102,
+        "value_hash": 14431977902646827090,
+        "owner_class": "Context-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "context_free_ingests": {
+        "rows": 40,
+        "value_hash": 17826094169822033019,
+        "owner_class": "Context-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "context_free_observations": {
+        "rows": 40,
+        "value_hash": 11502545651452405256,
+        "owner_class": "Context-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "context_gateway_ingests": {
+        "rows": 9,
+        "value_hash": 13606154544704433097,
+        "owner_class": "Context-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "context_hl_oi_hourly": {
+        "rows": 1110,
+        "value_hash": 4818582239978968244,
+        "owner_class": "Context-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "context_ls_ratios": {
+        "rows": 21474,
+        "value_hash": 11248430768545023577,
+        "owner_class": "Context-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "context_provider_runs": {
+        "rows": 642,
+        "value_hash": 6105024067304340754,
+        "owner_class": "Context-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "context_snapshots": {
+        "rows": 0,
+        "value_hash": null,
+        "owner_class": "Context-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "context_sources": {
+        "rows": 15,
+        "value_hash": 7399039429712119179,
+        "owner_class": "Context-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "context_theses": {
+        "rows": 0,
+        "value_hash": null,
+        "owner_class": "Context-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "context_work_observations": {
+        "rows": 0,
+        "value_hash": null,
+        "owner_class": "Context-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "context_work_reactions": {
+        "rows": 824,
+        "value_hash": 9578737090620199429,
+        "owner_class": "Context-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "context_work_research_pending": {
+        "rows": 177,
+        "value_hash": 11553615960230074620,
+        "owner_class": "scheduled/runtime state that must NOT transfer as authority",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "copilot_decisions": {
+        "rows": 1,
+        "value_hash": 5243362028966794778,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "copilot_deliveries": {
+        "rows": 2,
+        "value_hash": 3161357255033589845,
+        "owner_class": "scheduled/runtime state that must NOT transfer as authority",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "copilot_policies": {
+        "rows": 1,
+        "value_hash": 4128736006916441010,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "copilot_runs": {
+        "rows": 95,
+        "value_hash": 8492963954459763958,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "copilot_software": {
+        "rows": 24,
+        "value_hash": 9781609595244481912,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "copilot_watch_status": {
+        "rows": 2,
+        "value_hash": 14443971861232125636,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "copilot_watchlist": {
+        "rows": 2,
+        "value_hash": 17707115839132338041,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "corporate_actions": {
+        "rows": 354,
+        "value_hash": 3154910590819947145,
+        "owner_class": "shared factual history",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "crypto_metrics": {
+        "rows": 9911,
+        "value_hash": 6198971946128760019,
+        "owner_class": "shared factual history",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "data_quality_issues": {
+        "rows": 4973,
+        "value_hash": 15933957905173422425,
+        "owner_class": "shared factual history",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "fundamental_facts": {
+        "rows": 8840,
+        "value_hash": 4589754444957258559,
+        "owner_class": "shared factual history",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "incubation_decisions": {
+        "rows": 3840,
+        "value_hash": 11620898487715803499,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "incubation_evaluations": {
+        "rows": 1280,
+        "value_hash": 10150160061753713943,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "incubation_freezes": {
+        "rows": 1,
+        "value_hash": 10569600882940242057,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "incubation_intents": {
+        "rows": 21,
+        "value_hash": 949020488461127011,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "incubation_outcomes": {
+        "rows": 0,
+        "value_hash": null,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "incubation_runs": {
+        "rows": 81,
+        "value_hash": 10846075386215572999,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "incubation_transitions": {
+        "rows": 402,
+        "value_hash": 12692404119821601052,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "ingestion_runs": {
+        "rows": 9026,
+        "value_hash": 10669957174750456280,
+        "owner_class": "shared factual history",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "intraday_execution_shadow": {
+        "rows": 0,
+        "value_hash": null,
+        "owner_class": "legacy execution evidence",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_HISTORICAL_NONEXECUTING",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "journal_entries": {
+        "rows": 0,
+        "value_hash": null,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": "manual portfolio/journal/alert authority needs explicit design"
+      },
+      "lab_batch_analyses": {
+        "rows": 1,
+        "value_hash": 5177520770835178362,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "lab_batch_members": {
+        "rows": 40,
+        "value_hash": 467884306206015066,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "lab_batch_runs": {
+        "rows": 1,
+        "value_hash": 12332271671823039076,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "lab_batches": {
+        "rows": 1,
+        "value_hash": 9404282933660446556,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "lab_corroboration_registrations": {
+        "rows": 2,
+        "value_hash": 12496321505401253820,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "lab_corroboration_results": {
+        "rows": 2,
+        "value_hash": 2946488699125534235,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "lab_corroboration_runs": {
+        "rows": 2,
+        "value_hash": 7475148591905251522,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "lab_dataset_blobs": {
+        "rows": 22,
+        "value_hash": 5734429529397150932,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "lab_datasets": {
+        "rows": 2,
+        "value_hash": 1733929028225184876,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "lab_edge_profiles": {
+        "rows": 0,
+        "value_hash": null,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "lab_evidence_policies": {
+        "rows": 1,
+        "value_hash": 9959254396369796849,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "lab_evidence_profiles": {
+        "rows": 44,
+        "value_hash": 6998608492496632059,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "lab_experiments": {
+        "rows": 47,
+        "value_hash": 2125073900173524203,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "lab_forward_entries": {
+        "rows": 1,
+        "value_hash": 17485741330867619266,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "lab_forward_evaluations": {
+        "rows": 132,
+        "value_hash": 16340806207363860609,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "lab_forward_inputs": {
+        "rows": 168,
+        "value_hash": 6267980523864996612,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "lab_forward_outcomes": {
+        "rows": 204,
+        "value_hash": 11234618619892545731,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "lab_forward_runs": {
+        "rows": 192,
+        "value_hash": 17282097834412789142,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "lab_forward_status": {
+        "rows": 4,
+        "value_hash": 17695625165889948952,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "lab_forward_summaries": {
+        "rows": 0,
+        "value_hash": null,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "lab_forward_trackings": {
+        "rows": 3,
+        "value_hash": 14979162061327154597,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "lab_hypotheses": {
+        "rows": 40,
+        "value_hash": 10103972147386419891,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "lab_inspections": {
+        "rows": 47,
+        "value_hash": 11038702008687266489,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "lab_plans": {
+        "rows": 3,
+        "value_hash": 778666489892547871,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "lab_prospective_checkpoints": {
+        "rows": 8,
+        "value_hash": 12120271818234969867,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "lab_prospective_results": {
+        "rows": 8,
+        "value_hash": 17305193325521152994,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "lab_prospective_studies": {
+        "rows": 1,
+        "value_hash": 6826053177352508313,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "lab_research_policies": {
+        "rows": 4,
+        "value_hash": 6252889691790983201,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "lab_research_registrations": {
+        "rows": 2,
+        "value_hash": 13098455314852049657,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "lab_research_results": {
+        "rows": 4,
+        "value_hash": 2882007551277244577,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "lab_research_runs": {
+        "rows": 4,
+        "value_hash": 3083019889428397194,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "lab_results": {
+        "rows": 47,
+        "value_hash": 3464351347965692049,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "lab_snapshot_blobs": {
+        "rows": 22,
+        "value_hash": 8990137579415068303,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "lab_software": {
+        "rows": 29,
+        "value_hash": 10703251916040707999,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "lab_starts": {
+        "rows": 47,
+        "value_hash": 14932118058545502065,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "lab_strategies": {
+        "rows": 40,
+        "value_hash": 12144051023904209342,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "lab_structure_results": {
+        "rows": 0,
+        "value_hash": null,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "lab_structure_runs": {
+        "rows": 0,
+        "value_hash": null,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "lab_structure_studies": {
+        "rows": 0,
+        "value_hash": null,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "lab_structure_study_datasets": {
+        "rows": 0,
+        "value_hash": null,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "lab_submissions": {
+        "rows": 40,
+        "value_hash": 1848696866874668081,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "macro_observations": {
+        "rows": 1093572,
+        "value_hash": 366464695317848758,
+        "owner_class": "shared factual history",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "microstructure_cutover": {
+        "rows": 1,
+        "value_hash": 2357758482667801206,
+        "owner_class": "scheduled/runtime state that must NOT transfer as authority",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_WITH_EXPLICIT_HANDOFF",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "microstructure_ingest_offsets": {
+        "rows": 186,
+        "value_hash": 10637060563784927481,
+        "owner_class": "scheduled/runtime state that must NOT transfer as authority",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_WITH_EXPLICIT_HANDOFF",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "microstructure_late_events": {
+        "rows": 204,
+        "value_hash": 3618689412589456922,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "microstructure_lp_thresholds": {
+        "rows": 54,
+        "value_hash": 15390379271499334179,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "microstructure_minutes": {
+        "rows": 66708,
+        "value_hash": 12830315526811020044,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "microstructure_provider_runs": {
+        "rows": 108,
+        "value_hash": 14022869260900760924,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "microstructure_revisions": {
+        "rows": 31,
+        "value_hash": 12545020249317125621,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "paper_briefs": {
+        "rows": 5,
+        "value_hash": 5729876729490885831,
+        "owner_class": "legacy execution evidence",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_HISTORICAL_NONEXECUTING",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "paper_cycles": {
+        "rows": 41,
+        "value_hash": 8996575157728250976,
+        "owner_class": "legacy execution evidence",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_HISTORICAL_NONEXECUTING",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "paper_event_evidence": {
+        "rows": 51,
+        "value_hash": 3778338080635836499,
+        "owner_class": "legacy execution evidence",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_HISTORICAL_NONEXECUTING",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "paper_event_pending": {
+        "rows": 0,
+        "value_hash": null,
+        "owner_class": "legacy execution evidence",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_HISTORICAL_NONEXECUTING",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "paper_events": {
+        "rows": 12,
+        "value_hash": 15228037030339624203,
+        "owner_class": "legacy execution evidence",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_HISTORICAL_NONEXECUTING",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "paper_evidence": {
+        "rows": 0,
+        "value_hash": null,
+        "owner_class": "legacy execution evidence",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_HISTORICAL_NONEXECUTING",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "paper_nimble_accounts": {
+        "rows": 3,
+        "value_hash": 7315971479690792714,
+        "owner_class": "legacy execution evidence",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "IMMUTABLE_LEGACY_ONLY",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "paper_nimble_deliveries": {
+        "rows": 10,
+        "value_hash": 14469602903584790929,
+        "owner_class": "scheduled/runtime state that must NOT transfer as authority",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "IMMUTABLE_LEGACY_ONLY",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "paper_nimble_events": {
+        "rows": 18237,
+        "value_hash": 7818215394726071790,
+        "owner_class": "legacy execution evidence",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "IMMUTABLE_LEGACY_ONLY",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "paper_nimble_opportunities": {
+        "rows": 78888,
+        "value_hash": 339235588283082382,
+        "owner_class": "legacy execution evidence",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "IMMUTABLE_LEGACY_ONLY",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "paper_nimble_policies": {
+        "rows": 2,
+        "value_hash": 17620281814868853486,
+        "owner_class": "legacy execution evidence",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "IMMUTABLE_LEGACY_ONLY",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "paper_nimble_positions": {
+        "rows": 198,
+        "value_hash": 8065947231174572065,
+        "owner_class": "legacy execution evidence",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "IMMUTABLE_LEGACY_ONLY",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "paper_nimble_reports": {
+        "rows": 15,
+        "value_hash": 5013667493405745344,
+        "owner_class": "legacy execution evidence",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "IMMUTABLE_LEGACY_ONLY",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "paper_nimble_research": {
+        "rows": 9246,
+        "value_hash": 8448115715587216992,
+        "owner_class": "legacy execution evidence",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "IMMUTABLE_LEGACY_ONLY",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "paper_nimble_research_pending": {
+        "rows": 216,
+        "value_hash": 1949524013092172387,
+        "owner_class": "legacy execution evidence",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "IMMUTABLE_LEGACY_ONLY",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "paper_nimble_runs": {
+        "rows": 3,
+        "value_hash": 3705937473281803329,
+        "owner_class": "legacy execution evidence",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "IMMUTABLE_LEGACY_ONLY",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "paper_nimble_theses": {
+        "rows": 198,
+        "value_hash": 176179215580178706,
+        "owner_class": "legacy execution evidence",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "IMMUTABLE_LEGACY_ONLY",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "paper_nimble_trigger_receipts": {
+        "rows": 108772,
+        "value_hash": 16770555867230669308,
+        "owner_class": "scheduled/runtime state that must NOT transfer as authority",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "IMMUTABLE_LEGACY_ONLY",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "paper_nimble_triggers": {
+        "rows": 45184,
+        "value_hash": 3134450229807461812,
+        "owner_class": "scheduled/runtime state that must NOT transfer as authority",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "IMMUTABLE_LEGACY_ONLY",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "paper_notifications": {
+        "rows": 10,
+        "value_hash": 4965068097740341907,
+        "owner_class": "scheduled/runtime state that must NOT transfer as authority",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_HISTORICAL_NONEXECUTING",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "paper_policies": {
+        "rows": 5,
+        "value_hash": 270132773460432516,
+        "owner_class": "legacy execution evidence",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_HISTORICAL_NONEXECUTING",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "paper_retirements": {
+        "rows": 1,
+        "value_hash": 9718130779566177543,
+        "owner_class": "legacy execution evidence",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_HISTORICAL_NONEXECUTING",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "paper_runs": {
+        "rows": 1,
+        "value_hash": 12635696425689540592,
+        "owner_class": "legacy execution evidence",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_HISTORICAL_NONEXECUTING",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "paper_snapshots": {
+        "rows": 6,
+        "value_hash": 7692272481186616091,
+        "owner_class": "legacy execution evidence",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_HISTORICAL_NONEXECUTING",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "paper_software": {
+        "rows": 9,
+        "value_hash": 2792490924974917018,
+        "owner_class": "legacy execution evidence",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_HISTORICAL_NONEXECUTING",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "paper_v2_context_snapshots": {
+        "rows": 780,
+        "value_hash": 4463666922046302225,
+        "owner_class": "legacy execution evidence",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_HISTORICAL_NONEXECUTING",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "paper_v2_deliveries": {
+        "rows": 2,
+        "value_hash": 10671744814979302648,
+        "owner_class": "scheduled/runtime state that must NOT transfer as authority",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_HISTORICAL_NONEXECUTING",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "paper_v2_evaluations": {
+        "rows": 143,
+        "value_hash": 8739974122641213161,
+        "owner_class": "legacy execution evidence",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_HISTORICAL_NONEXECUTING",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "paper_v2_events": {
+        "rows": 162,
+        "value_hash": 16186911561060008834,
+        "owner_class": "legacy execution evidence",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_HISTORICAL_NONEXECUTING",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "paper_v2_opportunities": {
+        "rows": 10200,
+        "value_hash": 17230264422408200381,
+        "owner_class": "legacy execution evidence",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_HISTORICAL_NONEXECUTING",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "paper_v2_outcomes": {
+        "rows": 29,
+        "value_hash": 11108479923708869473,
+        "owner_class": "legacy execution evidence",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_HISTORICAL_NONEXECUTING",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "paper_v2_policies": {
+        "rows": 3,
+        "value_hash": 15747861922162102906,
+        "owner_class": "legacy execution evidence",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_HISTORICAL_NONEXECUTING",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "paper_v2_reports": {
+        "rows": 1,
+        "value_hash": 5194569068325838705,
+        "owner_class": "legacy execution evidence",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_HISTORICAL_NONEXECUTING",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "paper_v2_runs": {
+        "rows": 1,
+        "value_hash": 15839854967552780510,
+        "owner_class": "legacy execution evidence",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_HISTORICAL_NONEXECUTING",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "paper_v2_universes": {
+        "rows": 1,
+        "value_hash": 7536442629600639621,
+        "owner_class": "legacy execution evidence",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_HISTORICAL_NONEXECUTING",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "perp_bars": {
+        "rows": 23810,
+        "value_hash": 11690967453315686086,
+        "owner_class": "shared factual history",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "perp_funding": {
+        "rows": 185163,
+        "value_hash": 15176841141682490872,
+        "owner_class": "shared factual history",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "perp_intraday_bars": {
+        "rows": 868922,
+        "value_hash": 15885698212752402762,
+        "owner_class": "shared factual history",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "perp_intraday_coverage": {
+        "rows": 36,
+        "value_hash": 3367249984090303483,
+        "owner_class": "shared factual history",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "perp_intraday_revisions": {
+        "rows": 0,
+        "value_hash": null,
+        "owner_class": "shared factual history",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "perp_oi_history": {
+        "rows": 5976,
+        "value_hash": 17938700389993757425,
+        "owner_class": "shared factual history",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "perp_oi_observations": {
+        "rows": 6912,
+        "value_hash": 4590372961551497521,
+        "owner_class": "shared factual history",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "perp_paper_checks": {
+        "rows": 306,
+        "value_hash": 13965486549956170515,
+        "owner_class": "legacy execution evidence",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_HISTORICAL_NONEXECUTING",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "perp_snapshots": {
+        "rows": 936,
+        "value_hash": 13891517654603000264,
+        "owner_class": "shared factual history",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "positions": {
+        "rows": 0,
+        "value_hash": null,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": "manual portfolio/journal/alert authority needs explicit design"
+      },
+      "research_runs": {
+        "rows": 13,
+        "value_hash": 1920349106870625841,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "runtime_cycles": {
+        "rows": 2770,
+        "value_hash": 2462800286035028653,
+        "owner_class": "scheduled/runtime state that must NOT transfer as authority",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_WITH_EXPLICIT_HANDOFF",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "runtime_events": {
+        "rows": 57,
+        "value_hash": 7735501233750621657,
+        "owner_class": "scheduled/runtime state that must NOT transfer as authority",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_WITH_EXPLICIT_HANDOFF",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "scan_results": {
+        "rows": 324,
+        "value_hash": 11701468775674227960,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "scan_runs": {
+        "rows": 18,
+        "value_hash": 7736956618711172968,
+        "owner_class": "Research-owned",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "schema_version": {
+        "rows": 30,
+        "value_hash": 8982624645668389596,
+        "owner_class": "scheduled/runtime state that must NOT transfer as authority",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_WITH_EXPLICIT_HANDOFF",
+        "may_resume_authority": false,
+        "ambiguity": null
+      },
+      "series_changes": {
+        "rows": 0,
+        "value_hash": null,
+        "owner_class": "shared factual history",
+        "import_role": "read-only imported history",
+        "prepared_disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+        "may_resume_authority": false,
+        "ambiguity": null
+      }
+    },
+    "prepared_table_count": 142,
+    "missing": [],
+    "new_schema31_tables": [],
+    "ambiguous": [
+      "alert_events",
+      "alert_rules",
+      "journal_entries",
+      "positions"
+    ]
+  },
+  "differences": [],
+  "passed": true,
+  "resources": {
+    "wall_seconds": 144.9229839249747,
+    "cpu_seconds": 144.822792325,
+    "peak_rss_bytes": 2052800512,
+    "db_bytes": 1646276608
+  }
+}

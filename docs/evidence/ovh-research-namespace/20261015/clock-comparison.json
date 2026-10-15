@@ -1,0 +1,55 @@
+{
+  "passed": true,
+  "comparisons": [
+    {
+      "asset": "BTC",
+      "origin_observed_records_and_ids_preserved": true,
+      "origin_id": "railway-prism-runtime",
+      "consumer_id": "vps-prism-research-offline",
+      "source_cutoff": "2026-10-15 11:31:40.099798+00:00",
+      "consumer_cutoff": "2026-10-15T12:31:22.493899+00:00",
+      "source_evidence_count": 9027,
+      "consumer_evidence_count": 9015,
+      "differences": [
+        {
+          "classification": "EXPECTED_RUNTIME_CLOCK_DIFFERENCE",
+          "reason": "actual OVH apply cutoff advances documented rolling windows: one asset bar (40 days), five cohort bars (30 hours), four ratios and one OI sample (30 days), and one funding settlement (120 days) leave selection; every removed record verified against both exact window bounds",
+          "removed_by_table": {
+            "context_ls_ratios": 4,
+            "perp_intraday_bars": 6,
+            "perp_funding": 1,
+            "perp_oi_history": 1
+          },
+          "added_count": 0
+        }
+      ],
+      "exact_original_commit_instants": "unknown; retained source seal verification provides conservative upper bound",
+      "consumer_availability_is_not_source_ingestion": true
+    },
+    {
+      "asset": "AAVE",
+      "origin_observed_records_and_ids_preserved": true,
+      "origin_id": "railway-prism-runtime",
+      "consumer_id": "vps-prism-research-offline",
+      "source_cutoff": "2026-10-15 11:31:40.099798+00:00",
+      "consumer_cutoff": "2026-10-15T12:31:22.493899+00:00",
+      "source_evidence_count": 9025,
+      "consumer_evidence_count": 9013,
+      "differences": [
+        {
+          "classification": "EXPECTED_RUNTIME_CLOCK_DIFFERENCE",
+          "reason": "actual OVH apply cutoff advances documented rolling windows: one asset bar (40 days), five cohort bars (30 hours), four ratios and one OI sample (30 days), and one funding settlement (120 days) leave selection; every removed record verified against both exact window bounds",
+          "removed_by_table": {
+            "perp_intraday_bars": 6,
+            "perp_oi_history": 1,
+            "context_ls_ratios": 4,
+            "perp_funding": 1
+          },
+          "added_count": 0
+        }
+      ],
+      "exact_original_commit_instants": "unknown; retained source seal verification provides conservative upper bound",
+      "consumer_availability_is_not_source_ingestion": true
+    }
+  ]
+}

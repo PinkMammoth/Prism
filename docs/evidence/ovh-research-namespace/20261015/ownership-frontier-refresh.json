@@ -1,0 +1,458 @@
+{
+  "prepared_source_db_sha256": "b6fa3c8657f29b0ed543868cc17793399a6b8500f8e43f6ff44763c120655867",
+  "prepared_frontier": "2026-10-15 01:21:39.668259+00:00",
+  "sealed_source_db_sha256": "1caa6c9677e1f87e4f04fc087a2534b3d8a4eac89d1e93d7fe0fc025213333c6",
+  "sealed_source_frontier": "2026-10-15 11:31:40.099798+00:00",
+  "prepared_relation_count": 142,
+  "sealed_relation_count": 142,
+  "missing_source_tables": [],
+  "new_source_tables": [],
+  "differences": [
+    {
+      "table": "alert_events",
+      "prepared_snapshot": {
+        "rows": 80,
+        "value_hash": 3368839527982505784
+      },
+      "fresh_sealed_snapshot": {
+        "rows": 91,
+        "value_hash": 17247595242399832431
+      },
+      "classification": "SOURCE_FRONTIER_DIFFERENCE"
+    },
+    {
+      "table": "alert_rules",
+      "prepared_snapshot": {
+        "rows": 4,
+        "value_hash": 6924502715881248903
+      },
+      "fresh_sealed_snapshot": {
+        "rows": 4,
+        "value_hash": 9669272483362578522
+      },
+      "classification": "SOURCE_FRONTIER_DIFFERENCE"
+    },
+    {
+      "table": "bars",
+      "prepared_snapshot": {
+        "rows": 99501,
+        "value_hash": 11386377962482656552
+      },
+      "fresh_sealed_snapshot": {
+        "rows": 99555,
+        "value_hash": 8744305602971157004
+      },
+      "classification": "SOURCE_FRONTIER_DIFFERENCE"
+    },
+    {
+      "table": "context_asset_links",
+      "prepared_snapshot": {
+        "rows": 794,
+        "value_hash": 14156134277333394754
+      },
+      "fresh_sealed_snapshot": {
+        "rows": 833,
+        "value_hash": 10562393917820265229
+      },
+      "classification": "SOURCE_FRONTIER_DIFFERENCE"
+    },
+    {
+      "table": "context_event_updates",
+      "prepared_snapshot": {
+        "rows": 63,
+        "value_hash": 8826494707811450607
+      },
+      "fresh_sealed_snapshot": {
+        "rows": 67,
+        "value_hash": 2909764181281504644
+      },
+      "classification": "SOURCE_FRONTIER_DIFFERENCE"
+    },
+    {
+      "table": "context_events",
+      "prepared_snapshot": {
+        "rows": 98,
+        "value_hash": 3891272230195458842
+      },
+      "fresh_sealed_snapshot": {
+        "rows": 102,
+        "value_hash": 14431977902646827090
+      },
+      "classification": "SOURCE_FRONTIER_DIFFERENCE"
+    },
+    {
+      "table": "context_free_ingests",
+      "prepared_snapshot": {
+        "rows": 32,
+        "value_hash": 12503749227599161491
+      },
+      "fresh_sealed_snapshot": {
+        "rows": 40,
+        "value_hash": 17826094169822033019
+      },
+      "classification": "SOURCE_FRONTIER_DIFFERENCE"
+    },
+    {
+      "table": "context_free_observations",
+      "prepared_snapshot": {
+        "rows": 32,
+        "value_hash": 5960041778195009239
+      },
+      "fresh_sealed_snapshot": {
+        "rows": 40,
+        "value_hash": 11502545651452405256
+      },
+      "classification": "SOURCE_FRONTIER_DIFFERENCE"
+    },
+    {
+      "table": "context_hl_oi_hourly",
+      "prepared_snapshot": {
+        "rows": 1050,
+        "value_hash": 17304443910718114958
+      },
+      "fresh_sealed_snapshot": {
+        "rows": 1110,
+        "value_hash": 4818582239978968244
+      },
+      "classification": "SOURCE_FRONTIER_DIFFERENCE"
+    },
+    {
+      "table": "context_ls_ratios",
+      "prepared_snapshot": {
+        "rows": 21234,
+        "value_hash": 13851702426311962663
+      },
+      "fresh_sealed_snapshot": {
+        "rows": 21474,
+        "value_hash": 11248430768545023577
+      },
+      "classification": "SOURCE_FRONTIER_DIFFERENCE"
+    },
+    {
+      "table": "context_provider_runs",
+      "prepared_snapshot": {
+        "rows": 614,
+        "value_hash": 8673269839207269681
+      },
+      "fresh_sealed_snapshot": {
+        "rows": 642,
+        "value_hash": 6105024067304340754
+      },
+      "classification": "SOURCE_FRONTIER_DIFFERENCE"
+    },
+    {
+      "table": "context_work_reactions",
+      "prepared_snapshot": {
+        "rows": 797,
+        "value_hash": 9207484950547571318
+      },
+      "fresh_sealed_snapshot": {
+        "rows": 824,
+        "value_hash": 9578737090620199429
+      },
+      "classification": "SOURCE_FRONTIER_DIFFERENCE"
+    },
+    {
+      "table": "context_work_research_pending",
+      "prepared_snapshot": {
+        "rows": 138,
+        "value_hash": 1026477364444156412
+      },
+      "fresh_sealed_snapshot": {
+        "rows": 177,
+        "value_hash": 11553615960230074620
+      },
+      "classification": "SOURCE_FRONTIER_DIFFERENCE"
+    },
+    {
+      "table": "copilot_runs",
+      "prepared_snapshot": {
+        "rows": 92,
+        "value_hash": 7412924075967161391
+      },
+      "fresh_sealed_snapshot": {
+        "rows": 95,
+        "value_hash": 8492963954459763958
+      },
+      "classification": "SOURCE_FRONTIER_DIFFERENCE"
+    },
+    {
+      "table": "crypto_metrics",
+      "prepared_snapshot": {
+        "rows": 9896,
+        "value_hash": 10814028545406241605
+      },
+      "fresh_sealed_snapshot": {
+        "rows": 9911,
+        "value_hash": 6198971946128760019
+      },
+      "classification": "SOURCE_FRONTIER_DIFFERENCE"
+    },
+    {
+      "table": "data_quality_issues",
+      "prepared_snapshot": {
+        "rows": 4973,
+        "value_hash": 18190508224498947619
+      },
+      "fresh_sealed_snapshot": {
+        "rows": 4973,
+        "value_hash": 15933957905173422425
+      },
+      "classification": "SOURCE_FRONTIER_DIFFERENCE"
+    },
+    {
+      "table": "fundamental_facts",
+      "prepared_snapshot": {
+        "rows": 8840,
+        "value_hash": 9339930337402207254
+      },
+      "fresh_sealed_snapshot": {
+        "rows": 8840,
+        "value_hash": 4589754444957258559
+      },
+      "classification": "SOURCE_FRONTIER_DIFFERENCE"
+    },
+    {
+      "table": "incubation_runs",
+      "prepared_snapshot": {
+        "rows": 78,
+        "value_hash": 12356594508987325862
+      },
+      "fresh_sealed_snapshot": {
+        "rows": 81,
+        "value_hash": 10846075386215572999
+      },
+      "classification": "SOURCE_FRONTIER_DIFFERENCE"
+    },
+    {
+      "table": "ingestion_runs",
+      "prepared_snapshot": {
+        "rows": 8603,
+        "value_hash": 14298086353281095143
+      },
+      "fresh_sealed_snapshot": {
+        "rows": 9026,
+        "value_hash": 10669957174750456280
+      },
+      "classification": "SOURCE_FRONTIER_DIFFERENCE"
+    },
+    {
+      "table": "lab_forward_runs",
+      "prepared_snapshot": {
+        "rows": 186,
+        "value_hash": 15035889465183594027
+      },
+      "fresh_sealed_snapshot": {
+        "rows": 192,
+        "value_hash": 17282097834412789142
+      },
+      "classification": "SOURCE_FRONTIER_DIFFERENCE"
+    },
+    {
+      "table": "macro_observations",
+      "prepared_snapshot": {
+        "rows": 1093555,
+        "value_hash": 4749264722601739710
+      },
+      "fresh_sealed_snapshot": {
+        "rows": 1093572,
+        "value_hash": 366464695317848758
+      },
+      "classification": "SOURCE_FRONTIER_DIFFERENCE"
+    },
+    {
+      "table": "microstructure_ingest_offsets",
+      "prepared_snapshot": {
+        "rows": 176,
+        "value_hash": 4089249683235399640
+      },
+      "fresh_sealed_snapshot": {
+        "rows": 186,
+        "value_hash": 10637060563784927481
+      },
+      "classification": "SOURCE_FRONTIER_DIFFERENCE"
+    },
+    {
+      "table": "microstructure_late_events",
+      "prepared_snapshot": {
+        "rows": 180,
+        "value_hash": 516231398311880503
+      },
+      "fresh_sealed_snapshot": {
+        "rows": 204,
+        "value_hash": 3618689412589456922
+      },
+      "classification": "SOURCE_FRONTIER_DIFFERENCE"
+    },
+    {
+      "table": "microstructure_minutes",
+      "prepared_snapshot": {
+        "rows": 63108,
+        "value_hash": 18353754791897755821
+      },
+      "fresh_sealed_snapshot": {
+        "rows": 66708,
+        "value_hash": 12830315526811020044
+      },
+      "classification": "SOURCE_FRONTIER_DIFFERENCE"
+    },
+    {
+      "table": "microstructure_provider_runs",
+      "prepared_snapshot": {
+        "rows": 104,
+        "value_hash": 10145180436017799384
+      },
+      "fresh_sealed_snapshot": {
+        "rows": 108,
+        "value_hash": 14022869260900760924
+      },
+      "classification": "SOURCE_FRONTIER_DIFFERENCE"
+    },
+    {
+      "table": "microstructure_revisions",
+      "prepared_snapshot": {
+        "rows": 28,
+        "value_hash": 6679540147484778439
+      },
+      "fresh_sealed_snapshot": {
+        "rows": 31,
+        "value_hash": 12545020249317125621
+      },
+      "classification": "SOURCE_FRONTIER_DIFFERENCE"
+    },
+    {
+      "table": "paper_nimble_triggers",
+      "prepared_snapshot": {
+        "rows": 41606,
+        "value_hash": 8846419170500543886
+      },
+      "fresh_sealed_snapshot": {
+        "rows": 45184,
+        "value_hash": 3134450229807461812
+      },
+      "classification": "SOURCE_FRONTIER_DIFFERENCE"
+    },
+    {
+      "table": "perp_bars",
+      "prepared_snapshot": {
+        "rows": 23805,
+        "value_hash": 8457238421784753850
+      },
+      "fresh_sealed_snapshot": {
+        "rows": 23810,
+        "value_hash": 11690967453315686086
+      },
+      "classification": "SOURCE_FRONTIER_DIFFERENCE"
+    },
+    {
+      "table": "perp_funding",
+      "prepared_snapshot": {
+        "rows": 185088,
+        "value_hash": 18364561568253111698
+      },
+      "fresh_sealed_snapshot": {
+        "rows": 185163,
+        "value_hash": 15176841141682490872
+      },
+      "classification": "SOURCE_FRONTIER_DIFFERENCE"
+    },
+    {
+      "table": "perp_oi_history",
+      "prepared_snapshot": {
+        "rows": 5898,
+        "value_hash": 5660354728698942548
+      },
+      "fresh_sealed_snapshot": {
+        "rows": 5976,
+        "value_hash": 17938700389993757425
+      },
+      "classification": "SOURCE_FRONTIER_DIFFERENCE"
+    },
+    {
+      "table": "perp_oi_observations",
+      "prepared_snapshot": {
+        "rows": 6798,
+        "value_hash": 8733175142805195053
+      },
+      "fresh_sealed_snapshot": {
+        "rows": 6912,
+        "value_hash": 4590372961551497521
+      },
+      "classification": "SOURCE_FRONTIER_DIFFERENCE"
+    },
+    {
+      "table": "perp_paper_checks",
+      "prepared_snapshot": {
+        "rows": 282,
+        "value_hash": 13122911786638009319
+      },
+      "fresh_sealed_snapshot": {
+        "rows": 306,
+        "value_hash": 13965486549956170515
+      },
+      "classification": "SOURCE_FRONTIER_DIFFERENCE"
+    },
+    {
+      "table": "perp_snapshots",
+      "prepared_snapshot": {
+        "rows": 900,
+        "value_hash": 10399342173796030301
+      },
+      "fresh_sealed_snapshot": {
+        "rows": 936,
+        "value_hash": 13891517654603000264
+      },
+      "classification": "SOURCE_FRONTIER_DIFFERENCE"
+    },
+    {
+      "table": "runtime_cycles",
+      "prepared_snapshot": {
+        "rows": 2642,
+        "value_hash": 10152550370941899324
+      },
+      "fresh_sealed_snapshot": {
+        "rows": 2770,
+        "value_hash": 2462800286035028653
+      },
+      "classification": "SOURCE_FRONTIER_DIFFERENCE"
+    },
+    {
+      "table": "runtime_events",
+      "prepared_snapshot": {
+        "rows": 56,
+        "value_hash": 13203596427391700562
+      },
+      "fresh_sealed_snapshot": {
+        "rows": 57,
+        "value_hash": 7735501233750621657
+      },
+      "classification": "SOURCE_FRONTIER_DIFFERENCE"
+    },
+    {
+      "table": "scan_results",
+      "prepared_snapshot": {
+        "rows": 306,
+        "value_hash": 3391839405994869769
+      },
+      "fresh_sealed_snapshot": {
+        "rows": 324,
+        "value_hash": 11701468775674227960
+      },
+      "classification": "SOURCE_FRONTIER_DIFFERENCE"
+    },
+    {
+      "table": "scan_runs",
+      "prepared_snapshot": {
+        "rows": 17,
+        "value_hash": 14695876523685495240
+      },
+      "fresh_sealed_snapshot": {
+        "rows": 18,
+        "value_hash": 7736956618711172968
+      },
+      "classification": "SOURCE_FRONTIER_DIFFERENCE"
+    }
+  ],
+  "ownership_transferred": false,
+  "reason": "Prepared manifest disposition is retained; old snapshot counts are refreshed from the newer verified Railway snapshot, not used as same-frontier parity expectations."
+}

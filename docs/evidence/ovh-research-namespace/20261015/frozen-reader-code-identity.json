@@ -1,0 +1,12 @@
+{
+  "source_revision": "8f9bc3473142eb6b8a5ea54a3987db8ef2bcb0cf",
+  "reader_revision": "c5b81f302f69504b08a4022a9f6515c733dae197",
+  "git_diff_source_to_reader_for_these_files": "empty (recorded frozen-reader-code-diff.patch)",
+  "files_sha256": {
+    "src/market_signal/context/snapshot.py": "551c880db879ccb01f689762f96e803d4991558b7d57a8d9917d3450678820a7",
+    "src/market_signal/context/positioning.py": "b7232cdb9959a7dc2763607c296dbfead99af9e6386f7d9868821709127d0e18",
+    "src/market_signal/research/lab/forward.py": "f348ad51681ac6223a55e37620ef15d07c936b96d407f72b4fb16d34f9cfd958",
+    "src/market_signal/copilot/engine.py": "14ccb3dbe76af789dfb9ded118c936766fac025863c5617b475eef56fa042df6"
+  },
+  "shared_intelligence_phase_a": "absent on deployed Railway revision; both offline snapshot sides evaluated with approved main reader, not a deployed Railway package producer"
+}

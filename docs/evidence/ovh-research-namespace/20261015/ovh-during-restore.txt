@@ -1,0 +1,17 @@
+Thu Oct 15 12:43:04 UTC 2026
+procs -----------memory---------- ---swap-- -----io---- -system-- ------cpu-----
+ r  b   swpd   free   buff  cache   si   so    bi    bo   in   cs us sy id wa st
+ 3  0      0 669116 152116 8480372    0    0    37    57   36   32  2  0 98  0  0
+ 2  0      0 669116 152116 8480372    0    0     0   176  439  178 17  0 83  0  0
+ 2  0      0 669116 152116 8480372    0    0     0    84  382  114 17  0 83  0  0
+ 2  0      0 669116 152116 8480372    0    0     0     4  374   79 17  0 83  0  0
+ 2  0      0 669116 152116 8480372    0    0     0     4  342   48 17  0 83  0  0
+               total        used        free      shared  buff/cache   available
+Mem:     12256591872  3047018496   693542912      552960  8839675904  9209573376
+Swap:              0           0           0
+Filesystem        1B-blocks       Used   Available Use% Mounted on
+/dev/sda1      105467994112 9171042304 91959865344  10% /
+MemoryCurrent=1966579712
+CPUUsageNSec=167791827000
+ActiveState=active
+/data/prism.duckdb 128462848

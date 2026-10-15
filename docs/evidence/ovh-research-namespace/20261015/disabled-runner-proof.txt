@@ -1,0 +1,98 @@
+scheduler_condition_exit=1
+scheduler_runner_exit=1
+{
+  "profile": "research_vps",
+  "identity": "prism_research_vps_runtime_v1",
+  "digest": "46e81ec9a60ab07acaecd55675e477c65aa976ad978890e0c197cd8744f8be70",
+  "authority": "none",
+  "target": "vps",
+  "runtime_id": null,
+  "explicit": true,
+  "role": "reader",
+  "processes": [],
+  "disabled_by_flag": [
+    "context_gateway",
+    "context_ingest",
+    "free_source_collector",
+    "microstructure_collector"
+  ],
+  "collector_dynamic": false,
+  "scheduled_jobs": [],
+  "execution_allowed": false,
+  "external_actions_allowed": false,
+  "boot_catchup_job": null,
+  "dynamic_universe": {
+    "tier0_discovery": "absent",
+    "tier1_warming": "absent",
+    "tier2_rich": "absent",
+    "tier3_risk_pins": "absent"
+  },
+  "definition": {
+    "name": "research_vps",
+    "identity": "prism_research_vps_runtime_v1",
+    "targets": [
+      "local",
+      "vps"
+    ],
+    "processes": [
+      "context_gateway",
+      "context_ingest",
+      "free_source_collector",
+      "microstructure_collector",
+      "scheduler"
+    ],
+    "process_classes": {
+      "context_gateway": "ingress",
+      "context_ingest": "ingest",
+      "free_source_collector": "passive",
+      "microstructure_collector": "passive",
+      "scheduler": "ingest"
+    },
+    "jobs": [
+      "backup",
+      "context_macro",
+      "context_news",
+      "daily",
+      "intraday",
+      "microdir_daily",
+      "microdir_weekly",
+      "microstructure",
+      "oi",
+      "paper_v2",
+      "paper_v2_brief",
+      "paper_v2_funding",
+      "positioning",
+      "prospective"
+    ],
+    "job_classes": {
+      "backup": "maintenance",
+      "context_macro": "data",
+      "context_news": "data",
+      "daily": "research",
+      "intraday": "data",
+      "microdir_daily": "research",
+      "microdir_weekly": "research",
+      "microstructure": "data",
+      "oi": "data",
+      "paper_v2": "retired_drain",
+      "paper_v2_brief": "retired_drain",
+      "paper_v2_funding": "data",
+      "positioning": "data",
+      "prospective": "research"
+    },
+    "runtime_ids": {
+      "full": "vps-prism-research",
+      "rehearsal": "vps-prism-research-rehearsal"
+    },
+    "boot_catchup_job": "prospective",
+    "unconditional_jobs": [
+      "paper_v2_funding"
+    ],
+    "dynamic_universe": {
+      "tier0_discovery": "absent",
+      "tier1_warming": "absent",
+      "tier2_rich": "absent",
+      "tier3_risk_pins": "absent"
+    }
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "lab_services": {
+    "prism-scheduler.service": {
+      "unchanged": true,
+      "before": {
+        "MainPID": "38976",
+        "NRestarts": "0",
+        "Id": "prism-scheduler.service",
+        "ActiveEnterTimestamp": "Wed 2026-10-14 15:44:37 UTC"
+      },
+      "after": {
+        "MainPID": "38976",
+        "NRestarts": "0",
+        "Id": "prism-scheduler.service",
+        "ActiveEnterTimestamp": "Wed 2026-10-14 15:44:37 UTC"
+      }
+    },
+    "prism-microstructure.service": {
+      "unchanged": true,
+      "before": {
+        "MainPID": "39022",
+        "NRestarts": "0",
+        "Id": "prism-microstructure.service",
+        "ActiveEnterTimestamp": "Wed 2026-10-14 15:44:38 UTC"
+      },
+      "after": {
+        "MainPID": "39022",
+        "NRestarts": "0",
+        "Id": "prism-microstructure.service",
+        "ActiveEnterTimestamp": "Wed 2026-10-14 15:44:38 UTC"
+      }
+    },
+    "prism-free-sources.service": {
+      "unchanged": true,
+      "before": {
+        "MainPID": "38972",
+        "NRestarts": "0",
+        "Id": "prism-free-sources.service",
+        "ActiveEnterTimestamp": "Wed 2026-10-14 15:44:37 UTC"
+      },
+      "after": {
+        "MainPID": "38972",
+        "NRestarts": "0",
+        "Id": "prism-free-sources.service",
+        "ActiveEnterTimestamp": "Wed 2026-10-14 15:44:37 UTC"
+      }
+    },
+    "prism-free-source-ingest.service": {
+      "unchanged": true,
+      "before": {
+        "MainPID": "38966",
+        "NRestarts": "0",
+        "Id": "prism-free-source-ingest.service",
+        "ActiveEnterTimestamp": "Wed 2026-10-14 15:44:36 UTC"
+      },
+      "after": {
+        "MainPID": "38966",
+        "NRestarts": "0",
+        "Id": "prism-free-source-ingest.service",
+        "ActiveEnterTimestamp": "Wed 2026-10-14 15:44:36 UTC"
+      }
+    },
+    "prism-soak.service": {
+      "unchanged": true,
+      "before": {
+        "MainPID": "9843",
+        "NRestarts": "0",
+        "Id": "prism-soak.service",
+        "ActiveEnterTimestamp": "Tue 2026-10-13 15:36:26 UTC"
+      },
+      "after": {
+        "MainPID": "9843",
+        "NRestarts": "0",
+        "Id": "prism-soak.service",
+        "ActiveEnterTimestamp": "Tue 2026-10-13 15:36:26 UTC"
+      }
+    }
+  },
+  "lab_config_hashes_unchanged": true,
+  "lab_current_release_unchanged": true,
+  "research_service_unit_files": 0,
+  "research_loaded_units": 0,
+  "persistent_research_schedulers": 0
+}

@@ -1,0 +1,175 @@
+{
+  "profile": {
+    "profile": "research_vps",
+    "identity": "prism_research_vps_runtime_v1",
+    "digest": "46e81ec9a60ab07acaecd55675e477c65aa976ad978890e0c197cd8744f8be70",
+    "authority": "none",
+    "target": "vps",
+    "runtime_id": null,
+    "explicit": true,
+    "role": "reader",
+    "processes": [],
+    "disabled_by_flag": [
+      "context_gateway",
+      "context_ingest",
+      "free_source_collector",
+      "microstructure_collector"
+    ],
+    "collector_dynamic": false,
+    "scheduled_jobs": [],
+    "execution_allowed": false,
+    "external_actions_allowed": false,
+    "boot_catchup_job": null,
+    "dynamic_universe": {
+      "tier0_discovery": "absent",
+      "tier1_warming": "absent",
+      "tier2_rich": "absent",
+      "tier3_risk_pins": "absent"
+    },
+    "definition": {
+      "name": "research_vps",
+      "identity": "prism_research_vps_runtime_v1",
+      "targets": [
+        "local",
+        "vps"
+      ],
+      "processes": [
+        "context_gateway",
+        "context_ingest",
+        "free_source_collector",
+        "microstructure_collector",
+        "scheduler"
+      ],
+      "process_classes": {
+        "context_gateway": "ingress",
+        "context_ingest": "ingest",
+        "free_source_collector": "passive",
+        "microstructure_collector": "passive",
+        "scheduler": "ingest"
+      },
+      "jobs": [
+        "backup",
+        "context_macro",
+        "context_news",
+        "daily",
+        "intraday",
+        "microdir_daily",
+        "microdir_weekly",
+        "microstructure",
+        "oi",
+        "paper_v2",
+        "paper_v2_brief",
+        "paper_v2_funding",
+        "positioning",
+        "prospective"
+      ],
+      "job_classes": {
+        "backup": "maintenance",
+        "context_macro": "data",
+        "context_news": "data",
+        "daily": "research",
+        "intraday": "data",
+        "microdir_daily": "research",
+        "microdir_weekly": "research",
+        "microstructure": "data",
+        "oi": "data",
+        "paper_v2": "retired_drain",
+        "paper_v2_brief": "retired_drain",
+        "paper_v2_funding": "data",
+        "positioning": "data",
+        "prospective": "research"
+      },
+      "runtime_ids": {
+        "full": "vps-prism-research",
+        "rehearsal": "vps-prism-research-rehearsal"
+      },
+      "boot_catchup_job": "prospective",
+      "unconditional_jobs": [
+        "paper_v2_funding"
+      ],
+      "dynamic_universe": {
+        "tier0_discovery": "absent",
+        "tier1_warming": "absent",
+        "tier2_rich": "absent",
+        "tier3_risk_pins": "absent"
+      }
+    }
+  },
+  "release": "/opt/prism/research/releases/c5b81f302f69504b08a4022a9f6515c733dae197-7190e0cb53c2",
+  "files": {
+    "/etc/prism-research/runtime.env": {
+      "mode": "0o640",
+      "uid": 0,
+      "gid": 992,
+      "sha256": "eeaf58458b7935921d40decf5ceb53a7d9326588e6e314bafbda693feebf9982"
+    },
+    "/etc/prism-research/backup.json": {
+      "mode": "0o640",
+      "uid": 0,
+      "gid": 992,
+      "sha256": "505e568621ce5cb467ccfe14c511dee51dc24cc9c20027e442b607a615d86da4"
+    },
+    "/etc/prism-research/backup.env": {
+      "mode": "0o640",
+      "uid": 0,
+      "gid": 992,
+      "sha256": "970418a8aed16193aa1dc1b55c0a6d30556d8c35756d075f08afa2cc0586f103"
+    },
+    "/etc/prism-research/secrets.names": {
+      "mode": "0o640",
+      "uid": 0,
+      "gid": 992,
+      "sha256": "7e7a8bbaa38e4e1fc02346af0052dbc6099cbf72fb9eef437237d2d19e93505b"
+    },
+    "/etc/prism-research/validate-offline": {
+      "mode": "0o750",
+      "uid": 0,
+      "gid": 992,
+      "sha256": "f723e89b30083fe88527aea1a1612535038a1f620bad7004b8958665e7d71fce"
+    },
+    "/etc/prism-research/prepared-services/prism-research.target": {
+      "mode": "0o644",
+      "uid": 0,
+      "gid": 0,
+      "sha256": "9748b86dd5f0fe2528e3a2123c7f41798395e70a62a7eb2dd0dc046ae0419cf0"
+    },
+    "/etc/prism-research/prepared-services/prism-research.slice": {
+      "mode": "0o644",
+      "uid": 0,
+      "gid": 0,
+      "sha256": "cd43b71c92fdf2fd0fa5be718046b0d2dde2350281a4a4182c92f7b216efee81"
+    },
+    "/etc/prism-research/prepared-services/prism-research@.service": {
+      "mode": "0o644",
+      "uid": 0,
+      "gid": 0,
+      "sha256": "06e42eb57f1b8ca3638ff99c0cc7034ba69098fdfa12716f0ab05f82f1416358"
+    },
+    "/var/lib/prism-research/state/operation-driver.py": {
+      "mode": "0o644",
+      "uid": 0,
+      "gid": 0,
+      "sha256": "20baab7c117db6be000d48cf4681107250d533722c90e5dabab743c709884365"
+    },
+    "/var/lib/prism-research/state/clock-audit.py": {
+      "mode": "0o644",
+      "uid": 0,
+      "gid": 0,
+      "sha256": "ace9bf123bae03aaa1e5c35b4ef9532706410abbfe1d39cfaad0533fcba100aa"
+    }
+  },
+  "secrets": {
+    "mode": "0o640",
+    "bytes": 0
+  },
+  "backup_config": {
+    "approved_independent_destination": false,
+    "dedicated_repository": false,
+    "destination_id": "UNCONFIGURED",
+    "retention": "7 daily, 4 weekly, 3 monthly; host/tag scoped",
+    "local_retention": "one verified compressed generation; transient restore staging",
+    "activation_gate": "Choose independent provider/account/bucket, provision credentials, install restic, initialize dedicated encrypted repository, prove off-host recovery before any authority transfer."
+  },
+  "root_mode": "0o750",
+  "database_mode": "0o440"
+}

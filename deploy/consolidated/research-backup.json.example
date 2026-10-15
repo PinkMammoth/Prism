@@ -1,0 +1,8 @@
+{
+  "approved_independent_destination": false,
+  "dedicated_repository": false,
+  "destination_id": "UNCONFIGURED",
+  "retention": "7 daily, 4 weekly, 3 monthly; host/tag scoped",
+  "local_retention": "one verified compressed generation; transient restore staging",
+  "activation_gate": "Choose independent provider/account/bucket, provision credentials, install restic, initialize dedicated encrypted repository, prove off-host recovery before any authority transfer."
+}

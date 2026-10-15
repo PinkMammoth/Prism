@@ -1,0 +1,84 @@
+{
+  "schema_before": 30,
+  "schema_after": 31,
+  "migration_seconds": 19.801744153985055,
+  "source_sha256": "1caa6c9677e1f87e4f04fc087a2534b3d8a4eac89d1e93d7fe0fc025213333c6",
+  "candidate_sha256": "dbaa5a3c31ebd738cca69bbd714263f4583722331f515ee2d239d4be77d9726f",
+  "differences": [
+    {
+      "table": "microstructure_subscription_events",
+      "expected": null,
+      "actual": {
+        "rows": 0,
+        "value_hash": null
+      },
+      "classification": "BUG"
+    },
+    {
+      "table": "schema_version",
+      "expected": {
+        "rows": 30,
+        "value_hash": 8982624645668389596
+      },
+      "actual": {
+        "rows": 31,
+        "value_hash": 14192710874645283034
+      },
+      "classification": "BUG"
+    },
+    {
+      "table": "universe_evaluations",
+      "expected": null,
+      "actual": {
+        "rows": 0,
+        "value_hash": null
+      },
+      "classification": "BUG"
+    },
+    {
+      "table": "universe_outcomes",
+      "expected": null,
+      "actual": {
+        "rows": 0,
+        "value_hash": null
+      },
+      "classification": "BUG"
+    },
+    {
+      "table": "universe_policies",
+      "expected": null,
+      "actual": {
+        "rows": 0,
+        "value_hash": null
+      },
+      "classification": "BUG"
+    }
+  ],
+  "rollback_byte_and_table_parity": true,
+  "received_at_here": "2026-10-15T12:31:22.492499+00:00",
+  "available_at_here": "2026-10-15T12:31:22.493899+00:00",
+  "candidate_bytes": 1646276608,
+  "source_preserved": true,
+  "resources": {
+    "wall_seconds": 116.61891812700196,
+    "cpu_seconds": 112.85768377800001,
+    "peak_rss_bytes": 2242363392,
+    "before": {
+      "logical_bytes": 1646276608,
+      "allocated_bytes": 1646280704,
+      "free_bytes": 95398514688,
+      "temporary_bytes": 0
+    },
+    "after": {
+      "logical_bytes": 3292553216,
+      "allocated_bytes": 3292561408,
+      "free_bytes": 93751902208,
+      "temporary_bytes": 0
+    },
+    "sample_interval_seconds": 0.2,
+    "peak_research_logical_bytes": 4938829824,
+    "peak_research_allocated_bytes": 4938842112,
+    "peak_temporary_bytes": 0,
+    "minimum_host_free_bytes": 92105633792
+  }
+}

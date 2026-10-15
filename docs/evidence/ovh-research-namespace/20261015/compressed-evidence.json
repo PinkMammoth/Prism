@@ -1,0 +1,16 @@
+{
+  "candidate-validation.json": {
+    "artifact": "candidate-validation.json.gz",
+    "uncompressed_bytes": 8894160,
+    "uncompressed_sha256": "3bdc70d2e63267ba76c6b7ef5ecc1c0e3d76af24e38b1f99da0279d6159b5e5e",
+    "compressed_bytes": 810602,
+    "compressed_sha256": "a1dee8f56f9d542c1d5fb9fd7d45784869a6d7a62ed02910e1b056ccebdd8666"
+  },
+  "restore-validation.json": {
+    "artifact": "restore-validation.json.gz",
+    "uncompressed_bytes": 8892580,
+    "uncompressed_sha256": "a94885ac7645f840c9f6e1c7eaf1e3fdd6fcfff50f3ee873b34519d8c3c8ce7a",
+    "compressed_bytes": 810385,
+    "compressed_sha256": "1d706cadba3eef8ac793e199cfaeb27ab13d73594b451a48a4bd88f4b5be416f"
+  }
+}

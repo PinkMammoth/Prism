@@ -1,0 +1,330 @@
+[
+  {
+    "asset": "BTC",
+    "removed": [
+      {
+        "table": "perp_intraday_bars",
+        "evidence_id": "intevidence_066d5348718e05fd92d5f29cfa4f72f4dc7039823f5ce27a8be2c5f15e286ade",
+        "key": [
+          "hyperliquid",
+          "LINK",
+          "1h",
+          "2026-10-14 05:00:00+00:00",
+          0
+        ],
+        "observed": "2026-10-14T19:16:34.415996+00:00",
+        "close_time": "2026-10-14T06:00:00+00:00",
+        "provenance_evidence_ids": null
+      },
+      {
+        "table": "perp_intraday_bars",
+        "evidence_id": "intevidence_12f9de1c1cdef8f00e84bfa4b422fc6e2f5247350912d4a0c4ad23792beee479",
+        "key": [
+          "hyperliquid",
+          "ETH",
+          "1h",
+          "2026-10-14 05:00:00+00:00",
+          0
+        ],
+        "observed": "2026-10-14T19:16:29.851671+00:00",
+        "close_time": "2026-10-14T06:00:00+00:00",
+        "provenance_evidence_ids": null
+      },
+      {
+        "table": "perp_intraday_bars",
+        "evidence_id": "intevidence_2182ce8461556d6df96580eaa05d52d419f21267f91eacbbc320eddce45f6eb8",
+        "key": [
+          "hyperliquid",
+          "HYPE",
+          "1h",
+          "2026-10-14 05:00:00+00:00",
+          0
+        ],
+        "observed": "2026-10-14T19:16:32.901694+00:00",
+        "close_time": "2026-10-14T06:00:00+00:00",
+        "provenance_evidence_ids": null
+      },
+      {
+        "table": "perp_intraday_bars",
+        "evidence_id": "intevidence_3e79988ac463fa0f0fabe646d1c70361aa29f00a8937000682a627d0a4b34a87",
+        "key": [
+          "hyperliquid",
+          "AAVE",
+          "1h",
+          "2026-10-14 05:00:00+00:00",
+          0
+        ],
+        "observed": "2026-10-14T19:16:35.909548+00:00",
+        "close_time": "2026-10-14T06:00:00+00:00",
+        "provenance_evidence_ids": null
+      },
+      {
+        "table": "perp_intraday_bars",
+        "evidence_id": "intevidence_502f5ece6ddcf964f710482253ff0bcfc07a75eb471d0f861f4df541632b5a5d",
+        "key": [
+          "hyperliquid",
+          "BTC",
+          "1h",
+          "2026-09-05 11:00:00+00:00",
+          0
+        ],
+        "observed": "2026-10-05T07:46:10.945384+00:00",
+        "close_time": "2026-09-05T12:00:00+00:00",
+        "provenance_evidence_ids": null
+      },
+      {
+        "table": "context_ls_ratios",
+        "evidence_id": "intevidence_643ab2a7ea788d388bfe59b54e9dc7dd52bc1cb658f076abbf5c0089f32d7826",
+        "key": [
+          "BTC",
+          "taker_volume",
+          "2026-09-15 13:00:00+00:00"
+        ],
+        "observed": "2026-10-07T18:04:02.821641+00:00",
+        "close_time": null,
+        "provenance_evidence_ids": null
+      },
+      {
+        "table": "context_ls_ratios",
+        "evidence_id": "intevidence_73b36e921ca5205fbdf33f7e54df295afe25c5f7d983f2a1909a3fb8c1793a71",
+        "key": [
+          "BTC",
+          "top_account",
+          "2026-09-15 13:00:00+00:00"
+        ],
+        "observed": "2026-10-07T18:04:02.821641+00:00",
+        "close_time": null,
+        "provenance_evidence_ids": null
+      },
+      {
+        "table": "perp_intraday_bars",
+        "evidence_id": "intevidence_ac8facf09f19d10fe93ed8e44093da516ec5f552ad3466aa7f3e34bc86d40af1",
+        "key": [
+          "hyperliquid",
+          "SOL",
+          "1h",
+          "2026-10-14 05:00:00+00:00",
+          0
+        ],
+        "observed": "2026-10-14T19:16:31.489235+00:00",
+        "close_time": "2026-10-14T06:00:00+00:00",
+        "provenance_evidence_ids": null
+      },
+      {
+        "table": "perp_oi_history",
+        "evidence_id": "intevidence_b24f36296c2d13b6fc26318549c6737dfc3cffe3989527972fbaef6234074ccb",
+        "key": [
+          "BTC",
+          "binance",
+          "2026-09-15 13:00:00+00:00",
+          "perp_oi_history"
+        ],
+        "observed": "2026-10-03T21:47:21.405559+00:00",
+        "close_time": null,
+        "provenance_evidence_ids": null
+      },
+      {
+        "table": "context_ls_ratios",
+        "evidence_id": "intevidence_c32a4a8fcde69bdf64439255f0e7b0fed3f92a54dda4054d47786ce14a977f57",
+        "key": [
+          "BTC",
+          "global_account",
+          "2026-09-15 13:00:00+00:00"
+        ],
+        "observed": "2026-10-07T18:04:02.821641+00:00",
+        "close_time": null,
+        "provenance_evidence_ids": null
+      },
+      {
+        "table": "context_ls_ratios",
+        "evidence_id": "intevidence_e2623351d60517d603bd40c59f7556d1367c095d136b57cda7fd740613874d48",
+        "key": [
+          "BTC",
+          "top_position",
+          "2026-09-15 13:00:00+00:00"
+        ],
+        "observed": "2026-10-07T18:04:02.821641+00:00",
+        "close_time": null,
+        "provenance_evidence_ids": null
+      },
+      {
+        "table": "perp_funding",
+        "evidence_id": "intevidence_ea8a6aa76ea960040b78f2599e1529a2d5fb07c470b5b034038aa218a7e26372",
+        "key": [
+          "BTC",
+          "hyperliquid",
+          "2026-06-17 12:00:00.050000+00:00"
+        ],
+        "observed": "2026-10-03T10:17:21.848050+00:00",
+        "close_time": null,
+        "provenance_evidence_ids": [
+          "intevidence_4cf1d5e5b55ae6e44738b5a1737e440168330c6314e738208a74ffedb1a4b07a"
+        ]
+      }
+    ]
+  },
+  {
+    "asset": "AAVE",
+    "removed": [
+      {
+        "table": "perp_intraday_bars",
+        "evidence_id": "intevidence_066d5348718e05fd92d5f29cfa4f72f4dc7039823f5ce27a8be2c5f15e286ade",
+        "key": [
+          "hyperliquid",
+          "LINK",
+          "1h",
+          "2026-10-14 05:00:00+00:00",
+          0
+        ],
+        "observed": "2026-10-14T19:16:34.415996+00:00",
+        "close_time": "2026-10-14T06:00:00+00:00",
+        "provenance_evidence_ids": null
+      },
+      {
+        "table": "perp_intraday_bars",
+        "evidence_id": "intevidence_12f9de1c1cdef8f00e84bfa4b422fc6e2f5247350912d4a0c4ad23792beee479",
+        "key": [
+          "hyperliquid",
+          "ETH",
+          "1h",
+          "2026-10-14 05:00:00+00:00",
+          0
+        ],
+        "observed": "2026-10-14T19:16:29.851671+00:00",
+        "close_time": "2026-10-14T06:00:00+00:00",
+        "provenance_evidence_ids": null
+      },
+      {
+        "table": "perp_intraday_bars",
+        "evidence_id": "intevidence_2182ce8461556d6df96580eaa05d52d419f21267f91eacbbc320eddce45f6eb8",
+        "key": [
+          "hyperliquid",
+          "HYPE",
+          "1h",
+          "2026-10-14 05:00:00+00:00",
+          0
+        ],
+        "observed": "2026-10-14T19:16:32.901694+00:00",
+        "close_time": "2026-10-14T06:00:00+00:00",
+        "provenance_evidence_ids": null
+      },
+      {
+        "table": "context_ls_ratios",
+        "evidence_id": "intevidence_560513f1b1b3e6393e6bd7d80bbab6d66d9b973a6b98e5beb52c1b821f519add",
+        "key": [
+          "AAVE",
+          "global_account",
+          "2026-09-15 13:00:00+00:00"
+        ],
+        "observed": "2026-10-07T18:04:02.821641+00:00",
+        "close_time": null,
+        "provenance_evidence_ids": null
+      },
+      {
+        "table": "perp_oi_history",
+        "evidence_id": "intevidence_7d07fdd5974134f55f747ad40a1448f90f81c86735e77cd2d4a428175f377bc3",
+        "key": [
+          "AAVE",
+          "binance",
+          "2026-09-15 13:00:00+00:00",
+          "perp_oi_history"
+        ],
+        "observed": "2026-10-03T21:47:26.486015+00:00",
+        "close_time": null,
+        "provenance_evidence_ids": null
+      },
+      {
+        "table": "perp_intraday_bars",
+        "evidence_id": "intevidence_886c7435dd9b2e3622f19d840233a022cc48d246df779907f12bc108e1243f24",
+        "key": [
+          "hyperliquid",
+          "BTC",
+          "1h",
+          "2026-10-14 05:00:00+00:00",
+          0
+        ],
+        "observed": "2026-10-14T19:16:28.364685+00:00",
+        "close_time": "2026-10-14T06:00:00+00:00",
+        "provenance_evidence_ids": null
+      },
+      {
+        "table": "context_ls_ratios",
+        "evidence_id": "intevidence_96147c2dcdd92f906b3a0ffd99b54d0c030aa9d9515b95e93e47506e8d162943",
+        "key": [
+          "AAVE",
+          "top_account",
+          "2026-09-15 13:00:00+00:00"
+        ],
+        "observed": "2026-10-07T18:04:02.821641+00:00",
+        "close_time": null,
+        "provenance_evidence_ids": null
+      },
+      {
+        "table": "perp_intraday_bars",
+        "evidence_id": "intevidence_ac8facf09f19d10fe93ed8e44093da516ec5f552ad3466aa7f3e34bc86d40af1",
+        "key": [
+          "hyperliquid",
+          "SOL",
+          "1h",
+          "2026-10-14 05:00:00+00:00",
+          0
+        ],
+        "observed": "2026-10-14T19:16:31.489235+00:00",
+        "close_time": "2026-10-14T06:00:00+00:00",
+        "provenance_evidence_ids": null
+      },
+      {
+        "table": "context_ls_ratios",
+        "evidence_id": "intevidence_bfa37b4e77bb98ab48278a130a2093440ce01ff91f0bccc1bce944481e650e2e",
+        "key": [
+          "AAVE",
+          "top_position",
+          "2026-09-15 13:00:00+00:00"
+        ],
+        "observed": "2026-10-07T18:04:02.821641+00:00",
+        "close_time": null,
+        "provenance_evidence_ids": null
+      },
+      {
+        "table": "perp_intraday_bars",
+        "evidence_id": "intevidence_c786e787dfa731b13d6efed01ad91754a1830540742dba96b88d01f6aa012a7e",
+        "key": [
+          "hyperliquid",
+          "AAVE",
+          "1h",
+          "2026-09-05 11:00:00+00:00",
+          0
+        ],
+        "observed": "2026-10-05T07:46:25.017529+00:00",
+        "close_time": "2026-09-05T12:00:00+00:00",
+        "provenance_evidence_ids": null
+      },
+      {
+        "table": "context_ls_ratios",
+        "evidence_id": "intevidence_c99845563c3e64a3e0005115c739e010ac9541964014b3f4c7751140535774b2",
+        "key": [
+          "AAVE",
+          "taker_volume",
+          "2026-09-15 13:00:00+00:00"
+        ],
+        "observed": "2026-10-07T18:04:02.821641+00:00",
+        "close_time": null,
+        "provenance_evidence_ids": null
+      },
+      {
+        "table": "perp_funding",
+        "evidence_id": "intevidence_d769fd5b9d2cb4571f10db005e608fcdf5173eabba39a19db54a2f2ed1e69788",
+        "key": [
+          "AAVE",
+          "hyperliquid",
+          "2026-06-17 12:00:00.050000+00:00"
+        ],
+        "observed": "2026-10-03T10:20:49.166955+00:00",
+        "close_time": null,
+        "provenance_evidence_ids": [
+          "intevidence_1852b38106140c14c5216c340a931a898c2d6cb65b418bca33f6c1c0e10748c0"
+        ]
+      }
+    ]
+  }
+]

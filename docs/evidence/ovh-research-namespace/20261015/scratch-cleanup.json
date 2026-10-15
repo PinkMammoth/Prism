@@ -1,0 +1,22 @@
+{
+  "removed_only_disposable_verified_copies": [
+    {
+      "path": "/var/lib/prism-research/scratch/source.duckdb",
+      "sha256": "1caa6c9677e1f87e4f04fc087a2534b3d8a4eac89d1e93d7fe0fc025213333c6",
+      "logical_bytes": 1646276608,
+      "allocated_bytes": 1646280704
+    },
+    {
+      "path": "/var/lib/prism-research/scratch/restored.duckdb",
+      "sha256": "dbaa5a3c31ebd738cca69bbd714263f4583722331f515ee2d239d4be77d9726f",
+      "logical_bytes": 1646276608,
+      "allocated_bytes": 1646280704
+    }
+  ],
+  "preserved_source_archive": "/var/lib/prism-railway-archive/archive/prism-20261015T113557Z.duckdb.1caa6c9677e1.gz",
+  "preserved_candidate": "/var/lib/prism-research/import/prism.duckdb",
+  "preserved_local_generation": "/var/lib/prism-research/backups/generation-20261015T123904063259Z",
+  "free_before": 91934154752,
+  "free_after": 95226662912,
+  "offhost_still_unconfigured": true
+}

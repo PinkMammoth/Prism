@@ -1,0 +1,43 @@
+MainPID=38976
+NRestarts=0
+MemoryCurrent=161718272
+CPUUsageNSec=3951339949000
+Id=prism-scheduler.service
+ActiveEnterTimestamp=Wed 2026-10-14 15:44:37 UTC
+
+MainPID=39022
+NRestarts=0
+MemoryCurrent=208478208
+CPUUsageNSec=837852898000
+Id=prism-microstructure.service
+ActiveEnterTimestamp=Wed 2026-10-14 15:44:38 UTC
+
+MainPID=38972
+NRestarts=0
+MemoryCurrent=115204096
+CPUUsageNSec=98736214000
+Id=prism-free-sources.service
+ActiveEnterTimestamp=Wed 2026-10-14 15:44:37 UTC
+
+MainPID=38966
+NRestarts=0
+MemoryCurrent=180678656
+CPUUsageNSec=3321517834000
+Id=prism-free-source-ingest.service
+ActiveEnterTimestamp=Wed 2026-10-14 15:44:36 UTC
+
+MainPID=9843
+NRestarts=0
+MemoryCurrent=161378304
+CPUUsageNSec=134350011000
+Id=prism-soak.service
+ActiveEnterTimestamp=Tue 2026-10-13 15:36:26 UTC
+/opt/prism/releases/530ba0d18c3009352eee21bb7f1a1c01004ab73a
+93116e83a9169e6ee8cb0cbcb5d7532766465c3569412ffce39540e0f5071439  /etc/prism/prism.env
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855  /etc/prism/secrets.env
+               total        used        free      shared  buff/cache   available
+Mem:     12256591872  1062993920  8354328576      540672  3167866880 11193597952
+Swap:              0           0           0
+Filesystem        1B-blocks       Used   Available Use% Mounted on
+/dev/sda1      105467994112 3468181504 97662726144   4% /
+175186.42 1028547.18

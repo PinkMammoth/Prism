@@ -1,6 +1,8 @@
 # Prepared full-OVH foundation and live temporary bridge
 
-Research templates are **not installed/enabled**. Never deploy these through the singleton
+Research services remain **uninstalled and disabled**. A separate disabled namespace was
+installed October 15; see `docs/OVH_RESEARCH_NAMESPACE_VALIDATION.md` for its validation
+and remaining independent off-host backup gate. Never deploy these through the singleton
 Lab installer or change `/opt/prism/current`. Source review/release, dedicated Research
 user/paths, independent off-host backup and explicit cutover gates come first. The full
 plan is `docs/FULL_OVH_CONSOLIDATION_PLAN.md`.

@@ -1,0 +1,16 @@
+{
+  "file": "src/market_signal/ops/profiles.py",
+  "expected_frozen_artifact_sha256": "d6ba8b7d0fb53cc931b325db6c9615d0463a871a8bbf50af6309539fb52ae045",
+  "actual_sha256": "c999a7a18c2c768ba4cf82b707026fcc7d4f9a5e6fc4add41f2016731e155c3b",
+  "revision_hashes": {
+    "020896f": "d6ba8b7d0fb53cc931b325db6c9615d0463a871a8bbf50af6309539fb52ae045",
+    "3783fe7^": "d6ba8b7d0fb53cc931b325db6c9615d0463a871a8bbf50af6309539fb52ae045",
+    "3783fe7": "c999a7a18c2c768ba4cf82b707026fcc7d4f9a5e6fc4add41f2016731e155c3b",
+    "c5b81f3": "c999a7a18c2c768ba4cf82b707026fcc7d4f9a5e6fc4add41f2016731e155c3b"
+  },
+  "changed_by_this_tranche": false,
+  "reproduces_on_clean_starting_main": true,
+  "baseline_revision": "c5b81f302f69504b08a4022a9f6515c733dae197",
+  "frozen_manifest_modified": false,
+  "disposition": "Existing prospective sizing provenance release gate; separate reviewed semantic/provenance reconciliation required before sizing activation."
+}
