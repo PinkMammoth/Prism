@@ -1,0 +1,1 @@
+{"elapsed": 100.16643145866692, "free": 2759811072, "results": [{"source_path": "/data/backups/daily/prism-20261015T113557Z.duckdb", "logical_bytes": 1646276608, "applied": true, "sha256": "1caa6c9677e1f87e4f04fc087a2534b3d8a4eac89d1e93d7fe0fc025213333c6", "archive_path": "/var/lib/prism-railway-archive/archive/prism-20261015T113557Z.duckdb.1caa6c9677e1.gz", "tables": 142}]}

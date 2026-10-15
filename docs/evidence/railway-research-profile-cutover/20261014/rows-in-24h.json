@@ -1,0 +1,197 @@
+{
+  "window_start": "2026-10-13T17:38:16Z",
+  "window_end": "2026-10-14T17:38:16Z",
+  "limits": "Rows with selected timestamps, not bytes written or proof of immutable insert rates; projections may update. Window includes Nimble-on period.",
+  "tables": {
+    "context_event_updates": {
+      "column": "observed_at",
+      "rows_in_24h": 3,
+      "total_rows": 61
+    },
+    "context_events": {
+      "column": "first_seen_at",
+      "rows_in_24h": 2,
+      "total_rows": 97
+    },
+    "context_free_ingests": {
+      "column": "recorded_at",
+      "rows_in_24h": 3,
+      "total_rows": 29
+    },
+    "context_gateway_ingests": {
+      "column": "recorded_at",
+      "rows_in_24h": 0,
+      "total_rows": 9
+    },
+    "context_ls_ratios": {
+      "column": "ingested_at",
+      "rows_in_24h": 576,
+      "total_rows": 21042
+    },
+    "context_snapshots": {
+      "column": "recorded_at",
+      "rows_in_24h": 0,
+      "total_rows": 0
+    },
+    "context_sources": {
+      "column": "recorded_at",
+      "rows_in_24h": 0,
+      "total_rows": 15
+    },
+    "context_theses": {
+      "column": "recorded_at",
+      "rows_in_24h": 0,
+      "total_rows": 0
+    },
+    "context_work_observations": {
+      "column": "observed_at",
+      "rows_in_24h": 0,
+      "total_rows": 0
+    },
+    "context_work_reactions": {
+      "column": "recorded_at",
+      "rows_in_24h": 200,
+      "total_rows": 779
+    },
+    "context_work_research_pending": {
+      "column": "available_at",
+      "rows_in_24h": 19,
+      "total_rows": 129
+    },
+    "copilot_deliveries": {
+      "column": "recorded_at",
+      "rows_in_24h": 0,
+      "total_rows": 2
+    },
+    "copilot_policies": {
+      "column": "recorded_at",
+      "rows_in_24h": 0,
+      "total_rows": 1
+    },
+    "copilot_software": {
+      "column": "recorded_at",
+      "rows_in_24h": 0,
+      "total_rows": 24
+    },
+    "copilot_watch_status": {
+      "column": "recorded_at",
+      "rows_in_24h": 0,
+      "total_rows": 2
+    },
+    "lab_batch_analyses": {
+      "column": "recorded_at",
+      "rows_in_24h": 0,
+      "total_rows": 1
+    },
+    "lab_datasets": {
+      "column": "recorded_at",
+      "rows_in_24h": 0,
+      "total_rows": 2
+    },
+    "lab_edge_profiles": {
+      "column": "recorded_at",
+      "rows_in_24h": 0,
+      "total_rows": 0
+    },
+    "lab_evidence_policies": {
+      "column": "recorded_at",
+      "rows_in_24h": 0,
+      "total_rows": 1
+    },
+    "lab_evidence_profiles": {
+      "column": "recorded_at",
+      "rows_in_24h": 0,
+      "total_rows": 44
+    },
+    "lab_experiments": {
+      "column": "created_at",
+      "rows_in_24h": 0,
+      "total_rows": 47
+    },
+    "lab_forward_entries": {
+      "column": "recorded_at",
+      "rows_in_24h": 0,
+      "total_rows": 1
+    },
+    "lab_forward_inputs": {
+      "column": "recorded_at",
+      "rows_in_24h": 18,
+      "total_rows": 144
+    },
+    "lab_forward_outcomes": {
+      "column": "recorded_at",
+      "rows_in_24h": 24,
+      "total_rows": 168
+    },
+    "lab_forward_status": {
+      "column": "recorded_at",
+      "rows_in_24h": 0,
+      "total_rows": 4
+    },
+    "lab_forward_summaries": {
+      "column": "recorded_at",
+      "rows_in_24h": 0,
+      "total_rows": 0
+    },
+    "lab_hypotheses": {
+      "column": "recorded_at",
+      "rows_in_24h": 0,
+      "total_rows": 40
+    },
+    "lab_inspections": {
+      "column": "recorded_at",
+      "rows_in_24h": 0,
+      "total_rows": 47
+    },
+    "lab_plans": {
+      "column": "recorded_at",
+      "rows_in_24h": 0,
+      "total_rows": 3
+    },
+    "lab_research_policies": {
+      "column": "recorded_at",
+      "rows_in_24h": 0,
+      "total_rows": 4
+    },
+    "lab_software": {
+      "column": "recorded_at",
+      "rows_in_24h": 0,
+      "total_rows": 29
+    },
+    "lab_strategies": {
+      "column": "recorded_at",
+      "rows_in_24h": 0,
+      "total_rows": 40
+    },
+    "microstructure_cutover": {
+      "column": "recorded_at",
+      "rows_in_24h": 0,
+      "total_rows": 1
+    },
+    "microstructure_minutes": {
+      "column": "ingested_at",
+      "rows_in_24h": 8634,
+      "total_rows": 60318
+    },
+    "perp_bars": {
+      "column": "ingested_at",
+      "rows_in_24h": 55,
+      "total_rows": 23799
+    },
+    "perp_funding": {
+      "column": "available_at",
+      "rows_in_24h": 154,
+      "total_rows": 185040
+    },
+    "perp_oi_history": {
+      "column": "ingested_at",
+      "rows_in_24h": 144,
+      "total_rows": 5862
+    },
+    "perp_oi_observations": {
+      "column": "observed_at",
+      "rows_in_24h": 204,
+      "total_rows": 6744
+    }
+  }
+}

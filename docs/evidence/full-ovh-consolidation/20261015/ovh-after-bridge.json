@@ -1,0 +1,5 @@
+{
+  "returncode": 0,
+  "observations": "/opt/prism/releases/530ba0d18c3009352eee21bb7f1a1c01004ab73a\n  prism-free-source-ingest.service loaded active running Prism free-source spool ingest (authoritative DB writer under the runtime lock)\n  prism-free-sources.service       loaded active running Prism free public event-source collector (spool only; never opens DuckDB)\n  prism-microstructure.service     loaded active running Prism Hyperliquid microstructure collector (public data -> spool; never opens DuckDB)\n  prism-scheduler.service          loaded active running Prism scheduler (supercronic; the ONLY scheduling authority on this host)\n  prism-soak.service               loaded active running Prism soak sampler (read-only observation)\n               total        used        free      shared  buff/cache   available\nMem:     12256591872  1075376128  8346390528      524288  3163406336 11181215744\nSwap:              0           0           0\nFilesystem        1B-blocks       Used   Available Use% Mounted on\n/dev/sda1      105467994112 3465138176 97665769472   4% /\n",
+  "stderr": ""
+}

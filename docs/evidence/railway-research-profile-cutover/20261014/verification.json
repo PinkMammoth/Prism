@@ -1,0 +1,21 @@
+{
+  "production_revision": "8f9bc3473142eb6b8a5ea54a3987db8ef2bcb0cf",
+  "reviewed_local_revision": "020896f",
+  "profile_and_backup_cases_passed": 85,
+  "capture_safety_cases_passed": 5,
+  "schema31_rehearsal_passed": true,
+  "retirement_rehearsal_idempotent": true,
+  "production_db_migration": false,
+  "production_retirement": false,
+  "production_deployment": false,
+  "production_files_deleted": 0,
+  "ovh_operations": 0,
+  "source_file_sha256": {
+    "scripts/railway_research_audit.py": "6aa517a647e9955b4da8c0353521bd321e30b06015129b8df1c04266a6b83607",
+    "scripts/railway_snapshot_offhost.py": "b3c0333dc0424413f6091d978f1a49e83b9263124f739d8e32a2e9a1e3c0c319",
+    "scripts/rehearse_research_schema.py": "c24a496155123194f50f383fe8f7e483f05aff8108410f55b43b9c8c82666751",
+    "scripts/nimble_retirement_rehearsal.py": "45e9550d16c1d6eec64958a6ce14828d402a5cd9f7ad826f4917f1c97cbaa252",
+    "tests/test_offhost_capture.py": "e010abfb6280331438f856f0ba3bbd7b18c09431636041e6e3ce4be497c72402",
+    "docs/RAILWAY_RESEARCH_PROFILE_CUTOVER.md": "2c11ae09de8f45b4ab79c172885601a26d44fc9da1f7573b42ce281dc5f45ea1"
+  }
+}

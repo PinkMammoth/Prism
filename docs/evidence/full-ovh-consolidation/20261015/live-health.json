@@ -1,0 +1,1 @@
+{"duckdb_version": "1.5.5", "free": 2759536640, "lock": "{\"pid\": 182771, \"job\": \"intraday\", \"since\": \"2026-10-15T11:46:00.904747+00:00\"}", "gateway_exit": 0, "sources_exit": 0, "scheduler_pids": [3]}

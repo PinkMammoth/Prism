@@ -1,0 +1,49 @@
+{
+  "idempotent": true,
+  "before": {
+    "paperrun_nimble_a8aef8be36c02700688053a1e57d2f908573fe8898860450b00b889d4f98f54c": {
+      "pending_research": 72,
+      "unsettled_closes": 3,
+      "nonterminal_positions": 0,
+      "opportunities": 27768,
+      "ledger_events": 6468
+    },
+    "paperrun_nimble_a5fafb2cf008686ad99d2e1e039d428cd95349423d2e31778409810be6cce3d3": {
+      "pending_research": 72,
+      "unsettled_closes": 1,
+      "nonterminal_positions": 0,
+      "opportunities": 25560,
+      "ledger_events": 5908
+    },
+    "paperrun_nimble_981fac864a79b04053e1ca081731a692db95b5e69cec9f29e74618e6e84e0528": {
+      "pending_research": 72,
+      "unsettled_closes": 2,
+      "nonterminal_positions": 0,
+      "opportunities": 25560,
+      "ledger_events": 5861
+    }
+  },
+  "after": {
+    "paperrun_nimble_a8aef8be36c02700688053a1e57d2f908573fe8898860450b00b889d4f98f54c": {
+      "pending_research": 64,
+      "unsettled_closes": 3,
+      "nonterminal_positions": 0,
+      "opportunities": 27768,
+      "ledger_events": 6468
+    },
+    "paperrun_nimble_a5fafb2cf008686ad99d2e1e039d428cd95349423d2e31778409810be6cce3d3": {
+      "pending_research": 64,
+      "unsettled_closes": 1,
+      "nonterminal_positions": 0,
+      "opportunities": 25560,
+      "ledger_events": 5908
+    },
+    "paperrun_nimble_981fac864a79b04053e1ca081731a692db95b5e69cec9f29e74618e6e84e0528": {
+      "pending_research": 64,
+      "unsettled_closes": 2,
+      "nonterminal_positions": 0,
+      "opportunities": 25560,
+      "ledger_events": 5861
+    }
+  }
+}

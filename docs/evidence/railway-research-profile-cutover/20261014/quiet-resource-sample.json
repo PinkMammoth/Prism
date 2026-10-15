@@ -1,0 +1,350 @@
+[
+  {
+    "at": "2026-10-14T17:39:43.011100+00:00",
+    "monotonic": 7360492.223307539,
+    "processes": [
+      {
+        "pid": 1,
+        "name": "podman-init",
+        "rss_bytes": 405504,
+        "cpu_seconds": 0.02,
+        "start_ticks": 735912564,
+        "write_bytes": 0
+      },
+      {
+        "pid": 2,
+        "name": "tini",
+        "rss_bytes": 1290240,
+        "cpu_seconds": 0.01,
+        "start_ticks": 735912571,
+        "write_bytes": 0
+      },
+      {
+        "pid": 3,
+        "name": "scheduler",
+        "rss_bytes": 16871424,
+        "cpu_seconds": 0.06,
+        "start_ticks": 735912571,
+        "write_bytes": 3082452992
+      },
+      {
+        "pid": 136,
+        "name": "entrypoint.sh",
+        "rss_bytes": 430080,
+        "cpu_seconds": 0.0,
+        "start_ticks": 735915189,
+        "write_bytes": 0
+      },
+      {
+        "pid": 138,
+        "name": "microstructure_collector",
+        "rss_bytes": 190005248,
+        "cpu_seconds": 10.95,
+        "start_ticks": 735915189,
+        "write_bytes": 5808128
+      },
+      {
+        "pid": 139,
+        "name": "entrypoint.sh",
+        "rss_bytes": 430080,
+        "cpu_seconds": 0.0,
+        "start_ticks": 735915189,
+        "write_bytes": 0
+      },
+      {
+        "pid": 140,
+        "name": "entrypoint.sh",
+        "rss_bytes": 430080,
+        "cpu_seconds": 0.0,
+        "start_ticks": 735915189,
+        "write_bytes": 0
+      },
+      {
+        "pid": 141,
+        "name": "context_gateway",
+        "rss_bytes": 162140160,
+        "cpu_seconds": 4.6,
+        "start_ticks": 735915189,
+        "write_bytes": 5582848
+      },
+      {
+        "pid": 143,
+        "name": "context_ingest",
+        "rss_bytes": 232054784,
+        "cpu_seconds": 130.4,
+        "start_ticks": 735915189,
+        "write_bytes": 3334144
+      },
+      {
+        "pid": 144,
+        "name": "entrypoint.sh",
+        "rss_bytes": 430080,
+        "cpu_seconds": 0.0,
+        "start_ticks": 735915189,
+        "write_bytes": 0
+      },
+      {
+        "pid": 145,
+        "name": "entrypoint.sh",
+        "rss_bytes": 0,
+        "cpu_seconds": 0.0,
+        "start_ticks": 735915189,
+        "write_bytes": 1952612352
+      },
+      {
+        "pid": 146,
+        "name": "free_source_collector",
+        "rss_bytes": 165232640,
+        "cpu_seconds": 3.37,
+        "start_ticks": 735915189,
+        "write_bytes": 2678784
+      },
+      {
+        "pid": 4528,
+        "name": "audit_probe",
+        "rss_bytes": 59539456,
+        "cpu_seconds": 0.06,
+        "start_ticks": 736049215,
+        "write_bytes": 0
+      }
+    ],
+    "memory.current": "3504300032",
+    "memory.peak": "5721415680",
+    "memory.stat": "anon 449757184\nfile 2999472128\nkernel 46665728\nkernel_stack 4014080\npagetables 0\nsec_pagetables 0\npercpu 13200\nsock 0\nvmalloc 24576\nshmem 0\nfile_mapped 0\nfile_dirty 16384\nfile_writeback 0\nswapcached 0\nanon_thp 48234496\nfile_thp 251658240\nshmem_thp 0\ninactive_anon 0\nactive_anon 455663616\ninactive_file 2994020352\nactive_file 5451776\nunevictable 0\nslab_reclaimable 33852032\nslab_unreclaimable 3575368\nslab 37427400\nworkingset_refault_anon 0\nworkingset_refault_file 87774\nworkingset_activate_anon 0\nworkingset_activate_file 1\nworkingset_restore_anon 0\nworkingset_restore_file 0\nworkingset_nodereclaim 0\npgdemote_kswapd 0\npgdemote_direct 0\npgdemote_khugepaged 0\npgdemote_proactive 0\npgpromote_success 0\npgscan 90294\npgsteal 90294\npswpin 0\npswpout 0\npgscan_kswapd 76381\npgscan_direct 12615\npgscan_khugepaged 1298\npgscan_proactive 0\npgsteal_kswapd 76381\npgsteal_direct 12615\npgsteal_khugepaged 1298\npgsteal_proactive 0\npgfault 26678622\npgmajfault 72\npgrefill 116373\npgactivate 0\npgdeactivate 0\npglazyfree 1927910\npglazyfreed 0\nswpin_zero 0\nswpout_zero 0\nthp_fault_alloc 1311\nthp_collapse_alloc 0\nthp_swpout 0\nthp_swpout_fallback 0\nnuma_pages_migrated 0\nnuma_pte_updates 0\nnuma_hint_faults 0",
+    "cpu.stat": "usage_usec 579525809\nuser_usec 533555275\nsystem_usec 45970534\nnice_usec 0\nnr_periods 12009\nnr_throttled 71\nthrottled_usec 69805354\nnr_bursts 0\nburst_usec 0",
+    "cpu.max": "800000 100000",
+    "memory.max": "8000000000"
+  },
+  {
+    "at": "2026-10-14T17:40:13.013021+00:00",
+    "monotonic": 7360522.225255175,
+    "processes": [
+      {
+        "pid": 1,
+        "name": "podman-init",
+        "rss_bytes": 405504,
+        "cpu_seconds": 0.02,
+        "start_ticks": 735912564,
+        "write_bytes": 0
+      },
+      {
+        "pid": 2,
+        "name": "tini",
+        "rss_bytes": 1290240,
+        "cpu_seconds": 0.02,
+        "start_ticks": 735912571,
+        "write_bytes": 0
+      },
+      {
+        "pid": 3,
+        "name": "scheduler",
+        "rss_bytes": 16871424,
+        "cpu_seconds": 0.06,
+        "start_ticks": 735912571,
+        "write_bytes": 3082457088
+      },
+      {
+        "pid": 136,
+        "name": "entrypoint.sh",
+        "rss_bytes": 430080,
+        "cpu_seconds": 0.0,
+        "start_ticks": 735915189,
+        "write_bytes": 0
+      },
+      {
+        "pid": 138,
+        "name": "microstructure_collector",
+        "rss_bytes": 188825600,
+        "cpu_seconds": 11.12,
+        "start_ticks": 735915189,
+        "write_bytes": 5967872
+      },
+      {
+        "pid": 139,
+        "name": "entrypoint.sh",
+        "rss_bytes": 430080,
+        "cpu_seconds": 0.0,
+        "start_ticks": 735915189,
+        "write_bytes": 0
+      },
+      {
+        "pid": 140,
+        "name": "entrypoint.sh",
+        "rss_bytes": 430080,
+        "cpu_seconds": 0.0,
+        "start_ticks": 735915189,
+        "write_bytes": 0
+      },
+      {
+        "pid": 141,
+        "name": "context_gateway",
+        "rss_bytes": 160960512,
+        "cpu_seconds": 4.66,
+        "start_ticks": 735915189,
+        "write_bytes": 5607424
+      },
+      {
+        "pid": 143,
+        "name": "context_ingest",
+        "rss_bytes": 230481920,
+        "cpu_seconds": 130.41,
+        "start_ticks": 735915189,
+        "write_bytes": 3407872
+      },
+      {
+        "pid": 144,
+        "name": "entrypoint.sh",
+        "rss_bytes": 430080,
+        "cpu_seconds": 0.0,
+        "start_ticks": 735915189,
+        "write_bytes": 0
+      },
+      {
+        "pid": 145,
+        "name": "entrypoint.sh",
+        "rss_bytes": 0,
+        "cpu_seconds": 0.0,
+        "start_ticks": 735915189,
+        "write_bytes": 1952612352
+      },
+      {
+        "pid": 146,
+        "name": "free_source_collector",
+        "rss_bytes": 164052992,
+        "cpu_seconds": 3.43,
+        "start_ticks": 735915189,
+        "write_bytes": 2752512
+      },
+      {
+        "pid": 4528,
+        "name": "audit_probe",
+        "rss_bytes": 74186752,
+        "cpu_seconds": 0.07,
+        "start_ticks": 736049215,
+        "write_bytes": 0
+      }
+    ],
+    "memory.current": "3496689664",
+    "memory.peak": "5721415680",
+    "memory.stat": "anon 464244736\nfile 2979069952\nkernel 46563328\nkernel_stack 4014080\npagetables 0\nsec_pagetables 0\npercpu 13200\nsock 0\nvmalloc 24576\nshmem 0\nfile_mapped 0\nfile_dirty 20480\nfile_writeback 0\nswapcached 0\nanon_thp 62914560\nfile_thp 251658240\nshmem_thp 0\ninactive_anon 0\nactive_anon 470274048\ninactive_file 2973618176\nactive_file 5451776\nunevictable 0\nslab_reclaimable 33698160\nslab_unreclaimable 3569968\nslab 37268128\nworkingset_refault_anon 0\nworkingset_refault_file 87774\nworkingset_activate_anon 0\nworkingset_activate_file 1\nworkingset_restore_anon 0\nworkingset_restore_file 0\nworkingset_nodereclaim 0\npgdemote_kswapd 0\npgdemote_direct 0\npgdemote_khugepaged 0\npgdemote_proactive 0\npgpromote_success 0\npgscan 95286\npgsteal 95286\npswpin 0\npswpout 0\npgscan_kswapd 76381\npgscan_direct 17607\npgscan_khugepaged 1298\npgscan_proactive 0\npgsteal_kswapd 76381\npgsteal_direct 17607\npgsteal_khugepaged 1298\npgsteal_proactive 0\npgfault 26732547\npgmajfault 72\npgrefill 116373\npgactivate 0\npgdeactivate 0\npglazyfree 1927910\npglazyfreed 0\nswpin_zero 0\nswpout_zero 0\nthp_fault_alloc 1329\nthp_collapse_alloc 0\nthp_swpout 0\nthp_swpout_fallback 0\nnuma_pages_migrated 0\nnuma_pte_updates 0\nnuma_hint_faults 0",
+    "cpu.stat": "usage_usec 583876835\nuser_usec 537619192\nsystem_usec 46257643\nnice_usec 0\nnr_periods 12262\nnr_throttled 73\nthrottled_usec 72783061\nnr_bursts 0\nburst_usec 0",
+    "cpu.max": "800000 100000",
+    "memory.max": "8000000000"
+  },
+  {
+    "at": "2026-10-14T17:40:43.015716+00:00",
+    "monotonic": 7360552.227942779,
+    "processes": [
+      {
+        "pid": 1,
+        "name": "podman-init",
+        "rss_bytes": 405504,
+        "cpu_seconds": 0.02,
+        "start_ticks": 735912564,
+        "write_bytes": 0
+      },
+      {
+        "pid": 2,
+        "name": "tini",
+        "rss_bytes": 1290240,
+        "cpu_seconds": 0.02,
+        "start_ticks": 735912571,
+        "write_bytes": 0
+      },
+      {
+        "pid": 3,
+        "name": "scheduler",
+        "rss_bytes": 16871424,
+        "cpu_seconds": 0.06,
+        "start_ticks": 735912571,
+        "write_bytes": 3082457088
+      },
+      {
+        "pid": 136,
+        "name": "entrypoint.sh",
+        "rss_bytes": 430080,
+        "cpu_seconds": 0.0,
+        "start_ticks": 735915189,
+        "write_bytes": 0
+      },
+      {
+        "pid": 138,
+        "name": "microstructure_collector",
+        "rss_bytes": 188825600,
+        "cpu_seconds": 11.27,
+        "start_ticks": 735915189,
+        "write_bytes": 6053888
+      },
+      {
+        "pid": 139,
+        "name": "entrypoint.sh",
+        "rss_bytes": 430080,
+        "cpu_seconds": 0.0,
+        "start_ticks": 735915189,
+        "write_bytes": 0
+      },
+      {
+        "pid": 140,
+        "name": "entrypoint.sh",
+        "rss_bytes": 430080,
+        "cpu_seconds": 0.0,
+        "start_ticks": 735915189,
+        "write_bytes": 0
+      },
+      {
+        "pid": 141,
+        "name": "context_gateway",
+        "rss_bytes": 160960512,
+        "cpu_seconds": 4.71,
+        "start_ticks": 735915189,
+        "write_bytes": 5632000
+      },
+      {
+        "pid": 143,
+        "name": "context_ingest",
+        "rss_bytes": 230858752,
+        "cpu_seconds": 137.73,
+        "start_ticks": 735915189,
+        "write_bytes": 3461120
+      },
+      {
+        "pid": 144,
+        "name": "entrypoint.sh",
+        "rss_bytes": 430080,
+        "cpu_seconds": 0.0,
+        "start_ticks": 735915189,
+        "write_bytes": 0
+      },
+      {
+        "pid": 145,
+        "name": "entrypoint.sh",
+        "rss_bytes": 0,
+        "cpu_seconds": 0.0,
+        "start_ticks": 735915189,
+        "write_bytes": 1952612352
+      },
+      {
+        "pid": 146,
+        "name": "free_source_collector",
+        "rss_bytes": 164052992,
+        "cpu_seconds": 3.46,
+        "start_ticks": 735915189,
+        "write_bytes": 2801664
+      },
+      {
+        "pid": 4528,
+        "name": "audit_probe",
+        "rss_bytes": 74186752,
+        "cpu_seconds": 0.07,
+        "start_ticks": 736049215,
+        "write_bytes": 0
+      }
+    ],
+    "memory.current": "3485777920",
+    "memory.peak": "5721415680",
+    "memory.stat": "anon 464093184\nfile 2970419200\nkernel 46563328\nkernel_stack 4014080\npagetables 0\nsec_pagetables 0\npercpu 13200\nsock 0\nvmalloc 24576\nshmem 0\nfile_mapped 0\nfile_dirty 0\nfile_writeback 0\nswapcached 0\nanon_thp 62914560\nfile_thp 251658240\nshmem_thp 0\ninactive_anon 0\nactive_anon 468021248\ninactive_file 2964967424\nactive_file 5451776\nunevictable 0\nslab_reclaimable 33700568\nslab_unreclaimable 3573048\nslab 37273616\nworkingset_refault_anon 0\nworkingset_refault_file 87774\nworkingset_activate_anon 0\nworkingset_activate_file 1\nworkingset_restore_anon 0\nworkingset_restore_file 0\nworkingset_nodereclaim 0\npgdemote_kswapd 0\npgdemote_direct 0\npgdemote_khugepaged 0\npgdemote_proactive 0\npgpromote_success 0\npgscan 97398\npgsteal 97398\npswpin 0\npswpout 0\npgscan_kswapd 76381\npgscan_direct 19527\npgscan_khugepaged 1490\npgscan_proactive 0\npgsteal_kswapd 76381\npgsteal_direct 19527\npgsteal_khugepaged 1490\npgsteal_proactive 0\npgfault 27172437\npgmajfault 72\npgrefill 116373\npgactivate 0\npgdeactivate 0\npglazyfree 1932996\npglazyfreed 0\nswpin_zero 0\nswpout_zero 0\nthp_fault_alloc 1340\nthp_collapse_alloc 0\nthp_swpout 0\nthp_swpout_fallback 0\nnuma_pages_migrated 0\nnuma_pte_updates 0\nnuma_hint_faults 0",
+    "cpu.stat": "usage_usec 591435771\nuser_usec 544559934\nsystem_usec 46875837\nnice_usec 0\nnr_periods 12522\nnr_throttled 73\nthrottled_usec 72783061\nnr_bursts 0\nburst_usec 0",
+    "cpu.max": "800000 100000",
+    "memory.max": "8000000000"
+  }
+]

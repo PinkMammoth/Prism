@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "<stdin>", line 9, in <module>
+  File "/data/railway-bridge/bridge_archive.py", line 161, in send
+    with rt.runtime_lock(db, "railway-bridge-archive", 45):
+  File "/usr/local/lib/python3.12/contextlib.py", line 137, in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+  File "/app/src/market_signal/ops/runtime.py", line 343, in runtime_lock
+    raise RuntimeBusy(f"another runtime job is running ({holder})") from None
+market_signal.ops.runtime.RuntimeBusy: another runtime job is running ({"pid": 180599, "job": "microstructure", "since": "2026-10-15T11:37:24.824866+00:00"})

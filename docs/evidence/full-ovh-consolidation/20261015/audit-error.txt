@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "<stdin>", line 178, in <module>
+  File "<stdin>", line 106, in main
+  File "/usr/local/lib/python3.12/contextlib.py", line 137, in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+  File "/app/src/market_signal/ops/runtime.py", line 343, in runtime_lock
+    raise RuntimeBusy(f"another runtime job is running ({holder})") from None
+market_signal.ops.runtime.RuntimeBusy: another runtime job is running ({"pid": 155927, "job": "offhost-read-only-recovery-capture", "since": "2026-10-15T09:07:32.193220+00:00"})

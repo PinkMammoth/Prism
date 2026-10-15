@@ -1,0 +1,1 @@
+[{"source_path": "/data/backups/daily/prism-20261015T013019Z.duckdb", "logical_bytes": 1646276608, "allocated_bytes": 1646280704, "at": "2026-10-15T11:33:01.029861+00:00", "applied": true}, {"source_path": "/data/backups/daily/prism-20261015T113557Z.duckdb", "logical_bytes": 1646276608, "allocated_bytes": 1646280704, "at": "2026-10-15T11:40:42.427213+00:00", "applied": true}]

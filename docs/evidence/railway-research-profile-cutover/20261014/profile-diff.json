@@ -1,0 +1,240 @@
+{
+  "before": {
+    "profile": "legacy",
+    "identity": "prism_legacy_combined_v0",
+    "digest": "6e6591c0bdcc7785477a93cdae64e7f5848354333baa3f1b4619c79a3716980c",
+    "authority": "full",
+    "target": null,
+    "runtime_id": "railway-prism-runtime",
+    "explicit": false,
+    "role": "authoritative",
+    "processes": [
+      "scheduler",
+      "microstructure_collector",
+      "context_gateway",
+      "context_ingest",
+      "free_source_collector"
+    ],
+    "disabled_by_flag": [],
+    "collector_dynamic": false,
+    "scheduled_jobs": [
+      "prospective",
+      "daily",
+      "microdir_daily",
+      "microdir_weekly",
+      "oi",
+      "intraday",
+      "paper_v2_funding",
+      "positioning",
+      "context_macro",
+      "context_news",
+      "microstructure",
+      "paper_v2",
+      "paper_v2_brief",
+      "paper_nimble_brief",
+      "backup"
+    ],
+    "execution_allowed": true,
+    "external_actions_allowed": true,
+    "boot_catchup_job": "prospective",
+    "dynamic_universe": {},
+    "definition": {
+      "name": "legacy",
+      "identity": "prism_legacy_combined_v0",
+      "targets": [
+        "local",
+        "railway",
+        "vps"
+      ],
+      "processes": [
+        "context_gateway",
+        "context_ingest",
+        "free_source_collector",
+        "free_source_ingest",
+        "microstructure_collector",
+        "nimble_worker",
+        "scheduler",
+        "universe_radar"
+      ],
+      "process_classes": {
+        "context_gateway": "ingress",
+        "context_ingest": "ingest",
+        "free_source_collector": "passive",
+        "free_source_ingest": "ingest",
+        "microstructure_collector": "passive",
+        "nimble_worker": "execution",
+        "scheduler": "ingest",
+        "universe_radar": "ingest"
+      },
+      "jobs": [
+        "backup",
+        "context_macro",
+        "context_news",
+        "daily",
+        "intraday",
+        "microdir_daily",
+        "microdir_weekly",
+        "microstructure",
+        "oi",
+        "paper_nimble_brief",
+        "paper_v2",
+        "paper_v2_brief",
+        "paper_v2_funding",
+        "positioning",
+        "prospective"
+      ],
+      "job_classes": {
+        "backup": "maintenance",
+        "context_macro": "data",
+        "context_news": "data",
+        "daily": "research",
+        "intraday": "data",
+        "microdir_daily": "research",
+        "microdir_weekly": "research",
+        "microstructure": "data",
+        "oi": "data",
+        "paper_nimble_brief": "execution",
+        "paper_v2": "retired_drain",
+        "paper_v2_brief": "retired_drain",
+        "paper_v2_funding": "data",
+        "positioning": "data",
+        "prospective": "research"
+      },
+      "runtime_ids": {},
+      "boot_catchup_job": "prospective",
+      "unconditional_jobs": [],
+      "dynamic_universe": {}
+    }
+  },
+  "after": {
+    "profile": "research",
+    "identity": "prism_research_runtime_v1",
+    "digest": "8d6431ba5d6088b90df3e94a2edf3b9415f03a01c8d6f79416921eb5d141e6d9",
+    "authority": "full",
+    "target": "railway",
+    "runtime_id": "railway-prism-runtime",
+    "explicit": true,
+    "role": "authoritative",
+    "processes": [
+      "microstructure_collector",
+      "context_gateway",
+      "context_ingest",
+      "free_source_collector",
+      "scheduler"
+    ],
+    "disabled_by_flag": [],
+    "collector_dynamic": false,
+    "scheduled_jobs": [
+      "prospective",
+      "daily",
+      "microdir_daily",
+      "microdir_weekly",
+      "oi",
+      "intraday",
+      "paper_v2_funding",
+      "positioning",
+      "context_macro",
+      "context_news",
+      "microstructure",
+      "paper_v2",
+      "paper_v2_brief",
+      "backup"
+    ],
+    "execution_allowed": false,
+    "external_actions_allowed": true,
+    "boot_catchup_job": "prospective",
+    "dynamic_universe": {
+      "tier0_discovery": "absent",
+      "tier1_warming": "absent",
+      "tier2_rich": "absent",
+      "tier3_risk_pins": "absent"
+    },
+    "definition": {
+      "name": "research",
+      "identity": "prism_research_runtime_v1",
+      "targets": [
+        "local",
+        "railway"
+      ],
+      "processes": [
+        "context_gateway",
+        "context_ingest",
+        "free_source_collector",
+        "microstructure_collector",
+        "scheduler"
+      ],
+      "process_classes": {
+        "context_gateway": "ingress",
+        "context_ingest": "ingest",
+        "free_source_collector": "passive",
+        "microstructure_collector": "passive",
+        "scheduler": "ingest"
+      },
+      "jobs": [
+        "backup",
+        "context_macro",
+        "context_news",
+        "daily",
+        "intraday",
+        "microdir_daily",
+        "microdir_weekly",
+        "microstructure",
+        "oi",
+        "paper_v2",
+        "paper_v2_brief",
+        "paper_v2_funding",
+        "positioning",
+        "prospective"
+      ],
+      "job_classes": {
+        "backup": "maintenance",
+        "context_macro": "data",
+        "context_news": "data",
+        "daily": "research",
+        "intraday": "data",
+        "microdir_daily": "research",
+        "microdir_weekly": "research",
+        "microstructure": "data",
+        "oi": "data",
+        "paper_v2": "retired_drain",
+        "paper_v2_brief": "retired_drain",
+        "paper_v2_funding": "data",
+        "positioning": "data",
+        "prospective": "research"
+      },
+      "runtime_ids": {
+        "full": "railway-prism-runtime",
+        "rehearsal": "prism-research-rehearsal"
+      },
+      "boot_catchup_job": "prospective",
+      "unconditional_jobs": [],
+      "dynamic_universe": {
+        "tier0_discovery": "absent",
+        "tier1_warming": "absent",
+        "tier2_rich": "absent",
+        "tier3_risk_pins": "absent"
+      }
+    }
+  },
+  "processes_stopped": [],
+  "processes_started": [],
+  "jobs_stopped": [
+    "paper_nimble_brief"
+  ],
+  "jobs_retained": [
+    "prospective",
+    "daily",
+    "microdir_daily",
+    "microdir_weekly",
+    "oi",
+    "intraday",
+    "paper_v2_funding",
+    "positioning",
+    "context_macro",
+    "context_news",
+    "microstructure",
+    "paper_v2",
+    "paper_v2_brief",
+    "backup"
+  ]
+}

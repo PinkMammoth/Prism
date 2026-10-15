@@ -1,0 +1,9 @@
+........................................................................ [ 41%]
+........................................................................ [ 82%]
+..............................                                           [100%]
+=============================== warnings summary ===============================
+tests/test_nimble_runtime.py::test_context_gateway_commit_enqueues_and_preserves_latency
+  /home/matth/prism/tests/test_nimble_runtime.py:17: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html

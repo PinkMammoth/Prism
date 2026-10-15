@@ -1,0 +1,80 @@
+{
+  "status": "PASS_TEMPORARY_BRIDGE",
+  "recorded_at": "2026-10-15T11:53:53.525951+00:00",
+  "checks": {
+    "fresh_normal_backup_completed": true,
+    "normal_backup_guard_and_256MiB_margin": true,
+    "fresh_offhost_checksum_and_142_table_restore": true,
+    "at_least_two_offhost_generations": true,
+    "manual_intraday_after_export": true,
+    "scheduled_intraday_after_export": true,
+    "scheduled_microstructure_after_export": true,
+    "context_free_source_commit_after_export": true,
+    "gateway_and_source_health": true,
+    "one_scheduler": true,
+    "unchanged_schema_30": true,
+    "unchanged_railway_authority": true,
+    "exact_recurring_bridge_entry_passed": true
+  },
+  "current_free_bytes": 2759270400,
+  "normal_backup_guard_bytes": 2217456845,
+  "margin_over_guard_bytes": 541813555,
+  "live_db_bytes": 1646276608,
+  "volume_total_bytes": 4838498304,
+  "reclamation": [
+    {
+      "source_path": "/data/backups/daily/prism-20261015T013019Z.duckdb",
+      "logical_bytes": 1646276608,
+      "allocated_bytes": 1646280704,
+      "at": "2026-10-15T11:33:01.029861+00:00",
+      "applied": true
+    },
+    {
+      "source_path": "/data/backups/daily/prism-20261015T113557Z.duckdb",
+      "logical_bytes": 1646276608,
+      "allocated_bytes": 1646280704,
+      "at": "2026-10-15T11:40:42.427213+00:00",
+      "applied": true
+    }
+  ],
+  "net_reclamation_note": "Initial retained duplicate was removed; the separate fresh proof backup was created then removed, so do not count both as net reduction versus the starting volume.",
+  "recovery_archive_root": "/var/lib/prism-railway-archive/archive",
+  "fresh_db_sha256": "1caa6c9677e1f87e4f04fc087a2534b3d8a4eac89d1e93d7fe0fc025213333c6",
+  "fresh_archive_sha256": "3e8ba0ffab4d5a93cc3b9cbd0632ca891887207e0a0656d69945fca86b2affa1",
+  "fresh_snapshot_last_finished_cycle": "2026-10-15 11:31:40.099798+00:00",
+  "fresh_restored_table_count": 142,
+  "source_and_receiver_duckdb": "1.5.5",
+  "source_metadata_preserved": true,
+  "normal_nightly_and_hourly_retry_installed": true,
+  "nimble_brief_removed": true,
+  "production_schema_migration": false,
+  "new_scientific_authority": false,
+  "external_ingress_dns_oauth_changes": false,
+  "autonomous_execution_restarted": false,
+  "ovh_lab_release_and_configuration_changed": false,
+  "ovh_archive_only_foundation_added": true,
+  "caveats": [
+    "Temporary bridge, not migration capacity.",
+    "Nightly full copy can briefly trip acquisition capacity guard until immediate export completes.",
+    "Initial 1GiB receiver OOM and 45s source queue timeout were contained; retry caps are 3GiB and 240s.",
+    "Source SSH client and custom crontab need revalidation after container replacement.",
+    "Bridge backs up DB and metadata; final migration additionally needs verified raw/spool/receipt/calibration archives.",
+    "Independent backup destination for OVH itself is not yet configured.",
+    "Full-stack capacity and final authority/ingress transfer remain gated.",
+    "Historical acquisition refusal/coverage windows require attribution; successful recovery is not proof of gap repair.",
+    "First scheduled nightly wrapper run is still pending; manual end-to-end and recurring retry entry point passed."
+  ],
+  "evidence": [
+    "verified-backup-receipt.json",
+    "fresh-backup-receipt.json",
+    "reclamation-ledger.json",
+    "bridge-schedule-applied.json",
+    "bridge-runner-proof.json",
+    "post-stabilization-db.json",
+    "final-continuity-proof.json",
+    "live-health.json",
+    "ovh-after-bridge.json"
+  ],
+  "validation": "validation.json",
+  "first_automatic_nightly_wrapper_due": "2026-10-16T01:30:00Z"
+}

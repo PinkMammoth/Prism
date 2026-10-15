@@ -1,0 +1,17 @@
+{
+  "deploy/consolidated/run_research_process.sh": "3f5fffdf87bc665caed64d1aa62f4c75d43fae3f9f9f9e57b95747fdeb50071c",
+  "deploy/consolidated/bridge_archive.py": "1537fc36bc0725d988cf195b2cf773f8596c15a38d889a08398f99a4ead0a3a8",
+  "deploy/consolidated/prism-research@.service": "1912ed3c2d84ea48a94ecae4eebc4429bef527a0ea60c6db35b0ece79ff23a8b",
+  "deploy/consolidated/README.md": "7522c969c0b34eb78a52e0afea4f4ea2b7798bf0d413bf9d9d39a23b3baf84c3",
+  "deploy/consolidated/prism-research.target": "9748b86dd5f0fe2528e3a2123c7f41798395e70a62a7eb2dd0dc046ae0419cf0",
+  "deploy/consolidated/research.env.example": "0977f9cbeef131d8fe7e76138a397a86b08c35e3b529762ef475a631b5b2c644",
+  "deploy/consolidated/railway_bridge_job.py": "e501c6580415373fc6bcd33045e6f3b6ffa6da44815e1c93677bec50a7c6f33b",
+  "deploy/consolidated/prism-research.slice": "cd43b71c92fdf2fd0fa5be718046b0d2dde2350281a4a4182c92f7b216efee81",
+  "src/market_signal/ops/profiles.py": "c999a7a18c2c768ba4cf82b707026fcc7d4f9a5e6fc4add41f2016731e155c3b",
+  "src/market_signal/ops/context_consumers.py": "d3977c4acf3552a884b9899244bfbc8884cf1d86bef93667af54ce8c1ef56df9",
+  "src/market_signal/ops/evaluation_triggers.py": "bd9127b59a57a6a54a971c715d07484996e7546b26cd9c447112da7bb714e0cc",
+  "src/market_signal/config.py": "2c0eff38246e3f6c0d429934aec53d1ecb12a7ce7649195bf533e877ce66a5bf",
+  "src/market_signal/context/gateway/launch.py": "721a98e894f25b0a9c26256faf663eb0fb53661ef558534d36278481d8b9ae97",
+  "tests/test_ovh_consolidation.py": "4dda0e80a42d4c23634a2eee69f21c05e957a4a5f80e51f2b041a2f376c9cbb0",
+  "tests/test_bridge_archive.py": "7ca80bf6e5db9ea1d9b42598556409b77b8b76336e051730aba0eb25b4a1a0b2"
+}

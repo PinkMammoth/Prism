@@ -1,0 +1,8 @@
+{
+  "passed": true,
+  "migration_seconds": 49.82336217100237,
+  "initial_db_bytes": 1646276608,
+  "final_db_bytes": 1646276608,
+  "peak_increment_allocated_bytes": 8192,
+  "restore_exact": true
+}

@@ -1,0 +1,72 @@
+{
+  "at": "2026-10-14T17:32:11.353622+00:00",
+  "categories": {
+    "backup_metadata": {
+      "logical": 252792,
+      "allocated": 286720,
+      "files": 13
+    },
+    "recovery_backups": {
+      "logical": 1218195456,
+      "allocated": 1218199552,
+      "files": 1
+    },
+    "journals_receipts_state": {
+      "logical": 17783862,
+      "allocated": 18227200,
+      "files": 161
+    },
+    "evidence_exports": {
+      "logical": 12397,
+      "allocated": 16384,
+      "files": 2
+    },
+    "temporary_files": {
+      "logical": 63,
+      "allocated": 4096,
+      "files": 1
+    },
+    "logs": {
+      "logical": 8421200,
+      "allocated": 8433664,
+      "files": 3
+    },
+    "large_print_calibration": {
+      "logical": 114823,
+      "allocated": 126976,
+      "files": 7
+    },
+    "microstructure_raw": {
+      "logical": 89624402,
+      "allocated": 89862144,
+      "files": 42
+    },
+    "microstructure_spool": {
+      "logical": 104691260,
+      "allocated": 105717760,
+      "files": 168
+    },
+    "authoritative_db": {
+      "logical": 1646276608,
+      "allocated": 1646280704,
+      "files": 1
+    },
+    "provider_raw": {
+      "logical": 161010328,
+      "allocated": 171745280,
+      "files": 3747
+    }
+  },
+  "regular_file_allocated_sum": 3258900480,
+  "filesystem_used": 3261358080,
+  "free_bytes": 1560363008,
+  "total_bytes": 4838498304,
+  "filesystem_unattributed": 2457600,
+  "backup_guard_required": 2217456845,
+  "backup_guard_deficit": 657093837,
+  "same_volume_lower_bound_excluding_future_growth": 3863741645,
+  "offhost_lower_bound_excluding_future_growth": 1888209716,
+  "future_growth_hard_bound": null,
+  "minimum_safe_free_space": null,
+  "reason": "Future growth and unsampled production migration peak are not bounded; fail closed, never substitute a sampled peak for worst case."
+}

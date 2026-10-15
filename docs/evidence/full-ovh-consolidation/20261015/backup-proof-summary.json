@@ -1,0 +1,1 @@
+{"free": 1113796608, "backup_files": ["prism-20261015T113557Z.duckdb"], "log_tail": "2026-10-15T11:35:28Z INFO job=backup trigger=manual runtime=railway-prism-runtime commit=8f9bc3473142 python=3.12.3 db=/data/prism.duckdb disk: 2.57 GiB free of 4.51 GiB (57.0%; warn < 15%, critical < 5%)\n"}

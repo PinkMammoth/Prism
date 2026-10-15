@@ -1,0 +1,11 @@
+{
+  "focused_tests_passed": 174,
+  "test_exit": 0,
+  "ruff": "PASS",
+  "git_diff_check": "PASS",
+  "test_log": "final-focused-tests.log",
+  "earlier_loopback_permission_failures": "two; both passed after local-socket permission",
+  "broader_nimble_worker_run": "interrupted; not claimed as passed",
+  "automated_regression_production_db_tested": false,
+  "separate_authorized_live_acceptance_checks": "STABILIZATION_RESULT.json"
+}

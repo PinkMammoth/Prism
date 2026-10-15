@@ -1,0 +1,687 @@
+{
+  "reports": [
+    {
+      "run_id": "paperrun_nimble_a8aef8be36c02700688053a1e57d2f908573fe8898860450b00b889d4f98f54c",
+      "n": 4,
+      "last_day": "2026-10-13"
+    },
+    {
+      "run_id": "paperrun_nimble_a5fafb2cf008686ad99d2e1e039d428cd95349423d2e31778409810be6cce3d3",
+      "n": 4,
+      "last_day": "2026-10-13"
+    },
+    {
+      "run_id": "paperrun_nimble_981fac864a79b04053e1ca081731a692db95b5e69cec9f29e74618e6e84e0528",
+      "n": 4,
+      "last_day": "2026-10-13"
+    }
+  ],
+  "deliveries": [
+    {
+      "state": "attempted",
+      "n": 4,
+      "latest": "2026-10-14 00:14:24.503134+00:00"
+    },
+    {
+      "state": "sent",
+      "n": 4,
+      "latest": "2026-10-14 00:14:24.616416+00:00"
+    }
+  ],
+  "failed_intraday": [
+    {
+      "started_at": "2026-10-14 17:31:00.895774+00:00",
+      "payload": "{\"steps\": [{\"step\": \"bars\", \"exit\": 3, \"seconds\": 7.2, \"timed_out\": false}], \"disk\": \"1.45 GiB free of 4.51 GiB (32.3%; warn < 15%, critical < 5%)\", \"host\": \"a1a13bb9800a\", \"seconds\": 26.2}"
+    },
+    {
+      "started_at": "2026-10-14 17:16:00.782343+00:00",
+      "payload": "{\"steps\": [{\"step\": \"bars\", \"exit\": 3, \"seconds\": 7.2, \"timed_out\": false}], \"disk\": \"1.45 GiB free of 4.51 GiB (32.3%; warn < 15%, critical < 5%)\", \"host\": \"6e8397f9fbb2\", \"seconds\": 27.0}"
+    }
+  ],
+  "funding_obligations": [
+    {
+      "run_id": "paperrun_nimble_a8aef8be36c02700688053a1e57d2f908573fe8898860450b00b889d4f98f54c",
+      "trade_id": "papertrade_nimble_b97061cec7ea411dea97035eb433aefa3c7e7265a2b5cd3ae7489038b06268e1",
+      "asset": "HYPE",
+      "settlements": [
+        {
+          "hour": "2026-10-10T16:00:00+00:00",
+          "available_rows": []
+        }
+      ]
+    },
+    {
+      "run_id": "paperrun_nimble_a8aef8be36c02700688053a1e57d2f908573fe8898860450b00b889d4f98f54c",
+      "trade_id": "papertrade_nimble_2a01d56abc10f78575d82a25c0cfbb6419b5e98e433f1290ae6dde412b39855b",
+      "asset": "HYPE",
+      "settlements": [
+        {
+          "hour": "2026-10-11T17:00:00+00:00",
+          "available_rows": []
+        }
+      ]
+    },
+    {
+      "run_id": "paperrun_nimble_a5fafb2cf008686ad99d2e1e039d428cd95349423d2e31778409810be6cce3d3",
+      "trade_id": "papertrade_nimble_a99bc8bc47cbab23d212987f48267c19234992899a57a7ed247efa1105141f41",
+      "asset": "HYPE",
+      "settlements": [
+        {
+          "hour": "2026-10-11T17:00:00+00:00",
+          "available_rows": []
+        }
+      ]
+    },
+    {
+      "run_id": "paperrun_nimble_981fac864a79b04053e1ca081731a692db95b5e69cec9f29e74618e6e84e0528",
+      "trade_id": "papertrade_nimble_c20708fc6f2effbfb45fbb04f09264abf4119c592a126033bcc1145c04dbb05d",
+      "asset": "HYPE",
+      "settlements": [
+        {
+          "hour": "2026-10-11T17:00:00+00:00",
+          "available_rows": []
+        }
+      ]
+    },
+    {
+      "run_id": "paperrun_nimble_a8aef8be36c02700688053a1e57d2f908573fe8898860450b00b889d4f98f54c",
+      "trade_id": "papertrade_nimble_4a06005958366e312c8ba31fbe7ee1456e9f8538eae1f6742153cf82c5d88d2b",
+      "asset": "AAVE",
+      "settlements": [
+        {
+          "hour": "2026-10-12T23:00:00+00:00",
+          "available_rows": []
+        }
+      ]
+    },
+    {
+      "run_id": "paperrun_nimble_981fac864a79b04053e1ca081731a692db95b5e69cec9f29e74618e6e84e0528",
+      "trade_id": "papertrade_nimble_8db9d96aaec5728fa61a71364f206f91ecf323baae6a2dd810ea0d3ae24cefac",
+      "asset": "ETH",
+      "settlements": [
+        {
+          "hour": "2026-10-13T00:00:00+00:00",
+          "available_rows": []
+        }
+      ]
+    }
+  ],
+  "pending_horizons": {
+    "paperrun_nimble_a8aef8be36c02700688053a1e57d2f908573fe8898860450b00b889d4f98f54c": {
+      "items": 72,
+      "outstanding_horizons": 184,
+      "by_asset": {
+        "ETH": 15,
+        "SOL": 15,
+        "LINK": 10,
+        "BTC": 13,
+        "AAVE": 6,
+        "HYPE": 13
+      },
+      "earliest_reference": "2026-10-14T08:06:39.160944+00:00",
+      "latest_reference": "2026-10-14T16:00:16.167245+00:00",
+      "latest_due": "2026-10-15T00:00:16.167245+00:00"
+    },
+    "paperrun_nimble_a5fafb2cf008686ad99d2e1e039d428cd95349423d2e31778409810be6cce3d3": {
+      "items": 72,
+      "outstanding_horizons": 184,
+      "by_asset": {
+        "ETH": 15,
+        "SOL": 15,
+        "LINK": 10,
+        "BTC": 13,
+        "AAVE": 6,
+        "HYPE": 13
+      },
+      "earliest_reference": "2026-10-14T08:06:57.324241+00:00",
+      "latest_reference": "2026-10-14T16:00:38.475053+00:00",
+      "latest_due": "2026-10-15T00:00:38.475053+00:00"
+    },
+    "paperrun_nimble_981fac864a79b04053e1ca081731a692db95b5e69cec9f29e74618e6e84e0528": {
+      "items": 72,
+      "outstanding_horizons": 184,
+      "by_asset": {
+        "ETH": 15,
+        "SOL": 15,
+        "LINK": 10,
+        "BTC": 13,
+        "AAVE": 6,
+        "HYPE": 13
+      },
+      "earliest_reference": "2026-10-14T08:07:15.864435+00:00",
+      "latest_reference": "2026-10-14T16:01:00.919223+00:00",
+      "latest_due": "2026-10-15T00:01:00.919223+00:00"
+    }
+  },
+  "microstructure_columns": [
+    {
+      "cid": 0,
+      "name": "feature_version",
+      "type": "VARCHAR",
+      "notnull": true,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 1,
+      "name": "coin",
+      "type": "VARCHAR",
+      "notnull": true,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 2,
+      "name": "minute_open",
+      "type": "TIMESTAMP WITH TIME ZONE",
+      "notnull": true,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 3,
+      "name": "revision",
+      "type": "SMALLINT",
+      "notnull": true,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 4,
+      "name": "status",
+      "type": "VARCHAR",
+      "notnull": true,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 5,
+      "name": "flags",
+      "type": "VARCHAR",
+      "notnull": false,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 6,
+      "name": "trade_cov",
+      "type": "FLOAT",
+      "notnull": true,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 7,
+      "name": "book_samples",
+      "type": "SMALLINT",
+      "notnull": true,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 8,
+      "name": "depth20_samples",
+      "type": "SMALLINT",
+      "notnull": true,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 9,
+      "name": "n_buy",
+      "type": "INTEGER",
+      "notnull": false,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 10,
+      "name": "n_sell",
+      "type": "INTEGER",
+      "notnull": false,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 11,
+      "name": "n_buy_prints",
+      "type": "INTEGER",
+      "notnull": false,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 12,
+      "name": "n_sell_prints",
+      "type": "INTEGER",
+      "notnull": false,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 13,
+      "name": "buy_vol",
+      "type": "DOUBLE",
+      "notnull": false,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 14,
+      "name": "sell_vol",
+      "type": "DOUBLE",
+      "notnull": false,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 15,
+      "name": "buy_ntl",
+      "type": "DOUBLE",
+      "notnull": false,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 16,
+      "name": "sell_ntl",
+      "type": "DOUBLE",
+      "notnull": false,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 17,
+      "name": "first_px",
+      "type": "DOUBLE",
+      "notnull": false,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 18,
+      "name": "last_px",
+      "type": "DOUBLE",
+      "notnull": false,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 19,
+      "name": "high_px",
+      "type": "DOUBLE",
+      "notnull": false,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 20,
+      "name": "low_px",
+      "type": "DOUBLE",
+      "notnull": false,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 21,
+      "name": "max_print_ntl",
+      "type": "DOUBLE",
+      "notnull": false,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 22,
+      "name": "med_print_ntl",
+      "type": "DOUBLE",
+      "notnull": false,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 23,
+      "name": "size_hist",
+      "type": "INTEGER[]",
+      "notnull": false,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 24,
+      "name": "lp_threshold",
+      "type": "DOUBLE",
+      "notnull": false,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 25,
+      "name": "lp_n",
+      "type": "INTEGER",
+      "notnull": false,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 26,
+      "name": "lp_buy_n",
+      "type": "INTEGER",
+      "notnull": false,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 27,
+      "name": "lp_ntl",
+      "type": "DOUBLE",
+      "notnull": false,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 28,
+      "name": "lp_buy_ntl",
+      "type": "DOUBLE",
+      "notnull": false,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 29,
+      "name": "bid_end",
+      "type": "DOUBLE",
+      "notnull": false,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 30,
+      "name": "ask_end",
+      "type": "DOUBLE",
+      "notnull": false,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 31,
+      "name": "spread_mean",
+      "type": "FLOAT",
+      "notnull": false,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 32,
+      "name": "spread_bps_mean",
+      "type": "FLOAT",
+      "notnull": false,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 33,
+      "name": "spread_bps_med",
+      "type": "FLOAT",
+      "notnull": false,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 34,
+      "name": "spread_bps_min",
+      "type": "FLOAT",
+      "notnull": false,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 35,
+      "name": "spread_bps_max",
+      "type": "FLOAT",
+      "notnull": false,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 36,
+      "name": "bid5_mean",
+      "type": "FLOAT",
+      "notnull": false,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 37,
+      "name": "ask5_mean",
+      "type": "FLOAT",
+      "notnull": false,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 38,
+      "name": "bid5_end",
+      "type": "FLOAT",
+      "notnull": false,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 39,
+      "name": "ask5_end",
+      "type": "FLOAT",
+      "notnull": false,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 40,
+      "name": "bid20_mean",
+      "type": "FLOAT",
+      "notnull": false,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 41,
+      "name": "ask20_mean",
+      "type": "FLOAT",
+      "notnull": false,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 42,
+      "name": "bid20_end",
+      "type": "FLOAT",
+      "notnull": false,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 43,
+      "name": "ask20_end",
+      "type": "FLOAT",
+      "notnull": false,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 44,
+      "name": "book_updates",
+      "type": "SMALLINT",
+      "notnull": false,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 45,
+      "name": "bid_changes",
+      "type": "SMALLINT",
+      "notnull": false,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 46,
+      "name": "ask_changes",
+      "type": "SMALLINT",
+      "notnull": false,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 47,
+      "name": "mid_changes",
+      "type": "SMALLINT",
+      "notnull": false,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 48,
+      "name": "bid_replenish",
+      "type": "FLOAT",
+      "notnull": false,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 49,
+      "name": "ask_replenish",
+      "type": "FLOAT",
+      "notnull": false,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 50,
+      "name": "oi_end",
+      "type": "DOUBLE",
+      "notnull": false,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 51,
+      "name": "mark_end",
+      "type": "DOUBLE",
+      "notnull": false,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 52,
+      "name": "oracle_end",
+      "type": "DOUBLE",
+      "notnull": false,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 53,
+      "name": "funding_end",
+      "type": "DOUBLE",
+      "notnull": false,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 54,
+      "name": "impact_bid_end",
+      "type": "DOUBLE",
+      "notnull": false,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 55,
+      "name": "impact_ask_end",
+      "type": "DOUBLE",
+      "notnull": false,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 56,
+      "name": "lat_p50_ms",
+      "type": "INTEGER",
+      "notnull": false,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 57,
+      "name": "lat_max_ms",
+      "type": "INTEGER",
+      "notnull": false,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 58,
+      "name": "n_dup",
+      "type": "INTEGER",
+      "notnull": true,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 59,
+      "name": "n_late",
+      "type": "INTEGER",
+      "notnull": true,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 60,
+      "name": "first_recv_at",
+      "type": "TIMESTAMP WITH TIME ZONE",
+      "notnull": false,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 61,
+      "name": "last_recv_at",
+      "type": "TIMESTAMP WITH TIME ZONE",
+      "notnull": false,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 62,
+      "name": "finalized_at",
+      "type": "TIMESTAMP WITH TIME ZONE",
+      "notnull": true,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 63,
+      "name": "ingested_at",
+      "type": "TIMESTAMP WITH TIME ZONE",
+      "notnull": true,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 64,
+      "name": "session_id",
+      "type": "VARCHAR",
+      "notnull": true,
+      "dflt_value": null,
+      "pk": false
+    },
+    {
+      "cid": 65,
+      "name": "content_sha",
+      "type": "VARCHAR",
+      "notnull": true,
+      "dflt_value": null,
+      "pk": false
+    }
+  ],
+  "work_columns": []
+}

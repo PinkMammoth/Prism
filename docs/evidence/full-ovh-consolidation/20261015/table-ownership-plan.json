@@ -1,0 +1,863 @@
+{
+  "source_db_sha256": "b6fa3c8657f29b0ed543868cc17793399a6b8500f8e43f6ff44763c120655867",
+  "snapshot_frontier": "2026-10-15 01:21:39.668259+00:00",
+  "table_count": 142,
+  "status": "PLANNING_MANIFEST_NOT_EXPORT_AUTHORIZATION",
+  "final_frontier_refresh_required": true,
+  "reference_closure_proof_required": true,
+  "unknown_tables_at_future_frontier": "BLOCK_OMISSION",
+  "tables": {
+    "alert_events": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 80,
+      "value_hash": 3368839527982505784
+    },
+    "alert_rules": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 4,
+      "value_hash": 6924502715881248903
+    },
+    "assets": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 18,
+      "value_hash": 12079047196793743767
+    },
+    "bar_revisions": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 1,
+      "value_hash": 16867430999976028958
+    },
+    "bars": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 99501,
+      "value_hash": 11386377962482656552
+    },
+    "context_asset_links": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 794,
+      "value_hash": 14156134277333394754
+    },
+    "context_event_updates": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 63,
+      "value_hash": 8826494707811450607
+    },
+    "context_events": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 98,
+      "value_hash": 3891272230195458842
+    },
+    "context_free_ingests": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 32,
+      "value_hash": 12503749227599161491
+    },
+    "context_free_observations": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 32,
+      "value_hash": 5960041778195009239
+    },
+    "context_gateway_ingests": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 9,
+      "value_hash": 13606154544704433097
+    },
+    "context_hl_oi_hourly": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 1050,
+      "value_hash": 17304443910718114958
+    },
+    "context_ls_ratios": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 21234,
+      "value_hash": 13851702426311962663
+    },
+    "context_provider_runs": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 614,
+      "value_hash": 8673269839207269681
+    },
+    "context_snapshots": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 0,
+      "value_hash": null
+    },
+    "context_sources": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 15,
+      "value_hash": 7399039429712119179
+    },
+    "context_theses": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 0,
+      "value_hash": null
+    },
+    "context_work_observations": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 0,
+      "value_hash": null
+    },
+    "context_work_reactions": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 797,
+      "value_hash": 9207484950547571318
+    },
+    "context_work_research_pending": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 138,
+      "value_hash": 1026477364444156412
+    },
+    "copilot_decisions": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 1,
+      "value_hash": 5243362028966794778
+    },
+    "copilot_deliveries": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 2,
+      "value_hash": 3161357255033589845
+    },
+    "copilot_policies": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 1,
+      "value_hash": 4128736006916441010
+    },
+    "copilot_runs": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 92,
+      "value_hash": 7412924075967161391
+    },
+    "copilot_software": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 24,
+      "value_hash": 9781609595244481912
+    },
+    "copilot_watch_status": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 2,
+      "value_hash": 14443971861232125636
+    },
+    "copilot_watchlist": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 2,
+      "value_hash": 17707115839132338041
+    },
+    "corporate_actions": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 354,
+      "value_hash": 3154910590819947145
+    },
+    "crypto_metrics": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 9896,
+      "value_hash": 10814028545406241605
+    },
+    "data_quality_issues": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 4973,
+      "value_hash": 18190508224498947619
+    },
+    "fundamental_facts": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 8840,
+      "value_hash": 9339930337402207254
+    },
+    "incubation_decisions": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 3840,
+      "value_hash": 11620898487715803499
+    },
+    "incubation_evaluations": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 1280,
+      "value_hash": 10150160061753713943
+    },
+    "incubation_freezes": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 1,
+      "value_hash": 10569600882940242057
+    },
+    "incubation_intents": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 21,
+      "value_hash": 949020488461127011
+    },
+    "incubation_outcomes": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 0,
+      "value_hash": null
+    },
+    "incubation_runs": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 78,
+      "value_hash": 12356594508987325862
+    },
+    "incubation_transitions": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 402,
+      "value_hash": 12692404119821601052
+    },
+    "ingestion_runs": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 8603,
+      "value_hash": 14298086353281095143
+    },
+    "intraday_execution_shadow": {
+      "disposition": "RETAIN_HISTORICAL_NONEXECUTING",
+      "reason": "Preserve evidence and references; prove retired state and absence of scheduler execution before import.",
+      "rows": 0,
+      "value_hash": null
+    },
+    "journal_entries": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 0,
+      "value_hash": null
+    },
+    "lab_batch_analyses": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 1,
+      "value_hash": 5177520770835178362
+    },
+    "lab_batch_members": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 40,
+      "value_hash": 467884306206015066
+    },
+    "lab_batch_runs": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 1,
+      "value_hash": 12332271671823039076
+    },
+    "lab_batches": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 1,
+      "value_hash": 9404282933660446556
+    },
+    "lab_corroboration_registrations": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 2,
+      "value_hash": 12496321505401253820
+    },
+    "lab_corroboration_results": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 2,
+      "value_hash": 2946488699125534235
+    },
+    "lab_corroboration_runs": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 2,
+      "value_hash": 7475148591905251522
+    },
+    "lab_dataset_blobs": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 22,
+      "value_hash": 5734429529397150932
+    },
+    "lab_datasets": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 2,
+      "value_hash": 1733929028225184876
+    },
+    "lab_edge_profiles": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 0,
+      "value_hash": null
+    },
+    "lab_evidence_policies": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 1,
+      "value_hash": 9959254396369796849
+    },
+    "lab_evidence_profiles": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 44,
+      "value_hash": 6998608492496632059
+    },
+    "lab_experiments": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 47,
+      "value_hash": 2125073900173524203
+    },
+    "lab_forward_entries": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 1,
+      "value_hash": 17485741330867619266
+    },
+    "lab_forward_evaluations": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 132,
+      "value_hash": 16340806207363860609
+    },
+    "lab_forward_inputs": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 168,
+      "value_hash": 6267980523864996612
+    },
+    "lab_forward_outcomes": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 204,
+      "value_hash": 11234618619892545731
+    },
+    "lab_forward_runs": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 186,
+      "value_hash": 15035889465183594027
+    },
+    "lab_forward_status": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 4,
+      "value_hash": 17695625165889948952
+    },
+    "lab_forward_summaries": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 0,
+      "value_hash": null
+    },
+    "lab_forward_trackings": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 3,
+      "value_hash": 14979162061327154597
+    },
+    "lab_hypotheses": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 40,
+      "value_hash": 10103972147386419891
+    },
+    "lab_inspections": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 47,
+      "value_hash": 11038702008687266489
+    },
+    "lab_plans": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 3,
+      "value_hash": 778666489892547871
+    },
+    "lab_prospective_checkpoints": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 8,
+      "value_hash": 12120271818234969867
+    },
+    "lab_prospective_results": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 8,
+      "value_hash": 17305193325521152994
+    },
+    "lab_prospective_studies": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 1,
+      "value_hash": 6826053177352508313
+    },
+    "lab_research_policies": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 4,
+      "value_hash": 6252889691790983201
+    },
+    "lab_research_registrations": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 2,
+      "value_hash": 13098455314852049657
+    },
+    "lab_research_results": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 4,
+      "value_hash": 2882007551277244577
+    },
+    "lab_research_runs": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 4,
+      "value_hash": 3083019889428397194
+    },
+    "lab_results": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 47,
+      "value_hash": 3464351347965692049
+    },
+    "lab_snapshot_blobs": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 22,
+      "value_hash": 8990137579415068303
+    },
+    "lab_software": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 29,
+      "value_hash": 10703251916040707999
+    },
+    "lab_starts": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 47,
+      "value_hash": 14932118058545502065
+    },
+    "lab_strategies": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 40,
+      "value_hash": 12144051023904209342
+    },
+    "lab_structure_results": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 0,
+      "value_hash": null
+    },
+    "lab_structure_runs": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 0,
+      "value_hash": null
+    },
+    "lab_structure_studies": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 0,
+      "value_hash": null
+    },
+    "lab_structure_study_datasets": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 0,
+      "value_hash": null
+    },
+    "lab_submissions": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 40,
+      "value_hash": 1848696866874668081
+    },
+    "macro_observations": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 1093555,
+      "value_hash": 4749264722601739710
+    },
+    "microstructure_cutover": {
+      "disposition": "RETAIN_WITH_EXPLICIT_HANDOFF",
+      "reason": "Preserve original authority/schema/offset history; append target facts without rewriting source identity.",
+      "rows": 1,
+      "value_hash": 2357758482667801206
+    },
+    "microstructure_ingest_offsets": {
+      "disposition": "RETAIN_WITH_EXPLICIT_HANDOFF",
+      "reason": "Preserve original authority/schema/offset history; append target facts without rewriting source identity.",
+      "rows": 176,
+      "value_hash": 4089249683235399640
+    },
+    "microstructure_late_events": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 180,
+      "value_hash": 516231398311880503
+    },
+    "microstructure_lp_thresholds": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 54,
+      "value_hash": 15390379271499334179
+    },
+    "microstructure_minutes": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 63108,
+      "value_hash": 18353754791897755821
+    },
+    "microstructure_provider_runs": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 104,
+      "value_hash": 10145180436017799384
+    },
+    "microstructure_revisions": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 28,
+      "value_hash": 6679540147484778439
+    },
+    "paper_briefs": {
+      "disposition": "RETAIN_HISTORICAL_NONEXECUTING",
+      "reason": "Preserve evidence and references; prove retired state and absence of scheduler execution before import.",
+      "rows": 5,
+      "value_hash": 5729876729490885831
+    },
+    "paper_cycles": {
+      "disposition": "RETAIN_HISTORICAL_NONEXECUTING",
+      "reason": "Preserve evidence and references; prove retired state and absence of scheduler execution before import.",
+      "rows": 41,
+      "value_hash": 8996575157728250976
+    },
+    "paper_event_evidence": {
+      "disposition": "RETAIN_HISTORICAL_NONEXECUTING",
+      "reason": "Preserve evidence and references; prove retired state and absence of scheduler execution before import.",
+      "rows": 51,
+      "value_hash": 3778338080635836499
+    },
+    "paper_event_pending": {
+      "disposition": "RETAIN_HISTORICAL_NONEXECUTING",
+      "reason": "Preserve evidence and references; prove retired state and absence of scheduler execution before import.",
+      "rows": 0,
+      "value_hash": null
+    },
+    "paper_events": {
+      "disposition": "RETAIN_HISTORICAL_NONEXECUTING",
+      "reason": "Preserve evidence and references; prove retired state and absence of scheduler execution before import.",
+      "rows": 12,
+      "value_hash": 15228037030339624203
+    },
+    "paper_evidence": {
+      "disposition": "RETAIN_HISTORICAL_NONEXECUTING",
+      "reason": "Preserve evidence and references; prove retired state and absence of scheduler execution before import.",
+      "rows": 0,
+      "value_hash": null
+    },
+    "paper_nimble_accounts": {
+      "disposition": "IMMUTABLE_LEGACY_ONLY",
+      "reason": "Archive/read evidence only; never seed operational legacy accounts or execution projections on OVH.",
+      "rows": 3,
+      "value_hash": 7315971479690792714
+    },
+    "paper_nimble_deliveries": {
+      "disposition": "IMMUTABLE_LEGACY_ONLY",
+      "reason": "Archive/read evidence only; never seed operational legacy accounts or execution projections on OVH.",
+      "rows": 10,
+      "value_hash": 14469602903584790929
+    },
+    "paper_nimble_events": {
+      "disposition": "IMMUTABLE_LEGACY_ONLY",
+      "reason": "Archive/read evidence only; never seed operational legacy accounts or execution projections on OVH.",
+      "rows": 18237,
+      "value_hash": 7818215394726071790
+    },
+    "paper_nimble_opportunities": {
+      "disposition": "IMMUTABLE_LEGACY_ONLY",
+      "reason": "Archive/read evidence only; never seed operational legacy accounts or execution projections on OVH.",
+      "rows": 78888,
+      "value_hash": 339235588283082382
+    },
+    "paper_nimble_policies": {
+      "disposition": "IMMUTABLE_LEGACY_ONLY",
+      "reason": "Archive/read evidence only; never seed operational legacy accounts or execution projections on OVH.",
+      "rows": 2,
+      "value_hash": 17620281814868853486
+    },
+    "paper_nimble_positions": {
+      "disposition": "IMMUTABLE_LEGACY_ONLY",
+      "reason": "Archive/read evidence only; never seed operational legacy accounts or execution projections on OVH.",
+      "rows": 198,
+      "value_hash": 8065947231174572065
+    },
+    "paper_nimble_reports": {
+      "disposition": "IMMUTABLE_LEGACY_ONLY",
+      "reason": "Archive/read evidence only; never seed operational legacy accounts or execution projections on OVH.",
+      "rows": 15,
+      "value_hash": 5013667493405745344
+    },
+    "paper_nimble_research": {
+      "disposition": "IMMUTABLE_LEGACY_ONLY",
+      "reason": "Archive/read evidence only; never seed operational legacy accounts or execution projections on OVH.",
+      "rows": 9246,
+      "value_hash": 8448115715587216992
+    },
+    "paper_nimble_research_pending": {
+      "disposition": "IMMUTABLE_LEGACY_ONLY",
+      "reason": "Archive/read evidence only; never seed operational legacy accounts or execution projections on OVH.",
+      "rows": 216,
+      "value_hash": 1949524013092172387
+    },
+    "paper_nimble_runs": {
+      "disposition": "IMMUTABLE_LEGACY_ONLY",
+      "reason": "Archive/read evidence only; never seed operational legacy accounts or execution projections on OVH.",
+      "rows": 3,
+      "value_hash": 3705937473281803329
+    },
+    "paper_nimble_theses": {
+      "disposition": "IMMUTABLE_LEGACY_ONLY",
+      "reason": "Archive/read evidence only; never seed operational legacy accounts or execution projections on OVH.",
+      "rows": 198,
+      "value_hash": 176179215580178706
+    },
+    "paper_nimble_trigger_receipts": {
+      "disposition": "IMMUTABLE_LEGACY_ONLY",
+      "reason": "Archive/read evidence only; never seed operational legacy accounts or execution projections on OVH.",
+      "rows": 108772,
+      "value_hash": 16770555867230669308
+    },
+    "paper_nimble_triggers": {
+      "disposition": "IMMUTABLE_LEGACY_ONLY",
+      "reason": "Archive/read evidence only; never seed operational legacy accounts or execution projections on OVH.",
+      "rows": 41606,
+      "value_hash": 8846419170500543886
+    },
+    "paper_notifications": {
+      "disposition": "RETAIN_HISTORICAL_NONEXECUTING",
+      "reason": "Preserve evidence and references; prove retired state and absence of scheduler execution before import.",
+      "rows": 10,
+      "value_hash": 4965068097740341907
+    },
+    "paper_policies": {
+      "disposition": "RETAIN_HISTORICAL_NONEXECUTING",
+      "reason": "Preserve evidence and references; prove retired state and absence of scheduler execution before import.",
+      "rows": 5,
+      "value_hash": 270132773460432516
+    },
+    "paper_retirements": {
+      "disposition": "RETAIN_HISTORICAL_NONEXECUTING",
+      "reason": "Preserve evidence and references; prove retired state and absence of scheduler execution before import.",
+      "rows": 1,
+      "value_hash": 9718130779566177543
+    },
+    "paper_runs": {
+      "disposition": "RETAIN_HISTORICAL_NONEXECUTING",
+      "reason": "Preserve evidence and references; prove retired state and absence of scheduler execution before import.",
+      "rows": 1,
+      "value_hash": 12635696425689540592
+    },
+    "paper_snapshots": {
+      "disposition": "RETAIN_HISTORICAL_NONEXECUTING",
+      "reason": "Preserve evidence and references; prove retired state and absence of scheduler execution before import.",
+      "rows": 6,
+      "value_hash": 7692272481186616091
+    },
+    "paper_software": {
+      "disposition": "RETAIN_HISTORICAL_NONEXECUTING",
+      "reason": "Preserve evidence and references; prove retired state and absence of scheduler execution before import.",
+      "rows": 9,
+      "value_hash": 2792490924974917018
+    },
+    "paper_v2_context_snapshots": {
+      "disposition": "RETAIN_HISTORICAL_NONEXECUTING",
+      "reason": "Preserve evidence and references; prove retired state and absence of scheduler execution before import.",
+      "rows": 780,
+      "value_hash": 4463666922046302225
+    },
+    "paper_v2_deliveries": {
+      "disposition": "RETAIN_HISTORICAL_NONEXECUTING",
+      "reason": "Preserve evidence and references; prove retired state and absence of scheduler execution before import.",
+      "rows": 2,
+      "value_hash": 10671744814979302648
+    },
+    "paper_v2_evaluations": {
+      "disposition": "RETAIN_HISTORICAL_NONEXECUTING",
+      "reason": "Preserve evidence and references; prove retired state and absence of scheduler execution before import.",
+      "rows": 143,
+      "value_hash": 8739974122641213161
+    },
+    "paper_v2_events": {
+      "disposition": "RETAIN_HISTORICAL_NONEXECUTING",
+      "reason": "Preserve evidence and references; prove retired state and absence of scheduler execution before import.",
+      "rows": 162,
+      "value_hash": 16186911561060008834
+    },
+    "paper_v2_opportunities": {
+      "disposition": "RETAIN_HISTORICAL_NONEXECUTING",
+      "reason": "Preserve evidence and references; prove retired state and absence of scheduler execution before import.",
+      "rows": 10200,
+      "value_hash": 17230264422408200381
+    },
+    "paper_v2_outcomes": {
+      "disposition": "RETAIN_HISTORICAL_NONEXECUTING",
+      "reason": "Preserve evidence and references; prove retired state and absence of scheduler execution before import.",
+      "rows": 29,
+      "value_hash": 11108479923708869473
+    },
+    "paper_v2_policies": {
+      "disposition": "RETAIN_HISTORICAL_NONEXECUTING",
+      "reason": "Preserve evidence and references; prove retired state and absence of scheduler execution before import.",
+      "rows": 3,
+      "value_hash": 15747861922162102906
+    },
+    "paper_v2_reports": {
+      "disposition": "RETAIN_HISTORICAL_NONEXECUTING",
+      "reason": "Preserve evidence and references; prove retired state and absence of scheduler execution before import.",
+      "rows": 1,
+      "value_hash": 5194569068325838705
+    },
+    "paper_v2_runs": {
+      "disposition": "RETAIN_HISTORICAL_NONEXECUTING",
+      "reason": "Preserve evidence and references; prove retired state and absence of scheduler execution before import.",
+      "rows": 1,
+      "value_hash": 15839854967552780510
+    },
+    "paper_v2_universes": {
+      "disposition": "RETAIN_HISTORICAL_NONEXECUTING",
+      "reason": "Preserve evidence and references; prove retired state and absence of scheduler execution before import.",
+      "rows": 1,
+      "value_hash": 7536442629600639621
+    },
+    "perp_bars": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 23805,
+      "value_hash": 8457238421784753850
+    },
+    "perp_funding": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 185088,
+      "value_hash": 18364561568253111698
+    },
+    "perp_intraday_bars": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 868922,
+      "value_hash": 15885698212752402762
+    },
+    "perp_intraday_coverage": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 36,
+      "value_hash": 3367249984090303483
+    },
+    "perp_intraday_revisions": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 0,
+      "value_hash": null
+    },
+    "perp_oi_history": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 5898,
+      "value_hash": 5660354728698942548
+    },
+    "perp_oi_observations": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 6798,
+      "value_hash": 8733175142805195053
+    },
+    "perp_paper_checks": {
+      "disposition": "RETAIN_HISTORICAL_NONEXECUTING",
+      "reason": "Preserve evidence and references; prove retired state and absence of scheduler execution before import.",
+      "rows": 282,
+      "value_hash": 13122911786638009319
+    },
+    "perp_snapshots": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 900,
+      "value_hash": 10399342173796030301
+    },
+    "positions": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 0,
+      "value_hash": null
+    },
+    "research_runs": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 13,
+      "value_hash": 1920349106870625841
+    },
+    "runtime_cycles": {
+      "disposition": "RETAIN_WITH_EXPLICIT_HANDOFF",
+      "reason": "Preserve original authority/schema/offset history; append target facts without rewriting source identity.",
+      "rows": 2642,
+      "value_hash": 10152550370941899324
+    },
+    "runtime_events": {
+      "disposition": "RETAIN_WITH_EXPLICIT_HANDOFF",
+      "reason": "Preserve original authority/schema/offset history; append target facts without rewriting source identity.",
+      "rows": 56,
+      "value_hash": 13203596427391700562
+    },
+    "scan_results": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 306,
+      "value_hash": 3391839405994869769
+    },
+    "scan_runs": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 17,
+      "value_hash": 14695876523685495240
+    },
+    "schema_version": {
+      "disposition": "RETAIN_WITH_EXPLICIT_HANDOFF",
+      "reason": "Preserve original authority/schema/offset history; append target facts without rewriting source identity.",
+      "rows": 30,
+      "value_hash": 8982624645668389596
+    },
+    "series_changes": {
+      "disposition": "RETAIN_RESEARCH_CONTEXT_MANUAL",
+      "reason": "Preserve all rows/IDs and provenance; no destructive omission or automatic rebuild.",
+      "rows": 0,
+      "value_hash": null
+    }
+  }
+}

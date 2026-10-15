@@ -1,0 +1,143 @@
+{
+  "source_sha256": "7c0377ac2566c7962d12a6714235f07871a286250c4153fb3b12f688854d4961",
+  "asof": "2026-10-14 17:38:16.829195+00:00",
+  "before": {
+    "paperrun_nimble_a8aef8be36c02700688053a1e57d2f908573fe8898860450b00b889d4f98f54c": {
+      "pending_research": 72,
+      "unsettled_closes": 3,
+      "nonterminal_positions": 0,
+      "opportunities": 27768,
+      "ledger_events": 6468,
+      "account": {
+        "cash": 99.06074178689441,
+        "degraded": [],
+        "drawdown": 0.009524288860598085,
+        "equity": 99.06074178689441,
+        "gross_notional": 0.0,
+        "long_notional": 0.0,
+        "max_drawdown": 0.011599674578254171,
+        "net_notional": 0.0,
+        "peak": 100.0132973204755,
+        "seq": 6468,
+        "short_notional": 0.0,
+        "status": "ACTIVE"
+      }
+    },
+    "paperrun_nimble_a5fafb2cf008686ad99d2e1e039d428cd95349423d2e31778409810be6cce3d3": {
+      "pending_research": 72,
+      "unsettled_closes": 1,
+      "nonterminal_positions": 0,
+      "opportunities": 25560,
+      "ledger_events": 5908,
+      "account": {
+        "cash": 98.51385063533561,
+        "degraded": [],
+        "drawdown": 0.015635458059869656,
+        "equity": 98.51385063533561,
+        "gross_notional": 0.0,
+        "long_notional": 0.0,
+        "max_drawdown": 0.015635458059869656,
+        "net_notional": 0.0,
+        "peak": 100.0786257915894,
+        "seq": 5908,
+        "short_notional": 0.0,
+        "status": "ACTIVE"
+      }
+    },
+    "paperrun_nimble_981fac864a79b04053e1ca081731a692db95b5e69cec9f29e74618e6e84e0528": {
+      "pending_research": 72,
+      "unsettled_closes": 2,
+      "nonterminal_positions": 0,
+      "opportunities": 25560,
+      "ledger_events": 5861,
+      "account": {
+        "cash": 98.65456003672645,
+        "degraded": [],
+        "drawdown": 0.01418977899698326,
+        "equity": 98.65456003672645,
+        "gross_notional": 0.0,
+        "long_notional": 0.0,
+        "max_drawdown": 0.01522765436700857,
+        "net_notional": 0.0,
+        "peak": 100.0745964434716,
+        "seq": 5861,
+        "short_notional": 0.0,
+        "status": "ACTIVE"
+      }
+    }
+  },
+  "after": {
+    "paperrun_nimble_a8aef8be36c02700688053a1e57d2f908573fe8898860450b00b889d4f98f54c": {
+      "pending_research": 64,
+      "unsettled_closes": 3,
+      "nonterminal_positions": 0,
+      "opportunities": 27768,
+      "ledger_events": 6468,
+      "account": {
+        "cash": 99.06074178689441,
+        "degraded": [],
+        "drawdown": 0.009524288860598085,
+        "equity": 99.06074178689441,
+        "gross_notional": 0.0,
+        "long_notional": 0.0,
+        "max_drawdown": 0.011599674578254171,
+        "net_notional": 0.0,
+        "peak": 100.0132973204755,
+        "seq": 6468,
+        "short_notional": 0.0,
+        "status": "ACTIVE"
+      }
+    },
+    "paperrun_nimble_a5fafb2cf008686ad99d2e1e039d428cd95349423d2e31778409810be6cce3d3": {
+      "pending_research": 64,
+      "unsettled_closes": 1,
+      "nonterminal_positions": 0,
+      "opportunities": 25560,
+      "ledger_events": 5908,
+      "account": {
+        "cash": 98.51385063533561,
+        "degraded": [],
+        "drawdown": 0.015635458059869656,
+        "equity": 98.51385063533561,
+        "gross_notional": 0.0,
+        "long_notional": 0.0,
+        "max_drawdown": 0.015635458059869656,
+        "net_notional": 0.0,
+        "peak": 100.0786257915894,
+        "seq": 5908,
+        "short_notional": 0.0,
+        "status": "ACTIVE"
+      }
+    },
+    "paperrun_nimble_981fac864a79b04053e1ca081731a692db95b5e69cec9f29e74618e6e84e0528": {
+      "pending_research": 64,
+      "unsettled_closes": 2,
+      "nonterminal_positions": 0,
+      "opportunities": 25560,
+      "ledger_events": 5861,
+      "account": {
+        "cash": 98.65456003672645,
+        "degraded": [],
+        "drawdown": 0.01418977899698326,
+        "equity": 98.65456003672645,
+        "gross_notional": 0.0,
+        "long_notional": 0.0,
+        "max_drawdown": 0.01522765436700857,
+        "net_notional": 0.0,
+        "peak": 100.0745964434716,
+        "seq": 5861,
+        "short_notional": 0.0,
+        "status": "ACTIVE"
+      }
+    }
+  },
+  "idempotent": true,
+  "research_quality_all_history": {
+    "n": 9489,
+    "missing_path": 3730,
+    "max_delay": 171.347664
+  },
+  "source_unchanged": true,
+  "production_writes": false,
+  "retirement_applied": false
+}

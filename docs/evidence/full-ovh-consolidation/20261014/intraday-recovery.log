@@ -1,0 +1,2 @@
+2026-10-14T19:04:49Z INFO job=intraday trigger=manual runtime=railway-prism-runtime commit=8f9bc3473142 python=3.12.3 db=/data/prism.duckdb disk: 2.58 GiB free of 4.51 GiB (57.3%; warn < 15%, critical < 5%)
+2026-10-14T19:05:34Z WARNING skipped: another runtime job is running ({"pid": 18334, "job": "paper_v2_funding", "since": "2026-10-14T19:05:04.790095+00:00"})

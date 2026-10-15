@@ -1,0 +1,187 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-9.1.1, pluggy-1.6.0 -- /home/matth/prism/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /home/matth/prism
+configfile: pyproject.toml
+plugins: xdist-3.8.0, anyio-4.15.1
+collecting ... collected 3 items
+
+tests/test_microstructure.py::test_collector_refuses_without_runtime_role PASSED [ 33%]
+tests/test_microstructure.py::test_runner_reconnects_and_resubscribes[drop] FAILED [ 66%]
+
+=================================== FAILURES ===================================
+________________ test_runner_reconnects_and_resubscribes[drop] _________________
+
+tmp_path = PosixPath('/tmp/pytest-of-matth/pytest-10/test_runner_reconnects_and_res0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x78b14e9828d0>
+mode = 'drop'
+
+    @pytest.mark.parametrize("mode", ["drop", "silent"])
+    def test_runner_reconnects_and_resubscribes(tmp_path, monkeypatch, mode):
+        from websockets.asyncio.server import serve
+    
+        from market_signal.microstructure import ws as wsmod
+    
+        monkeypatch.setattr(wsmod, "STALE_SOCKET_S", 0.5)
+        # Handshake needs its own grace under concurrent DuckDB/fsync load.
+        # Keep the silence threshold short and assert the stale reconnect reason.
+        monkeypatch.setattr(wsmod, "ACK_TIMEOUT_S", 2.0)
+        monkeypatch.setattr(wsmod, "STATUS_EVERY_S", 0.2)
+        fake = FakeHL(drop_after=0.6) if mode == "drop" else FakeHL(silent_after=0.6)
+    
+        async def main():
+            async with serve(fake.handler, "127.0.0.1", 0) as server:
+                port = server.sockets[0].getsockname()[1]
+                c = wsmod.Collector(Spool(tmp_path), ("BTC", "ETH"), url=f"ws://127.0.0.1:{port}",
+                                    role="scratch", duration_s=10.0)  # fmt: skip
+                await c.run()
+                return c
+    
+>       c = asyncio.run(main())
+            ^^^^^^^^^^^^^^^^^^^
+
+tests/test_microstructure.py:855: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/lib/python3.12/asyncio/runners.py:194: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+/usr/lib/python3.12/asyncio/runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/lib/python3.12/asyncio/base_events.py:687: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests/test_microstructure.py:848: in main
+    async with serve(fake.handler, "127.0.0.1", 0) as server:
+.venv/lib/python3.12/site-packages/websockets/asyncio/server.py:829: in __aenter__
+    return await self
+           ^^^^^^^^^^
+.venv/lib/python3.12/site-packages/websockets/asyncio/server.py:847: in __await_impl__
+    server = await self.create_server
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <_UnixSelectorEventLoop running=False closed=True debug=False>
+protocol_factory = <function serve.__init__.<locals>.factory at 0x78b14eac1120>
+host = '127.0.0.1', port = 0, family = <AddressFamily.AF_UNSPEC: 0>
+flags = <AddressInfo.AI_PASSIVE: 1>, sock = None, backlog = 100, ssl = None
+reuse_address = True, reuse_port = None, ssl_handshake_timeout = None
+ssl_shutdown_timeout = None, start_serving = True
+
+    async def create_server(
+            self, protocol_factory, host=None, port=None,
+            *,
+            family=socket.AF_UNSPEC,
+            flags=socket.AI_PASSIVE,
+            sock=None,
+            backlog=100,
+            ssl=None,
+            reuse_address=None,
+            reuse_port=None,
+            ssl_handshake_timeout=None,
+            ssl_shutdown_timeout=None,
+            start_serving=True):
+        """Create a TCP server.
+    
+        The host parameter can be a string, in that case the TCP server is
+        bound to host and port.
+    
+        The host parameter can also be a sequence of strings and in that case
+        the TCP server is bound to all hosts of the sequence. If a host
+        appears multiple times (possibly indirectly e.g. when hostnames
+        resolve to the same IP address), the server is only bound once to that
+        host.
+    
+        Return a Server object which can be used to stop the service.
+    
+        This method is a coroutine.
+        """
+        if isinstance(ssl, bool):
+            raise TypeError('ssl argument must be an SSLContext or None')
+    
+        if ssl_handshake_timeout is not None and ssl is None:
+            raise ValueError(
+                'ssl_handshake_timeout is only meaningful with ssl')
+    
+        if ssl_shutdown_timeout is not None and ssl is None:
+            raise ValueError(
+                'ssl_shutdown_timeout is only meaningful with ssl')
+    
+        if sock is not None:
+            _check_ssl_socket(sock)
+    
+        if host is not None or port is not None:
+            if sock is not None:
+                raise ValueError(
+                    'host/port and sock can not be specified at the same time')
+    
+            if reuse_address is None:
+                reuse_address = os.name == "posix" and sys.platform != "cygwin"
+            sockets = []
+            if host == '':
+                hosts = [None]
+            elif (isinstance(host, str) or
+                  not isinstance(host, collections.abc.Iterable)):
+                hosts = [host]
+            else:
+                hosts = host
+    
+            fs = [self._create_server_getaddrinfo(host, port, family=family,
+                                                  flags=flags)
+                  for host in hosts]
+            infos = await tasks.gather(*fs)
+            infos = set(itertools.chain.from_iterable(infos))
+    
+            completed = False
+            try:
+                for res in infos:
+                    af, socktype, proto, canonname, sa = res
+                    try:
+                        sock = socket.socket(af, socktype, proto)
+                    except socket.error:
+                        # Assume it's a bad family/type/protocol combination.
+                        if self._debug:
+                            logger.warning('create_server() failed to create '
+                                           'socket.socket(%r, %r, %r)',
+                                           af, socktype, proto, exc_info=True)
+                        continue
+                    sockets.append(sock)
+                    if reuse_address:
+                        sock.setsockopt(
+                            socket.SOL_SOCKET, socket.SO_REUSEADDR, True)
+                    if reuse_port:
+                        _set_reuseport(sock)
+                    # Disable IPv4/IPv6 dual stack support (enabled by
+                    # default on Linux) which makes a single socket
+                    # listen on both address families.
+                    if (_HAS_IPv6 and
+                            af == socket.AF_INET6 and
+                            hasattr(socket, 'IPPROTO_IPV6')):
+                        sock.setsockopt(socket.IPPROTO_IPV6,
+                                        socket.IPV6_V6ONLY,
+                                        True)
+                    try:
+                        sock.bind(sa)
+                    except OSError as err:
+                        msg = ('error while attempting '
+                               'to bind on address %r: %s'
+                               % (sa, err.strerror.lower()))
+                        if err.errno == errno.EADDRNOTAVAIL:
+                            # Assume the family is not enabled (bpo-30945)
+                            sockets.pop()
+                            sock.close()
+                            if self._debug:
+                                logger.warning(msg)
+                            continue
+                        raise OSError(err.errno, msg) from None
+    
+                if not sockets:
+>                   raise OSError('could not bind on any address out of %r'
+                                  % ([info[4] for info in infos],))
+E                                 OSError: could not bind on any address out of [('127.0.0.1', 0)]
+
+/usr/lib/python3.12/asyncio/base_events.py:1575: OSError
+=========================== short test summary info ============================
+FAILED tests/test_microstructure.py::test_runner_reconnects_and_resubscribes[drop]
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+========================= 1 failed, 1 passed in 0.40s ==========================

@@ -1,0 +1,32 @@
+10 0 * * * market ops cycle prospective --trigger schedule --wait 3600
+45 0 * * * market ops cycle prospective --trigger schedule --wait 3600
+0 3 * * * market ops cycle prospective --trigger schedule --wait 3600
+0 6 * * * market ops cycle prospective --trigger schedule --wait 3600
+0 11 * * * market ops cycle prospective --trigger schedule --wait 3600
+0 17 * * * market ops cycle prospective --trigger schedule --wait 3600
+5 * * * * market ops cycle paper_v2_funding --trigger schedule --wait 3600
+30 1 * * * market ops cycle backup --trigger schedule --wait 3600
+30 2 * * * market ops cycle oi --trigger schedule --wait 3600
+30 8 * * * market ops cycle oi --trigger schedule --wait 3600
+30 14 * * * market ops cycle oi --trigger schedule --wait 3600
+30 20 * * * market ops cycle oi --trigger schedule --wait 3600
+0 9 * * * market ops cycle daily --trigger schedule --wait 3600
+1 * * * * market ops cycle intraday --trigger schedule --wait 600
+16 * * * * market ops cycle intraday --trigger schedule --wait 600
+31 * * * * market ops cycle intraday --trigger schedule --wait 600
+46 * * * * market ops cycle intraday --trigger schedule --wait 600
+20 0 * * * market ops cycle context_macro --trigger schedule --wait 3600
+42 12 * * * market ops cycle context_macro --trigger schedule --wait 3600
+42 13 * * * market ops cycle context_macro --trigger schedule --wait 3600
+12 19 * * * market ops cycle context_macro --trigger schedule --wait 3600
+8 * * * * market ops cycle context_news --trigger schedule --wait 900
+38 * * * * market ops cycle context_news --trigger schedule --wait 900
+4 * * * * market ops cycle positioning --trigger schedule --wait 1500
+6 * * * * market ops cycle microstructure --trigger schedule --wait 600
+21 * * * * market ops cycle microstructure --trigger schedule --wait 600
+36 * * * * market ops cycle microstructure --trigger schedule --wait 600
+51 * * * * market ops cycle microstructure --trigger schedule --wait 600
+10 1 * * * market ops cycle microdir_daily --trigger schedule --wait 3600
+20 1 * * 1 market ops cycle microdir_weekly --trigger schedule --wait 3600
+* * * * * market context gateway health --check --json
+* * * * * market context sources status --check
