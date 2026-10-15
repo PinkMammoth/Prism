@@ -8,13 +8,20 @@ CONF=/etc/prism-research-backup/rclone.conf
 [ ! -e "$CONF" ] || { echo "rclone.conf exists; rotate by moving it aside first" >&2; exit 1; }
 umask 077
 python3 -I -c '
-import json, re, sys
+import base64, json, re, sys
 text = sys.stdin.read()
-match = re.search(r"--->\s*(\{.*\})\s*<---", text, re.S)
-token = json.loads(match.group(1) if match else text.strip())
+match = re.search(r"--->\s*(.*?)\s*<---", text, re.S)
+blob = (match.group(1) if match else text).strip()
+# rclone >= 1.6x emits base64 JSON {client_id, client_secret, token}; older emits token JSON.
+data = json.loads(blob) if blob.startswith("{") else json.loads(base64.b64decode(blob + "=="))
+extra = {k: data[k] for k in ("client_id", "client_secret") if data.get(k)}
+token = data.get("token", data)
+token = json.loads(token) if isinstance(token, str) else token
 assert token.get("refresh_token") and token.get("token_type"), "not an rclone OAuth token"
-sys.stdout.write("[prism-gdrive]\ntype = drive\nscope = drive.file\nuse_trash = false\n"
-                 "token = " + json.dumps(token, separators=(",", ":")) + "\n")
+lines = ["[prism-gdrive]", "type = drive", "scope = drive.file", "use_trash = false"]
+lines += [f"{k} = {v}" for k, v in extra.items()]
+lines.append("token = " + json.dumps(token, separators=(",", ":")))
+sys.stdout.write("\n".join(lines) + "\n")
 ' > "$CONF.tmp"
 chown "$U:$U" "$CONF.tmp"
 chmod 0600 "$CONF.tmp"
