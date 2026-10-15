@@ -29,6 +29,7 @@ RAILWAY = "railway-prism-runtime"
 
 # Frozen identities: changing a profile's definition requires a new identity/version.
 DIGESTS = {
+    "research_vps": "46e81ec9a60ab07acaecd55675e477c65aa976ad978890e0c197cd8744f8be70",
     "research": "8d6431ba5d6088b90df3e94a2edf3b9415f03a01c8d6f79416921eb5d141e6d9",
     "autotrader_lab": "f898e2f01ccc5f744ae52e67fbc8edce7428cdf0256647fffa77d926ea102d19",
 }

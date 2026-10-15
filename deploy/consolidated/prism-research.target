@@ -1,0 +1,6 @@
+[Unit]
+Description=Prism OVH research runtime (separate from the existing lab target)
+Wants=prism-research@microstructure_collector.service prism-research@context_gateway.service prism-research@context_ingest.service prism-research@free_source_collector.service prism-research@scheduler.service
+
+[Install]
+WantedBy=multi-user.target

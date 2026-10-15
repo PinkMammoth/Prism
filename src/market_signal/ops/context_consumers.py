@@ -7,11 +7,18 @@ context ingestion. Existing workers retain their legacy wakeup/enrollment behavi
 from market_signal.context.work_monitors import PROVIDER_IDS
 
 
+def execution_wakeup_enabled():
+    from market_signal.ops.evaluation_triggers import outbox_enabled
+
+    return outbox_enabled()
+
+
 def gateway_consumers(store, completion, receipt):
     def consume(_publication):
         from market_signal.ops.evaluation_triggers import gateway_wakeup
 
-        gateway_wakeup(store, completion, receipt["payload"])
+        if execution_wakeup_enabled():
+            gateway_wakeup(store, completion, receipt["payload"])
         if completion.get("provider") in PROVIDER_IDS:
             from market_signal.context.work_research import enroll
 
@@ -25,7 +32,8 @@ def free_source_consumers(store, completion, observation):
         from market_signal.context.work_research import enroll
         from market_signal.ops.evaluation_triggers import gateway_wakeup
 
-        gateway_wakeup(store, completion, {})
+        if execution_wakeup_enabled():
+            gateway_wakeup(store, completion, {})
         enroll(
             store,
             completion,

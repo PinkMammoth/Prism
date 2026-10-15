@@ -70,7 +70,8 @@ class Paths:
 
     @property
     def results(self) -> Path:
-        return self.root / "results"
+        override = os.environ.get("PRISM_RESULTS_DIR")
+        return Path(override) if override else self.root / "results"
 
 
 def load_yaml(path: Path) -> dict[str, Any]:

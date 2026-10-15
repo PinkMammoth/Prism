@@ -18,7 +18,7 @@ def run(*, dev=False):
     app = create_app(Spool(default_root()), verifier, dev=dev)
     uvicorn.run(
         app,
-        host="127.0.0.1" if dev else "0.0.0.0",
+        host="127.0.0.1" if dev else os.environ.get("PRISM_CONTEXT_GATEWAY_HOST", "0.0.0.0"),
         port=int(os.environ.get("PORT", "8787")),
         proxy_headers=True,
         forwarded_allow_ips=os.environ.get("PRISM_CONTEXT_TRUSTED_PROXIES", "127.0.0.1"),

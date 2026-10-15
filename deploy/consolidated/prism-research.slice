@@ -1,0 +1,7 @@
+[Unit]
+Description=Prism research resource budget; validate before commissioning
+
+[Slice]
+CPUWeight=50
+MemoryHigh=4500M
+MemoryMax=5500M

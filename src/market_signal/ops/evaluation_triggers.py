@@ -14,9 +14,19 @@ def ts(value):
     return t.tz_localize("UTC") if t.tzinfo is None else t.tz_convert("UTC")
 
 
+def outbox_enabled():
+    from market_signal.ops.profiles import resolve
+
+    # The new Research owner never feeds the Lab execution outbox. Released profiles
+    # retain their existing behavior; this does not activate any execution consumer.
+    return resolve().profile.name != "research_vps"
+
+
 def enqueue(store, source, key, assets, available_at, *, event_ids=(), metadata=None):
     if source not in ("context", "microstructure", "positioning", "technical"):
         raise ValueError("unregistered trigger source")
+    if not outbox_enabled():
+        return None
     payload = {
         "assets": sorted(set(assets)),
         "event_ids": sorted(set(event_ids)),
@@ -31,6 +41,8 @@ def enqueue(store, source, key, assets, available_at, *, event_ids=(), metadata=
 
 
 def gateway_wakeup(store, receipt, payload):
+    if not outbox_enabled():
+        return None
     if receipt.get("ingest_status") != "INGESTED" or not receipt.get("logical_event_id"):
         return None
     eid = receipt["logical_event_id"]

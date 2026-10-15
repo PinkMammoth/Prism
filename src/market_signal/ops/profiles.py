@@ -28,7 +28,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from typing import Any
 
 PROFILE_ENV = "PRISM_PROFILE"
@@ -223,6 +223,19 @@ PROFILES: dict[str, Profile] = {
         dynamic_universe=dict.fromkeys(DYNAMIC_UNIVERSE_TIERS, "gated"),
     ),
 }
+
+# New, separate identity for the prepared OVH research runtime. Existing Railway and
+# lab definitions/digests are frozen. Installing this definition does not claim a DB.
+PROFILES["research_vps"] = replace(
+    PROFILES["research"],
+    name="research_vps",
+    identity="prism_research_vps_runtime_v1",
+    description="OVH Research/Intelligence/Context authority, isolated from the lab database.",
+    targets=("vps", "local"),
+    runtime_ids={"full": "vps-prism-research", "rehearsal": "vps-prism-research-rehearsal"},
+    # Research owns funding even when old Nimble accounts are archived, not imported.
+    unconditional_jobs=("paper_v2_funding",),
+)
 
 # The pre-split combined Railway runtime, described (not enforced) for evidence records.
 LEGACY = Profile(
