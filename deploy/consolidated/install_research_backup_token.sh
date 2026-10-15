@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
-# Root. Reads `rclone authorize` output on STDIN (never argv/terminal) and writes the
-# drive.file-scoped remote into the backup identity's private rclone.conf. Prints nothing secret.
+# Root. Reads `rclone authorize` output followed by the owner's Desktop-app client JSON on
+# STDIN (never argv/terminal) and writes the drive.file remote into the backup identity's
+# private rclone.conf. Prints nothing secret. rclone's shared client is retired in 2026 and
+# drive.file visibility is per client, so a config without the owner's client is refused.
 set -euo pipefail
 [ "$(id -u)" = 0 ]
 U=prism-research-backup
@@ -14,7 +16,10 @@ match = re.search(r"--->\s*(.*?)\s*<---", text, re.S)
 blob = (match.group(1) if match else text).strip()
 # rclone >= 1.6x emits base64 JSON {client_id, client_secret, token}; older emits token JSON.
 data = json.loads(blob) if blob.startswith("{") else json.loads(base64.b64decode(blob + "=="))
-extra = {k: data[k] for k in ("client_id", "client_secret") if data.get(k)}
+client = re.search(r"\{\s*\"installed\".*\}", text[match.end():] if match else "", re.S)
+client = json.loads(client.group(0))["installed"] if client else {}
+extra = {k: client.get(k) or data.get(k) for k in ("client_id", "client_secret")}
+assert all(extra.values()), "owner client_id/client_secret required (shared client retired)"
 token = data.get("token", data)
 token = json.loads(token) if isinstance(token, str) else token
 assert token.get("refresh_token") and token.get("token_type"), "not an rclone OAuth token"
