@@ -270,3 +270,149 @@ def test_late_wakeup_records_missed_slots_without_replaying_them(monkeypatch):
     assert events[0]["scheduled_deadline"] == EPOCH + 1200
     assert events[0]["missed_before_start"] == 1
     assert events[0]["next_scheduled_deadline"] == EPOCH + 1800
+
+
+def test_real_cli_waits_for_short_existing_writer_at_commit(project, monkeypatch):
+    """b10d13a fails immediately when ordinary free ingest owns the handoff lock."""
+    import threading
+
+    from market_signal.ops import runtime
+
+    path = project / "data" / "radar.duckdb"
+    Store(path).close()
+    monkeypatch.setenv("PRISM_DB_PATH", str(path))
+    monkeypatch.delenv("PRISM_RUNTIME_ROLE", raising=False)
+    monkeypatch.setattr(profiles, "current", lambda: SimpleNamespace(explicit=False))
+    monkeypatch.setattr(
+        HttpClient,
+        "_http",
+        lambda self: SimpleNamespace(event_hooks={"request": [], "response": []}),
+    )
+    monkeypatch.setattr(HttpClient, "close", lambda self: None)
+    ready, released = threading.Event(), threading.Event()
+
+    def existing_writer():
+        with runtime.runtime_lock(path, "free_event_ingest", wait=0):
+            ready.set()
+            released.wait(0.1)
+
+    thread = threading.Thread(target=existing_writer)
+
+    def fetch(http, prepared, now, **kwargs):
+        # Acquired only after the read-only prepare phase: exact commit collision.
+        thread.start()
+        assert ready.wait(5)
+        return {
+            "markets": [Market("SAT", now, now, 100, 10e6, 3e6)],
+            "listing_first_seen": {"SAT": now},
+            "errors": {},
+            "light": [],
+            "prepared_at": now,
+        }
+
+    monkeypatch.setattr(source, "fetch", fetch)
+    stream = io.StringIO()
+    try:
+        with contextlib.redirect_stdout(stream):
+            universe_cmds.refresh(warming=False, as_json=True)
+    finally:
+        released.set()
+        thread.join(5)
+    value = json.loads(stream.getvalue())
+    assert value["evaluation_id"]
+    timing = value["telemetry"]
+    assert timing["runtime_lock_acquired_at"] >= timing["runtime_lock_requested_at"]
+    assert timing["evidence_clock"] >= int(timing["runtime_lock_acquired_at"])
+    assert timing["runtime_lock_wait_seconds"] >= 0.05
+    assert not thread.is_alive()
+    with contextlib.closing(Store(path, read_only=True)) as store:
+        assert store.con.execute("SELECT count(*) FROM universe_evaluations").fetchone()[0] == 1
+
+
+def test_json_refresh_keeps_db_wait_messages_out_of_result(project, monkeypatch):
+    """An external read-only observer must not corrupt the supervised JSON result."""
+    import sys
+    import threading
+
+    path = project / "data" / "radar.duckdb"
+    Store(path).close()
+    monkeypatch.setenv("PRISM_DB_PATH", str(path))
+    monkeypatch.delenv("PRISM_RUNTIME_ROLE", raising=False)
+    monkeypatch.setattr(profiles, "current", lambda: SimpleNamespace(explicit=False))
+    monkeypatch.setattr(
+        HttpClient,
+        "_http",
+        lambda self: SimpleNamespace(event_hooks={"request": [], "response": []}),
+    )
+    monkeypatch.setattr(HttpClient, "close", lambda self: None)
+    child = None
+    timer = None
+
+    def release():
+        child.stdin.write("release\n")
+        child.stdin.flush()
+
+    def fetch(http, prepared, now, **kwargs):
+        nonlocal child, timer
+        child = subprocess.Popen(
+            [
+                sys.executable,
+                "-c",
+                "import duckdb,sys; c=duckdb.connect(sys.argv[1],read_only=True); print('READY',flush=True); input(); c.close()",
+                str(path),
+            ],
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+        )
+        assert child.stdout.readline().strip() == "READY"
+        timer = threading.Timer(0.2, release)
+        timer.start()
+        return {
+            "markets": [Market("SAT", now, now, 100, 10e6, 3e6)],
+            "listing_first_seen": {"SAT": now},
+            "errors": {},
+            "light": [],
+            "prepared_at": now,
+        }
+
+    monkeypatch.setattr(source, "fetch", fetch)
+    stdout, stderr = io.StringIO(), io.StringIO()
+    try:
+        with contextlib.redirect_stdout(stdout), contextlib.redirect_stderr(stderr):
+            universe_cmds.refresh(warming=False, as_json=True)
+    finally:
+        if timer:
+            timer.join(5)
+        if child:
+            child.wait(timeout=5)
+    result = json.loads(stdout.getvalue())
+    assert result["evaluation_id"]
+    assert "Database busy" in stderr.getvalue()
+    assert "Database busy" not in stdout.getvalue()
+
+
+def test_worker_failed_child_keeps_safe_diagnostic_without_stderr_values(monkeypatch):
+    secret = "SENTINEL_MUST_NEVER_APPEAR_IN_JOURNAL"
+    monkeypatch.setattr(worker.time, "time", lambda: float(EPOCH))
+    monkeypatch.setattr(
+        worker.subprocess,
+        "run",
+        lambda *args, **kwargs: SimpleNamespace(
+            returncode=1, stderr=f"RuntimeBusy: holder={secret}"
+        ),
+    )
+    events = []
+
+    def record(value):
+        assert secret not in value
+        events.append(json.loads(value))
+        raise Finished
+
+    monkeypatch.setattr(worker.log, "info", record)
+    with pytest.raises(Finished):
+        worker.main()
+    assert events[0]["status"] == "FAILED"
+    assert events[0]["failure"]["error_classes"] == ["RuntimeBusy"]
+    assert len(events[0]["failure"]["stderr_sha256"]) == 64

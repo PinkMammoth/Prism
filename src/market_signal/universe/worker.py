@@ -1,8 +1,10 @@
 """Data-only supervised radar process. HTTP never holds the runtime writer lock."""
 
+import hashlib
 import json
 import logging
 import os
+import re
 import resource
 import subprocess
 import sys
@@ -12,6 +14,32 @@ from market_signal.universe import cadence
 from market_signal.universe.policy import POLICY
 
 log = logging.getLogger("prism.universe")
+
+
+def failure_details(result):
+    """Class names and opaque diagnostics only; never emit arbitrary child stderr."""
+    stderr = getattr(result, "stderr", "") or ""
+    plain = re.sub(r"\x1b\[[0-?]*[ -/]*[@-~]", "", stderr)
+    names = (
+        "RuntimeBusy",
+        "DatabaseBusy",
+        "HTTPStatusError",
+        "ConnectError",
+        "ConnectTimeout",
+        "ReadTimeout",
+        "TimeoutError",
+        "ValueError",
+        "TypeError",
+        "KeyError",
+        "PermissionError",
+        "OSError",
+        "NotAuthoritative",
+    )
+    return {
+        "error_classes": [name for name in names if re.search(rf"\b{name}\s*:", plain)],
+        "stderr_sha256": hashlib.sha256(stderr.encode()).hexdigest(),
+        "stderr_bytes": len(stderr.encode()),
+    }
 
 
 def main():
@@ -52,6 +80,7 @@ def main():
                 )
             else:
                 event["status"] = "FAILED"
+                event["failure"] = failure_details(result)
         except subprocess.TimeoutExpired:
             # subprocess.run kills and waits for its child before the next deadline.
             event["status"] = "TIMEOUT"

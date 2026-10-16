@@ -4,7 +4,9 @@ from __future__ import annotations
 
 import json
 import os
+import sys
 import time
+from contextlib import nullcontext, redirect_stdout
 from datetime import UTC, datetime
 
 import typer
@@ -82,7 +84,11 @@ def refresh(warming: bool = typer.Option(False, "--warming"), as_json: bool = JS
     from market_signal.config import get_settings
     from market_signal.universe import cadence
 
-    with cadence.refresh_lock(get_settings().paths.db):
+    # Keep wait/progress output off the machine-readable result channel.
+    with (
+        cadence.refresh_lock(get_settings().paths.db),
+        redirect_stdout(sys.stderr) if as_json else nullcontext(),
+    ):
         result = _refresh_once(warming)
     _out(result, as_json)
 
@@ -119,19 +125,29 @@ def _refresh_once(warming):
     timing["source_refresh_completed_at"] = time.time()
     timing["api"] = metrics.summary()
     timing["api"]["captured_response_body_bytes"] = sum(len(p.body) for p in http.captured)
-    with runtime_lock(path, "dynamic_universe", wait=0), open_store() as (_, store):
-        # This is the existing evidence clock, sampled at commit entry. Do not replace
-        # it with the nominal slot or call it the completed transaction timestamp.
-        evidence_clock = int(datetime.now(UTC).timestamp())
-        timing["evidence_clock"] = evidence_clock
-        result = source.commit(store, fetched, evidence_clock, warming=warming, telemetry=timing)
-        if "evaluation_id" in result:
-            subscriptions.publish(
-                default_root(path),
-                result,
-                role=os.environ.get("PRISM_RUNTIME_ROLE", ""),
-                runtime_id=os.environ.get("PRISM_RUNTIME_ID", ""),
+    # Ordinary short writer ownership is contention, not a failed observation.
+    # The whole child still has the worker's 300s timeout; HTTP never holds this lock.
+    timing["runtime_lock_requested_at"] = time.time()
+    with runtime_lock(path, "dynamic_universe", wait=60):
+        timing["runtime_lock_acquired_at"] = time.time()
+        timing["runtime_lock_wait_seconds"] = (
+            timing["runtime_lock_acquired_at"] - timing["runtime_lock_requested_at"]
+        )
+        with open_store() as (_, store):
+            # This is the existing evidence clock, sampled at commit entry. Do not replace
+            # it with the nominal slot or call it the completed transaction timestamp.
+            evidence_clock = int(datetime.now(UTC).timestamp())
+            timing["evidence_clock"] = evidence_clock
+            result = source.commit(
+                store, fetched, evidence_clock, warming=warming, telemetry=timing
             )
+            if "evaluation_id" in result:
+                subscriptions.publish(
+                    default_root(path),
+                    result,
+                    role=os.environ.get("PRISM_RUNTIME_ROLE", ""),
+                    runtime_id=os.environ.get("PRISM_RUNTIME_ID", ""),
+                )
     timing["refresh_completed_at"] = time.time()
     timing["previous_evidence_clock"] = prepared["previous"]["at"] if prepared["previous"] else None
     timing["continuity_gap_seconds"] = (

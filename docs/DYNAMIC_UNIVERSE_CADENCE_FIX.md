@@ -103,3 +103,30 @@ satellite backfill, prospective satellite OI captures, rich collection or execut
 
 See [cadence-tranche evidence](evidence/ovh-du-ranking/20261016-cadence/) for final validation,
 release identity, fresh admission, activation, genuine observation and rollback evidence.
+
+## Writer handoff and JSON follow-up after the first live attempt
+
+The first `b10d13a…` evaluation succeeded at09:50:39 UTC. The10:00 child exited1;
+the bounded observer stopped ranking and restored v1 at10:01:19 UTC, preserving history and
+core PID625. Its arbitrary stderr was deliberately not emitted, but no safe diagnostic class
+had been retained either; the original exit's precise exception is therefore unproven.
+A subsequent strictly read-only public fetch discovered541 markets without source errors.
+
+A real-CLI regression proves an independent handoff defect in b10: a normal writer briefly
+holding the runtime lock after HTTP makes `wait=0` raise `RuntimeBusy`. A second cross-process
+regression proves that a read-only observer can make common DB wait/progress messages corrupt
+the supervised JSON result. These findings are consistent with normal workload contention;
+they do not retrospectively prove the exception type in the discarded original stderr.
+
+The follow-up waits at most60s for the existing runtime writer lock and records requested/
+acquired clocks and actual wait. Network remains outside that lock. The entire child remains
+bounded by the existing300s timeout; nominal deadlines and real evidence clocks are unchanged.
+For `--json`, internal progress is directed to stderr and the final result alone goes to stdout.
+Failed children retain only allowlisted exception-class signatures, stderr size and SHA256,
+never arbitrary exception text or credential-bearing output. No readiness/scoring change occurs.
+
+The live attempt is failed evidence, not a successful cadence window. A resumed observer counts
+only new evaluations whose real evidence clocks lie inside the new window; the prior observation
+is preserved and the genuine stopped gap still resets frozen continuity. Host/cgroup sampling
+remains frequent, with full read-only audits on new completed events or every120s while the radar
+child is idle, reducing observer-induced DB interference.
