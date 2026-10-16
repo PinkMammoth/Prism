@@ -739,3 +739,63 @@ def test_cli_inspects_removed_risk_pin(store, monkeypatch):
     assert result.exit_code == 0, result.stdout
     row = json.loads(result.stdout)
     assert row["tier"] == 3 and row["market"] is None and row["state"]["pins"] == ["OPEN"]
+
+
+@pytest.mark.parametrize(
+    "last_close_hour,observed_in_future,expected_fresh",
+    [(17, False, True), (16, False, False), (17, True, False)],
+)
+def test_technical_freshness_utc_datetime_vs_nanoseconds(
+    store, last_close_hour, observed_in_future, expected_fresh
+):
+    """Use real BarSeries int64 timestamps; fresh/stale/availability semantics stay exact."""
+    import numpy as np
+    import pandas as pd
+
+    from market_signal.intraday.bars import upsert_bars
+    from market_signal.models.domain import Timeframe
+
+    now = datetime(2026, 10, 16, 17, 40, tzinfo=UTC)
+    last_close = pd.Timestamp(datetime(2026, 10, 16, last_close_hour, tzinfo=UTC))
+    times = pd.date_range(end=last_close - pd.Timedelta(hours=1), periods=1080, freq="h")
+    i = np.arange(len(times))
+    close = 100 + i * 0.01 + np.sin(i / 7)
+    bars = pd.DataFrame(
+        {
+            "open_time": times,
+            "open": close - 0.05,
+            "high": close + 1,
+            "low": close - 1,
+            "close": close,
+            "volume": 100 + i % 15,
+            "trades": 100,
+        }
+    )
+    observed = pd.Timestamp(now) + pd.Timedelta(seconds=1 if observed_in_future else -1)
+    upsert_bars(
+        store,
+        "hyperliquid",
+        "SAT",
+        Timeframe.H1,
+        bars,
+        observed_at=observed,
+        run_id="timestamp-representation-regression",
+    )
+    store.con.execute(
+        "INSERT INTO perp_funding VALUES (?,?,?,?,?,?,?,?)",
+        [
+            "SAT",
+            "hyperliquid",
+            now.replace(minute=0),
+            0.0001,
+            None,
+            now,
+            "observed",
+            "timestamp-representation-regression",
+        ],
+    )
+    result = availability(store, "SAT", int(now.timestamp()), int(now.timestamp()))
+    technical = [h for h in result["hypotheses"] if h["source_phase"] == 22]
+    assert bool(technical)
+    assert all("DATA_STALE" not in h["reasons"] for h in technical) == expected_fresh
+    assert result["warmup"]["technical"] == expected_fresh

@@ -87,7 +87,10 @@ def availability(store, asset, now, rich_since):
             availability=Availability.observed(),
         )
         frame = Frame.from_series(series, readonly=True)
-        technical_fresh = at.replace(minute=0, second=0, microsecond=0) == series.close_time[-1]
+        # BarSeries clocks are integer UTC nanoseconds; compare the same instant/unit.
+        technical_fresh = int(
+            at.replace(minute=0, second=0, microsecond=0).timestamp()
+        ) * 1_000_000_000 == int(series.close_time[-1])
     after = (
         datetime.fromtimestamp(rich_since or now, UTC)
         if not is_core
