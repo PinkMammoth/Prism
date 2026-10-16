@@ -1,0 +1,42 @@
+{
+  "policy_cadence_seconds": 600,
+  "policy_max_light_gap_seconds": 900,
+  "simulated_fetch_wall_seconds": 36,
+  "records": [
+    {
+      "worker_started_seconds": 0.0,
+      "status": "FETCH_ADMITTED",
+      "simulated_commit_seconds": 36.0,
+      "previous_commit_gap_seconds": null
+    },
+    {
+      "worker_started_seconds": 600.0,
+      "status": "NOT_DUE",
+      "age_since_previous_commit_seconds": 564
+    },
+    {
+      "worker_started_seconds": 1200.0,
+      "status": "FETCH_ADMITTED",
+      "simulated_commit_seconds": 1236.0,
+      "previous_commit_gap_seconds": 1200
+    },
+    {
+      "worker_started_seconds": 1800.0,
+      "status": "NOT_DUE",
+      "age_since_previous_commit_seconds": 564
+    },
+    {
+      "worker_started_seconds": 2400.0,
+      "status": "FETCH_ADMITTED",
+      "simulated_commit_seconds": 2436.0,
+      "previous_commit_gap_seconds": 1200
+    }
+  ],
+  "source_sha256": {
+    "/home/matth/prism/.worktrees/ovh-lab-v2-prepared/src/market_signal/universe/worker.py": "55bc073d1e45f9a7367aa22eea4efb4952fc02b4a4efbad61b367e0597c56622",
+    "/home/matth/prism/.worktrees/ovh-lab-v2-prepared/src/market_signal/cli/universe_cmds.py": "597a0373dbed0a0005ca99e10134cc0b434252f6977af12f0452bcc8bf4394c3"
+  },
+  "defect_reproduced": true,
+  "database_opened": false,
+  "network_called": false
+}

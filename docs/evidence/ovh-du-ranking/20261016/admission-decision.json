@@ -1,0 +1,30 @@
+{
+  "resource_verdict": "PASS WITH SPECIFIC LIMITATIONS",
+  "resource_warnings": [
+    "55.435-day modeled runway below 60-day warning",
+    "Historical 145.6 MB host step not attributed; 150 MB/day recurrence stress remains above 30-day stop",
+    "Ranking runtime costs use prior measured benchmarks, not a new live ranking window",
+    "Final SSH attempts timed out after 08:19 successful read; host visibility must be re-established before activation."
+  ],
+  "activation_allowed": false,
+  "activation_performed": false,
+  "blocking_correctness_defect": "Prepared worker and commit-clock due gate produce 1200-second observation gaps after nonzero fetch duration, exceeding frozen 900-second maximum.",
+  "budget_installed": false,
+  "executable_budget_receipt_issued": false,
+  "ranking_window_start": null,
+  "ranking_window_end": null,
+  "ranking_window_duration_seconds": 0,
+  "ranking_evaluations": 0,
+  "live_release": "9acb42a94d8888a2e712490b421912739a02bff6",
+  "prepared_release": "eee205f24d5d9ef3cd71c32499f13ec2e2fbb8fd",
+  "prepared_profile_digest": "e7571ad1a2a35fb42dc8c1ea77759e31887a1c7679445561664c1dee68c12207",
+  "research_alert": "CLOSED",
+  "warming_readiness": "NOT READY",
+  "warming_executed": false,
+  "paper_execution": false,
+  "sizing": false,
+  "real_money": false,
+  "research_authority_transfer": false,
+  "next_action": "Restore read-only SSH visibility and re-attest host/collector health; Repair/review the worker/commit-clock cadence interaction, add nonzero-duration regression, issue new prepared release; refresh ranking budget, then guarded ranking activation and 2-4h observation with 12+ genuine evaluations.",
+  "next_warming_approval": "Only after clean ranking evidence: approve data-only warming for up to six satellites under a freshly validated twelve-rich-market budget, all scientific gates preserved; execution/sizing/Research handoff stay OFF."
+}

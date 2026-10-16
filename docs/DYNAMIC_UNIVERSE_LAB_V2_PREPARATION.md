@@ -1,5 +1,13 @@
 # Dynamic Universe Lab v2: prepared data-only activation
 
+**2026-10-16 preactivation hold:** resource reconciliation now supports ranking with specific
+limitations, and the Research backup alert is closed. However, a newly reproduced defect in this
+exact prepared release makes alternating worker polls `NOT_DUE`, producing approximately1200s
+accepted-observation gaps after nonzero fetch time. This violates the frozen900s continuity rule.
+**Do not activate this immutable image as-is.** A reviewed scheduling fix and newly identified
+release are required before the2–4h ranking window. No warming approval is implied. See
+[the reproduction and admission report](OVH_DU_RANKING_ADMISSION.md#prepared-identity-and-activation-hold).
+
 **Preparation only. No activation approval is inferred from a clean remediation gate.**
 The live Lab remains on `prism_autotrader_lab_v1`, rehearsal authority, with Nimble and DU OFF.
 The implementation is committed on `main` as `09a0a21`, following backup fix `56cafcf`.

@@ -1,0 +1,57 @@
+{
+  "scope": "Research backup only; transcribed sanitized observations from live tool calls",
+  "failure_command": [
+    "restic",
+    "--json",
+    "--no-cache",
+    "check",
+    "--read-data"
+  ],
+  "failure_status": 11,
+  "failure_stage": "offhost after encrypted upload and remote listing",
+  "failure_times_utc": [
+    "2026-10-16T03:24:19Z",
+    "2026-10-16T04:27:07Z",
+    "2026-10-16T05:29:56Z",
+    "2026-10-16T06:32:45Z",
+    "2026-10-16T07:35:34Z"
+  ],
+  "lock": {
+    "id": "e026b38e4e81e733f4664a34fd00d5247816e7a108470ebb150f915ae8acf325",
+    "time": "2026-10-15T17:38:39.799441862Z",
+    "exclusive": false,
+    "hostname": "vps-778d603b",
+    "pid": 99424,
+    "username": "prism-research-backup",
+    "uid": 992,
+    "gid": 991
+  },
+  "host_boot_utc": "2026-10-15T17:52:46Z",
+  "owner_pid_absent": true,
+  "restic_rclone_processes_absent_before_unlock": true,
+  "check_diagnostic_flags": [
+    "already locked",
+    "unable to create lock",
+    "repository is already locked"
+  ],
+  "check_stdout_sha256": "7b2af30352b7095f69517e55698b8bff0e85303906a6cef76722d4cafe05be2a",
+  "check_stderr_sha256": "eec41e65ac462d2c6ffb32e4cf5be6b7576a70706c5d70a987394fcb6110eb21",
+  "cleanup_command": [
+    "restic",
+    "--json",
+    "--no-cache",
+    "unlock"
+  ],
+  "cleanup_at": "2026-10-16T08:07:01.637887Z",
+  "cleanup_status": 0,
+  "lock_empty_confirmed_at": "2026-10-16T08:07:08.636424Z",
+  "remove_all_used": false,
+  "deterministic_until_cleanup": true,
+  "provider_failure_evidence": false,
+  "integrity_scan_not_entered_on_failed_check": true,
+  "original_lock_creating_subcommand_unknown": true,
+  "no_application_or_configuration_change": true,
+  "service_start_limit_reset_after_repair": true,
+  "full_unattended_cycle_receipt": "research-closure.json",
+  "final_status": "CLOSED"
+}

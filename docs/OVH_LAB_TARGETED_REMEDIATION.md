@@ -1,5 +1,12 @@
 # OVH Lab targeted remediation extension
 
+**2026-10-16 next-tranche follow-up:** the separate Research backup alert is now closed with
+a successful full unattended Drive recovery cycle. Ranking resource admission passes with
+specific limitations (55.4-day conservative runway), but activation is held: the unmodified
+prepared DU worker/CLI cadence interaction was reproduced producing1200s observation gaps,
+above the frozen900s limit. Lab v1/DUoff remain unchanged. See the
+[bounded ranking-admission report](OVH_DU_RANKING_ADMISSION.md). The historical rehearsal verdict below stands.
+
 **Closed and reviewed 2026-10-16.** The 26-hour base rehearsal remains valid infrastructure evidence.
 This extension validates two fixes; it is not a second 24-hour rehearsal.
 Evidence: [20261015](evidence/ovh-lab-remediation/20261015/).

@@ -1,0 +1,73 @@
+{
+  "policy_id": "universepolicy_5f88b1dcdf20d7d19047edffab329076d7a63936f8c0916c21ffc83bcf4d56ff",
+  "measured_at": 1792138523,
+  "validated": false,
+  "rich_assets": 6,
+  "minimum_runway_days": 30,
+  "daily_growth_bytes": 250000000,
+  "available_bytes": 13858829209,
+  "worker_cpu_seconds_per_minute": 0.249,
+  "scope": "Ranking only; existing six rich markets; no warming, execution or sizing.",
+  "host_measurement": {
+    "at": "2026-10-16T08:15:23.320782+00:00",
+    "disk_free_bytes": 94686425088,
+    "disk_total_bytes": 105467994112,
+    "filesystem_used_bytes": 6444482560,
+    "minimum_free_fraction": 0.7,
+    "minimum_free_bytes": 73827595879,
+    "transient_reserve_bytes": 7000000000,
+    "future_baseline_paper_ram_reserve_bytes": 3000000000,
+    "ram_available_bytes": 11133054976,
+    "ram_total_bytes": 12256567296
+  },
+  "persistent_growth_components_bytes_per_day": {
+    "lab_db_existing_upper": 41000000,
+    "ranking_evaluations": 8667072.0,
+    "ranking_outcomes_upper": 6912000,
+    "one_growing_lab_backup": 57000000,
+    "core_micro_raw_and_spool_no_rotation_credit": 64000000,
+    "provider_raw_and_free_sources": 6000000,
+    "logs_journal_host_overhead_allowance": 37000000,
+    "frozen_research_db": 0,
+    "frozen_research_backup_metadata_allowance": 100000
+  },
+  "sum_growth_components_bytes_per_day": 220679072.0,
+  "round_up_contingency_bytes_per_day": 29320928.0,
+  "runway_days_model": 55.435316836,
+  "historical_unattributed_145_6MB_step": {
+    "recurring_not_established": true,
+    "charged_in_current_free_space": true,
+    "extra_150MB_daily_stress_runway_days": 34.6470730225,
+    "rule": "Do not erase the observed historical step or call it measured recurring daily growth."
+  },
+  "temporary_peak_model": {
+    "research_download_plus_restore_bytes": 1781891383,
+    "research_local_generation_overlap_bytes": 135614775,
+    "lab_backup_creation_reserve_bytes": 175546368,
+    "included_in_7GB_reserve": true,
+    "temporary_is_not_persistent_daily_growth": true
+  },
+  "measured_growth": {
+    "base_lab_db_bytes_per_day": 24917988.130994853,
+    "target_lab_db_bytes_per_day": 19111248.31635704,
+    "current_since_target_end_lab_db_bytes_per_day": 40100212.55323318,
+    "current_since_target_end_hours": 6.589519984444444,
+    "base_micro_raw_spool_bytes_per_day": 62708813.05676016,
+    "base_provider_raw_bytes_per_day": 1564425.831535323,
+    "base_runtime_log_bytes_per_day": 578494.798231185
+  },
+  "ranking_cost": {
+    "peak_worker_mib_prior": 362,
+    "unit_memory_cap_bytes": 1073741824,
+    "prior_cpu_seconds_per_600s": 2.49,
+    "prior_discovery_requests": 72,
+    "prior_discovery_wall_seconds": 36.1,
+    "prior_response_bytes_per_evaluation": 288851,
+    "network_response_bytes_per_day_prior": 41594544,
+    "requests_per_day_prior": 10368,
+    "request_rate_per_second_cap": 2,
+    "logical_inserts_per_cycle_prior_mature": 92,
+    "rich_subscription_increment": 0
+  },
+  "review_required_before_setting_validated": true
+}

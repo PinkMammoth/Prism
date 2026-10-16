@@ -1,0 +1,14 @@
+{
+  "last_successful_ssh_read": "2026-10-16T08:19:16.020146Z",
+  "last_saved_service_sample": "2026-10-16T08:15:23.320782Z",
+  "last_db_audit": "2026-10-16T08:18:09.831244Z",
+  "final_ssh_attempts": 3,
+  "attempts_completed_by": "2026-10-16T08:27:07Z",
+  "status_each": 255,
+  "failure": "TCP connection timed out before authentication; ConnectTimeout=10",
+  "remote_commands_executed_on_failed_attempts": false,
+  "host_down_established": false,
+  "cause": "UNKNOWN from this vantage",
+  "network_or_firewall_changes_performed": false,
+  "activation_gate": "Restore read-only host visibility and re-attest health before any activation."
+}

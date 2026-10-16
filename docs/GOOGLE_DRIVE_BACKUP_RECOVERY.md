@@ -1,5 +1,13 @@
 # Google Drive off-host backup and recovery — Prism Research
 
+**2026-10-16 operational follow-up:** the first post-reboot unattended check was blocked by
+a stale pre-reboot repository lock. Stale-only `restic unlock` and a fresh full unattended
+cycle closed the alert at08:13:18 UTC: full data check, Drive restore,146-table verification
+and safe retention all succeeded. Keys/repository are unchanged. See
+[Research closure and ranking admission](OVH_DU_RANKING_ADMISSION.md#research-alert-exact-cause-and-closure).
+Status11 alone must not be labelled corruption or a Drive outage. Before unlocking, establish
+lock time/host/PID and absence of live ownership; never use `--remove-all` to bypass legitimate work.
+
 2026-10-15. **No authority transfer.** Railway remains authoritative for Research; OVH
 Research remains non-authoritative/read-only; OVH Lab rehearsal is unchanged. This clears
 only the independent off-host backup blocker recorded in

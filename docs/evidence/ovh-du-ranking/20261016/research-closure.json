@@ -1,0 +1,116 @@
+{
+  "at": "2026-10-16T08:17:09.430981+00:00",
+  "run": {
+    "status": "ok",
+    "stage": "done",
+    "started_at": "2026-10-16T08:08:30.467309+00:00",
+    "finished_at": "2026-10-16T08:13:18.135059+00:00",
+    "receipt": {
+      "snapshot_id": "fc9507814bea186809af169c88499e19706ba1e1a3bd51c3f2a0c7ce6456553f",
+      "generation": "generation-20261016T081024449039Z",
+      "verified_at": "2026-10-16T08:13:18.129960+00:00",
+      "sha256": "dbaa5a3c31ebd738cca69bbd714263f4583722331f515ee2d239d4be77d9726f",
+      "compressed_sha256": "023c3240e029eb87686905a1a9dfe3475397ba173ac0d7f9a38b1473c3e7892b",
+      "compressed_bytes": 135614775,
+      "remote_listing": {
+        "manifest.json": 24494,
+        "research.duckdb.gz": 135614775
+      },
+      "data_added_packed": 11220,
+      "read_data": "full",
+      "restore_verified": true,
+      "restored_db": null,
+      "manifest_copy": "prism-gdrive:Prism/backups/research/manifests/generation-20261016T081024449039Z.json",
+      "retained_snapshots": 3,
+      "pruned_manifests": [],
+      "timings": {
+        "upload_seconds": 24.04894520599919,
+        "remote_check_seconds": 41.04930110499845,
+        "restore_seconds": 57.723793003002356,
+        "retention_seconds": 42.13982607800426
+      },
+      "off_host_verified": true,
+      "destination_id": "google-drive:Prism/backups/research (rclone drive.file scope)"
+    },
+    "removed_local": [
+      "generation-20261015T172517321985Z"
+    ]
+  },
+  "manifest": {
+    "sha256": "dbaa5a3c31ebd738cca69bbd714263f4583722331f515ee2d239d4be77d9726f",
+    "bytes": 1646276608,
+    "compressed_sha256": "023c3240e029eb87686905a1a9dfe3475397ba173ac0d7f9a38b1473c3e7892b",
+    "compressed_bytes": 135614775,
+    "schema_version": 31,
+    "duckdb_version": "1.5.5",
+    "mode": "non-authoritative-sealed-candidate",
+    "authority": [
+      "railway-prism-runtime",
+      "2026-10-04 17:46:19.092023+00:00"
+    ],
+    "last_finished_cycle": "2026-10-15 11:31:40.099798+00:00"
+  },
+  "all_tables_verified": 146,
+  "critical_table_counts": {
+    "alert_events": 91,
+    "alert_rules": 4,
+    "context_event_updates": 67,
+    "context_events": 102,
+    "journal_entries": 0,
+    "lab_experiments": 47,
+    "lab_prospective_checkpoints": 8,
+    "lab_research_results": 4,
+    "lab_strategies": 40,
+    "macro_observations": 1093572,
+    "perp_funding": 185163,
+    "perp_intraday_bars": 868922,
+    "perp_oi_history": 5976,
+    "positions": 0
+  },
+  "generation_count": 1,
+  "scratch_empty": true,
+  "repository_locks_empty": true,
+  "repository_config": {
+    "version": 2,
+    "id": "148cfeaa9c717db0e0d6d1c304891e44565a1ebc0d343dd0be3181e1709c6742"
+  },
+  "keys": [
+    {
+      "id": "6f78b5ae6c69e66e3b0dde95794e1df3fad2137cc9b134734f9456a40a6cb43c",
+      "current": false,
+      "hostName": "custodian-recovery",
+      "userName": "prism-owner",
+      "created": "2026-10-15 17:38:05"
+    },
+    {
+      "id": "b6a269bc037a145dc2661aea452deb47f0d7aaf96b67be7a6b68dbfd86a77668",
+      "current": true,
+      "hostName": "vps-778d603b",
+      "userName": "prism-research-backup",
+      "created": "2026-10-15 17:11:45"
+    }
+  ],
+  "credential_permissions": {
+    "rclone.conf": {
+      "mode": "0o600",
+      "uid": 992
+    },
+    "restic-password": {
+      "mode": "0o400",
+      "uid": 992
+    },
+    "backup.env": {
+      "mode": "0o600",
+      "uid": 992
+    }
+  },
+  "secret_value_found_in_journal": false,
+  "secret_value_found_in_runtime_log": false,
+  "lab_config_hashes": {
+    "/etc/prism/prism.env": "93116e83a9169e6ee8cb0cbcb5d7532766465c3569412ffce39540e0f5071439",
+    "/etc/prism/secrets.env": "f2ae9d85ebe3b837d53ec0a9a9987524e4cc2a51ef0e24d69d766c2f90c8c126"
+  },
+  "research_release": "/opt/prism/research/releases/13e35bea5996073f117c8e3c5ce4d35eddd205a4",
+  "backup_unit_status": "Result=success\nExecMainStartTimestamp=Fri 2026-10-16 08:08:30 UTC\nExecMainExitTimestamp=Fri 2026-10-16 08:13:18 UTC\nCPUUsageNSec=162943642000\nActiveState=inactive\nSubState=dead\n",
+  "research_units": "UNIT                          LOAD   ACTIVE   SUB     DESCRIPTION\nprism-research-backup.service loaded inactive dead    Prism Research backup -> Google Drive (verify upload, restore-from-Drive, prune)\nprism-research-backup.timer   loaded active   waiting Nightly Prism Research backup to Google Drive\n\nLOAD   = Reflects whether the unit definition was properly loaded.\nACTIVE = The high-level unit activation state, i.e. generalization of SUB.\nSUB    = The low-level unit activation state, values depend on unit type.\n2 loaded units listed.\nTo show all installed unit files use 'systemctl list-unit-files'.\n"
+}

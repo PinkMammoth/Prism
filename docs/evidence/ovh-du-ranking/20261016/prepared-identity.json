@@ -1,0 +1,104 @@
+{
+  "approved_main": "5cb1ff6b025539ace20a5b885c110d67ac595e23",
+  "prepared_release": "eee205f24d5d9ef3cd71c32499f13ec2e2fbb8fd",
+  "prepared_profile": {
+    "profile": "autotrader_lab_v2",
+    "identity": "prism_autotrader_lab_v2",
+    "digest": "e7571ad1a2a35fb42dc8c1ea77759e31887a1c7679445561664c1dee68c12207",
+    "authority": "rehearsal",
+    "target": "vps",
+    "runtime_id": "vps-prism-autotrader-lab-rehearsal",
+    "explicit": true,
+    "role": "authoritative",
+    "processes": [
+      "microstructure_collector",
+      "free_source_collector",
+      "free_source_ingest",
+      "universe_radar",
+      "scheduler"
+    ],
+    "disabled_by_flag": [],
+    "collector_dynamic": false,
+    "scheduled_jobs": [
+      "oi",
+      "intraday",
+      "paper_v2_funding",
+      "positioning",
+      "context_macro",
+      "context_news",
+      "microstructure",
+      "backup"
+    ],
+    "execution_allowed": false,
+    "external_actions_allowed": false,
+    "boot_catchup_job": null,
+    "dynamic_universe": {
+      "tier0_discovery": "opt_in",
+      "tier1_warming": "opt_in",
+      "tier2_rich": "opt_in",
+      "tier3_risk_pins": "retention_only"
+    },
+    "definition": {
+      "name": "autotrader_lab_v2",
+      "identity": "prism_autotrader_lab_v2",
+      "targets": [
+        "local",
+        "vps"
+      ],
+      "processes": [
+        "free_source_collector",
+        "free_source_ingest",
+        "microstructure_collector",
+        "scheduler",
+        "universe_radar"
+      ],
+      "process_classes": {
+        "free_source_collector": "passive",
+        "free_source_ingest": "ingest",
+        "microstructure_collector": "passive",
+        "scheduler": "ingest",
+        "universe_radar": "ingest"
+      },
+      "jobs": [
+        "backup",
+        "context_macro",
+        "context_news",
+        "intraday",
+        "microstructure",
+        "oi",
+        "paper_v2_funding",
+        "positioning"
+      ],
+      "job_classes": {
+        "backup": "maintenance",
+        "context_macro": "data",
+        "context_news": "data",
+        "intraday": "data",
+        "microstructure": "data",
+        "oi": "data",
+        "paper_v2_funding": "data",
+        "positioning": "data"
+      },
+      "runtime_ids": {
+        "rehearsal": "vps-prism-autotrader-lab-rehearsal"
+      },
+      "boot_catchup_job": null,
+      "unconditional_jobs": [
+        "paper_v2_funding"
+      ],
+      "dynamic_universe": {
+        "tier0_discovery": "opt_in",
+        "tier1_warming": "opt_in",
+        "tier2_rich": "opt_in",
+        "tier3_risk_pins": "retention_only"
+      }
+    }
+  },
+  "prepared_files": {
+    "deploy/vps/activate_du_data.py": "f12039a006378c459f01ed5dc6fa283d910e21df333464009a08a9a7c1ce7a94",
+    "src/market_signal/universe/worker.py": "55bc073d1e45f9a7367aa22eea4efb4952fc02b4a4efbad61b367e0597c56622",
+    "src/market_signal/cli/universe_cmds.py": "597a0373dbed0a0005ca99e10134cc0b434252f6977af12f0452bcc8bf4394c3"
+  },
+  "deployed": false,
+  "activated": false
+}

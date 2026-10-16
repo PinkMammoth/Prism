@@ -1,0 +1,40 @@
+{
+ "window": [
+  "2026-10-16T08:05:00+00:00",
+  "2026-10-16T08:15:00+00:00"
+ ],
+ "expected_minutes_per_coin": 10,
+ "status_total": {
+  "COMPLETE": 60
+ },
+ "complete_fraction_of_expected": 1.0,
+ "missing_minutes": 0,
+ "per_coin": {
+  "AAVE": {
+   "COMPLETE": 10
+  },
+  "BTC": {
+   "COMPLETE": 10
+  },
+  "ETH": {
+   "COMPLETE": 10
+  },
+  "HYPE": {
+   "COMPLETE": 10
+  },
+  "LINK": {
+   "COMPLETE": 10
+  },
+  "SOL": {
+   "COMPLETE": 10
+  }
+ },
+ "flags": {},
+ "late_prints": 0,
+ "run_starts": 0,
+ "disconnects": 0,
+ "disconnect_total_s": 0,
+ "disconnect_max_s": 0,
+ "closes": [],
+ "non_complete_minutes": {}
+}
