@@ -30,13 +30,25 @@ def _rid(store, run_id):
 @v2.command("register")
 def register_universe() -> None:
     """WRITE: register ONLY the released immutable bootstrap universe and policies."""
+    _creation_authority("register")
     call(engine.register, write=True)
 
 
 @v2.command("create")
 def create() -> None:
     """WRITE: activate a new $100 simulated USDC run NOW, after v1 retirement/deployment."""
+    _creation_authority("create")
     call(engine.create, write=True)
+
+
+def _creation_authority(action):
+    from market_signal.ops import profiles
+
+    try:
+        profiles.require_execution(f"paper v2 {action}")
+    except profiles.ProfileError as exc:
+        console.print(f"Refused: {exc}", markup=False)
+        raise typer.Exit(profiles.EXIT_PROFILE) from None
 
 
 @v2.command("evaluate")

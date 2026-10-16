@@ -63,10 +63,17 @@ def refresh(warming: bool = typer.Option(False, "--warming"), as_json: bool = JS
     """Data-only writer. Network collection takes place outside the authoritative runtime lock."""
     from market_signal.data.http import HttpClient
     from market_signal.microstructure.spool import default_root
+    from market_signal.ops import profiles
     from market_signal.ops.runtime import runtime_lock
     from market_signal.universe import source, subscriptions
     from market_signal.universe.policy import POLICY
 
+    profile = profiles.current()
+    if profile.explicit and (
+        not profile.process_allowed("universe_radar") or (warming and not profile.collector_dynamic)
+    ):
+        console.print("Refused: the explicit profile has not enabled this Dynamic Universe stage.")
+        raise typer.Exit(profiles.EXIT_PROFILE)
     now = int(datetime.now(UTC).timestamp())
     if warming or os.environ.get("PRISM_RUNTIME_ROLE") == "authoritative":
         from market_signal.universe.budget import validate

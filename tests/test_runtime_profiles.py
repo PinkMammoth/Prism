@@ -29,6 +29,7 @@ RAILWAY = "railway-prism-runtime"
 
 # Frozen identities: changing a profile's definition requires a new identity/version.
 DIGESTS = {
+    "autotrader_lab_v2": "e7571ad1a2a35fb42dc8c1ea77759e31887a1c7679445561664c1dee68c12207",
     "research_vps": "46e81ec9a60ab07acaecd55675e477c65aa976ad978890e0c197cd8744f8be70",
     "research": "8d6431ba5d6088b90df3e94a2edf3b9415f03a01c8d6f79416921eb5d141e6d9",
     "autotrader_lab": "f898e2f01ccc5f744ae52e67fbc8edce7428cdf0256647fffa77d926ea102d19",
@@ -129,6 +130,159 @@ def test_lab_profile_has_its_inputs_and_no_research_authority():
     assert set(lab_p.dynamic_universe.values()) == {"gated"}
     # disjoint runtime identities: the lab can never claim the Railway database
     assert not set(lab_p.runtime_ids.values()) & set(pf.PROFILES["research"].runtime_ids.values())
+
+
+@pytest.mark.parametrize("stage", ("off", "ranking", "warming"))
+def test_lab_v2_is_data_only_opt_in_with_unchanged_rehearsal_identity(stage):
+    e = {
+        **lab_env("rehearsal"),
+        "PRISM_PROFILE": "autotrader_lab_v2",
+        "PRISM_UNIVERSE_STAGE": stage,
+    }
+    r = pf.resolve(e)
+    assert r.profile.identity == "prism_autotrader_lab_v2"
+    assert r.runtime_id == LAB_REHEARSAL and r.authority == "rehearsal"
+    assert r.process_allowed("universe_radar") == (stage != "off")
+    assert r.collector_dynamic == (stage == "warming")
+    assert not r.execution_allowed and not r.external_actions_allowed
+    assert not r.profile.execution_capable
+    assert not {"nimble_worker", "context_gateway", "context_ingest"} & set(r.processes)
+    assert set(r.scheduled_jobs()) == {
+        "oi",
+        "intraday",
+        "paper_v2_funding",
+        "positioning",
+        "context_macro",
+        "context_news",
+        "microstructure",
+        "backup",
+    }
+
+
+@pytest.mark.parametrize(
+    "flags",
+    (
+        {"PRISM_AUTHORITY": "full"},
+        {"PRISM_NIMBLE_RUNTIME": "on"},
+        {"PRISM_CONTEXT_GATEWAY": "on"},
+        {"PRISM_DEPLOYMENT_TARGET": "railway"},
+        {"PRISM_RUNTIME_ID": RAILWAY},
+    ),
+)
+def test_lab_v2_refuses_execution_full_authority_and_research_identity(flags):
+    e = {
+        **lab_env("rehearsal"),
+        "PRISM_PROFILE": "autotrader_lab_v2",
+        "PRISM_UNIVERSE_STAGE": "warming",
+        **flags,
+    }
+    with pytest.raises(pf.ProfileError):
+        pf.resolve(e)
+
+
+def test_lab_v2_zero_authority_cannot_start_warming():
+    with pytest.raises(pf.ProfileError, match="requires rehearsal"):
+        pf.resolve(
+            {
+                **lab_env("none"),
+                "PRISM_PROFILE": "autotrader_lab_v2",
+                "PRISM_UNIVERSE_STAGE": "warming",
+            }
+        )
+
+
+def test_du_cli_cannot_bypass_an_explicit_profile_stage(project, clean_env):
+    from typer.testing import CliRunner
+
+    from market_signal.cli.main import app
+
+    for e, args in (
+        (lab_env("rehearsal"), ["universe", "refresh", "--json"]),
+        (
+            {
+                **lab_env("rehearsal"),
+                "PRISM_PROFILE": "autotrader_lab_v2",
+                "PRISM_UNIVERSE_STAGE": "ranking",
+            },
+            ["universe", "refresh", "--warming", "--json"],
+        ),
+        (lab_env("rehearsal"), ["microstructure", "collect", "--dynamic-universe"]),
+    ):
+        for key in ENV_KEYS:
+            clean_env.delenv(key, raising=False)
+        apply(clean_env, e)
+        result = CliRunner().invoke(app, args)
+        assert result.exit_code == 78, result.output
+    assert not (project / "data/prism.duckdb").exists()
+
+
+def test_vps_collector_uses_v2_warming_profile_without_a_shell_flag(project, clean_env):
+    from typer.testing import CliRunner
+
+    from market_signal.cli.main import app
+    from market_signal.microstructure import ws
+
+    seen = []
+
+    class Collector:
+        def __init__(self, *args, **kwargs):
+            seen.append(kwargs["dynamic"])
+
+        async def run(self):
+            return 0
+
+    clean_env.setattr(ws, "Collector", Collector)
+    apply(
+        clean_env,
+        {
+            **lab_env("rehearsal"),
+            "PRISM_PROFILE": "autotrader_lab_v2",
+            "PRISM_UNIVERSE_STAGE": "warming",
+        },
+    )
+    result = CliRunner().invoke(app, ["microstructure", "collect"])
+    assert result.exit_code == 0, result.output
+    assert seen == [True]
+
+
+@pytest.mark.parametrize("command", ("register", "create", "evaluate"))
+def test_v2_nimble_account_and_execution_commands_refuse_before_db_open(
+    project, clean_env, command
+):
+    from typer.testing import CliRunner
+
+    from market_signal.cli.main import app
+
+    apply(
+        clean_env,
+        {
+            **lab_env("rehearsal"),
+            "PRISM_PROFILE": "autotrader_lab_v2",
+            "PRISM_UNIVERSE_STAGE": "warming",
+        },
+    )
+    result = CliRunner().invoke(app, ["paper", "nimble", command])
+    assert result.exit_code == 78, result.output
+    assert not (project / "data/prism.duckdb").exists()
+
+
+@pytest.mark.parametrize("command", ("register", "create"))
+def test_data_only_v2_also_refuses_old_paper_v2_account_creation(project, clean_env, command):
+    from typer.testing import CliRunner
+
+    from market_signal.cli.main import app
+
+    apply(
+        clean_env,
+        {
+            **lab_env("rehearsal"),
+            "PRISM_PROFILE": "autotrader_lab_v2",
+            "PRISM_UNIVERSE_STAGE": "warming",
+        },
+    )
+    result = CliRunner().invoke(app, ["paper", "v2", command])
+    assert result.exit_code == 78, result.output
+    assert not (project / "data/prism.duckdb").exists()
 
 
 # ----------------------------------------------------------------------------- fail closed

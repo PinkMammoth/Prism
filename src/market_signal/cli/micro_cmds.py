@@ -85,10 +85,16 @@ def collect(
     from market_signal.data.store import ROLE_ENV, RUNTIME_ID_ENV
     from market_signal.microstructure.spool import CollectorBusy
     from market_signal.microstructure.ws import Collector
-    from market_signal.ops.profiles import main_guard
+    from market_signal.ops.profiles import current, main_guard
     from market_signal.ops.runtime import _root, revision, setup_logging
 
     main_guard("microstructure_collector")
+    profile = current()
+    if profile.explicit:
+        if dynamic and not profile.collector_dynamic:
+            console.print("Refused: the explicit profile has not enabled Dynamic Universe warming.")
+            raise typer.Exit(78)
+        dynamic = profile.collector_dynamic
     role = os.environ.get(ROLE_ENV, "").strip().lower()
     rid = os.environ.get(RUNTIME_ID_ENV, "").strip()
     if not ((role == "authoritative" and rid) or role == "scratch"):

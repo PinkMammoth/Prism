@@ -7,7 +7,8 @@ logic or evidence; it only fences *where* existing workloads are allowed to run.
 Selection is explicit (``PRISM_PROFILE``), never inferred from a hostname. Three inputs are
 validated together at startup and every mismatch refuses (exit 78, EX_CONFIG):
 
-- ``PRISM_PROFILE``: ``research`` | ``autotrader_lab``. Unset = the pre-split combined runtime
+- ``PRISM_PROFILE``: ``research`` | ``autotrader_lab`` | ``autotrader_lab_v2``.
+  The v2 Lab is data-only and permits no full authority. Unset = the pre-split combined runtime
   (``legacy``), which reproduces the existing Railway entrypoint flags exactly and adds no new
   refusals, so production behaviour is unchanged until an operator sets a profile.
 - ``PRISM_AUTHORITY``: ``none`` | ``rehearsal`` | ``full`` (explicit profiles only; unset =
@@ -85,7 +86,7 @@ PROCESSES: dict[str, Process] = {
         Process("nimble_worker", EXECUTION, "prism-nimble.service",
                 ("python", "-m", "market_signal.paper.nimble.worker"),
                 "PRISM_NIMBLE_RUNTIME", "on"),
-        # Dynamic Universe Tier 0 radar (ranking ledger writer). Gated: no profile starts it.
+        # DU Tier 0 radar: v1 gates it; data-only Lab v2 permits explicit stage opt-in.
         Process("universe_radar", INGEST, "prism-universe.service",
                 ("python", "-m", "market_signal.universe.worker"),
                 "PRISM_UNIVERSE_STAGE", "off", ("ranking", "warming")),
@@ -123,8 +124,8 @@ JOB_MODE_CLASSES = {
 }
 
 # Dynamic Perp Universe tiers (docs/DYNAMIC_HYPERLIQUID_UNIVERSE_V1.md). Declared so the lab
-# owns them; every tier stays GATED (never started by any profile) until VPS validation passes
-# and a later approval activates it with a new profile version.
+# owns them. Original v1 tiers stay GATED; the separately approved data-only v2
+# successor may opt in without changing those frozen definitions.
 DYNAMIC_UNIVERSE_TIERS = ("tier0_discovery", "tier1_warming", "tier2_rich", "tier3_risk_pins")
 
 
@@ -237,6 +238,31 @@ PROFILES["research_vps"] = replace(
     unconditional_jobs=("paper_v2_funding",),
 )
 
+# Prepared data-only DU successor. Selecting this definition still requires a
+# separately authorized rollout; v1's frozen definition and digest stay intact.
+PROFILES["autotrader_lab_v2"] = replace(
+    PROFILES["autotrader_lab"],
+    name="autotrader_lab_v2",
+    identity="prism_autotrader_lab_v2",
+    description="VPS Lab Dynamic Universe discovery/ranking/warming under rehearsal "
+    "authority only; no execution, accounts, sizing or Research authority.",
+    processes=(
+        "microstructure_collector",
+        "free_source_collector",
+        "free_source_ingest",
+        "universe_radar",
+        "scheduler",
+    ),
+    jobs=(*_DATA_JOBS, "backup"),
+    runtime_ids={"rehearsal": "vps-prism-autotrader-lab-rehearsal"},
+    dynamic_universe={
+        "tier0_discovery": "opt_in",
+        "tier1_warming": "opt_in",
+        "tier2_rich": "opt_in",
+        "tier3_risk_pins": "retention_only",
+    },
+)
+
 # The pre-split combined Railway runtime, described (not enforced) for evidence records.
 LEGACY = Profile(
     name="legacy",
@@ -266,7 +292,7 @@ class Resolved:
     processes: tuple[str, ...]  # effective, after authority and kill-switch flags
     disabled_by_flag: tuple[str, ...] = ()
     # Dynamic Universe Tier 1/2 warming: the collector follows the desired-set plan. Only the
-    # legacy PRISM_UNIVERSE_STAGE=warming enables it; explicit profiles keep it gated.
+    # Legacy opt-in and the data-only Lab v2 warming stage enable it; v1 stays gated.
     collector_dynamic: bool = False
 
     @property
@@ -398,7 +424,9 @@ def resolve(env=None) -> Resolved:
                 "authority uses PRISM_RUNTIME_ROLE=scratch (passive data never becomes production)"
             )
     else:
-        expected = profile.runtime_ids[authority]
+        expected = profile.runtime_ids.get(authority)
+        if expected is None:
+            raise ProfileError(f"profile {name} does not permit {authority} authority")
         if role != "authoritative" or rid != expected:
             raise ProfileError(
                 f"{name}/{authority} requires PRISM_RUNTIME_ROLE=authoritative and "
@@ -428,6 +456,9 @@ def resolve(env=None) -> Resolved:
                 )
         if value == "off" and proc.name in profile.processes:
             disabled.append(proc.name)
+    stage = _env(env, "PRISM_UNIVERSE_STAGE").lower() or "off"
+    if name == "autotrader_lab_v2" and stage != "off" and authority != "rehearsal":
+        raise ProfileError("Dynamic Universe v2 data collection requires rehearsal authority")
     allowed = MODE_CLASSES[authority]
     procs = tuple(
         p
@@ -435,8 +466,18 @@ def resolve(env=None) -> Resolved:
         if PROCESSES[p].klass in allowed
         and p not in disabled
         and (p != "scheduler" or JOB_MODE_CLASSES[authority])
+        and (p != "universe_radar" or stage in ("ranking", "warming"))
     )
-    return Resolved(profile, authority, target, role, rid, procs, tuple(sorted(disabled)))
+    return Resolved(
+        profile,
+        authority,
+        target,
+        role,
+        rid,
+        procs,
+        tuple(sorted(disabled)),
+        collector_dynamic=stage == "warming" and "microstructure_collector" in procs,
+    )
 
 
 def current() -> Resolved:

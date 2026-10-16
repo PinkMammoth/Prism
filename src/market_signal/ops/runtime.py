@@ -879,7 +879,7 @@ def _requires_paper_run() -> bool:
         r = profiles.resolve()
     except profiles.ProfileError:
         return True
-    return r.profile.name != "autotrader_lab"
+    return r.profile.name not in ("autotrader_lab", "autotrader_lab_v2")
 
 
 def verify_backup(path: Path, expected: dict | None = None) -> dict:
