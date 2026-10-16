@@ -1,0 +1,36 @@
+Thu Oct 15 18:23:30 UTC 2026
+Netid State  Recv-Q Send-Q      Local Address:Port Peer Address:PortProcess                                   
+udp   UNCONN 0      0               127.0.0.1:323       0.0.0.0:*    users:(("chronyd",pid=499,fd=5))         
+udp   UNCONN 0      0                 0.0.0.0:5355      0.0.0.0:*    users:(("systemd-resolve",pid=443,fd=11))
+udp   UNCONN 0      0              127.0.0.54:53        0.0.0.0:*    users:(("systemd-resolve",pid=443,fd=19))
+udp   UNCONN 0      0           127.0.0.53%lo:53        0.0.0.0:*    users:(("systemd-resolve",pid=443,fd=17))
+udp   UNCONN 0      0      178.33.95.139%ens3:68        0.0.0.0:*    users:(("systemd-network",pid=451,fd=18))
+udp   UNCONN 0      0                   [::1]:323          [::]:*    users:(("chronyd",pid=499,fd=6))         
+udp   UNCONN 0      0                    [::]:5355         [::]:*    users:(("systemd-resolve",pid=443,fd=13))
+tcp   LISTEN 0      4096              0.0.0.0:5355      0.0.0.0:*    users:(("systemd-resolve",pid=443,fd=12))
+tcp   LISTEN 0      128               0.0.0.0:22        0.0.0.0:*    users:(("sshd",pid=513,fd=3))            
+tcp   LISTEN 0      4096           127.0.0.54:53        0.0.0.0:*    users:(("systemd-resolve",pid=443,fd=20))
+tcp   LISTEN 0      4096        127.0.0.53%lo:53        0.0.0.0:*    users:(("systemd-resolve",pid=443,fd=18))
+tcp   LISTEN 0      4096                 [::]:5355         [::]:*    users:(("systemd-resolve",pid=443,fd=14))
+tcp   LISTEN 0      128                  [::]:22           [::]:*    users:(("sshd",pid=513,fd=4))            
+table inet filter {
+	chain input {
+		type filter hook input priority filter; policy drop;
+		ct state established,related accept
+		ct state invalid drop
+		iif "lo" accept
+		ip protocol icmp accept
+		ip6 nexthdr ipv6-icmp accept
+		tcp dport 22 ct state new limit rate 10/minute accept
+	}
+
+	chain forward {
+		type filter hook forward priority filter; policy drop;
+	}
+
+	chain output {
+		type filter hook output priority filter; policy accept;
+	}
+}
+  UNIT LOAD ACTIVE SUB DESCRIPTION
+0 loaded units listed.

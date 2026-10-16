@@ -1,0 +1,23 @@
+{
+  "verdict": "REHEARSAL FAIL",
+  "window": [
+    "2026-10-14T15:44:38+00:00",
+    "2026-10-15T17:45:00+00:00"
+  ],
+  "hours": 26.00611111111111,
+  "lab_physical_backup_restore": true,
+  "lab_nightly_backup_lifecycle": false,
+  "kernel_reboot_completed": true,
+  "kernel": "6.1.0-53-cloud-amd64",
+  "host_and_lab_recovery_checks": true,
+  "edge_control_plane_independently_attested": false,
+  "unresolved_material_faults": [
+    "context_macro failed four times: FRED_API_KEY not set",
+    "nightly Lab backup registration failed: no run metadata; no source manifest"
+  ],
+  "dynamic_universe_activated": false,
+  "paper_trading_started": false,
+  "sizing_cohort_activated": false,
+  "railway_authority_changed": false,
+  "real_money_access_enabled": false
+}

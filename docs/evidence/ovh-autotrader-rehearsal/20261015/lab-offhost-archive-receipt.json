@@ -1,0 +1,24 @@
+{
+  "source_host": "178.33.95.139",
+  "source_path": "/data/backups/daily/prism-20261015T013001Z.duckdb",
+  "sha256": "28d26cdd48ff356eeba840c30f5a1a5eefc538ccaa20c969a316457061442d5a",
+  "bytes": 115879936,
+  "schema_version": 31,
+  "frontiers": {
+    "perp_intraday_bars": "2026-10-15 01:00:00+00:00",
+    "microstructure_minutes": "2026-10-15 01:20:00+00:00",
+    "context_events": "2026-10-14 23:17:53.668496+00:00",
+    "runtime_cycles": "2026-10-15 01:30:01.162313+00:00",
+    "perp_funding": "2026-10-15 02:00:00.056000+01:00",
+    "context_hl_oi_hourly": "2026-10-15 02:04:04.184631+01:00",
+    "context_ls_ratios": "2026-10-15 02:04:04.245291+01:00"
+  },
+  "restored_ok": true,
+  "checksum_matches_source": true,
+  "all_table_fingerprints_match": true,
+  "source_manifest_exists": false,
+  "archive_path": "/home/matth/prism/data/backup-archive/vps/prism-20261015T013001Z.duckdb.gz",
+  "archive_sha256": "a19a4299203490fed8f3083584542412b9724123b9c31f156e595dd88361c3b5",
+  "archive_bytes": 30648696,
+  "off_host_verified": true
+}

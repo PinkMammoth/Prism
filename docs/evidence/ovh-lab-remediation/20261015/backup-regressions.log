@@ -1,0 +1,27 @@
+.................F.                                                      [100%]
+=================================== FAILURES ===================================
+____ test_lab_backup_job_registers_exports_and_restores_without_paper_runs _____
+
+source = PosixPath('/tmp/pytest-of-matth/pytest-27/test_lab_backup_job_registers_0/data/snapshot.duckdb')
+project = PosixPath('/tmp/pytest-of-matth/pytest-27/test_lab_backup_job_registers_0')
+clean_env = <_pytest.monkeypatch.MonkeyPatch object at 0x7abe34f1a870>
+tmp_path = PosixPath('/tmp/pytest-of-matth/pytest-27/test_lab_backup_job_registers_0')
+
+    def test_lab_backup_job_registers_exports_and_restores_without_paper_runs(
+        source, project, clean_env, tmp_path
+    ):
+        from market_signal.ops import backups
+    
+        target = project / "lab.duckdb"
+        lab.build_seed(source, target, T, now=T + timedelta(days=1))
+        apply(clean_env, lab_env("rehearsal"))
+        rt.claim_authority(target, LAB_REHEARSAL, "test Lab rehearsal")
+        clean_env.setenv("PRISM_DB_PATH", str(target))
+        clean_env.setenv("PRISM_BACKUP_DIR", str(project / "lab-backups"))
+>       result = rt.run_job("backup", trigger="schedule")
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: run_job() missing 1 required keyword-only argument: 'wait'
+
+tests/test_runtime_profiles.py:676: TypeError
+=========================== short test summary info ============================
+FAILED tests/test_runtime_profiles.py::test_lab_backup_job_registers_exports_and_restores_without_paper_runs

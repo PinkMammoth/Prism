@@ -1,0 +1,619 @@
+diff --git a/deploy/vps/activate_du_data.py b/deploy/vps/activate_du_data.py
+new file mode 100644
+index 0000000..fe875c0
+--- /dev/null
++++ b/deploy/vps/activate_du_data.py
+@@ -0,0 +1,139 @@
++"""Apply a separately approved Lab v2 data-stage change after its measured gates.
++
++Run on the VPS as root. This script is never called by the scheduler or rehearsal observer.
++It cannot create an account, claim full authority or enable execution.
++"""
++
++from __future__ import annotations
++
++import argparse
++import json
++import os
++import shutil
++import subprocess
++import tempfile
++from datetime import UTC, datetime
++from pathlib import Path
++
++from dotenv import dotenv_values
++
++from market_signal.data.store import Store, authority_claim
++from market_signal.ops import profiles
++from market_signal.universe import budget
++
++
++def main():
++    p = argparse.ArgumentParser(description=__doc__)
++    p.add_argument("stage", choices=("ranking", "warming"))
++    p.add_argument("--budget", type=Path, required=True)
++    p.add_argument("--gate", type=Path, default=Path("/data/validation/lab-remediation/final.json"))
++    args = p.parse_args()
++    if os.geteuid() != 0:
++        p.error("run as root after separate activation approval")
++    gate = json.loads(args.gate.read_text())
++    if not (
++        gate.get("clean") is True
++        and gate.get("duration_seconds", 0) >= 21600
++        and gate.get("scheduled_macro_successes", 0) >= 2
++        and gate.get("scheduled_backup_successes", 0) >= 1
++    ):
++        raise ValueError("targeted remediation gate has not passed")
++    path = Path("/etc/prism/prism.env")
++    current = dict(dotenv_values(path))
++    expected = {
++        "PRISM_AUTHORITY": "rehearsal",
++        "PRISM_RUNTIME_ROLE": "authoritative",
++        "PRISM_RUNTIME_ID": "vps-prism-autotrader-lab-rehearsal",
++        "PRISM_DEPLOYMENT_TARGET": "vps",
++        "PRISM_DB_PATH": "/data/prism.duckdb",
++    }
++    if any(current.get(k) != v for k, v in expected.items()):
++        raise ValueError("existing Lab identity/authority differs; refusing")
++    if current.get("PRISM_PROFILE") not in ("autotrader_lab", "autotrader_lab_v2"):
++        raise ValueError("not the Lab rehearsal profile")
++    changes = {
++        "PRISM_PROFILE": "autotrader_lab_v2",
++        "PRISM_UNIVERSE_STAGE": args.stage,
++        "PRISM_UNIVERSE_BUDGET": str(args.budget.resolve()),
++        "PRISM_NIMBLE_RUNTIME": "off",
++    }
++    resolved = profiles.resolve({**current, **changes})
++    if resolved.execution_allowed or resolved.external_actions_allowed:
++        raise ValueError("unexpected execution/external-action capability")
++    budget.validate(
++        datetime.now(UTC), path=args.budget, rich_assets=12 if args.stage == "warming" else 6
++    )
++    disk = shutil.disk_usage("/data")
++    mem = {
++        x.split(":", 1)[0]: int(x.split()[1]) * 1024
++        for x in Path("/proc/meminfo").read_text().splitlines()
++        if x.startswith(("MemTotal:", "MemAvailable:"))
++    }
++    if (
++        disk.free < 0.7 * disk.total
++        or mem["MemAvailable"] < 0.4 * mem["MemTotal"]
++        or os.getloadavg()[1] > 3
++    ):
++        raise ValueError("host warning/stop headroom gate not satisfied")
++    store = Store("/data/prism.duckdb", read_only=True, lock_timeout=30)
++    try:
++        if authority_claim(store.con)[0] != expected["PRISM_RUNTIME_ID"]:
++            raise ValueError("database authority mismatch")
++        for (table,) in store.con.execute("SHOW TABLES").fetchall():
++            if (
++                table.startswith("paper_")
++                and table not in ("paper_nimble_policies", "paper_nimble_triggers")
++                and store.con.execute(f'SELECT count(*) FROM "{table}"').fetchone()[0]
++            ):
++                raise ValueError("unexpected existing paper execution/account data")
++    finally:
++        store.close()
++    saved = path.with_name("prism.env.pre-du-v1")
++    if not saved.exists():
++        if current.get("PRISM_PROFILE") != "autotrader_lab":
++            raise ValueError("missing original v1 rollback environment")
++        shutil.copy2(path, saved)
++    lines = [
++        line
++        for line in path.read_text().splitlines()
++        if line.strip().removeprefix("export ").split("=", 1)[0] not in changes
++    ]
++    lines += [f"{k}={v}" for k, v in changes.items()]
++    stat = path.stat()
++    fd, temp = tempfile.mkstemp(prefix=".du-profile-", dir=path.parent)
++    with os.fdopen(fd, "w") as f:
++        f.write("\n".join(lines) + "\n")
++        f.flush()
++        os.fsync(f.fileno())
++    os.chown(temp, stat.st_uid, stat.st_gid)
++    os.chmod(temp, 0o640)
++    os.replace(temp, path)
++    subprocess.run(["systemctl", "stop", "prism-nimble"], check=True)
++    subprocess.run(
++        [
++            "systemctl",
++            "restart",
++            "prism-scheduler",
++            "prism-free-source-ingest",
++            "prism-free-sources",
++        ],
++        check=True,
++    )
++    if args.stage == "warming":
++        subprocess.run(["systemctl", "restart", "prism-microstructure"], check=True)
++    subprocess.run(["systemctl", "restart", "prism-universe"], check=True)
++    print(
++        json.dumps(
++            {
++                "applied": changes,
++                "authority_unchanged": expected,
++                "execution_allowed": False,
++                "rollback_environment": str(saved),
++            },
++            indent=2,
++        )
++    )
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/deploy/vps/etc/du-ranking.env.delta b/deploy/vps/etc/du-ranking.env.delta
+new file mode 100644
+index 0000000..ddbc8a2
+--- /dev/null
++++ b/deploy/vps/etc/du-ranking.env.delta
+@@ -0,0 +1,6 @@
++# Prepared only. Apply using activate_du_data.py after the targeted gate and separate approval.
++# All authority/runtime/path settings remain unchanged.
++PRISM_PROFILE=autotrader_lab_v2
++PRISM_UNIVERSE_STAGE=ranking
++PRISM_UNIVERSE_BUDGET=/data/state/du-budget.json
++PRISM_NIMBLE_RUNTIME=off
+diff --git a/deploy/vps/etc/du-warming.env.delta b/deploy/vps/etc/du-warming.env.delta
+new file mode 100644
+index 0000000..446c035
+--- /dev/null
++++ b/deploy/vps/etc/du-warming.env.delta
+@@ -0,0 +1,2 @@
++# Later data-only stage, after ranking resource evidence and separate approval.
++PRISM_UNIVERSE_STAGE=warming
+diff --git a/src/market_signal/cli/micro_cmds.py b/src/market_signal/cli/micro_cmds.py
+index 515f361..61c614a 100644
+--- a/src/market_signal/cli/micro_cmds.py
++++ b/src/market_signal/cli/micro_cmds.py
+@@ -85,10 +85,16 @@ def collect(
+     from market_signal.data.store import ROLE_ENV, RUNTIME_ID_ENV
+     from market_signal.microstructure.spool import CollectorBusy
+     from market_signal.microstructure.ws import Collector
+-    from market_signal.ops.profiles import main_guard
++    from market_signal.ops.profiles import current, main_guard
+     from market_signal.ops.runtime import _root, revision, setup_logging
+ 
+     main_guard("microstructure_collector")
++    profile = current()
++    if profile.explicit:
++        if dynamic and not profile.collector_dynamic:
++            console.print("Refused: the explicit profile has not enabled Dynamic Universe warming.")
++            raise typer.Exit(78)
++        dynamic = profile.collector_dynamic
+     role = os.environ.get(ROLE_ENV, "").strip().lower()
+     rid = os.environ.get(RUNTIME_ID_ENV, "").strip()
+     if not ((role == "authoritative" and rid) or role == "scratch"):
+diff --git a/src/market_signal/cli/paper_v2_cmds.py b/src/market_signal/cli/paper_v2_cmds.py
+index bc0f628..a71d29c 100644
+--- a/src/market_signal/cli/paper_v2_cmds.py
++++ b/src/market_signal/cli/paper_v2_cmds.py
+@@ -30,15 +30,27 @@ def _rid(store, run_id):
+ @v2.command("register")
+ def register_universe() -> None:
+     """WRITE: register ONLY the released immutable bootstrap universe and policies."""
++    _creation_authority("register")
+     call(engine.register, write=True)
+ 
+ 
+ @v2.command("create")
+ def create() -> None:
+     """WRITE: activate a new $100 simulated USDC run NOW, after v1 retirement/deployment."""
++    _creation_authority("create")
+     call(engine.create, write=True)
+ 
+ 
++def _creation_authority(action):
++    from market_signal.ops import profiles
++
++    try:
++        profiles.require_execution(f"paper v2 {action}")
++    except profiles.ProfileError as exc:
++        console.print(f"Refused: {exc}", markup=False)
++        raise typer.Exit(profiles.EXIT_PROFILE) from None
++
++
+ @v2.command("evaluate")
+ def evaluate() -> None:
+     """WRITE: evaluate registered hypotheses at the current causal time; no historical fills."""
+diff --git a/src/market_signal/cli/universe_cmds.py b/src/market_signal/cli/universe_cmds.py
+index bd6546d..fb27ada 100644
+--- a/src/market_signal/cli/universe_cmds.py
++++ b/src/market_signal/cli/universe_cmds.py
+@@ -63,10 +63,17 @@ def refresh(warming: bool = typer.Option(False, "--warming"), as_json: bool = JS
+     """Data-only writer. Network collection takes place outside the authoritative runtime lock."""
+     from market_signal.data.http import HttpClient
+     from market_signal.microstructure.spool import default_root
++    from market_signal.ops import profiles
+     from market_signal.ops.runtime import runtime_lock
+     from market_signal.universe import source, subscriptions
+     from market_signal.universe.policy import POLICY
+ 
++    profile = profiles.current()
++    if profile.explicit and (
++        not profile.process_allowed("universe_radar") or (warming and not profile.collector_dynamic)
++    ):
++        console.print("Refused: the explicit profile has not enabled this Dynamic Universe stage.")
++        raise typer.Exit(profiles.EXIT_PROFILE)
+     now = int(datetime.now(UTC).timestamp())
+     if warming or os.environ.get("PRISM_RUNTIME_ROLE") == "authoritative":
+         from market_signal.universe.budget import validate
+diff --git a/src/market_signal/ops/profiles.py b/src/market_signal/ops/profiles.py
+index 0309d68..4ff5939 100644
+--- a/src/market_signal/ops/profiles.py
++++ b/src/market_signal/ops/profiles.py
+@@ -7,7 +7,8 @@ logic or evidence; it only fences *where* existing workloads are allowed to run.
+ Selection is explicit (``PRISM_PROFILE``), never inferred from a hostname. Three inputs are
+ validated together at startup and every mismatch refuses (exit 78, EX_CONFIG):
+ 
+-- ``PRISM_PROFILE``: ``research`` | ``autotrader_lab``. Unset = the pre-split combined runtime
++- ``PRISM_PROFILE``: ``research`` | ``autotrader_lab`` | ``autotrader_lab_v2``.
++  The v2 Lab is data-only and permits no full authority. Unset = the pre-split combined runtime
+   (``legacy``), which reproduces the existing Railway entrypoint flags exactly and adds no new
+   refusals, so production behaviour is unchanged until an operator sets a profile.
+ - ``PRISM_AUTHORITY``: ``none`` | ``rehearsal`` | ``full`` (explicit profiles only; unset =
+@@ -28,7 +29,7 @@ from __future__ import annotations
+ import hashlib
+ import json
+ import os
+-from dataclasses import dataclass, field
++from dataclasses import dataclass, field, replace
+ from typing import Any
+ 
+ PROFILE_ENV = "PRISM_PROFILE"
+@@ -85,7 +86,7 @@ PROCESSES: dict[str, Process] = {
+         Process("nimble_worker", EXECUTION, "prism-nimble.service",
+                 ("python", "-m", "market_signal.paper.nimble.worker"),
+                 "PRISM_NIMBLE_RUNTIME", "on"),
+-        # Dynamic Universe Tier 0 radar (ranking ledger writer). Gated: no profile starts it.
++        # DU Tier 0 radar: v1 gates it; data-only Lab v2 permits explicit stage opt-in.
+         Process("universe_radar", INGEST, "prism-universe.service",
+                 ("python", "-m", "market_signal.universe.worker"),
+                 "PRISM_UNIVERSE_STAGE", "off", ("ranking", "warming")),
+@@ -123,8 +124,8 @@ JOB_MODE_CLASSES = {
+ }
+ 
+ # Dynamic Perp Universe tiers (docs/DYNAMIC_HYPERLIQUID_UNIVERSE_V1.md). Declared so the lab
+-# owns them; every tier stays GATED (never started by any profile) until VPS validation passes
+-# and a later approval activates it with a new profile version.
++# owns them. Original v1 tiers stay GATED; the separately approved data-only v2
++# successor may opt in without changing those frozen definitions.
+ DYNAMIC_UNIVERSE_TIERS = ("tier0_discovery", "tier1_warming", "tier2_rich", "tier3_risk_pins")
+ 
+ 
+@@ -224,6 +225,31 @@ PROFILES: dict[str, Profile] = {
+     ),
+ }
+ 
++# Prepared data-only DU successor. Selecting this definition still requires a
++# separately authorized rollout; v1's frozen definition and digest stay intact.
++PROFILES["autotrader_lab_v2"] = replace(
++    PROFILES["autotrader_lab"],
++    name="autotrader_lab_v2",
++    identity="prism_autotrader_lab_v2",
++    description="VPS Lab Dynamic Universe discovery/ranking/warming under rehearsal "
++    "authority only; no execution, accounts, sizing or Research authority.",
++    processes=(
++        "microstructure_collector",
++        "free_source_collector",
++        "free_source_ingest",
++        "universe_radar",
++        "scheduler",
++    ),
++    jobs=(*_DATA_JOBS, "backup"),
++    runtime_ids={"rehearsal": "vps-prism-autotrader-lab-rehearsal"},
++    dynamic_universe={
++        "tier0_discovery": "opt_in",
++        "tier1_warming": "opt_in",
++        "tier2_rich": "opt_in",
++        "tier3_risk_pins": "retention_only",
++    },
++)
++
+ # The pre-split combined Railway runtime, described (not enforced) for evidence records.
+ LEGACY = Profile(
+     name="legacy",
+@@ -253,7 +279,7 @@ class Resolved:
+     processes: tuple[str, ...]  # effective, after authority and kill-switch flags
+     disabled_by_flag: tuple[str, ...] = ()
+     # Dynamic Universe Tier 1/2 warming: the collector follows the desired-set plan. Only the
+-    # legacy PRISM_UNIVERSE_STAGE=warming enables it; explicit profiles keep it gated.
++    # Legacy opt-in and the data-only Lab v2 warming stage enable it; v1 stays gated.
+     collector_dynamic: bool = False
+ 
+     @property
+@@ -385,7 +411,9 @@ def resolve(env=None) -> Resolved:
+                 "authority uses PRISM_RUNTIME_ROLE=scratch (passive data never becomes production)"
+             )
+     else:
+-        expected = profile.runtime_ids[authority]
++        expected = profile.runtime_ids.get(authority)
++        if expected is None:
++            raise ProfileError(f"profile {name} does not permit {authority} authority")
+         if role != "authoritative" or rid != expected:
+             raise ProfileError(
+                 f"{name}/{authority} requires PRISM_RUNTIME_ROLE=authoritative and "
+@@ -415,6 +443,9 @@ def resolve(env=None) -> Resolved:
+                 )
+         if value == "off" and proc.name in profile.processes:
+             disabled.append(proc.name)
++    stage = _env(env, "PRISM_UNIVERSE_STAGE").lower() or "off"
++    if name == "autotrader_lab_v2" and stage != "off" and authority != "rehearsal":
++        raise ProfileError("Dynamic Universe v2 data collection requires rehearsal authority")
+     allowed = MODE_CLASSES[authority]
+     procs = tuple(
+         p
+@@ -422,8 +453,18 @@ def resolve(env=None) -> Resolved:
+         if PROCESSES[p].klass in allowed
+         and p not in disabled
+         and (p != "scheduler" or JOB_MODE_CLASSES[authority])
++        and (p != "universe_radar" or stage in ("ranking", "warming"))
++    )
++    return Resolved(
++        profile,
++        authority,
++        target,
++        role,
++        rid,
++        procs,
++        tuple(sorted(disabled)),
++        collector_dynamic=stage == "warming" and "microstructure_collector" in procs,
+     )
+-    return Resolved(profile, authority, target, role, rid, procs, tuple(sorted(disabled)))
+ 
+ 
+ def current() -> Resolved:
+diff --git a/src/market_signal/ops/runtime.py b/src/market_signal/ops/runtime.py
+index 5f70033..0a56b32 100644
+--- a/src/market_signal/ops/runtime.py
++++ b/src/market_signal/ops/runtime.py
+@@ -879,7 +879,7 @@ def _requires_paper_run() -> bool:
+         r = profiles.resolve()
+     except profiles.ProfileError:
+         return True
+-    return r.profile.name != "autotrader_lab"
++    return r.profile.name not in ("autotrader_lab", "autotrader_lab_v2")
+ 
+ 
+ def verify_backup(path: Path, expected: dict | None = None) -> dict:
+diff --git a/tests/test_lab_v2_activation.py b/tests/test_lab_v2_activation.py
+new file mode 100644
+index 0000000..9496125
+--- /dev/null
++++ b/tests/test_lab_v2_activation.py
+@@ -0,0 +1,62 @@
++"""A pending remediation gate cannot mutate the Lab's activation configuration."""
++
++import json
++import sys
++
++import pytest
++from deploy.vps import activate_du_data as activate
++
++
++@pytest.mark.parametrize(
++    "gate",
++    [
++        {
++            "clean": False,
++            "duration_seconds": 26000,
++            "scheduled_macro_successes": 2,
++            "scheduled_backup_successes": 1,
++        },
++        {
++            "clean": True,
++            "duration_seconds": 21599,
++            "scheduled_macro_successes": 2,
++            "scheduled_backup_successes": 1,
++        },
++        {
++            "clean": True,
++            "duration_seconds": 26000,
++            "scheduled_macro_successes": 1,
++            "scheduled_backup_successes": 1,
++        },
++        {
++            "clean": True,
++            "duration_seconds": 26000,
++            "scheduled_macro_successes": 2,
++            "scheduled_backup_successes": 0,
++        },
++    ],
++)
++def test_pending_or_incomplete_gate_refuses_before_host_config_access(tmp_path, monkeypatch, gate):
++    receipt = tmp_path / "gate.json"
++    receipt.write_text(json.dumps(gate))
++    monkeypatch.setattr(
++        sys,
++        "argv",
++        [
++            "activate_du_data.py",
++            "ranking",
++            "--budget",
++            str(tmp_path / "budget.json"),
++            "--gate",
++            str(receipt),
++        ],
++    )
++    monkeypatch.setattr(activate.os, "geteuid", lambda: 0)
++
++    def no_mutation(*args, **kwargs):
++        pytest.fail("incomplete gate must never perform a mutation")
++
++    monkeypatch.setattr(activate.subprocess, "run", no_mutation)
++    monkeypatch.setattr(activate.tempfile, "mkstemp", no_mutation)
++    with pytest.raises(ValueError, match="gate has not passed"):
++        activate.main()
+diff --git a/tests/test_runtime_profiles.py b/tests/test_runtime_profiles.py
+index a969ce5..a7f2ec1 100644
+--- a/tests/test_runtime_profiles.py
++++ b/tests/test_runtime_profiles.py
+@@ -29,6 +29,7 @@ RAILWAY = "railway-prism-runtime"
+ 
+ # Frozen identities: changing a profile's definition requires a new identity/version.
+ DIGESTS = {
++    "autotrader_lab_v2": "e7571ad1a2a35fb42dc8c1ea77759e31887a1c7679445561664c1dee68c12207",
+     "research": "8d6431ba5d6088b90df3e94a2edf3b9415f03a01c8d6f79416921eb5d141e6d9",
+     "autotrader_lab": "f898e2f01ccc5f744ae52e67fbc8edce7428cdf0256647fffa77d926ea102d19",
+ }
+@@ -130,6 +131,159 @@ def test_lab_profile_has_its_inputs_and_no_research_authority():
+     assert not set(lab_p.runtime_ids.values()) & set(pf.PROFILES["research"].runtime_ids.values())
+ 
+ 
++@pytest.mark.parametrize("stage", ("off", "ranking", "warming"))
++def test_lab_v2_is_data_only_opt_in_with_unchanged_rehearsal_identity(stage):
++    e = {
++        **lab_env("rehearsal"),
++        "PRISM_PROFILE": "autotrader_lab_v2",
++        "PRISM_UNIVERSE_STAGE": stage,
++    }
++    r = pf.resolve(e)
++    assert r.profile.identity == "prism_autotrader_lab_v2"
++    assert r.runtime_id == LAB_REHEARSAL and r.authority == "rehearsal"
++    assert r.process_allowed("universe_radar") == (stage != "off")
++    assert r.collector_dynamic == (stage == "warming")
++    assert not r.execution_allowed and not r.external_actions_allowed
++    assert not r.profile.execution_capable
++    assert not {"nimble_worker", "context_gateway", "context_ingest"} & set(r.processes)
++    assert set(r.scheduled_jobs()) == {
++        "oi",
++        "intraday",
++        "paper_v2_funding",
++        "positioning",
++        "context_macro",
++        "context_news",
++        "microstructure",
++        "backup",
++    }
++
++
++@pytest.mark.parametrize(
++    "flags",
++    (
++        {"PRISM_AUTHORITY": "full"},
++        {"PRISM_NIMBLE_RUNTIME": "on"},
++        {"PRISM_CONTEXT_GATEWAY": "on"},
++        {"PRISM_DEPLOYMENT_TARGET": "railway"},
++        {"PRISM_RUNTIME_ID": RAILWAY},
++    ),
++)
++def test_lab_v2_refuses_execution_full_authority_and_research_identity(flags):
++    e = {
++        **lab_env("rehearsal"),
++        "PRISM_PROFILE": "autotrader_lab_v2",
++        "PRISM_UNIVERSE_STAGE": "warming",
++        **flags,
++    }
++    with pytest.raises(pf.ProfileError):
++        pf.resolve(e)
++
++
++def test_lab_v2_zero_authority_cannot_start_warming():
++    with pytest.raises(pf.ProfileError, match="requires rehearsal"):
++        pf.resolve(
++            {
++                **lab_env("none"),
++                "PRISM_PROFILE": "autotrader_lab_v2",
++                "PRISM_UNIVERSE_STAGE": "warming",
++            }
++        )
++
++
++def test_du_cli_cannot_bypass_an_explicit_profile_stage(project, clean_env):
++    from typer.testing import CliRunner
++
++    from market_signal.cli.main import app
++
++    for e, args in (
++        (lab_env("rehearsal"), ["universe", "refresh", "--json"]),
++        (
++            {
++                **lab_env("rehearsal"),
++                "PRISM_PROFILE": "autotrader_lab_v2",
++                "PRISM_UNIVERSE_STAGE": "ranking",
++            },
++            ["universe", "refresh", "--warming", "--json"],
++        ),
++        (lab_env("rehearsal"), ["microstructure", "collect", "--dynamic-universe"]),
++    ):
++        for key in ENV_KEYS:
++            clean_env.delenv(key, raising=False)
++        apply(clean_env, e)
++        result = CliRunner().invoke(app, args)
++        assert result.exit_code == 78, result.output
++    assert not (project / "data/prism.duckdb").exists()
++
++
++def test_vps_collector_uses_v2_warming_profile_without_a_shell_flag(project, clean_env):
++    from typer.testing import CliRunner
++
++    from market_signal.cli.main import app
++    from market_signal.microstructure import ws
++
++    seen = []
++
++    class Collector:
++        def __init__(self, *args, **kwargs):
++            seen.append(kwargs["dynamic"])
++
++        async def run(self):
++            return 0
++
++    clean_env.setattr(ws, "Collector", Collector)
++    apply(
++        clean_env,
++        {
++            **lab_env("rehearsal"),
++            "PRISM_PROFILE": "autotrader_lab_v2",
++            "PRISM_UNIVERSE_STAGE": "warming",
++        },
++    )
++    result = CliRunner().invoke(app, ["microstructure", "collect"])
++    assert result.exit_code == 0, result.output
++    assert seen == [True]
++
++
++@pytest.mark.parametrize("command", ("register", "create", "evaluate"))
++def test_v2_nimble_account_and_execution_commands_refuse_before_db_open(
++    project, clean_env, command
++):
++    from typer.testing import CliRunner
++
++    from market_signal.cli.main import app
++
++    apply(
++        clean_env,
++        {
++            **lab_env("rehearsal"),
++            "PRISM_PROFILE": "autotrader_lab_v2",
++            "PRISM_UNIVERSE_STAGE": "warming",
++        },
++    )
++    result = CliRunner().invoke(app, ["paper", "nimble", command])
++    assert result.exit_code == 78, result.output
++    assert not (project / "data/prism.duckdb").exists()
++
++
++@pytest.mark.parametrize("command", ("register", "create"))
++def test_data_only_v2_also_refuses_old_paper_v2_account_creation(project, clean_env, command):
++    from typer.testing import CliRunner
++
++    from market_signal.cli.main import app
++
++    apply(
++        clean_env,
++        {
++            **lab_env("rehearsal"),
++            "PRISM_PROFILE": "autotrader_lab_v2",
++            "PRISM_UNIVERSE_STAGE": "warming",
++        },
++    )
++    result = CliRunner().invoke(app, ["paper", "v2", command])
++    assert result.exit_code == 78, result.output
++    assert not (project / "data/prism.duckdb").exists()
++
++
+ # ----------------------------------------------------------------------------- fail closed
+ 
+ 

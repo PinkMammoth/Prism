@@ -1,0 +1,236 @@
+{
+  "samples": 88,
+  "sample_intervals_s_max": 306.659823,
+  "cycle_counts": {
+    "intraday": 29,
+    "microstructure": 29,
+    "context_news": 15,
+    "positioning": 7,
+    "paper_v2_funding": 7,
+    "context_macro": 2,
+    "oi": 1,
+    "backup": 1
+  },
+  "cycle_statuses": {
+    "ok": 91
+  },
+  "ram_available_min": 10574852096,
+  "disk_free_min": 94714572800,
+  "disk_free_start": 94844473344,
+  "disk_free_end": 94717571072,
+  "db_start": 129511424,
+  "db_end": 135278592,
+  "db_max": 138424320,
+  "load_max": [
+    0.38671875,
+    0.3037109375,
+    0.1923828125
+  ],
+  "cpu_busy_interval_max_pct": 4.19165327273735,
+  "cpu_busy_interval_min_pct": 1.6150486620701887,
+  "steal_max_pct": 0.02050020500205002,
+  "db_observer_error_samples": [],
+  "collector_disconnected_samples": [],
+  "free_collector_first_last": [
+    {
+      "active": [
+        "hyperliquid_status_v1",
+        "coinbase_status_v1",
+        "kraken_status_v1"
+      ],
+      "heartbeat_at": "2026-10-15T18:25:07.592649+00:00"
+    },
+    {
+      "active": [
+        "hyperliquid_status_v1",
+        "coinbase_status_v1",
+        "kraken_status_v1"
+      ],
+      "heartbeat_at": "2026-10-16T01:39:40.920031+00:00"
+    }
+  ],
+  "free_ingest_first_last": [
+    {
+      "backlog": 0,
+      "db_opened": false,
+      "heartbeat_at": "2026-10-15T18:25:25.748287+00:00",
+      "ingested": 0
+    },
+    {
+      "backlog": 0,
+      "db_opened": false,
+      "heartbeat_at": "2026-10-16T01:39:55.663275+00:00",
+      "ingested": 0
+    }
+  ],
+  "frontiers": {
+    "bars": [
+      [
+        "AAVE",
+        "15m",
+        "2026-10-16 01:30:00+00:00"
+      ],
+      [
+        "AAVE",
+        "1h",
+        "2026-10-16 01:00:00+00:00"
+      ],
+      [
+        "BTC",
+        "15m",
+        "2026-10-16 01:30:00+00:00"
+      ],
+      [
+        "BTC",
+        "1h",
+        "2026-10-16 01:00:00+00:00"
+      ],
+      [
+        "ETH",
+        "15m",
+        "2026-10-16 01:30:00+00:00"
+      ],
+      [
+        "ETH",
+        "1h",
+        "2026-10-16 01:00:00+00:00"
+      ],
+      [
+        "HYPE",
+        "15m",
+        "2026-10-16 01:30:00+00:00"
+      ],
+      [
+        "HYPE",
+        "1h",
+        "2026-10-16 01:00:00+00:00"
+      ],
+      [
+        "LINK",
+        "15m",
+        "2026-10-16 01:30:00+00:00"
+      ],
+      [
+        "LINK",
+        "1h",
+        "2026-10-16 01:00:00+00:00"
+      ],
+      [
+        "SOL",
+        "15m",
+        "2026-10-16 01:30:00+00:00"
+      ],
+      [
+        "SOL",
+        "1h",
+        "2026-10-16 01:00:00+00:00"
+      ]
+    ],
+    "micro": [
+      [
+        "AAVE",
+        "2026-10-16 01:34:00+00:00"
+      ],
+      [
+        "BTC",
+        "2026-10-16 01:34:00+00:00"
+      ],
+      [
+        "ETH",
+        "2026-10-16 01:34:00+00:00"
+      ],
+      [
+        "HYPE",
+        "2026-10-16 01:34:00+00:00"
+      ],
+      [
+        "LINK",
+        "2026-10-16 01:34:00+00:00"
+      ],
+      [
+        "SOL",
+        "2026-10-16 01:34:00+00:00"
+      ]
+    ],
+    "funding": [
+      [
+        "AAVE",
+        "2026-10-16 01:00:00.055000+00:00"
+      ],
+      [
+        "BTC",
+        "2026-10-16 01:00:00.055000+00:00"
+      ],
+      [
+        "ETH",
+        "2026-10-16 01:00:00.055000+00:00"
+      ],
+      [
+        "HYPE",
+        "2026-10-16 01:00:00.055000+00:00"
+      ],
+      [
+        "LINK",
+        "2026-10-16 01:00:00.055000+00:00"
+      ],
+      [
+        "SOL",
+        "2026-10-16 01:00:00.055000+00:00"
+      ]
+    ]
+  },
+  "soak": {
+    "samples": 87,
+    "units": {
+      "prism-microstructure": {
+        "memory_current_max": 197259264,
+        "cpu_seconds": 278.774317,
+        "restarts_start": 0,
+        "restarts_end": 0
+      },
+      "prism-free-sources": {
+        "memory_current_max": 135450624,
+        "cpu_seconds": 33.878739,
+        "restarts_start": 0,
+        "restarts_end": 0
+      },
+      "prism-free-source-ingest": {
+        "memory_current_max": 307404800,
+        "cpu_seconds": 1337.284545,
+        "restarts_start": 0,
+        "restarts_end": 0
+      },
+      "prism-scheduler": {
+        "memory_current_max": 459051008,
+        "cpu_seconds": 1604.390432,
+        "restarts_start": 0,
+        "restarts_end": 0
+      }
+    },
+    "db_busy_samples": [
+      "2026-10-15T19:38:57.092761+00:00",
+      "2026-10-15T21:04:08.584895+00:00",
+      "2026-10-15T21:29:11.701591+00:00",
+      "2026-10-15T22:04:16.304065+00:00",
+      "2026-10-15T22:39:21.067662+00:00",
+      "2026-10-16T01:09:43.602888+00:00"
+    ],
+    "host_swap_used_max": 0,
+    "growth_file_bytes": {
+      "db": 5767168,
+      "wal": 0,
+      "microstructure": -34130477,
+      "free_event_sources": 4207,
+      "context_gateway": 0,
+      "raw": 465782,
+      "backups": 5523441,
+      "logs": 176340,
+      "state": 0
+    }
+  },
+  "data_usage_measurements": {
+    "baseline_at": "2026-10-15T18:24:08.270167+00:00",
+    "closure_at": "2026-10-16T01:41:00.937936+00:00"
+  },
+  "no_formal_activation_budget_issued": true
+}

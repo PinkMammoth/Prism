@@ -1,0 +1,750 @@
+{
+  "at": "2026-10-15T17:57:01.430294+00:00",
+  "bars_at_close": [
+    [
+      "binance",
+      "AAVE",
+      "15m",
+      70495,
+      "2026-10-05 07:30:00+00:00",
+      "2026-10-05 07:45:00+00:00",
+      "2026-10-05 07:52:09.212848+00:00"
+    ],
+    [
+      "binance",
+      "AAVE",
+      "1h",
+      52320,
+      "2026-10-05 06:00:00+00:00",
+      "2026-10-05 07:00:00+00:00",
+      "2026-10-05 07:52:32.310994+00:00"
+    ],
+    [
+      "binance",
+      "BTC",
+      "15m",
+      70495,
+      "2026-10-05 07:30:00+00:00",
+      "2026-10-05 07:45:00+00:00",
+      "2026-10-05 07:47:27.776346+00:00"
+    ],
+    [
+      "binance",
+      "BTC",
+      "1h",
+      62006,
+      "2026-10-05 06:00:00+00:00",
+      "2026-10-05 07:00:00+00:00",
+      "2026-10-05 07:47:51.781639+00:00"
+    ],
+    [
+      "binance",
+      "ETH",
+      "15m",
+      70495,
+      "2026-10-05 07:30:00+00:00",
+      "2026-10-05 07:45:00+00:00",
+      "2026-10-05 07:48:24.827726+00:00"
+    ],
+    [
+      "binance",
+      "ETH",
+      "1h",
+      60096,
+      "2026-10-05 06:00:00+00:00",
+      "2026-10-05 07:00:00+00:00",
+      "2026-10-05 07:48:49.204061+00:00"
+    ],
+    [
+      "binance",
+      "HYPE",
+      "15m",
+      47317,
+      "2026-10-05 07:30:00+00:00",
+      "2026-10-05 07:45:00+00:00",
+      "2026-10-05 07:50:18.538421+00:00"
+    ],
+    [
+      "binance",
+      "HYPE",
+      "1h",
+      11829,
+      "2026-10-05 06:00:00+00:00",
+      "2026-10-05 07:00:00+00:00",
+      "2026-10-05 07:50:41.716722+00:00"
+    ],
+    [
+      "binance",
+      "LINK",
+      "15m",
+      70495,
+      "2026-10-05 07:30:00+00:00",
+      "2026-10-05 07:45:00+00:00",
+      "2026-10-05 07:51:12.936820+00:00"
+    ],
+    [
+      "binance",
+      "LINK",
+      "1h",
+      58871,
+      "2026-10-05 06:00:00+00:00",
+      "2026-10-05 07:00:00+00:00",
+      "2026-10-05 07:51:36.373987+00:00"
+    ],
+    [
+      "binance",
+      "SOL",
+      "15m",
+      70495,
+      "2026-10-05 07:30:00+00:00",
+      "2026-10-05 07:45:00+00:00",
+      "2026-10-05 07:49:20.612683+00:00"
+    ],
+    [
+      "binance",
+      "SOL",
+      "1h",
+      53088,
+      "2026-10-05 06:00:00+00:00",
+      "2026-10-05 07:00:00+00:00",
+      "2026-10-05 07:49:45.048225+00:00"
+    ],
+    [
+      "hyperliquid",
+      "AAVE",
+      "15m",
+      5999,
+      "2026-10-15 17:15:00+00:00",
+      "2026-10-15 17:30:00+00:00",
+      "2026-10-15 17:31:07.157910+00:00"
+    ],
+    [
+      "hyperliquid",
+      "AAVE",
+      "1h",
+      5249,
+      "2026-10-15 16:00:00+00:00",
+      "2026-10-15 17:00:00+00:00",
+      "2026-10-15 17:01:10.227280+00:00"
+    ],
+    [
+      "hyperliquid",
+      "BTC",
+      "15m",
+      5999,
+      "2026-10-15 17:15:00+00:00",
+      "2026-10-15 17:30:00+00:00",
+      "2026-10-15 17:31:04.824955+00:00"
+    ],
+    [
+      "hyperliquid",
+      "BTC",
+      "1h",
+      5250,
+      "2026-10-15 16:00:00+00:00",
+      "2026-10-15 17:00:00+00:00",
+      "2026-10-15 17:01:05.169720+00:00"
+    ],
+    [
+      "hyperliquid",
+      "ETH",
+      "15m",
+      5999,
+      "2026-10-15 17:15:00+00:00",
+      "2026-10-15 17:30:00+00:00",
+      "2026-10-15 17:31:05.162003+00:00"
+    ],
+    [
+      "hyperliquid",
+      "ETH",
+      "1h",
+      5250,
+      "2026-10-15 16:00:00+00:00",
+      "2026-10-15 17:00:00+00:00",
+      "2026-10-15 17:01:06.163477+00:00"
+    ],
+    [
+      "hyperliquid",
+      "HYPE",
+      "15m",
+      5999,
+      "2026-10-15 17:15:00+00:00",
+      "2026-10-15 17:30:00+00:00",
+      "2026-10-15 17:31:06.162438+00:00"
+    ],
+    [
+      "hyperliquid",
+      "HYPE",
+      "1h",
+      5250,
+      "2026-10-15 16:00:00+00:00",
+      "2026-10-15 17:00:00+00:00",
+      "2026-10-15 17:01:08.171095+00:00"
+    ],
+    [
+      "hyperliquid",
+      "LINK",
+      "15m",
+      5999,
+      "2026-10-15 17:15:00+00:00",
+      "2026-10-15 17:30:00+00:00",
+      "2026-10-15 17:31:06.664214+00:00"
+    ],
+    [
+      "hyperliquid",
+      "LINK",
+      "1h",
+      5250,
+      "2026-10-15 16:00:00+00:00",
+      "2026-10-15 17:00:00+00:00",
+      "2026-10-15 17:01:09.174494+00:00"
+    ],
+    [
+      "hyperliquid",
+      "SOL",
+      "15m",
+      5999,
+      "2026-10-15 17:15:00+00:00",
+      "2026-10-15 17:30:00+00:00",
+      "2026-10-15 17:31:05.657975+00:00"
+    ],
+    [
+      "hyperliquid",
+      "SOL",
+      "1h",
+      5250,
+      "2026-10-15 16:00:00+00:00",
+      "2026-10-15 17:00:00+00:00",
+      "2026-10-15 17:01:07.171167+00:00"
+    ]
+  ],
+  "funding_at_close": [
+    [
+      "binance",
+      "AAVE",
+      "2026-10-12 08:00:00.002000+00:00",
+      "2026-10-12 08:00:00.002000+00:00"
+    ],
+    [
+      "binance",
+      "BTC",
+      "2026-10-12 08:00:00.002000+00:00",
+      "2026-10-12 08:00:00.002000+00:00"
+    ],
+    [
+      "binance",
+      "ETH",
+      "2026-10-12 08:00:00.002000+00:00",
+      "2026-10-12 08:00:00.002000+00:00"
+    ],
+    [
+      "binance",
+      "LINK",
+      "2026-10-12 08:00:00.002000+00:00",
+      "2026-10-12 08:00:00.002000+00:00"
+    ],
+    [
+      "binance",
+      "SOL",
+      "2026-10-12 08:00:00.002000+00:00",
+      "2026-10-12 08:00:00.002000+00:00"
+    ],
+    [
+      "hyperliquid",
+      "AAVE",
+      "2026-10-15 17:00:00.019000+00:00",
+      "2026-10-15 17:00:00.019000+00:00"
+    ],
+    [
+      "hyperliquid",
+      "BTC",
+      "2026-10-15 17:00:00.019000+00:00",
+      "2026-10-15 17:00:00.019000+00:00"
+    ],
+    [
+      "hyperliquid",
+      "ETH",
+      "2026-10-15 17:00:00.019000+00:00",
+      "2026-10-15 17:00:00.019000+00:00"
+    ],
+    [
+      "hyperliquid",
+      "HYPE",
+      "2026-10-15 17:00:00.019000+00:00",
+      "2026-10-15 17:00:00.019000+00:00"
+    ],
+    [
+      "hyperliquid",
+      "LINK",
+      "2026-10-15 17:00:00.019000+00:00",
+      "2026-10-15 17:00:00.019000+00:00"
+    ],
+    [
+      "hyperliquid",
+      "SOL",
+      "2026-10-15 17:00:00.019000+00:00",
+      "2026-10-15 17:00:00.019000+00:00"
+    ]
+  ],
+  "positioning_at_close": [
+    [
+      "AAVE",
+      "2026-10-15 17:00:00+00:00",
+      "2026-10-15 17:04:06.781737+00:00"
+    ],
+    [
+      "BTC",
+      "2026-10-15 17:00:00+00:00",
+      "2026-10-15 17:04:06.781737+00:00"
+    ],
+    [
+      "ETH",
+      "2026-10-15 17:00:00+00:00",
+      "2026-10-15 17:04:06.781737+00:00"
+    ],
+    [
+      "HYPE",
+      "2026-10-15 17:00:00+00:00",
+      "2026-10-15 17:04:06.781737+00:00"
+    ],
+    [
+      "LINK",
+      "2026-10-15 17:00:00+00:00",
+      "2026-10-15 17:04:06.781737+00:00"
+    ],
+    [
+      "SOL",
+      "2026-10-15 17:00:00+00:00",
+      "2026-10-15 17:04:06.781737+00:00"
+    ]
+  ],
+  "micro_at_close": [
+    [
+      "AAVE",
+      "2026-10-15 17:34:00+00:00",
+      "2026-10-15 17:36:04.086942+00:00"
+    ],
+    [
+      "BTC",
+      "2026-10-15 17:34:00+00:00",
+      "2026-10-15 17:36:04.086942+00:00"
+    ],
+    [
+      "ETH",
+      "2026-10-15 17:34:00+00:00",
+      "2026-10-15 17:36:04.086942+00:00"
+    ],
+    [
+      "HYPE",
+      "2026-10-15 17:34:00+00:00",
+      "2026-10-15 17:36:04.086942+00:00"
+    ],
+    [
+      "LINK",
+      "2026-10-15 17:34:00+00:00",
+      "2026-10-15 17:36:04.086942+00:00"
+    ],
+    [
+      "SOL",
+      "2026-10-15 17:34:00+00:00",
+      "2026-10-15 17:36:04.086942+00:00"
+    ]
+  ],
+  "oi_at_close": [
+    [
+      "binance",
+      "AAVE",
+      "2026-10-15 12:00:00+00:00",
+      "2026-10-15 14:30:07.387320+00:00"
+    ],
+    [
+      "binance",
+      "BTC",
+      "2026-10-15 12:00:00+00:00",
+      "2026-10-15 14:30:04.964755+00:00"
+    ],
+    [
+      "binance",
+      "ETH",
+      "2026-10-15 12:00:00+00:00",
+      "2026-10-15 14:30:05.393367+00:00"
+    ],
+    [
+      "binance",
+      "HYPE",
+      "2026-10-15 12:00:00+00:00",
+      "2026-10-15 14:30:06.392893+00:00"
+    ],
+    [
+      "binance",
+      "LINK",
+      "2026-10-15 12:00:00+00:00",
+      "2026-10-15 14:30:06.894236+00:00"
+    ],
+    [
+      "binance",
+      "SOL",
+      "2026-10-15 12:00:00+00:00",
+      "2026-10-15 14:30:05.890061+00:00"
+    ]
+  ],
+  "context_providers": [
+    [
+      "boe_schedule",
+      9,
+      "2026-10-07 19:12:07.160371+00:00"
+    ],
+    [
+      "boj_schedule",
+      9,
+      "2026-10-07 19:12:06.782063+00:00"
+    ],
+    [
+      "chatgpt_work_v1",
+      2,
+      "2026-10-09 17:11:07.001186+00:00"
+    ],
+    [
+      "circle_status_v1",
+      1,
+      "2026-10-10 14:11:14.868629+00:00"
+    ],
+    [
+      "coinbase_status_v1",
+      7,
+      "2026-10-15 06:46:14.377360+00:00"
+    ],
+    [
+      "ecb_schedule",
+      9,
+      "2026-10-07 19:12:06.977337+00:00"
+    ],
+    [
+      "fomc_schedule",
+      9,
+      "2026-10-07 19:12:06.588179+00:00"
+    ],
+    [
+      "fred_release_calendar",
+      30,
+      "2026-10-07 19:12:06.399341+00:00"
+    ],
+    [
+      "kraken_status_v1",
+      8,
+      "2026-10-15 13:33:04.129889+00:00"
+    ],
+    [
+      "rss_cftc_press",
+      2,
+      "2026-10-07 18:08:03.056418+00:00"
+    ],
+    [
+      "rss_coinbase_status",
+      3,
+      "2026-10-08 03:38:02.929325+00:00"
+    ],
+    [
+      "rss_fed_press",
+      3,
+      "2026-10-09 17:08:05.146595+00:00"
+    ],
+    [
+      "rss_kraken_status",
+      5,
+      "2026-10-09 10:38:04.765204+00:00"
+    ],
+    [
+      "rss_sec_press",
+      2,
+      "2026-10-07 18:08:03.275098+00:00"
+    ]
+  ],
+  "free_source_files": {
+    "state-kraken_status_v1.json": {
+      "bytes": 5929,
+      "valid_json_records": 1
+    },
+    "collector.json": {
+      "bytes": 126,
+      "valid_json_records": 1
+    },
+    "state-hyperliquid_status_v1.json": {
+      "bytes": 4886,
+      "valid_json_records": 1
+    },
+    "state-coinbase_status_v1.json": {
+      "bytes": 5312,
+      "valid_json_records": 1
+    },
+    "worker.json": {
+      "bytes": 189,
+      "valid_json_records": 1
+    },
+    "receipts/ctxgw_4a7c0b74340cff5c5fda2cce1e6fc534ce822f16852fc9b698ea242ca1a5781e.json": {
+      "bytes": 3594,
+      "valid_json_records": 1
+    },
+    "receipts/ctxgw_113d67f16a1ad9482410a77839a9331f688038036ac1b9662b29adf5f3a65d2f.json": {
+      "bytes": 3759,
+      "valid_json_records": 1
+    },
+    "receipts/ctxgw_76f2efe680cf7e0f57d5abf35b493d81828a3ac0ec3840fa9cbe541edb257e3a.json": {
+      "bytes": 2256,
+      "valid_json_records": 1
+    },
+    "receipts/ctxgw_0261dafbebc88241aaa8691c6b8c1a08706d6744fcb5d68b940c0b38be5d0fc3.json": {
+      "bytes": 2203,
+      "valid_json_records": 1
+    },
+    "receipts/ctxgw_7de00a6132d41883c9b6c281610f1b85f89d3de439a40cb7ad57b12128ebe360.json": {
+      "bytes": 3447,
+      "valid_json_records": 1
+    },
+    "receipts/ctxgw_3409511d100bb7cadf39ad5ff4dc8eb594c97955c4190234b488275577edf3ef.json": {
+      "bytes": 2209,
+      "valid_json_records": 1
+    },
+    "receipts/ctxgw_ddc336d397c5cd85291a833ea70b7a10ff5a744acc5bc17a852a769e2ad8e542.json": {
+      "bytes": 2256,
+      "valid_json_records": 1
+    },
+    "receipts/ctxgw_a5c6b2e7b0076e45605ce311da3436cfb798a38a192529495a80d28da5ddeeee.json": {
+      "bytes": 2354,
+      "valid_json_records": 1
+    },
+    "receipts/ctxgw_2718699f9c2661b82cd197c15dbe1c8be7e06c3e098326ec9651200d7e7bdad5.json": {
+      "bytes": 2335,
+      "valid_json_records": 1
+    },
+    "receipts/ctxgw_d177b6765d2bcd1fe93144461a626a36e5ecbc0a034b640be86b9ac99d3d927e.json": {
+      "bytes": 2278,
+      "valid_json_records": 1
+    },
+    "receipts/ctxgw_896badb8812a977e5dd13ca00ac577c17e887e18d7d680c776e20869955d16d9.json": {
+      "bytes": 3775,
+      "valid_json_records": 1
+    },
+    "receipts/ctxgw_8ee9a4af7dc01ba97ab602b94a15d15f871ad2ca01b12e56b7d23d5c860947ea.json": {
+      "bytes": 2144,
+      "valid_json_records": 1
+    },
+    "receipts/ctxgw_02f99ae8d066cf30345bdfd91b6c54a7f2d41b3bacb45b3b932a4f518784dce3.json": {
+      "bytes": 2138,
+      "valid_json_records": 1
+    },
+    "receipts/ctxgw_185484e1e55af463b3761931b1fabf266841631b4114ace1f4f5e0dace4ebef0.json": {
+      "bytes": 3821,
+      "valid_json_records": 1
+    },
+    "receipts/ctxgw_c6a11181f2c420b0fdbd384f28b6bd5500d067afc62d8d33fcb99d4b06f8e926.json": {
+      "bytes": 2120,
+      "valid_json_records": 1
+    },
+    "receipts/ctxgw_c204b23f86a02aef2091abbf3ec58b36fdb327065868d65c48c3c79f085cdd0b.json": {
+      "bytes": 2165,
+      "valid_json_records": 1
+    },
+    "receipts/ctxgw_b0029258f50ec2c40de9ad8df42d0e1a043712be8290482946a0e96c328e13f3.json": {
+      "bytes": 2110,
+      "valid_json_records": 1
+    },
+    "receipts/ctxgw_01b5c466b2f93ce9ff4c48d2852db2fc1a060acb62a6423c0527d3e2db449029.json": {
+      "bytes": 2342,
+      "valid_json_records": 1
+    },
+    "receipts/ctxgw_f85e887a3d7461cc8a394a5e0200e5b57cf0068159d11907b8cc62930c81254b.json": {
+      "bytes": 2451,
+      "valid_json_records": 1
+    },
+    "receipts/ctxgw_8382d948be8cdd5edcbbc9cdaf4b804a7cdf718aa33d923817c948e631b8283c.json": {
+      "bytes": 2261,
+      "valid_json_records": 1
+    },
+    "receipts/ctxgw_fcb939e0c1751bf2dec6e3f57d5e681c2e8bfee0168976f7608b5c5acf333e91.json": {
+      "bytes": 2131,
+      "valid_json_records": 1
+    },
+    "receipts/ctxgw_b3a34844cd5d445fb6e21c6130ecd27a43766eccea19a0435cf3f772b2a38851.json": {
+      "bytes": 2294,
+      "valid_json_records": 1
+    },
+    "seals/ctxgw_4a7c0b74340cff5c5fda2cce1e6fc534ce822f16852fc9b698ea242ca1a5781e.json": {
+      "bytes": 142,
+      "valid_json_records": 1
+    },
+    "seals/ctxgw_113d67f16a1ad9482410a77839a9331f688038036ac1b9662b29adf5f3a65d2f.json": {
+      "bytes": 142,
+      "valid_json_records": 1
+    },
+    "seals/ctxgw_76f2efe680cf7e0f57d5abf35b493d81828a3ac0ec3840fa9cbe541edb257e3a.json": {
+      "bytes": 142,
+      "valid_json_records": 1
+    },
+    "seals/ctxgw_0261dafbebc88241aaa8691c6b8c1a08706d6744fcb5d68b940c0b38be5d0fc3.json": {
+      "bytes": 142,
+      "valid_json_records": 1
+    },
+    "seals/ctxgw_7de00a6132d41883c9b6c281610f1b85f89d3de439a40cb7ad57b12128ebe360.json": {
+      "bytes": 142,
+      "valid_json_records": 1
+    },
+    "seals/ctxgw_3409511d100bb7cadf39ad5ff4dc8eb594c97955c4190234b488275577edf3ef.json": {
+      "bytes": 142,
+      "valid_json_records": 1
+    },
+    "seals/ctxgw_ddc336d397c5cd85291a833ea70b7a10ff5a744acc5bc17a852a769e2ad8e542.json": {
+      "bytes": 142,
+      "valid_json_records": 1
+    },
+    "seals/ctxgw_a5c6b2e7b0076e45605ce311da3436cfb798a38a192529495a80d28da5ddeeee.json": {
+      "bytes": 142,
+      "valid_json_records": 1
+    },
+    "seals/ctxgw_2718699f9c2661b82cd197c15dbe1c8be7e06c3e098326ec9651200d7e7bdad5.json": {
+      "bytes": 142,
+      "valid_json_records": 1
+    },
+    "seals/ctxgw_d177b6765d2bcd1fe93144461a626a36e5ecbc0a034b640be86b9ac99d3d927e.json": {
+      "bytes": 142,
+      "valid_json_records": 1
+    },
+    "seals/ctxgw_896badb8812a977e5dd13ca00ac577c17e887e18d7d680c776e20869955d16d9.json": {
+      "bytes": 142,
+      "valid_json_records": 1
+    },
+    "seals/ctxgw_8ee9a4af7dc01ba97ab602b94a15d15f871ad2ca01b12e56b7d23d5c860947ea.json": {
+      "bytes": 142,
+      "valid_json_records": 1
+    },
+    "seals/ctxgw_02f99ae8d066cf30345bdfd91b6c54a7f2d41b3bacb45b3b932a4f518784dce3.json": {
+      "bytes": 142,
+      "valid_json_records": 1
+    },
+    "seals/ctxgw_185484e1e55af463b3761931b1fabf266841631b4114ace1f4f5e0dace4ebef0.json": {
+      "bytes": 142,
+      "valid_json_records": 1
+    },
+    "seals/ctxgw_c6a11181f2c420b0fdbd384f28b6bd5500d067afc62d8d33fcb99d4b06f8e926.json": {
+      "bytes": 142,
+      "valid_json_records": 1
+    },
+    "seals/ctxgw_c204b23f86a02aef2091abbf3ec58b36fdb327065868d65c48c3c79f085cdd0b.json": {
+      "bytes": 142,
+      "valid_json_records": 1
+    },
+    "seals/ctxgw_b0029258f50ec2c40de9ad8df42d0e1a043712be8290482946a0e96c328e13f3.json": {
+      "bytes": 142,
+      "valid_json_records": 1
+    },
+    "seals/ctxgw_01b5c466b2f93ce9ff4c48d2852db2fc1a060acb62a6423c0527d3e2db449029.json": {
+      "bytes": 142,
+      "valid_json_records": 1
+    },
+    "seals/ctxgw_f85e887a3d7461cc8a394a5e0200e5b57cf0068159d11907b8cc62930c81254b.json": {
+      "bytes": 142,
+      "valid_json_records": 1
+    },
+    "seals/ctxgw_8382d948be8cdd5edcbbc9cdaf4b804a7cdf718aa33d923817c948e631b8283c.json": {
+      "bytes": 142,
+      "valid_json_records": 1
+    },
+    "seals/ctxgw_fcb939e0c1751bf2dec6e3f57d5e681c2e8bfee0168976f7608b5c5acf333e91.json": {
+      "bytes": 142,
+      "valid_json_records": 1
+    },
+    "seals/ctxgw_b3a34844cd5d445fb6e21c6130ecd27a43766eccea19a0435cf3f772b2a38851.json": {
+      "bytes": 142,
+      "valid_json_records": 1
+    },
+    "done/ctxgw_4a7c0b74340cff5c5fda2cce1e6fc534ce822f16852fc9b698ea242ca1a5781e.json": {
+      "bytes": 3174,
+      "valid_json_records": 1
+    },
+    "done/ctxgw_113d67f16a1ad9482410a77839a9331f688038036ac1b9662b29adf5f3a65d2f.json": {
+      "bytes": 3339,
+      "valid_json_records": 1
+    },
+    "done/ctxgw_76f2efe680cf7e0f57d5abf35b493d81828a3ac0ec3840fa9cbe541edb257e3a.json": {
+      "bytes": 1836,
+      "valid_json_records": 1
+    },
+    "done/ctxgw_0261dafbebc88241aaa8691c6b8c1a08706d6744fcb5d68b940c0b38be5d0fc3.json": {
+      "bytes": 1783,
+      "valid_json_records": 1
+    },
+    "done/ctxgw_7de00a6132d41883c9b6c281610f1b85f89d3de439a40cb7ad57b12128ebe360.json": {
+      "bytes": 3027,
+      "valid_json_records": 1
+    },
+    "done/ctxgw_3409511d100bb7cadf39ad5ff4dc8eb594c97955c4190234b488275577edf3ef.json": {
+      "bytes": 1789,
+      "valid_json_records": 1
+    },
+    "done/ctxgw_ddc336d397c5cd85291a833ea70b7a10ff5a744acc5bc17a852a769e2ad8e542.json": {
+      "bytes": 1823,
+      "valid_json_records": 1
+    },
+    "done/ctxgw_a5c6b2e7b0076e45605ce311da3436cfb798a38a192529495a80d28da5ddeeee.json": {
+      "bytes": 1934,
+      "valid_json_records": 1
+    },
+    "done/ctxgw_2718699f9c2661b82cd197c15dbe1c8be7e06c3e098326ec9651200d7e7bdad5.json": {
+      "bytes": 1902,
+      "valid_json_records": 1
+    },
+    "done/ctxgw_d177b6765d2bcd1fe93144461a626a36e5ecbc0a034b640be86b9ac99d3d927e.json": {
+      "bytes": 1858,
+      "valid_json_records": 1
+    },
+    "done/ctxgw_896badb8812a977e5dd13ca00ac577c17e887e18d7d680c776e20869955d16d9.json": {
+      "bytes": 3355,
+      "valid_json_records": 1
+    },
+    "done/ctxgw_8ee9a4af7dc01ba97ab602b94a15d15f871ad2ca01b12e56b7d23d5c860947ea.json": {
+      "bytes": 1711,
+      "valid_json_records": 1
+    },
+    "done/ctxgw_02f99ae8d066cf30345bdfd91b6c54a7f2d41b3bacb45b3b932a4f518784dce3.json": {
+      "bytes": 1705,
+      "valid_json_records": 1
+    },
+    "done/ctxgw_185484e1e55af463b3761931b1fabf266841631b4114ace1f4f5e0dace4ebef0.json": {
+      "bytes": 3401,
+      "valid_json_records": 1
+    },
+    "done/ctxgw_c6a11181f2c420b0fdbd384f28b6bd5500d067afc62d8d33fcb99d4b06f8e926.json": {
+      "bytes": 1687,
+      "valid_json_records": 1
+    },
+    "done/ctxgw_c204b23f86a02aef2091abbf3ec58b36fdb327065868d65c48c3c79f085cdd0b.json": {
+      "bytes": 1745,
+      "valid_json_records": 1
+    },
+    "done/ctxgw_b0029258f50ec2c40de9ad8df42d0e1a043712be8290482946a0e96c328e13f3.json": {
+      "bytes": 1677,
+      "valid_json_records": 1
+    },
+    "done/ctxgw_01b5c466b2f93ce9ff4c48d2852db2fc1a060acb62a6423c0527d3e2db449029.json": {
+      "bytes": 1909,
+      "valid_json_records": 1
+    },
+    "done/ctxgw_f85e887a3d7461cc8a394a5e0200e5b57cf0068159d11907b8cc62930c81254b.json": {
+      "bytes": 2031,
+      "valid_json_records": 1
+    },
+    "done/ctxgw_8382d948be8cdd5edcbbc9cdaf4b804a7cdf718aa33d923817c948e631b8283c.json": {
+      "bytes": 1841,
+      "valid_json_records": 1
+    },
+    "done/ctxgw_fcb939e0c1751bf2dec6e3f57d5e681c2e8bfee0168976f7608b5c5acf333e91.json": {
+      "bytes": 1711,
+      "valid_json_records": 1
+    },
+    "done/ctxgw_b3a34844cd5d445fb6e21c6130ecd27a43766eccea19a0435cf3f772b2a38851.json": {
+      "bytes": 1861,
+      "valid_json_records": 1
+    }
+  },
+  "free_source_invalid_json": []
+}

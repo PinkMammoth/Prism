@@ -1,0 +1,45 @@
+{
+  "source": "/data/backups/daily/prism-20261015T013001Z.duckdb",
+  "sha256": "28d26cdd48ff356eeba840c30f5a1a5eefc538ccaa20c969a316457061442d5a",
+  "snapshot_kind": "autotrader_lab",
+  "manifest_created": true,
+  "tables_verified": 146,
+  "source_frontier": {
+    "tables": {
+      "perp_intraday_bars": {
+        "column": "close_time",
+        "at": "2026-10-15 01:15:00+00:00"
+      },
+      "perp_funding": {
+        "column": "time",
+        "at": "2026-10-15 01:00:00.056000+00:00"
+      },
+      "perp_oi_history": {
+        "column": "observed_at",
+        "at": "2026-10-14 20:00:00+00:00"
+      },
+      "context_hl_oi_hourly": {
+        "column": "captured_at",
+        "at": "2026-10-15 01:04:04.184631+00:00"
+      },
+      "context_ls_ratios": {
+        "column": "ingested_at",
+        "at": "2026-10-15 01:04:04.245291+00:00"
+      },
+      "context_events": {
+        "column": "first_seen_at",
+        "at": "2026-10-14 23:17:53.668496+00:00"
+      },
+      "microstructure_minutes": {
+        "column": "minute_open",
+        "at": "2026-10-15 01:20:00+00:00"
+      }
+    },
+    "last_completed_cycle": {
+      "cycle_id": "rtcyc_81bd675e9ea743eba147327a27d7cf1c",
+      "job": "microstructure",
+      "runtime_id": "vps-prism-autotrader-lab-rehearsal",
+      "finished_at": "2026-10-15 01:21:07.621365+00:00"
+    }
+  }
+}

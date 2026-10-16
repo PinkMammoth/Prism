@@ -1,0 +1,128 @@
+{
+ "window": [
+  "2026-10-16T01:40:00+00:00",
+  "2026-10-16T06:23:00+00:00"
+ ],
+ "expected_minutes_per_coin": 283,
+ "status_total": {
+  "COMPLETE": 1686,
+  "PARTIAL": 12
+ },
+ "complete_fraction_of_expected": 0.9929328621908127,
+ "missing_minutes": 0,
+ "per_coin": {
+  "AAVE": {
+   "COMPLETE": 281,
+   "PARTIAL": 2
+  },
+  "BTC": {
+   "COMPLETE": 281,
+   "PARTIAL": 2
+  },
+  "ETH": {
+   "COMPLETE": 281,
+   "PARTIAL": 2
+  },
+  "HYPE": {
+   "COMPLETE": 281,
+   "PARTIAL": 2
+  },
+  "LINK": {
+   "COMPLETE": 281,
+   "PARTIAL": 2
+  },
+  "SOL": {
+   "COMPLETE": 281,
+   "PARTIAL": 2
+  }
+ },
+ "flags": {
+  "disconnect": 12,
+  "connect": 12
+ },
+ "late_prints": 0,
+ "run_starts": 0,
+ "disconnects": 2,
+ "disconnect_total_s": 3.2,
+ "disconnect_max_s": 1.8,
+ "closes": [
+  {
+   "at": "2026-10-16T02:41:38.362000",
+   "reason": "ConnectionClosedOK: received 1000 (OK) Expired; then sent 1000 (OK) Expired",
+   "lived_s": 10933.4,
+   "down_s": 1.8
+  },
+  {
+   "at": "2026-10-16T04:41:44.658000",
+   "reason": "stale: no message for 10s",
+   "lived_s": 7204.5,
+   "down_s": 1.4
+  }
+ ],
+ "non_complete_minutes": {
+  "1792118460000": [
+   {
+    "coin": "AAVE",
+    "status": "PARTIAL",
+    "flags": "disconnect,connect"
+   },
+   {
+    "coin": "BTC",
+    "status": "PARTIAL",
+    "flags": "disconnect,connect"
+   },
+   {
+    "coin": "ETH",
+    "status": "PARTIAL",
+    "flags": "disconnect,connect"
+   },
+   {
+    "coin": "HYPE",
+    "status": "PARTIAL",
+    "flags": "disconnect,connect"
+   },
+   {
+    "coin": "LINK",
+    "status": "PARTIAL",
+    "flags": "disconnect,connect"
+   },
+   {
+    "coin": "SOL",
+    "status": "PARTIAL",
+    "flags": "disconnect,connect"
+   }
+  ],
+  "1792125660000": [
+   {
+    "coin": "AAVE",
+    "status": "PARTIAL",
+    "flags": "disconnect,connect"
+   },
+   {
+    "coin": "BTC",
+    "status": "PARTIAL",
+    "flags": "disconnect,connect"
+   },
+   {
+    "coin": "ETH",
+    "status": "PARTIAL",
+    "flags": "disconnect,connect"
+   },
+   {
+    "coin": "HYPE",
+    "status": "PARTIAL",
+    "flags": "disconnect,connect"
+   },
+   {
+    "coin": "LINK",
+    "status": "PARTIAL",
+    "flags": "disconnect,connect"
+   },
+   {
+    "coin": "SOL",
+    "status": "PARTIAL",
+    "flags": "disconnect,connect"
+   }
+  ]
+ }
+}

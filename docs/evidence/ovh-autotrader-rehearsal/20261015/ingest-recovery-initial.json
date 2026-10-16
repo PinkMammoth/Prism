@@ -1,0 +1,1066 @@
+{
+  "at": "2026-10-15T17:55:00.046947+00:00",
+  "offsets": [
+    {
+      "path": "/data/microstructure/spool/20261013/15.jsonl",
+      "offset": 261510,
+      "size": 261510,
+      "within_file": true,
+      "newline_boundary": true,
+      "updated_at": "2026-10-14 15:51:02.655983+00:00"
+    },
+    {
+      "path": "/data/microstructure/spool/20261013/16.jsonl",
+      "offset": 632000,
+      "size": 632000,
+      "within_file": true,
+      "newline_boundary": true,
+      "updated_at": "2026-10-14 15:51:02.655983+00:00"
+    },
+    {
+      "path": "/data/microstructure/spool/20261013/17.jsonl",
+      "offset": 623974,
+      "size": 623974,
+      "within_file": true,
+      "newline_boundary": true,
+      "updated_at": "2026-10-14 15:51:02.655983+00:00"
+    },
+    {
+      "path": "/data/microstructure/spool/20261013/18.jsonl",
+      "offset": 616528,
+      "size": 616528,
+      "within_file": true,
+      "newline_boundary": true,
+      "updated_at": "2026-10-14 15:51:02.655983+00:00"
+    },
+    {
+      "path": "/data/microstructure/spool/20261013/19.jsonl",
+      "offset": 606494,
+      "size": 606494,
+      "within_file": true,
+      "newline_boundary": true,
+      "updated_at": "2026-10-14 15:51:02.655983+00:00"
+    },
+    {
+      "path": "/data/microstructure/spool/20261013/20.jsonl",
+      "offset": 609141,
+      "size": 609141,
+      "within_file": true,
+      "newline_boundary": true,
+      "updated_at": "2026-10-14 15:51:02.655983+00:00"
+    },
+    {
+      "path": "/data/microstructure/spool/20261013/21.jsonl",
+      "offset": 593643,
+      "size": 593643,
+      "within_file": true,
+      "newline_boundary": true,
+      "updated_at": "2026-10-14 15:51:02.655983+00:00"
+    },
+    {
+      "path": "/data/microstructure/spool/20261013/22.jsonl",
+      "offset": 597585,
+      "size": 597585,
+      "within_file": true,
+      "newline_boundary": true,
+      "updated_at": "2026-10-14 15:51:02.655983+00:00"
+    },
+    {
+      "path": "/data/microstructure/spool/20261013/23.jsonl",
+      "offset": 596984,
+      "size": 596984,
+      "within_file": true,
+      "newline_boundary": true,
+      "updated_at": "2026-10-14 15:51:02.655983+00:00"
+    },
+    {
+      "path": "/data/microstructure/spool/20261014/00.jsonl",
+      "offset": 626279,
+      "size": 626279,
+      "within_file": true,
+      "newline_boundary": true,
+      "updated_at": "2026-10-14 15:51:02.655983+00:00"
+    },
+    {
+      "path": "/data/microstructure/spool/20261014/01.jsonl",
+      "offset": 615306,
+      "size": 615306,
+      "within_file": true,
+      "newline_boundary": true,
+      "updated_at": "2026-10-14 15:51:02.655983+00:00"
+    },
+    {
+      "path": "/data/microstructure/spool/20261014/02.jsonl",
+      "offset": 601015,
+      "size": 601015,
+      "within_file": true,
+      "newline_boundary": true,
+      "updated_at": "2026-10-14 15:51:02.655983+00:00"
+    },
+    {
+      "path": "/data/microstructure/spool/20261014/03.jsonl",
+      "offset": 606672,
+      "size": 606672,
+      "within_file": true,
+      "newline_boundary": true,
+      "updated_at": "2026-10-14 15:51:02.655983+00:00"
+    },
+    {
+      "path": "/data/microstructure/spool/20261014/04.jsonl",
+      "offset": 593965,
+      "size": 593965,
+      "within_file": true,
+      "newline_boundary": true,
+      "updated_at": "2026-10-14 15:51:02.655983+00:00"
+    },
+    {
+      "path": "/data/microstructure/spool/20261014/05.jsonl",
+      "offset": 597684,
+      "size": 597684,
+      "within_file": true,
+      "newline_boundary": true,
+      "updated_at": "2026-10-14 15:51:02.655983+00:00"
+    },
+    {
+      "path": "/data/microstructure/spool/20261014/06.jsonl",
+      "offset": 594202,
+      "size": 594202,
+      "within_file": true,
+      "newline_boundary": true,
+      "updated_at": "2026-10-14 15:51:02.655983+00:00"
+    },
+    {
+      "path": "/data/microstructure/spool/20261014/07.jsonl",
+      "offset": 598192,
+      "size": 598192,
+      "within_file": true,
+      "newline_boundary": true,
+      "updated_at": "2026-10-14 15:51:02.655983+00:00"
+    },
+    {
+      "path": "/data/microstructure/spool/20261014/08.jsonl",
+      "offset": 641138,
+      "size": 641138,
+      "within_file": true,
+      "newline_boundary": true,
+      "updated_at": "2026-10-14 15:51:02.655983+00:00"
+    },
+    {
+      "path": "/data/microstructure/spool/20261014/09.jsonl",
+      "offset": 613571,
+      "size": 613571,
+      "within_file": true,
+      "newline_boundary": true,
+      "updated_at": "2026-10-14 15:51:02.655983+00:00"
+    },
+    {
+      "path": "/data/microstructure/spool/20261014/10.jsonl",
+      "offset": 614075,
+      "size": 614075,
+      "within_file": true,
+      "newline_boundary": true,
+      "updated_at": "2026-10-14 15:51:02.655983+00:00"
+    },
+    {
+      "path": "/data/microstructure/spool/20261014/11.jsonl",
+      "offset": 598684,
+      "size": 598684,
+      "within_file": true,
+      "newline_boundary": true,
+      "updated_at": "2026-10-14 15:51:02.655983+00:00"
+    },
+    {
+      "path": "/data/microstructure/spool/20261014/12.jsonl",
+      "offset": 702227,
+      "size": 702227,
+      "within_file": true,
+      "newline_boundary": true,
+      "updated_at": "2026-10-14 15:51:02.655983+00:00"
+    },
+    {
+      "path": "/data/microstructure/spool/20261014/13.jsonl",
+      "offset": 721245,
+      "size": 721245,
+      "within_file": true,
+      "newline_boundary": true,
+      "updated_at": "2026-10-14 15:51:02.655983+00:00"
+    },
+    {
+      "path": "/data/microstructure/spool/20261014/14.jsonl",
+      "offset": 739336,
+      "size": 739336,
+      "within_file": true,
+      "newline_boundary": true,
+      "updated_at": "2026-10-14 15:51:02.655983+00:00"
+    },
+    {
+      "path": "/data/microstructure/spool/20261014/15.jsonl",
+      "offset": 693471,
+      "size": 693471,
+      "within_file": true,
+      "newline_boundary": true,
+      "updated_at": "2026-10-14 16:06:02.756626+00:00"
+    },
+    {
+      "path": "/data/microstructure/spool/20261014/16.jsonl",
+      "offset": 665862,
+      "size": 665862,
+      "within_file": true,
+      "newline_boundary": true,
+      "updated_at": "2026-10-14 17:06:02.755091+00:00"
+    },
+    {
+      "path": "/data/microstructure/spool/20261014/17.jsonl",
+      "offset": 656984,
+      "size": 656984,
+      "within_file": true,
+      "newline_boundary": true,
+      "updated_at": "2026-10-14 18:06:04.724647+00:00"
+    },
+    {
+      "path": "/data/microstructure/spool/20261014/18.jsonl",
+      "offset": 639928,
+      "size": 639928,
+      "within_file": true,
+      "newline_boundary": true,
+      "updated_at": "2026-10-14 19:06:02.819497+00:00"
+    },
+    {
+      "path": "/data/microstructure/spool/20261014/19.jsonl",
+      "offset": 636284,
+      "size": 636284,
+      "within_file": true,
+      "newline_boundary": true,
+      "updated_at": "2026-10-14 20:06:03.111916+00:00"
+    },
+    {
+      "path": "/data/microstructure/spool/20261014/20.jsonl",
+      "offset": 644104,
+      "size": 644104,
+      "within_file": true,
+      "newline_boundary": true,
+      "updated_at": "2026-10-14 21:06:02.932984+00:00"
+    },
+    {
+      "path": "/data/microstructure/spool/20261014/21.jsonl",
+      "offset": 624704,
+      "size": 624704,
+      "within_file": true,
+      "newline_boundary": true,
+      "updated_at": "2026-10-14 22:06:03.513961+00:00"
+    },
+    {
+      "path": "/data/microstructure/spool/20261014/22.jsonl",
+      "offset": 629396,
+      "size": 629396,
+      "within_file": true,
+      "newline_boundary": true,
+      "updated_at": "2026-10-14 23:06:02.758731+00:00"
+    },
+    {
+      "path": "/data/microstructure/spool/20261014/23.jsonl",
+      "offset": 606440,
+      "size": 606440,
+      "within_file": true,
+      "newline_boundary": true,
+      "updated_at": "2026-10-15 00:06:05.139718+00:00"
+    },
+    {
+      "path": "/data/microstructure/spool/20261015/00.jsonl",
+      "offset": 635228,
+      "size": 635228,
+      "within_file": true,
+      "newline_boundary": true,
+      "updated_at": "2026-10-15 01:06:03.072263+00:00"
+    },
+    {
+      "path": "/data/microstructure/spool/20261015/01.jsonl",
+      "offset": 634062,
+      "size": 634062,
+      "within_file": true,
+      "newline_boundary": true,
+      "updated_at": "2026-10-15 02:06:03.110671+00:00"
+    },
+    {
+      "path": "/data/microstructure/spool/20261015/02.jsonl",
+      "offset": 739456,
+      "size": 739456,
+      "within_file": true,
+      "newline_boundary": true,
+      "updated_at": "2026-10-15 03:06:03.193521+00:00"
+    },
+    {
+      "path": "/data/microstructure/spool/20261015/03.jsonl",
+      "offset": 680372,
+      "size": 680372,
+      "within_file": true,
+      "newline_boundary": true,
+      "updated_at": "2026-10-15 04:06:03.605436+00:00"
+    },
+    {
+      "path": "/data/microstructure/spool/20261015/04.jsonl",
+      "offset": 666486,
+      "size": 666486,
+      "within_file": true,
+      "newline_boundary": true,
+      "updated_at": "2026-10-15 05:06:03.276186+00:00"
+    },
+    {
+      "path": "/data/microstructure/spool/20261015/05.jsonl",
+      "offset": 664860,
+      "size": 664860,
+      "within_file": true,
+      "newline_boundary": true,
+      "updated_at": "2026-10-15 06:06:03.396508+00:00"
+    },
+    {
+      "path": "/data/microstructure/spool/20261015/06.jsonl",
+      "offset": 657743,
+      "size": 657743,
+      "within_file": true,
+      "newline_boundary": true,
+      "updated_at": "2026-10-15 07:06:03.549040+00:00"
+    },
+    {
+      "path": "/data/microstructure/spool/20261015/07.jsonl",
+      "offset": 639805,
+      "size": 639805,
+      "within_file": true,
+      "newline_boundary": true,
+      "updated_at": "2026-10-15 08:06:03.513612+00:00"
+    },
+    {
+      "path": "/data/microstructure/spool/20261015/08.jsonl",
+      "offset": 630943,
+      "size": 630943,
+      "within_file": true,
+      "newline_boundary": true,
+      "updated_at": "2026-10-15 09:06:03.500535+00:00"
+    },
+    {
+      "path": "/data/microstructure/spool/20261015/09.jsonl",
+      "offset": 614189,
+      "size": 614189,
+      "within_file": true,
+      "newline_boundary": true,
+      "updated_at": "2026-10-15 10:06:03.538289+00:00"
+    },
+    {
+      "path": "/data/microstructure/spool/20261015/10.jsonl",
+      "offset": 624216,
+      "size": 624216,
+      "within_file": true,
+      "newline_boundary": true,
+      "updated_at": "2026-10-15 11:06:07.882393+00:00"
+    },
+    {
+      "path": "/data/microstructure/spool/20261015/11.jsonl",
+      "offset": 623756,
+      "size": 623756,
+      "within_file": true,
+      "newline_boundary": true,
+      "updated_at": "2026-10-15 12:06:03.845377+00:00"
+    },
+    {
+      "path": "/data/microstructure/spool/20261015/12.jsonl",
+      "offset": 669953,
+      "size": 669953,
+      "within_file": true,
+      "newline_boundary": true,
+      "updated_at": "2026-10-15 13:06:03.973716+00:00"
+    },
+    {
+      "path": "/data/microstructure/spool/20261015/13.jsonl",
+      "offset": 717243,
+      "size": 717243,
+      "within_file": true,
+      "newline_boundary": true,
+      "updated_at": "2026-10-15 14:06:03.606820+00:00"
+    },
+    {
+      "path": "/data/microstructure/spool/20261015/14.jsonl",
+      "offset": 740837,
+      "size": 740837,
+      "within_file": true,
+      "newline_boundary": true,
+      "updated_at": "2026-10-15 15:06:03.798062+00:00"
+    },
+    {
+      "path": "/data/microstructure/spool/20261015/15.jsonl",
+      "offset": 717024,
+      "size": 717024,
+      "within_file": true,
+      "newline_boundary": true,
+      "updated_at": "2026-10-15 16:06:04.035385+00:00"
+    },
+    {
+      "path": "/data/microstructure/spool/20261015/16.jsonl",
+      "offset": 664704,
+      "size": 664704,
+      "within_file": true,
+      "newline_boundary": true,
+      "updated_at": "2026-10-15 17:06:03.957199+00:00"
+    },
+    {
+      "path": "/data/microstructure/spool/20261015/17.jsonl",
+      "offset": 593356,
+      "size": 603606,
+      "within_file": true,
+      "newline_boundary": true,
+      "updated_at": "2026-10-15 17:54:02.731248+00:00"
+    }
+  ],
+  "spool_events": [
+    {
+      "at": 1792086762363,
+      "conn_id": "msconn_0bd75fa38e68",
+      "kind": "conn_close",
+      "messages": 198040,
+      "reason": "stopped",
+      "run_id": "msrun_1342dccd50d641a9",
+      "seconds": 8443.1
+    },
+    {
+      "at": 1792086762402,
+      "coins": [
+        "AAVE",
+        "BTC",
+        "ETH",
+        "HYPE",
+        "LINK",
+        "SOL"
+      ],
+      "counters": {
+        "connections": 11,
+        "dup_book20": 1,
+        "dup_book5": 2,
+        "dup_trades": 1575,
+        "ev_A": 264,
+        "ev_C": 549901,
+        "ev_D": 105054,
+        "ev_F": 1041974,
+        "ev_O": 11,
+        "ev_T": 1397522,
+        "ev_X": 11,
+        "finalized": 9408,
+        "replay_unobserved": 48,
+        "status_COMPLETE": 9337,
+        "status_PARTIAL": 71
+      },
+      "definition": "7c299a853f4ba141",
+      "feature_version": "microstructure_1m_v1",
+      "git_commit": "530ba0d18c3009352eee21bb7f1a1c01004ab73a",
+      "host": "vps-778d603b",
+      "kind": "run_end",
+      "pid": 39022,
+      "reason": "stopped",
+      "role": "authoritative",
+      "run_id": "msrun_1342dccd50d641a9",
+      "runtime_id": "vps-prism-autotrader-lab-rehearsal",
+      "url": "wss://api.hyperliquid.xyz/ws"
+    },
+    {
+      "at": 1792086776181,
+      "coins": [
+        "AAVE",
+        "BTC",
+        "ETH",
+        "HYPE",
+        "LINK",
+        "SOL"
+      ],
+      "definition": "7c299a853f4ba141",
+      "feature_version": "microstructure_1m_v1",
+      "git_commit": "530ba0d18c3009352eee21bb7f1a1c01004ab73a",
+      "host": "vps-778d603b",
+      "kind": "run_start",
+      "pid": 625,
+      "previous_last_minute": {
+        "AAVE": 1792086660000,
+        "BTC": 1792086660000,
+        "ETH": 1792086660000,
+        "HYPE": 1792086660000,
+        "LINK": 1792086660000,
+        "SOL": 1792086660000
+      },
+      "repaired_bytes": 0,
+      "role": "authoritative",
+      "run_id": "msrun_92299ff05c2d47b8",
+      "runtime_id": "vps-prism-autotrader-lab-rehearsal",
+      "started_ms": 1792086775067,
+      "url": "wss://api.hyperliquid.xyz/ws"
+    },
+    {
+      "at": 1792086776787,
+      "conn_id": "msconn_88fabebc88de",
+      "kind": "conn_open",
+      "reconnects": 0,
+      "run_id": "msrun_92299ff05c2d47b8"
+    }
+  ],
+  "malformed_lines": [],
+  "db_rows": [
+    [
+      "AAVE",
+      1792086000000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "BTC",
+      1792086000000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "ETH",
+      1792086000000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "HYPE",
+      1792086000000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "LINK",
+      1792086000000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "SOL",
+      1792086000000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "AAVE",
+      1792086060000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "BTC",
+      1792086060000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "ETH",
+      1792086060000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "HYPE",
+      1792086060000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "LINK",
+      1792086060000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "SOL",
+      1792086060000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "AAVE",
+      1792086120000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "BTC",
+      1792086120000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "ETH",
+      1792086120000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "HYPE",
+      1792086120000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "LINK",
+      1792086120000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "SOL",
+      1792086120000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "AAVE",
+      1792086180000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "BTC",
+      1792086180000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "ETH",
+      1792086180000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "HYPE",
+      1792086180000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "LINK",
+      1792086180000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "SOL",
+      1792086180000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "AAVE",
+      1792086240000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "BTC",
+      1792086240000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "ETH",
+      1792086240000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "HYPE",
+      1792086240000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "LINK",
+      1792086240000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "SOL",
+      1792086240000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "AAVE",
+      1792086300000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "BTC",
+      1792086300000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "ETH",
+      1792086300000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "HYPE",
+      1792086300000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "LINK",
+      1792086300000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "SOL",
+      1792086300000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "AAVE",
+      1792086360000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "BTC",
+      1792086360000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "ETH",
+      1792086360000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "HYPE",
+      1792086360000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "LINK",
+      1792086360000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "SOL",
+      1792086360000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "AAVE",
+      1792086420000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "BTC",
+      1792086420000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "ETH",
+      1792086420000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "HYPE",
+      1792086420000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "LINK",
+      1792086420000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "SOL",
+      1792086420000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "AAVE",
+      1792086480000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "BTC",
+      1792086480000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "ETH",
+      1792086480000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "HYPE",
+      1792086480000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "LINK",
+      1792086480000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "SOL",
+      1792086480000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "AAVE",
+      1792086540000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "BTC",
+      1792086540000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "ETH",
+      1792086540000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "HYPE",
+      1792086540000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "LINK",
+      1792086540000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "SOL",
+      1792086540000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "AAVE",
+      1792086600000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "BTC",
+      1792086600000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "ETH",
+      1792086600000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "HYPE",
+      1792086600000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "LINK",
+      1792086600000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "SOL",
+      1792086600000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "AAVE",
+      1792086660000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "BTC",
+      1792086660000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "ETH",
+      1792086660000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "HYPE",
+      1792086660000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "LINK",
+      1792086660000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "SOL",
+      1792086660000,
+      0,
+      "COMPLETE",
+      null
+    ],
+    [
+      "AAVE",
+      1792086720000,
+      0,
+      "PARTIAL",
+      "collector_start,connect"
+    ],
+    [
+      "BTC",
+      1792086720000,
+      0,
+      "PARTIAL",
+      "collector_start,connect"
+    ],
+    [
+      "ETH",
+      1792086720000,
+      0,
+      "PARTIAL",
+      "collector_start,connect"
+    ],
+    [
+      "HYPE",
+      1792086720000,
+      0,
+      "PARTIAL",
+      "collector_start,connect"
+    ],
+    [
+      "LINK",
+      1792086720000,
+      0,
+      "PARTIAL",
+      "collector_start,connect"
+    ],
+    [
+      "SOL",
+      1792086720000,
+      0,
+      "PARTIAL",
+      "collector_start,connect"
+    ]
+  ],
+  "spool_latest_revision_keys": 84,
+  "db_latest_minute": 1792086720000,
+  "spool_keys_through_db_frontier": 78,
+  "spool_keys_missing_in_db_through_frontier": [],
+  "db_rows_missing_from_spool": [],
+  "revision_status_mismatches": [],
+  "duplicate_same_revision_records": [],
+  "db_duplicate_coin_minute": [],
+  "free_ingest_receipts": [
+    [
+      "context_gateway_ingests"
+    ],
+    [
+      "paper_nimble_trigger_receipts"
+    ]
+  ]
+}

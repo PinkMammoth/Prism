@@ -1,0 +1,78 @@
+{
+  "15m": {
+    "AAVE": {
+      "expected": 103,
+      "present": 103,
+      "missing": [],
+      "duplicates": 0
+    },
+    "BTC": {
+      "expected": 103,
+      "present": 103,
+      "missing": [],
+      "duplicates": 0
+    },
+    "ETH": {
+      "expected": 103,
+      "present": 103,
+      "missing": [],
+      "duplicates": 0
+    },
+    "HYPE": {
+      "expected": 103,
+      "present": 103,
+      "missing": [],
+      "duplicates": 0
+    },
+    "LINK": {
+      "expected": 103,
+      "present": 103,
+      "missing": [],
+      "duplicates": 0
+    },
+    "SOL": {
+      "expected": 103,
+      "present": 103,
+      "missing": [],
+      "duplicates": 0
+    }
+  },
+  "1h": {
+    "AAVE": {
+      "expected": 26,
+      "present": 26,
+      "missing": [],
+      "duplicates": 0
+    },
+    "BTC": {
+      "expected": 26,
+      "present": 26,
+      "missing": [],
+      "duplicates": 0
+    },
+    "ETH": {
+      "expected": 26,
+      "present": 26,
+      "missing": [],
+      "duplicates": 0
+    },
+    "HYPE": {
+      "expected": 26,
+      "present": 26,
+      "missing": [],
+      "duplicates": 0
+    },
+    "LINK": {
+      "expected": 26,
+      "present": 26,
+      "missing": [],
+      "duplicates": 0
+    },
+    "SOL": {
+      "expected": 26,
+      "present": 26,
+      "missing": [],
+      "duplicates": 0
+    }
+  }
+}

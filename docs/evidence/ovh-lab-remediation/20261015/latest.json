@@ -1,0 +1,1225 @@
+{
+  "at": "2026-10-16T01:40:00.000197+00:00",
+  "units": {
+    "prism-microstructure": {
+      "MainPID": "625",
+      "NRestarts": "0",
+      "ExecMainStartTimestamp": "Thu 2026-10-15 17:52:53 UTC",
+      "ActiveState": "active",
+      "SubState": "running"
+    },
+    "prism-free-sources": {
+      "MainPID": "612",
+      "NRestarts": "0",
+      "ExecMainStartTimestamp": "Thu 2026-10-15 17:52:53 UTC",
+      "ActiveState": "active",
+      "SubState": "running"
+    },
+    "prism-free-source-ingest": {
+      "MainPID": "609",
+      "NRestarts": "0",
+      "ExecMainStartTimestamp": "Thu 2026-10-15 17:52:53 UTC",
+      "ActiveState": "active",
+      "SubState": "running"
+    },
+    "prism-scheduler": {
+      "MainPID": "2205",
+      "NRestarts": "0",
+      "ExecMainStartTimestamp": "Thu 2026-10-15 18:12:52 UTC",
+      "ActiveState": "active",
+      "SubState": "running"
+    }
+  },
+  "host": {
+    "memory": {
+      "MemTotal": 12256567296,
+      "MemAvailable": 11058651136,
+      "SwapTotal": 0,
+      "SwapFree": 0
+    },
+    "load": [
+      0.11865234375,
+      0.12060546875,
+      0.0947265625
+    ],
+    "cpu_jiffies": [
+      356278,
+      4520,
+      33713,
+      16407886,
+      3426,
+      0,
+      4536,
+      1880,
+      0,
+      0
+    ],
+    "disk_free": 94717571072,
+    "disk_total": 105467994112
+  },
+  "profile": {
+    "profile": "autotrader_lab",
+    "identity": "prism_autotrader_lab_v1",
+    "digest": "f898e2f01ccc5f744ae52e67fbc8edce7428cdf0256647fffa77d926ea102d19",
+    "authority": "rehearsal",
+    "target": "vps",
+    "runtime_id": "vps-prism-autotrader-lab-rehearsal",
+    "explicit": true,
+    "role": "authoritative",
+    "processes": [
+      "microstructure_collector",
+      "free_source_collector",
+      "free_source_ingest",
+      "scheduler"
+    ],
+    "disabled_by_flag": [],
+    "collector_dynamic": false,
+    "scheduled_jobs": [
+      "oi",
+      "intraday",
+      "paper_v2_funding",
+      "positioning",
+      "context_macro",
+      "context_news",
+      "microstructure",
+      "backup"
+    ],
+    "execution_allowed": false,
+    "external_actions_allowed": false,
+    "boot_catchup_job": null,
+    "dynamic_universe": {
+      "tier0_discovery": "gated",
+      "tier1_warming": "gated",
+      "tier2_rich": "gated",
+      "tier3_risk_pins": "gated"
+    },
+    "definition": {
+      "name": "autotrader_lab",
+      "identity": "prism_autotrader_lab_v1",
+      "targets": [
+        "local",
+        "vps"
+      ],
+      "processes": [
+        "free_source_collector",
+        "free_source_ingest",
+        "microstructure_collector",
+        "nimble_worker",
+        "scheduler"
+      ],
+      "process_classes": {
+        "free_source_collector": "passive",
+        "free_source_ingest": "ingest",
+        "microstructure_collector": "passive",
+        "nimble_worker": "execution",
+        "scheduler": "ingest"
+      },
+      "jobs": [
+        "backup",
+        "context_macro",
+        "context_news",
+        "intraday",
+        "microstructure",
+        "oi",
+        "paper_nimble_brief",
+        "paper_v2_funding",
+        "positioning"
+      ],
+      "job_classes": {
+        "backup": "maintenance",
+        "context_macro": "data",
+        "context_news": "data",
+        "intraday": "data",
+        "microstructure": "data",
+        "oi": "data",
+        "paper_nimble_brief": "execution",
+        "paper_v2_funding": "data",
+        "positioning": "data"
+      },
+      "runtime_ids": {
+        "full": "vps-prism-autotrader-lab",
+        "rehearsal": "vps-prism-autotrader-lab-rehearsal"
+      },
+      "boot_catchup_job": null,
+      "unconditional_jobs": [
+        "paper_v2_funding"
+      ],
+      "dynamic_universe": {
+        "tier0_discovery": "gated",
+        "tier1_warming": "gated",
+        "tier2_rich": "gated",
+        "tier3_risk_pins": "gated"
+      }
+    }
+  },
+  "micro": {
+    "backoff_s": 1.0,
+    "bytes_per_s_60s": 9560.4,
+    "coins": {
+      "AAVE": {
+        "first_minute": "2026-10-15T17:52:00+00:00",
+        "last_book20_age_s": 1.3,
+        "last_book5_age_s": 0.2,
+        "last_ctx_age_s": 0.5,
+        "last_finalized_minute": "2026-10-16T01:38:00+00:00",
+        "last_finalized_status": "COMPLETE",
+        "last_trade_age_s": 5.0,
+        "subscribed": [
+          "book20",
+          "book5",
+          "ctx",
+          "trades"
+        ]
+      },
+      "BTC": {
+        "first_minute": "2026-10-15T17:52:00+00:00",
+        "last_book20_age_s": 1.3,
+        "last_book5_age_s": 0.2,
+        "last_ctx_age_s": 0.5,
+        "last_finalized_minute": "2026-10-16T01:38:00+00:00",
+        "last_finalized_status": "COMPLETE",
+        "last_trade_age_s": 0.5,
+        "subscribed": [
+          "book20",
+          "book5",
+          "ctx",
+          "trades"
+        ]
+      },
+      "ETH": {
+        "first_minute": "2026-10-15T17:52:00+00:00",
+        "last_book20_age_s": 1.3,
+        "last_book5_age_s": 0.2,
+        "last_ctx_age_s": 0.5,
+        "last_finalized_minute": "2026-10-16T01:38:00+00:00",
+        "last_finalized_status": "COMPLETE",
+        "last_trade_age_s": 0.5,
+        "subscribed": [
+          "book20",
+          "book5",
+          "ctx",
+          "trades"
+        ]
+      },
+      "HYPE": {
+        "first_minute": "2026-10-15T17:52:00+00:00",
+        "last_book20_age_s": 1.3,
+        "last_book5_age_s": 0.2,
+        "last_ctx_age_s": 0.5,
+        "last_finalized_minute": "2026-10-16T01:38:00+00:00",
+        "last_finalized_status": "COMPLETE",
+        "last_trade_age_s": 0.6,
+        "subscribed": [
+          "book20",
+          "book5",
+          "ctx",
+          "trades"
+        ]
+      },
+      "LINK": {
+        "first_minute": "2026-10-15T17:52:00+00:00",
+        "last_book20_age_s": 1.3,
+        "last_book5_age_s": 0.2,
+        "last_ctx_age_s": 0.5,
+        "last_finalized_minute": "2026-10-16T01:38:00+00:00",
+        "last_finalized_status": "COMPLETE",
+        "last_trade_age_s": 23.8,
+        "subscribed": [
+          "book20",
+          "book5",
+          "ctx",
+          "trades"
+        ]
+      },
+      "SOL": {
+        "first_minute": "2026-10-15T17:52:00+00:00",
+        "last_book20_age_s": 1.3,
+        "last_book5_age_s": 0.2,
+        "last_ctx_age_s": 0.5,
+        "last_finalized_minute": "2026-10-16T01:38:00+00:00",
+        "last_finalized_status": "COMPLETE",
+        "last_trade_age_s": 0.2,
+        "subscribed": [
+          "book20",
+          "book5",
+          "ctx",
+          "trades"
+        ]
+      }
+    },
+    "conn_id": "msconn_10a0a62161fa",
+    "connected": true,
+    "counters": {
+      "connections": 3,
+      "dup_trades": 343,
+      "ev_A": 72,
+      "ev_C": 164268,
+      "ev_D": 31302,
+      "ev_F": 309940,
+      "ev_O": 3,
+      "ev_T": 218443,
+      "ev_X": 2,
+      "finalized": 2802,
+      "replay_unobserved": 42,
+      "status_COMPLETE": 2784,
+      "status_PARTIAL": 18
+    },
+    "cpu_s": 305.37,
+    "definition": "7c299a853f4ba141",
+    "disconnected_since_ms": null,
+    "dropped_records": 0,
+    "dynamic_universe": false,
+    "feature_version": "microstructure_1m_v1",
+    "flush_ms": {
+      "max": 3.742671997315483,
+      "p50": 1.3874440010113176
+    },
+    "git_commit": "530ba0d18c3009352eee21bb7f1a1c01004ab73a",
+    "last_error": "ConnectionClosedOK: received 1000 (OK) Expired; then sent 1000 (OK) Expired",
+    "last_message_age_s": 0.2,
+    "latency_ms": {
+      "n": 4000,
+      "p50": 379,
+      "p90": 503,
+      "p99": 748
+    },
+    "max_rss_mb": 201.9,
+    "msgs_per_s_60s": 20.18,
+    "pending_records": 0,
+    "pid": 625,
+    "processing_us": {
+      "p50": 18.9,
+      "p99": 70.9
+    },
+    "raw": true,
+    "raw_bytes_written": 14204060,
+    "raw_paused": false,
+    "reconnects": 2,
+    "role": "authoritative",
+    "run_id": "msrun_92299ff05c2d47b8",
+    "runtime_id": "vps-prism-autotrader-lab-rehearsal",
+    "spool_errors": 0,
+    "started_ms": 1792086775063,
+    "subscription_error": null,
+    "url": "wss://api.hyperliquid.xyz/ws",
+    "written_ms": 1792114798981
+  },
+  "free_collector": {
+    "active": [
+      "hyperliquid_status_v1",
+      "coinbase_status_v1",
+      "kraken_status_v1"
+    ],
+    "heartbeat_at": "2026-10-16T01:39:40.920031+00:00"
+  },
+  "free_ingest": {
+    "backlog": 0,
+    "db_opened": false,
+    "heartbeat_at": "2026-10-16T01:39:55.663275+00:00",
+    "ingested": 0
+  },
+  "db_bytes": 135278592,
+  "authority": [
+    "vps-prism-autotrader-lab-rehearsal",
+    "2026-10-14 15:43:52.816356+00:00"
+  ],
+  "cycles": [
+    [
+      "rtcyc_9f93d98fa17b48f6b1b2836954d6dd04",
+      "intraday",
+      "schedule",
+      "2026-10-15 18:31:03.424047+00:00",
+      "2026-10-15 18:31:10.018372+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_6ce60170e7e0474c92647959003b6762",
+      "microstructure",
+      "schedule",
+      "2026-10-15 18:36:01.299426+00:00",
+      "2026-10-15 18:36:06.762798+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_734993a8f78547a0a76bea08fe527a79",
+      "context_news",
+      "schedule",
+      "2026-10-15 18:38:01.360811+00:00",
+      "2026-10-15 18:38:06.339013+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_e4bfab7885484d1eaa30b288d162937b",
+      "intraday",
+      "schedule",
+      "2026-10-15 18:46:01.294437+00:00",
+      "2026-10-15 18:46:07.766215+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_82c1bf9a3ad5469482ffae6236110a9b",
+      "microstructure",
+      "schedule",
+      "2026-10-15 18:51:01.191345+00:00",
+      "2026-10-15 18:51:06.932494+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_9b046b2e757d442bb41dbf7fac1f8bf4",
+      "intraday",
+      "schedule",
+      "2026-10-15 19:01:01.265672+00:00",
+      "2026-10-15 19:01:10.949806+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_caa77bd08d3a4493875a0539437111f0",
+      "positioning",
+      "schedule",
+      "2026-10-15 19:04:01.383941+00:00",
+      "2026-10-15 19:04:17.690329+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_5781652390904e38a81c7fe2be99532c",
+      "paper_v2_funding",
+      "schedule",
+      "2026-10-15 19:05:01.639186+00:00",
+      "2026-10-15 19:05:07.967497+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_c67236ed9e634a8ebddbde772d235445",
+      "microstructure",
+      "schedule",
+      "2026-10-15 19:06:01.366428+00:00",
+      "2026-10-15 19:06:07.511368+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_fb7639e662924e6a861644781afcdf85",
+      "context_news",
+      "schedule",
+      "2026-10-15 19:08:01.232764+00:00",
+      "2026-10-15 19:08:06.294341+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_4d820a5354f9405db4b2b1dab5498944",
+      "context_macro",
+      "schedule",
+      "2026-10-15 19:12:01.331449+00:00",
+      "2026-10-15 19:12:12.018584+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_c7833f068a0f4ad0a7d0ed7f5238c72c",
+      "intraday",
+      "schedule",
+      "2026-10-15 19:16:01.309771+00:00",
+      "2026-10-15 19:16:08.065550+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_88ebe47ba78745b3abfd71194ab1b5aa",
+      "microstructure",
+      "schedule",
+      "2026-10-15 19:21:01.158037+00:00",
+      "2026-10-15 19:21:06.881055+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_a7ea233c224645b0bda57b5cd9d624c9",
+      "intraday",
+      "schedule",
+      "2026-10-15 19:31:01.398191+00:00",
+      "2026-10-15 19:31:08.119844+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_e82277ff86c741e497ffcf43d78068eb",
+      "microstructure",
+      "schedule",
+      "2026-10-15 19:36:01.353449+00:00",
+      "2026-10-15 19:36:06.882106+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_74776fff727246fa8815ade30f14dd74",
+      "context_news",
+      "schedule",
+      "2026-10-15 19:38:01.333283+00:00",
+      "2026-10-15 19:38:06.374955+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_ca3ef87620d647f69830817da7e9af34",
+      "intraday",
+      "schedule",
+      "2026-10-15 19:46:01.251338+00:00",
+      "2026-10-15 19:46:07.786683+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_82f6c93ebcb64decae8fcf2ee769c50b",
+      "microstructure",
+      "schedule",
+      "2026-10-15 19:51:01.357360+00:00",
+      "2026-10-15 19:51:07.157921+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_dd7404498a2d4eef9a2d1369cb0655ae",
+      "intraday",
+      "schedule",
+      "2026-10-15 20:01:01.363830+00:00",
+      "2026-10-15 20:01:13.988632+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_9c37fe8e8b314099ab19b726f5298c17",
+      "positioning",
+      "schedule",
+      "2026-10-15 20:04:05.392742+00:00",
+      "2026-10-15 20:04:21.114803+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_9c43e5ad85f34d64bce03930608c0285",
+      "paper_v2_funding",
+      "schedule",
+      "2026-10-15 20:05:01.971523+00:00",
+      "2026-10-15 20:05:08.469152+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_cf0db6891e46461a8c4a71c09120e749",
+      "microstructure",
+      "schedule",
+      "2026-10-15 20:06:01.274423+00:00",
+      "2026-10-15 20:06:06.955056+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_89a5b326d06c496eac0c1bc83b961474",
+      "context_news",
+      "schedule",
+      "2026-10-15 20:08:01.242264+00:00",
+      "2026-10-15 20:08:06.301616+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_bb9d80101dcf494a81c82d4968f4a305",
+      "intraday",
+      "schedule",
+      "2026-10-15 20:16:01.347319+00:00",
+      "2026-10-15 20:16:07.866170+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_068c821f1c6d4ee5be74e5047587c5ee",
+      "microstructure",
+      "schedule",
+      "2026-10-15 20:21:01.131090+00:00",
+      "2026-10-15 20:21:06.911109+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_6cc42e616402442b851697610eee3b9b",
+      "oi",
+      "schedule",
+      "2026-10-15 20:30:01.293292+00:00",
+      "2026-10-15 20:30:08.765042+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_2ff3cae69995464bb6846d813cc16824",
+      "intraday",
+      "schedule",
+      "2026-10-15 20:31:01.116455+00:00",
+      "2026-10-15 20:31:07.793338+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_7422ce5fb85d4c0b98e3188e763c1d2b",
+      "microstructure",
+      "schedule",
+      "2026-10-15 20:36:01.107198+00:00",
+      "2026-10-15 20:36:06.921456+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_831e1cf0e953497dbee28dfea3ada0e7",
+      "context_news",
+      "schedule",
+      "2026-10-15 20:38:01.324089+00:00",
+      "2026-10-15 20:38:06.491736+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_1f6c4c09009c42bdbf0943dc03ebc7ff",
+      "intraday",
+      "schedule",
+      "2026-10-15 20:46:01.274245+00:00",
+      "2026-10-15 20:46:07.990769+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_0c1ce3c65842402293efaccb088be4cd",
+      "microstructure",
+      "schedule",
+      "2026-10-15 20:51:01.352616+00:00",
+      "2026-10-15 20:51:07.763869+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_dc3d88ad418441b4be864565588be239",
+      "intraday",
+      "schedule",
+      "2026-10-15 21:01:01.201357+00:00",
+      "2026-10-15 21:01:10.867718+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_8110e8092f23419c8f674a2b47568527",
+      "positioning",
+      "schedule",
+      "2026-10-15 21:04:01.374358+00:00",
+      "2026-10-15 21:04:17.222687+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_b4f20926d66349e0a777b6f1842fda4b",
+      "paper_v2_funding",
+      "schedule",
+      "2026-10-15 21:05:06.038797+00:00",
+      "2026-10-15 21:05:12.592600+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_1d7c09af38914bd49e7b7b847565710b",
+      "microstructure",
+      "schedule",
+      "2026-10-15 21:06:01.293732+00:00",
+      "2026-10-15 21:06:07.217110+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_aa29f7c7a5694454b7c527f9babda1a1",
+      "context_news",
+      "schedule",
+      "2026-10-15 21:08:01.249434+00:00",
+      "2026-10-15 21:08:05.922172+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_812a29fb5ed34773ac9f9a1aafda9425",
+      "intraday",
+      "schedule",
+      "2026-10-15 21:16:01.448412+00:00",
+      "2026-10-15 21:16:08.575110+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_4955baaa52fc475ab575b75d0209763b",
+      "microstructure",
+      "schedule",
+      "2026-10-15 21:21:01.350710+00:00",
+      "2026-10-15 21:21:08.471796+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_364555e8c44048719c9216e743a4af5a",
+      "intraday",
+      "schedule",
+      "2026-10-15 21:31:01.189709+00:00",
+      "2026-10-15 21:31:07.708310+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_458cee00d79d480b94a8650e0574e43f",
+      "microstructure",
+      "schedule",
+      "2026-10-15 21:36:01.335546+00:00",
+      "2026-10-15 21:36:07.125051+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_f2accde34ab2459f88511b638c1df03a",
+      "context_news",
+      "schedule",
+      "2026-10-15 21:38:01.385909+00:00",
+      "2026-10-15 21:38:06.264724+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_236c2e1ec9254c0696d620449e666298",
+      "intraday",
+      "schedule",
+      "2026-10-15 21:46:01.254518+00:00",
+      "2026-10-15 21:46:09.008991+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_57817a12676c4203a21ce3c3670ae23f",
+      "microstructure",
+      "schedule",
+      "2026-10-15 21:51:01.212483+00:00",
+      "2026-10-15 21:51:06.936214+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_037dbc95a45b4450bcfce7d4d965682d",
+      "intraday",
+      "schedule",
+      "2026-10-15 22:01:01.283081+00:00",
+      "2026-10-15 22:01:10.993815+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_ac8a662f350048c59c91014b7cb82f4d",
+      "positioning",
+      "schedule",
+      "2026-10-15 22:04:01.216667+00:00",
+      "2026-10-15 22:04:18.381271+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_46e911971f524a28b3c005685950b32a",
+      "paper_v2_funding",
+      "schedule",
+      "2026-10-15 22:05:02.046526+00:00",
+      "2026-10-15 22:05:08.304214+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_d819778dc77d49f1bfe672f13c70b16b",
+      "microstructure",
+      "schedule",
+      "2026-10-15 22:06:01.480936+00:00",
+      "2026-10-15 22:06:07.363977+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_966b8a666f1247dcaf49995e9471f7b4",
+      "context_news",
+      "schedule",
+      "2026-10-15 22:08:01.113213+00:00",
+      "2026-10-15 22:08:06.034550+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_ab0e5adb5aad4d69b66802f1aeed2cc9",
+      "intraday",
+      "schedule",
+      "2026-10-15 22:16:01.326245+00:00",
+      "2026-10-15 22:16:08.231517+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_3ba6ddef7bfa4bd8822188589bb724c9",
+      "microstructure",
+      "schedule",
+      "2026-10-15 22:21:01.255328+00:00",
+      "2026-10-15 22:21:07.342676+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_7766aaf8d7944a2290f1870710b50204",
+      "intraday",
+      "schedule",
+      "2026-10-15 22:31:01.462674+00:00",
+      "2026-10-15 22:31:08.136069+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_d906111a83524fbdb3eee4b78e52d6c5",
+      "microstructure",
+      "schedule",
+      "2026-10-15 22:36:01.251567+00:00",
+      "2026-10-15 22:36:07.207986+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_6612b2e91bc54175bd8d2c651cd34129",
+      "context_news",
+      "schedule",
+      "2026-10-15 22:38:01.278831+00:00",
+      "2026-10-15 22:38:06.042672+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_d74e8e56a9e54cb189c321c9eca3aab1",
+      "intraday",
+      "schedule",
+      "2026-10-15 22:46:01.162736+00:00",
+      "2026-10-15 22:46:07.776524+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_63b3b82bd8a44e3f82bc63f26267d9c8",
+      "microstructure",
+      "schedule",
+      "2026-10-15 22:51:01.340654+00:00",
+      "2026-10-15 22:51:08.343865+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_e286839e6b2d4828b523f990510f876a",
+      "intraday",
+      "schedule",
+      "2026-10-15 23:01:01.275058+00:00",
+      "2026-10-15 23:01:11.127366+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_374051ca1c6040e69b0a677694af9cfb",
+      "positioning",
+      "schedule",
+      "2026-10-15 23:04:01.135124+00:00",
+      "2026-10-15 23:04:17.305967+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_f5d036fe8c864b6f9e3df2c0bba1f876",
+      "paper_v2_funding",
+      "schedule",
+      "2026-10-15 23:05:01.666902+00:00",
+      "2026-10-15 23:05:08.114906+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_86d58299825a44269d7b2f1723bc26e4",
+      "microstructure",
+      "schedule",
+      "2026-10-15 23:06:01.244375+00:00",
+      "2026-10-15 23:06:07.296243+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_e3cbfa3999f747db9020347c941aad43",
+      "context_news",
+      "schedule",
+      "2026-10-15 23:08:01.248316+00:00",
+      "2026-10-15 23:08:06.782839+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_47332e8a89bd451580c0b3f13ac5bf15",
+      "intraday",
+      "schedule",
+      "2026-10-15 23:16:01.176922+00:00",
+      "2026-10-15 23:16:07.877801+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_c27f2dc6166342d7842e2827c9aca4fc",
+      "microstructure",
+      "schedule",
+      "2026-10-15 23:21:01.285912+00:00",
+      "2026-10-15 23:21:07.757393+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_418cf49d45fc453e8d35508521b98816",
+      "intraday",
+      "schedule",
+      "2026-10-15 23:31:01.151563+00:00",
+      "2026-10-15 23:31:08.201511+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_9682abfa1ec24abd8a74af70efb09aa7",
+      "microstructure",
+      "schedule",
+      "2026-10-15 23:36:01.364553+00:00",
+      "2026-10-15 23:36:07.612649+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_1bd73e52e7124a66a34e2dfa18f36d1a",
+      "context_news",
+      "schedule",
+      "2026-10-15 23:38:01.342530+00:00",
+      "2026-10-15 23:38:06.180894+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_80151972d74347058b5e44d6516b6994",
+      "intraday",
+      "schedule",
+      "2026-10-15 23:46:01.200555+00:00",
+      "2026-10-15 23:46:08.005313+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_871114c992654773b22b60c4aef8915b",
+      "microstructure",
+      "schedule",
+      "2026-10-15 23:51:01.366874+00:00",
+      "2026-10-15 23:51:07.807688+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_6626bcceffd1428fb4a3a94f6171452b",
+      "intraday",
+      "schedule",
+      "2026-10-16 00:01:03.358407+00:00",
+      "2026-10-16 00:01:16.435142+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_eb6d9f05c9fe4fda9e7e2d662e8de17a",
+      "positioning",
+      "schedule",
+      "2026-10-16 00:04:01.369746+00:00",
+      "2026-10-16 00:04:18.143294+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_b6c98fd078a641deb413e344f87a411a",
+      "paper_v2_funding",
+      "schedule",
+      "2026-10-16 00:05:02.353507+00:00",
+      "2026-10-16 00:05:09.424337+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_2d2e40d50c124036bbdeed616bae8874",
+      "microstructure",
+      "schedule",
+      "2026-10-16 00:06:01.173645+00:00",
+      "2026-10-16 00:06:07.694671+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_15b6425f682745ab847dacd8dbe34f5d",
+      "context_news",
+      "schedule",
+      "2026-10-16 00:08:01.196399+00:00",
+      "2026-10-16 00:08:06.345280+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_2b7db39a72524a3aa9c4a8ee50adaee7",
+      "intraday",
+      "schedule",
+      "2026-10-16 00:16:01.254978+00:00",
+      "2026-10-16 00:16:08.205645+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_be5e7c1eabcc4ac787667f6123bc527a",
+      "context_macro",
+      "schedule",
+      "2026-10-16 00:20:01.201472+00:00",
+      "2026-10-16 00:20:17.041430+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_adac80483ee74023822adc5ff4cd5936",
+      "microstructure",
+      "schedule",
+      "2026-10-16 00:21:01.320736+00:00",
+      "2026-10-16 00:21:07.980804+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_a8d8a6a2dc644612b0843511b2b515aa",
+      "intraday",
+      "schedule",
+      "2026-10-16 00:31:01.460350+00:00",
+      "2026-10-16 00:31:08.595466+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_445b5683032b4ec9a892d5875cae6cd5",
+      "microstructure",
+      "schedule",
+      "2026-10-16 00:36:01.210730+00:00",
+      "2026-10-16 00:36:07.247742+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_749483f97b0e43199b6b6ca4a8f98a47",
+      "context_news",
+      "schedule",
+      "2026-10-16 00:38:01.330907+00:00",
+      "2026-10-16 00:38:07.094740+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_d3d7bf2c99c54be38bc35866a869fe5e",
+      "intraday",
+      "schedule",
+      "2026-10-16 00:46:01.139171+00:00",
+      "2026-10-16 00:46:08.251316+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_1485bca4bff14be7942c0b28d30746c0",
+      "microstructure",
+      "schedule",
+      "2026-10-16 00:51:01.346936+00:00",
+      "2026-10-16 00:51:07.775462+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_73686818889e407baedd2d3168a49a26",
+      "intraday",
+      "schedule",
+      "2026-10-16 01:01:01.296845+00:00",
+      "2026-10-16 01:01:11.410747+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_f4c86d1bdb0f451aac579458704c365d",
+      "positioning",
+      "schedule",
+      "2026-10-16 01:04:01.201396+00:00",
+      "2026-10-16 01:04:18.780630+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_daf6149c58e14e6aa7ba31193c5af4b6",
+      "paper_v2_funding",
+      "schedule",
+      "2026-10-16 01:05:02.192705+00:00",
+      "2026-10-16 01:05:08.968960+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_49821cfbe5944deab2be6362dc66d0a1",
+      "microstructure",
+      "schedule",
+      "2026-10-16 01:06:01.394117+00:00",
+      "2026-10-16 01:06:09.065783+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_4d0bb36b39974a9f9d3edb4a7bd49b79",
+      "context_news",
+      "schedule",
+      "2026-10-16 01:08:01.221925+00:00",
+      "2026-10-16 01:08:06.351691+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_f292f3b6c4124be8970455cec0198110",
+      "intraday",
+      "schedule",
+      "2026-10-16 01:16:03.256042+00:00",
+      "2026-10-16 01:16:10.325259+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_fca19b88609043759a0329de3d805c82",
+      "microstructure",
+      "schedule",
+      "2026-10-16 01:21:01.283245+00:00",
+      "2026-10-16 01:21:07.729937+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_00a4ac806bd14537ba3059c8e6699d4e",
+      "backup",
+      "schedule",
+      "2026-10-16 01:30:01.330238+00:00",
+      "2026-10-16 01:30:10.781573+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_a99aa2b6d7834f92bdf1bc2bd3c38eb7",
+      "intraday",
+      "schedule",
+      "2026-10-16 01:31:01.166342+00:00",
+      "2026-10-16 01:31:08.122877+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_d76127a912614662a66baa7c8514c917",
+      "microstructure",
+      "schedule",
+      "2026-10-16 01:36:01.309701+00:00",
+      "2026-10-16 01:36:07.859891+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_77116488ecf94db3b13e84451117a0c6",
+      "context_news",
+      "schedule",
+      "2026-10-16 01:38:03.208785+00:00",
+      "2026-10-16 01:38:08.382798+00:00",
+      "ok"
+    ]
+  ],
+  "providers": [
+    [
+      "fred_actuals",
+      "ok",
+      2,
+      "2026-10-16 00:20:16.435230+00:00",
+      0
+    ],
+    [
+      "fred_calendar",
+      "ok",
+      2,
+      "2026-10-16 00:20:13.226338+00:00",
+      0
+    ]
+  ],
+  "paper_rows": {
+    "paper_briefs": 0,
+    "paper_cycles": 0,
+    "paper_event_evidence": 0,
+    "paper_event_pending": 0,
+    "paper_events": 0,
+    "paper_evidence": 0,
+    "paper_nimble_accounts": 0,
+    "paper_nimble_deliveries": 0,
+    "paper_nimble_events": 0,
+    "paper_nimble_opportunities": 0,
+    "paper_nimble_positions": 0,
+    "paper_nimble_reports": 0,
+    "paper_nimble_research": 0,
+    "paper_nimble_research_pending": 0,
+    "paper_nimble_runs": 0,
+    "paper_nimble_theses": 0,
+    "paper_nimble_trigger_receipts": 0,
+    "paper_notifications": 0,
+    "paper_policies": 0,
+    "paper_retirements": 0,
+    "paper_runs": 0,
+    "paper_snapshots": 0,
+    "paper_software": 0,
+    "paper_v2_context_snapshots": 0,
+    "paper_v2_deliveries": 0,
+    "paper_v2_evaluations": 0,
+    "paper_v2_events": 0,
+    "paper_v2_opportunities": 0,
+    "paper_v2_outcomes": 0,
+    "paper_v2_policies": 0,
+    "paper_v2_reports": 0,
+    "paper_v2_runs": 0,
+    "paper_v2_universes": 0
+  },
+  "universe_evaluations": 0,
+  "frontiers": {
+    "bars": [
+      [
+        "AAVE",
+        "15m",
+        "2026-10-16 01:30:00+00:00"
+      ],
+      [
+        "AAVE",
+        "1h",
+        "2026-10-16 01:00:00+00:00"
+      ],
+      [
+        "BTC",
+        "15m",
+        "2026-10-16 01:30:00+00:00"
+      ],
+      [
+        "BTC",
+        "1h",
+        "2026-10-16 01:00:00+00:00"
+      ],
+      [
+        "ETH",
+        "15m",
+        "2026-10-16 01:30:00+00:00"
+      ],
+      [
+        "ETH",
+        "1h",
+        "2026-10-16 01:00:00+00:00"
+      ],
+      [
+        "HYPE",
+        "15m",
+        "2026-10-16 01:30:00+00:00"
+      ],
+      [
+        "HYPE",
+        "1h",
+        "2026-10-16 01:00:00+00:00"
+      ],
+      [
+        "LINK",
+        "15m",
+        "2026-10-16 01:30:00+00:00"
+      ],
+      [
+        "LINK",
+        "1h",
+        "2026-10-16 01:00:00+00:00"
+      ],
+      [
+        "SOL",
+        "15m",
+        "2026-10-16 01:30:00+00:00"
+      ],
+      [
+        "SOL",
+        "1h",
+        "2026-10-16 01:00:00+00:00"
+      ]
+    ],
+    "micro": [
+      [
+        "AAVE",
+        "2026-10-16 01:34:00+00:00"
+      ],
+      [
+        "BTC",
+        "2026-10-16 01:34:00+00:00"
+      ],
+      [
+        "ETH",
+        "2026-10-16 01:34:00+00:00"
+      ],
+      [
+        "HYPE",
+        "2026-10-16 01:34:00+00:00"
+      ],
+      [
+        "LINK",
+        "2026-10-16 01:34:00+00:00"
+      ],
+      [
+        "SOL",
+        "2026-10-16 01:34:00+00:00"
+      ]
+    ],
+    "funding": [
+      [
+        "AAVE",
+        "2026-10-16 01:00:00.055000+00:00"
+      ],
+      [
+        "BTC",
+        "2026-10-16 01:00:00.055000+00:00"
+      ],
+      [
+        "ETH",
+        "2026-10-16 01:00:00.055000+00:00"
+      ],
+      [
+        "HYPE",
+        "2026-10-16 01:00:00.055000+00:00"
+      ],
+      [
+        "LINK",
+        "2026-10-16 01:00:00.055000+00:00"
+      ],
+      [
+        "SOL",
+        "2026-10-16 01:00:00.055000+00:00"
+      ]
+    ]
+  },
+  "concerns": []
+}

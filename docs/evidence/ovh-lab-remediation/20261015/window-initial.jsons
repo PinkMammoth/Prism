@@ -1,0 +1,486 @@
+{
+  "start": "2026-10-15T18:25:28.271856+00:00",
+  "planned_end": "2026-10-16T01:40:00+00:00",
+  "base_evidence": "26-hour rehearsal 2026-10-14T15:44:38Z to 2026-10-15T17:45:00Z",
+  "purpose": "targeted remediation extension; no reset of base evidence",
+  "minimum_seconds": 21600
+}
+{
+  "at": "2026-10-15T18:25:28.272296+00:00",
+  "units": {
+    "prism-microstructure": {
+      "MainPID": "625",
+      "NRestarts": "0",
+      "ExecMainStartTimestamp": "Thu 2026-10-15 17:52:53 UTC",
+      "ActiveState": "active",
+      "SubState": "running"
+    },
+    "prism-free-sources": {
+      "MainPID": "612",
+      "NRestarts": "0",
+      "ExecMainStartTimestamp": "Thu 2026-10-15 17:52:53 UTC",
+      "ActiveState": "active",
+      "SubState": "running"
+    },
+    "prism-free-source-ingest": {
+      "MainPID": "609",
+      "NRestarts": "0",
+      "ExecMainStartTimestamp": "Thu 2026-10-15 17:52:53 UTC",
+      "ActiveState": "active",
+      "SubState": "running"
+    },
+    "prism-scheduler": {
+      "MainPID": "2205",
+      "NRestarts": "0",
+      "ExecMainStartTimestamp": "Thu 2026-10-15 18:12:52 UTC",
+      "ActiveState": "active",
+      "SubState": "running"
+    }
+  },
+  "host": {
+    "memory": {
+      "MemTotal": 12256567296,
+      "MemAvailable": 11186712576,
+      "SwapTotal": 0,
+      "SwapFree": 0
+    },
+    "load": [
+      0.052734375,
+      0.18505859375,
+      0.16650390625
+    ],
+    "cpu_jiffies": [
+      36419,
+      0,
+      4498,
+      1134491,
+      549,
+      0,
+      464,
+      177,
+      0,
+      0
+    ],
+    "disk_free": 94844473344,
+    "disk_total": 105467994112
+  },
+  "profile": {
+    "profile": "autotrader_lab",
+    "identity": "prism_autotrader_lab_v1",
+    "digest": "f898e2f01ccc5f744ae52e67fbc8edce7428cdf0256647fffa77d926ea102d19",
+    "authority": "rehearsal",
+    "target": "vps",
+    "runtime_id": "vps-prism-autotrader-lab-rehearsal",
+    "explicit": true,
+    "role": "authoritative",
+    "processes": [
+      "microstructure_collector",
+      "free_source_collector",
+      "free_source_ingest",
+      "scheduler"
+    ],
+    "disabled_by_flag": [],
+    "collector_dynamic": false,
+    "scheduled_jobs": [
+      "oi",
+      "intraday",
+      "paper_v2_funding",
+      "positioning",
+      "context_macro",
+      "context_news",
+      "microstructure",
+      "backup"
+    ],
+    "execution_allowed": false,
+    "external_actions_allowed": false,
+    "boot_catchup_job": null,
+    "dynamic_universe": {
+      "tier0_discovery": "gated",
+      "tier1_warming": "gated",
+      "tier2_rich": "gated",
+      "tier3_risk_pins": "gated"
+    },
+    "definition": {
+      "name": "autotrader_lab",
+      "identity": "prism_autotrader_lab_v1",
+      "targets": [
+        "local",
+        "vps"
+      ],
+      "processes": [
+        "free_source_collector",
+        "free_source_ingest",
+        "microstructure_collector",
+        "nimble_worker",
+        "scheduler"
+      ],
+      "process_classes": {
+        "free_source_collector": "passive",
+        "free_source_ingest": "ingest",
+        "microstructure_collector": "passive",
+        "nimble_worker": "execution",
+        "scheduler": "ingest"
+      },
+      "jobs": [
+        "backup",
+        "context_macro",
+        "context_news",
+        "intraday",
+        "microstructure",
+        "oi",
+        "paper_nimble_brief",
+        "paper_v2_funding",
+        "positioning"
+      ],
+      "job_classes": {
+        "backup": "maintenance",
+        "context_macro": "data",
+        "context_news": "data",
+        "intraday": "data",
+        "microstructure": "data",
+        "oi": "data",
+        "paper_nimble_brief": "execution",
+        "paper_v2_funding": "data",
+        "positioning": "data"
+      },
+      "runtime_ids": {
+        "full": "vps-prism-autotrader-lab",
+        "rehearsal": "vps-prism-autotrader-lab-rehearsal"
+      },
+      "boot_catchup_job": null,
+      "unconditional_jobs": [
+        "paper_v2_funding"
+      ],
+      "dynamic_universe": {
+        "tier0_discovery": "gated",
+        "tier1_warming": "gated",
+        "tier2_rich": "gated",
+        "tier3_risk_pins": "gated"
+      }
+    }
+  },
+  "micro": {
+    "backoff_s": 1.0,
+    "bytes_per_s_60s": 10550.0,
+    "coins": {
+      "AAVE": {
+        "first_minute": "2026-10-15T17:52:00+00:00",
+        "last_book20_age_s": 3.2,
+        "last_book5_age_s": 0.0,
+        "last_ctx_age_s": 0.6,
+        "last_finalized_minute": "2026-10-15T18:24:00+00:00",
+        "last_finalized_status": "COMPLETE",
+        "last_trade_age_s": 22.9,
+        "subscribed": [
+          "book20",
+          "book5",
+          "ctx",
+          "trades"
+        ]
+      },
+      "BTC": {
+        "first_minute": "2026-10-15T17:52:00+00:00",
+        "last_book20_age_s": 3.2,
+        "last_book5_age_s": 0.0,
+        "last_ctx_age_s": 0.6,
+        "last_finalized_minute": "2026-10-15T18:24:00+00:00",
+        "last_finalized_status": "COMPLETE",
+        "last_trade_age_s": 2.3,
+        "subscribed": [
+          "book20",
+          "book5",
+          "ctx",
+          "trades"
+        ]
+      },
+      "ETH": {
+        "first_minute": "2026-10-15T17:52:00+00:00",
+        "last_book20_age_s": 3.2,
+        "last_book5_age_s": 0.0,
+        "last_ctx_age_s": 0.6,
+        "last_finalized_minute": "2026-10-15T18:24:00+00:00",
+        "last_finalized_status": "COMPLETE",
+        "last_trade_age_s": 3.2,
+        "subscribed": [
+          "book20",
+          "book5",
+          "ctx",
+          "trades"
+        ]
+      },
+      "HYPE": {
+        "first_minute": "2026-10-15T17:52:00+00:00",
+        "last_book20_age_s": 3.2,
+        "last_book5_age_s": 0.0,
+        "last_ctx_age_s": 0.6,
+        "last_finalized_minute": "2026-10-15T18:24:00+00:00",
+        "last_finalized_status": "COMPLETE",
+        "last_trade_age_s": 4.4,
+        "subscribed": [
+          "book20",
+          "book5",
+          "ctx",
+          "trades"
+        ]
+      },
+      "LINK": {
+        "first_minute": "2026-10-15T17:52:00+00:00",
+        "last_book20_age_s": 3.2,
+        "last_book5_age_s": 0.0,
+        "last_ctx_age_s": 0.6,
+        "last_finalized_minute": "2026-10-15T18:24:00+00:00",
+        "last_finalized_status": "COMPLETE",
+        "last_trade_age_s": 8.0,
+        "subscribed": [
+          "book20",
+          "book5",
+          "ctx",
+          "trades"
+        ]
+      },
+      "SOL": {
+        "first_minute": "2026-10-15T17:52:00+00:00",
+        "last_book20_age_s": 3.2,
+        "last_book5_age_s": 0.0,
+        "last_ctx_age_s": 0.6,
+        "last_finalized_minute": "2026-10-15T18:24:00+00:00",
+        "last_finalized_status": "COMPLETE",
+        "last_trade_age_s": 7.0,
+        "subscribed": [
+          "book20",
+          "book5",
+          "ctx",
+          "trades"
+        ]
+      }
+    },
+    "conn_id": "msconn_88fabebc88de",
+    "connected": true,
+    "counters": {
+      "connections": 1,
+      "ev_A": 24,
+      "ev_C": 11400,
+      "ev_D": 2178,
+      "ev_F": 21564,
+      "ev_O": 1,
+      "ev_T": 18579,
+      "finalized": 198,
+      "replay_unobserved": 42,
+      "status_COMPLETE": 192,
+      "status_PARTIAL": 6
+    },
+    "cpu_s": 24.13,
+    "definition": "7c299a853f4ba141",
+    "disconnected_since_ms": null,
+    "dropped_records": 0,
+    "dynamic_universe": false,
+    "feature_version": "microstructure_1m_v1",
+    "flush_ms": {
+      "max": 3.238885999962804,
+      "p50": 1.4258870000958268
+    },
+    "git_commit": "530ba0d18c3009352eee21bb7f1a1c01004ab73a",
+    "last_error": null,
+    "last_message_age_s": 0.0,
+    "latency_ms": {
+      "n": 4000,
+      "p50": 377,
+      "p90": 475,
+      "p99": 728
+    },
+    "max_rss_mb": 200.3,
+    "msgs_per_s_60s": 21.28,
+    "pending_records": 0,
+    "pid": 625,
+    "processing_us": {
+      "p50": 22.4,
+      "p99": 80.2
+    },
+    "raw": true,
+    "raw_bytes_written": 1065729,
+    "raw_paused": false,
+    "reconnects": 0,
+    "role": "authoritative",
+    "run_id": "msrun_92299ff05c2d47b8",
+    "runtime_id": "vps-prism-autotrader-lab-rehearsal",
+    "spool_errors": 0,
+    "started_ms": 1792086775063,
+    "subscription_error": null,
+    "url": "wss://api.hyperliquid.xyz/ws",
+    "written_ms": 1792088723422
+  },
+  "free_collector": {
+    "active": [
+      "hyperliquid_status_v1",
+      "coinbase_status_v1",
+      "kraken_status_v1"
+    ],
+    "heartbeat_at": "2026-10-15T18:25:07.592649+00:00"
+  },
+  "free_ingest": {
+    "backlog": 0,
+    "db_opened": false,
+    "heartbeat_at": "2026-10-15T18:25:25.748287+00:00",
+    "ingested": 0
+  },
+  "db_bytes": 129511424,
+  "authority": [
+    "vps-prism-autotrader-lab-rehearsal",
+    "2026-10-14 15:43:52.816356+00:00"
+  ],
+  "cycles": [],
+  "providers": [],
+  "paper_rows": {
+    "paper_briefs": 0,
+    "paper_cycles": 0,
+    "paper_event_evidence": 0,
+    "paper_event_pending": 0,
+    "paper_events": 0,
+    "paper_evidence": 0,
+    "paper_nimble_accounts": 0,
+    "paper_nimble_deliveries": 0,
+    "paper_nimble_events": 0,
+    "paper_nimble_opportunities": 0,
+    "paper_nimble_positions": 0,
+    "paper_nimble_reports": 0,
+    "paper_nimble_research": 0,
+    "paper_nimble_research_pending": 0,
+    "paper_nimble_runs": 0,
+    "paper_nimble_theses": 0,
+    "paper_nimble_trigger_receipts": 0,
+    "paper_notifications": 0,
+    "paper_policies": 0,
+    "paper_retirements": 0,
+    "paper_runs": 0,
+    "paper_snapshots": 0,
+    "paper_software": 0,
+    "paper_v2_context_snapshots": 0,
+    "paper_v2_deliveries": 0,
+    "paper_v2_evaluations": 0,
+    "paper_v2_events": 0,
+    "paper_v2_opportunities": 0,
+    "paper_v2_outcomes": 0,
+    "paper_v2_policies": 0,
+    "paper_v2_reports": 0,
+    "paper_v2_runs": 0,
+    "paper_v2_universes": 0
+  },
+  "universe_evaluations": 0,
+  "frontiers": {
+    "bars": [
+      [
+        "AAVE",
+        "15m",
+        "2026-10-15 18:15:00+00:00"
+      ],
+      [
+        "AAVE",
+        "1h",
+        "2026-10-15 18:00:00+00:00"
+      ],
+      [
+        "BTC",
+        "15m",
+        "2026-10-15 18:15:00+00:00"
+      ],
+      [
+        "BTC",
+        "1h",
+        "2026-10-15 18:00:00+00:00"
+      ],
+      [
+        "ETH",
+        "15m",
+        "2026-10-15 18:15:00+00:00"
+      ],
+      [
+        "ETH",
+        "1h",
+        "2026-10-15 18:00:00+00:00"
+      ],
+      [
+        "HYPE",
+        "15m",
+        "2026-10-15 18:15:00+00:00"
+      ],
+      [
+        "HYPE",
+        "1h",
+        "2026-10-15 18:00:00+00:00"
+      ],
+      [
+        "LINK",
+        "15m",
+        "2026-10-15 18:15:00+00:00"
+      ],
+      [
+        "LINK",
+        "1h",
+        "2026-10-15 18:00:00+00:00"
+      ],
+      [
+        "SOL",
+        "15m",
+        "2026-10-15 18:15:00+00:00"
+      ],
+      [
+        "SOL",
+        "1h",
+        "2026-10-15 18:00:00+00:00"
+      ]
+    ],
+    "micro": [
+      [
+        "AAVE",
+        "2026-10-15 18:19:00+00:00"
+      ],
+      [
+        "BTC",
+        "2026-10-15 18:19:00+00:00"
+      ],
+      [
+        "ETH",
+        "2026-10-15 18:19:00+00:00"
+      ],
+      [
+        "HYPE",
+        "2026-10-15 18:19:00+00:00"
+      ],
+      [
+        "LINK",
+        "2026-10-15 18:19:00+00:00"
+      ],
+      [
+        "SOL",
+        "2026-10-15 18:19:00+00:00"
+      ]
+    ],
+    "funding": [
+      [
+        "AAVE",
+        "2026-10-15 18:00:00.042000+00:00"
+      ],
+      [
+        "BTC",
+        "2026-10-15 18:00:00.042000+00:00"
+      ],
+      [
+        "ETH",
+        "2026-10-15 18:00:00.042000+00:00"
+      ],
+      [
+        "HYPE",
+        "2026-10-15 18:00:00.042000+00:00"
+      ],
+      [
+        "LINK",
+        "2026-10-15 18:00:00.042000+00:00"
+      ],
+      [
+        "SOL",
+        "2026-10-15 18:00:00.042000+00:00"
+      ]
+    ]
+  },
+  "concerns": []
+}

@@ -1,0 +1,12 @@
+{"scheduler_pid": "2205", "user": "prism", "cwd": "/opt/prism/current", "FRED_API_KEY_present": true, "command": ["/opt/prism/current/.venv/bin/market", "ops", "cycle", "context_macro", "--trigger", "remediation-manual", "--wait", "600"]}
+2026-10-15T18:13:38Z INFO job=context_macro trigger=remediation-manual runtime=vps-prism-autotrader-lab-rehearsal commit=530ba0d18c30 python=3.12.3 db=/data/prism.duckdb disk: 88.39 GiB free of 98.22 GiB (90.0%; warn < 15%, critical < 5%)
+2026-10-15T18:13:39Z INFO [context_macro/macro] start: market context refresh --group macro
+2026-10-15T18:13:54Z INFO [context_macro/macro] {"provider": "fred_calendar", "status": "ok", "received": 17, "filtered": 0, "new_events": 0, "new_updates": 0, "duplicates": 25, "rejected": 0, "errors": [],
+2026-10-15T18:13:54Z INFO [context_macro/macro] "latency_ms": 3772.5, "notes": []}
+2026-10-15T18:13:54Z INFO [context_macro/macro] {"provider": "central_bank_calendar", "status": "ok", "received": 58, "filtered": 22, "new_events": 0, "new_updates": 0, "duplicates": 36, "rejected": 0,
+2026-10-15T18:13:54Z INFO [context_macro/macro] "errors": [], "latency_ms": 6.2, "notes": []}
+2026-10-15T18:13:54Z INFO [context_macro/macro] {"provider": "fred_actuals", "status": "ok", "received": 5, "filtered": 1, "new_events": 0, "new_updates": 4, "duplicates": 0, "rejected": 0, "errors": [],
+2026-10-15T18:13:54Z INFO [context_macro/macro] "latency_ms": 6349.2, "notes": ["us_gdp 2026-09-30: vintage not yet published"]}
+2026-10-15T18:13:55Z INFO [context_macro/macro] exit=0 in 15.3s
+2026-10-15T18:13:55Z INFO job=context_macro OK in 16.4s: macro=0
+{"exit_code": 0, "secret_in_child_output": false}

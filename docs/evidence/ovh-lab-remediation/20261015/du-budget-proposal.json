@@ -1,0 +1,45 @@
+{
+  "policy_id": "universepolicy_5f88b1dcdf20d7d19047edffab329076d7a63936f8c0916c21ffc83bcf4d56ff",
+  "measured_at": 1792131800,
+  "validated": false,
+  "rich_assets": 12,
+  "minimum_runway_days": 30,
+  "daily_growth_bytes": 300000000,
+  "available_bytes": 13734241177,
+  "worker_cpu_seconds_per_minute": 0.249,
+  "scope": "PREPARATION ONLY; prior DU costs plus measured OVH base. Not an activation receipt.",
+  "host_measurement": {
+    "at": "2026-10-16T06:23:20.510465+00:00",
+    "disk_free_bytes": 94561837056,
+    "disk_total_bytes": 105467994112,
+    "minimum_free_fraction": 0.7,
+    "transient_reserve_bytes": 7000000000,
+    "available_after_floor_and_reserve": 13734241177,
+    "ram_available_bytes": 11196895232,
+    "ram_total_bytes": 12256567296,
+    "future_baseline_paper_ram_reserve_bytes": 3000000000,
+    "window_ram_available_min_bytes": 10574852096
+  },
+  "runway_days_model": 45.78080392333333,
+  "prior_du_evidence": {
+    "mature_ledger_cpu_s_per_600s": 2.49,
+    "mature_ledger_peak_mib": 362,
+    "adapter_12_peak_mib": 641,
+    "collector_6_rss_mib": 174,
+    "collector_6_wire_bytes_per_s": 11744.1,
+    "rich_12_wire_bytes_per_s_linear_sensitivity": 23488.2,
+    "live_rich_12_measured": false
+  },
+  "warning_conditions": [
+    "Model runway below retained 60-day warning threshold.",
+    "Whole filesystem consumed 126902272 bytes in the extension although /data net usage declined; do not label unexplained other-namespace/host steps as steady Lab growth or ignore them.",
+    "Separate Research backup currently retries RuntimeError: restic check failed (status 11); read-only observation only."
+  ],
+  "admission_pending": [
+    "Attribute/measure current whole-host retained growth, including independent Research backup/storage transients.",
+    "Review separate Research backup retry and its shared-resource impact under its own scope.",
+    "Validate a fresh ranking-only budget with six existing rich assets before enabling ranking.",
+    "Measure ranking and backup overlap before admitting 12-rich warming; renew policy-matched receipt <=24h old."
+  ],
+  "authority": "rehearsal; no execution/sizing/real money permission"
+}

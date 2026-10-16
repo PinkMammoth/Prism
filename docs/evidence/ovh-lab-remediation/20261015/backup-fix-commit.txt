@@ -1,0 +1,14 @@
+commit 9acb42a94d8888a2e712490b421912739a02bff6
+Author:     PinkMammoth <93152084+PinkMammoth@users.noreply.github.com>
+AuthorDate: Thu Oct 15 19:18:36 2026 +0100
+Commit:     PinkMammoth <93152084+PinkMammoth@users.noreply.github.com>
+CommitDate: Thu Oct 15 19:18:36 2026 +0100
+
+    fix(ops): register and archive seeded Lab backups without paper runs
+
+ deploy/vps/pull_backup.sh        |  32 ++--------
+ scripts/vps_backup_archive.py    | 132 +++++++++++++++++++++++++++++++++++++++
+ src/market_signal/ops/backups.py |  56 +++++++++++++++--
+ tests/test_backup_lifecycle.py   |  43 +++++++++++++
+ tests/test_runtime_profiles.py   |  43 +++++++++++++
+ 5 files changed, 274 insertions(+), 32 deletions(-)

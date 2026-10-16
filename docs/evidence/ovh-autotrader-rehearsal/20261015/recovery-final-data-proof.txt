@@ -1,0 +1,48 @@
+{
+  "revision": "530ba0d18c3009352eee21bb7f1a1c01004ab73a",
+  "python": "3.12.3",
+  "platform": "Linux-6.1.0-53-cloud-amd64-x86_64-with-glibc2.36",
+  "role": "authoritative",
+  "runtime_id": "vps-prism-autotrader-lab-rehearsal",
+  "db": "/data/prism.duckdb",
+  "db_exists": true,
+  "disk": {
+    "level": "OK",
+    "detail": "88.39 GiB free of 98.22 GiB (90.0%; warn < 15%, critical < 5%)"
+  },
+  "schema_version": 31,
+  "claim": {
+    "runtime_id": "vps-prism-autotrader-lab-rehearsal",
+    "since": "2026-10-14 15:43:52.816356+00:00"
+  },
+  "ready_for_jobs": true
+}
+2026-10-15T17:56:05Z INFO job=microstructure trigger=reboot-recovery runtime=vps-prism-autotrader-lab-rehearsal commit=530ba0d18c30 python=3.12.3 db=/data/prism.duckdb disk: 88.39 GiB free of 98.22 GiB (90.0%; warn < 15%, critical < 5%)
+2026-10-15T17:56:06Z INFO [microstructure/ingest] start: market microstructure ingest
+2026-10-15T17:56:08Z INFO [microstructure/ingest] microstructure ingest OK: files_read=1, invalid_lines=0, minutes=18, production=True
+2026-10-15T17:56:08Z INFO [microstructure/ingest] exit=0 in 2.2s
+2026-10-15T17:56:08Z INFO [microstructure/health] start: market microstructure health --check
+2026-10-15T17:56:10Z INFO [microstructure/health] Microstructure: HEALTHY (collector RUNNING)
+2026-10-15T17:56:10Z INFO [microstructure/health] exit=0 in 1.8s
+2026-10-15T17:56:11Z INFO job=microstructure OK in 5.1s: ingest=0 health=0
+microstructure ingest OK: production=True
+hyperliquid_status_v1: OK HTTP=304 cadence=60s next=2026-10-15T17:57:10.063249+00:00
+coinbase_status_v1: OK HTTP=304 cadence=60s next=2026-10-15T17:56:23.918597+00:00
+kraken_status_v1: OK HTTP=200 cadence=60s next=2026-10-15T17:56:53.267412+00:00
+solana_status_v1: STAGED HTTP=None cadence=60s next=None
+circle_status_v1: STAGED HTTP=None cadence=120s next=None
+base_status_v1: STAGED HTTP=None cadence=120s next=None
+sec_rss_v1: STAGED HTTP=None cadence=300s next=None
+fed_rss_v1: STAGED HTTP=None cadence=300s next=None
+cftc_rss_v1: STAGED HTTP=None cadence=300s next=None
+sec_trading_suspensions_rss_v1: STAGED HTTP=None cadence=300s next=None
+sec_administrative_proceedings_rss_v1: STAGED HTTP=None cadence=300s next=None
+sec_litigation_releases_rss_v1: STAGED HTTP=None cadence=300s next=None
+github_geth_releases_v1: STAGED HTTP=None cadence=300s next=None
+github_geth_security_advisories_v1: STAGED HTTP=None cadence=300s next=None
+github_bitcoin_releases_v1: STAGED HTTP=None cadence=300s next=None
+github_bitcoin_security_advisories_v1: STAGED HTTP=None cadence=300s next=None
+ethereum_official_rss_v1: STAGED HTTP=None cadence=300s next=None
+bitcoin_official_rss_v1: STAGED HTTP=None cadence=300s next=None
+gdelt_crypto_discovery_v1: DISABLED HTTP=None cadence=900s next=None
+pending=0 DATA_COST=£0/month

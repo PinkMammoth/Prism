@@ -1,0 +1,159 @@
+2026-10-15T01:29:00+0000 vps-778d603b run_scheduler.sh[38976]: time="2026-10-15T01:29:00Z" level=info msg=starting iteration=584 job.command="market context sources status --check" job.position=21 job.schedule="* * * * *"
+2026-10-15T01:29:01+0000 vps-778d603b run_scheduler.sh[60297]: hyperliquid_status_v1: OK HTTP=304 cadence=60s next=2026-10-15T01:30:02.180565+00:00
+2026-10-15T01:29:01+0000 vps-778d603b run_scheduler.sh[60297]: coinbase_status_v1: OK HTTP=304 cadence=60s next=2026-10-15T01:29:39.690125+00:00
+2026-10-15T01:29:01+0000 vps-778d603b run_scheduler.sh[60297]: kraken_status_v1: OK HTTP=304 cadence=60s next=2026-10-15T01:29:44.235832+00:00
+2026-10-15T01:29:01+0000 vps-778d603b run_scheduler.sh[60297]: solana_status_v1: STAGED HTTP=None cadence=60s next=None
+2026-10-15T01:29:01+0000 vps-778d603b run_scheduler.sh[60297]: circle_status_v1: STAGED HTTP=None cadence=120s next=None
+2026-10-15T01:29:01+0000 vps-778d603b run_scheduler.sh[60297]: base_status_v1: STAGED HTTP=None cadence=120s next=None
+2026-10-15T01:29:01+0000 vps-778d603b run_scheduler.sh[60297]: sec_rss_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:29:01+0000 vps-778d603b run_scheduler.sh[60297]: fed_rss_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:29:01+0000 vps-778d603b run_scheduler.sh[60297]: cftc_rss_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:29:01+0000 vps-778d603b run_scheduler.sh[60297]: sec_trading_suspensions_rss_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:29:01+0000 vps-778d603b run_scheduler.sh[60297]: sec_administrative_proceedings_rss_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:29:01+0000 vps-778d603b run_scheduler.sh[60297]: sec_litigation_releases_rss_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:29:01+0000 vps-778d603b run_scheduler.sh[60297]: github_geth_releases_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:29:01+0000 vps-778d603b run_scheduler.sh[60297]: github_geth_security_advisories_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:29:01+0000 vps-778d603b run_scheduler.sh[60297]: github_bitcoin_releases_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:29:01+0000 vps-778d603b run_scheduler.sh[60297]: github_bitcoin_security_advisories_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:29:01+0000 vps-778d603b run_scheduler.sh[60297]: ethereum_official_rss_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:29:01+0000 vps-778d603b run_scheduler.sh[60297]: bitcoin_official_rss_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:29:01+0000 vps-778d603b run_scheduler.sh[60297]: gdelt_crypto_discovery_v1: DISABLED HTTP=None cadence=900s next=None
+2026-10-15T01:29:01+0000 vps-778d603b run_scheduler.sh[60297]: pending=0 DATA_COST=£0/month
+2026-10-15T01:29:01+0000 vps-778d603b run_scheduler.sh[38976]: time="2026-10-15T01:29:01Z" level=info msg="job succeeded" iteration=584 job.command="market context sources status --check" job.position=21 job.schedule="* * * * *"
+2026-10-15T01:30:00+0000 vps-778d603b run_scheduler.sh[38976]: time="2026-10-15T01:30:00Z" level=info msg=starting iteration=0 job.command="market ops cycle backup --trigger schedule --wait 3600" job.position=1 job.schedule="30 1 * * *"
+2026-10-15T01:30:00+0000 vps-778d603b run_scheduler.sh[38976]: time="2026-10-15T01:30:00Z" level=info msg=starting iteration=585 job.command="market context sources status --check" job.position=21 job.schedule="* * * * *"
+2026-10-15T01:30:01+0000 vps-778d603b run_scheduler.sh[60321]: 2026-10-15T01:30:01Z INFO job=backup trigger=schedule runtime=vps-prism-autotrader-lab-rehearsal commit=530ba0d18c30 python=3.12.3 db=/data/prism.duckdb disk: 91.37 GiB free of 98.22 GiB (93.0%; warn < 15%, critical < 5%)
+2026-10-15T01:30:01+0000 vps-778d603b run_scheduler.sh[60322]: hyperliquid_status_v1: OK HTTP=304 cadence=60s next=2026-10-15T01:30:02.180565+00:00
+2026-10-15T01:30:01+0000 vps-778d603b run_scheduler.sh[60322]: coinbase_status_v1: OK HTTP=304 cadence=60s next=2026-10-15T01:30:44.988992+00:00
+2026-10-15T01:30:01+0000 vps-778d603b run_scheduler.sh[60322]: kraken_status_v1: OK HTTP=304 cadence=60s next=2026-10-15T01:30:49.364542+00:00
+2026-10-15T01:30:01+0000 vps-778d603b run_scheduler.sh[60322]: solana_status_v1: STAGED HTTP=None cadence=60s next=None
+2026-10-15T01:30:01+0000 vps-778d603b run_scheduler.sh[60322]: circle_status_v1: STAGED HTTP=None cadence=120s next=None
+2026-10-15T01:30:01+0000 vps-778d603b run_scheduler.sh[60322]: base_status_v1: STAGED HTTP=None cadence=120s next=None
+2026-10-15T01:30:01+0000 vps-778d603b run_scheduler.sh[60322]: sec_rss_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:30:01+0000 vps-778d603b run_scheduler.sh[60322]: fed_rss_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:30:01+0000 vps-778d603b run_scheduler.sh[60322]: cftc_rss_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:30:01+0000 vps-778d603b run_scheduler.sh[60322]: sec_trading_suspensions_rss_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:30:01+0000 vps-778d603b run_scheduler.sh[60322]: sec_administrative_proceedings_rss_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:30:01+0000 vps-778d603b run_scheduler.sh[60322]: sec_litigation_releases_rss_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:30:01+0000 vps-778d603b run_scheduler.sh[60322]: github_geth_releases_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:30:01+0000 vps-778d603b run_scheduler.sh[60322]: github_geth_security_advisories_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:30:01+0000 vps-778d603b run_scheduler.sh[60322]: github_bitcoin_releases_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:30:01+0000 vps-778d603b run_scheduler.sh[60322]: github_bitcoin_security_advisories_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:30:01+0000 vps-778d603b run_scheduler.sh[60322]: ethereum_official_rss_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:30:01+0000 vps-778d603b run_scheduler.sh[60322]: bitcoin_official_rss_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:30:01+0000 vps-778d603b run_scheduler.sh[60322]: gdelt_crypto_discovery_v1: DISABLED HTTP=None cadence=900s next=None
+2026-10-15T01:30:01+0000 vps-778d603b run_scheduler.sh[60322]: pending=0 DATA_COST=£0/month
+2026-10-15T01:30:01+0000 vps-778d603b run_scheduler.sh[38976]: time="2026-10-15T01:30:01Z" level=info msg="job succeeded" iteration=585 job.command="market context sources status --check" job.position=21 job.schedule="* * * * *"
+2026-10-15T01:30:04+0000 vps-778d603b run_scheduler.sh[60321]: 2026-10-15T01:30:04Z ERROR [backup] failed: no run metadata
+2026-10-15T01:30:04+0000 vps-778d603b run_scheduler.sh[60321]: 2026-10-15T01:30:04Z INFO job=backup FAILED in 2.9s: backup=1
+2026-10-15T01:30:04+0000 vps-778d603b run_scheduler.sh[60321]: 2026-10-15T01:30:04Z WARNING infra alert suppressed (no external-action authority): backup cycle FAILED on vps-prism-autotrader-lab-rehearsal (schedule): backup=1. Steps are idempotent; the next scheduled run retries.
+2026-10-15T01:30:04+0000 vps-778d603b run_scheduler.sh[38976]: time="2026-10-15T01:30:04Z" level=error msg="error running command: exit status 1" iteration=0 job.command="market ops cycle backup --trigger schedule --wait 3600" job.position=1 job.schedule="30 1 * * *"
+2026-10-15T01:31:00+0000 vps-778d603b run_scheduler.sh[38976]: time="2026-10-15T01:31:00Z" level=info msg=starting iteration=586 job.command="market context sources status --check" job.position=21 job.schedule="* * * * *"
+2026-10-15T01:31:00+0000 vps-778d603b run_scheduler.sh[38976]: time="2026-10-15T01:31:00Z" level=info msg=starting iteration=9 job.command="market ops cycle intraday --trigger schedule --wait 600" job.position=8 job.schedule="31 * * * *"
+2026-10-15T01:31:01+0000 vps-778d603b run_scheduler.sh[60388]: 2026-10-15T01:31:01Z INFO job=intraday trigger=schedule runtime=vps-prism-autotrader-lab-rehearsal commit=530ba0d18c30 python=3.12.3 db=/data/prism.duckdb disk: 91.27 GiB free of 98.22 GiB (92.9%; warn < 15%, critical < 5%)
+2026-10-15T01:31:01+0000 vps-778d603b run_scheduler.sh[60387]: hyperliquid_status_v1: OK HTTP=304 cadence=60s next=2026-10-15T01:31:04.543434+00:00
+2026-10-15T01:31:01+0000 vps-778d603b run_scheduler.sh[60387]: coinbase_status_v1: OK HTTP=304 cadence=60s next=2026-10-15T01:31:49.557067+00:00
+2026-10-15T01:31:01+0000 vps-778d603b run_scheduler.sh[60387]: kraken_status_v1: OK HTTP=304 cadence=60s next=2026-10-15T01:31:56.205741+00:00
+2026-10-15T01:31:01+0000 vps-778d603b run_scheduler.sh[60387]: solana_status_v1: STAGED HTTP=None cadence=60s next=None
+2026-10-15T01:31:01+0000 vps-778d603b run_scheduler.sh[60387]: circle_status_v1: STAGED HTTP=None cadence=120s next=None
+2026-10-15T01:31:01+0000 vps-778d603b run_scheduler.sh[60387]: base_status_v1: STAGED HTTP=None cadence=120s next=None
+2026-10-15T01:31:01+0000 vps-778d603b run_scheduler.sh[60387]: sec_rss_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:31:01+0000 vps-778d603b run_scheduler.sh[60387]: fed_rss_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:31:01+0000 vps-778d603b run_scheduler.sh[60387]: cftc_rss_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:31:01+0000 vps-778d603b run_scheduler.sh[60387]: sec_trading_suspensions_rss_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:31:01+0000 vps-778d603b run_scheduler.sh[60387]: sec_administrative_proceedings_rss_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:31:01+0000 vps-778d603b run_scheduler.sh[60387]: sec_litigation_releases_rss_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:31:01+0000 vps-778d603b run_scheduler.sh[60387]: github_geth_releases_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:31:01+0000 vps-778d603b run_scheduler.sh[60387]: github_geth_security_advisories_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:31:01+0000 vps-778d603b run_scheduler.sh[60387]: github_bitcoin_releases_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:31:01+0000 vps-778d603b run_scheduler.sh[60387]: github_bitcoin_security_advisories_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:31:01+0000 vps-778d603b run_scheduler.sh[60387]: ethereum_official_rss_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:31:01+0000 vps-778d603b run_scheduler.sh[60387]: bitcoin_official_rss_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:31:01+0000 vps-778d603b run_scheduler.sh[60387]: gdelt_crypto_discovery_v1: DISABLED HTTP=None cadence=900s next=None
+2026-10-15T01:31:01+0000 vps-778d603b run_scheduler.sh[60387]: pending=0 DATA_COST=£0/month
+2026-10-15T01:31:01+0000 vps-778d603b run_scheduler.sh[38976]: time="2026-10-15T01:31:01Z" level=info msg="job succeeded" iteration=586 job.command="market context sources status --check" job.position=21 job.schedule="* * * * *"
+2026-10-15T01:31:01+0000 vps-778d603b run_scheduler.sh[60388]: 2026-10-15T01:31:01Z INFO [intraday/bars] start: market bars update
+2026-10-15T01:31:06+0000 vps-778d603b run_scheduler.sh[60388]: 2026-10-15T01:31:06Z INFO [intraday/bars]                                                  Intraday bars: incremental update
+2026-10-15T01:31:06+0000 vps-778d603b run_scheduler.sh[60388]: 2026-10-15T01:31:06Z INFO [intraday/bars] ┏━━━━━━━━━━━━━┳━━━━━━┳━━━━━┳━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━┳━━━━━━┳━━━━━┳━━━━━━━━━┳━━━━━━┳━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━┳━━━━━━┓
+2026-10-15T01:31:06+0000 vps-778d603b run_scheduler.sh[60388]: 2026-10-15T01:31:06Z INFO [intraday/bars] ┃ venue       ┃ coin ┃ tf  ┃ from             ┃ to               ┃ recv ┃ new ┃ revised ┃ same ┃ forming ┃ invalid ┃ status ┃ note ┃
+2026-10-15T01:31:06+0000 vps-778d603b run_scheduler.sh[60388]: 2026-10-15T01:31:06Z INFO [intraday/bars] ┡━━━━━━━━━━━━━╇━━━━━━╇━━━━━╇━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━╇━━━━━━╇━━━━━╇━━━━━━━━━╇━━━━━━╇━━━━━━━━━╇━━━━━━━━━╇━━━━━━━━╇━━━━━━┩
+2026-10-15T01:31:06+0000 vps-778d603b run_scheduler.sh[60388]: 2026-10-15T01:31:06Z INFO [intraday/bars] │ hyperliquid │ BTC  │ 15m │ 2026-10-15 00:00 │ 2026-10-15 01:30 │ 6    │ 1   │ 0       │ 5    │ 0       │ 0       │ ok     │      │
+2026-10-15T01:31:06+0000 vps-778d603b run_scheduler.sh[60388]: 2026-10-15T01:31:06Z INFO [intraday/bars] │ hyperliquid │ ETH  │ 15m │ 2026-10-15 00:00 │ 2026-10-15 01:30 │ 6    │ 1   │ 0       │ 5    │ 0       │ 0       │ ok     │      │
+2026-10-15T01:31:06+0000 vps-778d603b run_scheduler.sh[60388]: 2026-10-15T01:31:06Z INFO [intraday/bars] │ hyperliquid │ SOL  │ 15m │ 2026-10-15 00:00 │ 2026-10-15 01:30 │ 6    │ 1   │ 0       │ 5    │ 0       │ 0       │ ok     │      │
+2026-10-15T01:31:06+0000 vps-778d603b run_scheduler.sh[60388]: 2026-10-15T01:31:06Z INFO [intraday/bars] │ hyperliquid │ HYPE │ 15m │ 2026-10-15 00:00 │ 2026-10-15 01:30 │ 6    │ 1   │ 0       │ 5    │ 0       │ 0       │ ok     │      │
+2026-10-15T01:31:06+0000 vps-778d603b run_scheduler.sh[60388]: 2026-10-15T01:31:06Z INFO [intraday/bars] │ hyperliquid │ LINK │ 15m │ 2026-10-15 00:00 │ 2026-10-15 01:30 │ 6    │ 1   │ 0       │ 5    │ 0       │ 0       │ ok     │      │
+2026-10-15T01:31:06+0000 vps-778d603b run_scheduler.sh[60388]: 2026-10-15T01:31:06Z INFO [intraday/bars] │ hyperliquid │ AAVE │ 15m │ 2026-10-15 00:00 │ 2026-10-15 01:30 │ 6    │ 1   │ 0       │ 5    │ 0       │ 0       │ ok     │      │
+2026-10-15T01:31:06+0000 vps-778d603b run_scheduler.sh[60388]: 2026-10-15T01:31:06Z INFO [intraday/bars] └─────────────┴──────┴─────┴──────────────────┴──────────────────┴──────┴─────┴─────────┴──────┴─────────┴─────────┴────────┴──────┘
+2026-10-15T01:31:06+0000 vps-778d603b run_scheduler.sh[60388]: 2026-10-15T01:31:06Z INFO [intraday/bars] exit=0 in 4.6s
+2026-10-15T01:31:06+0000 vps-778d603b run_scheduler.sh[60388]: 2026-10-15T01:31:06Z INFO job=intraday OK in 5.2s: bars=0
+2026-10-15T01:31:06+0000 vps-778d603b run_scheduler.sh[38976]: time="2026-10-15T01:31:06Z" level=info msg="job succeeded" iteration=9 job.command="market ops cycle intraday --trigger schedule --wait 600" job.position=8 job.schedule="31 * * * *"
+2026-10-15T01:32:00+0000 vps-778d603b run_scheduler.sh[38976]: time="2026-10-15T01:32:00Z" level=info msg=starting iteration=587 job.command="market context sources status --check" job.position=21 job.schedule="* * * * *"
+2026-10-15T01:32:01+0000 vps-778d603b run_scheduler.sh[60455]: hyperliquid_status_v1: OK HTTP=200 cadence=60s next=2026-10-15T01:32:10.568696+00:00
+2026-10-15T01:32:01+0000 vps-778d603b run_scheduler.sh[60455]: coinbase_status_v1: OK HTTP=304 cadence=60s next=2026-10-15T01:32:55.024280+00:00
+2026-10-15T01:32:01+0000 vps-778d603b run_scheduler.sh[60455]: kraken_status_v1: OK HTTP=304 cadence=60s next=2026-10-15T01:33:01.012006+00:00
+2026-10-15T01:32:01+0000 vps-778d603b run_scheduler.sh[60455]: solana_status_v1: STAGED HTTP=None cadence=60s next=None
+2026-10-15T01:32:01+0000 vps-778d603b run_scheduler.sh[60455]: circle_status_v1: STAGED HTTP=None cadence=120s next=None
+2026-10-15T01:32:01+0000 vps-778d603b run_scheduler.sh[60455]: base_status_v1: STAGED HTTP=None cadence=120s next=None
+2026-10-15T01:32:01+0000 vps-778d603b run_scheduler.sh[60455]: sec_rss_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:32:01+0000 vps-778d603b run_scheduler.sh[60455]: fed_rss_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:32:01+0000 vps-778d603b run_scheduler.sh[60455]: cftc_rss_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:32:01+0000 vps-778d603b run_scheduler.sh[60455]: sec_trading_suspensions_rss_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:32:01+0000 vps-778d603b run_scheduler.sh[60455]: sec_administrative_proceedings_rss_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:32:01+0000 vps-778d603b run_scheduler.sh[60455]: sec_litigation_releases_rss_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:32:01+0000 vps-778d603b run_scheduler.sh[60455]: github_geth_releases_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:32:01+0000 vps-778d603b run_scheduler.sh[60455]: github_geth_security_advisories_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:32:01+0000 vps-778d603b run_scheduler.sh[60455]: github_bitcoin_releases_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:32:01+0000 vps-778d603b run_scheduler.sh[60455]: github_bitcoin_security_advisories_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:32:01+0000 vps-778d603b run_scheduler.sh[60455]: ethereum_official_rss_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:32:01+0000 vps-778d603b run_scheduler.sh[60455]: bitcoin_official_rss_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:32:01+0000 vps-778d603b run_scheduler.sh[60455]: gdelt_crypto_discovery_v1: DISABLED HTTP=None cadence=900s next=None
+2026-10-15T01:32:01+0000 vps-778d603b run_scheduler.sh[60455]: pending=0 DATA_COST=£0/month
+2026-10-15T01:32:01+0000 vps-778d603b run_scheduler.sh[38976]: time="2026-10-15T01:32:01Z" level=info msg="job succeeded" iteration=587 job.command="market context sources status --check" job.position=21 job.schedule="* * * * *"
+2026-10-15T01:33:00+0000 vps-778d603b run_scheduler.sh[38976]: time="2026-10-15T01:33:00Z" level=info msg=starting iteration=588 job.command="market context sources status --check" job.position=21 job.schedule="* * * * *"
+2026-10-15T01:33:01+0000 vps-778d603b run_scheduler.sh[60491]: hyperliquid_status_v1: OK HTTP=200 cadence=60s next=2026-10-15T01:33:12.477652+00:00
+2026-10-15T01:33:01+0000 vps-778d603b run_scheduler.sh[60491]: coinbase_status_v1: OK HTTP=304 cadence=60s next=2026-10-15T01:33:59.953269+00:00
+2026-10-15T01:33:01+0000 vps-778d603b run_scheduler.sh[60491]: kraken_status_v1: OK HTTP=304 cadence=60s next=2026-10-15T01:33:01.012006+00:00
+2026-10-15T01:33:01+0000 vps-778d603b run_scheduler.sh[60491]: solana_status_v1: STAGED HTTP=None cadence=60s next=None
+2026-10-15T01:33:01+0000 vps-778d603b run_scheduler.sh[60491]: circle_status_v1: STAGED HTTP=None cadence=120s next=None
+2026-10-15T01:33:01+0000 vps-778d603b run_scheduler.sh[60491]: base_status_v1: STAGED HTTP=None cadence=120s next=None
+2026-10-15T01:33:01+0000 vps-778d603b run_scheduler.sh[60491]: sec_rss_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:33:01+0000 vps-778d603b run_scheduler.sh[60491]: fed_rss_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:33:01+0000 vps-778d603b run_scheduler.sh[60491]: cftc_rss_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:33:01+0000 vps-778d603b run_scheduler.sh[60491]: sec_trading_suspensions_rss_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:33:01+0000 vps-778d603b run_scheduler.sh[60491]: sec_administrative_proceedings_rss_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:33:01+0000 vps-778d603b run_scheduler.sh[60491]: sec_litigation_releases_rss_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:33:01+0000 vps-778d603b run_scheduler.sh[60491]: github_geth_releases_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:33:01+0000 vps-778d603b run_scheduler.sh[60491]: github_geth_security_advisories_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:33:01+0000 vps-778d603b run_scheduler.sh[60491]: github_bitcoin_releases_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:33:01+0000 vps-778d603b run_scheduler.sh[60491]: github_bitcoin_security_advisories_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:33:01+0000 vps-778d603b run_scheduler.sh[60491]: ethereum_official_rss_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:33:01+0000 vps-778d603b run_scheduler.sh[60491]: bitcoin_official_rss_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:33:01+0000 vps-778d603b run_scheduler.sh[60491]: gdelt_crypto_discovery_v1: DISABLED HTTP=None cadence=900s next=None
+2026-10-15T01:33:01+0000 vps-778d603b run_scheduler.sh[60491]: pending=0 DATA_COST=£0/month
+2026-10-15T01:33:01+0000 vps-778d603b run_scheduler.sh[38976]: time="2026-10-15T01:33:01Z" level=info msg="job succeeded" iteration=588 job.command="market context sources status --check" job.position=21 job.schedule="* * * * *"
+2026-10-15T01:34:00+0000 vps-778d603b run_scheduler.sh[38976]: time="2026-10-15T01:34:00Z" level=info msg=starting iteration=589 job.command="market context sources status --check" job.position=21 job.schedule="* * * * *"
+2026-10-15T01:34:01+0000 vps-778d603b run_scheduler.sh[60511]: hyperliquid_status_v1: OK HTTP=304 cadence=60s next=2026-10-15T01:34:15.831832+00:00
+2026-10-15T01:34:01+0000 vps-778d603b run_scheduler.sh[60511]: coinbase_status_v1: OK HTTP=304 cadence=60s next=2026-10-15T01:35:01.166551+00:00
+2026-10-15T01:34:01+0000 vps-778d603b run_scheduler.sh[60511]: kraken_status_v1: OK HTTP=304 cadence=60s next=2026-10-15T01:34:01.966608+00:00
+2026-10-15T01:34:01+0000 vps-778d603b run_scheduler.sh[60511]: solana_status_v1: STAGED HTTP=None cadence=60s next=None
+2026-10-15T01:34:01+0000 vps-778d603b run_scheduler.sh[60511]: circle_status_v1: STAGED HTTP=None cadence=120s next=None
+2026-10-15T01:34:01+0000 vps-778d603b run_scheduler.sh[60511]: base_status_v1: STAGED HTTP=None cadence=120s next=None
+2026-10-15T01:34:01+0000 vps-778d603b run_scheduler.sh[60511]: sec_rss_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:34:01+0000 vps-778d603b run_scheduler.sh[60511]: fed_rss_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:34:01+0000 vps-778d603b run_scheduler.sh[60511]: cftc_rss_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:34:01+0000 vps-778d603b run_scheduler.sh[60511]: sec_trading_suspensions_rss_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:34:01+0000 vps-778d603b run_scheduler.sh[60511]: sec_administrative_proceedings_rss_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:34:01+0000 vps-778d603b run_scheduler.sh[60511]: sec_litigation_releases_rss_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:34:01+0000 vps-778d603b run_scheduler.sh[60511]: github_geth_releases_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:34:01+0000 vps-778d603b run_scheduler.sh[60511]: github_geth_security_advisories_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:34:01+0000 vps-778d603b run_scheduler.sh[60511]: github_bitcoin_releases_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:34:01+0000 vps-778d603b run_scheduler.sh[60511]: github_bitcoin_security_advisories_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:34:01+0000 vps-778d603b run_scheduler.sh[60511]: ethereum_official_rss_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:34:01+0000 vps-778d603b run_scheduler.sh[60511]: bitcoin_official_rss_v1: STAGED HTTP=None cadence=300s next=None
+2026-10-15T01:34:01+0000 vps-778d603b run_scheduler.sh[60511]: gdelt_crypto_discovery_v1: DISABLED HTTP=None cadence=900s next=None
+2026-10-15T01:34:01+0000 vps-778d603b run_scheduler.sh[60511]: pending=0 DATA_COST=£0/month
+2026-10-15T01:34:01+0000 vps-778d603b run_scheduler.sh[38976]: time="2026-10-15T01:34:01Z" level=info msg="job succeeded" iteration=589 job.command="market context sources status --check" job.position=21 job.schedule="* * * * *"
+{"active":["hyperliquid_status_v1","coinbase_status_v1","kraken_status_v1"],"heartbeat_at":"2026-10-15T17:48:17.147305+00:00"}{"backlog":0,"db_opened":false,"heartbeat_at":"2026-10-15T17:48:25.786067+00:00","ingested":0}total 113172
+drwxr-xr-x 2 prism prism      4096 Oct 15 01:30 .
+drwxr-x--- 3 prism prism      4096 Oct 15 01:30 ..
+-rw-r--r-- 1 prism prism 115879936 Oct 15 01:30 prism-20261015T013001Z.duckdb

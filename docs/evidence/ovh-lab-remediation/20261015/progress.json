@@ -1,0 +1,21 @@
+{
+  "now": "2026-10-15T18:46:14.550510+00:00",
+  "sample_at": "2026-10-15T18:45:31.598340+00:00",
+  "elapsed_hours": 0.346,
+  "planned_end": "2026-10-16T01:40:00+00:00",
+  "concerns": [],
+  "cycles": 3,
+  "successful_cycles": 3,
+  "natural_macro_successes": 0,
+  "natural_backup_successes": 0,
+  "ram_available_gb": 11.127,
+  "disk_free_gb": 94.844,
+  "load": [
+    0.01025390625,
+    0.0400390625,
+    0.0693359375
+  ],
+  "collector_connected": true,
+  "collector_last_message_age_s": 0.1,
+  "final_exists": false
+}

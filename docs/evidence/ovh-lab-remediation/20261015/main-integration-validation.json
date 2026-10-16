@@ -1,0 +1,27 @@
+{
+  "checked_at": "2026-10-16T08:00:16.715321+00:00",
+  "branch": "main",
+  "base_commit": "21ace40",
+  "code_commits": {
+    "backup": "56cafcfef6fb21da81316c5429d94b088e843991",
+    "lab_v2_preparation": "09a0a21a10e52d74d742e712667c874bf1488abf"
+  },
+  "pytest": {
+    "command": ".venv/bin/pytest tests/test_backup_lifecycle.py tests/test_runtime_profiles.py tests/test_dynamic_universe.py tests/test_lab_v2_activation.py",
+    "collected": 165,
+    "passed": 165,
+    "failed": 0,
+    "exit_code": 0,
+    "duration_seconds": 326.94,
+    "log": "main-integration-regressions.log"
+  },
+  "ruff": "passed for all changed implementation/test Python files",
+  "shell_syntax": "bash -n deploy/vps/pull_backup.sh passed",
+  "diff_check": "Code and report Markdown passed. Verbatim captured logs, command output and patch context retain their original whitespace and evidence checksums.",
+  "secret_scan": "Known local secret values/private-key markers absent from staged reports/evidence. Database files, backup archives, bytecode and local worktrees excluded.",
+  "unrelated_tracked_files": "Verified SHA-256 unchanged from task start.",
+  "vps_operations_this_commit_task": false,
+  "deployment_or_activation": false,
+  "resource_budget_validated": false,
+  "push_performed": false
+}

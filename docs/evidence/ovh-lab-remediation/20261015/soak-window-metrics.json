@@ -1,0 +1,49 @@
+{
+  "samples": 87,
+  "units": {
+    "prism-microstructure": {
+      "memory_current_max": 197259264,
+      "cpu_seconds": 278.774317,
+      "restarts_start": 0,
+      "restarts_end": 0
+    },
+    "prism-free-sources": {
+      "memory_current_max": 135450624,
+      "cpu_seconds": 33.878739,
+      "restarts_start": 0,
+      "restarts_end": 0
+    },
+    "prism-free-source-ingest": {
+      "memory_current_max": 307404800,
+      "cpu_seconds": 1337.284545,
+      "restarts_start": 0,
+      "restarts_end": 0
+    },
+    "prism-scheduler": {
+      "memory_current_max": 459051008,
+      "cpu_seconds": 1604.390432,
+      "restarts_start": 0,
+      "restarts_end": 0
+    }
+  },
+  "db_busy_samples": [
+    "2026-10-15T19:38:57.092761+00:00",
+    "2026-10-15T21:04:08.584895+00:00",
+    "2026-10-15T21:29:11.701591+00:00",
+    "2026-10-15T22:04:16.304065+00:00",
+    "2026-10-15T22:39:21.067662+00:00",
+    "2026-10-16T01:09:43.602888+00:00"
+  ],
+  "host_swap_used_max": 0,
+  "growth_file_bytes": {
+    "db": 5767168,
+    "wal": 0,
+    "microstructure": -34130477,
+    "free_event_sources": 4207,
+    "context_gateway": 0,
+    "raw": 465782,
+    "backups": 5523441,
+    "logs": 176340,
+    "state": 0
+  }
+}

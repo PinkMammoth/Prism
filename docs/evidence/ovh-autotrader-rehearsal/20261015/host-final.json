@@ -1,0 +1,585 @@
+{
+  "at": "2026-10-15T17:57:32.583958+00:00",
+  "kernel": "6.1.0-53-cloud-amd64",
+  "boot_id": "2e218007-141d-4370-9bbe-3a4c6cc998c5",
+  "units": {
+    "prism-microstructure": {
+      "MainPID": "625",
+      "Result": "success",
+      "NRestarts": "0",
+      "ExecMainStartTimestamp": "Thu 2026-10-15 17:52:53 UTC",
+      "MemoryCurrent": "174112768",
+      "CPUUsageNSec": "6863982000",
+      "ActiveState": "active",
+      "SubState": "running",
+      "UnitFileState": "disabled",
+      "ActiveEnterTimestamp": "Thu 2026-10-15 17:52:53 UTC"
+    },
+    "prism-free-sources": {
+      "MainPID": "612",
+      "Result": "success",
+      "NRestarts": "0",
+      "ExecMainStartTimestamp": "Thu 2026-10-15 17:52:53 UTC",
+      "MemoryCurrent": "131379200",
+      "CPUUsageNSec": "3069397000",
+      "ActiveState": "active",
+      "SubState": "running",
+      "UnitFileState": "disabled",
+      "ActiveEnterTimestamp": "Thu 2026-10-15 17:52:53 UTC"
+    },
+    "prism-free-source-ingest": {
+      "MainPID": "609",
+      "Result": "success",
+      "NRestarts": "0",
+      "ExecMainStartTimestamp": "Thu 2026-10-15 17:52:53 UTC",
+      "MemoryCurrent": "144453632",
+      "CPUUsageNSec": "15310557000",
+      "ActiveState": "active",
+      "SubState": "running",
+      "UnitFileState": "disabled",
+      "ActiveEnterTimestamp": "Thu 2026-10-15 17:52:53 UTC"
+    },
+    "prism-scheduler": {
+      "MainPID": "613",
+      "Result": "success",
+      "NRestarts": "0",
+      "ExecMainStartTimestamp": "Thu 2026-10-15 17:52:53 UTC",
+      "MemoryCurrent": "62889984",
+      "CPUUsageNSec": "16297839000",
+      "ActiveState": "active",
+      "SubState": "running",
+      "UnitFileState": "disabled",
+      "ActiveEnterTimestamp": "Thu 2026-10-15 17:52:53 UTC"
+    },
+    "prism-soak": {
+      "MainPID": "830",
+      "Result": "success",
+      "NRestarts": "0",
+      "ExecMainStartTimestamp": "Thu 2026-10-15 17:53:41 UTC",
+      "MemoryCurrent": "92504064",
+      "CPUUsageNSec": "1815450000",
+      "ActiveState": "active",
+      "SubState": "running",
+      "UnitFileState": "static",
+      "ActiveEnterTimestamp": "Thu 2026-10-15 17:53:41 UTC"
+    },
+    "prism-nimble": {
+      "MainPID": "0",
+      "Result": "exec-condition",
+      "NRestarts": "0",
+      "ExecMainStartTimestamp": "",
+      "MemoryCurrent": "[not set]",
+      "CPUUsageNSec": "1493865000",
+      "ActiveState": "inactive",
+      "SubState": "dead",
+      "UnitFileState": "disabled",
+      "ActiveEnterTimestamp": ""
+    },
+    "prism-universe": {
+      "MainPID": "0",
+      "Result": "exec-condition",
+      "NRestarts": "0",
+      "ExecMainStartTimestamp": "",
+      "MemoryCurrent": "[not set]",
+      "CPUUsageNSec": "1421713000",
+      "ActiveState": "inactive",
+      "SubState": "dead",
+      "UnitFileState": "disabled",
+      "ActiveEnterTimestamp": ""
+    },
+    "prism-context-gateway": {
+      "MainPID": "0",
+      "Result": "exec-condition",
+      "NRestarts": "0",
+      "ExecMainStartTimestamp": "",
+      "MemoryCurrent": "[not set]",
+      "CPUUsageNSec": "1565357000",
+      "ActiveState": "inactive",
+      "SubState": "dead",
+      "UnitFileState": "disabled",
+      "ActiveEnterTimestamp": ""
+    },
+    "prism-context-ingest": {
+      "MainPID": "0",
+      "Result": "exec-condition",
+      "NRestarts": "0",
+      "ExecMainStartTimestamp": "",
+      "MemoryCurrent": "[not set]",
+      "CPUUsageNSec": "1479572000",
+      "ActiveState": "inactive",
+      "SubState": "dead",
+      "UnitFileState": "disabled",
+      "ActiveEnterTimestamp": ""
+    },
+    "prism-research-backup": {
+      "MainPID": "0",
+      "Result": "success",
+      "NRestarts": "0",
+      "ExecMainStartTimestamp": "",
+      "MemoryCurrent": "[not set]",
+      "CPUUsageNSec": "[not set]",
+      "ActiveState": "inactive",
+      "SubState": "dead",
+      "UnitFileState": "static",
+      "ActiveEnterTimestamp": ""
+    }
+  },
+  "processes": [
+    {
+      "pid": "609",
+      "cmdline": "/opt/prism/current/.venv/bin/python -m market_signal.context.free_sources.worker ",
+      "env_allowlist": {
+        "PRISM_PROFILE": "autotrader_lab",
+        "PRISM_DEPLOYMENT_TARGET": "vps",
+        "PRISM_AUTHORITY": "rehearsal",
+        "PRISM_RUNTIME_ROLE": "authoritative",
+        "PRISM_RUNTIME_ID": "vps-prism-autotrader-lab-rehearsal",
+        "PRISM_DB_PATH": "/data/prism.duckdb"
+      },
+      "status": {
+        "PPid": "1",
+        "VmHWM": "320228 kB",
+        "VmRSS": "205912 kB",
+        "Threads": "12"
+      },
+      "cgroup": "0::/system.slice/prism-free-source-ingest.service\n"
+    },
+    {
+      "pid": "612",
+      "cmdline": "/opt/prism/current/.venv/bin/python -m market_signal.context.free_sources.collector ",
+      "env_allowlist": {
+        "PRISM_PROFILE": "autotrader_lab",
+        "PRISM_DEPLOYMENT_TARGET": "vps",
+        "PRISM_AUTHORITY": "rehearsal",
+        "PRISM_RUNTIME_ROLE": "authoritative",
+        "PRISM_RUNTIME_ID": "vps-prism-autotrader-lab-rehearsal",
+        "PRISM_DB_PATH": "/data/prism.duckdb"
+      },
+      "status": {
+        "PPid": "1",
+        "VmHWM": "187580 kB",
+        "VmRSS": "187580 kB",
+        "Threads": "12"
+      },
+      "cgroup": "0::/system.slice/prism-free-sources.service\n"
+    },
+    {
+      "pid": "613",
+      "cmdline": "supercronic -passthrough-logs /data/state/prism.crontab ",
+      "env_allowlist": {
+        "PRISM_DEPLOYMENT_TARGET": "vps",
+        "PRISM_RUNTIME_ID": "vps-prism-autotrader-lab-rehearsal",
+        "PRISM_AUTHORITY": "rehearsal",
+        "PRISM_RUNTIME_ROLE": "authoritative",
+        "PRISM_PROFILE": "autotrader_lab",
+        "PRISM_DB_PATH": "/data/prism.duckdb"
+      },
+      "status": {
+        "PPid": "1",
+        "VmHWM": "15380 kB",
+        "VmRSS": "15380 kB",
+        "Threads": "9"
+      },
+      "cgroup": "0::/system.slice/prism-scheduler.service\n"
+    },
+    {
+      "pid": "625",
+      "cmdline": "/opt/prism/releases/530ba0d18c3009352eee21bb7f1a1c01004ab73a/.venv/bin/python /opt/prism/current/.venv/bin/market microstructure collect ",
+      "env_allowlist": {
+        "PRISM_PROFILE": "autotrader_lab",
+        "PRISM_DEPLOYMENT_TARGET": "vps",
+        "PRISM_AUTHORITY": "rehearsal",
+        "PRISM_RUNTIME_ROLE": "authoritative",
+        "PRISM_RUNTIME_ID": "vps-prism-autotrader-lab-rehearsal",
+        "PRISM_DB_PATH": "/data/prism.duckdb"
+      },
+      "status": {
+        "PPid": "1",
+        "VmHWM": "203788 kB",
+        "VmRSS": "203788 kB",
+        "Threads": "13"
+      },
+      "cgroup": "0::/system.slice/prism-microstructure.service\n"
+    },
+    {
+      "pid": "830",
+      "cmdline": "/opt/prism/current/.venv/bin/python scripts/vps_soak.py sample --interval 300 --out /data/validation/soak.jsonl ",
+      "env_allowlist": {
+        "PRISM_PROFILE": "autotrader_lab",
+        "PRISM_DEPLOYMENT_TARGET": "vps",
+        "PRISM_AUTHORITY": "rehearsal",
+        "PRISM_RUNTIME_ROLE": "authoritative",
+        "PRISM_RUNTIME_ID": "vps-prism-autotrader-lab-rehearsal",
+        "PRISM_DB_PATH": "/data/prism.duckdb"
+      },
+      "status": {
+        "PPid": "1",
+        "VmHWM": "243084 kB",
+        "VmRSS": "167188 kB",
+        "Threads": "12"
+      },
+      "cgroup": "0::/system.slice/prism-soak.service\n"
+    }
+  ],
+  "clock": {
+    "returncode": 0,
+    "stdout": "Reference ID    : 6B86565B (amy.chl.la)\nStratum         : 3\nRef time (UTC)  : Thu Oct 15 17:57:15 2026\nSystem time     : 0.000217295 seconds slow of NTP time\nLast offset     : -0.000158797 seconds\nRMS offset      : 0.000163909 seconds\nFrequency       : 13.376 ppm slow\nResidual freq   : -0.000 ppm\nSkew            : 0.115 ppm\nRoot delay      : 0.005547951 seconds\nRoot dispersion : 0.000633744 seconds\nUpdate interval : 64.5 seconds\nLeap status     : Normal\n",
+    "stderr": ""
+  },
+  "time": {
+    "returncode": 0,
+    "stdout": "Timezone=Etc/UTC\nLocalRTC=no\nCanNTP=yes\nNTP=yes\nNTPSynchronized=yes\nTimeUSec=Thu 2026-10-15 17:57:32 UTC\nRTCTimeUSec=Thu 2026-10-15 17:57:32 UTC\n",
+    "stderr": ""
+  },
+  "nft": {
+    "returncode": 0,
+    "stdout": "table inet filter {\n\tchain input {\n\t\ttype filter hook input priority filter; policy drop;\n\t\tct state established,related accept\n\t\tct state invalid drop\n\t\tiif \"lo\" accept\n\t\tip protocol icmp accept\n\t\tip6 nexthdr ipv6-icmp accept\n\t\ttcp dport 22 ct state new limit rate 10/minute accept\n\t}\n\n\tchain forward {\n\t\ttype filter hook forward priority filter; policy drop;\n\t}\n\n\tchain output {\n\t\ttype filter hook output priority filter; policy accept;\n\t}\n}\n",
+    "stderr": ""
+  },
+  "sshd_effective": {
+    "returncode": 0,
+    "stdout": "port 22\naddressfamily any\nlistenaddress [::]:22\nlistenaddress 0.0.0.0:22\nusepam yes\nlogingracetime 30\nx11displayoffset 10\nmaxauthtries 3\nmaxsessions 10\nclientaliveinterval 120\nclientalivecountmax 3\nrequiredrsasize 1024\nstreamlocalbindmask 0177\nunusedconnectiontimeout none\npermitrootlogin no\nignorerhosts yes\nignoreuserknownhosts no\nhostbasedauthentication no\nhostbasedusesnamefrompacketonly no\npubkeyauthentication yes\nkerberosauthentication no\nkerberosorlocalpasswd yes\nkerberosticketcleanup yes\ngssapiauthentication no\ngssapicleanupcredentials yes\ngssapikeyexchange no\ngssapistrictacceptorcheck yes\ngssapistorecredentialsonrekey no\ngssapikexalgorithms gss-group14-sha256-,gss-group16-sha512-,gss-nistp256-sha256-,gss-curve25519-sha256-,gss-group14-sha1-,gss-gex-sha1-\npasswordauthentication no\nkbdinteractiveauthentication no\nprintmotd no\nprintlastlog yes\nx11forwarding no\nx11uselocalhost yes\npermittty yes\npermituserrc yes\nstrictmodes yes\ntcpkeepalive yes\npermitemptypasswords no\ncompression yes\ngatewayports no\nusedns no\nallowtcpforwarding yes\nallowagentforwarding yes\ndisableforwarding no\nallowstreamlocalforwarding yes\nstreamlocalbindunlink no\nfingerprinthash SHA256\nexposeauthinfo no\npidfile /run/sshd.pid\nmodulifile /etc/ssh/moduli\nxauthlocation /usr/bin/xauth\nciphers chacha20-poly1305@openssh.com,aes128-ctr,aes192-ctr,aes256-ctr,aes128-gcm@openssh.com,aes256-gcm@openssh.com\nmacs umac-64-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-sha2-512-etm@openssh.com,hmac-sha1-etm@openssh.com,umac-64@openssh.com,umac-128@openssh.com,hmac-sha2-256,hmac-sha2-512,hmac-sha1\nbanner none\nforcecommand none\nchrootdirectory none\ntrustedusercakeys none\nrevokedkeys none\nsecuritykeyprovider internal\nauthorizedprincipalsfile none\nversionaddendum none\nauthorizedkeyscommand none\nauthorizedkeyscommanduser none\nauthorizedprincipalscommand none\nauthorizedprincipalscommanduser none\nhostkeyagent none\nkexalgorithms sntrup761x25519-sha512,sntrup761x25519-sha512@openssh.com,curve25519-sha256,curve25519-sha256@libssh.org,ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521,diffie-hellman-group-exchange-sha256,diffie-hellman-group16-sha512,diffie-hellman-group18-sha512,diffie-hellman-group14-sha256\ncasignaturealgorithms ssh-ed25519,ecdsa-sha2-nistp256,ecdsa-sha2-nistp384,ecdsa-sha2-nistp521,sk-ssh-ed25519@openssh.com,sk-ecdsa-sha2-nistp256@openssh.com,rsa-sha2-512,rsa-sha2-256\nhostbasedacceptedalgorithms ssh-ed25519-cert-v01@openssh.com,ecdsa-sha2-nistp256-cert-v01@openssh.com,ecdsa-sha2-nistp384-cert-v01@openssh.com,ecdsa-sha2-nistp521-cert-v01@openssh.com,sk-ssh-ed25519-cert-v01@openssh.com,sk-ecdsa-sha2-nistp256-cert-v01@openssh.com,rsa-sha2-512-cert-v01@openssh.com,rsa-sha2-256-cert-v01@openssh.com,ssh-ed25519,ecdsa-sha2-nistp256,ecdsa-sha2-nistp384,ecdsa-sha2-nistp521,sk-ssh-ed25519@openssh.com,sk-ecdsa-sha2-nistp256@openssh.com,rsa-sha2-512,rsa-sha2-256\nhostkeyalgorithms ssh-ed25519-cert-v01@openssh.com,ecdsa-sha2-nistp256-cert-v01@openssh.com,ecdsa-sha2-nistp384-cert-v01@openssh.com,ecdsa-sha2-nistp521-cert-v01@openssh.com,sk-ssh-ed25519-cert-v01@openssh.com,sk-ecdsa-sha2-nistp256-cert-v01@openssh.com,rsa-sha2-512-cert-v01@openssh.com,rsa-sha2-256-cert-v01@openssh.com,ssh-ed25519,ecdsa-sha2-nistp256,ecdsa-sha2-nistp384,ecdsa-sha2-nistp521,sk-ssh-ed25519@openssh.com,sk-ecdsa-sha2-nistp256@openssh.com,rsa-sha2-512,rsa-sha2-256\npubkeyacceptedalgorithms ssh-ed25519-cert-v01@openssh.com,ecdsa-sha2-nistp256-cert-v01@openssh.com,ecdsa-sha2-nistp384-cert-v01@openssh.com,ecdsa-sha2-nistp521-cert-v01@openssh.com,sk-ssh-ed25519-cert-v01@openssh.com,sk-ecdsa-sha2-nistp256-cert-v01@openssh.com,rsa-sha2-512-cert-v01@openssh.com,rsa-sha2-256-cert-v01@openssh.com,ssh-ed25519,ecdsa-sha2-nistp256,ecdsa-sha2-nistp384,ecdsa-sha2-nistp521,sk-ssh-ed25519@openssh.com,sk-ecdsa-sha2-nistp256@openssh.com,rsa-sha2-512,rsa-sha2-256\nloglevel INFO\nsyslogfacility AUTH\nauthorizedkeysfile .ssh/authorized_keys .ssh/authorized_keys2\nhostkey /etc/ssh/ssh_host_rsa_key\nhostkey /etc/ssh/ssh_host_ecdsa_key\nhostkey /etc/ssh/ssh_host_ed25519_key\nacceptenv LANG\nacceptenv LC_*\nauthenticationmethods any\nsubsystem sftp /usr/lib/openssh/sftp-server\nmaxstartups 10:30:100\npersourcemaxstartups none\npersourcenetblocksize 32:128\npermittunnel no\nipqos lowdelay throughput\nrekeylimit 0 0\npermitopen any\npermitlisten any\npermituserenvironment no\npubkeyauthoptions none\n",
+    "stderr": ""
+  },
+  "sshd_check": {
+    "returncode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  "listeners": {
+    "returncode": 0,
+    "stdout": "Netid State  Recv-Q Send-Q      Local Address:Port Peer Address:PortProcess                                   \nudp   UNCONN 0      0               127.0.0.1:323       0.0.0.0:*    users:((\"chronyd\",pid=499,fd=5))         \nudp   UNCONN 0      0                 0.0.0.0:5355      0.0.0.0:*    users:((\"systemd-resolve\",pid=443,fd=11))\nudp   UNCONN 0      0              127.0.0.54:53        0.0.0.0:*    users:((\"systemd-resolve\",pid=443,fd=19))\nudp   UNCONN 0      0           127.0.0.53%lo:53        0.0.0.0:*    users:((\"systemd-resolve\",pid=443,fd=17))\nudp   UNCONN 0      0      178.33.95.139%ens3:68        0.0.0.0:*    users:((\"systemd-network\",pid=451,fd=18))\nudp   UNCONN 0      0                   [::1]:323          [::]:*    users:((\"chronyd\",pid=499,fd=6))         \nudp   UNCONN 0      0                    [::]:5355         [::]:*    users:((\"systemd-resolve\",pid=443,fd=13))\ntcp   LISTEN 0      4096              0.0.0.0:5355      0.0.0.0:*    users:((\"systemd-resolve\",pid=443,fd=12))\ntcp   LISTEN 0      128               0.0.0.0:22        0.0.0.0:*    users:((\"sshd\",pid=513,fd=3))            \ntcp   LISTEN 0      4096           127.0.0.54:53        0.0.0.0:*    users:((\"systemd-resolve\",pid=443,fd=20))\ntcp   LISTEN 0      4096        127.0.0.53%lo:53        0.0.0.0:*    users:((\"systemd-resolve\",pid=443,fd=18))\ntcp   LISTEN 0      4096                 [::]:5355         [::]:*    users:((\"systemd-resolve\",pid=443,fd=14))\ntcp   LISTEN 0      128                  [::]:22           [::]:*    users:((\"sshd\",pid=513,fd=4))            \n",
+    "stderr": ""
+  },
+  "network_address": {
+    "returncode": 0,
+    "stdout": "[{\"ifindex\":1,\"ifname\":\"lo\",\"flags\":[\"LOOPBACK\",\"UP\",\"LOWER_UP\"],\"mtu\":65536,\"qdisc\":\"noqueue\",\"operstate\":\"UNKNOWN\",\"group\":\"default\",\"txqlen\":1000,\"link_type\":\"loopback\",\"address\":\"00:00:00:00:00:00\",\"broadcast\":\"00:00:00:00:00:00\",\"addr_info\":[{\"family\":\"inet\",\"local\":\"127.0.0.1\",\"prefixlen\":8,\"scope\":\"host\",\"label\":\"lo\",\"valid_life_time\":4294967295,\"preferred_life_time\":4294967295},{\"family\":\"inet6\",\"local\":\"::1\",\"prefixlen\":128,\"scope\":\"host\",\"noprefixroute\":true,\"valid_life_time\":4294967295,\"preferred_life_time\":4294967295}]},{\"ifindex\":2,\"ifname\":\"ens3\",\"flags\":[\"BROADCAST\",\"MULTICAST\",\"UP\",\"LOWER_UP\"],\"mtu\":1500,\"qdisc\":\"fq_codel\",\"operstate\":\"UP\",\"group\":\"default\",\"txqlen\":1000,\"link_type\":\"ether\",\"address\":\"fa:16:3e:7e:35:6b\",\"broadcast\":\"ff:ff:ff:ff:ff:ff\",\"altnames\":[\"enp0s3\"],\"addr_info\":[{\"family\":\"inet\",\"local\":\"178.33.95.139\",\"prefixlen\":32,\"metric\":100,\"scope\":\"global\",\"dynamic\":true,\"label\":\"ens3\",\"valid_life_time\":86117,\"preferred_life_time\":86117},{\"family\":\"inet6\",\"local\":\"2001:41d0:305:2100::1:8a3c\",\"prefixlen\":128,\"scope\":\"global\",\"valid_life_time\":4294967295,\"preferred_life_time\":4294967295},{\"family\":\"inet6\",\"local\":\"fe80::f816:3eff:fe7e:356b\",\"prefixlen\":64,\"scope\":\"link\",\"valid_life_time\":4294967295,\"preferred_life_time\":4294967295}]}]\n",
+    "stderr": ""
+  },
+  "network_routes": {
+    "returncode": 0,
+    "stdout": "[{\"dst\":\"default\",\"gateway\":\"178.33.95.1\",\"dev\":\"ens3\",\"protocol\":\"dhcp\",\"prefsrc\":\"178.33.95.139\",\"metric\":100,\"flags\":[]},{\"dst\":\"178.33.95.1\",\"dev\":\"ens3\",\"protocol\":\"dhcp\",\"scope\":\"link\",\"prefsrc\":\"178.33.95.139\",\"metric\":100,\"flags\":[]},{\"dst\":\"213.186.33.99\",\"gateway\":\"178.33.95.1\",\"dev\":\"ens3\",\"protocol\":\"dhcp\",\"prefsrc\":\"178.33.95.139\",\"metric\":100,\"flags\":[]},{\"type\":\"local\",\"dst\":\"127.0.0.0/8\",\"dev\":\"lo\",\"table\":\"local\",\"protocol\":\"kernel\",\"scope\":\"host\",\"prefsrc\":\"127.0.0.1\",\"flags\":[]},{\"type\":\"local\",\"dst\":\"127.0.0.1\",\"dev\":\"lo\",\"table\":\"local\",\"protocol\":\"kernel\",\"scope\":\"host\",\"prefsrc\":\"127.0.0.1\",\"flags\":[]},{\"type\":\"broadcast\",\"dst\":\"127.255.255.255\",\"dev\":\"lo\",\"table\":\"local\",\"protocol\":\"kernel\",\"scope\":\"link\",\"prefsrc\":\"127.0.0.1\",\"flags\":[]},{\"type\":\"local\",\"dst\":\"178.33.95.139\",\"dev\":\"ens3\",\"table\":\"local\",\"protocol\":\"kernel\",\"scope\":\"host\",\"prefsrc\":\"178.33.95.139\",\"flags\":[]},{\"dst\":\"2001:41d0:305:2100::1\",\"dev\":\"ens3\",\"protocol\":\"static\",\"metric\":1024,\"flags\":[],\"pref\":\"medium\"},{\"dst\":\"2001:41d0:305:2100::1:8a3c\",\"dev\":\"ens3\",\"protocol\":\"kernel\",\"metric\":256,\"flags\":[],\"pref\":\"medium\"},{\"dst\":\"fe80::/64\",\"dev\":\"ens3\",\"protocol\":\"kernel\",\"metric\":256,\"flags\":[],\"pref\":\"medium\"},{\"dst\":\"default\",\"gateway\":\"2001:41d0:305:2100::1\",\"dev\":\"ens3\",\"protocol\":\"static\",\"metric\":1024,\"flags\":[],\"pref\":\"medium\"},{\"type\":\"local\",\"dst\":\"::1\",\"dev\":\"lo\",\"table\":\"local\",\"protocol\":\"kernel\",\"metric\":0,\"flags\":[],\"pref\":\"medium\"},{\"type\":\"local\",\"dst\":\"2001:41d0:305:2100::1:8a3c\",\"dev\":\"ens3\",\"table\":\"local\",\"protocol\":\"kernel\",\"metric\":0,\"flags\":[],\"pref\":\"medium\"},{\"type\":\"local\",\"dst\":\"fe80::f816:3eff:fe7e:356b\",\"dev\":\"ens3\",\"table\":\"local\",\"protocol\":\"kernel\",\"metric\":0,\"flags\":[],\"pref\":\"medium\"},{\"type\":\"multicast\",\"dst\":\"ff00::/8\",\"dev\":\"ens3\",\"table\":\"local\",\"protocol\":\"kernel\",\"metric\":256,\"flags\":[],\"pref\":\"medium\"}]\n",
+    "stderr": ""
+  },
+  "enabled": {
+    "returncode": 0,
+    "stdout": "UNIT FILE                        STATE    PRESET\nprism-context-gateway.service    disabled enabled\nprism-context-ingest.service     disabled enabled\nprism-free-source-ingest.service disabled enabled\nprism-free-sources.service       disabled enabled\nprism-microstructure.service     disabled enabled\nprism-nimble.service             disabled enabled\nprism-research-backup.service    static   -\nprism-scheduler.service          disabled enabled\nprism-soak.service               static   -\nprism-universe.service           disabled enabled\nprism.target                     enabled  enabled\nprism-research-backup.timer      enabled  enabled\n\n12 unit files listed.\n",
+    "stderr": ""
+  },
+  "failed": {
+    "returncode": 0,
+    "stdout": "  UNIT LOAD ACTIVE SUB DESCRIPTION\n0 loaded units listed.\n",
+    "stderr": ""
+  },
+  "kernel_errors": {
+    "returncode": 0,
+    "stdout": "-- No entries --\n",
+    "stderr": ""
+  },
+  "system_errors": {
+    "returncode": 0,
+    "stdout": "Oct 14 15:45:03 vps-778d603b sshd[39118]: error: kex_exchange_identification: Connection closed by remote host\nOct 14 16:19:50 vps-778d603b sshd[40694]: error: kex_exchange_identification: Connection closed by remote host\nOct 14 16:37:41 vps-778d603b sshd[41407]: error: kex_exchange_identification: Connection closed by remote host\nOct 14 16:39:17 vps-778d603b sshd[41495]: error: kex_exchange_identification: Connection closed by remote host\nOct 14 16:52:38 vps-778d603b sshd[41933]: error: kex_exchange_identification: Connection closed by remote host\nOct 14 17:03:29 vps-778d603b sshd[42239]: error: kex_exchange_identification: Connection closed by remote host\nOct 14 17:06:04 vps-778d603b sshd[42463]: error: kex_exchange_identification: Connection closed by remote host\nOct 14 17:18:25 vps-778d603b sshd[42862]: error: kex_exchange_identification: Connection closed by remote host\nOct 14 17:39:43 vps-778d603b sshd[43592]: error: kex_exchange_identification: client sent invalid protocol identifier \"\"\nOct 14 17:51:52 vps-778d603b sshd[43985]: error: kex_exchange_identification: Connection closed by remote host\nOct 14 17:52:20 vps-778d603b sshd[44013]: error: kex_exchange_identification: read: Connection reset by peer\nOct 14 18:39:54 vps-778d603b sshd[45651]: error: kex_exchange_identification: Connection closed by remote host\nOct 14 18:46:37 vps-778d603b sshd[45854]: error: kex_exchange_identification: Connection closed by remote host\nOct 14 19:04:13 vps-778d603b sshd[46497]: error: kex_exchange_identification: Connection closed by remote host\nOct 14 19:04:40 vps-778d603b sshd[46511]: error: kex_exchange_identification: Connection closed by remote host\nOct 14 19:16:17 vps-778d603b sshd[47128]: error: kex_exchange_identification: Connection closed by remote host\nOct 14 19:17:16 vps-778d603b sshd[47152]: error: kex_exchange_identification: Connection closed by remote host\nOct 14 19:21:30 vps-778d603b sshd[47320]: error: kex_exchange_identification: Connection closed by remote host\nOct 14 19:26:25 vps-778d603b sshd[47445]: error: kex_exchange_identification: banner line contains invalid characters\nOct 14 19:31:02 vps-778d603b sshd[47595]: error: kex_exchange_identification: Connection closed by remote host\nOct 14 19:31:36 vps-778d603b sshd[47619]: error: kex_exchange_identification: Connection closed by remote host\nOct 14 19:31:38 vps-778d603b sshd[47620]: error: kex_exchange_identification: Connection closed by remote host\nOct 14 21:08:45 vps-778d603b sshd[51285]: error: kex_exchange_identification: Connection closed by remote host\nOct 14 21:09:01 vps-778d603b sshd[51305]: error: kex_exchange_identification: Connection closed by remote host\nOct 14 21:14:52 vps-778d603b sshd[51427]: error: kex_exchange_identification: Connection closed by remote host\nOct 14 21:14:55 vps-778d603b sshd[51428]: error: kex_exchange_identification: Connection closed by remote host\nOct 14 21:19:47 vps-778d603b sshd[51594]: error: kex_exchange_identification: Connection closed by remote host\nOct 14 21:20:34 vps-778d603b sshd[51617]: error: kex_exchange_identification: Connection closed by remote host\nOct 14 21:22:06 vps-778d603b sshd[51718]: error: kex_exchange_identification: Connection closed by remote host\nOct 14 21:22:26 vps-778d603b sshd[51721]: error: kex_exchange_identification: Connection closed by remote host\nOct 14 22:38:04 vps-778d603b sshd[54327]: error: kex_exchange_identification: banner line contains invalid characters\nOct 14 23:47:29 vps-778d603b sshd[56669]: error: kex_exchange_identification: Connection closed by remote host\nOct 14 23:51:02 vps-778d603b sshd[56748]: error: kex_exchange_identification: Connection closed by remote host\nOct 14 23:51:09 vps-778d603b sshd[56800]: error: kex_exchange_identification: read: Connection reset by peer\nOct 14 23:57:52 vps-778d603b sshd[56991]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 00:26:06 vps-778d603b sshd[58155]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 00:28:54 vps-778d603b sshd[58212]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 00:29:03 vps-778d603b sshd[58231]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 00:39:05 vps-778d603b sshd[58634]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 00:40:04 vps-778d603b sshd[58655]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 00:46:52 vps-778d603b sshd[58852]: error: kex_exchange_identification: client sent invalid protocol identifier \"GET / HTTP/1.1\"\nOct 15 00:49:17 vps-778d603b sshd[58922]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 01:02:24 vps-778d603b sshd[59343]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 01:32:35 vps-778d603b sshd[60473]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 01:36:32 vps-778d603b sshd[60636]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 01:38:40 vps-778d603b sshd[60741]: error: kex_exchange_identification: banner line contains invalid characters\nOct 15 01:57:05 vps-778d603b sshd[61297]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 02:08:58 vps-778d603b sshd[61842]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 02:24:57 vps-778d603b sshd[62350]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 02:25:30 vps-778d603b sshd[62367]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 02:34:59 vps-778d603b sshd[62700]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 02:48:45 vps-778d603b sshd[63287]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 02:50:09 vps-778d603b sshd[63323]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 03:23:31 vps-778d603b sshd[64819]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 03:33:41 vps-778d603b sshd[65119]: error: kex_exchange_identification: read: Connection reset by peer\nOct 15 03:36:18 vps-778d603b sshd[65244]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 03:38:03 vps-778d603b sshd[65343]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 05:06:12 vps-778d603b sshd[68433]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 05:06:38 vps-778d603b sshd[68435]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 05:20:57 vps-778d603b sshd[68869]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 05:58:37 vps-778d603b sshd[70109]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 06:33:27 vps-778d603b sshd[71396]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 06:42:04 vps-778d603b sshd[71818]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 06:43:41 vps-778d603b sshd[71855]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 07:01:13 vps-778d603b sshd[72451]: error: kex_exchange_identification: banner line contains invalid characters\nOct 15 07:04:57 vps-778d603b sshd[72587]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 07:05:18 vps-778d603b sshd[72654]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 07:33:50 vps-778d603b sshd[73633]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 07:36:19 vps-778d603b sshd[73763]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 07:36:50 vps-778d603b sshd[73766]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 08:08:13 vps-778d603b sshd[75074]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 08:59:46 vps-778d603b sshd[76777]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 09:14:52 vps-778d603b sshd[77434]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 09:18:21 vps-778d603b sshd[77568]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 09:21:44 vps-778d603b sshd[77720]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 09:33:30 vps-778d603b kernel: Memory cgroup out of memory: Killed process 78342 (python) total-vm:1514940kB, anon-rss:1037728kB, file-rss:42520kB, shmem-rss:0kB, UID:994 pgtables:2316kB oom_score_adj:0\nOct 15 09:51:49 vps-778d603b sshd[79094]: error: kex_exchange_identification: read: Connection reset by peer\nOct 15 09:53:29 vps-778d603b sshd[79139]: error: kex_exchange_identification: read: Connection reset by peer\nOct 15 10:27:08 vps-778d603b sshd[80405]: error: kex_exchange_identification: read: Connection reset by peer\nOct 15 10:42:19 vps-778d603b sshd[80947]: error: kex_exchange_identification: banner line contains invalid characters\nOct 15 10:47:19 vps-778d603b sshd[81124]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 10:50:39 vps-778d603b sshd[81208]: error: maximum authentication attempts exceeded for root from 201.142.246.169 port 51720 ssh2 [preauth]\nOct 15 10:50:42 vps-778d603b sshd[81210]: error: maximum authentication attempts exceeded for root from 201.142.246.169 port 52170 ssh2 [preauth]\nOct 15 10:50:46 vps-778d603b sshd[81213]: error: maximum authentication attempts exceeded for root from 201.142.246.169 port 52432 ssh2 [preauth]\nOct 15 10:50:49 vps-778d603b sshd[81217]: error: maximum authentication attempts exceeded for root from 201.142.246.169 port 52750 ssh2 [preauth]\nOct 15 10:50:53 vps-778d603b sshd[81219]: error: maximum authentication attempts exceeded for root from 201.142.246.169 port 53128 ssh2 [preauth]\nOct 15 10:50:56 vps-778d603b sshd[81221]: error: maximum authentication attempts exceeded for root from 201.142.246.169 port 53460 ssh2 [preauth]\nOct 15 10:51:02 vps-778d603b sshd[81223]: error: maximum authentication attempts exceeded for root from 201.142.246.169 port 53672 ssh2 [preauth]\nOct 15 10:51:14 vps-778d603b sshd[81306]: error: maximum authentication attempts exceeded for invalid user admin from 201.142.246.169 port 54818 ssh2 [preauth]\nOct 15 10:51:19 vps-778d603b sshd[81308]: error: maximum authentication attempts exceeded for invalid user admin from 201.142.246.169 port 55402 ssh2 [preauth]\nOct 15 10:51:28 vps-778d603b sshd[81315]: error: maximum authentication attempts exceeded for invalid user admin from 201.142.246.169 port 55834 ssh2 [preauth]\nOct 15 10:51:32 vps-778d603b sshd[81317]: error: maximum authentication attempts exceeded for invalid user admin from 201.142.246.169 port 56644 ssh2 [preauth]\nOct 15 10:51:39 vps-778d603b sshd[81319]: error: maximum authentication attempts exceeded for invalid user admin from 201.142.246.169 port 56980 ssh2 [preauth]\nOct 15 10:51:45 vps-778d603b sshd[81322]: error: maximum authentication attempts exceeded for invalid user admin from 201.142.246.169 port 57538 ssh2 [preauth]\nOct 15 10:51:57 vps-778d603b sshd[81327]: error: maximum authentication attempts exceeded for invalid user oracle from 201.142.246.169 port 58700 ssh2 [preauth]\nOct 15 10:52:03 vps-778d603b sshd[81337]: error: maximum authentication attempts exceeded for invalid user oracle from 201.142.246.169 port 59156 ssh2 [preauth]\nOct 15 10:52:09 vps-778d603b sshd[81344]: error: maximum authentication attempts exceeded for invalid user oracle from 201.142.246.169 port 59624 ssh2 [preauth]\nOct 15 10:52:16 vps-778d603b sshd[81347]: error: maximum authentication attempts exceeded for invalid user oracle from 201.142.246.169 port 60246 ssh2 [preauth]\nOct 15 10:52:20 vps-778d603b sshd[81349]: error: maximum authentication attempts exceeded for invalid user oracle from 201.142.246.169 port 60792 ssh2 [preauth]\nOct 15 10:52:33 vps-778d603b sshd[81358]: error: maximum authentication attempts exceeded for invalid user usuario from 201.142.246.169 port 33416 ssh2 [preauth]\nOct 15 10:52:39 vps-778d603b sshd[81360]: error: maximum authentication attempts exceeded for invalid user usuario from 201.142.246.169 port 34052 ssh2 [preauth]\nOct 15 10:52:46 vps-778d603b sshd[81362]: error: maximum authentication attempts exceeded for invalid user usuario from 201.142.246.169 port 34616 ssh2 [preauth]\nOct 15 10:52:50 vps-778d603b sshd[81365]: error: maximum authentication attempts exceeded for invalid user usuario from 201.142.246.169 port 35212 ssh2 [preauth]\nOct 15 10:52:56 vps-778d603b sshd[81368]: error: maximum authentication attempts exceeded for invalid user usuario from 201.142.246.169 port 35516 ssh2 [preauth]\nOct 15 10:53:09 vps-778d603b sshd[81385]: error: maximum authentication attempts exceeded for invalid user test from 201.142.246.169 port 36618 ssh2 [preauth]\nOct 15 10:53:16 vps-778d603b sshd[81388]: error: maximum authentication attempts exceeded for invalid user test from 201.142.246.169 port 37280 ssh2 [preauth]\nOct 15 10:53:27 vps-778d603b sshd[81392]: error: maximum authentication attempts exceeded for invalid user test from 201.142.246.169 port 37904 ssh2 [preauth]\nOct 15 10:53:34 vps-778d603b sshd[81394]: error: maximum authentication attempts exceeded for invalid user test from 201.142.246.169 port 38882 ssh2 [preauth]\nOct 15 10:53:39 vps-778d603b sshd[81401]: error: maximum authentication attempts exceeded for invalid user test from 201.142.246.169 port 39498 ssh2 [preauth]\nOct 15 10:53:50 vps-778d603b sshd[81417]: error: maximum authentication attempts exceeded for invalid user user from 201.142.246.169 port 40542 ssh2 [preauth]\nOct 15 10:53:57 vps-778d603b sshd[81420]: error: maximum authentication attempts exceeded for invalid user user from 201.142.246.169 port 40966 ssh2 [preauth]\nOct 15 10:54:03 vps-778d603b sshd[81431]: error: maximum authentication attempts exceeded for invalid user user from 201.142.246.169 port 41480 ssh2 [preauth]\nOct 15 10:54:09 vps-778d603b sshd[81438]: error: maximum authentication attempts exceeded for invalid user user from 201.142.246.169 port 42102 ssh2 [preauth]\nOct 15 10:54:17 vps-778d603b sshd[81441]: error: maximum authentication attempts exceeded for invalid user user from 201.142.246.169 port 42584 ssh2 [preauth]\nOct 15 10:54:19 vps-778d603b sshd[81443]: error: maximum authentication attempts exceeded for invalid user user from 201.142.246.169 port 43248 ssh2 [preauth]\nOct 15 10:54:34 vps-778d603b sshd[81447]: error: maximum authentication attempts exceeded for invalid user ftpuser from 201.142.246.169 port 43916 ssh2 [preauth]\nOct 15 10:54:40 vps-778d603b sshd[81454]: error: maximum authentication attempts exceeded for invalid user ftpuser from 201.142.246.169 port 44796 ssh2 [preauth]\nOct 15 10:54:44 vps-778d603b sshd[81456]: error: maximum authentication attempts exceeded for invalid user ftpuser from 201.142.246.169 port 45294 ssh2 [preauth]\nOct 15 10:54:51 vps-778d603b sshd[81458]: error: maximum authentication attempts exceeded for invalid user ftpuser from 201.142.246.169 port 45690 ssh2 [preauth]\nOct 15 10:54:57 vps-778d603b sshd[81461]: error: maximum authentication attempts exceeded for invalid user ftpuser from 201.142.246.169 port 46266 ssh2 [preauth]\nOct 15 10:55:03 vps-778d603b sshd[81477]: error: maximum authentication attempts exceeded for invalid user ftpuser from 201.142.246.169 port 46824 ssh2 [preauth]\nOct 15 10:55:14 vps-778d603b sshd[81482]: error: maximum authentication attempts exceeded for invalid user test1 from 201.142.246.169 port 48008 ssh2 [preauth]\nOct 15 10:55:21 vps-778d603b sshd[81485]: error: maximum authentication attempts exceeded for invalid user test1 from 201.142.246.169 port 48352 ssh2 [preauth]\nOct 15 10:55:27 vps-778d603b sshd[81487]: error: maximum authentication attempts exceeded for invalid user test1 from 201.142.246.169 port 48936 ssh2 [preauth]\nOct 15 10:55:34 vps-778d603b sshd[81489]: error: maximum authentication attempts exceeded for invalid user test1 from 201.142.246.169 port 49464 ssh2 [preauth]\nOct 15 10:55:38 vps-778d603b sshd[81491]: error: maximum authentication attempts exceeded for invalid user test1 from 201.142.246.169 port 50036 ssh2 [preauth]\nOct 15 10:55:50 vps-778d603b sshd[81500]: error: maximum authentication attempts exceeded for invalid user test2 from 201.142.246.169 port 50898 ssh2 [preauth]\nOct 15 10:55:57 vps-778d603b sshd[81502]: error: maximum authentication attempts exceeded for invalid user test2 from 201.142.246.169 port 51476 ssh2 [preauth]\nOct 15 10:56:04 vps-778d603b sshd[81518]: error: maximum authentication attempts exceeded for invalid user test2 from 201.142.246.169 port 52124 ssh2 [preauth]\nOct 15 10:56:09 vps-778d603b sshd[81521]: error: maximum authentication attempts exceeded for invalid user test2 from 201.142.246.169 port 52726 ssh2 [preauth]\nOct 15 10:56:16 vps-778d603b sshd[81523]: error: maximum authentication attempts exceeded for invalid user test2 from 201.142.246.169 port 53192 ssh2 [preauth]\nOct 15 10:56:26 vps-778d603b sshd[81528]: error: maximum authentication attempts exceeded for invalid user ubuntu from 201.142.246.169 port 54200 ssh2 [preauth]\nOct 15 10:56:33 vps-778d603b sshd[81530]: error: maximum authentication attempts exceeded for invalid user ubuntu from 201.142.246.169 port 54766 ssh2 [preauth]\nOct 15 10:56:39 vps-778d603b sshd[81532]: error: maximum authentication attempts exceeded for invalid user ubuntu from 201.142.246.169 port 55366 ssh2 [preauth]\nOct 15 10:56:46 vps-778d603b sshd[81539]: error: maximum authentication attempts exceeded for invalid user ubuntu from 201.142.246.169 port 55864 ssh2 [preauth]\nOct 15 10:56:51 vps-778d603b sshd[81541]: error: maximum authentication attempts exceeded for invalid user ubuntu from 201.142.246.169 port 56494 ssh2 [preauth]\nOct 15 10:56:57 vps-778d603b sshd[81543]: error: maximum authentication attempts exceeded for invalid user ubuntu from 201.142.246.169 port 56902 ssh2 [preauth]\nOct 15 10:57:09 vps-778d603b sshd[81562]: error: maximum authentication attempts exceeded for invalid user pi from 201.142.246.169 port 57990 ssh2 [preauth]\nOct 15 11:10:13 vps-778d603b sshd[82228]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 11:11:27 vps-778d603b sshd[82251]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 11:20:01 vps-778d603b sshd[82521]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 11:22:00 vps-778d603b sshd[82621]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 11:40:27 vps-778d603b sshd[83634]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 11:40:31 vps-778d603b sshd[83640]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 11:46:56 vps-778d603b sshd[83877]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 11:47:31 vps-778d603b sshd[83895]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 11:52:54 vps-778d603b sshd[84113]: error: kex_exchange_identification: client sent invalid protocol identifier \"GET / HTTP/1.1\"\nOct 15 12:00:45 vps-778d603b sshd[84316]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 12:04:02 vps-778d603b sshd[84478]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 12:18:28 vps-778d603b sshd[85169]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 12:26:51 vps-778d603b sshd[85810]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 12:35:32 vps-778d603b sshd[86260]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 12:35:37 vps-778d603b sshd[86261]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 13:34:20 vps-778d603b sshd[88975]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 13:38:43 vps-778d603b sshd[89180]: error: kex_exchange_identification: read: Connection reset by peer\nOct 15 13:43:22 vps-778d603b sshd[89348]: error: kex_exchange_identification: read: Connection reset by peer\nOct 15 13:52:12 vps-778d603b sshd[89693]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 13:52:41 vps-778d603b sshd[89763]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 13:59:11 vps-778d603b sshd[90038]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 14:25:03 vps-778d603b sshd[91356]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 14:39:18 vps-778d603b sshd[91945]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 14:43:56 vps-778d603b sshd[92048]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 15:29:04 vps-778d603b sshd[93641]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 15:36:30 vps-778d603b sshd[93939]: error: kex_exchange_identification: client sent invalid protocol identifier \"\"\nOct 15 15:45:23 vps-778d603b sshd[94208]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 15:46:02 vps-778d603b sshd[94253]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 16:19:13 vps-778d603b sshd[95462]: error: kex_exchange_identification: read: Connection reset by peer\nOct 15 16:24:59 vps-778d603b sshd[95658]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 16:26:23 vps-778d603b sshd[95699]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 17:11:08 vps-778d603b sshd[97450]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 17:11:38 vps-778d603b sshd[97459]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 17:17:45 vps-778d603b sshd[97881]: error: kex_exchange_identification: Connection closed by remote host\nOct 15 17:23:21 vps-778d603b sshd[98399]: error: kex_exchange_identification: Connection closed by remote host\n",
+    "stderr": ""
+  },
+  "locks": {
+    "returncode": 0,
+    "stdout": "{\n   \"locks\": [\n      {\n         \"command\": \"python\",\n         \"pid\": 612,\n         \"type\": \"FLOCK\",\n         \"size\": null,\n         \"mode\": \"WRITE\",\n         \"m\": false,\n         \"start\": 0,\n         \"end\": 0,\n         \"path\": \"/data/free_event_sources/collector.lock\"\n      },{\n         \"command\": \"market\",\n         \"pid\": 625,\n         \"type\": \"FLOCK\",\n         \"size\": \"3B\",\n         \"mode\": \"WRITE\",\n         \"m\": false,\n         \"start\": 0,\n         \"end\": 0,\n         \"path\": \"/data/microstructure/collector.lock\"\n      }\n   ]\n}\n",
+    "stderr": ""
+  },
+  "disk": {
+    "returncode": 0,
+    "stdout": "Filesystem        1B-blocks       Used   Available Use% Mounted on\n/dev/sda1      105467994112 6220771328 94910136320   7% /\n",
+    "stderr": ""
+  },
+  "memory": {
+    "returncode": 0,
+    "stdout": "               total        used        free      shared  buff/cache   available\nMem:     12256567296   840957952 11263680512      520192   408354816 11415609344\nSwap:              0           0           0\n",
+    "stderr": ""
+  },
+  "system_state": {
+    "returncode": 0,
+    "stdout": "running\n",
+    "stderr": ""
+  },
+  "boot": {
+    "returncode": 0,
+    "stdout": "IDX BOOT ID                          FIRST ENTRY                 LAST ENTRY\n -1 e97ff1cb03db46869f9352bd604db908 Tue 2026-10-13 11:41:05 UTC Thu 2026-10-15 17:52:43 UTC\n  0 2e218007141d43709bbe3a4c6cc998c5 Thu 2026-10-15 17:52:48 UTC Thu 2026-10-15 17:57:32 UTC\n",
+    "stderr": ""
+  },
+  "kernel_targets": {
+    "returncode": 2,
+    "stdout": "-rw-r--r-- 1 root root 7482 Oct 14 06:33 /boot/grub/grub.cfg\n",
+    "stderr": "ls: cannot access '/vmlinuz': No such file or directory\n"
+  },
+  "data_usage": {
+    "returncode": 0,
+    "stdout": "40960\t/data/microstructure/lp\n100315136\t/data/microstructure/raw\n32694272\t/data/microstructure/spool\n133070848\t/data/microstructure\n1392640\t/data/validation\n40960\t/data/state\n2715648\t/data/raw/binance_futures\n225280\t/data/raw/rss_cftc_press\n233472\t/data/raw/rss_fed_press\n1368064\t/data/raw/hyperliquid\n438272\t/data/raw/rss_sec_press\n487424\t/data/raw/hyperliquid_intraday\n5472256\t/data/raw\n4096\t/data/railway-bridge/archive\n8192\t/data/railway-bridge\n4096\t/data/free_event_sources/attempts\n94208\t/data/free_event_sources/receipts\n94208\t/data/free_event_sources/seals\n94208\t/data/free_event_sources/done\n323584\t/data/free_event_sources\n4096\t/data/context_gateway\n115884032\t/data/backups/daily\n115888128\t/data/backups\n647168\t/data/logs\n385847296\t/data\n",
+    "stderr": ""
+  },
+  "security_config_sha256": {
+    "/etc/nftables.conf": "f71e2f1005f0fd7500f87b209db3eaa478a6ed17525512e1151d3c35440e9a32",
+    "/etc/ssh/sshd_config": "121bac24ff921329e3fa7ff8c2b987ed8cf8e6bf905464e4722e6181cbe06801",
+    "/etc/ssh/sshd_config.d/50-cloud-init.conf": "6bf43c7543d384fe7c3442bd97b1c91b9da62b51521184b6c1e421a7ef8bac1d",
+    "/etc/ssh/sshd_config.d/10-prism.conf": "557bcf7c78fccacfd3b4bf11b2bf6bc544e74493e89661d4bcd65e672b486594"
+  },
+  "loadavg": "0.20 0.17 0.08 1/182 1378\n",
+  "profile": {
+    "profile": "autotrader_lab",
+    "identity": "prism_autotrader_lab_v1",
+    "digest": "f898e2f01ccc5f744ae52e67fbc8edce7428cdf0256647fffa77d926ea102d19",
+    "authority": "rehearsal",
+    "target": "vps",
+    "runtime_id": "vps-prism-autotrader-lab-rehearsal",
+    "explicit": true,
+    "role": "authoritative",
+    "processes": [
+      "microstructure_collector",
+      "free_source_collector",
+      "free_source_ingest",
+      "scheduler"
+    ],
+    "disabled_by_flag": [],
+    "collector_dynamic": false,
+    "scheduled_jobs": [
+      "oi",
+      "intraday",
+      "paper_v2_funding",
+      "positioning",
+      "context_macro",
+      "context_news",
+      "microstructure",
+      "backup"
+    ],
+    "execution_allowed": false,
+    "external_actions_allowed": false,
+    "boot_catchup_job": null,
+    "dynamic_universe": {
+      "tier0_discovery": "gated",
+      "tier1_warming": "gated",
+      "tier2_rich": "gated",
+      "tier3_risk_pins": "gated"
+    },
+    "definition": {
+      "name": "autotrader_lab",
+      "identity": "prism_autotrader_lab_v1",
+      "targets": [
+        "local",
+        "vps"
+      ],
+      "processes": [
+        "free_source_collector",
+        "free_source_ingest",
+        "microstructure_collector",
+        "nimble_worker",
+        "scheduler"
+      ],
+      "process_classes": {
+        "free_source_collector": "passive",
+        "free_source_ingest": "ingest",
+        "microstructure_collector": "passive",
+        "nimble_worker": "execution",
+        "scheduler": "ingest"
+      },
+      "jobs": [
+        "backup",
+        "context_macro",
+        "context_news",
+        "intraday",
+        "microstructure",
+        "oi",
+        "paper_nimble_brief",
+        "paper_v2_funding",
+        "positioning"
+      ],
+      "job_classes": {
+        "backup": "maintenance",
+        "context_macro": "data",
+        "context_news": "data",
+        "intraday": "data",
+        "microstructure": "data",
+        "oi": "data",
+        "paper_nimble_brief": "execution",
+        "paper_v2_funding": "data",
+        "positioning": "data"
+      },
+      "runtime_ids": {
+        "full": "vps-prism-autotrader-lab",
+        "rehearsal": "vps-prism-autotrader-lab-rehearsal"
+      },
+      "boot_catchup_job": null,
+      "unconditional_jobs": [
+        "paper_v2_funding"
+      ],
+      "dynamic_universe": {
+        "tier0_discovery": "gated",
+        "tier1_warming": "gated",
+        "tier2_rich": "gated",
+        "tier3_risk_pins": "gated"
+      }
+    }
+  },
+  "/data/free_event_sources/collector.json": {
+    "active": [
+      "hyperliquid_status_v1",
+      "coinbase_status_v1",
+      "kraken_status_v1"
+    ],
+    "heartbeat_at": "2026-10-15T17:57:27.782901+00:00"
+  },
+  "/data/free_event_sources/worker.json": {
+    "backlog": 0,
+    "db_opened": false,
+    "heartbeat_at": "2026-10-15T17:57:30.638988+00:00",
+    "ingested": 0
+  },
+  "/data/microstructure/status.json": {
+    "backoff_s": 1.0,
+    "bytes_per_s_60s": 11877.9,
+    "coins": {
+      "AAVE": {
+        "first_minute": "2026-10-15T17:52:00+00:00",
+        "last_book20_age_s": 0.5,
+        "last_book5_age_s": 0.5,
+        "last_ctx_age_s": 0.2,
+        "last_finalized_minute": "2026-10-15T17:56:00+00:00",
+        "last_finalized_status": "COMPLETE",
+        "last_trade_age_s": 8.7,
+        "subscribed": [
+          "book20",
+          "book5",
+          "ctx",
+          "trades"
+        ]
+      },
+      "BTC": {
+        "first_minute": "2026-10-15T17:52:00+00:00",
+        "last_book20_age_s": 0.4,
+        "last_book5_age_s": 0.4,
+        "last_ctx_age_s": 0.2,
+        "last_finalized_minute": "2026-10-15T17:56:00+00:00",
+        "last_finalized_status": "COMPLETE",
+        "last_trade_age_s": 1.2,
+        "subscribed": [
+          "book20",
+          "book5",
+          "ctx",
+          "trades"
+        ]
+      },
+      "ETH": {
+        "first_minute": "2026-10-15T17:52:00+00:00",
+        "last_book20_age_s": 0.4,
+        "last_book5_age_s": 0.4,
+        "last_ctx_age_s": 0.2,
+        "last_finalized_minute": "2026-10-15T17:56:00+00:00",
+        "last_finalized_status": "COMPLETE",
+        "last_trade_age_s": 7.5,
+        "subscribed": [
+          "book20",
+          "book5",
+          "ctx",
+          "trades"
+        ]
+      },
+      "HYPE": {
+        "first_minute": "2026-10-15T17:52:00+00:00",
+        "last_book20_age_s": 0.4,
+        "last_book5_age_s": 0.4,
+        "last_ctx_age_s": 0.2,
+        "last_finalized_minute": "2026-10-15T17:56:00+00:00",
+        "last_finalized_status": "COMPLETE",
+        "last_trade_age_s": 0.3,
+        "subscribed": [
+          "book20",
+          "book5",
+          "ctx",
+          "trades"
+        ]
+      },
+      "LINK": {
+        "first_minute": "2026-10-15T17:52:00+00:00",
+        "last_book20_age_s": 0.4,
+        "last_book5_age_s": 0.4,
+        "last_ctx_age_s": 0.2,
+        "last_finalized_minute": "2026-10-15T17:56:00+00:00",
+        "last_finalized_status": "COMPLETE",
+        "last_trade_age_s": 4.6,
+        "subscribed": [
+          "book20",
+          "book5",
+          "ctx",
+          "trades"
+        ]
+      },
+      "SOL": {
+        "first_minute": "2026-10-15T17:52:00+00:00",
+        "last_book20_age_s": 0.4,
+        "last_book5_age_s": 0.4,
+        "last_ctx_age_s": 0.2,
+        "last_finalized_minute": "2026-10-15T17:56:00+00:00",
+        "last_finalized_status": "COMPLETE",
+        "last_trade_age_s": 1.2,
+        "subscribed": [
+          "book20",
+          "book5",
+          "ctx",
+          "trades"
+        ]
+      }
+    },
+    "conn_id": "msconn_88fabebc88de",
+    "connected": true,
+    "counters": {
+      "connections": 1,
+      "ev_A": 24,
+      "ev_C": 1626,
+      "ev_D": 318,
+      "ev_F": 3060,
+      "ev_O": 1,
+      "ev_T": 2114,
+      "finalized": 30,
+      "replay_unobserved": 42,
+      "status_COMPLETE": 24,
+      "status_PARTIAL": 6
+    },
+    "cpu_s": 5.4,
+    "definition": "7c299a853f4ba141",
+    "disconnected_since_ms": null,
+    "dropped_records": 0,
+    "dynamic_universe": false,
+    "feature_version": "microstructure_1m_v1",
+    "flush_ms": {
+      "max": 2.155044000005546,
+      "p50": 1.166111999992836
+    },
+    "git_commit": "530ba0d18c3009352eee21bb7f1a1c01004ab73a",
+    "last_error": null,
+    "last_message_age_s": 0.2,
+    "latency_ms": {
+      "n": 4000,
+      "p50": 380,
+      "p90": 657,
+      "p99": 926
+    },
+    "max_rss_mb": 199.0,
+    "msgs_per_s_60s": 21.18,
+    "pending_records": 0,
+    "pid": 625,
+    "processing_us": {
+      "p50": 22.0,
+      "p99": 85.7
+    },
+    "raw": true,
+    "raw_bytes_written": 114475,
+    "raw_paused": false,
+    "reconnects": 0,
+    "role": "authoritative",
+    "run_id": "msrun_92299ff05c2d47b8",
+    "runtime_id": "vps-prism-autotrader-lab-rehearsal",
+    "spool_errors": 0,
+    "started_ms": 1792086775063,
+    "subscription_error": null,
+    "url": "wss://api.hyperliquid.xyz/ws",
+    "written_ms": 1792087053136
+  }
+}

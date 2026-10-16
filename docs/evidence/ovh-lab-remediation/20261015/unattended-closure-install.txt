@@ -1,0 +1,24 @@
+NextElapseUSecRealtime=Fri 2026-10-16 01:41:00 UTC
+ActiveState=active
+SubState=waiting
+MainPID=3462
+ActiveState=active
+SubState=running
+# /run/systemd/transient/prism-lab-remediation-close.service
+# This is a transient unit file, created programmatically via the systemd API. Do not edit.
+[Unit]
+Description=/opt/prism/current/.venv/bin/python /etc/prism/lab-remediation/close_unattended.py
+
+[Service]
+Type=oneshot
+TimeoutStartSec=30min
+RemainAfterExit=yes
+MemoryMax=1073741824
+CPUQuota=100%
+Nice=10
+ProtectSystem=strict
+ReadWritePaths="/data/validation/lab-remediation"
+PrivateTmp=yes
+NoNewPrivileges=yes
+ExecStart=
+ExecStart="/opt/prism/current/.venv/bin/python" "/etc/prism/lab-remediation/close_unattended.py"

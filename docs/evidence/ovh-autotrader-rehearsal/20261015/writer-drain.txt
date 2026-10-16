@@ -1,0 +1,28 @@
+2026-10-15T17:51:58,873270531+00:00
+MainPID=0
+Id=prism-scheduler.service
+ActiveState=inactive
+SubState=dead
+
+MainPID=0
+Id=prism-free-source-ingest.service
+ActiveState=inactive
+SubState=dead
+
+MainPID=0
+Id=prism-nimble.service
+ActiveState=inactive
+SubState=dead
+
+MainPID=0
+Id=prism-universe.service
+ActiveState=inactive
+SubState=dead
+
+MainPID=0
+Id=prism-research-backup.service
+ActiveState=inactive
+SubState=dead
+COMMAND   PID  TYPE SIZE MODE  M START END PATH
+python  38972 FLOCK      WRITE 0     0   0 /data/free_event_sources/collector.lock
+market  39022 FLOCK   5B WRITE 0     0   0 /data/microstructure/collector.lock

@@ -1,0 +1,22 @@
+2026-10-15T17:53:09,314804551+00:00
+6.1.0-53-cloud-amd64
+2e218007-141d-4370-9bbe-3a4c6cc998c5
+ 17:53:09 up 0 min,  0 user,  load average: 0.26, 0.06, 0.02
+  UNIT                             LOAD   ACTIVE   SUB     DESCRIPTION
+  prism-context-gateway.service    loaded inactive dead    Prism context gateway HTTP/MCP ingress (never opens DuckDB)
+  prism-context-ingest.service     loaded inactive dead    Prism context gateway ingest worker (authoritative DB writer under the runtime lock)
+  prism-free-source-ingest.service loaded active   running Prism free-source spool ingest (authoritative DB writer under the runtime lock)
+  prism-free-sources.service       loaded active   running Prism free public event-source collector (spool only; never opens DuckDB)
+  prism-microstructure.service     loaded active   running Prism Hyperliquid microstructure collector (public data -> spool; never opens DuckDB)
+  prism-nimble.service             loaded inactive dead    Prism Nimble PAPER execution worker (idle until a lab run is activated)
+  prism-research-backup.service    loaded inactive dead    Prism Research backup -> Google Drive (verify upload, restore-from-Drive, prune)
+  prism-scheduler.service          loaded active   running Prism scheduler (supercronic; the ONLY scheduling authority on this host)
+  prism-universe.service           loaded inactive dead    Prism Dynamic Universe radar (gated)
+  prism.target                     loaded active   active  Prism runtime (profile-gated units)
+  prism-research-backup.timer      loaded active   waiting Nightly Prism Research backup to Google Drive
+
+LOAD   = Reflects whether the unit definition was properly loaded.
+ACTIVE = The high-level unit activation state, i.e. generalization of SUB.
+SUB    = The low-level unit activation state, values depend on unit type.
+11 loaded units listed.
+To show all installed unit files use 'systemctl list-unit-files'.

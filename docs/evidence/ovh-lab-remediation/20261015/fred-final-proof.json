@@ -1,0 +1,152 @@
+{
+  "at": "2026-10-16T06:23:26.283782+00:00",
+  "scheduler_pid": "2205",
+  "FRED_API_KEY_present": true,
+  "macro_cycles": [
+    [
+      "rtcyc_3051a73145664e878cb1a1ed3ead652e",
+      "remediation-manual",
+      "2026-10-15 18:13:38.657956+00:00",
+      "2026-10-15 18:13:55.060741+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_4d820a5354f9405db4b2b1dab5498944",
+      "schedule",
+      "2026-10-15 19:12:01.331449+00:00",
+      "2026-10-15 19:12:12.018584+00:00",
+      "ok"
+    ],
+    [
+      "rtcyc_be5e7c1eabcc4ac787667f6123bc527a",
+      "schedule",
+      "2026-10-16 00:20:01.201472+00:00",
+      "2026-10-16 00:20:17.041430+00:00",
+      "ok"
+    ]
+  ],
+  "fred_provider_runs": [
+    [
+      "fred_calendar",
+      "2026-10-15 18:13:41.653606+00:00",
+      "2026-10-15 18:13:46.482461+00:00",
+      "ok",
+      17,
+      0,
+      0,
+      25,
+      0,
+      0,
+      false
+    ],
+    [
+      "fred_actuals",
+      "2026-10-15 18:13:47.804137+00:00",
+      "2026-10-15 18:13:54.579655+00:00",
+      "ok",
+      5,
+      0,
+      4,
+      0,
+      0,
+      1,
+      false
+    ],
+    [
+      "fred_calendar",
+      "2026-10-15 19:12:04.507063+00:00",
+      "2026-10-15 19:12:09.142244+00:00",
+      "ok",
+      17,
+      0,
+      0,
+      25,
+      0,
+      0,
+      false
+    ],
+    [
+      "fred_actuals",
+      "2026-10-15 19:12:10.503724+00:00",
+      "2026-10-15 19:12:11.510101+00:00",
+      "ok",
+      1,
+      0,
+      0,
+      0,
+      0,
+      1,
+      false
+    ],
+    [
+      "fred_calendar",
+      "2026-10-16 00:20:04.661053+00:00",
+      "2026-10-16 00:20:13.226338+00:00",
+      "ok",
+      17,
+      0,
+      0,
+      25,
+      0,
+      0,
+      false
+    ],
+    [
+      "fred_actuals",
+      "2026-10-16 00:20:14.609137+00:00",
+      "2026-10-16 00:20:16.435230+00:00",
+      "ok",
+      1,
+      0,
+      0,
+      0,
+      0,
+      1,
+      false
+    ]
+  ],
+  "fred_update_rows": [
+    [
+      8,
+      "2026-10-15 18:13:54.507276+00:00"
+    ]
+  ],
+  "context_tables": {
+    "context_event_updates": [
+      "update_id",
+      "event_id",
+      "seq",
+      "kind",
+      "observed_at",
+      "processed_at",
+      "published_at",
+      "source_id",
+      "source_ref",
+      "confidence",
+      "changes",
+      "observation_mode",
+      "provenance_hash",
+      "observation",
+      "run_id"
+    ],
+    "context_provider_runs": [
+      "run_id",
+      "provider",
+      "started_at",
+      "finished_at",
+      "status",
+      "received",
+      "new_events",
+      "new_updates",
+      "duplicates",
+      "rejected",
+      "filtered",
+      "latency_ms",
+      "error",
+      "payload"
+    ]
+  },
+  "secret_in_journal": false,
+  "secret_in_runtime_log": false,
+  "secret_in_fred_raw_files": false
+}

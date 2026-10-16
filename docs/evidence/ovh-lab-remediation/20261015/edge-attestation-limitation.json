@@ -1,0 +1,8 @@
+{
+  "control_plane_access_available": false,
+  "credential_creation_authorized": false,
+  "previous_configuration_method": "OVH Manager/control panel",
+  "user_direction": "Preserve host/network checks, record edge control-plane state as a known limitation requiring manual Manager verification if needed, continue the targeted rehearsal.",
+  "network_changes_made": false,
+  "limitation_accepted": true
+}

@@ -1,0 +1,108 @@
+{
+  "profile": "autotrader_lab",
+  "identity": "prism_autotrader_lab_v1",
+  "digest": "f898e2f01ccc5f744ae52e67fbc8edce7428cdf0256647fffa77d926ea102d19",
+  "authority": "rehearsal",
+  "target": "vps",
+  "runtime_id": "vps-prism-autotrader-lab-rehearsal",
+  "explicit": true,
+  "role": "authoritative",
+  "processes": [
+    "microstructure_collector",
+    "free_source_collector",
+    "free_source_ingest",
+    "scheduler"
+  ],
+  "disabled_by_flag": [],
+  "collector_dynamic": false,
+  "scheduled_jobs": [
+    "oi",
+    "intraday",
+    "paper_v2_funding",
+    "positioning",
+    "context_macro",
+    "context_news",
+    "microstructure",
+    "backup"
+  ],
+  "execution_allowed": false,
+  "external_actions_allowed": false,
+  "boot_catchup_job": null,
+  "dynamic_universe": {
+    "tier0_discovery": "gated",
+    "tier1_warming": "gated",
+    "tier2_rich": "gated",
+    "tier3_risk_pins": "gated"
+  },
+  "definition": {
+    "name": "autotrader_lab",
+    "identity": "prism_autotrader_lab_v1",
+    "targets": [
+      "local",
+      "vps"
+    ],
+    "processes": [
+      "free_source_collector",
+      "free_source_ingest",
+      "microstructure_collector",
+      "nimble_worker",
+      "scheduler"
+    ],
+    "process_classes": {
+      "free_source_collector": "passive",
+      "free_source_ingest": "ingest",
+      "microstructure_collector": "passive",
+      "nimble_worker": "execution",
+      "scheduler": "ingest"
+    },
+    "jobs": [
+      "backup",
+      "context_macro",
+      "context_news",
+      "intraday",
+      "microstructure",
+      "oi",
+      "paper_nimble_brief",
+      "paper_v2_funding",
+      "positioning"
+    ],
+    "job_classes": {
+      "backup": "maintenance",
+      "context_macro": "data",
+      "context_news": "data",
+      "intraday": "data",
+      "microstructure": "data",
+      "oi": "data",
+      "paper_nimble_brief": "execution",
+      "paper_v2_funding": "data",
+      "positioning": "data"
+    },
+    "runtime_ids": {
+      "full": "vps-prism-autotrader-lab",
+      "rehearsal": "vps-prism-autotrader-lab-rehearsal"
+    },
+    "boot_catchup_job": null,
+    "unconditional_jobs": [
+      "paper_v2_funding"
+    ],
+    "dynamic_universe": {
+      "tier0_discovery": "gated",
+      "tier1_warming": "gated",
+      "tier2_rich": "gated",
+      "tier3_risk_pins": "gated"
+    }
+  }
+}
+2026-10-15T17:53:59Z INFO job=microstructure trigger=reboot-recovery runtime=vps-prism-autotrader-lab-rehearsal commit=530ba0d18c30 python=3.12.3 db=/data/prism.duckdb disk: 88.39 GiB free of 98.22 GiB (90.0%; warn < 15%, critical < 5%)
+2026-10-15T17:54:00Z INFO [microstructure/ingest] start: market microstructure ingest
+2026-10-15T17:54:03Z INFO [microstructure/ingest] microstructure ingest OK: files_read=1, invalid_lines=0, lp_thresholds=0, minutes=18, production=True, runs=1
+2026-10-15T17:54:03Z INFO [microstructure/ingest] exit=0 in 2.5s
+2026-10-15T17:54:03Z INFO [microstructure/health] start: market microstructure health --check
+2026-10-15T17:54:05Z INFO [microstructure/health] Microstructure: HEALTHY (collector RUNNING)
+2026-10-15T17:54:05Z INFO [microstructure/health] exit=0 in 2.0s
+2026-10-15T17:54:06Z INFO job=microstructure OK in 5.8s: ingest=0 health=0
+2026-10-15T17:54:07Z INFO job=intraday trigger=reboot-recovery runtime=vps-prism-autotrader-lab-rehearsal commit=530ba0d18c30 python=3.12.3 db=/data/prism.duckdb disk: 88.39 GiB free of 98.22 GiB (90.0%; warn < 15%, critical < 5%)
+2026-10-15T17:54:08Z INFO [intraday/bars] start: market bars update
+2026-10-15T17:54:10Z INFO [intraday/bars] Nothing to fetch (no live venue configured, or every series is current).
+2026-10-15T17:54:10Z INFO [intraday/bars] exit=0 in 1.9s
+2026-10-15T17:54:11Z INFO job=intraday OK in 3.3s: bars=0

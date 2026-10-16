@@ -1,0 +1,302 @@
+{
+  "window": [
+    "2026-10-14T15:44:38+00:00",
+    "2026-10-15T17:45:00+00:00"
+  ],
+  "hours": 26.00611111111111,
+  "samples": 312,
+  "sample_window": [
+    "2026-10-14T15:47:09.843375+00:00",
+    "2026-10-15T17:44:26.768469+00:00"
+  ],
+  "sample_interval_max_s": 300.731792,
+  "sample_gaps_over_330s": [],
+  "units": {
+    "prism-microstructure": {
+      "states": {
+        "active": 312
+      },
+      "start_times": [
+        "Wed 2026-10-14 15:44:38 UTC"
+      ],
+      "nrestarts_max": 0,
+      "memory_current_peak": 231845888,
+      "cpu_equivalents": 0.011591217293488902
+    },
+    "prism-free-sources": {
+      "states": {
+        "active": 312
+      },
+      "start_times": [
+        "Wed 2026-10-14 15:44:37 UTC"
+      ],
+      "nrestarts_max": 0,
+      "memory_current_peak": 115425280,
+      "cpu_equivalents": 0.0012973395355000187
+    },
+    "prism-free-source-ingest": {
+      "states": {
+        "active": 312
+      },
+      "start_times": [
+        "Wed 2026-10-14 15:44:36 UTC"
+      ],
+      "nrestarts_max": 0,
+      "memory_current_peak": 271106048,
+      "cpu_equivalents": 0.04578845032299474
+    },
+    "prism-context-gateway": {
+      "states": {
+        "inactive": 312
+      },
+      "start_times": [
+        ""
+      ],
+      "nrestarts_max": 0,
+      "memory_current_peak": 0,
+      "cpu_equivalents": 0.0
+    },
+    "prism-context-ingest": {
+      "states": {
+        "inactive": 312
+      },
+      "start_times": [
+        ""
+      ],
+      "nrestarts_max": 0,
+      "memory_current_peak": 0,
+      "cpu_equivalents": 0.0
+    },
+    "prism-nimble": {
+      "states": {
+        "inactive": 312
+      },
+      "start_times": [
+        ""
+      ],
+      "nrestarts_max": 0,
+      "memory_current_peak": 0,
+      "cpu_equivalents": 0.0
+    },
+    "prism-scheduler": {
+      "states": {
+        "active": 312
+      },
+      "start_times": [
+        "Wed 2026-10-14 15:44:37 UTC"
+      ],
+      "nrestarts_max": 0,
+      "memory_current_peak": 575328256,
+      "cpu_equivalents": 0.054060824057708255
+    }
+  },
+  "job_results": {
+    "backup": {
+      "statuses": {
+        "failed": 1
+      },
+      "duration_max_s": 2.870208
+    },
+    "context_macro": {
+      "statuses": {
+        "failed": 4
+      },
+      "duration_max_s": 5.075617
+    },
+    "context_news": {
+      "statuses": {
+        "ok": 52
+      },
+      "duration_max_s": 5.574589
+    },
+    "intraday": {
+      "statuses": {
+        "ok": 104
+      },
+      "duration_max_s": 12.212021
+    },
+    "microstructure": {
+      "statuses": {
+        "ok": 104
+      },
+      "duration_max_s": 5.617082
+    },
+    "oi": {
+      "statuses": {
+        "ok": 4
+      },
+      "duration_max_s": 6.880983
+    },
+    "paper_v2_funding": {
+      "statuses": {
+        "ok": 26
+      },
+      "duration_max_s": 6.196336
+    },
+    "positioning": {
+      "statuses": {
+        "ok": 26
+      },
+      "duration_max_s": 16.225342
+    }
+  },
+  "busy_samples": [
+    "2026-10-14T16:47:13.366729+00:00",
+    "2026-10-14T18:42:19.610762+00:00",
+    "2026-10-14T20:02:24.213383+00:00",
+    "2026-10-14T21:22:29.078907+00:00",
+    "2026-10-14T22:37:34.250114+00:00",
+    "2026-10-15T03:47:59.687367+00:00",
+    "2026-10-15T04:08:01.213918+00:00",
+    "2026-10-15T04:13:01.380263+00:00",
+    "2026-10-15T04:38:03.172171+00:00",
+    "2026-10-15T06:48:14.678825+00:00",
+    "2026-10-15T08:03:21.813386+00:00",
+    "2026-10-15T08:53:26.633322+00:00",
+    "2026-10-15T11:43:45.532243+00:00",
+    "2026-10-15T12:53:53.162875+00:00",
+    "2026-10-15T14:04:01.417537+00:00",
+    "2026-10-15T15:04:07.639352+00:00",
+    "2026-10-15T15:14:08.383223+00:00",
+    "2026-10-15T16:04:14.354642+00:00",
+    "2026-10-15T16:24:16.496502+00:00"
+  ],
+  "host": {
+    "cpu_busy_interval_mean_pct": 2.297228733525148,
+    "cpu_busy_interval_max_pct": 16.776215436669716,
+    "cpu_busy_interval_p95_pct": 3.2108437411572766,
+    "steal_interval_max_pct": 0.029514623660704342,
+    "mem_available_min": 9210007552,
+    "mem_total": 12256591872,
+    "swap_max": 0,
+    "load_max": [
+      1.388671875,
+      0.97412109375,
+      0.7294921875
+    ],
+    "disk_free_start": 98151972864,
+    "disk_free_end": 94764658688,
+    "disk_free_min": 91934191616,
+    "disk_total": 105467994112
+  },
+  "growth": {
+    "db": {
+      "start": 101199872,
+      "end": 128200704,
+      "delta": 27000832,
+      "sample_max": 131084288
+    },
+    "wal": {
+      "start": 0,
+      "end": 0,
+      "delta": 0,
+      "sample_max": 48902
+    },
+    "microstructure": {
+      "start": 63992385,
+      "end": 131942900,
+      "delta": 67950515,
+      "sample_max": 131942900
+    },
+    "free_event_sources": {
+      "start": 32263,
+      "end": 123004,
+      "delta": 90741,
+      "sample_max": 123022
+    },
+    "context_gateway": {
+      "start": 0,
+      "end": 0,
+      "delta": 0,
+      "sample_max": 0
+    },
+    "raw": {
+      "start": 48243,
+      "end": 1743436,
+      "delta": 1695193,
+      "sample_max": 1743436
+    },
+    "backups": {
+      "start": 0,
+      "end": 115879936,
+      "delta": 115879936,
+      "sample_max": 115879936
+    },
+    "logs": {
+      "start": 5708,
+      "end": 632558,
+      "delta": 626850,
+      "sample_max": 632558
+    },
+    "state": {
+      "start": 29515,
+      "end": 29515,
+      "delta": 0,
+      "sample_max": 29515
+    }
+  },
+  "failed_cycles": [
+    {
+      "cycle_id": "rtcyc_ec691577cfb44fa5934af996e44a568f",
+      "job": "context_macro",
+      "runtime_id": "vps-prism-autotrader-lab-rehearsal",
+      "trigger": "schedule",
+      "git_commit": "530ba0d18c3009352eee21bb7f1a1c01004ab73a",
+      "started_at": "2026-10-14 19:12:01.191095+00:00",
+      "finished_at": "2026-10-14 19:12:04.575930+00:00",
+      "status": "failed",
+      "payload": "{\"steps\": [{\"step\": \"macro\", \"exit\": 1, \"seconds\": 3.0, \"timed_out\": false}], \"disk\": \"91.38 GiB free of 98.22 GiB (93.0%; warn < 15%, critical < 5%)\", \"host\": \"vps-778d603b\", \"profile\": {\"profile\": \"autotrader_lab\", \"identity\": \"prism_autotrader_lab_v1\", \"digest\": \"f898e2f01ccc5f744ae52e67fbc8edce7428cdf0256647fffa77d926ea102d19\", \"authority\": \"rehearsal\", \"target\": \"vps\", \"runtime_id\": \"vps-prism-autotrader-lab-rehearsal\"}, \"seconds\": 3.4}"
+    },
+    {
+      "cycle_id": "rtcyc_d3ca798e5d344607a2c134e98d9749ed",
+      "job": "context_macro",
+      "runtime_id": "vps-prism-autotrader-lab-rehearsal",
+      "trigger": "schedule",
+      "git_commit": "530ba0d18c3009352eee21bb7f1a1c01004ab73a",
+      "started_at": "2026-10-15 00:20:01.226658+00:00",
+      "finished_at": "2026-10-15 00:20:04.700366+00:00",
+      "status": "failed",
+      "payload": "{\"steps\": [{\"step\": \"macro\", \"exit\": 1, \"seconds\": 2.9, \"timed_out\": false}], \"disk\": \"91.38 GiB free of 98.22 GiB (93.0%; warn < 15%, critical < 5%)\", \"host\": \"vps-778d603b\", \"profile\": {\"profile\": \"autotrader_lab\", \"identity\": \"prism_autotrader_lab_v1\", \"digest\": \"f898e2f01ccc5f744ae52e67fbc8edce7428cdf0256647fffa77d926ea102d19\", \"authority\": \"rehearsal\", \"target\": \"vps\", \"runtime_id\": \"vps-prism-autotrader-lab-rehearsal\"}, \"seconds\": 3.5}"
+    },
+    {
+      "cycle_id": "rtcyc_42bf9e4e729f4d88a3006c983f02696b",
+      "job": "backup",
+      "runtime_id": "vps-prism-autotrader-lab-rehearsal",
+      "trigger": "schedule",
+      "git_commit": "530ba0d18c3009352eee21bb7f1a1c01004ab73a",
+      "started_at": "2026-10-15 01:30:01.162313+00:00",
+      "finished_at": "2026-10-15 01:30:04.032521+00:00",
+      "status": "failed",
+      "payload": "{\"steps\": [{\"step\": \"backup\", \"exit\": 1, \"error\": \"no run metadata\"}], \"disk\": \"91.37 GiB free of 98.22 GiB (93.0%; warn < 15%, critical < 5%)\", \"host\": \"vps-778d603b\", \"profile\": {\"profile\": \"autotrader_lab\", \"identity\": \"prism_autotrader_lab_v1\", \"digest\": \"f898e2f01ccc5f744ae52e67fbc8edce7428cdf0256647fffa77d926ea102d19\", \"authority\": \"rehearsal\", \"target\": \"vps\", \"runtime_id\": \"vps-prism-autotrader-lab-rehearsal\"}, \"seconds\": 2.9}"
+    },
+    {
+      "cycle_id": "rtcyc_96255468291647c999cf639d4b4c6773",
+      "job": "context_macro",
+      "runtime_id": "vps-prism-autotrader-lab-rehearsal",
+      "trigger": "schedule",
+      "git_commit": "530ba0d18c3009352eee21bb7f1a1c01004ab73a",
+      "started_at": "2026-10-15 12:42:01.632100+00:00",
+      "finished_at": "2026-10-15 12:42:06.707717+00:00",
+      "status": "failed",
+      "payload": "{\"steps\": [{\"step\": \"macro\", \"exit\": 1, \"seconds\": 3.9, \"timed_out\": false}], \"disk\": \"85.64 GiB free of 98.22 GiB (87.2%; warn < 15%, critical < 5%)\", \"host\": \"vps-778d603b\", \"profile\": {\"profile\": \"autotrader_lab\", \"identity\": \"prism_autotrader_lab_v1\", \"digest\": \"f898e2f01ccc5f744ae52e67fbc8edce7428cdf0256647fffa77d926ea102d19\", \"authority\": \"rehearsal\", \"target\": \"vps\", \"runtime_id\": \"vps-prism-autotrader-lab-rehearsal\"}, \"seconds\": 5.1}"
+    },
+    {
+      "cycle_id": "rtcyc_35fa725847db467c9305571fd7001abe",
+      "job": "context_macro",
+      "runtime_id": "vps-prism-autotrader-lab-rehearsal",
+      "trigger": "schedule",
+      "git_commit": "530ba0d18c3009352eee21bb7f1a1c01004ab73a",
+      "started_at": "2026-10-15 13:42:05.153210+00:00",
+      "finished_at": "2026-10-15 13:42:09.459531+00:00",
+      "status": "failed",
+      "payload": "{\"steps\": [{\"step\": \"macro\", \"exit\": 1, \"seconds\": 3.2, \"timed_out\": false}], \"disk\": \"88.69 GiB free of 98.22 GiB (90.3%; warn < 15%, critical < 5%)\", \"host\": \"vps-778d603b\", \"profile\": {\"profile\": \"autotrader_lab\", \"identity\": \"prism_autotrader_lab_v1\", \"digest\": \"f898e2f01ccc5f744ae52e67fbc8edce7428cdf0256647fffa77d926ea102d19\", \"authority\": \"rehearsal\", \"target\": \"vps\", \"runtime_id\": \"vps-prism-autotrader-lab-rehearsal\"}, \"seconds\": 4.3}"
+    }
+  ],
+  "heartbeat_max_age_s": {
+    "microstructure": null,
+    "free_sources": 29.836032,
+    "free_ingest": 6.998154,
+    "gateway_worker": null,
+    "nimble": null
+  }
+}

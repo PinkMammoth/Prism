@@ -1,0 +1,28 @@
+[
+  {
+    "path": "/home/matth/prism/.env",
+    "exists": true,
+    "owner": "matth",
+    "group": "matth",
+    "mode": "0o644",
+    "FRED_API_KEY_present": true,
+    "relevant_key_names": [
+      "FRED_API_KEY"
+    ]
+  },
+  {
+    "path": "/home/matth/prism/.env.local",
+    "exists": false
+  },
+  {
+    "path": "/home/matth/.ovh.conf",
+    "exists": false
+  },
+  {
+    "path": "/etc/ovh.conf",
+    "exists": false
+  },
+  {
+    "process_FRED_API_KEY_present": false
+  }
+]

@@ -1,0 +1,141 @@
+{
+  "at": "2026-10-15T18:24:04.702966+00:00",
+  "source": "/data/backups/daily/prism-20261015T182201Z.duckdb",
+  "archive": "/home/matth/prism/data/backup-archive/vps/prism-20261015T182201Z.duckdb.gz",
+  "scratch": "/tmp/ovh-lab-remediation-restore-t5m6b6yj/restored.duckdb",
+  "source_sha256": "5d8bdb70040a0ee1e0e7d2529c5aa4c53f3c514f88dc65a6de0c8b7283396077",
+  "source_frontier": {
+    "tables": {
+      "perp_intraday_bars": {
+        "column": "close_time",
+        "at": "2026-10-15 18:15:00+00:00"
+      },
+      "perp_funding": {
+        "column": "time",
+        "at": "2026-10-15 18:00:00.042000+00:00"
+      },
+      "perp_oi_history": {
+        "column": "observed_at",
+        "at": "2026-10-15 12:00:00+00:00"
+      },
+      "context_hl_oi_hourly": {
+        "column": "captured_at",
+        "at": "2026-10-15 18:04:04.817137+00:00"
+      },
+      "context_ls_ratios": {
+        "column": "ingested_at",
+        "at": "2026-10-15 18:04:04.912481+00:00"
+      },
+      "context_events": {
+        "column": "first_seen_at",
+        "at": "2026-10-15 13:33:04.129889+00:00"
+      },
+      "microstructure_minutes": {
+        "column": "minute_open",
+        "at": "2026-10-15 18:19:00+00:00"
+      }
+    },
+    "last_completed_cycle": {
+      "cycle_id": "rtcyc_0f290cc201b647abb1fc4141e368c0b5",
+      "job": "microstructure",
+      "runtime_id": "vps-prism-autotrader-lab-rehearsal",
+      "finished_at": "2026-10-15 18:21:07.304725+00:00"
+    }
+  },
+  "all_table_fingerprints_match": true,
+  "tables_verified": 146,
+  "schema_version": 31,
+  "scratch_profile": {
+    "profile": "autotrader_lab",
+    "identity": "prism_autotrader_lab_v1",
+    "digest": "f898e2f01ccc5f744ae52e67fbc8edce7428cdf0256647fffa77d926ea102d19",
+    "authority": "none",
+    "target": "local",
+    "runtime_id": "lab-remediation-restore",
+    "explicit": true,
+    "role": "scratch",
+    "processes": [
+      "microstructure_collector",
+      "free_source_collector"
+    ],
+    "disabled_by_flag": [],
+    "collector_dynamic": false,
+    "scheduled_jobs": [],
+    "execution_allowed": false,
+    "external_actions_allowed": false,
+    "boot_catchup_job": null,
+    "dynamic_universe": {
+      "tier0_discovery": "gated",
+      "tier1_warming": "gated",
+      "tier2_rich": "gated",
+      "tier3_risk_pins": "gated"
+    },
+    "definition": {
+      "name": "autotrader_lab",
+      "identity": "prism_autotrader_lab_v1",
+      "targets": [
+        "local",
+        "vps"
+      ],
+      "processes": [
+        "free_source_collector",
+        "free_source_ingest",
+        "microstructure_collector",
+        "nimble_worker",
+        "scheduler"
+      ],
+      "process_classes": {
+        "free_source_collector": "passive",
+        "free_source_ingest": "ingest",
+        "microstructure_collector": "passive",
+        "nimble_worker": "execution",
+        "scheduler": "ingest"
+      },
+      "jobs": [
+        "backup",
+        "context_macro",
+        "context_news",
+        "intraday",
+        "microstructure",
+        "oi",
+        "paper_nimble_brief",
+        "paper_v2_funding",
+        "positioning"
+      ],
+      "job_classes": {
+        "backup": "maintenance",
+        "context_macro": "data",
+        "context_news": "data",
+        "intraday": "data",
+        "microstructure": "data",
+        "oi": "data",
+        "paper_nimble_brief": "execution",
+        "paper_v2_funding": "data",
+        "positioning": "data"
+      },
+      "runtime_ids": {
+        "full": "vps-prism-autotrader-lab",
+        "rehearsal": "vps-prism-autotrader-lab-rehearsal"
+      },
+      "boot_catchup_job": null,
+      "unconditional_jobs": [
+        "paper_v2_funding"
+      ],
+      "dynamic_universe": {
+        "tier0_discovery": "gated",
+        "tier1_warming": "gated",
+        "tier2_rich": "gated",
+        "tier3_risk_pins": "gated"
+      }
+    }
+  },
+  "historical_authority_metadata": [
+    "vps-prism-autotrader-lab-rehearsal",
+    "2026-10-14 15:43:52.816356+00:00"
+  ],
+  "authority_events": 1,
+  "new_authority_events_created": 0,
+  "lab_activation_events": 0,
+  "role_unset_writable_open_refused": true,
+  "restored_ok": true
+}

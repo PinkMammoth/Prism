@@ -1,0 +1,5 @@
+{"scheduler_pid": "2205", "user": "prism", "cwd": "/opt/prism/current", "FRED_API_KEY_present": true, "command": ["/opt/prism/current/.venv/bin/market", "ops", "cycle", "backup", "--trigger", "remediation-manual", "--wait", "600"]}
+2026-10-15T18:22:00Z INFO job=backup trigger=remediation-manual runtime=vps-prism-autotrader-lab-rehearsal commit=9acb42a94d88 python=3.12.3 db=/data/prism.duckdb disk: 88.33 GiB free of 98.22 GiB (89.9%; warn < 15%, critical < 5%)
+2026-10-15T18:22:07Z INFO backup /data/backups/daily/prism-20261015T182201Z.duckdb verified (123.5 MiB, sha256 5d8bdb70040a…); pruned 1
+2026-10-15T18:22:08Z INFO job=backup OK in 7.9s: backup=0
+{"exit_code": 0, "secret_in_child_output": false}

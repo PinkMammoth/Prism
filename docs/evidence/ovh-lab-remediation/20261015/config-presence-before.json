@@ -1,0 +1,55 @@
+{
+  "files": [
+    {
+      "path": "/etc/prism/prism.env",
+      "exists": true,
+      "owner": "root",
+      "group": "prism",
+      "mode": "0o640",
+      "FRED_API_KEY_defined": false,
+      "fred_key_names": []
+    },
+    {
+      "path": "/etc/prism/secrets.env",
+      "exists": true,
+      "owner": "root",
+      "group": "prism",
+      "mode": "0o640",
+      "FRED_API_KEY_defined": false,
+      "fred_key_names": []
+    },
+    {
+      "path": "/opt/prism/current/.env",
+      "exists": false
+    },
+    {
+      "path": "/home/debian/.env",
+      "exists": false
+    },
+    {
+      "path": "/home/debian/.ovh.conf",
+      "exists": false
+    },
+    {
+      "path": "/etc/ovh.conf",
+      "exists": false
+    }
+  ],
+  "service_visibility": [
+    {
+      "unit": "prism-scheduler",
+      "pid": "613",
+      "FRED_API_KEY_present": false
+    },
+    {
+      "unit": "prism-free-source-ingest",
+      "pid": "609",
+      "FRED_API_KEY_present": false
+    },
+    {
+      "unit": "prism-microstructure",
+      "pid": "625",
+      "FRED_API_KEY_present": false
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "at": "2026-10-15T18:18:41.267425+00:00",
+  "scheduler_pid": "2205",
+  "FRED_API_KEY_present": true,
+  "macro_cycles": [
+    [
+      "rtcyc_3051a73145664e878cb1a1ed3ead652e",
+      "remediation-manual",
+      "2026-10-15 18:13:38.657956+00:00",
+      "2026-10-15 18:13:55.060741+00:00",
+      "ok"
+    ]
+  ],
+  "fred_update_rows": [
+    [
+      8,
+      "2026-10-15 18:13:54.507276+00:00"
+    ]
+  ],
+  "context_tables": {
+    "context_event_updates": [
+      "update_id",
+      "event_id",
+      "seq",
+      "kind",
+      "observed_at",
+      "processed_at",
+      "published_at",
+      "source_id",
+      "source_ref",
+      "confidence",
+      "changes",
+      "observation_mode",
+      "provenance_hash",
+      "observation",
+      "run_id"
+    ],
+    "context_provider_runs": [
+      "run_id",
+      "provider",
+      "started_at",
+      "finished_at",
+      "status",
+      "received",
+      "new_events",
+      "new_updates",
+      "duplicates",
+      "rejected",
+      "filtered",
+      "latency_ms",
+      "error",
+      "payload"
+    ]
+  },
+  "secret_in_journal": false,
+  "secret_in_runtime_log": false,
+  "secret_in_fred_raw_files": false
+}
