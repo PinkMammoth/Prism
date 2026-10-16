@@ -244,3 +244,46 @@ def test_empty_symlink_root_and_export_traversal_rejected(tmp_path):
     with pytest.raises(ValueError, match="symlink"):
         b.write_json(root / "policy.json", {"keep": 1})
     assert not (empty / "policy.json").exists()
+
+
+def test_vps_pull_uses_service_permissions_and_acknowledges_only_verified_restore(
+    copies, tmp_path, monkeypatch
+):
+    import shutil
+
+    from scripts import vps_backup_archive as puller
+
+    db, root, paths = copies
+    source = paths[-1]
+    row = b.inventory(root, db)[-1]
+    # The transport uses fixed VPS paths; map them to this isolated host fixture.
+    remote_source = "/data/backups/daily/" + source.name
+    remote_row = {**row, "path": remote_source}
+    acks = []
+
+    def remote(_host, program, *args, payload=None):
+        if payload is None:
+            return [remote_row]
+        receipt = json.loads(payload)
+        b.acknowledge(root, source, db, receipt)
+        acks.append(receipt)
+        return {"acknowledged": args[0]}
+
+    def rsync(command, **kwargs):
+        assert "--rsync-path=sudo -u prism rsync" in command
+        shutil.copy2(source, command[-1])
+
+    monkeypatch.setattr(puller, "remote", remote)
+    monkeypatch.setattr(puller.subprocess, "run", rsync)
+    destination = tmp_path / "archive"
+    for _ in range(2):  # existing archives are reverified, never blindly trusted
+        result = puller.pull("operator@vps", destination)
+        assert result["restored_ok"] and result["table_fingerprints_match"]
+    assert len(acks) == 2
+    assert acks[-1]["restore_test"]["sha256"] == row["manifest"]["sha256"]
+    assert acks[-1]["scratch_restore_test"]["restored_ok"]
+    artifact = Path(result["archive"])
+    artifact.write_bytes(b"corrupt archive")
+    with pytest.raises((OSError, EOFError)):
+        puller.pull("operator@vps", destination)
+    assert len(acks) == 2

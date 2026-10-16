@@ -82,7 +82,7 @@ def inspect_backup(path: Path) -> dict:
 
     Accept historical schemas without migrating evidence. Unknown future schemas fail.
     """
-    from market_signal.data.store import MIGRATIONS
+    from market_signal.data.store import MIGRATIONS, authority_claim
     from market_signal.ops import runtime as rt
 
     before = rt._sha256(path)
@@ -101,17 +101,18 @@ def inspect_backup(path: Path) -> dict:
         missing = required - set(tables)
         if missing:
             raise ValueError(f"schema {version} missing tables: {sorted(missing)}")
-        counts = {}
+        counts, fingerprints = {}, {}
         runs, policies = {}, {}
         for table in tables:
             quoted = '"' + table.replace('"', '""') + '"'
             # Hash every stored value, rather than using a metadata-only count.
             names = [r[1] for r in con.execute(f"PRAGMA table_info({quoted})").fetchall()]
             args = ",".join('"' + n.replace('"', '""') + '"' for n in names)
-            count, _ = con.execute(
+            count, digest = con.execute(
                 f"SELECT count(*), bit_xor(hash({args})) FROM {quoted}"
             ).fetchone()
             counts[table] = count
+            fingerprints[table] = {"rows": count, "hash": str(digest)}
             columns = {r[1] for r in con.execute(f"PRAGMA table_info({quoted})").fetchall()}
             if table.startswith("paper") and table.endswith("runs") and "run_id" in columns:
                 runs[table] = [r[0] for r in con.execute(f"SELECT run_id FROM {quoted}").fetchall()]
@@ -119,11 +120,52 @@ def inspect_backup(path: Path) -> dict:
                 policies[table] = [
                     r[0] for r in con.execute(f"SELECT policy_id FROM {quoted}").fetchall()
                 ]
-        if not any(runs.values()):
+        claim = authority_claim(con)
+        # Data-only Lab snapshots deliberately have no paper run. Identify them from
+        # persisted provenance, never from the verifier's shell/profile environment.
+        lab_seeded = (
+            "runtime_events" in tables
+            and con.execute(
+                "SELECT 1 FROM runtime_events WHERE event_type='lab_seeded' LIMIT 1"
+            ).fetchone()
+            is not None
+        )
+        lab_snapshot = (
+            version >= 31
+            and lab_seeded
+            and claim is not None
+            and claim[0] in {"vps-prism-autotrader-lab-rehearsal", "vps-prism-autotrader-lab"}
+        )
+        if not any(runs.values()) and not lab_snapshot:
             raise ValueError("no run metadata")
         if "paper_events" not in tables:
             raise ValueError("paper ledger missing")
         revision = None
+        frontiers = {}
+        for table, column in (
+            ("perp_intraday_bars", "close_time"),
+            ("perp_funding", "time"),
+            ("perp_oi_history", "observed_at"),
+            ("context_hl_oi_hourly", "captured_at"),
+            ("context_ls_ratios", "ingested_at"),
+            ("context_events", "first_seen_at"),
+            ("microstructure_minutes", "minute_open"),
+        ):
+            if table in tables:
+                columns = {r[1] for r in con.execute(f'PRAGMA table_info("{table}")').fetchall()}
+                if column in columns:
+                    value = con.execute(f'SELECT max("{column}") FROM "{table}"').fetchone()[0]
+                    frontiers[table] = {"column": column, "at": str(value) if value else None}
+        last_completed = None
+        if "runtime_cycles" in tables:
+            row = con.execute(
+                "SELECT cycle_id, job, runtime_id, finished_at FROM runtime_cycles "
+                "WHERE finished_at IS NOT NULL ORDER BY finished_at DESC, cycle_id DESC LIMIT 1"
+            ).fetchone()
+            if row:
+                last_completed = dict(
+                    zip(("cycle_id", "job", "runtime_id", "finished_at"), row, strict=True)
+                )
         if "runtime_events" in tables:
             cols = {r[1] for r in con.execute("PRAGMA table_info(runtime_events)").fetchall()}
             if "git_commit" in cols:
@@ -141,6 +183,12 @@ def inspect_backup(path: Path) -> dict:
         "run_ids": runs,
         "policy_ids": policies,
         "tables_read": counts,
+        "table_fingerprints": fingerprints,
+        "snapshot_kind": "autotrader_lab" if lab_snapshot else "paper_runtime",
+        "source_authority": None
+        if claim is None
+        else {"runtime_id": claim[0], "since": str(claim[1])},
+        "source_frontier": {"tables": frontiers, "last_completed_cycle": last_completed},
         "verification_result": "all tables readable; checksum stable",
     }
 

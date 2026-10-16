@@ -662,6 +662,49 @@ def test_lab_backup_verifies_without_a_v1_paper_run(source, project, clean_env):
     assert rt.restore_test(target, project)["restored_ok"]
 
 
+def test_lab_backup_job_registers_exports_and_restores_without_paper_runs(
+    source, project, clean_env, tmp_path
+):
+    from market_signal.ops import backups
+
+    target = project / "lab.duckdb"
+    lab.build_seed(source, target, T, now=T + timedelta(days=1))
+    apply(clean_env, lab_env("rehearsal"))
+    rt.claim_authority(target, LAB_REHEARSAL, "test Lab rehearsal")
+    clean_env.setenv("PRISM_DB_PATH", str(target))
+    clean_env.setenv("PRISM_BACKUP_DIR", str(project / "lab-backups"))
+    result = rt.run_job("backup", trigger="schedule", wait=0)
+    assert result["status"] == "ok"
+    rows = backups.inventory(rt.backup_dir(target), target)
+    assert len(rows) == 1
+    manifest = rows[0]["manifest"]
+    assert manifest["snapshot_kind"] == "autotrader_lab"
+    assert not any(manifest["run_ids"].values())
+    assert manifest["source_authority"]["runtime_id"] == LAB_REHEARSAL
+    assert manifest["source_frontier"]["tables"]["perp_funding"]["at"]
+    assert manifest["table_fingerprints"]["perp_funding"]["rows"] == 2
+    assert rt.restore_test(Path(rows[0]["path"]), project)["restored_ok"]
+    # Off-host inspection/export must work even outside a Lab-selected environment.
+    clean_env.delenv("PRISM_PROFILE")
+    receipt = backups.export_backup(Path(rows[0]["path"]), tmp_path / "lab-offhost.gz", manifest)
+    assert receipt["restore_test"]["table_fingerprints"] == manifest["table_fingerprints"]
+    assert receipt["restore_test"]["sha256"] == manifest["sha256"]
+
+
+def test_no_run_exception_requires_persisted_lab_seed_and_authority(project, clean_env):
+    from market_signal.ops import backups
+
+    target = project / "not-lab.duckdb"
+    Store(target).close()
+    apply(clean_env, lab_env("none"))
+    with pytest.raises(ValueError, match="no run metadata"):
+        backups.inspect_backup(target)
+    # A Lab-looking shell or claim alone cannot bless an empty/unrelated database.
+    rt.claim_authority(target, LAB_REHEARSAL, "no seed provenance")
+    with pytest.raises(ValueError, match="no run metadata"):
+        backups.inspect_backup(target)
+
+
 def test_activation_record_holds_full_provenance(source, project):
     target = project / "lab.duckdb"
     m = lab.build_seed(source, target, T, now=T + timedelta(days=1))
