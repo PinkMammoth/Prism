@@ -1,0 +1,22 @@
+{
+  "at": "2026-10-16T09:46:11.459940+00:00",
+  "evaluations": 0,
+  "evidence_times": [],
+  "last_event": null,
+  "checks_all_pass": true,
+  "stop_conditions": [],
+  "db_error_type": null,
+  "available_ram": 11134943232,
+  "disk_free": 94598692864,
+  "cpu_busy_percent": 5.7235373911521465,
+  "load": [
+    0.20751953125,
+    0.2685546875,
+    0.2333984375
+  ],
+  "core_connected": true,
+  "core_pid": 625,
+  "free_backlog": 0,
+  "profile": "prism_autotrader_lab_v2",
+  "observer_active": "active"
+}

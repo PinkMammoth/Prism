@@ -1,0 +1,19 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+______________ test_source_definitions_and_artifact_are_unchanged ______________
+
+spec = {'activation_contract': {'code_revision': 'pin exact later approved commit; source semantic parity against frozen mani...starting_equity_usd': 100.0, 'capital_transfers_allowed': False, 'cohort_id': 'dynamic_lab_risk_sizing_v1', ...}}, ...}
+
+    def test_source_definitions_and_artifact_are_unchanged(spec):
+        for path, digest in spec["provenance"]["source_hashes"].items():
+>           assert hashlib.sha256((ROOT / path).read_bytes()).hexdigest() == digest, path
+E           AssertionError: src/market_signal/ops/profiles.py
+E           assert '0956b94ee8ff...8d09d172b5b56' == 'd6ba8b7d0fb5...9539fb52ae045'
+E             
+E             - d6ba8b7d0fb53cc931b325db6c9615d0463a871a8bbf50af6309539fb52ae045
+E             + 0956b94ee8fffbd1d97fad283bda5cc79cb094d11d87f90798a8d09d172b5b56
+
+../../tests/test_prospective_sizing_cohort_spec.py:158: AssertionError
+=========================== short test summary info ============================
+FAILED ../../tests/test_prospective_sizing_cohort_spec.py::test_source_definitions_and_artifact_are_unchanged
+1 failed in 0.24s

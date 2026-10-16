@@ -1,0 +1,22 @@
+{
+  "revision": "c6b6e9da7e0d2e04f265e5fec9d1dde9a0a7d67c",
+  "total": 1809,
+  "passed": 1807,
+  "skipped": [
+    "tests/test_research_namespace.py::test_real_restic_rclone_roundtrip"
+  ],
+  "failed": [
+    "tests/test_prospective_sizing_cohort_spec.py::test_source_definitions_and_artifact_are_unchanged"
+  ],
+  "complete_coverage": true,
+  "full_suite_green": false,
+  "cadence_tests_passed": 23,
+  "source_hashes_unchanged_during_validation": true,
+  "restricted_passed": 949,
+  "permitted_focused_passed": 3,
+  "permitted_remaining_passed": 832,
+  "environmental_failures_resolved": "Two loopback bind failures rerun passed with permission; a restricted Context TestClient timeout reproduced and passed permitted in0.60s. Interrupted949 completed passes preserved; only uncompleted cases rerun.",
+  "gate": "AWAITING USER RANKING-ONLY EXCEPTION FOR c6b6e9d; prior approval named b10d13a",
+  "sizing_guard_retained_unchanged": true,
+  "recorded_at": "2026-10-16T12:16:25.451087+00:00"
+}

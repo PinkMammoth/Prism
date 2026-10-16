@@ -1,0 +1,256 @@
+{
+  "window": {
+    "start": "2026-10-16T09:41:43.157794+00:00",
+    "minimum_accepted_span_seconds": 7200,
+    "minimum_evaluations": 13,
+    "maximum_seconds": 14400
+  },
+  "first_sample": "2026-10-16T09:41:43.157871+00:00",
+  "last_sample": "2026-10-16T10:01:07.751690+00:00",
+  "evaluations": [
+    {
+      "evaluation_id": "universeeval_7ef2e4f65332e02e942a76a12656f89dd1f6b970c67dd7aefc643992f2aa056d",
+      "status": "ACCEPTED",
+      "scheduled_deadline": "2026-10-16T09:50:00+00:00",
+      "evaluation_start": "2026-10-16T09:50:00.000244+00:00",
+      "refresh_start": "2026-10-16T09:50:01.374419+00:00",
+      "fetch_start": "2026-10-16T09:50:02.688356+00:00",
+      "refresh_complete": "2026-10-16T09:50:38.812987+00:00",
+      "evidence_clock": "2026-10-16T09:50:39+00:00",
+      "rank_complete": "2026-10-16T09:50:40.085092+00:00",
+      "ranking_transaction_complete": "2026-10-16T09:50:41.763250+00:00",
+      "outcomes_transaction_complete": "2026-10-16T09:50:41.790501+00:00",
+      "next_deadline": "2026-10-16T10:00:00+00:00",
+      "evidence_gap_seconds": null,
+      "previous_evidence_clock": null,
+      "gap_in_window": false,
+      "completed_ranking_transaction_gap_seconds": null,
+      "start_lateness_seconds": 0.000244140625,
+      "fetch_seconds": 36.12463068962097,
+      "ranking_transaction_seconds": 0.18517255783081055,
+      "outcomes_transaction_seconds": 0.027249813079833984,
+      "child_cpu_seconds": 7.5013369999999995,
+      "child_peak_rss_kib_cumulative": 380696,
+      "candidate_count": 23,
+      "candidate_assets": [
+        "BTC",
+        "HYPE",
+        "NEAR",
+        "ETH",
+        "ZEC",
+        "WLD",
+        "SOL",
+        "XRP",
+        "ARB",
+        "LIT",
+        "ENA",
+        "AAVE",
+        "ONDO",
+        "SUI",
+        "kPEPE",
+        "LINK",
+        "TAO",
+        "DOGE",
+        "AERO",
+        "CHIP",
+        "PYTH",
+        "BNB",
+        "AVAX"
+      ],
+      "discovered": 541,
+      "active": 340,
+      "deployer": 307,
+      "inactive": 201,
+      "healthy": 541,
+      "lightweight_ready": 0,
+      "source_errors": 0,
+      "api": {
+        "captured_response_body_bytes": 290780,
+        "declared_response_bytes": 290780,
+        "header_latency_seconds_max": 0.2822637439967366,
+        "header_latency_seconds_p50": 0.22505049900064478,
+        "header_latency_seconds_p95": 0.2616145369975129,
+        "request_types": {
+          "candleSnapshot": 30,
+          "l2Book": 30,
+          "metaAndAssetCtxs": 11,
+          "perpDexs": 1
+        },
+        "requests": 72,
+        "statuses": {
+          "200": 72
+        },
+        "transport_failures": 0
+      },
+      "missingness": {
+        "rv_bps": 541,
+        "range_bps": 541,
+        "return_bps": 541,
+        "oi_change": 541,
+        "spread_bps": 511,
+        "depth_usd": 511,
+        "trades_per_minute": 511
+      },
+      "checks": {
+        "scores_and_ranks_match": true,
+        "states_match": true,
+        "changes_match": true,
+        "core_only_plan": true,
+        "no_pins": true,
+        "no_satellite_entry_eligible": true,
+        "no_satellite_rich_since": true,
+        "ranking_only": true,
+        "policy_matches": true,
+        "rank_deterministic_reversed_input": true,
+        "ranking_independent_of_pins": true,
+        "deployer_quarantined": true,
+        "inactive_excluded": true
+      },
+      "skipped_deadlines": 0,
+      "missed_before_start": 0
+    },
+    {
+      "evaluation_id": null,
+      "status": "FAILED",
+      "scheduled_deadline": "2026-10-16T10:00:00+00:00",
+      "evaluation_start": "2026-10-16T10:00:00.000245+00:00",
+      "refresh_start": null,
+      "fetch_start": null,
+      "refresh_complete": null,
+      "evidence_clock": null,
+      "rank_complete": null,
+      "ranking_transaction_complete": null,
+      "outcomes_transaction_complete": null,
+      "next_deadline": "2026-10-16T10:10:00+00:00",
+      "evidence_gap_seconds": null,
+      "previous_evidence_clock": null,
+      "gap_in_window": false,
+      "completed_ranking_transaction_gap_seconds": null,
+      "start_lateness_seconds": 0.0002446174621582031,
+      "fetch_seconds": null,
+      "ranking_transaction_seconds": null,
+      "outcomes_transaction_seconds": null,
+      "child_cpu_seconds": 4.02069,
+      "child_peak_rss_kib_cumulative": 380696,
+      "candidate_count": null,
+      "candidate_assets": null,
+      "discovered": null,
+      "active": null,
+      "deployer": null,
+      "inactive": null,
+      "healthy": null,
+      "lightweight_ready": null,
+      "source_errors": null,
+      "api": null,
+      "missingness": null,
+      "checks": null,
+      "skipped_deadlines": 0,
+      "missed_before_start": 0
+    }
+  ],
+  "measurements": {
+    "duration_seconds": 1164.5939152240753,
+    "available_ram_bytes": {
+      "min": 10646294528,
+      "max": 11139985408,
+      "mean": 11035630426.838709,
+      "median": 11040026624,
+      "p95": 11134943232
+    },
+    "disk_free_bytes": {
+      "min": 94597709824,
+      "max": 94599020544,
+      "mean": 94598378529.03226,
+      "median": 94598377472,
+      "p95": 94598955008
+    },
+    "whole_host_used_growth_bytes": 1310720,
+    "db_file_growth_bytes": 0,
+    "evaluation_payload_bytes": 54898,
+    "evaluation_payload_bytes_per_evaluation": {
+      "min": 54898,
+      "max": 54898,
+      "mean": 54898,
+      "median": 54898,
+      "p95": 54898
+    },
+    "outcome_count_and_payload_bytes_before": [
+      0,
+      0
+    ],
+    "outcome_count_and_payload_bytes_after": [
+      0,
+      0
+    ],
+    "cpu_busy_percent": {
+      "min": 1.0748914140306234,
+      "max": 8.723840787853918,
+      "mean": 3.287608594230195,
+      "median": 2.9586621300269753,
+      "p95": 6.692263047457476
+    },
+    "cpu_steal_percent": {
+      "min": 0.0041378739603591674,
+      "max": 0.02573340195573855,
+      "mean": 0.009189779707008088,
+      "median": 0.008667256848683216,
+      "p95": 0.022660321776569226
+    },
+    "load_1m": {
+      "min": 0.05029296875,
+      "max": 0.71142578125,
+      "mean": 0.18860257056451613,
+      "median": 0.14013671875,
+      "p95": 0.3955078125
+    },
+    "load_5m": {
+      "min": 0.1015625,
+      "max": 0.39697265625,
+      "mean": 0.21875,
+      "median": 0.236328125,
+      "p95": 0.35107421875
+    },
+    "worker_child_cpu_seconds": {
+      "min": 4.02069,
+      "max": 7.5013369999999995,
+      "mean": 5.7610135,
+      "median": 5.7610135,
+      "p95": 7.5013369999999995
+    },
+    "worker_child_cpu_seconds_total": 11.522027,
+    "worker_cgroup_memory_peak_bytes": 314990592,
+    "worker_cgroup_cpu_seconds": 11.560502,
+    "requests_total": 72,
+    "captured_response_body_bytes_total": 290780,
+    "ranking_transaction_seconds": {
+      "min": 0.18517255783081055,
+      "max": 0.18517255783081055,
+      "mean": 0.18517255783081055,
+      "median": 0.18517255783081055,
+      "p95": 0.18517255783081055
+    },
+    "outcomes_transaction_seconds": {
+      "min": 0.027249813079833984,
+      "max": 0.027249813079833984,
+      "mean": 0.027249813079833984,
+      "median": 0.027249813079833984,
+      "p95": 0.027249813079833984
+    },
+    "max_evidence_gap_seconds": null,
+    "max_completed_transaction_gap_seconds": null,
+    "max_sample_seconds": 40.59641742706299,
+    "all_ranking_replay_checks_pass": true,
+    "all_stop_conditions": [
+      "supervised refresh failed or timed out"
+    ],
+    "observer_read_error_samples": 0,
+    "maximum_free_source_backlog": 0,
+    "core_collector_pids": [
+      "625"
+    ],
+    "core_collector_restart_counts": [
+      "0"
+    ],
+    "sample_count": 31
+  }
+}

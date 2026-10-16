@@ -1,0 +1,14 @@
+{
+  "revision": "c6b6e9da7e0d2e04f265e5fec9d1dde9a0a7d67c",
+  "approved_main": "5cb1ff6b025539ace20a5b885c110d67ac595e23",
+  "all_byte_identical": true,
+  "hashes": {
+    "src/market_signal/universe/policy.py": "593becb6cb3f3c507ea8ca83bc23066dcb424f5afa1c16cc0b01fb6ba30ea478",
+    "src/market_signal/universe/engine.py": "63624a0da1b1a2c42b61b1840448e8d52ebc75002ab93f29541d5552e8c1c538",
+    "src/market_signal/universe/portability.py": "a750614d7d4b578a32c0d6ade3e223793898c1d439d3c0087c4dfc1f5a19d0e5",
+    "src/market_signal/universe/ledger.py": "844fa27a27d47de1aab74c3cfdc6ace826a47c7c254212bafa717169ba043622",
+    "src/market_signal/universe/rich.py": "26db612a0e3343d938acfd1a17167679301fd4f26392b8e6e4e6361285d82d23",
+    "src/market_signal/ops/profiles.py": "0956b94ee8fffbd1d97fad283bda5cc79cb094d11d87f90798a8d09d172b5b56",
+    "deploy/vps/activate_du_data.py": "f12039a006378c459f01ed5dc6fa283d910e21df333464009a08a9a7c1ce7a94"
+  }
+}

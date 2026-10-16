@@ -1,0 +1,100 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+____________ test_json_refresh_keeps_db_wait_messages_out_of_result ____________
+
+project = PosixPath('/tmp/pytest-of-matth/pytest-12/test_json_refresh_keeps_db_wai0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7e0f002b2750>
+
+    def test_json_refresh_keeps_db_wait_messages_out_of_result(project, monkeypatch):
+        """An external read-only observer must not corrupt the supervised JSON result."""
+        import sys
+        import threading
+    
+        path = project / "data" / "radar.duckdb"
+        Store(path).close()
+        monkeypatch.setenv("PRISM_DB_PATH", str(path))
+        monkeypatch.delenv("PRISM_RUNTIME_ROLE", raising=False)
+        monkeypatch.setattr(profiles, "current", lambda: SimpleNamespace(explicit=False))
+        monkeypatch.setattr(
+            HttpClient,
+            "_http",
+            lambda self: SimpleNamespace(event_hooks={"request": [], "response": []}),
+        )
+        monkeypatch.setattr(HttpClient, "close", lambda self: None)
+        child = None
+        timer = None
+    
+        def release():
+            child.stdin.write("release\n")
+            child.stdin.flush()
+    
+        def fetch(http, prepared, now, **kwargs):
+            nonlocal child, timer
+            child = subprocess.Popen(
+                [
+                    sys.executable,
+                    "-c",
+                    "import duckdb,sys; c=duckdb.connect(sys.argv[1],read_only=True); print('READY',flush=True); input(); c.close()",
+                    str(path),
+                ],
+                stdin=subprocess.PIPE,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+            )
+            assert child.stdout.readline().strip() == "READY"
+            timer = threading.Timer(0.2, release)
+            timer.start()
+            return {
+                "markets": [Market("SAT", now, now, 100, 10e6, 3e6)],
+                "listing_first_seen": {"SAT": now},
+                "errors": {},
+                "light": [],
+                "prepared_at": now,
+            }
+    
+        monkeypatch.setattr(source, "fetch", fetch)
+        stdout, stderr = io.StringIO(), io.StringIO()
+        try:
+            with contextlib.redirect_stdout(stdout), contextlib.redirect_stderr(stderr):
+                universe_cmds.refresh(warming=False, as_json=True)
+        finally:
+            if timer:
+                timer.join(5)
+            if child:
+                child.wait(timeout=5)
+>       result = json.loads(stdout.getvalue())
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_universe_cadence.py:390: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/lib/python3.12/json/__init__.py:346: in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/lib/python3.12/json/decoder.py:337: in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <json.decoder.JSONDecoder object at 0x7e0f2af1b890>
+s = 'Database busy: another process (PID 106) is using it. Waiting up to 600s…\n{\n  "at": 1792150369,\n  "candidates": [\...mpleted_at": 1792150368.7488363\n  },\n  "tier_counts": {\n    "0": 0,\n    "1": 1,\n    "2": 6,\n    "3": 0\n  }\n}\n'
+idx = 0
+
+    def raw_decode(self, s, idx=0):
+        """Decode a JSON document from ``s`` (a ``str`` beginning with
+        a JSON document) and return a 2-tuple of the Python
+        representation and the index in ``s`` where the document ended.
+    
+        This can be used to decode a JSON document from a string that may
+        have extraneous data at the end.
+    
+        """
+        try:
+            obj, end = self.scan_once(s, idx)
+        except StopIteration as err:
+>           raise JSONDecodeError("Expecting value", s, err.value) from None
+E           json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+/usr/lib/python3.12/json/decoder.py:355: JSONDecodeError
+=========================== short test summary info ============================
+FAILED tests/test_universe_cadence.py::test_json_refresh_keeps_db_wait_messages_out_of_result

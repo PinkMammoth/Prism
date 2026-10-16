@@ -1,0 +1,748 @@
+From b10d13a313870f0975842f1ee77e7b9938879359 Mon Sep 17 00:00:00 2001
+From: PinkMammoth <93152084+PinkMammoth@users.noreply.github.com>
+Date: Fri, 16 Oct 2026 10:08:58 +0100
+Subject: [PATCH] fix(universe): anchor radar cadence to UTC slots without
+ retiming evidence
+
+---
+ docs/DYNAMIC_UNIVERSE_CADENCE_FIX.md    | 105 +++++++++
+ src/market_signal/cli/universe_cmds.py  |  48 ++++-
+ src/market_signal/universe/cadence.py   |  51 +++++
+ src/market_signal/universe/source.py    |  18 +-
+ src/market_signal/universe/telemetry.py |  39 ++++
+ src/market_signal/universe/worker.py    |  55 ++++-
+ tests/test_universe_cadence.py          | 272 ++++++++++++++++++++++++
+ 7 files changed, 571 insertions(+), 17 deletions(-)
+ create mode 100644 docs/DYNAMIC_UNIVERSE_CADENCE_FIX.md
+ create mode 100644 src/market_signal/universe/cadence.py
+ create mode 100644 src/market_signal/universe/telemetry.py
+ create mode 100644 tests/test_universe_cadence.py
+
+diff --git a/docs/DYNAMIC_UNIVERSE_CADENCE_FIX.md b/docs/DYNAMIC_UNIVERSE_CADENCE_FIX.md
+new file mode 100644
+index 0000000..cb15e9f
+--- /dev/null
++++ b/docs/DYNAMIC_UNIVERSE_CADENCE_FIX.md
+@@ -0,0 +1,105 @@
++# Dynamic Universe cadence orchestration — UTC slots v1
++
++The rejected immutable release `eee205f24d5d9ef3cd71c32499f13ec2e2fbb8fd` remains historical
++evidence. This implementation corrects orchestration without changing the frozen
++`hyperliquid_dynamic_universe_v1` policy, inputs, scoring or readiness rules. Deployment
++and ranking admission are separately evidenced; this document grants no warming/execution authority.
++
++## Original mechanism
++
++The worker measured600 seconds from child launch. The CLI pre-fetch guard and `source.commit`
++both required600 seconds since the last stored evaluation clock. That clock was sampled at
++**commit entry**, after fetching, not at fetch start and not after durable transaction completion.
++With a36-second fetch, launch0 produces evidence clock36. Launch600 sees only564 seconds of
++age and returns `NOT_DUE`; launch1200 produces clock1236. Every second poll is skipped and
++accepted observations are1200 seconds apart, above the frozen900-second continuity allowance.
++
++The stored evaluation timestamp was previously described loosely as "commit time" in the
++operational report. The precise basis is the existing integer UTC clock passed to
++`source.commit` immediately before ranking/state/readiness work and ledger persistence.
++It remains on that same basis; no timestamp is moved earlier to conceal a gap.
++
++## Choice and invariant
++
++The supervised worker runs at fixed UTC boundaries (`epoch % 600 == 0`). Initial start/restart
++waits for the next boundary. Next deadline derives from the previous nominal deadline plus600,
++never from completion time. Expired deadlines are counted and skipped; there is no overlapping
++job, catch-up burst, fabricated past observation or nominal timestamp substituted for evidence.
++
++Both due guards now admit **one refresh per actual source-start UTC slot**. The slot is stored
++as versioned orchestration metadata, `schedule={version: utc_600s_slots_v1, slot: ...}`. A legacy
++evaluation without that metadata falls back to its actual evaluation-clock slot. A later slot
++can be admitted even if the previous real transaction finished less than600 seconds earlier.
++This resolves the scheduling/commit-age mismatch without changing evidence-clock semantics.
++
++For bounded healthy work, accepted observations follow the nominal600-second schedule, with
++actual fetch/processing jitter retained. Frozen continuity checks always use real observed/
++evaluation times. A genuine delay >900 seconds still resets continuity/streaks. No scheduler
++can guarantee continuity through unbounded network stalls, suspension or missed observations;
++those events are recorded and never reclassified as healthy evidence.
++
++Alternatives considered:
++
++- **A, fixed UTC boundaries (chosen):** deterministic restart behavior and inspectable deadlines;
++  requires synchronized clock, checked before activation. Separate slot idempotency fixes both guards.
++- **B, completion-aware nominal deadlines:** previous *nominal* deadline +600 could also work, but
++  persisting/recovering a private phase adds complexity. Previous *commit* +600 accumulates fetch
++  duration and does not provide a stable600-second nominal schedule.
++- **C, monotonic deadlines mapped to a UTC origin:** equivalent while clocks remain aligned, but
++  adds explicit remapping after wall-clock steps/restarts. The existing synchronized UTC host and
++  auditable shared slots make A simpler. Actual wall-clock gaps remain visible in either design.
++
++A dedicated kernel `flock` spans each refresh's prepare/fetch/commit, including manual refreshes.
++It is independent of the short runtime DB writer lock, so HTTP does not block core data writers.
++The lock releases on process exit. `subprocess.run` remains sequential, kills/waits on its300s
++timeout, and the worker records timeout/failure without restarting or inventing an evaluation.
++
++## Distinct clocks and telemetry
++
++| Marker | Meaning |
++|---|---|
++| `scheduled_deadline` | Nominal UTC boundary; scheduling only |
++| `evaluation_started_at` | Worker child-launch time |
++| `refresh_started_at` | CLI refresh entry before read-only preparation |
++| `source_fetch_started_at` | Start of the network fetch phase |
++| Market `observed_at`, book `quote_at` | Existing actual source/venue capture clocks; unchanged |
++| `source_refresh_completed_at` | All discovery/light fetching completed |
++| `evidence_clock` / stored `evaluated_at` | Existing integer UTC clock sampled at commit entry |
++| `ranking_computed_at` | Pure ranking and transition computation completed |
++| `ranking_db_commit_started_at/completed_at` | Real ranking ledger transaction timing |
++| `outcomes_db_commit_started_at/completed_at` | Separate prospective-outcome batch timing |
++| `refresh_completed_at` | Publication/DB context closed and CLI result ready |
++| `next_scheduled_deadline` | Next nominal target, with skipped-deadline count |
++
++Request telemetry records aggregate request types/statuses, header latency and captured body
++bytes, not credentials or response bodies. Worker journal records evaluation identity, candidate/
++source-error counts, timing, child CPU and cumulative child high-water RSS. Scores and full
++market inputs remain in the existing compressed append-only ledger, not duplicated in logs.
++
++The extra `schedule` field is an explicitly versioned orchestration addition to new ledger
++payloads; old payloads are never rewritten. Detailed wall-time metrics are emitted after the
++decision is persisted, so completed transaction time is not falsely written before it happens.
++
++## Frozen compatibility and tests
++
++`policy.py`, `engine.py`, `portability.py`, `ledger.py`, `rich.py`, `ops/profiles.py` and the
++prepared activation script are byte-identical to approved main. The source functions `decode`,
++`book_metrics`, `enrich_history`, `prepare` and `fetch` are AST-identical. Shared ranking gains
++no account/equity/risk-pin dependence. Profile digest remains
++`e7571ad1a2a35fb42dc8c1ea77759e31887a1c7679445561664c1dee68c12207`.
++
++The focused regression suite exercises the actual worker/CLI/ledger with virtual time:
++fast,36s,299s and599s work; variable duration;601s/899s genuine overruns; timeout; restart;
++missed/late wakeups; deterministic deadlines; one-per-slot idempotency; no overlapping refresh;
++and the exact900/901s frozen continuity boundary. A dedicated two-refresh36s regression
++produces two durable evaluations here and fails with one on the rejected release's actual
++CLI/source implementation. These tests are mechanical fixtures, never live ranking evidence.
++
++Seven healthy lightweight observations,7-day prospective listing age, technical exact readiness,
++two prospective hourly OI observations within140 minutes, funding freshness,288 prior COMPLETE
++15m windows plus current, large-print calibration, streak/dwell persistence and reentry reset
++remain unchanged. Ranking-only starts only discovery/light-history clocks. It does not enable
++satellite backfill, prospective satellite OI captures, rich collection or execution admission.
++
++See [cadence-tranche evidence](evidence/ovh-du-ranking/20261016-cadence/) for final validation,
++release identity, fresh admission, activation, genuine observation and rollback evidence.
+diff --git a/src/market_signal/cli/universe_cmds.py b/src/market_signal/cli/universe_cmds.py
+index fb27ada..1d0b23d 100644
+--- a/src/market_signal/cli/universe_cmds.py
++++ b/src/market_signal/cli/universe_cmds.py
+@@ -4,6 +4,7 @@ from __future__ import annotations
+ 
+ import json
+ import os
++import time
+ from datetime import UTC, datetime
+ 
+ import typer
+@@ -61,11 +62,7 @@ def asset(asset: str, as_json: bool = JSON):
+ @universe.command("refresh")
+ def refresh(warming: bool = typer.Option(False, "--warming"), as_json: bool = JSON):
+     """Data-only writer. Network collection takes place outside the authoritative runtime lock."""
+-    from market_signal.data.http import HttpClient
+-    from market_signal.microstructure.spool import default_root
+     from market_signal.ops import profiles
+-    from market_signal.ops.runtime import runtime_lock
+-    from market_signal.universe import source, subscriptions
+     from market_signal.universe.policy import POLICY
+ 
+     profile = profiles.current()
+@@ -82,12 +79,28 @@ def refresh(warming: bool = typer.Option(False, "--warming"), as_json: bool = JS
+             datetime.fromtimestamp(now, UTC),
+             rich_assets=6 + POLICY.rich_satellite_cap if warming else 6,
+         )
++    from market_signal.config import get_settings
++    from market_signal.universe import cadence
++
++    with cadence.refresh_lock(get_settings().paths.db):
++        result = _refresh_once(warming)
++    _out(result, as_json)
++
++
++def _refresh_once(warming):
++    from market_signal.data.http import HttpClient
++    from market_signal.microstructure.spool import default_root
++    from market_signal.ops.runtime import runtime_lock
++    from market_signal.universe import cadence, source, subscriptions
++    from market_signal.universe.telemetry import Requests
++
++    timing = {"refresh_started_at": time.time()}
++    now = int(timing["refresh_started_at"])
+     with open_store(read_only=True) as (_, store):
+         prepared = source.prepare(store, now)
+         path = store.path
+-    if prepared["previous"] and now - prepared["previous"]["at"] < POLICY.cadence_seconds:
+-        _out({"status": "NOT_DUE", "last_evaluation": prepared["previous"]["at"]}, as_json)
+-        return
++    if not cadence.due(prepared["previous"], now):
++        return {"status": "NOT_DUE", "last_evaluation": prepared["previous"]["at"]}
+     http = HttpClient(
+         "hyperliquid_universe",
+         "https://api.hyperliquid.xyz",
+@@ -95,12 +108,23 @@ def refresh(warming: bool = typer.Option(False, "--warming"), as_json: bool = JS
+         max_retries=0,
+         requests_per_second=2,
+     )
++    metrics = Requests()
++    http._http().event_hooks["request"].append(metrics.request)
++    http._http().event_hooks["response"].append(metrics.response)
++    timing["source_fetch_started_at"] = time.time()
+     try:
+         fetched = source.fetch(http, prepared, now, warming=warming)
+     finally:
+         http.close()
++    timing["source_refresh_completed_at"] = time.time()
++    timing["api"] = metrics.summary()
++    timing["api"]["captured_response_body_bytes"] = sum(len(p.body) for p in http.captured)
+     with runtime_lock(path, "dynamic_universe", wait=0), open_store() as (_, store):
+-        result = source.commit(store, fetched, int(datetime.now(UTC).timestamp()), warming=warming)
++        # This is the existing evidence clock, sampled at commit entry. Do not replace
++        # it with the nominal slot or call it the completed transaction timestamp.
++        evidence_clock = int(datetime.now(UTC).timestamp())
++        timing["evidence_clock"] = evidence_clock
++        result = source.commit(store, fetched, evidence_clock, warming=warming, telemetry=timing)
+         if "evaluation_id" in result:
+             subscriptions.publish(
+                 default_root(path),
+@@ -108,7 +132,13 @@ def refresh(warming: bool = typer.Option(False, "--warming"), as_json: bool = JS
+                 role=os.environ.get("PRISM_RUNTIME_ROLE", ""),
+                 runtime_id=os.environ.get("PRISM_RUNTIME_ID", ""),
+             )
+-    _out(result, as_json)
++    timing["refresh_completed_at"] = time.time()
++    timing["previous_evidence_clock"] = prepared["previous"]["at"] if prepared["previous"] else None
++    timing["continuity_gap_seconds"] = (
++        evidence_clock - prepared["previous"]["at"] if prepared["previous"] else None
++    )
++    result["telemetry"] = timing
++    return result
+ 
+ 
+ def register(app):
+diff --git a/src/market_signal/universe/cadence.py b/src/market_signal/universe/cadence.py
+new file mode 100644
+index 0000000..3f77d82
+--- /dev/null
++++ b/src/market_signal/universe/cadence.py
+@@ -0,0 +1,51 @@
++"""UTC scheduling slots are orchestration metadata, never evidence timestamps."""
++
++import fcntl
++import math
++from contextlib import contextmanager
++
++from market_signal.universe.policy import POLICY
++
++VERSION = "utc_600s_slots_v1"
++
++
++def slot(at):
++    return int(at // POLICY.cadence_seconds) * POLICY.cadence_seconds
++
++
++def first_deadline(now):
++    """Start/restart at the next boundary; never manufacture a missed observation."""
++    return math.ceil(now / POLICY.cadence_seconds) * POLICY.cadence_seconds
++
++
++def next_deadline(previous, now):
++    """Skip expired deadlines explicitly, without overlapping or catch-up bursts."""
++    target = previous + POLICY.cadence_seconds
++    skipped = max(0, math.ceil((now - target) / POLICY.cadence_seconds))
++    return target + skipped * POLICY.cadence_seconds, skipped
++
++
++def due(previous, refresh_started):
++    if not previous:
++        return True
++    prior = previous.get("schedule", {}).get("slot", slot(previous["at"]))
++    return slot(refresh_started) > prior
++
++
++@contextmanager
++def refresh_lock(db):
++    """One radar fetch through commit, independent of the short DB writer lock.
++
++    Applies to supervised and manual refreshes. Kernel releases the lock on exit;
++    restart cannot orphan an owner. No runtime DB lock is held during HTTP.
++    """
++    path = db.with_name(db.name + ".universe-refresh.lock")
++    with path.open("a") as handle:
++        try:
++            fcntl.flock(handle, fcntl.LOCK_EX | fcntl.LOCK_NB)
++        except BlockingIOError:
++            raise RuntimeError("another universe refresh is already running") from None
++        try:
++            yield
++        finally:
++            fcntl.flock(handle, fcntl.LOCK_UN)
+diff --git a/src/market_signal/universe/source.py b/src/market_signal/universe/source.py
+index 7f473cb..8e79ff4 100644
+--- a/src/market_signal/universe/source.py
++++ b/src/market_signal/universe/source.py
+@@ -8,7 +8,7 @@ from dataclasses import asdict, replace
+ from datetime import UTC, datetime
+ from itertools import pairwise
+ 
+-from market_signal.universe import ledger
++from market_signal.universe import cadence, ledger
+ from market_signal.universe.engine import Market, evaluate
+ from market_signal.universe.policy import CORE, POLICY
+ 
+@@ -276,11 +276,12 @@ def fetch(http, prepared, now, *, warming=False, clock=None):
+     }
+ 
+ 
+-def commit(store, fetched, now, *, warming=False):
++def commit(store, fetched, now, *, warming=False, telemetry=None):
+     from market_signal.universe.portability import availability
+ 
+     previous = ledger.latest(store)
+-    if previous and now - previous["at"] < POLICY.cadence_seconds:
++    refresh_started = fetched.get("prepared_at", now)
++    if not cadence.due(previous, refresh_started):
+         return {"status": "NOT_DUE", "last_evaluation": previous["at"]}
+     if warming:
+         from market_signal.universe.rich import commit as commit_rich
+@@ -290,6 +291,9 @@ def commit(store, fetched, now, *, warming=False):
+     decision = evaluate(
+         fetched["markets"], ledger.state(store), now, ledger.risk_pins(store, now), warming=warming
+     )
++    if telemetry is not None:
++        telemetry["ranking_computed_at"] = time.time()
++    decision["schedule"] = {"version": cadence.VERSION, "slot": cadence.slot(refresh_started)}
+     decision["listing_first_seen"] = fetched["listing_first_seen"]
+     decision["source_errors"] = {
+         **fetched["errors"],
+@@ -336,10 +340,18 @@ def commit(store, fetched, now, *, warming=False):
+             else {"warmup": {}, "hypotheses": []}
+         )
+         r["market"]["warmup"].update(r["hypotheses"]["warmup"])
++    if telemetry is not None:
++        telemetry["ranking_db_commit_started_at"] = time.time()
+     decision["evaluation_id"] = ledger.append(
+         store, decision, [asdict(m) for m in fetched["markets"]]
+     )
++    if telemetry is not None:
++        telemetry["ranking_db_commit_completed_at"] = time.time()
+     # Batch prospective evidence writes: per-row autocommit would delay quote/exit writers.
++    if telemetry is not None:
++        telemetry["outcomes_db_commit_started_at"] = time.time()
+     with store.transaction():
+         decision["outcomes_recorded"] = ledger.collect_outcomes(store, now)
++    if telemetry is not None:
++        telemetry["outcomes_db_commit_completed_at"] = time.time()
+     return decision
+diff --git a/src/market_signal/universe/telemetry.py b/src/market_signal/universe/telemetry.py
+new file mode 100644
+index 0000000..325b3c8
+--- /dev/null
++++ b/src/market_signal/universe/telemetry.py
+@@ -0,0 +1,39 @@
++"""Public DU request metrics: aggregate counts/header latency, never response bodies."""
++
++import json
++import time
++from collections import Counter
++
++
++class Requests:
++    def __init__(self):
++        self.started = 0
++        self.types = Counter()
++        self.statuses = Counter()
++        self.latencies = []
++        self.response_bytes = 0
++
++    def request(self, request):
++        self.started += 1
++        self.types[json.loads(request.content).get("type", "unknown")] += 1
++        request.extensions["prism_started"] = time.monotonic()
++
++    def response(self, response):
++        self.statuses[str(response.status_code)] += 1
++        self.latencies.append(time.monotonic() - response.request.extensions["prism_started"])
++        self.response_bytes += int(response.headers.get("content-length", 0))
++
++    def summary(self):
++        values = sorted(self.latencies)
++        return {
++            "requests": self.started,
++            "request_types": dict(self.types),
++            "statuses": dict(self.statuses),
++            "transport_failures": self.started - len(values),
++            "header_latency_seconds_p50": values[len(values) // 2] if values else None,
++            "header_latency_seconds_p95": values[min(len(values) - 1, int(len(values) * 0.95))]
++            if values
++            else None,
++            "header_latency_seconds_max": max(values) if values else None,
++            "declared_response_bytes": self.response_bytes,
++        }
+diff --git a/src/market_signal/universe/worker.py b/src/market_signal/universe/worker.py
+index b2a80f2..ebc143a 100644
+--- a/src/market_signal/universe/worker.py
++++ b/src/market_signal/universe/worker.py
+@@ -1,26 +1,71 @@
+ """Data-only supervised radar process. HTTP never holds the runtime writer lock."""
+ 
++import json
+ import logging
+ import os
++import resource
+ import subprocess
+ import sys
+ import time
+ 
++from market_signal.universe import cadence
+ from market_signal.universe.policy import POLICY
+ 
+ log = logging.getLogger("prism.universe")
+ 
+ 
+ def main():
++    logging.basicConfig(level=logging.INFO, format="%(message)s")
++    deadline = cadence.first_deadline(time.time())
+     while True:
+-        started = time.monotonic()
++        while True:
++            remaining = deadline - time.time()
++            if remaining <= 0:
++                break
++            time.sleep(min(30, remaining))
++        started = time.time()
++        missed_before_start = max(0, (cadence.slot(started) - deadline) // POLICY.cadence_seconds)
++        if missed_before_start:
++            deadline = cadence.slot(started)
+         cmd = [sys.executable, "-m", "market_signal.cli.main", "universe", "refresh", "--json"]
+         if os.environ.get("PRISM_UNIVERSE_STAGE") == "warming":
+             cmd.append("--warming")
+-        result = subprocess.run(cmd, capture_output=True, text=True, timeout=300, check=False)
+-        if result.returncode:
+-            log.error("radar refresh failed: %s", result.stderr[-1500:])
+-        time.sleep(max(1, POLICY.cadence_seconds - (time.monotonic() - started)))
++        event = {
++            "event": "universe_refresh",
++            "scheduler_version": cadence.VERSION,
++            "scheduled_deadline": deadline,
++            "evaluation_started_at": started,
++            "missed_before_start": missed_before_start,
++        }
++        before = resource.getrusage(resource.RUSAGE_CHILDREN)
++        try:
++            result = subprocess.run(cmd, capture_output=True, text=True, timeout=300, check=False)
++            event["returncode"] = result.returncode
++            if result.returncode == 0:
++                value = json.loads(result.stdout)
++                event.update(
++                    status=value.get("status", "ACCEPTED"),
++                    evaluation_id=value.get("evaluation_id"),
++                    candidates=len(value.get("candidates", [])),
++                    source_error_count=len(value.get("source_errors", {})),
++                    telemetry=value.get("telemetry"),
++                )
++            else:
++                event["status"] = "FAILED"
++        except subprocess.TimeoutExpired:
++            # subprocess.run kills and waits for its child before the next deadline.
++            event["status"] = "TIMEOUT"
++        except (ValueError, TypeError):
++            event["status"] = "INVALID_CHILD_OUTPUT"
++        event["child_completed_at"] = time.time()
++        after = resource.getrusage(resource.RUSAGE_CHILDREN)
++        event["child_cpu_seconds"] = (after.ru_utime + after.ru_stime) - (
++            before.ru_utime + before.ru_stime
++        )
++        event["children_peak_rss_kib_since_worker_start"] = after.ru_maxrss
++        deadline, skipped = cadence.next_deadline(deadline, time.time())
++        event.update(next_scheduled_deadline=deadline, skipped_deadlines=skipped)
++        log.info(json.dumps(event, sort_keys=True))
+ 
+ 
+ if __name__ == "__main__":
+diff --git a/tests/test_universe_cadence.py b/tests/test_universe_cadence.py
+new file mode 100644
+index 0000000..2526e8b
+--- /dev/null
++++ b/tests/test_universe_cadence.py
+@@ -0,0 +1,272 @@
++"""Real worker/CLI/ledger integration with virtual time, no network or backdated live data."""
++
++import contextlib
++import io
++import json
++import subprocess
++from datetime import UTC, datetime
++from types import SimpleNamespace
++
++import pytest
++
++from market_signal.cli import universe_cmds
++from market_signal.data.http import HttpClient
++from market_signal.data.store import Store
++from market_signal.ops import profiles
++from market_signal.universe import cadence, ledger, source, worker
++from market_signal.universe.engine import Market
++from market_signal.universe.policy import POLICY
++
++EPOCH = 1_800_000_000
++
++
++class Finished(Exception):
++    pass
++
++
++@pytest.fixture
++def radar(project, monkeypatch):
++    path = project / "data" / "radar.duckdb"
++    Store(path).close()
++    monkeypatch.setenv("PRISM_DB_PATH", str(path))
++    monkeypatch.delenv("PRISM_RUNTIME_ROLE", raising=False)
++    monkeypatch.setattr(profiles, "current", lambda: SimpleNamespace(explicit=False))
++    clock = [float(EPOCH)]
++
++    class Clock:
++        @staticmethod
++        def now(tz):
++            return datetime.fromtimestamp(clock[0], UTC)
++
++    monkeypatch.setattr(universe_cmds, "datetime", Clock)
++    monkeypatch.setattr(worker.time, "time", lambda: clock[0])
++    monkeypatch.setattr(
++        worker.time, "sleep", lambda seconds: clock.__setitem__(0, clock[0] + seconds)
++    )
++    monkeypatch.setattr(
++        HttpClient,
++        "_http",
++        lambda self: SimpleNamespace(event_hooks={"request": [], "response": []}),
++    )
++    monkeypatch.setattr(HttpClient, "close", lambda self: None)
++    return path, clock
++
++
++def run_worker(radar, monkeypatch, durations, *, restart_at=None):
++    _path, clock = radar
++    events, in_flight = [], []
++
++    def fetch(http, prepared, now, **kwargs):
++        duration = durations[len(events) % len(durations)]
++        clock[0] += duration
++        at = int(clock[0])
++        previous = prepared["previous"] or {}
++        first = previous.get("listing_first_seen", {}).get("SAT", at)
++        market = Market("SAT", at, first, 100, 10e6, 3e6)
++        markets = source.enrich_history([market], prepared["history"], at)
++        return {
++            "markets": markets,
++            "listing_first_seen": {"SAT": first},
++            "errors": {},
++            "light": [],
++            "prepared_at": now,
++        }
++
++    def invoke(*args, **kwargs):
++        assert not in_flight
++        in_flight.append(True)
++        try:
++            stream = io.StringIO()
++            with contextlib.redirect_stdout(stream):
++                universe_cmds.refresh(warming=False, as_json=True)
++            return SimpleNamespace(returncode=0, stdout=stream.getvalue())
++        finally:
++            in_flight.pop()
++
++    def record(value):
++        events.append(json.loads(value))
++        if len(events) == 12 or (restart_at and len(events) == restart_at):
++            raise Finished
++
++    monkeypatch.setattr(source, "fetch", fetch)
++    monkeypatch.setattr(worker.subprocess, "run", invoke)
++    monkeypatch.setattr(worker.log, "info", record)
++    with pytest.raises(Finished):
++        worker.main()
++    if restart_at:
++        clock[0] += 17
++        with pytest.raises(Finished):
++            worker.main()
++    return events
++
++
++@pytest.mark.parametrize("duration", [0.1, 36, 299, 599])
++def test_fixed_600s_worker_real_cli_accepts_every_slot(radar, monkeypatch, duration):
++    events = run_worker(radar, monkeypatch, [duration])
++    assert len(events) == 12
++    assert all(e["status"] == "ACCEPTED" for e in events)
++    assert [e["scheduled_deadline"] for e in events] == [EPOCH + i * 600 for i in range(12)]
++    assert all(e["telemetry"]["continuity_gap_seconds"] == 600 for e in events[1:])
++    assert all(e["skipped_deadlines"] == 0 for e in events)
++    assert all(
++        e["telemetry"]["ranking_db_commit_completed_at"] >= e["telemetry"]["evidence_clock"]
++        for e in events
++    )
++
++
++def test_restart_waits_for_next_boundary_without_duplicate_or_overlap(radar, monkeypatch):
++    events = run_worker(radar, monkeypatch, [36], restart_at=5)
++    assert len(events) == 12 and all(e["status"] == "ACCEPTED" for e in events)
++    assert all(e["telemetry"]["continuity_gap_seconds"] == 600 for e in events[1:])
++
++
++@pytest.mark.parametrize("duration", [601, 899])
++def test_genuine_overruns_are_explicit_and_reset_continuity(radar, monkeypatch, duration):
++    # Exercise deadline overrun handling beyond the production child's300s timeout.
++    events = run_worker(radar, monkeypatch, [duration])
++    assert all(e["skipped_deadlines"] == 1 for e in events)
++    assert all(e["telemetry"]["continuity_gap_seconds"] == 1200 for e in events[1:])
++    path, _ = radar
++    s = Store(path, read_only=True)
++    try:
++        assert ledger.latest(s)["states"]["SAT"]["bad"] == 1
++        assert not ledger.latest(s)["rows"][0]["market"]["warmup"]["lightweight"]
++    finally:
++        s.close()
++
++
++def test_variable_fetch_time_does_not_move_nominal_deadlines(radar, monkeypatch):
++    events = run_worker(radar, monkeypatch, [0.1, 299, 36, 120])
++    assert all(e["status"] == "ACCEPTED" for e in events)
++    assert max(e["telemetry"]["continuity_gap_seconds"] for e in events[1:]) <= 900
++    assert [e["next_scheduled_deadline"] for e in events] == [
++        EPOCH + (i + 1) * 600 for i in range(12)
++    ]
++
++
++def test_same_slot_retry_is_suppressed_but_next_slot_is_not(radar):
++    previous = {"at": EPOCH + 36, "schedule": {"slot": EPOCH, "version": cadence.VERSION}}
++    assert not cadence.due(previous, EPOCH + 599)
++    assert cadence.due(previous, EPOCH + 600)
++    assert cadence.due({"at": EPOCH + 36}, EPOCH + 600)  # legacy snapshot
++
++
++def test_36_second_fetch_real_cli_does_not_skip_second_slot(radar, monkeypatch):
++    """Fails on the rejected eee205f CLI/commit implementation (second call NOT_DUE)."""
++    path, clock = radar
++
++    def fetch(http, prepared, now, **kwargs):
++        clock[0] += 36
++        return {
++            "markets": [Market("SAT", int(clock[0]), EPOCH, 100, 10e6, 3e6)],
++            "listing_first_seen": {"SAT": EPOCH},
++            "errors": {},
++            "light": [],
++            "prepared_at": now,
++        }
++
++    monkeypatch.setattr(source, "fetch", fetch)
++    for start in (EPOCH, EPOCH + 600):
++        clock[0] = float(start)
++        with contextlib.redirect_stdout(io.StringIO()):
++            universe_cmds.refresh(warming=False, as_json=True)
++    s = Store(path, read_only=True)
++    try:
++        assert s.con.execute("SELECT count(*) FROM universe_evaluations").fetchone()[0] == 2
++        assert ledger.latest(s)["at"] == EPOCH + 636
++    finally:
++        s.close()
++
++
++def test_refresh_lock_prevents_overlapping_manual_or_supervised_fetches(radar):
++    path, _ = radar
++    with cadence.refresh_lock(path), pytest.raises(RuntimeError, match="already running"):
++        universe_cmds.refresh(warming=False, as_json=True)
++    with cadence.refresh_lock(path):
++        pass
++
++
++@pytest.mark.parametrize(
++    "now,expected,skipped",
++    [
++        (EPOCH + 36, EPOCH + 600, 0),
++        (EPOCH + 600, EPOCH + 600, 0),
++        (EPOCH + 601, EPOCH + 1200, 1),
++        (EPOCH + 1801, EPOCH + 2400, 3),
++    ],
++)
++def test_next_deadline_is_deterministic(now, expected, skipped):
++    assert cadence.next_deadline(EPOCH, now) == (expected, skipped)
++
++
++def test_missed_cycles_are_not_replayed_and_restart_uses_future_boundary():
++    assert cadence.first_deadline(EPOCH + 901) == EPOCH + 1200
++    assert cadence.first_deadline(EPOCH) == EPOCH
++    assert cadence.next_deadline(EPOCH, EPOCH + 1801) == (EPOCH + 2400, 3)
++
++
++@pytest.mark.parametrize("gap,healthy", [(900, True), (901, False)])
++def test_frozen_lightweight_continuity_boundary_is_unchanged(gap, healthy):
++    history = [
++        {
++            "observed_at": EPOCH + i * 600,
++            "price": 100 + i,
++            "oi_usd": 3e6,
++            "volume_usd": 10e6,
++            "healthy": True,
++        }
++        for i in range(6)
++    ]
++    at = EPOCH + 3000 + gap
++    m = source.enrich_history([Market("SAT", at, EPOCH, 107, 10e6, 3e6)], {"SAT": history}, at)[0]
++    assert m.warmup["lightweight"] is healthy
++    assert POLICY.light_max_gap_seconds == 900 and POLICY.light_observations == 7
++
++
++def test_timeout_is_recorded_without_overlapping_or_restarting_worker(monkeypatch):
++    clock = [float(EPOCH)]
++    events = []
++    monkeypatch.setattr(worker.time, "time", lambda: clock[0])
++    monkeypatch.setattr(worker.time, "sleep", lambda n: clock.__setitem__(0, clock[0] + n))
++
++    def timeout(cmd, **kw):
++        assert kw["timeout"] == 300
++        clock[0] += 300
++        raise subprocess.TimeoutExpired(cmd, 300)
++
++    def record(value):
++        events.append(json.loads(value))
++        if len(events) == 2:
++            raise Finished
++
++    monkeypatch.setattr(worker.subprocess, "run", timeout)
++    monkeypatch.setattr(worker.log, "info", record)
++    with pytest.raises(Finished):
++        worker.main()
++    assert [e["scheduled_deadline"] for e in events] == [EPOCH, EPOCH + 600]
++    assert all(e["status"] == "TIMEOUT" for e in events)
++
++
++def test_late_wakeup_records_missed_slots_without_replaying_them(monkeypatch):
++    clock = [float(EPOCH + 1)]
++    events = []
++
++    def sleep(seconds):
++        clock[0] += seconds + 1200
++
++    def invoke(*args, **kwargs):
++        return SimpleNamespace(returncode=0, stdout='{"status":"NOT_DUE"}')
++
++    def record(value):
++        events.append(json.loads(value))
++        raise Finished
++
++    monkeypatch.setattr(worker.time, "time", lambda: clock[0])
++    monkeypatch.setattr(worker.time, "sleep", sleep)
++    monkeypatch.setattr(worker.subprocess, "run", invoke)
++    monkeypatch.setattr(worker.log, "info", record)
++    with pytest.raises(Finished):
++        worker.main()
++    assert events[0]["scheduled_deadline"] == EPOCH + 1200
++    assert events[0]["missed_before_start"] == 1
++    assert events[0]["next_scheduled_deadline"] == EPOCH + 1800
+-- 
+2.43.0
+

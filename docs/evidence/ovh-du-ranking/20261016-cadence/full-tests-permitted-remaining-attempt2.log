@@ -1,0 +1,1729 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-9.1.1, pluggy-1.6.0 -- /home/matth/prism/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /home/matth/prism/.worktrees/ovh-du-ranking
+configfile: pyproject.toml
+plugins: xdist-3.8.0, anyio-4.15.1
+created: 4/4 workers
+4 workers [834 items]
+
+scheduling tests via LoadScheduling
+
+tests/test_context_gateway.py::test_ingest_crash_rolls_back_entire_receipt 
+tests/test_context_gateway.py::test_authoritative_receipt_retry_conflict 
+tests/test_dashboard.py::test_page_renders[asset] 
+tests/test_lab_evidence.py::test_schema_one_profiles_keep_their_recorded_identity 
+[gw3] [  0%] PASSED tests/test_lab_evidence.py::test_schema_one_profiles_keep_their_recorded_identity 
+tests/test_lab_evidence.py::test_report_wording_is_versioned_and_cited 
+[gw3] [  0%] PASSED tests/test_lab_evidence.py::test_report_wording_is_versioned_and_cited 
+tests/test_lab_evidence.py::test_new_policy_profiles_sit_beside_old_ones 
+[gw0] [  0%] PASSED tests/test_context_gateway.py::test_authoritative_receipt_retry_conflict 
+tests/test_context_gateway.py::test_stale_unknown_request_rejected_but_accepted_retry_allowed 
+[gw0] [  0%] PASSED tests/test_context_gateway.py::test_stale_unknown_request_rejected_but_accepted_retry_allowed 
+tests/test_context_gateway.py::test_schema_and_ai_boundary[mutation0] 
+[gw0] [  0%] PASSED tests/test_context_gateway.py::test_schema_and_ai_boundary[mutation0] 
+tests/test_context_gateway.py::test_schema_and_ai_boundary[mutation1] 
+[gw0] [  0%] PASSED tests/test_context_gateway.py::test_schema_and_ai_boundary[mutation1] 
+tests/test_context_gateway.py::test_schema_and_ai_boundary[mutation2] 
+[gw0] [  0%] PASSED tests/test_context_gateway.py::test_schema_and_ai_boundary[mutation2] 
+tests/test_context_gateway.py::test_schema_and_ai_boundary[mutation3] 
+[gw0] [  0%] PASSED tests/test_context_gateway.py::test_schema_and_ai_boundary[mutation3] 
+tests/test_context_gateway.py::test_schema_and_ai_boundary[mutation4] 
+[gw0] [  1%] PASSED tests/test_context_gateway.py::test_schema_and_ai_boundary[mutation4] 
+tests/test_context_gateway.py::test_schema_and_ai_boundary[mutation5] 
+[gw0] [  1%] PASSED tests/test_context_gateway.py::test_schema_and_ai_boundary[mutation5] 
+tests/test_context_gateway.py::test_schema_and_ai_boundary[mutation6] 
+[gw0] [  1%] PASSED tests/test_context_gateway.py::test_schema_and_ai_boundary[mutation6] 
+tests/test_context_gateway.py::test_schema_and_ai_boundary[mutation7] 
+[gw0] [  1%] PASSED tests/test_context_gateway.py::test_schema_and_ai_boundary[mutation7] 
+tests/test_context_gateway.py::test_schema_and_ai_boundary[mutation8] 
+[gw0] [  1%] PASSED tests/test_context_gateway.py::test_schema_and_ai_boundary[mutation8] 
+tests/test_context_gateway.py::test_schema_and_ai_boundary[mutation9] 
+[gw0] [  1%] PASSED tests/test_context_gateway.py::test_schema_and_ai_boundary[mutation9] 
+tests/test_context_gateway.py::test_schema_and_ai_boundary[mutation10] 
+[gw0] [  1%] PASSED tests/test_context_gateway.py::test_schema_and_ai_boundary[mutation10] 
+tests/test_context_gateway.py::test_schema_and_ai_boundary[mutation11] 
+[gw0] [  1%] PASSED tests/test_context_gateway.py::test_schema_and_ai_boundary[mutation11] 
+tests/test_context_gateway.py::test_schema_and_ai_boundary[mutation12] 
+[gw0] [  2%] PASSED tests/test_context_gateway.py::test_schema_and_ai_boundary[mutation12] 
+tests/test_context_gateway.py::test_schema_and_ai_boundary[mutation13] 
+[gw0] [  2%] PASSED tests/test_context_gateway.py::test_schema_and_ai_boundary[mutation13] 
+tests/test_context_gateway.py::test_schema_and_ai_boundary[mutation14] 
+[gw0] [  2%] PASSED tests/test_context_gateway.py::test_schema_and_ai_boundary[mutation14] 
+tests/test_context_gateway.py::test_schema_and_ai_boundary[mutation15] 
+[gw0] [  2%] PASSED tests/test_context_gateway.py::test_schema_and_ai_boundary[mutation15] 
+tests/test_context_gateway.py::test_schema_and_ai_boundary[mutation16] 
+[gw0] [  2%] PASSED tests/test_context_gateway.py::test_schema_and_ai_boundary[mutation16] 
+tests/test_context_gateway.py::test_schema_and_ai_boundary[mutation17] 
+[gw0] [  2%] PASSED tests/test_context_gateway.py::test_schema_and_ai_boundary[mutation17] 
+tests/test_context_gateway.py::test_schema_and_ai_boundary[mutation18] 
+[gw0] [  2%] PASSED tests/test_context_gateway.py::test_schema_and_ai_boundary[mutation18] 
+tests/test_context_gateway.py::test_schema_and_ai_boundary[mutation19] 
+[gw0] [  2%] PASSED tests/test_context_gateway.py::test_schema_and_ai_boundary[mutation19] 
+tests/test_context_gateway.py::test_schema_and_ai_boundary[mutation20] 
+[gw0] [  2%] PASSED tests/test_context_gateway.py::test_schema_and_ai_boundary[mutation20] 
+tests/test_context_gateway.py::test_schema_and_ai_boundary[mutation21] 
+[gw0] [  3%] PASSED tests/test_context_gateway.py::test_schema_and_ai_boundary[mutation21] 
+tests/test_context_gateway.py::test_schema_and_ai_boundary[mutation22] 
+[gw0] [  3%] PASSED tests/test_context_gateway.py::test_schema_and_ai_boundary[mutation22] 
+tests/test_context_gateway.py::test_malformed_json[{] 
+[gw0] [  3%] PASSED tests/test_context_gateway.py::test_malformed_json[{] 
+tests/test_context_gateway.py::test_malformed_json[{"schema":1,"schema":2}] 
+[gw0] [  3%] PASSED tests/test_context_gateway.py::test_malformed_json[{"schema":1,"schema":2}] 
+tests/test_context_gateway.py::test_malformed_json[{"n":NaN}] 
+[gw0] [  3%] PASSED tests/test_context_gateway.py::test_malformed_json[{"n":NaN}] 
+tests/test_context_gateway.py::test_malformed_json[[1]] 
+[gw0] [  3%] PASSED tests/test_context_gateway.py::test_malformed_json[[1]] 
+tests/test_context_gateway.py::test_malformed_json[{"n":1e999}] 
+[gw0] [  3%] PASSED tests/test_context_gateway.py::test_malformed_json[{"n":1e999}] 
+tests/test_context_gateway.py::test_schema_envelope_and_limits 
+[gw0] [  3%] PASSED tests/test_context_gateway.py::test_schema_envelope_and_limits 
+tests/test_context_gateway.py::test_aliases_and_marketwide 
+[gw0] [  4%] PASSED tests/test_context_gateway.py::test_aliases_and_marketwide 
+tests/test_context_gateway.py::test_fsync_before_ack_and_restart 
+[gw1] [  4%] PASSED tests/test_context_gateway.py::test_ingest_crash_rolls_back_entire_receipt 
+tests/test_context_gateway.py::test_partial_audit_restart 
+[gw0] [  4%] PASSED tests/test_context_gateway.py::test_fsync_before_ack_and_restart 
+tests/test_context_gateway.py::test_retry_fsyncs_existing_receipt_and_timing_seal 
+[gw1] [  4%] PASSED tests/test_context_gateway.py::test_partial_audit_restart 
+tests/test_context_gateway.py::test_worker_respects_runtime_lock 
+[gw0] [  4%] PASSED tests/test_context_gateway.py::test_retry_fsyncs_existing_receipt_and_timing_seal 
+tests/test_context_gateway.py::test_tls_rejections_are_globally_rate_limited 
+[gw1] [  4%] PASSED tests/test_context_gateway.py::test_worker_respects_runtime_lock 
+tests/test_context_gateway.py::test_actual_duckdb_lock_catchup 
+[gw0] [  4%] PASSED tests/test_context_gateway.py::test_tls_rejections_are_globally_rate_limited 
+tests/test_context_gateway.py::test_spool_failure_no_success 
+[gw0] [  4%] PASSED tests/test_context_gateway.py::test_spool_failure_no_success 
+tests/test_context_gateway.py::test_full_spool 
+[gw0] [  5%] PASSED tests/test_context_gateway.py::test_full_spool 
+tests/test_context_gateway.py::test_reject_diagnostics_cannot_fill_a_full_spool 
+[gw0] [  5%] PASSED tests/test_context_gateway.py::test_reject_diagnostics_cannot_fill_a_full_spool 
+tests/test_context_gateway.py::test_spool_write_failures_count_as_rejects 
+[gw0] [  5%] PASSED tests/test_context_gateway.py::test_spool_write_failures_count_as_rejects 
+tests/test_context_gateway.py::test_durable_retry_survives_full_diagnostic_capacity 
+[gw0] [  5%] PASSED tests/test_context_gateway.py::test_durable_retry_survives_full_diagnostic_capacity 
+tests/test_context_gateway.py::test_snapshot_timing_dedupe_and_audit 
+[gw1] [  5%] PASSED tests/test_context_gateway.py::test_actual_duckdb_lock_catchup 
+tests/test_context_gateway.py::test_provider_quality_later_corroboration_and_denial 
+[gw0] [  5%] PASSED tests/test_context_gateway.py::test_snapshot_timing_dedupe_and_audit 
+tests/test_context_gateway.py::test_dedupe_existing_official_and_later_corroboration 
+[gw3] [  5%] PASSED tests/test_lab_evidence.py::test_new_policy_profiles_sit_beside_old_ones 
+tests/test_lab_families.py::test_catalogue_is_frozen_and_bounded 
+[gw3] [  5%] PASSED tests/test_lab_families.py::test_catalogue_is_frozen_and_bounded 
+tests/test_lab_families.py::test_generation_is_deterministic 
+[gw3] [  5%] PASSED tests/test_lab_families.py::test_generation_is_deterministic 
+tests/test_lab_families.py::test_yaml_ordering_does_not_change_identity 
+[gw3] [  6%] PASSED tests/test_lab_families.py::test_yaml_ordering_does_not_change_identity 
+tests/test_lab_families.py::test_any_frozen_change_creates_a_new_identity 
+[gw3] [  6%] PASSED tests/test_lab_families.py::test_any_frozen_change_creates_a_new_identity 
+tests/test_lab_families.py::test_constraints_exclude_invalid_combinations 
+[gw3] [  6%] PASSED tests/test_lab_families.py::test_constraints_exclude_invalid_combinations 
+tests/test_lab_families.py::test_variant_cap_is_enforced_without_truncation 
+[gw3] [  6%] PASSED tests/test_lab_families.py::test_variant_cap_is_enforced_without_truncation 
+tests/test_lab_families.py::test_lineage_names_and_sides 
+[gw3] [  6%] PASSED tests/test_lab_families.py::test_lineage_names_and_sides 
+tests/test_lab_families.py::test_short_variants_mirror_long_variants[ma_trend-mirror_feature0-None] 
+[gw3] [  6%] PASSED tests/test_lab_families.py::test_short_variants_mirror_long_variants[ma_trend-mirror_feature0-None] 
+tests/test_lab_families.py::test_short_variants_mirror_long_variants[donchian_breakout-mirror_feature1-None] 
+[gw3] [  6%] PASSED tests/test_lab_families.py::test_short_variants_mirror_long_variants[donchian_breakout-mirror_feature1-None] 
+tests/test_lab_families.py::test_short_variants_mirror_long_variants[rsi_exhaustion-mirror_feature2-<lambda>] 
+[gw3] [  6%] PASSED tests/test_lab_families.py::test_short_variants_mirror_long_variants[rsi_exhaustion-mirror_feature2-<lambda>] 
+tests/test_lab_families.py::test_short_variants_mirror_long_variants[ma_distance_reversion-mirror_feature3-<lambda>] 
+[gw3] [  7%] PASSED tests/test_lab_families.py::test_short_variants_mirror_long_variants[ma_distance_reversion-mirror_feature3-<lambda>] 
+tests/test_lab_families.py::test_short_variants_mirror_long_variants[funding_extreme_fade-mirror_feature4-<lambda>] 
+[gw3] [  7%] PASSED tests/test_lab_families.py::test_short_variants_mirror_long_variants[funding_extreme_fade-mirror_feature4-<lambda>] 
+tests/test_lab_families.py::test_short_variants_mirror_long_variants[trend_pullback-mirror_feature5-<lambda>] 
+[gw3] [  7%] PASSED tests/test_lab_families.py::test_short_variants_mirror_long_variants[trend_pullback-mirror_feature5-<lambda>] 
+tests/test_lab_families.py::test_family_schema_is_strict 
+[gw3] [  7%] PASSED tests/test_lab_families.py::test_family_schema_is_strict 
+tests/test_lab_families.py::test_every_perp_variant_compiles_on_a_retained_snapshot 
+[gw1] [  7%] PASSED tests/test_context_gateway.py::test_provider_quality_later_corroboration_and_denial 
+tests/test_context_gateway.py::test_schema_forbids_embedded_execution 
+[gw1] [  7%] PASSED tests/test_context_gateway.py::test_schema_forbids_embedded_execution 
+tests/test_context_gateway.py::test_dedicated_entrypoint_import_boundary 
+[gw0] [  7%] PASSED tests/test_context_gateway.py::test_dedupe_existing_official_and_later_corroboration 
+tests/test_context_gateway.py::test_test_category_excluded 
+[gw1] [  7%] PASSED tests/test_context_gateway.py::test_dedicated_entrypoint_import_boundary 
+tests/test_context_gateway.py::test_action_json_schema_references_resolve 
+[gw1] [  8%] PASSED tests/test_context_gateway.py::test_action_json_schema_references_resolve 
+tests/test_context_gateway.py::test_timestamps_and_flags_are_strict_json 
+[gw1] [  8%] PASSED tests/test_context_gateway.py::test_timestamps_and_flags_are_strict_json 
+tests/test_context_gateway.py::test_work_report_never_overwrites_official_facts 
+[gw3] [  8%] PASSED tests/test_lab_families.py::test_every_perp_variant_compiles_on_a_retained_snapshot 
+tests/test_lab_families.py::test_dry_run_shows_everything_and_writes_nothing 
+[gw0] [  8%] PASSED tests/test_context_gateway.py::test_test_category_excluded 
+tests/test_context_gateway.py::test_optional_test_flag_defaults_to_a_normal_context_event 
+[gw1] [  8%] PASSED tests/test_context_gateway.py::test_work_report_never_overwrites_official_facts 
+tests/test_context_gateway.py::test_interpretation_cannot_hide_in_facts 
+[gw1] [  8%] PASSED tests/test_context_gateway.py::test_interpretation_cannot_hide_in_facts 
+tests/test_context_gateway.py::test_actual_kill_after_commit_recovery 
+[gw0] [  8%] PASSED tests/test_context_gateway.py::test_optional_test_flag_defaults_to_a_normal_context_event 
+tests/test_context_gateway.py::test_ingest_failure_catchup_and_commit_recovery 
+[gw3] [  8%] PASSED tests/test_lab_families.py::test_dry_run_shows_everything_and_writes_nothing 
+tests/test_lab_families.py::test_monte_carlo_limit_refuses_oversized_families 
+[gw1] [  8%] PASSED tests/test_context_gateway.py::test_actual_kill_after_commit_recovery 
+tests/test_context_gateway.py::test_duplicate_spool_entry_is_safe 
+[gw0] [  9%] PASSED tests/test_context_gateway.py::test_ingest_failure_catchup_and_commit_recovery 
+tests/test_context_gateway.py::test_tls_and_public_routes 
+[gw0] [  9%] PASSED tests/test_context_gateway.py::test_tls_and_public_routes 
+tests/test_context_gateway.py::test_gateway_health 
+[gw0] [  9%] PASSED tests/test_context_gateway.py::test_gateway_health 
+tests/test_context_gateway.py::test_oauth_signature_scope_subject_audience_and_expiry 
+[gw0] [  9%] PASSED tests/test_context_gateway.py::test_oauth_signature_scope_subject_audience_and_expiry 
+tests/test_context_gateway.py::test_work_tool_schema_and_boundary 
+[gw0] [  9%] PASSED tests/test_context_gateway.py::test_work_tool_schema_and_boundary 
+tests/test_context_gateway.py::test_no_execution_imports_or_process_access 
+[gw1] [  9%] PASSED tests/test_context_gateway.py::test_duplicate_spool_entry_is_safe 
+tests/test_context_gateway.py::test_ingestion_mutates_context_and_information_outbox_only 
+[gw0] [  9%] PASSED tests/test_context_gateway.py::test_no_execution_imports_or_process_access 
+tests/test_context_gateway.py::test_oauth_mcp_call_and_synchronous_receipt 
+[gw3] [  9%] PASSED tests/test_lab_families.py::test_monte_carlo_limit_refuses_oversized_families 
+tests/test_lab_families.py::test_registration_is_idempotent_and_records_lineage 
+[gw1] [ 10%] PASSED tests/test_context_gateway.py::test_ingestion_mutates_context_and_information_outbox_only 
+tests/test_context_gateway.py::test_no_trading_route_accepts_write 
+[gw1] [ 10%] PASSED tests/test_context_gateway.py::test_no_trading_route_accepts_write 
+tests/test_context_gateway.py::test_work_cannot_reactivate_denied_event 
+[gw0] [ 10%] PASSED tests/test_context_gateway.py::test_oauth_mcp_call_and_synchronous_receipt 
+tests/test_context_gateway.py::test_crash_after_fsync_before_response 
+[gw1] [ 10%] PASSED tests/test_context_gateway.py::test_work_cannot_reactivate_denied_event 
+tests/test_context_gateway.py::test_internal_timestamps_survive_clock_backstep 
+[gw3] [ 10%] PASSED tests/test_lab_families.py::test_registration_is_idempotent_and_records_lineage 
+tests/test_lab_families.py::test_generated_family_batch_runs_end_to_end 
+[gw0] [ 10%] PASSED tests/test_context_gateway.py::test_crash_after_fsync_before_response 
+tests/test_offhost_capture.py::test_failed_stream_never_publishes[bad_base64] 
+[gw0] [ 10%] PASSED tests/test_offhost_capture.py::test_failed_stream_never_publishes[bad_base64] 
+tests/test_offhost_capture.py::test_failed_stream_never_publishes[checksum_mismatch] 
+[gw0] [ 10%] PASSED tests/test_offhost_capture.py::test_failed_stream_never_publishes[checksum_mismatch] 
+tests/test_offhost_capture.py::test_failed_stream_never_publishes[duplicate_manifest] 
+[gw0] [ 11%] PASSED tests/test_offhost_capture.py::test_failed_stream_never_publishes[duplicate_manifest] 
+tests/test_paper.py::test_consumers_do_not_import_each_other 
+[gw1] [ 11%] PASSED tests/test_context_gateway.py::test_internal_timestamps_survive_clock_backstep 
+tests/test_copilot.py::test_exploratory_alerts_even_when_q_is_high 
+[gw1] [ 11%] PASSED tests/test_copilot.py::test_exploratory_alerts_even_when_q_is_high 
+tests/test_copilot.py::test_fdr_honesty_in_message 
+[gw1] [ 11%] PASSED tests/test_copilot.py::test_fdr_honesty_in_message 
+tests/test_copilot.py::test_stronger_evidence_maps_to_strong_watch 
+[gw1] [ 11%] PASSED tests/test_copilot.py::test_stronger_evidence_maps_to_strong_watch 
+tests/test_copilot.py::test_adverse_validation_suppresses 
+[gw1] [ 11%] PASSED tests/test_copilot.py::test_adverse_validation_suppresses 
+tests/test_copilot.py::test_insufficient_validation_and_immature_forward_do_not_suppress 
+[gw1] [ 11%] PASSED tests/test_copilot.py::test_insufficient_validation_and_immature_forward_do_not_suppress 
+tests/test_copilot.py::test_mature_adverse_forward_suppresses_developing_downgrades 
+[gw1] [ 11%] PASSED tests/test_copilot.py::test_mature_adverse_forward_suppresses_developing_downgrades 
+tests/test_copilot.py::test_ineligible_tiers_suppress[NEGATIVE] 
+[gw1] [ 11%] PASSED tests/test_copilot.py::test_ineligible_tiers_suppress[NEGATIVE] 
+tests/test_copilot.py::test_ineligible_tiers_suppress[INSUFFICIENT] 
+[gw1] [ 12%] PASSED tests/test_copilot.py::test_ineligible_tiers_suppress[INSUFFICIENT] 
+tests/test_copilot.py::test_ineligible_tiers_suppress[UNAVAILABLE] 
+[gw1] [ 12%] PASSED tests/test_copilot.py::test_ineligible_tiers_suppress[UNAVAILABLE] 
+tests/test_copilot.py::test_ineligible_tiers_suppress[INCONCLUSIVE] 
+[gw1] [ 12%] PASSED tests/test_copilot.py::test_ineligible_tiers_suppress[INCONCLUSIVE] 
+tests/test_copilot.py::test_blocking_rules 
+[gw1] [ 12%] PASSED tests/test_copilot.py::test_blocking_rules 
+tests/test_copilot.py::test_policy_identity_and_strictness 
+[gw1] [ 12%] PASSED tests/test_copilot.py::test_policy_identity_and_strictness 
+tests/test_copilot.py::test_message_wording_and_digest 
+[gw1] [ 12%] PASSED tests/test_copilot.py::test_message_wording_and_digest 
+tests/test_copilot.py::test_watch_registration_rules 
+[gw2] [ 12%] PASSED tests/test_dashboard.py::test_page_renders[asset] 
+tests/test_dashboard.py::test_page_renders[portfolio] 
+[gw2] [ 12%] PASSED tests/test_dashboard.py::test_page_renders[portfolio] 
+tests/test_dashboard.py::test_page_renders[hype] 
+[gw0] [ 13%] PASSED tests/test_paper.py::test_consumers_do_not_import_each_other 
+tests/test_paper.py::test_cli_paper_lifecycle 
+[gw2] [ 13%] PASSED tests/test_dashboard.py::test_page_renders[hype] 
+tests/test_dashboard.py::test_page_renders[data] 
+[gw2] [ 13%] PASSED tests/test_dashboard.py::test_page_renders[data] 
+tests/test_dashboard.py::test_page_renders[backtest] 
+[gw2] [ 13%] PASSED tests/test_dashboard.py::test_page_renders[backtest] 
+tests/test_dashboard.py::test_app_navigation_lands_on_today 
+[gw2] [ 13%] PASSED tests/test_dashboard.py::test_app_navigation_lands_on_today 
+tests/test_dashboard.py::test_scan_cache_key_ignores_the_dashboards_own_writes 
+[gw1] [ 13%] PASSED tests/test_copilot.py::test_watch_registration_rules 
+tests/test_copilot.py::test_no_signal_nothing_alerted 
+[gw3] [ 13%] PASSED tests/test_lab_families.py::test_generated_family_batch_runs_end_to_end 
+tests/test_lab_families.py::test_request_schema_is_strict 
+[gw3] [ 13%] PASSED tests/test_lab_families.py::test_request_schema_is_strict 
+tests/test_lab_families.py::test_cli_family_and_batch_generation 
+[gw2] [ 14%] PASSED tests/test_dashboard.py::test_scan_cache_key_ignores_the_dashboards_own_writes 
+tests/test_dashboard.py::test_busy_database_shows_a_notice_not_a_crash 
+[gw0] [ 14%] PASSED tests/test_paper.py::test_cli_paper_lifecycle 
+tests/test_paper.py::test_fast_funding_readiness_equals_the_forward_trackers 
+[gw1] [ 14%] PASSED tests/test_copilot.py::test_no_signal_nothing_alerted 
+tests/test_copilot.py::test_signal_alert_recorded_sent_once_and_idempotent 
+[gw3] [ 14%] PASSED tests/test_lab_families.py::test_cli_family_and_batch_generation 
+tests/test_lab_forward.py::test_enrollment_freezes_the_profile_and_allows_exploratory 
+[gw2] [ 14%] PASSED tests/test_dashboard.py::test_busy_database_shows_a_notice_not_a_crash 
+tests/test_data_layer.py::test_nyse_holidays_2024 
+[gw2] [ 14%] PASSED tests/test_data_layer.py::test_nyse_holidays_2024 
+tests/test_data_layer.py::test_nyse_observed_rules 
+[gw2] [ 14%] PASSED tests/test_data_layer.py::test_nyse_observed_rules 
+tests/test_data_layer.py::test_nyse_close_is_dst_aware 
+[gw2] [ 14%] PASSED tests/test_data_layer.py::test_nyse_close_is_dst_aware 
+tests/test_data_layer.py::test_close_times_crypto_daily 
+[gw2] [ 14%] PASSED tests/test_data_layer.py::test_close_times_crypto_daily 
+tests/test_data_layer.py::test_coinbase_paginates_and_parses 
+[gw2] [ 15%] PASSED tests/test_data_layer.py::test_coinbase_paginates_and_parses 
+tests/test_data_layer.py::test_coinbase_schema_change_fails_loudly 
+[gw2] [ 15%] PASSED tests/test_data_layer.py::test_coinbase_schema_change_fails_loudly 
+tests/test_lab_compiler.py::test_late_published_funding_is_unavailable 
+[gw1] [ 15%] PASSED tests/test_copilot.py::test_signal_alert_recorded_sent_once_and_idempotent 
+[gw2] [ 15%] PASSED tests/test_lab_compiler.py::test_late_published_funding_is_unavailable 
+tests/test_copilot.py::test_old_bars_never_alert 
+tests/test_lab_compiler.py::test_spot_forward_split_adjustment_is_causal_and_ratio_compatible 
+[gw3] [ 15%] PASSED tests/test_lab_forward.py::test_enrollment_freezes_the_profile_and_allows_exploratory 
+tests/test_lab_forward.py::test_enrollment_rules 
+[gw2] [ 15%] PASSED tests/test_lab_compiler.py::test_spot_forward_split_adjustment_is_causal_and_ratio_compatible 
+tests/test_lab_compiler.py::test_explicit_failures_instead_of_fallbacks 
+[gw2] [ 15%] PASSED tests/test_lab_compiler.py::test_explicit_failures_instead_of_fallbacks 
+tests/test_lab_compiler.py::test_compilation_is_deterministic_and_described 
+[gw0] [ 15%] PASSED tests/test_paper.py::test_fast_funding_readiness_equals_the_forward_trackers 
+tests/test_paper.py::test_a_dead_cohort_asset_does_not_block_entries_elsewhere 
+[gw3] [ 16%] PASSED tests/test_lab_forward.py::test_enrollment_rules 
+tests/test_lab_forward.py::test_no_signal_before_bar_completes 
+[gw1] [ 16%] PASSED tests/test_copilot.py::test_old_bars_never_alert 
+[gw2] [ 16%] PASSED tests/test_lab_compiler.py::test_compilation_is_deterministic_and_described 
+tests/test_lab_compiler.py::test_snapshot_isolation_from_live_store_changes 
+tests/test_copilot.py::test_dry_run_writes_and_sends_nothing 
+[gw2] [ 16%] PASSED tests/test_lab_compiler.py::test_snapshot_isolation_from_live_store_changes 
+tests/test_lab_compiler.py::test_read_only_compile_cli 
+[gw3] [ 16%] PASSED tests/test_lab_forward.py::test_no_signal_before_bar_completes 
+tests/test_lab_forward.py::test_no_backfill_after_downtime_and_gaps_are_explicit 
+[gw2] [ 16%] PASSED tests/test_lab_compiler.py::test_read_only_compile_cli 
+tests/test_lab_corroboration.py::test_corroboration_is_never_independent_validation 
+[gw1] [ 16%] PASSED tests/test_copilot.py::test_dry_run_writes_and_sends_nothing 
+tests/test_copilot.py::test_consumer_neutrality 
+[gw3] [ 16%] PASSED tests/test_lab_forward.py::test_no_backfill_after_downtime_and_gaps_are_explicit 
+tests/test_lab_forward.py::test_repeated_check_is_idempotent 
+[gw2] [ 17%] PASSED tests/test_lab_corroboration.py::test_corroboration_is_never_independent_validation 
+tests/test_lab_corroboration.py::test_registration_freezes_strategy_period_assets_and_costs 
+[gw0] [ 17%] PASSED tests/test_paper.py::test_a_dead_cohort_asset_does_not_block_entries_elsewhere 
+[gw1] [ 17%] PASSED tests/test_copilot.py::test_consumer_neutrality 
+tests/test_copilot.py::test_telegram_failure_is_auditable_and_retry_safe 
+tests/test_paper.py::test_evidence_chain_is_point_in_time 
+[gw3] [ 17%] PASSED tests/test_lab_forward.py::test_repeated_check_is_idempotent 
+tests/test_lab_forward.py::test_changed_answer_for_a_recorded_bar_is_a_conflict 
+[gw0] [ 17%] PASSED tests/test_paper.py::test_evidence_chain_is_point_in_time 
+tests/test_paper_dashboard.py::test_empty_database_and_empty_active_runs 
+[gw0] [ 17%] PASSED tests/test_paper_dashboard.py::test_empty_database_and_empty_active_runs 
+[gw2] [ 17%] PASSED tests/test_lab_corroboration.py::test_registration_freezes_strategy_period_assets_and_costs 
+tests/test_paper_dashboard.py::test_open_nimble_dynamic_thesis_and_marks 
+tests/test_lab_corroboration.py::test_plan_compatibility_refuses_methodology_changes 
+[gw3] [ 17%] PASSED tests/test_lab_forward.py::test_changed_answer_for_a_recorded_bar_is_a_conflict 
+tests/test_lab_forward.py::test_funding_not_ingested_waits_inside_the_window 
+[gw0] [ 17%] PASSED tests/test_paper_dashboard.py::test_open_nimble_dynamic_thesis_and_marks 
+tests/test_paper_dashboard.py::test_v2_open_and_fixed_horizon_closed_trade 
+[gw0] [ 18%] PASSED tests/test_paper_dashboard.py::test_v2_open_and_fixed_horizon_closed_trade 
+tests/test_paper_dashboard.py::test_nimble_tp_exit_and_shared_metrics 
+[gw0] [ 18%] PASSED tests/test_paper_dashboard.py::test_nimble_tp_exit_and_shared_metrics 
+tests/test_paper_dashboard.py::test_funding_adjustment_reconciles_ledger_and_current_projection 
+[gw1] [ 18%] PASSED tests/test_copilot.py::test_telegram_failure_is_auditable_and_retry_safe 
+[gw3] [ 18%] PASSED tests/test_lab_forward.py::test_funding_not_ingested_waits_inside_the_window 
+[gw2] [ 18%] PASSED tests/test_lab_corroboration.py::test_plan_compatibility_refuses_methodology_changes 
+tests/test_copilot.py::test_unknown_delivery_outcome_is_never_resent 
+tests/test_lab_forward.py::test_signals_match_the_phase3_compiler_and_record_provenance 
+tests/test_lab_corroboration.py::test_period_must_be_earlier_than_the_source_discovery 
+[gw0] [ 18%] PASSED tests/test_paper_dashboard.py::test_funding_adjustment_reconciles_ledger_and_current_projection 
+tests/test_paper_dashboard.py::test_long_short_groups_hypothesis_family_asset 
+[gw0] [ 18%] PASSED tests/test_paper_dashboard.py::test_long_short_groups_hypothesis_family_asset 
+tests/test_paper_dashboard.py::test_drawdown_from_authoritative_marks_and_observation_timestamps 
+[gw0] [ 18%] PASSED tests/test_paper_dashboard.py::test_drawdown_from_authoritative_marks_and_observation_timestamps 
+tests/test_paper_dashboard.py::test_capture_uses_complete_primary_research_path_only 
+[gw2] [ 19%] PASSED tests/test_lab_corroboration.py::test_period_must_be_earlier_than_the_source_discovery 
+tests/test_lab_corroboration.py::test_missing_listing_history_is_excluded_or_reported_never_fabricated 
+[gw0] [ 19%] PASSED tests/test_paper_dashboard.py::test_capture_uses_complete_primary_research_path_only 
+[gw1] [ 19%] PASSED tests/test_copilot.py::test_unknown_delivery_outcome_is_never_resent 
+tests/test_paper_dashboard.py::test_freshness_unknown_manifest_stale_and_production_mode 
+[gw0] [ 19%] PASSED tests/test_paper_dashboard.py::test_freshness_unknown_manifest_stale_and_production_mode 
+tests/test_paper_dashboard.py::test_large_trade_table_pagination_sort_and_filters 
+tests/test_copilot.py::test_digest_when_many_fire 
+[gw0] [ 19%] PASSED tests/test_paper_dashboard.py::test_large_trade_table_pagination_sort_and_filters 
+tests/test_paper_dashboard.py::test_chart_sampling_bounded_and_retains_extrema 
+[gw2] [ 19%] PASSED tests/test_lab_corroboration.py::test_missing_listing_history_is_excluded_or_reported_never_fabricated 
+[gw1] [ 19%] PASSED tests/test_copilot.py::test_digest_when_many_fire 
+tests/test_lab_corroboration.py::test_historical_exposure_is_recorded_honestly 
+tests/test_copilot.py::test_policy_change_never_replays_old_bars 
+[gw0] [ 19%] PASSED tests/test_paper_dashboard.py::test_chart_sampling_bounded_and_retains_extrema 
+tests/test_paper_dashboard.py::test_read_only_connection_no_mutation_and_missing_file 
+[gw0] [ 20%] PASSED tests/test_paper_dashboard.py::test_read_only_connection_no_mutation_and_missing_file 
+tests/test_paper_dashboard.py::test_frontend_empty_and_missing_source 
+[gw0] [ 20%] PASSED tests/test_paper_dashboard.py::test_frontend_empty_and_missing_source 
+tests/test_paper_dashboard.py::test_frontend_comparison_refresh_and_time_controls 
+[gw2] [ 20%] PASSED tests/test_lab_corroboration.py::test_historical_exposure_is_recorded_honestly 
+tests/test_lab_corroboration.py::test_run_uses_only_venue_rows_and_reproduces_the_lab_screen 
+[gw3] [ 20%] PASSED tests/test_lab_forward.py::test_signals_match_the_phase3_compiler_and_record_provenance 
+tests/test_lab_forward.py::test_semantics_change_stops_evaluation_until_reenrolled 
+[gw0] [ 20%] PASSED tests/test_paper_dashboard.py::test_frontend_comparison_refresh_and_time_controls 
+tests/test_paper_dashboard.py::test_busy_source_never_uses_legacy_writable_fallback 
+[gw0] [ 20%] PASSED tests/test_paper_dashboard.py::test_busy_source_never_uses_legacy_writable_fallback 
+tests/test_paper_dashboard.py::test_exact_exit_reasons_retained[TAKE_PROFIT] 
+[gw1] [ 20%] PASSED tests/test_copilot.py::test_policy_change_never_replays_old_bars 
+tests/test_copilot.py::test_cross_policy_duplicate_is_suppressed 
+[gw0] [ 20%] PASSED tests/test_paper_dashboard.py::test_exact_exit_reasons_retained[TAKE_PROFIT] 
+tests/test_paper_dashboard.py::test_exact_exit_reasons_retained[PRICE_INVALIDATION] 
+[gw3] [ 20%] PASSED tests/test_lab_forward.py::test_semantics_change_stops_evaluation_until_reenrolled 
+tests/test_lab_forward.py::test_recorded_evaluations_are_isolated_from_live_table_changes 
+[gw2] [ 21%] PASSED tests/test_lab_corroboration.py::test_run_uses_only_venue_rows_and_reproduces_the_lab_screen 
+tests/test_lab_corroboration.py::test_t_plus_one_entry_and_venue_costs_and_funding 
+[gw0] [ 21%] PASSED tests/test_paper_dashboard.py::test_exact_exit_reasons_retained[PRICE_INVALIDATION] 
+tests/test_paper_dashboard.py::test_exact_exit_reasons_retained[STATE_INVALIDATION] 
+[gw0] [ 21%] PASSED tests/test_paper_dashboard.py::test_exact_exit_reasons_retained[STATE_INVALIDATION] 
+tests/test_paper_dashboard.py::test_exact_exit_reasons_retained[THESIS_EXPIRED] 
+[gw3] [ 21%] PASSED tests/test_lab_forward.py::test_recorded_evaluations_are_isolated_from_live_table_changes 
+tests/test_lab_forward.py::test_pause_and_stop 
+[gw0] [ 21%] PASSED tests/test_paper_dashboard.py::test_exact_exit_reasons_retained[THESIS_EXPIRED] 
+tests/test_paper_dashboard.py::test_exact_exit_reasons_retained[COST_DECAY] 
+[gw1] [ 21%] PASSED tests/test_copilot.py::test_cross_policy_duplicate_is_suppressed 
+tests/test_copilot.py::test_version_mismatch_suppresses 
+[gw0] [ 21%] PASSED tests/test_paper_dashboard.py::test_exact_exit_reasons_retained[COST_DECAY] 
+tests/test_paper_dashboard.py::test_exact_exit_reasons_retained[MAX_HOLD] 
+[gw0] [ 21%] PASSED tests/test_paper_dashboard.py::test_exact_exit_reasons_retained[MAX_HOLD] 
+tests/test_paper_dashboard.py::test_exact_exit_reasons_retained[CATASTROPHE_GUARD] 
+[gw2] [ 22%] PASSED tests/test_lab_corroboration.py::test_t_plus_one_entry_and_venue_costs_and_funding 
+tests/test_lab_corroboration.py::test_adverse_venue_history_is_reported_not_hidden 
+[gw0] [ 22%] PASSED tests/test_paper_dashboard.py::test_exact_exit_reasons_retained[CATASTROPHE_GUARD] 
+tests/test_paper_dashboard.py::test_exact_exit_reasons_retained[INVALIDATED] 
+[gw3] [ 22%] PASSED tests/test_lab_forward.py::test_pause_and_stop 
+tests/test_lab_forward.py::test_hand_calculated_outcomes_enter_at_next_open[long] 
+[gw1] [ 22%] PASSED tests/test_copilot.py::test_version_mismatch_suppresses 
+tests/test_copilot.py::test_latest_extended_evidence_is_used 
+[gw0] [ 22%] PASSED tests/test_paper_dashboard.py::test_exact_exit_reasons_retained[INVALIDATED] 
+tests/test_paper_dashboard.py::test_exact_exit_reasons_retained[LIQUIDATION] 
+[gw0] [ 22%] PASSED tests/test_paper_dashboard.py::test_exact_exit_reasons_retained[LIQUIDATION] 
+tests/test_paper_dashboard.py::test_standalone_app_opens_performance_read_only 
+[gw0] [ 22%] PASSED tests/test_paper_dashboard.py::test_standalone_app_opens_performance_read_only 
+tests/test_paper_event_dashboard.py::test_frozen_cohort_metadata_hypothesis_ids_and_retired_baseline 
+[gw2] [ 22%] PASSED tests/test_lab_corroboration.py::test_adverse_venue_history_is_reported_not_hidden 
+tests/test_lab_corroboration.py::test_runs_are_looked_at_once_and_reruns_are_explicit 
+[gw0] [ 23%] PASSED tests/test_paper_event_dashboard.py::test_frozen_cohort_metadata_hypothesis_ids_and_retired_baseline 
+tests/test_paper_event_dashboard.py::test_event_decisions_waiting_admission_entry_and_performance 
+[gw1] [ 23%] PASSED tests/test_copilot.py::test_latest_extended_evidence_is_used 
+tests/test_copilot.py::test_paused_watch_and_decision_window_check 
+[gw0] [ 23%] PASSED tests/test_paper_event_dashboard.py::test_event_decisions_waiting_admission_entry_and_performance 
+tests/test_paper_event_dashboard.py::test_v2_and_original_nimble_decision_evidence_and_isolation 
+[gw0] [ 23%] PASSED tests/test_paper_event_dashboard.py::test_v2_and_original_nimble_decision_evidence_and_isolation 
+tests/test_paper_event_dashboard.py::test_large_event_ledger_pagination_filters_and_window 
+[gw1] [ 23%] PASSED tests/test_copilot.py::test_paused_watch_and_decision_window_check 
+tests/test_copilot.py::test_watch_status_tolerates_small_host_clock_steps 
+[gw2] [ 23%] PASSED tests/test_lab_corroboration.py::test_runs_are_looked_at_once_and_reruns_are_explicit 
+tests/test_lab_corroboration.py::test_frozen_semantics_and_errors_are_recorded 
+[gw0] [ 23%] PASSED tests/test_paper_event_dashboard.py::test_large_event_ledger_pagination_filters_and_window 
+tests/test_paper_event_dashboard.py::test_rejection_reasons_preserve_engine_and_event_stages 
+[gw1] [ 23%] PASSED tests/test_copilot.py::test_watch_status_tolerates_small_host_clock_steps 
+tests/test_copilot.py::test_no_auto_trader_leakage 
+[gw0] [ 23%] PASSED tests/test_paper_event_dashboard.py::test_rejection_reasons_preserve_engine_and_event_stages 
+tests/test_paper_event_dashboard.py::test_old_snapshot_without_event_tables_degrades_explicitly 
+[gw0] [ 24%] PASSED tests/test_paper_event_dashboard.py::test_old_snapshot_without_event_tables_degrades_explicitly 
+tests/test_paper_event_dashboard.py::test_frontend_all_four_runs_decision_inspector_and_read_only 
+[gw2] [ 24%] PASSED tests/test_lab_corroboration.py::test_frozen_semantics_and_errors_are_recorded 
+tests/test_lab_corroboration.py::test_too_few_events_is_insufficient_not_adverse 
+[gw0] [ 24%] PASSED tests/test_paper_event_dashboard.py::test_frontend_all_four_runs_decision_inspector_and_read_only 
+tests/test_presenter.py::test_unproven_evidence_kept_separate_from_score 
+[gw0] [ 24%] PASSED tests/test_presenter.py::test_unproven_evidence_kept_separate_from_score 
+tests/test_presenter.py::test_entry_distance_above_zone 
+[gw0] [ 24%] PASSED tests/test_presenter.py::test_entry_distance_above_zone 
+tests/test_presenter.py::test_entry_open_ended_zone_and_review_basis 
+[gw0] [ 24%] PASSED tests/test_presenter.py::test_entry_open_ended_zone_and_review_basis 
+tests/test_presenter.py::test_closest_candidate_when_nothing_actionable 
+[gw0] [ 24%] PASSED tests/test_presenter.py::test_closest_candidate_when_nothing_actionable 
+tests/test_presenter.py::test_evidence_concentration_note 
+[gw0] [ 24%] PASSED tests/test_presenter.py::test_evidence_concentration_note 
+tests/test_prospective_sizing_cohort_costs.py::test_same_size_identical_costs_including_above_historical_impact_reference[0.5-entry-long] 
+[gw0] [ 25%] PASSED tests/test_prospective_sizing_cohort_costs.py::test_same_size_identical_costs_including_above_historical_impact_reference[0.5-entry-long] 
+tests/test_prospective_sizing_cohort_costs.py::test_same_size_identical_costs_including_above_historical_impact_reference[0.5-entry-short] 
+[gw0] [ 25%] PASSED tests/test_prospective_sizing_cohort_costs.py::test_same_size_identical_costs_including_above_historical_impact_reference[0.5-entry-short] 
+tests/test_prospective_sizing_cohort_costs.py::test_same_size_identical_costs_including_above_historical_impact_reference[0.5-exit-long] 
+[gw1] [ 25%] PASSED tests/test_copilot.py::test_no_auto_trader_leakage 
+[gw0] [ 25%] PASSED tests/test_prospective_sizing_cohort_costs.py::test_same_size_identical_costs_including_above_historical_impact_reference[0.5-exit-long] 
+tests/test_prospective_sizing_cohort_costs.py::test_same_size_identical_costs_including_above_historical_impact_reference[0.5-exit-short] 
+[gw0] [ 25%] PASSED tests/test_prospective_sizing_cohort_costs.py::test_same_size_identical_costs_including_above_historical_impact_reference[0.5-exit-short] 
+tests/test_prospective_sizing_cohort_costs.py::test_same_size_identical_costs_including_above_historical_impact_reference[1.0-entry-long] 
+[gw0] [ 25%] PASSED tests/test_prospective_sizing_cohort_costs.py::test_same_size_identical_costs_including_above_historical_impact_reference[1.0-entry-long] 
+tests/test_prospective_sizing_cohort_costs.py::test_same_size_identical_costs_including_above_historical_impact_reference[1.0-entry-short] 
+[gw0] [ 25%] PASSED tests/test_prospective_sizing_cohort_costs.py::test_same_size_identical_costs_including_above_historical_impact_reference[1.0-entry-short] 
+tests/test_prospective_sizing_cohort_costs.py::test_same_size_identical_costs_including_above_historical_impact_reference[1.0-exit-long] 
+[gw0] [ 25%] PASSED tests/test_prospective_sizing_cohort_costs.py::test_same_size_identical_costs_including_above_historical_impact_reference[1.0-exit-long] 
+tests/test_prospective_sizing_cohort_costs.py::test_same_size_identical_costs_including_above_historical_impact_reference[1.0-exit-short] 
+[gw0] [ 26%] PASSED tests/test_prospective_sizing_cohort_costs.py::test_same_size_identical_costs_including_above_historical_impact_reference[1.0-exit-short] 
+tests/test_prospective_sizing_cohort_costs.py::test_same_size_identical_costs_including_above_historical_impact_reference[2.0-entry-long] 
+[gw0] [ 26%] PASSED tests/test_prospective_sizing_cohort_costs.py::test_same_size_identical_costs_including_above_historical_impact_reference[2.0-entry-long] 
+tests/test_prospective_sizing_cohort_costs.py::test_same_size_identical_costs_including_above_historical_impact_reference[2.0-entry-short] 
+[gw0] [ 26%] PASSED tests/test_prospective_sizing_cohort_costs.py::test_same_size_identical_costs_including_above_historical_impact_reference[2.0-entry-short] 
+tests/test_prospective_sizing_cohort_costs.py::test_same_size_identical_costs_including_above_historical_impact_reference[2.0-exit-long] 
+[gw0] [ 26%] PASSED tests/test_prospective_sizing_cohort_costs.py::test_same_size_identical_costs_including_above_historical_impact_reference[2.0-exit-long] 
+tests/test_prospective_sizing_cohort_costs.py::test_same_size_identical_costs_including_above_historical_impact_reference[2.0-exit-short] 
+[gw0] [ 26%] PASSED tests/test_prospective_sizing_cohort_costs.py::test_same_size_identical_costs_including_above_historical_impact_reference[2.0-exit-short] 
+tests/test_prospective_sizing_cohort_costs.py::test_same_size_identical_costs_including_above_historical_impact_reference[10.0-entry-long] 
+[gw0] [ 26%] PASSED tests/test_prospective_sizing_cohort_costs.py::test_same_size_identical_costs_including_above_historical_impact_reference[10.0-entry-long] 
+tests/test_prospective_sizing_cohort_costs.py::test_same_size_identical_costs_including_above_historical_impact_reference[10.0-entry-short] 
+[gw0] [ 26%] PASSED tests/test_prospective_sizing_cohort_costs.py::test_same_size_identical_costs_including_above_historical_impact_reference[10.0-entry-short] 
+tests/test_prospective_sizing_cohort_costs.py::test_same_size_identical_costs_including_above_historical_impact_reference[10.0-exit-long] 
+[gw0] [ 26%] PASSED tests/test_prospective_sizing_cohort_costs.py::test_same_size_identical_costs_including_above_historical_impact_reference[10.0-exit-long] 
+tests/test_prospective_sizing_cohort_costs.py::test_same_size_identical_costs_including_above_historical_impact_reference[10.0-exit-short] 
+[gw0] [ 26%] PASSED tests/test_prospective_sizing_cohort_costs.py::test_same_size_identical_costs_including_above_historical_impact_reference[10.0-exit-short] 
+tests/test_prospective_sizing_cohort_costs.py::test_current_control_fills_rounding_and_quantity_preserved[long-BTC] 
+[gw0] [ 27%] PASSED tests/test_prospective_sizing_cohort_costs.py::test_current_control_fills_rounding_and_quantity_preserved[long-BTC] 
+tests/test_prospective_sizing_cohort_costs.py::test_current_control_fills_rounding_and_quantity_preserved[long-ETH] 
+[gw0] [ 27%] PASSED tests/test_prospective_sizing_cohort_costs.py::test_current_control_fills_rounding_and_quantity_preserved[long-ETH] 
+tests/test_prospective_sizing_cohort_costs.py::test_current_control_fills_rounding_and_quantity_preserved[long-SOL] 
+[gw0] [ 27%] PASSED tests/test_prospective_sizing_cohort_costs.py::test_current_control_fills_rounding_and_quantity_preserved[long-SOL] 
+tests/test_prospective_sizing_cohort_costs.py::test_current_control_fills_rounding_and_quantity_preserved[long-HYPE] 
+[gw0] [ 27%] PASSED tests/test_prospective_sizing_cohort_costs.py::test_current_control_fills_rounding_and_quantity_preserved[long-HYPE] 
+tests/test_prospective_sizing_cohort_costs.py::test_current_control_fills_rounding_and_quantity_preserved[long-LINK] 
+[gw0] [ 27%] PASSED tests/test_prospective_sizing_cohort_costs.py::test_current_control_fills_rounding_and_quantity_preserved[long-LINK] 
+tests/test_prospective_sizing_cohort_costs.py::test_current_control_fills_rounding_and_quantity_preserved[long-AAVE] 
+[gw0] [ 27%] PASSED tests/test_prospective_sizing_cohort_costs.py::test_current_control_fills_rounding_and_quantity_preserved[long-AAVE] 
+tests/test_prospective_sizing_cohort_costs.py::test_current_control_fills_rounding_and_quantity_preserved[long-SAT] 
+[gw0] [ 27%] PASSED tests/test_prospective_sizing_cohort_costs.py::test_current_control_fills_rounding_and_quantity_preserved[long-SAT] 
+tests/test_prospective_sizing_cohort_costs.py::test_current_control_fills_rounding_and_quantity_preserved[short-BTC] 
+[gw0] [ 27%] PASSED tests/test_prospective_sizing_cohort_costs.py::test_current_control_fills_rounding_and_quantity_preserved[short-BTC] 
+tests/test_prospective_sizing_cohort_costs.py::test_current_control_fills_rounding_and_quantity_preserved[short-ETH] 
+[gw0] [ 28%] PASSED tests/test_prospective_sizing_cohort_costs.py::test_current_control_fills_rounding_and_quantity_preserved[short-ETH] 
+tests/test_prospective_sizing_cohort_costs.py::test_current_control_fills_rounding_and_quantity_preserved[short-SOL] 
+[gw0] [ 28%] PASSED tests/test_prospective_sizing_cohort_costs.py::test_current_control_fills_rounding_and_quantity_preserved[short-SOL] 
+tests/test_prospective_sizing_cohort_costs.py::test_current_control_fills_rounding_and_quantity_preserved[short-HYPE] 
+[gw0] [ 28%] PASSED tests/test_prospective_sizing_cohort_costs.py::test_current_control_fills_rounding_and_quantity_preserved[short-HYPE] 
+tests/test_prospective_sizing_cohort_costs.py::test_current_control_fills_rounding_and_quantity_preserved[short-LINK] 
+[gw0] [ 28%] PASSED tests/test_prospective_sizing_cohort_costs.py::test_current_control_fills_rounding_and_quantity_preserved[short-LINK] 
+tests/test_prospective_sizing_cohort_costs.py::test_current_control_fills_rounding_and_quantity_preserved[short-AAVE] 
+[gw0] [ 28%] PASSED tests/test_prospective_sizing_cohort_costs.py::test_current_control_fills_rounding_and_quantity_preserved[short-AAVE] 
+tests/test_prospective_sizing_cohort_costs.py::test_current_control_fills_rounding_and_quantity_preserved[short-SAT] 
+[gw0] [ 28%] PASSED tests/test_prospective_sizing_cohort_costs.py::test_current_control_fills_rounding_and_quantity_preserved[short-SAT] 
+tests/test_prospective_sizing_cohort_costs.py::test_parent_candidate_risk_parameters_and_historical_hashes_untouched 
+[gw0] [ 28%] PASSED tests/test_prospective_sizing_cohort_costs.py::test_parent_candidate_risk_parameters_and_historical_hashes_untouched 
+tests/test_prospective_sizing_cohort_costs.py::test_candidate_risk_notional_margin_reconcile_to_final_common_cost[100] 
+[gw0] [ 28%] PASSED tests/test_prospective_sizing_cohort_costs.py::test_candidate_risk_notional_margin_reconcile_to_final_common_cost[100] 
+tests/test_prospective_sizing_cohort_costs.py::test_candidate_risk_notional_margin_reconcile_to_final_common_cost[500] 
+[gw0] [ 29%] PASSED tests/test_prospective_sizing_cohort_costs.py::test_candidate_risk_notional_margin_reconcile_to_final_common_cost[500] 
+tests/test_prospective_sizing_cohort_costs.py::test_candidate_risk_notional_margin_reconcile_to_final_common_cost[1000] 
+[gw0] [ 29%] PASSED tests/test_prospective_sizing_cohort_costs.py::test_candidate_risk_notional_margin_reconcile_to_final_common_cost[1000] 
+tests/test_prospective_sizing_cohort_costs.py::test_candidate_cannot_use_another_cost_snapshot[slippage_bps-4] 
+[gw0] [ 29%] PASSED tests/test_prospective_sizing_cohort_costs.py::test_candidate_cannot_use_another_cost_snapshot[slippage_bps-4] 
+tests/test_prospective_sizing_cohort_costs.py::test_candidate_cannot_use_another_cost_snapshot[bid-99] 
+[gw0] [ 29%] PASSED tests/test_prospective_sizing_cohort_costs.py::test_candidate_cannot_use_another_cost_snapshot[bid-99] 
+tests/test_prospective_sizing_cohort_costs.py::test_candidate_cannot_use_another_cost_snapshot[funding_rate_hourly-0] 
+[gw0] [ 29%] PASSED tests/test_prospective_sizing_cohort_costs.py::test_candidate_cannot_use_another_cost_snapshot[funding_rate_hourly-0] 
+tests/test_prospective_sizing_cohort_costs.py::test_candidate_cannot_use_another_cost_snapshot[depth_usd-None] 
+[gw0] [ 29%] PASSED tests/test_prospective_sizing_cohort_costs.py::test_candidate_cannot_use_another_cost_snapshot[depth_usd-None] 
+tests/test_prospective_sizing_cohort_costs.py::test_candidate_missing_geometry_fails_closed[causal_volatility-VOLATILITY_MOVE_UNAVAILABLE] 
+[gw0] [ 29%] PASSED tests/test_prospective_sizing_cohort_costs.py::test_candidate_missing_geometry_fails_closed[causal_volatility-VOLATILITY_MOVE_UNAVAILABLE] 
+tests/test_prospective_sizing_cohort_costs.py::test_candidate_missing_geometry_fails_closed[invalidation_price-MISSING_OR_INVALID_INVALIDATION] 
+[gw0] [ 29%] PASSED tests/test_prospective_sizing_cohort_costs.py::test_candidate_missing_geometry_fails_closed[invalidation_price-MISSING_OR_INVALID_INVALIDATION] 
+tests/test_prospective_sizing_cohort_costs.py::test_invalid_or_unrounded_size_is_not_fabricated[-1] 
+[gw0] [ 29%] PASSED tests/test_prospective_sizing_cohort_costs.py::test_invalid_or_unrounded_size_is_not_fabricated[-1] 
+tests/test_prospective_sizing_cohort_costs.py::test_invalid_or_unrounded_size_is_not_fabricated[True] 
+[gw0] [ 30%] PASSED tests/test_prospective_sizing_cohort_costs.py::test_invalid_or_unrounded_size_is_not_fabricated[True] 
+tests/test_prospective_sizing_cohort_costs.py::test_invalid_or_unrounded_size_is_not_fabricated[nan] 
+[gw0] [ 30%] PASSED tests/test_prospective_sizing_cohort_costs.py::test_invalid_or_unrounded_size_is_not_fabricated[nan] 
+tests/test_prospective_sizing_cohort_costs.py::test_invalid_or_unrounded_size_is_not_fabricated[inf] 
+[gw0] [ 30%] PASSED tests/test_prospective_sizing_cohort_costs.py::test_invalid_or_unrounded_size_is_not_fabricated[inf] 
+tests/test_prospective_sizing_cohort_costs.py::test_invalid_or_unrounded_size_is_not_fabricated[1e-05] 
+[gw0] [ 30%] PASSED tests/test_prospective_sizing_cohort_costs.py::test_invalid_or_unrounded_size_is_not_fabricated[1e-05] 
+tests/test_prospective_sizing_cohort_costs.py::test_model_snapshot_fail_closed_and_no_cohort_override 
+[gw0] [ 30%] PASSED tests/test_prospective_sizing_cohort_costs.py::test_model_snapshot_fail_closed_and_no_cohort_override 
+tests/test_prospective_sizing_cohort_costs.py::test_final_manifest_cost_binding_and_successor_lineage 
+[gw0] [ 30%] PASSED tests/test_prospective_sizing_cohort_costs.py::test_final_manifest_cost_binding_and_successor_lineage 
+tests/test_prospective_sizing_cohort_costs.py::test_cost_adapter_has_no_io_registration_or_runtime_side_effects 
+[gw0] [ 30%] PASSED tests/test_prospective_sizing_cohort_costs.py::test_cost_adapter_has_no_io_registration_or_runtime_side_effects 
+tests/test_prospective_sizing_cohort_spec.py::test_canonical_hash_and_schema_are_pinned 
+[gw0] [ 30%] PASSED tests/test_prospective_sizing_cohort_spec.py::test_canonical_hash_and_schema_are_pinned 
+tests/test_prospective_sizing_cohort_spec.py::test_control_and_candidate_match_approved_policy_evidence 
+[gw0] [ 31%] PASSED tests/test_prospective_sizing_cohort_spec.py::test_control_and_candidate_match_approved_policy_evidence 
+tests/test_prospective_sizing_cohort_spec.py::test_control_rounding_matches_current_engine[100-3000.01] 
+[gw0] [ 31%] PASSED tests/test_prospective_sizing_cohort_spec.py::test_control_rounding_matches_current_engine[100-3000.01] 
+tests/test_prospective_sizing_cohort_spec.py::test_control_rounding_matches_current_engine[200-101.123] 
+[gw0] [ 31%] PASSED tests/test_prospective_sizing_cohort_spec.py::test_control_rounding_matches_current_engine[200-101.123] 
+tests/test_prospective_sizing_cohort_spec.py::test_control_rounding_matches_current_engine[53.21-0.00987] 
+[gw0] [ 31%] PASSED tests/test_prospective_sizing_cohort_spec.py::test_control_rounding_matches_current_engine[53.21-0.00987] 
+tests/test_prospective_sizing_cohort_spec.py::test_source_definitions_and_artifact_are_unchanged 
+[gw0] [ 31%] FAILED tests/test_prospective_sizing_cohort_spec.py::test_source_definitions_and_artifact_are_unchanged 
+tests/test_prospective_sizing_cohort_spec.py::test_shared_source_contract_and_immutable_identity 
+[gw0] [ 31%] PASSED tests/test_prospective_sizing_cohort_spec.py::test_shared_source_contract_and_immutable_identity 
+tests/test_prospective_sizing_cohort_spec.py::test_timestamp_aliases_cannot_create_duplicate_source_identities[2027-01-01T00:00:00Z] 
+[gw0] [ 31%] PASSED tests/test_prospective_sizing_cohort_spec.py::test_timestamp_aliases_cannot_create_duplicate_source_identities[2027-01-01T00:00:00Z] 
+tests/test_prospective_sizing_cohort_spec.py::test_timestamp_aliases_cannot_create_duplicate_source_identities[2027-01-01T00:00:00+00:00] 
+[gw0] [ 31%] PASSED tests/test_prospective_sizing_cohort_spec.py::test_timestamp_aliases_cannot_create_duplicate_source_identities[2027-01-01T00:00:00+00:00] 
+tests/test_prospective_sizing_cohort_spec.py::test_timestamp_aliases_cannot_create_duplicate_source_identities[2026-12-31T19:00:00.000000-05:00] 
+[gw0] [ 32%] PASSED tests/test_prospective_sizing_cohort_spec.py::test_timestamp_aliases_cannot_create_duplicate_source_identities[2026-12-31T19:00:00.000000-05:00] 
+tests/test_prospective_sizing_cohort_spec.py::test_timestamp_aliases_cannot_create_duplicate_source_identities[2027-01-01T00:00:00] 
+[gw0] [ 32%] PASSED tests/test_prospective_sizing_cohort_spec.py::test_timestamp_aliases_cannot_create_duplicate_source_identities[2027-01-01T00:00:00] 
+tests/test_prospective_sizing_cohort_spec.py::test_path_dependence_retained_without_signal_feedback 
+[gw0] [ 32%] PASSED tests/test_prospective_sizing_cohort_spec.py::test_path_dependence_retained_without_signal_feedback 
+tests/test_prospective_sizing_cohort_spec.py::test_semantic_mutation_requires_successor_id_and_hash[cohorts] 
+[gw0] [ 32%] PASSED tests/test_prospective_sizing_cohort_spec.py::test_semantic_mutation_requires_successor_id_and_hash[cohorts] 
+tests/test_prospective_sizing_cohort_spec.py::test_semantic_mutation_requires_successor_id_and_hash[shared_components] 
+[gw0] [ 32%] PASSED tests/test_prospective_sizing_cohort_spec.py::test_semantic_mutation_requires_successor_id_and_hash[shared_components] 
+tests/test_prospective_sizing_cohort_spec.py::test_semantic_mutation_requires_successor_id_and_hash[signal_contract] 
+[gw0] [ 32%] PASSED tests/test_prospective_sizing_cohort_spec.py::test_semantic_mutation_requires_successor_id_and_hash[signal_contract] 
+tests/test_prospective_sizing_cohort_spec.py::test_semantic_mutation_requires_successor_id_and_hash[evidence] 
+[gw0] [ 32%] PASSED tests/test_prospective_sizing_cohort_spec.py::test_semantic_mutation_requires_successor_id_and_hash[evidence] 
+tests/test_prospective_sizing_cohort_spec.py::test_semantic_mutation_requires_successor_id_and_hash[primary_endpoint] 
+[gw0] [ 32%] PASSED tests/test_prospective_sizing_cohort_spec.py::test_semantic_mutation_requires_successor_id_and_hash[primary_endpoint] 
+tests/test_prospective_sizing_cohort_spec.py::test_semantic_mutation_requires_successor_id_and_hash[slippage_limitation] 
+[gw0] [ 32%] PASSED tests/test_prospective_sizing_cohort_spec.py::test_semantic_mutation_requires_successor_id_and_hash[slippage_limitation] 
+tests/test_prospective_sizing_cohort_spec.py::test_semantic_mutation_requires_successor_id_and_hash[commissioning] 
+[gw0] [ 33%] PASSED tests/test_prospective_sizing_cohort_spec.py::test_semantic_mutation_requires_successor_id_and_hash[commissioning] 
+tests/test_prospective_sizing_cohort_spec.py::test_semantic_mutation_requires_successor_id_and_hash[missing_data] 
+[gw0] [ 33%] PASSED tests/test_prospective_sizing_cohort_spec.py::test_semantic_mutation_requires_successor_id_and_hash[missing_data] 
+tests/test_prospective_sizing_cohort_spec.py::test_semantic_mutation_requires_successor_id_and_hash[analysis_cadence] 
+[gw0] [ 33%] PASSED tests/test_prospective_sizing_cohort_spec.py::test_semantic_mutation_requires_successor_id_and_hash[analysis_cadence] 
+tests/test_prospective_sizing_cohort_spec.py::test_missing_candidate_fields_fail_closed[side] 
+[gw0] [ 33%] PASSED tests/test_prospective_sizing_cohort_spec.py::test_missing_candidate_fields_fail_closed[side] 
+tests/test_prospective_sizing_cohort_spec.py::test_missing_candidate_fields_fail_closed[invalidation_price] 
+[gw0] [ 33%] PASSED tests/test_prospective_sizing_cohort_spec.py::test_missing_candidate_fields_fail_closed[invalidation_price] 
+tests/test_prospective_sizing_cohort_spec.py::test_missing_candidate_fields_fail_closed[volatility_move] 
+[gw0] [ 33%] PASSED tests/test_prospective_sizing_cohort_spec.py::test_missing_candidate_fields_fail_closed[volatility_move] 
+tests/test_prospective_sizing_cohort_spec.py::test_missing_candidate_fields_fail_closed[volatility_move_definition] 
+[gw0] [ 33%] PASSED tests/test_prospective_sizing_cohort_spec.py::test_missing_candidate_fields_fail_closed[volatility_move_definition] 
+tests/test_prospective_sizing_cohort_spec.py::test_missing_candidate_fields_fail_closed[equity] 
+[gw0] [ 33%] PASSED tests/test_prospective_sizing_cohort_spec.py::test_missing_candidate_fields_fail_closed[equity] 
+tests/test_prospective_sizing_cohort_spec.py::test_missing_candidate_fields_fail_closed[peak_equity] 
+[gw0] [ 34%] PASSED tests/test_prospective_sizing_cohort_spec.py::test_missing_candidate_fields_fail_closed[peak_equity] 
+tests/test_prospective_sizing_cohort_spec.py::test_missing_candidate_fields_fail_closed[bid] 
+[gw0] [ 34%] PASSED tests/test_prospective_sizing_cohort_spec.py::test_missing_candidate_fields_fail_closed[bid] 
+tests/test_prospective_sizing_cohort_spec.py::test_missing_candidate_fields_fail_closed[ask] 
+[gw0] [ 34%] PASSED tests/test_prospective_sizing_cohort_spec.py::test_missing_candidate_fields_fail_closed[ask] 
+tests/test_prospective_sizing_cohort_spec.py::test_missing_candidate_fields_fail_closed[quote_evidence] 
+[gw0] [ 34%] PASSED tests/test_prospective_sizing_cohort_spec.py::test_missing_candidate_fields_fail_closed[quote_evidence] 
+tests/test_prospective_sizing_cohort_spec.py::test_missing_candidate_fields_fail_closed[slippage_bps] 
+[gw0] [ 34%] PASSED tests/test_prospective_sizing_cohort_spec.py::test_missing_candidate_fields_fail_closed[slippage_bps] 
+tests/test_prospective_sizing_cohort_spec.py::test_missing_candidate_fields_fail_closed[fee_bps] 
+[gw0] [ 34%] PASSED tests/test_prospective_sizing_cohort_spec.py::test_missing_candidate_fields_fail_closed[fee_bps] 
+tests/test_prospective_sizing_cohort_spec.py::test_missing_candidate_fields_fail_closed[funding_rate_hourly] 
+[gw0] [ 34%] PASSED tests/test_prospective_sizing_cohort_spec.py::test_missing_candidate_fields_fail_closed[funding_rate_hourly] 
+tests/test_prospective_sizing_cohort_spec.py::test_missing_candidate_fields_fail_closed[depth_usd] 
+[gw0] [ 34%] PASSED tests/test_prospective_sizing_cohort_spec.py::test_missing_candidate_fields_fail_closed[depth_usd] 
+tests/test_prospective_sizing_cohort_spec.py::test_missing_candidate_fields_fail_closed[depth_evidence] 
+[gw0] [ 35%] PASSED tests/test_prospective_sizing_cohort_spec.py::test_missing_candidate_fields_fail_closed[depth_evidence] 
+tests/test_prospective_sizing_cohort_spec.py::test_missing_candidate_fields_fail_closed[venue_max_leverage] 
+[gw0] [ 35%] PASSED tests/test_prospective_sizing_cohort_spec.py::test_missing_candidate_fields_fail_closed[venue_max_leverage] 
+tests/test_prospective_sizing_cohort_spec.py::test_missing_candidate_fields_fail_closed[size_decimals] 
+[gw0] [ 35%] PASSED tests/test_prospective_sizing_cohort_spec.py::test_missing_candidate_fields_fail_closed[size_decimals] 
+tests/test_prospective_sizing_cohort_spec.py::test_missing_candidate_fields_fail_closed[margin_constraints] 
+tests/test_copilot.py::test_research_never_imports_the_consumer 
+[gw1] [ 35%] PASSED tests/test_copilot.py::test_research_never_imports_the_consumer 
+tests/test_copilot.py::test_cli_copilot_lifecycle 
+[gw0] [ 35%] PASSED tests/test_prospective_sizing_cohort_spec.py::test_missing_candidate_fields_fail_closed[margin_constraints] 
+tests/test_prospective_sizing_cohort_spec.py::test_missing_candidate_fields_fail_closed[open_exposures] 
+[gw0] [ 35%] PASSED tests/test_prospective_sizing_cohort_spec.py::test_missing_candidate_fields_fail_closed[open_exposures] 
+tests/test_prospective_sizing_cohort_spec.py::test_missing_candidate_fields_fail_closed[max_hold_minutes] 
+[gw0] [ 35%] PASSED tests/test_prospective_sizing_cohort_spec.py::test_missing_candidate_fields_fail_closed[max_hold_minutes] 
+tests/test_prospective_sizing_cohort_spec.py::test_candidate_does_not_invent_volatility[nan] 
+[gw0] [ 35%] PASSED tests/test_prospective_sizing_cohort_spec.py::test_candidate_does_not_invent_volatility[nan] 
+tests/test_prospective_sizing_cohort_spec.py::test_candidate_does_not_invent_volatility[inf] 
+[gw0] [ 35%] PASSED tests/test_prospective_sizing_cohort_spec.py::test_candidate_does_not_invent_volatility[inf] 
+tests/test_prospective_sizing_cohort_spec.py::test_candidate_does_not_invent_volatility[-1] 
+[gw0] [ 36%] PASSED tests/test_prospective_sizing_cohort_spec.py::test_candidate_does_not_invent_volatility[-1] 
+tests/test_prospective_sizing_cohort_spec.py::test_candidate_does_not_invent_volatility[True] 
+[gw0] [ 36%] PASSED tests/test_prospective_sizing_cohort_spec.py::test_candidate_does_not_invent_volatility[True] 
+tests/test_prospective_sizing_cohort_spec.py::test_candidate_does_not_invent_volatility[0.02] 
+[gw0] [ 36%] PASSED tests/test_prospective_sizing_cohort_spec.py::test_candidate_does_not_invent_volatility[0.02] 
+tests/test_prospective_sizing_cohort_spec.py::test_candidate_input_consistency 
+[gw0] [ 36%] PASSED tests/test_prospective_sizing_cohort_spec.py::test_candidate_input_consistency 
+tests/test_prospective_sizing_cohort_spec.py::test_no_activation_account_db_runtime_or_filesystem_side_effects 
+[gw0] [ 36%] PASSED tests/test_prospective_sizing_cohort_spec.py::test_no_activation_account_db_runtime_or_filesystem_side_effects 
+tests/test_prospective_sizing_cohort_spec.py::test_contract_module_has_no_runtime_transport_or_write_imports 
+[gw0] [ 36%] PASSED tests/test_prospective_sizing_cohort_spec.py::test_contract_module_has_no_runtime_transport_or_write_imports 
+tests/test_prospective_sizing_cohort_spec.py::test_evidence_and_start_gates_do_not_reward_early_results 
+[gw0] [ 36%] PASSED tests/test_prospective_sizing_cohort_spec.py::test_evidence_and_start_gates_do_not_reward_early_results 
+tests/test_raw_archives.py::test_export_and_verified_delete_dry_run_exact_audit 
+[gw0] [ 36%] PASSED tests/test_raw_archives.py::test_export_and_verified_delete_dry_run_exact_audit 
+tests/test_raw_archives.py::test_dependency_ingest_and_current_source_protection[latest] 
+[gw0] [ 37%] PASSED tests/test_raw_archives.py::test_dependency_ingest_and_current_source_protection[latest] 
+tests/test_raw_archives.py::test_dependency_ingest_and_current_source_protection[active] 
+[gw0] [ 37%] PASSED tests/test_raw_archives.py::test_dependency_ingest_and_current_source_protection[active] 
+tests/test_raw_archives.py::test_dependency_ingest_and_current_source_protection[pending] 
+[gw0] [ 37%] PASSED tests/test_raw_archives.py::test_dependency_ingest_and_current_source_protection[pending] 
+tests/test_raw_archives.py::test_dependency_ingest_and_current_source_protection[research] 
+[gw0] [ 37%] PASSED tests/test_raw_archives.py::test_dependency_ingest_and_current_source_protection[research] 
+tests/test_raw_archives.py::test_dependency_ingest_and_current_source_protection[failed] 
+[gw0] [ 37%] PASSED tests/test_raw_archives.py::test_dependency_ingest_and_current_source_protection[failed] 
+tests/test_raw_archives.py::test_dependency_ingest_and_current_source_protection[rejected] 
+[gw0] [ 37%] PASSED tests/test_raw_archives.py::test_dependency_ingest_and_current_source_protection[rejected] 
+tests/test_raw_archives.py::test_dependency_ingest_and_current_source_protection[hash] 
+[gw0] [ 37%] PASSED tests/test_raw_archives.py::test_dependency_ingest_and_current_source_protection[hash] 
+tests/test_raw_archives.py::test_dependency_ingest_and_current_source_protection[scan] 
+[gw0] [ 37%] PASSED tests/test_raw_archives.py::test_dependency_ingest_and_current_source_protection[scan] 
+tests/test_raw_archives.py::test_failed_verification_and_changed_identity_prevent_delete 
+[gw0] [ 38%] PASSED tests/test_raw_archives.py::test_failed_verification_and_changed_identity_prevent_delete 
+tests/test_raw_archives.py::test_path_safety_and_current_spool_protection 
+[gw0] [ 38%] PASSED tests/test_raw_archives.py::test_path_safety_and_current_spool_protection 
+tests/test_raw_archives.py::test_raw_decompression_existing_replay_and_damaged_member 
+[gw0] [ 38%] PASSED tests/test_raw_archives.py::test_raw_decompression_existing_replay_and_damaged_member 
+tests/test_raw_archives.py::test_bundle_format_and_subsecond_causal_boundary 
+[gw0] [ 38%] PASSED tests/test_raw_archives.py::test_bundle_format_and_subsecond_causal_boundary 
+tests/test_raw_archives.py::test_calibration_archive_existing_reader_without_deletion 
+[gw0] [ 38%] PASSED tests/test_raw_archives.py::test_calibration_archive_existing_reader_without_deletion 
+tests/test_raw_archives.py::test_batch_transfer_verified_off_host_without_tar_path_extraction[False] 
+[gw0] [ 38%] PASSED tests/test_raw_archives.py::test_batch_transfer_verified_off_host_without_tar_path_extraction[False] 
+tests/test_raw_archives.py::test_batch_transfer_verified_off_host_without_tar_path_extraction[True] 
+[gw0] [ 38%] PASSED tests/test_raw_archives.py::test_batch_transfer_verified_off_host_without_tar_path_extraction[True] 
+tests/test_raw_archives.py::test_context_ledger_recovery_and_restart_without_historical_raw 
+[gw0] [ 38%] PASSED tests/test_raw_archives.py::test_context_ledger_recovery_and_restart_without_historical_raw 
+tests/test_raw_archives.py::test_rss_existing_reader_and_ingest_completion_boundary 
+[gw0] [ 38%] PASSED tests/test_raw_archives.py::test_rss_existing_reader_and_ingest_completion_boundary 
+tests/test_raw_archives.py::test_closed_hour_without_start_exercises_replay 
+[gw0] [ 39%] PASSED tests/test_raw_archives.py::test_closed_hour_without_start_exercises_replay 
+tests/test_raw_archives.py::test_operator_apply_receipts_stream_over_stdin 
+[gw0] [ 39%] PASSED tests/test_raw_archives.py::test_operator_apply_receipts_stream_over_stdin 
+tests/test_relative_strength.py::test_rolling_beta_and_correlation_match_hand_ols_and_never_read_future_rows 
+[gw0] [ 39%] PASSED tests/test_relative_strength.py::test_rolling_beta_and_correlation_match_hand_ols_and_never_read_future_rows 
+tests/test_relative_strength.py::test_zero_btc_variance_is_undefined_not_infinite 
+[gw0] [ 39%] PASSED tests/test_relative_strength.py::test_zero_btc_variance_is_undefined_not_infinite 
+tests/test_relative_strength.py::test_relative_return_and_residual_by_hand 
+[gw0] [ 39%] PASSED tests/test_relative_strength.py::test_relative_return_and_residual_by_hand 
+tests/test_relative_strength.py::test_cross_sectional_ranks_use_only_eligible_alts 
+[gw0] [ 39%] PASSED tests/test_relative_strength.py::test_cross_sectional_ranks_use_only_eligible_alts 
+tests/test_relative_strength.py::test_future_listing_never_changes_earlier_ranks_or_features 
+[gw0] [ 39%] PASSED tests/test_relative_strength.py::test_future_listing_never_changes_earlier_ranks_or_features 
+tests/test_relative_strength.py::test_missing_bar_excludes_the_asset_from_every_window_containing_it 
+[gw0] [ 39%] PASSED tests/test_relative_strength.py::test_missing_bar_excludes_the_asset_from_every_window_containing_it 
+tests/test_relative_strength.py::test_correlation_breakdown_fires_once_when_observable 
+[gw0] [ 40%] PASSED tests/test_relative_strength.py::test_correlation_breakdown_fires_once_when_observable 
+tests/test_relative_strength.py::test_edge_trigger_counts_a_persistent_excursion_once 
+[gw0] [ 40%] PASSED tests/test_relative_strength.py::test_edge_trigger_counts_a_persistent_excursion_once 
+tests/test_relative_strength.py::test_btc_consolidation_uses_the_frozen_phase17_range_rule 
+[gw0] [ 40%] PASSED tests/test_relative_strength.py::test_btc_consolidation_uses_the_frozen_phase17_range_rule 
+tests/test_relative_strength.py::test_rank_persistence_statistics_by_hand 
+[gw0] [ 40%] PASSED tests/test_relative_strength.py::test_rank_persistence_statistics_by_hand 
+tests/test_relative_strength.py::test_entry_is_the_first_open_after_availability_and_spread_costs_charge_both_legs 
+[gw0] [ 40%] PASSED tests/test_relative_strength.py::test_entry_is_the_first_open_after_availability_and_spread_costs_charge_both_legs 
+tests/test_relative_strength.py::test_absolute_and_relative_targets_are_never_mixed 
+[gw0] [ 40%] PASSED tests/test_relative_strength.py::test_absolute_and_relative_targets_are_never_mixed 
+tests/test_relative_strength.py::test_student_t_and_clustered_mean_by_hand 
+[gw0] [ 40%] PASSED tests/test_relative_strength.py::test_student_t_and_clustered_mean_by_hand 
+tests/test_relative_strength.py::test_cross_asset_co_movement_is_one_cluster_not_many_events 
+[gw0] [ 40%] PASSED tests/test_relative_strength.py::test_cross_asset_co_movement_is_one_cluster_not_many_events 
+tests/test_relative_strength.py::test_verdict_policy 
+[gw0] [ 41%] PASSED tests/test_relative_strength.py::test_verdict_policy 
+tests/test_relative_strength.py::test_directional_reading_mirrors_continuation_and_reversal 
+[gw0] [ 41%] PASSED tests/test_relative_strength.py::test_directional_reading_mirrors_continuation_and_reversal 
+tests/test_relative_strength.py::test_families_bh_and_venue_isolation 
+[gw2] [ 41%] PASSED tests/test_lab_corroboration.py::test_too_few_events_is_insufficient_not_adverse 
+tests/test_lab_corroboration.py::test_venues_are_compared_side_by_side_never_pooled 
+[gw0] [ 41%] PASSED tests/test_relative_strength.py::test_families_bh_and_venue_isolation 
+tests/test_relative_strength.py::test_venues_are_never_pooled 
+[gw1] [ 41%] PASSED tests/test_copilot.py::test_cli_copilot_lifecycle 
+tests/test_dashboard.py::test_page_renders[today] 
+[gw3] [ 41%] PASSED tests/test_lab_forward.py::test_hand_calculated_outcomes_enter_at_next_open[long] 
+tests/test_nimble_runtime.py::test_context_gateway_commit_enqueues_and_preserves_latency 
+[gw2] [ 41%] PASSED tests/test_lab_corroboration.py::test_venues_are_compared_side_by_side_never_pooled 
+tests/test_lab_corroboration.py::test_evidence_extension_appends_without_touching_existing_profiles 
+[gw3] [ 41%] PASSED tests/test_nimble_runtime.py::test_context_gateway_commit_enqueues_and_preserves_latency 
+tests/test_nimble_runtime.py::test_test_gateway_receipt_never_wakes_execution 
+[gw3] [ 41%] PASSED tests/test_nimble_runtime.py::test_test_gateway_receipt_never_wakes_execution 
+tests/test_nimble_runtime.py::test_minute_ingest_wakes_immediately_and_duplicate_does_not 
+[gw3] [ 42%] PASSED tests/test_nimble_runtime.py::test_minute_ingest_wakes_immediately_and_duplicate_does_not 
+tests/test_nimble_runtime.py::test_worker_targeted_dispatch_idle_quote_monitor_and_restart 
+[gw0] [ 42%] PASSED tests/test_relative_strength.py::test_venues_are_never_pooled 
+tests/test_relative_strength.py::test_payload_is_deterministic_and_carries_no_clock 
+[gw3] [ 42%] PASSED tests/test_nimble_runtime.py::test_worker_targeted_dispatch_idle_quote_monitor_and_restart 
+tests/test_nimble_runtime.py::test_runtime_lock_busy_does_not_consume_trigger 
+[gw3] [ 42%] PASSED tests/test_nimble_runtime.py::test_runtime_lock_busy_does_not_consume_trigger 
+[gw2] [ 42%] PASSED tests/test_lab_corroboration.py::test_evidence_extension_appends_without_touching_existing_profiles 
+tests/test_nimble_runtime.py::test_min_notional_and_large_gap_loss_cap 
+tests/test_lab_corroboration.py::test_corroboration_cannot_create_validated_or_research_supported 
+[gw3] [ 42%] PASSED tests/test_nimble_runtime.py::test_min_notional_and_large_gap_loss_cap 
+tests/test_nimble_runtime.py::test_non_microstructure_geometry_causal_bar_fallback[None-22] 
+[gw0] [ 42%] PASSED tests/test_relative_strength.py::test_payload_is_deterministic_and_carries_no_clock 
+tests/test_relative_strength.py::test_sensitivity_is_descriptive_and_one_at_a_time 
+[gw0] [ 42%] PASSED tests/test_relative_strength.py::test_sensitivity_is_descriptive_and_one_at_a_time 
+tests/test_relative_strength.py::test_appending_future_bars_never_changes_earlier_signals_or_outcomes 
+[gw3] [ 43%] PASSED tests/test_nimble_runtime.py::test_non_microstructure_geometry_causal_bar_fallback[None-22] 
+tests/test_nimble_runtime.py::test_non_microstructure_geometry_causal_bar_fallback[None-23] 
+[gw3] [ 43%] PASSED tests/test_nimble_runtime.py::test_non_microstructure_geometry_causal_bar_fallback[None-23] 
+tests/test_nimble_runtime.py::test_non_microstructure_geometry_causal_bar_fallback[0.03-22] 
+[gw0] [ 43%] PASSED tests/test_relative_strength.py::test_appending_future_bars_never_changes_earlier_signals_or_outcomes 
+tests/test_relative_strength.py::test_decomposition_separates_conditional_from_executable 
+[gw0] [ 43%] PASSED tests/test_relative_strength.py::test_decomposition_separates_conditional_from_executable 
+tests/test_relative_strength.py::test_shipped_manifest_is_valid_and_bounded 
+[gw0] [ 43%] PASSED tests/test_relative_strength.py::test_shipped_manifest_is_valid_and_bounded 
+tests/test_relative_strength.py::test_manifest_refuses_overlap_drift_and_unfrozen_families 
+[gw0] [ 43%] PASSED tests/test_relative_strength.py::test_manifest_refuses_overlap_drift_and_unfrozen_families 
+tests/test_relative_strength.py::test_governed_lifecycle_freezes_before_any_result 
+[gw3] [ 43%] PASSED tests/test_nimble_runtime.py::test_non_microstructure_geometry_causal_bar_fallback[0.03-22] 
+tests/test_nimble_runtime.py::test_non_microstructure_geometry_causal_bar_fallback[0.03-23] 
+[gw2] [ 43%] PASSED tests/test_lab_corroboration.py::test_corroboration_cannot_create_validated_or_research_supported 
+[gw3] [ 44%] PASSED tests/test_nimble_runtime.py::test_non_microstructure_geometry_causal_bar_fallback[0.03-23] 
+tests/test_nimble_runtime.py::test_entry_volatility_uses_only_known_minutes[None] 
+[gw1] [ 44%] PASSED tests/test_dashboard.py::test_page_renders[today] 
+tests/test_dashboard.py::test_page_renders[track] 
+tests/test_lab_corroboration.py::test_copilot_policy_and_evidence_view_are_untouched 
+[gw1] [ 44%] PASSED tests/test_dashboard.py::test_page_renders[track] 
+tests/test_dashboard.py::test_page_renders[perps] 
+[gw1] [ 44%] PASSED tests/test_dashboard.py::test_page_renders[perps] 
+tests/test_dashboard.py::test_page_renders[market] 
+[gw1] [ 44%] PASSED tests/test_dashboard.py::test_page_renders[market] 
+tests/test_perp_backtest.py::test_funding_erosion_moves_liquidation_inside_the_stop 
+[gw1] [ 44%] PASSED tests/test_perp_backtest.py::test_funding_erosion_moves_liquidation_inside_the_stop 
+tests/test_perp_backtest.py::test_short_entry_gapping_through_stop_is_skipped 
+[gw1] [ 44%] PASSED tests/test_perp_backtest.py::test_short_entry_gapping_through_stop_is_skipped 
+tests/test_perp_backtest.py::test_unsafe_leverage_is_skipped 
+[gw1] [ 44%] PASSED tests/test_perp_backtest.py::test_unsafe_leverage_is_skipped 
+tests/test_perp_backtest.py::test_no_lookahead_truncation_invariance 
+[gw1] [ 44%] PASSED tests/test_perp_backtest.py::test_no_lookahead_truncation_invariance 
+tests/test_perp_backtest.py::test_engine_runs_on_stored_perp_data 
+[gw3] [ 45%] PASSED tests/test_nimble_runtime.py::test_entry_volatility_uses_only_known_minutes[None] 
+tests/test_nimble_runtime.py::test_entry_volatility_uses_only_known_minutes[0.03] 
+[gw3] [ 45%] PASSED tests/test_nimble_runtime.py::test_entry_volatility_uses_only_known_minutes[0.03] 
+tests/test_nimble_runtime.py::test_phase25a_postmortem_includes_separate_nimble_execution 
+[gw3] [ 45%] PASSED tests/test_nimble_runtime.py::test_phase25a_postmortem_includes_separate_nimble_execution 
+tests/test_nimble_runtime.py::test_gapped_minutes_cannot_supply_geometry_or_two_minute_flow 
+[gw1] [ 45%] PASSED tests/test_perp_backtest.py::test_engine_runs_on_stored_perp_data 
+tests/test_perp_paper.py::test_records_only_live_bars_once 
+[gw2] [ 45%] PASSED tests/test_lab_corroboration.py::test_copilot_policy_and_evidence_view_are_untouched 
+[gw3] [ 45%] PASSED tests/test_nimble_runtime.py::test_gapped_minutes_cannot_supply_geometry_or_two_minute_flow 
+tests/test_nimble_runtime.py::test_summary_delivery_failure_fails_scheduler_command 
+tests/test_lab_corroboration.py::test_batch_report_is_unchanged_by_corroboration_profiles 
+[gw1] [ 45%] PASSED tests/test_perp_paper.py::test_records_only_live_bars_once 
+tests/test_perp_paper.py::test_evaluation_uses_live_checked_bars_and_finds_a_planted_edge 
+[gw3] [ 45%] PASSED tests/test_nimble_runtime.py::test_summary_delivery_failure_fails_scheduler_command 
+tests/test_offhost_capture.py::test_failed_stream_never_publishes[incomplete] 
+[gw3] [ 46%] PASSED tests/test_offhost_capture.py::test_failed_stream_never_publishes[incomplete] 
+tests/test_paper_observe.py::test_v1_policies_are_byte_identical 
+[gw3] [ 46%] PASSED tests/test_paper_observe.py::test_v1_policies_are_byte_identical 
+tests/test_paper_observe.py::test_account_summary_reconciles_with_the_ledger 
+[gw2] [ 46%] PASSED tests/test_lab_corroboration.py::test_batch_report_is_unchanged_by_corroboration_profiles 
+tests/test_lab_corroboration.py::test_cli_corroboration_lifecycle 
+[gw1] [ 46%] PASSED tests/test_perp_paper.py::test_evaluation_uses_live_checked_bars_and_finds_a_planted_edge 
+tests/test_perp_paper.py::test_evaluation_with_no_checks_is_empty 
+[gw2] [ 46%] PASSED tests/test_lab_corroboration.py::test_cli_corroboration_lifecycle 
+tests/test_lab_evidence.py::test_fdr_honesty_raw_p_alone_never_reaches_research_supported 
+[gw2] [ 46%] PASSED tests/test_lab_evidence.py::test_fdr_honesty_raw_p_alone_never_reaches_research_supported 
+tests/test_lab_evidence.py::test_isolated_spike_is_flagged_and_blocks_research_support 
+[gw2] [ 46%] PASSED tests/test_lab_evidence.py::test_isolated_spike_is_flagged_and_blocks_research_support 
+tests/test_lab_evidence.py::test_plateau_gives_neighbourhood_support 
+[gw2] [ 46%] PASSED tests/test_lab_evidence.py::test_plateau_gives_neighbourhood_support 
+tests/test_lab_evidence.py::test_two_parameter_neighbours_are_one_adjacent_step 
+[gw2] [ 47%] PASSED tests/test_lab_evidence.py::test_two_parameter_neighbours_are_one_adjacent_step 
+tests/test_lab_evidence.py::test_asset_concentration_is_surfaced 
+[gw2] [ 47%] PASSED tests/test_lab_evidence.py::test_asset_concentration_is_surfaced 
+tests/test_lab_evidence.py::test_horizon_reversal_is_not_consistent_and_stays_descriptive 
+[gw2] [ 47%] PASSED tests/test_lab_evidence.py::test_horizon_reversal_is_not_consistent_and_stays_descriptive 
+tests/test_lab_evidence.py::test_insufficient_unavailable_and_negative 
+[gw2] [ 47%] PASSED tests/test_lab_evidence.py::test_insufficient_unavailable_and_negative 
+tests/test_lab_evidence.py::test_manual_strategies_without_lineage_need_a_strong_effect 
+[gw2] [ 47%] PASSED tests/test_lab_evidence.py::test_manual_strategies_without_lineage_need_a_strong_effect 
+tests/test_lab_evidence.py::test_profiles_are_deterministic_and_policy_versioned 
+[gw2] [ 47%] PASSED tests/test_lab_evidence.py::test_profiles_are_deterministic_and_policy_versioned 
+tests/test_lab_evidence.py::test_profiles_are_consumer_neutral 
+[gw2] [ 47%] PASSED tests/test_lab_evidence.py::test_profiles_are_consumer_neutral 
+tests/test_lab_evidence.py::test_long_horizons_and_future_stages_fit_the_schema 
+[gw2] [ 47%] PASSED tests/test_lab_evidence.py::test_long_horizons_and_future_stages_fit_the_schema 
+tests/test_lab_evidence.py::test_governed_batch_profiles_cite_records_and_are_append_only 
+[gw1] [ 47%] PASSED tests/test_perp_paper.py::test_evaluation_with_no_checks_is_empty 
+tests/test_perp_research.py::test_strategy_signals_are_causal[trend_ls] 
+[gw1] [ 48%] PASSED tests/test_perp_research.py::test_strategy_signals_are_causal[trend_ls] 
+tests/test_perp_research.py::test_strategy_signals_are_causal[funding_fade] 
+[gw1] [ 48%] PASSED tests/test_perp_research.py::test_strategy_signals_are_causal[funding_fade] 
+tests/test_perp_research.py::test_strategy_signals_are_causal[breakout_ls] 
+[gw1] [ 48%] PASSED tests/test_perp_research.py::test_strategy_signals_are_causal[breakout_ls] 
+tests/test_perp_research.py::test_strategy_signals_are_causal[macro_shock] 
+[gw1] [ 48%] PASSED tests/test_perp_research.py::test_strategy_signals_are_causal[macro_shock] 
+tests/test_perp_research.py::test_funding_fade_fires_on_crowded_funding_after_a_run_up 
+[gw1] [ 48%] PASSED tests/test_perp_research.py::test_funding_fade_fires_on_crowded_funding_after_a_run_up 
+tests/test_perp_research.py::test_research_passes_a_planted_edge_and_rejects_noise 
+[gw0] [ 48%] PASSED tests/test_relative_strength.py::test_governed_lifecycle_freezes_before_any_result 
+tests/test_relative_strength.py::test_governed_real_evaluation_on_retained_snapshots 
+[gw3] [ 48%] PASSED tests/test_paper_observe.py::test_account_summary_reconciles_with_the_ledger 
+tests/test_paper_observe.py::test_position_view_metrics 
+[gw2] [ 48%] PASSED tests/test_lab_evidence.py::test_governed_batch_profiles_cite_records_and_are_append_only 
+tests/test_lab_evidence.py::test_v1_policy_identity_and_strict_semantics_are_preserved 
+[gw2] [ 49%] PASSED tests/test_lab_evidence.py::test_v1_policy_identity_and_strict_semantics_are_preserved 
+tests/test_lab_evidence.py::test_builder_provenance_is_recorded_and_versioned 
+[gw2] [ 49%] PASSED tests/test_lab_evidence.py::test_builder_provenance_is_recorded_and_versioned 
+tests/test_risk_sizing.py::test_max_leverage_policy_and_venue_caps 
+[gw2] [ 49%] PASSED tests/test_risk_sizing.py::test_max_leverage_policy_and_venue_caps 
+tests/test_risk_sizing.py::test_liquidation_before_invalidation_rejected 
+[gw2] [ 49%] PASSED tests/test_risk_sizing.py::test_liquidation_before_invalidation_rejected 
+tests/test_risk_sizing.py::test_concurrency_asset_open_and_max_positions 
+[gw2] [ 49%] PASSED tests/test_risk_sizing.py::test_concurrency_asset_open_and_max_positions 
+tests/test_risk_sizing.py::test_gross_limit_skip_for_control_reduce_for_risk 
+[gw2] [ 49%] PASSED tests/test_risk_sizing.py::test_gross_limit_skip_for_control_reduce_for_risk 
+tests/test_risk_sizing.py::test_correlated_cluster_cap_limits_same_direction_risk 
+[gw2] [ 49%] PASSED tests/test_risk_sizing.py::test_correlated_cluster_cap_limits_same_direction_risk 
+tests/test_risk_sizing.py::test_drawdown_throttle_and_halt_never_increase_after_loss 
+[gw2] [ 49%] PASSED tests/test_risk_sizing.py::test_drawdown_throttle_and_halt_never_increase_after_loss 
+tests/test_risk_sizing.py::test_account_recovery_restores_full_risk 
+[gw2] [ 50%] PASSED tests/test_risk_sizing.py::test_account_recovery_restores_full_risk 
+tests/test_risk_sizing.py::test_regime_throttle_reduces_only 
+[gw2] [ 50%] PASSED tests/test_risk_sizing.py::test_regime_throttle_reduces_only 
+tests/test_risk_sizing.py::test_kelly_fallback_cap_and_non_positive 
+[gw2] [ 50%] PASSED tests/test_risk_sizing.py::test_kelly_fallback_cap_and_non_positive 
+tests/test_risk_sizing.py::test_no_confidence_inputs_and_policy_hashing 
+[gw2] [ 50%] PASSED tests/test_risk_sizing.py::test_no_confidence_inputs_and_policy_hashing 
+tests/test_risk_sizing.py::test_causal_outcome_fields_cannot_change_sizing 
+[gw2] [ 50%] PASSED tests/test_risk_sizing.py::test_causal_outcome_fields_cannot_change_sizing 
+tests/test_risk_sizing.py::test_independent_replay_r_geometry 
+[gw2] [ 50%] PASSED tests/test_risk_sizing.py::test_independent_replay_r_geometry 
+tests/test_risk_sizing.py::test_sequential_replay_capital_release_ordering_and_skips 
+[gw2] [ 50%] PASSED tests/test_risk_sizing.py::test_sequential_replay_capital_release_ordering_and_skips 
+tests/test_risk_sizing.py::test_deterministic_tie_ordering_uses_priority_not_row_order 
+[gw2] [ 50%] PASSED tests/test_risk_sizing.py::test_deterministic_tie_ordering_uses_priority_not_row_order 
+tests/test_risk_sizing.py::test_liquidation_counted_when_mae_reaches_isolated_liquidation 
+[gw2] [ 50%] PASSED tests/test_risk_sizing.py::test_liquidation_counted_when_mae_reaches_isolated_liquidation 
+tests/test_risk_sizing.py::test_causal_evidence_is_size_independent_and_strictly_prior 
+[gw2] [ 51%] PASSED tests/test_risk_sizing.py::test_causal_evidence_is_size_independent_and_strictly_prior 
+tests/test_risk_sizing.py::test_bootstrap_reproducible_and_seed_sensitive 
+[gw1] [ 51%] PASSED tests/test_perp_research.py::test_research_passes_a_planted_edge_and_rejects_noise 
+tests/test_perp_research.py::test_runs_are_saved_and_readable_like_spot_research 
+[gw2] [ 51%] PASSED tests/test_risk_sizing.py::test_bootstrap_reproducible_and_seed_sensitive 
+tests/test_risk_sizing.py::test_stresses_only_worsen 
+[gw2] [ 51%] PASSED tests/test_risk_sizing.py::test_stresses_only_worsen 
+tests/test_risk_sizing.py::test_drawdown_metrics_known_curve 
+[gw2] [ 51%] PASSED tests/test_risk_sizing.py::test_drawdown_metrics_known_curve 
+tests/test_risk_sizing.py::test_scenario_deterministic_causal_and_synthetic 
+[gw2] [ 51%] PASSED tests/test_risk_sizing.py::test_scenario_deterministic_causal_and_synthetic 
+tests/test_risk_sizing.py::test_vectorized_exit_matches_frozen_exit_condition 
+[gw2] [ 51%] PASSED tests/test_risk_sizing.py::test_vectorized_exit_matches_frozen_exit_condition 
+tests/test_risk_sizing.py::test_invalidation_audit_covers_every_hypothesis 
+[gw2] [ 51%] PASSED tests/test_risk_sizing.py::test_invalidation_audit_covers_every_hypothesis 
+tests/test_risk_sizing.py::test_nimble_ledger_adapter_reconciles_real_engine_trade[volatility] 
+[gw3] [ 52%] PASSED tests/test_paper_observe.py::test_position_view_metrics 
+tests/test_paper_observe.py::test_near_liquidation_is_surfaced_without_touching_the_position 
+[gw2] [ 52%] PASSED tests/test_risk_sizing.py::test_nimble_ledger_adapter_reconciles_real_engine_trade[volatility] 
+tests/test_risk_sizing.py::test_nimble_ledger_adapter_reconciles_real_engine_trade[structural] 
+[gw1] [ 52%] PASSED tests/test_perp_research.py::test_runs_are_saved_and_readable_like_spot_research 
+tests/test_perp_research.py::test_research_on_demo_db_cli 
+[gw2] [ 52%] PASSED tests/test_risk_sizing.py::test_nimble_ledger_adapter_reconciles_real_engine_trade[structural] 
+tests/test_risk_sizing.py::test_nimble_ledger_adapter_reconciles_real_engine_trade[risk_multiple] 
+[gw2] [ 52%] PASSED tests/test_risk_sizing.py::test_nimble_ledger_adapter_reconciles_real_engine_trade[risk_multiple] 
+tests/test_risk_sizing.py::test_existing_execution_identities_and_import_boundary 
+[gw2] [ 52%] PASSED tests/test_risk_sizing.py::test_existing_execution_identities_and_import_boundary 
+tests/test_risk_sizing.py::test_prospective_design_disabled_and_runtime_refuses 
+[gw2] [ 52%] PASSED tests/test_risk_sizing.py::test_prospective_design_disabled_and_runtime_refuses 
+tests/test_risk_sizing.py::test_request_from_thesis_matches_real_thesis 
+[gw2] [ 52%] PASSED tests/test_risk_sizing.py::test_request_from_thesis_matches_real_thesis 
+tests/test_risk_sizing.py::test_cli_policies_audit_replay_and_live_db_refusal 
+[gw2] [ 52%] PASSED tests/test_risk_sizing.py::test_cli_policies_audit_replay_and_live_db_refusal 
+tests/test_risk_sizing.py::test_catalogue_statuses_research_only_never_candidate 
+[gw2] [ 53%] PASSED tests/test_risk_sizing.py::test_catalogue_statuses_research_only_never_candidate 
+tests/test_runtime.py::test_unclaimed_databases_behave_exactly_as_before 
+[gw3] [ 53%] PASSED tests/test_paper_observe.py::test_near_liquidation_is_surfaced_without_touching_the_position 
+tests/test_paper_observe.py::test_risk_headroom 
+[gw2] [ 53%] PASSED tests/test_runtime.py::test_unclaimed_databases_behave_exactly_as_before 
+tests/test_runtime.py::test_claimed_database_refuses_writes_from_a_non_authoritative_process 
+[gw2] [ 53%] PASSED tests/test_runtime.py::test_claimed_database_refuses_writes_from_a_non_authoritative_process 
+tests/test_runtime.py::test_copied_live_db_is_non_authoritative_by_default 
+[gw1] [ 53%] PASSED tests/test_perp_research.py::test_research_on_demo_db_cli 
+tests/test_perps.py::test_funding_history_paginates_and_parses 
+[gw1] [ 53%] PASSED tests/test_perps.py::test_funding_history_paginates_and_parses 
+tests/test_perps.py::test_perp_contexts_parse_and_schema_guard 
+[gw1] [ 53%] PASSED tests/test_perps.py::test_perp_contexts_parse_and_schema_guard 
+tests/test_perps.py::test_update_perps_backfills_then_increments 
+[gw2] [ 53%] PASSED tests/test_runtime.py::test_copied_live_db_is_non_authoritative_by_default 
+tests/test_runtime.py::test_authoritative_runtime_never_creates_or_writes_an_unclaimed_db 
+[gw1] [ 54%] PASSED tests/test_perps.py::test_update_perps_backfills_then_increments 
+tests/test_perps.py::test_update_perps_records_failures 
+[gw2] [ 54%] PASSED tests/test_runtime.py::test_authoritative_runtime_never_creates_or_writes_an_unclaimed_db 
+tests/test_runtime.py::test_claims_are_explicit_and_superseding_needs_intent 
+[gw1] [ 54%] PASSED tests/test_perps.py::test_update_perps_records_failures 
+tests/test_perps.py::test_funding_stats_annualises_and_ranks 
+[gw1] [ 54%] PASSED tests/test_perps.py::test_funding_stats_annualises_and_ranks 
+tests/test_perps.py::test_oi_change_over_seven_days 
+[gw1] [ 54%] PASSED tests/test_perps.py::test_oi_change_over_seven_days 
+tests/test_perps.py::test_overview_on_demo_db 
+[gw2] [ 54%] PASSED tests/test_runtime.py::test_claims_are_explicit_and_superseding_needs_intent 
+tests/test_runtime.py::test_cli_write_commands_are_refused_on_a_claimed_copy 
+[gw2] [ 54%] PASSED tests/test_runtime.py::test_cli_write_commands_are_refused_on_a_claimed_copy 
+tests/test_runtime.py::test_job_refused_off_the_authoritative_runtime 
+[gw1] [ 54%] PASSED tests/test_perps.py::test_overview_on_demo_db 
+tests/test_portfolio.py::test_trade_requires_invalidation_below_entry 
+[gw2] [ 55%] PASSED tests/test_runtime.py::test_job_refused_off_the_authoritative_runtime 
+tests/test_runtime.py::test_job_refused_when_not_provisioned 
+[gw2] [ 55%] PASSED tests/test_runtime.py::test_job_refused_when_not_provisioned 
+tests/test_runtime.py::test_prospective_sequence_runs_in_order_and_is_recorded 
+[gw1] [ 55%] PASSED tests/test_portfolio.py::test_trade_requires_invalidation_below_entry 
+tests/test_portfolio.py::test_close_computes_return_mae_mfe_from_bars 
+[gw3] [ 55%] PASSED tests/test_paper_observe.py::test_risk_headroom 
+tests/test_paper_observe.py::test_trade_history_matches_costs_and_ledger 
+[gw2] [ 55%] PASSED tests/test_runtime.py::test_prospective_sequence_runs_in_order_and_is_recorded 
+tests/test_runtime.py::test_a_failed_step_does_not_skip_later_steps_and_alerts 
+[gw1] [ 55%] PASSED tests/test_portfolio.py::test_close_computes_return_mae_mfe_from_bars 
+tests/test_portfolio.py::test_journal_stats_answers_the_two_questions 
+[gw2] [ 55%] PASSED tests/test_runtime.py::test_a_failed_step_does_not_skip_later_steps_and_alerts 
+tests/test_runtime.py::test_real_step_runner_runs_the_cli_and_captures_exit 
+[gw1] [ 55%] PASSED tests/test_portfolio.py::test_journal_stats_answers_the_two_questions 
+tests/test_portfolio.py::test_positions_frame_marks_open_positions 
+[gw0] [ 55%] PASSED tests/test_relative_strength.py::test_governed_real_evaluation_on_retained_snapshots 
+[gw2] [ 56%] PASSED tests/test_runtime.py::test_real_step_runner_runs_the_cli_and_captures_exit 
+tests/test_runtime.py::test_concurrent_invocations_cannot_both_run 
+tests/test_relative_strength.py::test_null_calibration_runs_on_synthetic_data_only 
+[gw0] [ 56%] PASSED tests/test_relative_strength.py::test_null_calibration_runs_on_synthetic_data_only 
+tests/test_relative_strength.py::test_no_live_consumer_reads_phase18 
+[gw0] [ 56%] PASSED tests/test_relative_strength.py::test_no_live_consumer_reads_phase18 
+tests/test_research_namespace.py::test_read_only_import_and_wrong_owner_fail_closed 
+[gw0] [ 56%] PASSED tests/test_research_namespace.py::test_read_only_import_and_wrong_owner_fail_closed 
+tests/test_research_namespace.py::test_disabled_environment_cannot_schedule_collect_or_act 
+[gw0] [ 56%] PASSED tests/test_research_namespace.py::test_disabled_environment_cannot_schedule_collect_or_act 
+tests/test_research_namespace.py::test_backup_roundtrip_and_one_generation 
+[gw1] [ 56%] PASSED tests/test_portfolio.py::test_positions_frame_marks_open_positions 
+tests/test_portfolio.py::test_rule_validation 
+[gw1] [ 56%] PASSED tests/test_portfolio.py::test_rule_validation 
+tests/test_portfolio.py::test_rule_evaluation_kinds 
+[gw1] [ 56%] PASSED tests/test_portfolio.py::test_rule_evaluation_kinds 
+tests/test_portfolio.py::test_alerts_fire_once_within_cooldown 
+[gw0] [ 57%] PASSED tests/test_research_namespace.py::test_backup_roundtrip_and_one_generation 
+tests/test_research_namespace.py::test_corruption_existing_restore_and_failed_rotation_preserve_previous 
+[gw0] [ 57%] PASSED tests/test_research_namespace.py::test_corruption_existing_restore_and_failed_rotation_preserve_previous 
+tests/test_research_namespace.py::test_restore_size_limit_and_partial_preservation 
+[gw0] [ 57%] PASSED tests/test_research_namespace.py::test_restore_size_limit_and_partial_preservation 
+tests/test_research_namespace.py::test_no_offhost_without_explicit_independent_destination 
+[gw0] [ 57%] PASSED tests/test_research_namespace.py::test_no_offhost_without_explicit_independent_destination 
+tests/test_research_namespace.py::test_offhost_upload_recovery_retention_and_redacted_failure 
+[gw0] [ 57%] PASSED tests/test_research_namespace.py::test_offhost_upload_recovery_retention_and_redacted_failure 
+tests/test_research_namespace.py::test_rclone_repository_requires_protected_config 
+[gw0] [ 57%] PASSED tests/test_research_namespace.py::test_rclone_repository_requires_protected_config 
+tests/test_research_namespace.py::test_remote_size_mismatch_and_retention_loss_fail_visibly 
+[gw0] [ 57%] PASSED tests/test_research_namespace.py::test_remote_size_mismatch_and_retention_loss_fail_visibly 
+tests/test_research_namespace.py::test_offhost_restore_needs_no_local_generation 
+[gw0] [ 57%] PASSED tests/test_research_namespace.py::test_offhost_restore_needs_no_local_generation 
+tests/test_research_namespace.py::test_scheduled_keeps_last_verified_until_new_generation_verified 
+[gw2] [ 58%] PASSED tests/test_runtime.py::test_concurrent_invocations_cannot_both_run 
+tests/test_runtime.py::test_queued_invocation_runs_after_the_holder_finishes 
+[gw1] [ 58%] PASSED tests/test_portfolio.py::test_alerts_fire_once_within_cooldown 
+tests/test_presenter.py::test_engine_act_statuses_map_to_actionable[EXCEPTIONAL] 
+[gw1] [ 58%] PASSED tests/test_presenter.py::test_engine_act_statuses_map_to_actionable[EXCEPTIONAL] 
+tests/test_presenter.py::test_engine_act_statuses_map_to_actionable[STRONG] 
+[gw1] [ 58%] PASSED tests/test_presenter.py::test_engine_act_statuses_map_to_actionable[STRONG] 
+tests/test_presenter.py::test_engine_act_statuses_map_to_actionable[ACTIONABLE] 
+[gw1] [ 58%] PASSED tests/test_presenter.py::test_engine_act_statuses_map_to_actionable[ACTIONABLE] 
+tests/test_presenter.py::test_rejected_setup_never_actionable_or_wait[STRONG] 
+[gw1] [ 58%] PASSED tests/test_presenter.py::test_rejected_setup_never_actionable_or_wait[STRONG] 
+tests/test_presenter.py::test_rejected_setup_never_actionable_or_wait[WAIT] 
+[gw1] [ 58%] PASSED tests/test_presenter.py::test_rejected_setup_never_actionable_or_wait[WAIT] 
+tests/test_runtime.py::test_backup_is_verified_versioned_and_recorded 
+[gw0] [ 58%] PASSED tests/test_research_namespace.py::test_scheduled_keeps_last_verified_until_new_generation_verified 
+tests/test_research_namespace.py::test_real_restic_rclone_roundtrip 
+[gw0] [ 58%] SKIPPED tests/test_research_namespace.py::test_real_restic_rclone_roundtrip 
+tests/test_research_namespace.py::test_paths_and_runtime_state_do_not_transfer 
+[gw0] [ 59%] PASSED tests/test_research_namespace.py::test_paths_and_runtime_state_do_not_transfer 
+tests/test_risk_sizing.py::test_deterministic_sizing_and_worked_explanation 
+[gw0] [ 59%] PASSED tests/test_risk_sizing.py::test_deterministic_sizing_and_worked_explanation 
+tests/test_risk_sizing.py::test_zero_negative_nonfinite_equity_rejected[0.0] 
+[gw0] [ 59%] PASSED tests/test_risk_sizing.py::test_zero_negative_nonfinite_equity_rejected[0.0] 
+tests/test_risk_sizing.py::test_zero_negative_nonfinite_equity_rejected[-5.0] 
+[gw0] [ 59%] PASSED tests/test_risk_sizing.py::test_zero_negative_nonfinite_equity_rejected[-5.0] 
+tests/test_risk_sizing.py::test_zero_negative_nonfinite_equity_rejected[nan] 
+[gw0] [ 59%] PASSED tests/test_risk_sizing.py::test_zero_negative_nonfinite_equity_rejected[nan] 
+tests/test_risk_sizing.py::test_zero_negative_nonfinite_equity_rejected[inf] 
+[gw0] [ 59%] PASSED tests/test_risk_sizing.py::test_zero_negative_nonfinite_equity_rejected[inf] 
+tests/test_risk_sizing.py::test_missing_invalidation_rejected_or_conservative_fallback 
+[gw0] [ 59%] PASSED tests/test_risk_sizing.py::test_missing_invalidation_rejected_or_conservative_fallback 
+tests/test_risk_sizing.py::test_ultra_tight_invalidation_uses_volatility_floor_and_caps 
+[gw0] [ 59%] PASSED tests/test_risk_sizing.py::test_ultra_tight_invalidation_uses_volatility_floor_and_caps 
+tests/test_risk_sizing.py::test_huge_invalidation_small_size_and_min_notional 
+[gw0] [ 60%] PASSED tests/test_risk_sizing.py::test_huge_invalidation_small_size_and_min_notional 
+tests/test_risk_sizing.py::test_high_volatility_shrinks_hybrid_size_monotonically 
+[gw0] [ 60%] PASSED tests/test_risk_sizing.py::test_high_volatility_shrinks_hybrid_size_monotonically 
+tests/test_risk_sizing.py::test_illiquid_asset_depth_cap_and_impact 
+[gw0] [ 60%] PASSED tests/test_risk_sizing.py::test_illiquid_asset_depth_cap_and_impact 
+tests/test_risk_sizing.py::test_extreme_costs_reduce_then_reject_never_upsize 
+[gw0] [ 60%] PASSED tests/test_risk_sizing.py::test_extreme_costs_reduce_then_reject_never_upsize 
+tests/test_risk_sizing.py::test_adverse_funding_reduces_size_favourable_does_not_increase 
+[gw0] [ 60%] PASSED tests/test_risk_sizing.py::test_adverse_funding_reduces_size_favourable_does_not_increase 
+tests/test_risk_sizing.py::test_venue_rounding_floors_never_rounds_up 
+[gw0] [ 60%] PASSED tests/test_risk_sizing.py::test_venue_rounding_floors_never_rounds_up 
+tests/test_risk_sizing.py::test_baseline_exactly_reproduces_engine_size 
+[gw0] [ 60%] PASSED tests/test_risk_sizing.py::test_baseline_exactly_reproduces_engine_size 
+tests/test_runtime_profiles.py::test_research_profile_never_contains_autonomous_execution 
+[gw0] [ 60%] PASSED tests/test_runtime_profiles.py::test_research_profile_never_contains_autonomous_execution 
+tests/test_runtime_profiles.py::test_lab_profile_has_its_inputs_and_no_research_authority 
+[gw0] [ 61%] PASSED tests/test_runtime_profiles.py::test_lab_profile_has_its_inputs_and_no_research_authority 
+tests/test_runtime_profiles.py::test_lab_v2_is_data_only_opt_in_with_unchanged_rehearsal_identity[off] 
+[gw0] [ 61%] PASSED tests/test_runtime_profiles.py::test_lab_v2_is_data_only_opt_in_with_unchanged_rehearsal_identity[off] 
+tests/test_runtime_profiles.py::test_lab_v2_is_data_only_opt_in_with_unchanged_rehearsal_identity[ranking] 
+[gw0] [ 61%] PASSED tests/test_runtime_profiles.py::test_lab_v2_is_data_only_opt_in_with_unchanged_rehearsal_identity[ranking] 
+tests/test_runtime_profiles.py::test_lab_v2_is_data_only_opt_in_with_unchanged_rehearsal_identity[warming] 
+[gw0] [ 61%] PASSED tests/test_runtime_profiles.py::test_lab_v2_is_data_only_opt_in_with_unchanged_rehearsal_identity[warming] 
+tests/test_runtime_profiles.py::test_lab_v2_refuses_execution_full_authority_and_research_identity[flags0] 
+[gw0] [ 61%] PASSED tests/test_runtime_profiles.py::test_lab_v2_refuses_execution_full_authority_and_research_identity[flags0] 
+tests/test_runtime_profiles.py::test_lab_v2_refuses_execution_full_authority_and_research_identity[flags1] 
+[gw0] [ 61%] PASSED tests/test_runtime_profiles.py::test_lab_v2_refuses_execution_full_authority_and_research_identity[flags1] 
+tests/test_runtime_profiles.py::test_lab_v2_refuses_execution_full_authority_and_research_identity[flags2] 
+[gw0] [ 61%] PASSED tests/test_runtime_profiles.py::test_lab_v2_refuses_execution_full_authority_and_research_identity[flags2] 
+tests/test_runtime_profiles.py::test_lab_v2_refuses_execution_full_authority_and_research_identity[flags3] 
+[gw0] [ 61%] PASSED tests/test_runtime_profiles.py::test_lab_v2_refuses_execution_full_authority_and_research_identity[flags3] 
+tests/test_runtime_profiles.py::test_lab_v2_refuses_execution_full_authority_and_research_identity[flags4] 
+[gw0] [ 61%] PASSED tests/test_runtime_profiles.py::test_lab_v2_refuses_execution_full_authority_and_research_identity[flags4] 
+tests/test_runtime_profiles.py::test_lab_v2_zero_authority_cannot_start_warming 
+[gw0] [ 62%] PASSED tests/test_runtime_profiles.py::test_lab_v2_zero_authority_cannot_start_warming 
+tests/test_runtime_profiles.py::test_du_cli_cannot_bypass_an_explicit_profile_stage 
+[gw0] [ 62%] PASSED tests/test_runtime_profiles.py::test_du_cli_cannot_bypass_an_explicit_profile_stage 
+tests/test_runtime_profiles.py::test_vps_collector_uses_v2_warming_profile_without_a_shell_flag 
+[gw0] [ 62%] PASSED tests/test_runtime_profiles.py::test_vps_collector_uses_v2_warming_profile_without_a_shell_flag 
+tests/test_runtime_profiles.py::test_v2_nimble_account_and_execution_commands_refuse_before_db_open[register] 
+[gw0] [ 62%] PASSED tests/test_runtime_profiles.py::test_v2_nimble_account_and_execution_commands_refuse_before_db_open[register] 
+tests/test_runtime_profiles.py::test_v2_nimble_account_and_execution_commands_refuse_before_db_open[create] 
+[gw0] [ 62%] PASSED tests/test_runtime_profiles.py::test_v2_nimble_account_and_execution_commands_refuse_before_db_open[create] 
+tests/test_runtime_profiles.py::test_v2_nimble_account_and_execution_commands_refuse_before_db_open[evaluate] 
+[gw0] [ 62%] PASSED tests/test_runtime_profiles.py::test_v2_nimble_account_and_execution_commands_refuse_before_db_open[evaluate] 
+tests/test_runtime_profiles.py::test_data_only_v2_also_refuses_old_paper_v2_account_creation[register] 
+[gw0] [ 62%] PASSED tests/test_runtime_profiles.py::test_data_only_v2_also_refuses_old_paper_v2_account_creation[register] 
+tests/test_runtime_profiles.py::test_data_only_v2_also_refuses_old_paper_v2_account_creation[create] 
+[gw0] [ 62%] PASSED tests/test_runtime_profiles.py::test_data_only_v2_also_refuses_old_paper_v2_account_creation[create] 
+tests/test_runtime_profiles.py::test_invalid_configuration_refuses[e0-not a known profile] 
+[gw0] [ 63%] PASSED tests/test_runtime_profiles.py::test_invalid_configuration_refuses[e0-not a known profile] 
+tests/test_runtime_profiles.py::test_invalid_configuration_refuses[e1-PRISM_DEPLOYMENT_TARGET] 
+[gw0] [ 63%] PASSED tests/test_runtime_profiles.py::test_invalid_configuration_refuses[e1-PRISM_DEPLOYMENT_TARGET] 
+tests/test_runtime_profiles.py::test_invalid_configuration_refuses[e2-does not deploy to railway] 
+[gw0] [ 63%] PASSED tests/test_runtime_profiles.py::test_invalid_configuration_refuses[e2-does not deploy to railway] 
+tests/test_runtime_profiles.py::test_invalid_configuration_refuses[e3-does not deploy to vps] 
+[gw0] [ 63%] PASSED tests/test_runtime_profiles.py::test_invalid_configuration_refuses[e3-does not deploy to vps] 
+tests/test_runtime_profiles.py::test_invalid_configuration_refuses[e4-running on Railway] 
+[gw0] [ 63%] PASSED tests/test_runtime_profiles.py::test_invalid_configuration_refuses[e4-running on Railway] 
+tests/test_runtime_profiles.py::test_invalid_configuration_refuses[e5-PRISM_AUTHORITY] 
+[gw0] [ 63%] PASSED tests/test_runtime_profiles.py::test_invalid_configuration_refuses[e5-PRISM_AUTHORITY] 
+tests/test_runtime_profiles.py::test_invalid_configuration_refuses[e6-contradicts] 
+[gw0] [ 63%] PASSED tests/test_runtime_profiles.py::test_invalid_configuration_refuses[e6-contradicts] 
+tests/test_runtime_profiles.py::test_invalid_configuration_refuses[e7-requires] 
+[gw0] [ 63%] PASSED tests/test_runtime_profiles.py::test_invalid_configuration_refuses[e7-requires] 
+tests/test_runtime_profiles.py::test_invalid_configuration_refuses[e8-requires] 
+[gw0] [ 64%] PASSED tests/test_runtime_profiles.py::test_invalid_configuration_refuses[e8-requires] 
+tests/test_runtime_profiles.py::test_invalid_configuration_refuses[e9-requires] 
+[gw0] [ 64%] PASSED tests/test_runtime_profiles.py::test_invalid_configuration_refuses[e9-requires] 
+tests/test_runtime_profiles.py::test_invalid_configuration_refuses[e10-requires] 
+[gw0] [ 64%] PASSED tests/test_runtime_profiles.py::test_invalid_configuration_refuses[e10-requires] 
+tests/test_runtime_profiles.py::test_invalid_configuration_refuses[e11-requires] 
+[gw0] [ 64%] PASSED tests/test_runtime_profiles.py::test_invalid_configuration_refuses[e11-requires] 
+tests/test_runtime_profiles.py::test_invalid_configuration_refuses[e12-excludes] 
+[gw0] [ 64%] PASSED tests/test_runtime_profiles.py::test_invalid_configuration_refuses[e12-excludes] 
+tests/test_runtime_profiles.py::test_invalid_configuration_refuses[e13-excludes] 
+[gw0] [ 64%] PASSED tests/test_runtime_profiles.py::test_invalid_configuration_refuses[e13-excludes] 
+tests/test_runtime_profiles.py::test_invalid_configuration_refuses[e14-expected one of] 
+[gw0] [ 64%] PASSED tests/test_runtime_profiles.py::test_invalid_configuration_refuses[e14-expected one of] 
+tests/test_runtime_profiles.py::test_invalid_configuration_refuses[e15-excludes] 
+[gw0] [ 64%] PASSED tests/test_runtime_profiles.py::test_invalid_configuration_refuses[e15-excludes] 
+tests/test_runtime_profiles.py::test_invalid_configuration_refuses[e16-excludes] 
+[gw0] [ 64%] PASSED tests/test_runtime_profiles.py::test_invalid_configuration_refuses[e16-excludes] 
+tests/test_runtime_profiles.py::test_invalid_configuration_refuses[e17-excludes] 
+[gw0] [ 65%] PASSED tests/test_runtime_profiles.py::test_invalid_configuration_refuses[e17-excludes] 
+tests/test_runtime_profiles.py::test_invalid_configuration_refuses[e18-expected one of] 
+[gw0] [ 65%] PASSED tests/test_runtime_profiles.py::test_invalid_configuration_refuses[e18-expected one of] 
+tests/test_runtime_profiles.py::test_unset_authority_is_zero_authority 
+[gw0] [ 65%] PASSED tests/test_runtime_profiles.py::test_unset_authority_is_zero_authority 
+tests/test_runtime_profiles.py::test_kill_switch_flags_only_disable 
+[gw0] [ 65%] PASSED tests/test_runtime_profiles.py::test_kill_switch_flags_only_disable 
+tests/test_runtime_profiles.py::test_process_and_job_matrix[research-none] 
+[gw0] [ 65%] PASSED tests/test_runtime_profiles.py::test_process_and_job_matrix[research-none] 
+tests/test_runtime_profiles.py::test_process_and_job_matrix[research-rehearsal] 
+[gw0] [ 65%] PASSED tests/test_runtime_profiles.py::test_process_and_job_matrix[research-rehearsal] 
+tests/test_runtime_profiles.py::test_process_and_job_matrix[research-full] 
+[gw0] [ 65%] PASSED tests/test_runtime_profiles.py::test_process_and_job_matrix[research-full] 
+tests/test_runtime_profiles.py::test_process_and_job_matrix[autotrader_lab-none] 
+[gw0] [ 65%] PASSED tests/test_runtime_profiles.py::test_process_and_job_matrix[autotrader_lab-none] 
+tests/test_runtime_profiles.py::test_process_and_job_matrix[autotrader_lab-rehearsal] 
+[gw0] [ 66%] PASSED tests/test_runtime_profiles.py::test_process_and_job_matrix[autotrader_lab-rehearsal] 
+tests/test_runtime_profiles.py::test_process_and_job_matrix[autotrader_lab-full] 
+[gw0] [ 66%] PASSED tests/test_runtime_profiles.py::test_process_and_job_matrix[autotrader_lab-full] 
+tests/test_runtime_profiles.py::test_legacy_profile_reproduces_pre_split_flags_exactly 
+[gw0] [ 66%] PASSED tests/test_runtime_profiles.py::test_legacy_profile_reproduces_pre_split_flags_exactly 
+tests/test_runtime_profiles.py::test_job_outside_profile_is_refused_before_anything_runs 
+[gw2] [ 66%] PASSED tests/test_runtime.py::test_queued_invocation_runs_after_the_holder_finishes 
+tests/test_runtime.py::test_crashed_holder_leaves_no_stale_lock 
+[gw0] [ 66%] PASSED tests/test_runtime_profiles.py::test_job_outside_profile_is_refused_before_anything_runs 
+tests/test_runtime_profiles.py::test_rehearsal_runs_data_jobs_and_records_profile 
+[gw0] [ 66%] PASSED tests/test_runtime_profiles.py::test_rehearsal_runs_data_jobs_and_records_profile 
+tests/test_runtime_profiles.py::test_wrong_profile_cannot_write_a_database_claimed_by_another_runtime 
+[gw2] [ 66%] PASSED tests/test_runtime.py::test_crashed_holder_leaves_no_stale_lock 
+tests/test_runtime.py::test_cli_cycle_reports_busy 
+[gw0] [ 66%] PASSED tests/test_runtime_profiles.py::test_wrong_profile_cannot_write_a_database_claimed_by_another_runtime 
+tests/test_runtime_profiles.py::test_invalid_profile_refuses_jobs 
+[gw0] [ 67%] PASSED tests/test_runtime_profiles.py::test_invalid_profile_refuses_jobs 
+tests/test_runtime_profiles.py::test_rehearsal_never_sends_notifications_or_heartbeats 
+[gw0] [ 67%] PASSED tests/test_runtime_profiles.py::test_rehearsal_never_sends_notifications_or_heartbeats 
+tests/test_runtime_profiles.py::test_execution_commands_need_full_execution_authority 
+[gw0] [ 67%] PASSED tests/test_runtime_profiles.py::test_execution_commands_need_full_execution_authority 
+tests/test_runtime_profiles.py::test_cli_refuses_paper_run_creation_outside_lab_authority 
+[gw0] [ 67%] PASSED tests/test_runtime_profiles.py::test_cli_refuses_paper_run_creation_outside_lab_authority 
+tests/test_runtime_profiles.py::test_lab_cannot_claim_the_railway_identity 
+[gw1] [ 67%] PASSED tests/test_runtime.py::test_backup_is_verified_versioned_and_recorded 
+tests/test_runtime.py::test_restore_rehearsal_reproduces_production_on_a_scratch_copy 
+[gw2] [ 67%] PASSED tests/test_runtime.py::test_cli_cycle_reports_busy 
+tests/test_runtime.py::test_crash_mid_cycle_then_retry 
+[gw0] [ 67%] PASSED tests/test_runtime_profiles.py::test_lab_cannot_claim_the_railway_identity 
+tests/test_runtime_profiles.py::test_long_running_programs_refuse_outside_their_profile[market_signal.paper.nimble.worker-e0] 
+[gw0] [ 67%] PASSED tests/test_runtime_profiles.py::test_long_running_programs_refuse_outside_their_profile[market_signal.paper.nimble.worker-e0] 
+tests/test_runtime_profiles.py::test_long_running_programs_refuse_outside_their_profile[market_signal.paper.nimble.worker-e1] 
+[gw0] [ 67%] PASSED tests/test_runtime_profiles.py::test_long_running_programs_refuse_outside_their_profile[market_signal.paper.nimble.worker-e1] 
+tests/test_runtime_profiles.py::test_long_running_programs_refuse_outside_their_profile[market_signal.context.gateway.launch-e2] 
+[gw0] [ 68%] PASSED tests/test_runtime_profiles.py::test_long_running_programs_refuse_outside_their_profile[market_signal.context.gateway.launch-e2] 
+tests/test_runtime_profiles.py::test_long_running_programs_refuse_outside_their_profile[market_signal.context.gateway.worker-e3] 
+[gw0] [ 68%] PASSED tests/test_runtime_profiles.py::test_long_running_programs_refuse_outside_their_profile[market_signal.context.gateway.worker-e3] 
+tests/test_runtime_profiles.py::test_long_running_programs_refuse_outside_their_profile[market_signal.context.free_sources.worker-e4] 
+[gw0] [ 68%] PASSED tests/test_runtime_profiles.py::test_long_running_programs_refuse_outside_their_profile[market_signal.context.free_sources.worker-e4] 
+tests/test_runtime_profiles.py::test_long_running_programs_refuse_outside_their_profile[market_signal.context.free_sources.collector-e5] 
+[gw0] [ 68%] PASSED tests/test_runtime_profiles.py::test_long_running_programs_refuse_outside_their_profile[market_signal.context.free_sources.collector-e5] 
+tests/test_runtime_profiles.py::test_long_running_programs_refuse_outside_their_profile[market_signal.universe.worker-e6] 
+[gw0] [ 68%] PASSED tests/test_runtime_profiles.py::test_long_running_programs_refuse_outside_their_profile[market_signal.universe.worker-e6] 
+tests/test_runtime_profiles.py::test_long_running_programs_refuse_outside_their_profile[market_signal.universe.worker-e7] 
+[gw2] [ 68%] PASSED tests/test_runtime.py::test_crash_mid_cycle_then_retry 
+tests/test_runtime.py::test_disk_thresholds 
+[gw2] [ 68%] PASSED tests/test_runtime.py::test_disk_thresholds 
+tests/test_runtime.py::test_critical_disk_refuses_the_job_and_deletes_nothing 
+[gw0] [ 68%] PASSED tests/test_runtime_profiles.py::test_long_running_programs_refuse_outside_their_profile[market_signal.universe.worker-e7] 
+tests/test_runtime_profiles.py::test_free_source_ownership_follows_the_profile 
+[gw0] [ 69%] PASSED tests/test_runtime_profiles.py::test_free_source_ownership_follows_the_profile 
+tests/test_runtime_profiles.py::test_crontab_holds_exactly_the_profiles_jobs 
+[gw3] [ 69%] PASSED tests/test_paper_observe.py::test_trade_history_matches_costs_and_ledger 
+[gw0] [ 69%] PASSED tests/test_runtime_profiles.py::test_crontab_holds_exactly_the_profiles_jobs 
+tests/test_runtime_profiles.py::test_legacy_crontab_matches_the_pre_split_entrypoint 
+[gw0] [ 69%] PASSED tests/test_runtime_profiles.py::test_legacy_crontab_matches_the_pre_split_entrypoint 
+tests/test_runtime_profiles.py::test_legacy_entrypoint_starts_exactly_what_the_pre_split_one_did[e0] 
+tests/test_paper_observe.py::test_strategy_and_asset_contribution 
+[gw2] [ 69%] PASSED tests/test_runtime.py::test_critical_disk_refuses_the_job_and_deletes_nothing 
+tests/test_runtime.py::test_warning_disk_still_runs 
+[gw2] [ 69%] PASSED tests/test_runtime.py::test_warning_disk_still_runs 
+tests/test_runtime_optimisation_a.py::test_empty_missing_and_boundary_exact_adapter_parity[59-24] 
+[gw0] [ 69%] PASSED tests/test_runtime_profiles.py::test_legacy_entrypoint_starts_exactly_what_the_pre_split_one_did[e0] 
+tests/test_runtime_profiles.py::test_legacy_entrypoint_starts_exactly_what_the_pre_split_one_did[e1] 
+[gw1] [ 69%] PASSED tests/test_runtime.py::test_restore_rehearsal_reproduces_production_on_a_scratch_copy 
+tests/test_runtime.py::test_backup_verification_detects_a_bad_file 
+[gw2] [ 70%] PASSED tests/test_runtime_optimisation_a.py::test_empty_missing_and_boundary_exact_adapter_parity[59-24] 
+tests/test_runtime_optimisation_a.py::test_empty_missing_and_boundary_exact_adapter_parity[60-22] 
+[gw1] [ 70%] PASSED tests/test_runtime.py::test_backup_verification_detects_a_bad_file 
+tests/test_runtime.py::test_retention_keeps_the_newest_and_never_touches_the_live_db 
+[gw1] [ 70%] PASSED tests/test_runtime.py::test_retention_keeps_the_newest_and_never_touches_the_live_db 
+tests/test_runtime.py::test_backup_job_via_runtime 
+[gw0] [ 70%] PASSED tests/test_runtime_profiles.py::test_legacy_entrypoint_starts_exactly_what_the_pre_split_one_did[e1] 
+tests/test_runtime_profiles.py::test_legacy_entrypoint_starts_exactly_what_the_pre_split_one_did[e2] 
+[gw2] [ 70%] PASSED tests/test_runtime_optimisation_a.py::test_empty_missing_and_boundary_exact_adapter_parity[60-22] 
+tests/test_runtime_optimisation_a.py::test_empty_missing_and_boundary_exact_adapter_parity[60-23] 
+[gw2] [ 70%] PASSED tests/test_runtime_optimisation_a.py::test_empty_missing_and_boundary_exact_adapter_parity[60-23] 
+tests/test_runtime_optimisation_a.py::test_empty_missing_and_boundary_exact_adapter_parity[60-24] 
+[gw2] [ 70%] PASSED tests/test_runtime_optimisation_a.py::test_empty_missing_and_boundary_exact_adapter_parity[60-24] 
+tests/test_runtime_optimisation_a.py::test_partial_grid_run_isolation_and_late_insert 
+[gw2] [ 70%] PASSED tests/test_runtime_optimisation_a.py::test_partial_grid_run_isolation_and_late_insert 
+tests/test_runtime_optimisation_a.py::test_populated_frame_and_flags_exact_parity_and_mutation[False-False] 
+[gw0] [ 70%] PASSED tests/test_runtime_profiles.py::test_legacy_entrypoint_starts_exactly_what_the_pre_split_one_did[e2] 
+tests/test_runtime_profiles.py::test_legacy_entrypoint_starts_exactly_what_the_pre_split_one_did[e3] 
+[gw2] [ 71%] PASSED tests/test_runtime_optimisation_a.py::test_populated_frame_and_flags_exact_parity_and_mutation[False-False] 
+tests/test_runtime_optimisation_a.py::test_populated_frame_and_flags_exact_parity_and_mutation[True-False] 
+[gw2] [ 71%] PASSED tests/test_runtime_optimisation_a.py::test_populated_frame_and_flags_exact_parity_and_mutation[True-False] 
+tests/test_runtime_optimisation_a.py::test_populated_frame_and_flags_exact_parity_and_mutation[False-True] 
+[gw1] [ 71%] PASSED tests/test_runtime.py::test_backup_job_via_runtime 
+tests/test_runtime.py::test_copied_db_preserves_every_id_and_the_ledger 
+[gw2] [ 71%] PASSED tests/test_runtime_optimisation_a.py::test_populated_frame_and_flags_exact_parity_and_mutation[False-True] 
+tests/test_runtime_optimisation_a.py::test_cached_definitions_exact_content_and_nested_mutation_isolation 
+[gw2] [ 71%] PASSED tests/test_runtime_optimisation_a.py::test_cached_definitions_exact_content_and_nested_mutation_isolation 
+tests/test_runtime_optimisation_a.py::test_warm_definition_cache_never_bypasses_stored_policy_integrity 
+[gw0] [ 71%] PASSED tests/test_runtime_profiles.py::test_legacy_entrypoint_starts_exactly_what_the_pre_split_one_did[e3] 
+tests/test_runtime_profiles.py::test_legacy_entrypoint_starts_exactly_what_the_pre_split_one_did[e4] 
+[gw2] [ 71%] PASSED tests/test_runtime_optimisation_a.py::test_warm_definition_cache_never_bypasses_stored_policy_integrity 
+tests/test_runtime_optimisation_a.py::test_context_exact_cutoff_update_denial_and_mutation[-1] 
+[gw2] [ 71%] PASSED tests/test_runtime_optimisation_a.py::test_context_exact_cutoff_update_denial_and_mutation[-1] 
+tests/test_runtime_optimisation_a.py::test_context_exact_cutoff_update_denial_and_mutation[0] 
+[gw0] [ 72%] PASSED tests/test_runtime_profiles.py::test_legacy_entrypoint_starts_exactly_what_the_pre_split_one_did[e4] 
+tests/test_runtime_profiles.py::test_legacy_entrypoint_starts_exactly_what_the_pre_split_one_did[e5] 
+[gw1] [ 72%] PASSED tests/test_runtime.py::test_copied_db_preserves_every_id_and_the_ledger 
+tests/test_runtime.py::test_fingerprint_detects_evidence_changes_and_venue_merges 
+[gw2] [ 72%] PASSED tests/test_runtime_optimisation_a.py::test_context_exact_cutoff_update_denial_and_mutation[0] 
+tests/test_runtime_optimisation_a.py::test_context_exact_cutoff_update_denial_and_mutation[1] 
+[gw3] [ 72%] PASSED tests/test_paper_observe.py::test_strategy_and_asset_contribution 
+tests/test_paper_observe.py::test_paused_and_risk_rejections_are_expected_skips 
+[gw2] [ 72%] PASSED tests/test_runtime_optimisation_a.py::test_context_exact_cutoff_update_denial_and_mutation[1] 
+tests/test_runtime_optimisation_a.py::test_context_exact_cutoff_update_denial_and_mutation[3600] 
+[gw0] [ 72%] PASSED tests/test_runtime_profiles.py::test_legacy_entrypoint_starts_exactly_what_the_pre_split_one_did[e5] 
+tests/test_runtime_profiles.py::test_legacy_entrypoint_starts_exactly_what_the_pre_split_one_did[e6] 
+[gw2] [ 72%] PASSED tests/test_runtime_optimisation_a.py::test_context_exact_cutoff_update_denial_and_mutation[3600] 
+tests/test_runtime_optimisation_a.py::test_context_exact_cutoff_update_denial_and_mutation[3601] 
+[gw2] [ 72%] PASSED tests/test_runtime_optimisation_a.py::test_context_exact_cutoff_update_denial_and_mutation[3601] 
+tests/test_runtime_optimisation_a_edges.py::test_science_completed_boundary_decoded_once_and_members_unchanged 
+[gw1] [ 73%] PASSED tests/test_runtime.py::test_fingerprint_detects_evidence_changes_and_venue_merges 
+tests/test_runtime.py::test_paper_run_and_trackings_survive_a_host_restart 
+[gw0] [ 73%] PASSED tests/test_runtime_profiles.py::test_legacy_entrypoint_starts_exactly_what_the_pre_split_one_did[e6] 
+tests/test_runtime_profiles.py::test_entrypoint_fails_closed_and_research_profile_starts_no_execution 
+[gw2] [ 73%] PASSED tests/test_runtime_optimisation_a_edges.py::test_science_completed_boundary_decoded_once_and_members_unchanged 
+tests/test_runtime_optimisation_a_edges.py::test_positioning_equal_capture_future_missing_and_max_reuse 
+[gw2] [ 73%] PASSED tests/test_runtime_optimisation_a_edges.py::test_positioning_equal_capture_future_missing_and_max_reuse 
+tests/test_runtime_optimisation_a_edges.py::test_context_raw_nullable_placeholders_are_preserved_and_isolated 
+[gw2] [ 73%] PASSED tests/test_runtime_optimisation_a_edges.py::test_context_raw_nullable_placeholders_are_preserved_and_isolated 
+tests/test_runtime_optimisation_a_edges.py::test_late_hourly_bar_and_revision_keep_exact_independent_cutoffs 
+[gw0] [ 73%] PASSED tests/test_runtime_profiles.py::test_entrypoint_fails_closed_and_research_profile_starts_no_execution 
+tests/test_runtime_profiles.py::test_lab_experiment_identity_descends_from_unchanged_released_policies 
+[gw0] [ 73%] PASSED tests/test_runtime_profiles.py::test_lab_experiment_identity_descends_from_unchanged_released_policies 
+tests/test_runtime_profiles.py::test_seed_copies_only_causal_inputs_and_no_authority 
+[gw2] [ 73%] PASSED tests/test_runtime_optimisation_a_edges.py::test_late_hourly_bar_and_revision_keep_exact_independent_cutoffs 
+tests/test_runtime_optimisation_a_edges.py::test_production_minute_revision_ingest_boundary_and_restart_gap 
+[gw1] [ 73%] PASSED tests/test_runtime.py::test_paper_run_and_trackings_survive_a_host_restart 
+tests/test_runtime.py::test_status_reports_runtime_health_separately 
+[gw0] [ 74%] PASSED tests/test_runtime_profiles.py::test_seed_copies_only_causal_inputs_and_no_authority 
+tests/test_runtime_profiles.py::test_every_table_has_a_seed_decision 
+[gw0] [ 74%] PASSED tests/test_runtime_profiles.py::test_every_table_has_a_seed_decision 
+tests/test_runtime_profiles.py::test_seed_refusals 
+[gw2] [ 74%] PASSED tests/test_runtime_optimisation_a_edges.py::test_production_minute_revision_ingest_boundary_and_restart_gap 
+tests/test_runtime_optimisation_a_execution_edges.py::test_same_asset_opposite_runs_independent_cutoffs_and_unfinalised_closes 
+[gw0] [ 74%] PASSED tests/test_runtime_profiles.py::test_seed_refusals 
+tests/test_runtime_profiles.py::test_lab_backup_verifies_without_a_v1_paper_run 
+[gw2] [ 74%] PASSED tests/test_runtime_optimisation_a_execution_edges.py::test_same_asset_opposite_runs_independent_cutoffs_and_unfinalised_closes 
+tests/test_runtime_profiles.py::test_profile_identities_are_frozen_and_versioned 
+[gw2] [ 74%] PASSED tests/test_runtime_profiles.py::test_profile_identities_are_frozen_and_versioned 
+tests/test_scoring_hype.py::test_run_rates_require_coverage 
+[gw2] [ 74%] PASSED tests/test_scoring_hype.py::test_run_rates_require_coverage 
+tests/test_scoring_hype.py::test_structural_bid_and_yield 
+[gw2] [ 74%] PASSED tests/test_scoring_hype.py::test_structural_bid_and_yield 
+tests/test_scoring_hype.py::test_observed_assumed_derived_are_separated 
+[gw2] [ 75%] PASSED tests/test_scoring_hype.py::test_observed_assumed_derived_are_separated 
+tests/test_scoring_hype.py::test_inverse_round_trip 
+[gw2] [ 75%] PASSED tests/test_scoring_hype.py::test_inverse_round_trip 
+tests/test_scoring_hype.py::test_missing_inputs_propagate_not_zero 
+[gw2] [ 75%] PASSED tests/test_scoring_hype.py::test_missing_inputs_propagate_not_zero 
+tests/test_scoring_hype.py::test_aqa_inactive_before_activation 
+[gw2] [ 75%] PASSED tests/test_scoring_hype.py::test_aqa_inactive_before_activation 
+tests/test_scoring_hype.py::test_trade_sizing_formula_and_caps 
+[gw2] [ 75%] PASSED tests/test_scoring_hype.py::test_trade_sizing_formula_and_caps 
+tests/test_scoring_hype.py::test_investment_sizing_has_no_stop 
+[gw2] [ 75%] PASSED tests/test_scoring_hype.py::test_investment_sizing_has_no_stop 
+tests/test_scoring_hype.py::test_missing_components_are_na_not_zero 
+[gw2] [ 75%] PASSED tests/test_scoring_hype.py::test_missing_components_are_na_not_zero 
+tests/test_scoring_hype.py::test_score_denominator_excludes_na 
+[gw2] [ 75%] PASSED tests/test_scoring_hype.py::test_score_denominator_excludes_na 
+tests/test_scoring_hype.py::test_catalyst_window_and_netting 
+[gw2] [ 76%] PASSED tests/test_scoring_hype.py::test_catalyst_window_and_netting 
+tests/test_scoring_hype.py::test_entry_valuation_vs_technical_are_separate 
+[gw2] [ 76%] PASSED tests/test_scoring_hype.py::test_entry_valuation_vs_technical_are_separate 
+tests/test_scoring_hype.py::test_ramp 
+[gw2] [ 76%] PASSED tests/test_scoring_hype.py::test_ramp 
+tests/test_scoring_hype.py::test_scan_end_to_end_on_synthetic_db 
+[gw1] [ 76%] PASSED tests/test_runtime.py::test_status_reports_runtime_health_separately 
+tests/test_runtime.py::test_policy_ids_are_unchanged 
+[gw1] [ 76%] PASSED tests/test_runtime.py::test_policy_ids_are_unchanged 
+tests/test_runtime.py::test_migration_17_is_runtime_only 
+[gw1] [ 76%] PASSED tests/test_runtime.py::test_migration_17_is_runtime_only 
+tests/test_runtime.py::test_schedule_and_crontab 
+[gw1] [ 76%] PASSED tests/test_runtime.py::test_schedule_and_crontab 
+tests/test_runtime.py::test_deployed_export_records_its_commit_without_git 
+[gw1] [ 76%] PASSED tests/test_runtime.py::test_deployed_export_records_its_commit_without_git 
+tests/test_runtime_optimisation_a.py::test_empty_missing_and_boundary_exact_adapter_parity[0-22] 
+[gw0] [ 76%] PASSED tests/test_runtime_profiles.py::test_lab_backup_verifies_without_a_v1_paper_run 
+tests/test_runtime_profiles.py::test_lab_backup_job_registers_exports_and_restores_without_paper_runs 
+[gw3] [ 77%] PASSED tests/test_paper_observe.py::test_paused_and_risk_rejections_are_expected_skips 
+tests/test_paper_observe.py::test_offline_gap_is_a_missed_execution_without_backfill 
+[gw1] [ 77%] PASSED tests/test_runtime_optimisation_a.py::test_empty_missing_and_boundary_exact_adapter_parity[0-22] 
+tests/test_runtime_optimisation_a.py::test_empty_missing_and_boundary_exact_adapter_parity[0-23] 
+[gw1] [ 77%] PASSED tests/test_runtime_optimisation_a.py::test_empty_missing_and_boundary_exact_adapter_parity[0-23] 
+tests/test_runtime_optimisation_a.py::test_empty_missing_and_boundary_exact_adapter_parity[0-24] 
+[gw3] [ 77%] PASSED tests/test_paper_observe.py::test_offline_gap_is_a_missed_execution_without_backfill 
+[gw0] [ 77%] PASSED tests/test_runtime_profiles.py::test_lab_backup_job_registers_exports_and_restores_without_paper_runs 
+tests/test_runtime_profiles.py::test_no_run_exception_requires_persisted_lab_seed_and_authority 
+tests/test_paper_observe.py::test_data_late_is_distinguished_from_offline 
+[gw2] [ 77%] PASSED tests/test_scoring_hype.py::test_scan_end_to_end_on_synthetic_db 
+tests/test_setups.py::test_breakout_retest_fires_on_retest_bar 
+[gw2] [ 77%] PASSED tests/test_setups.py::test_breakout_retest_fires_on_retest_bar 
+tests/test_setups.py::test_breakout_failure_cancels_and_no_chasing 
+[gw2] [ 77%] PASSED tests/test_setups.py::test_breakout_failure_cancels_and_no_chasing 
+tests/test_setups.py::test_quality_pullback_conditions_and_trigger 
+[gw2] [ 78%] PASSED tests/test_setups.py::test_quality_pullback_conditions_and_trigger 
+tests/test_setups.py::test_setup_signals_truncation_invariant[quality_pullback] 
+[gw2] [ 78%] PASSED tests/test_setups.py::test_setup_signals_truncation_invariant[quality_pullback] 
+tests/test_setups.py::test_setup_signals_truncation_invariant[breakout_retest] 
+[gw2] [ 78%] PASSED tests/test_setups.py::test_setup_signals_truncation_invariant[breakout_retest] 
+tests/test_setups.py::test_rerating_crypto_is_never_historically_eligible 
+[gw2] [ 78%] PASSED tests/test_setups.py::test_rerating_crypto_is_never_historically_eligible 
+tests/test_setups.py::test_rerating_equity_rules 
+[gw2] [ 78%] PASSED tests/test_setups.py::test_rerating_equity_rules 
+tests/test_setups.py::test_conditions_dsl_missing_is_not_eligible 
+[gw2] [ 78%] PASSED tests/test_setups.py::test_conditions_dsl_missing_is_not_eligible 
+tests/test_setups.py::test_edge_trigger_cooldown 
+[gw2] [ 78%] PASSED tests/test_setups.py::test_edge_trigger_cooldown 
+tests/test_setups.py::test_edgar_parse_availability_is_filed_plus_one_day 
+[gw2] [ 78%] PASSED tests/test_setups.py::test_edgar_parse_availability_is_filed_plus_one_day 
+tests/test_setups.py::test_ttm_from_ytd_identity_and_restatement_is_not_backdated 
+[gw2] [ 79%] PASSED tests/test_setups.py::test_ttm_from_ytd_identity_and_restatement_is_not_backdated 
+tests/test_setups.py::test_timeline_changes_only_on_filings 
+[gw2] [ 79%] PASSED tests/test_setups.py::test_timeline_changes_only_on_filings 
+tests/test_setups.py::test_quality_score_requires_minimum_inputs 
+[gw2] [ 79%] PASSED tests/test_setups.py::test_quality_score_requires_minimum_inputs 
+tests/test_shared_intelligence.py::test_intelligence_only_fixture_and_select_only_read 
+[gw1] [ 79%] PASSED tests/test_runtime_optimisation_a.py::test_empty_missing_and_boundary_exact_adapter_parity[0-24] 
+tests/test_runtime_optimisation_a.py::test_empty_missing_and_boundary_exact_adapter_parity[1-22] 
+[gw0] [ 79%] PASSED tests/test_runtime_profiles.py::test_no_run_exception_requires_persisted_lab_seed_and_authority 
+tests/test_runtime_profiles.py::test_activation_record_holds_full_provenance 
+[gw1] [ 79%] PASSED tests/test_runtime_optimisation_a.py::test_empty_missing_and_boundary_exact_adapter_parity[1-22] 
+[gw2] [ 79%] PASSED tests/test_shared_intelligence.py::test_intelligence_only_fixture_and_select_only_read 
+tests/test_runtime_optimisation_a.py::test_empty_missing_and_boundary_exact_adapter_parity[1-23] 
+tests/test_shared_intelligence.py::test_revision_safe_breadth_and_original_evidence_resolution 
+[gw3] [ 79%] PASSED tests/test_paper_observe.py::test_data_late_is_distinguished_from_offline 
+tests/test_paper_observe.py::test_coverage_detects_missed_cycles_and_stale_health 
+[gw2] [ 79%] PASSED tests/test_shared_intelligence.py::test_revision_safe_breadth_and_original_evidence_resolution 
+tests/test_shared_intelligence.py::test_event_updates_links_and_provenance_are_causal 
+[gw1] [ 80%] PASSED tests/test_runtime_optimisation_a.py::test_empty_missing_and_boundary_exact_adapter_parity[1-23] 
+tests/test_runtime_optimisation_a.py::test_empty_missing_and_boundary_exact_adapter_parity[1-24] 
+[gw2] [ 80%] PASSED tests/test_shared_intelligence.py::test_event_updates_links_and_provenance_are_causal 
+tests/test_shared_intelligence.py::test_three_bases_and_delayed_local_receipt 
+[gw2] [ 80%] PASSED tests/test_shared_intelligence.py::test_three_bases_and_delayed_local_receipt 
+tests/test_shared_intelligence.py::test_committed_revision_falls_back_and_requires_contiguous_dependencies 
+[gw0] [ 80%] PASSED tests/test_runtime_profiles.py::test_activation_record_holds_full_provenance 
+tests/test_runtime_profiles.py::test_systemd_units_are_profile_gated_and_unprivileged 
+[gw0] [ 80%] PASSED tests/test_runtime_profiles.py::test_systemd_units_are_profile_gated_and_unprivileged 
+tests/test_runtime_profiles.py::test_exactly_one_scheduling_authority 
+[gw0] [ 80%] PASSED tests/test_runtime_profiles.py::test_exactly_one_scheduling_authority 
+tests/test_runtime_profiles.py::test_systemd_analyze_accepts_units 
+[gw0] [ 80%] PASSED tests/test_runtime_profiles.py::test_systemd_analyze_accepts_units 
+tests/test_runtime_profiles.py::test_shell_scripts_parse 
+[gw0] [ 80%] PASSED tests/test_runtime_profiles.py::test_shell_scripts_parse 
+tests/test_runtime_profiles.py::test_vps_env_template_starts_with_zero_authority 
+[gw0] [ 81%] PASSED tests/test_runtime_profiles.py::test_vps_env_template_starts_with_zero_authority 
+tests/test_shared_intelligence.py::test_read_open_missing_file_and_predicate_bounds 
+[gw0] [ 81%] PASSED tests/test_shared_intelligence.py::test_read_open_missing_file_and_predicate_bounds 
+tests/test_shared_intelligence.py::test_read_only_file_checksum_and_frozen_v1_source 
+[gw0] [ 81%] PASSED tests/test_shared_intelligence.py::test_read_only_file_checksum_and_frozen_v1_source 
+tests/test_shared_intelligence.py::test_publication_neutrality_copy_isolation_and_delivery_failure 
+[gw0] [ 81%] PASSED tests/test_shared_intelligence.py::test_publication_neutrality_copy_isolation_and_delivery_failure 
+tests/test_shared_intelligence.py::test_publication_catalog_binds_context_only_and_later_reports_stay_unknown 
+[gw1] [ 81%] PASSED tests/test_runtime_optimisation_a.py::test_empty_missing_and_boundary_exact_adapter_parity[1-24] 
+tests/test_runtime_optimisation_a.py::test_empty_missing_and_boundary_exact_adapter_parity[59-22] 
+[gw2] [ 81%] PASSED tests/test_shared_intelligence.py::test_committed_revision_falls_back_and_requires_contiguous_dependencies 
+tests/test_shared_intelligence.py::test_venue_separation_and_complete_daily_weekly_persistence 
+[gw1] [ 81%] PASSED tests/test_runtime_optimisation_a.py::test_empty_missing_and_boundary_exact_adapter_parity[59-22] 
+tests/test_runtime_optimisation_a.py::test_empty_missing_and_boundary_exact_adapter_parity[59-23] 
+[gw0] [ 81%] PASSED tests/test_shared_intelligence.py::test_publication_catalog_binds_context_only_and_later_reports_stay_unknown 
+tests/test_shared_intelligence.py::test_package_byte_and_operation_row_bounds 
+[gw0] [ 82%] PASSED tests/test_shared_intelligence.py::test_package_byte_and_operation_row_bounds 
+tests/test_shared_intelligence.py::test_binance_positioning_never_borrows_hyperliquid_values 
+[gw3] [ 82%] PASSED tests/test_paper_observe.py::test_coverage_detects_missed_cycles_and_stale_health 
+tests/test_paper_observe.py::test_error_cycles_and_streak_are_reported 
+[gw1] [ 82%] PASSED tests/test_runtime_optimisation_a.py::test_empty_missing_and_boundary_exact_adapter_parity[59-23] 
+tests/test_storage_growth.py::test_attribution_preserves_additions_removals_and_sampled_peak 
+[gw1] [ 82%] PASSED tests/test_storage_growth.py::test_attribution_preserves_additions_removals_and_sampled_peak 
+tests/test_storage_growth.py::test_inventory_skips_symlinks_and_counts_hardlink_allocation_once 
+[gw1] [ 82%] PASSED tests/test_storage_growth.py::test_inventory_skips_symlinks_and_counts_hardlink_allocation_once 
+tests/test_storage_growth.py::test_category_protects_active_parts_and_distinguishes_wal 
+[gw1] [ 82%] PASSED tests/test_storage_growth.py::test_category_protects_active_parts_and_distinguishes_wal 
+tests/test_storage_growth.py::test_same_path_replacement_and_historical_numeric_timestamps 
+[gw1] [ 82%] PASSED tests/test_storage_growth.py::test_same_path_replacement_and_historical_numeric_timestamps 
+tests/test_storage_growth.py::test_read_only_duckdb_storage_queries_are_supported 
+[gw1] [ 82%] PASSED tests/test_storage_growth.py::test_read_only_duckdb_storage_queries_are_supported 
+tests/test_storage_growth.py::test_provider_captured_day_report_excludes_partial_day_and_preserves_compression 
+[gw1] [ 82%] PASSED tests/test_storage_growth.py::test_provider_captured_day_report_excludes_partial_day_and_preserves_compression 
+tests/test_store_lock.py::test_busy_raises_quickly_and_names_the_holder 
+[gw2] [ 83%] PASSED tests/test_shared_intelligence.py::test_venue_separation_and_complete_daily_weekly_persistence 
+tests/test_shared_intelligence.py::test_missing_persistence_is_unknown_not_zero 
+[gw1] [ 83%] PASSED tests/test_store_lock.py::test_busy_raises_quickly_and_names_the_holder 
+tests/test_store_lock.py::test_waits_for_the_lock_then_opens 
+[gw0] [ 83%] PASSED tests/test_shared_intelligence.py::test_binance_positioning_never_borrows_hyperliquid_values 
+tests/test_shared_intelligence.py::test_replaced_oi_is_not_visible_under_original_ingestion_time 
+[gw0] [ 83%] PASSED tests/test_shared_intelligence.py::test_replaced_oi_is_not_visible_under_original_ingestion_time 
+tests/test_shared_intelligence.py::test_free_ingest_neutral_subscriber_commit_retry_without_execution_schema 
+[gw0] [ 83%] PASSED tests/test_shared_intelligence.py::test_free_ingest_neutral_subscriber_commit_retry_without_execution_schema 
+tests/test_shared_intelligence.py::test_invalid_access_clock_order[kwargs0] 
+[gw0] [ 83%] PASSED tests/test_shared_intelligence.py::test_invalid_access_clock_order[kwargs0] 
+tests/test_shared_intelligence.py::test_invalid_access_clock_order[kwargs1] 
+[gw0] [ 83%] PASSED tests/test_shared_intelligence.py::test_invalid_access_clock_order[kwargs1] 
+tests/test_shared_intelligence.py::test_invalid_access_clock_order[kwargs2] 
+[gw0] [ 83%] PASSED tests/test_shared_intelligence.py::test_invalid_access_clock_order[kwargs2] 
+tests/test_structure.py::test_ready_at_is_cumulative_availability_and_atr_is_prior 
+[gw0] [ 84%] PASSED tests/test_structure.py::test_ready_at_is_cumulative_availability_and_atr_is_prior 
+tests/test_structure.py::test_swing_unavailable_before_right_side_confirmation 
+[gw0] [ 84%] PASSED tests/test_structure.py::test_swing_unavailable_before_right_side_confirmation 
+tests/test_structure.py::test_false_visual_pivot_is_cancelled_by_a_higher_right_bar 
+[gw0] [ 84%] PASSED tests/test_structure.py::test_false_visual_pivot_is_cancelled_by_a_higher_right_bar 
+tests/test_structure.py::test_equal_high_plateau_gives_one_pivot_and_gaps_break_windows 
+[gw0] [ 84%] PASSED tests/test_structure.py::test_equal_high_plateau_gives_one_pivot_and_gaps_break_windows 
+tests/test_structure.py::test_no_pivot_lookahead_on_every_prefix 
+[gw0] [ 84%] PASSED tests/test_structure.py::test_no_pivot_lookahead_on_every_prefix 
+tests/test_structure.py::test_prior_extreme_matches_lab_donchian_and_is_causal 
+[gw0] [ 84%] PASSED tests/test_structure.py::test_prior_extreme_matches_lab_donchian_and_is_causal 
+tests/test_structure.py::test_prior_extreme_equal_bar_supersedes_without_event 
+[gw0] [ 84%] PASSED tests/test_structure.py::test_prior_extreme_equal_bar_supersedes_without_event 
+tests/test_structure.py::test_cluster_contains_only_already_confirmed_swings 
+[gw0] [ 84%] PASSED tests/test_structure.py::test_cluster_contains_only_already_confirmed_swings 
+tests/test_structure.py::test_higher_high_between_separates_tops 
+[gw0] [ 85%] PASSED tests/test_structure.py::test_higher_high_between_separates_tops 
+tests/test_structure.py::test_cluster_evolution_is_versioned_and_never_rewrites_the_past 
+[gw0] [ 85%] PASSED tests/test_structure.py::test_cluster_evolution_is_versioned_and_never_rewrites_the_past 
+tests/test_structure.py::test_cluster_lows_are_the_mirror_of_highs 
+[gw0] [ 85%] PASSED tests/test_structure.py::test_cluster_lows_are_the_mirror_of_highs 
+tests/test_structure.py::test_touches_are_separated_and_stop_at_the_breach 
+[gw0] [ 85%] PASSED tests/test_structure.py::test_touches_are_separated_and_stop_at_the_breach 
+tests/test_structure.py::test_breach_excursion_and_close_classification 
+[gw0] [ 85%] PASSED tests/test_structure.py::test_breach_excursion_and_close_classification 
+tests/test_structure.py::test_same_bar_failed_breakout 
+[gw0] [ 85%] PASSED tests/test_structure.py::test_same_bar_failed_breakout 
+tests/test_structure.py::test_delayed_failed_breakout_and_window 
+[gw0] [ 85%] PASSED tests/test_structure.py::test_delayed_failed_breakout_and_window 
+tests/test_structure.py::test_minimum_excursion_filters_and_retires_the_level 
+[gw0] [ 85%] PASSED tests/test_structure.py::test_minimum_excursion_filters_and_retires_the_level 
+tests/test_structure.py::test_bullish_and_bearish_are_mirror_images 
+[gw0] [ 85%] PASSED tests/test_structure.py::test_bullish_and_bearish_are_mirror_images 
+tests/test_structure.py::test_rejection_metrics_hand_calculated 
+[gw0] [ 86%] PASSED tests/test_structure.py::test_rejection_metrics_hand_calculated 
+tests/test_structure.py::test_rejection_event_on_a_failed_breakout 
+[gw0] [ 86%] PASSED tests/test_structure.py::test_rejection_event_on_a_failed_breakout 
+tests/test_structure.py::test_structure_shift_after_bullish_sweep 
+[gw0] [ 86%] PASSED tests/test_structure.py::test_structure_shift_after_bullish_sweep 
+tests/test_structure.py::test_structure_shift_cannot_precede_its_reference_or_break 
+[gw2] [ 86%] PASSED tests/test_shared_intelligence.py::test_missing_persistence_is_unknown_not_zero 
+tests/test_shared_intelligence.py::test_funding_backfill_and_macro_rules_do_not_backdate_prism_knowledge 
+[gw0] [ 86%] PASSED tests/test_structure.py::test_structure_shift_cannot_precede_its_reference_or_break 
+tests/test_structure.py::test_bearish_structure_shift_mirrors_bullish 
+[gw0] [ 86%] PASSED tests/test_structure.py::test_bearish_structure_shift_mirrors_bullish 
+tests/test_structure.py::test_retest_only_after_the_return_happens 
+[gw0] [ 86%] PASSED tests/test_structure.py::test_retest_only_after_the_return_happens 
+tests/test_structure.py::test_chain_links_stages_and_measures_entry_delay 
+[gw0] [ 86%] PASSED tests/test_structure.py::test_chain_links_stages_and_measures_entry_delay 
+tests/test_structure.py::test_htf_level_only_referenced_by_ltf_bars_after_it_formed 
+[gw0] [ 87%] PASSED tests/test_structure.py::test_htf_level_only_referenced_by_ltf_bars_after_it_formed 
+tests/test_structure.py::test_mtf_chain_4h_structure_1h_event_15m_confirmation 
+[gw0] [ 87%] PASSED tests/test_structure.py::test_mtf_chain_4h_structure_1h_event_15m_confirmation 
+tests/test_structure.py::test_assumed_latency_provenance_is_explicit 
+[gw0] [ 87%] PASSED tests/test_structure.py::test_assumed_latency_provenance_is_explicit 
+tests/test_structure.py::test_event_ids_are_deterministic_and_parameter_sensitive 
+[gw0] [ 87%] PASSED tests/test_structure.py::test_event_ids_are_deterministic_and_parameter_sensitive 
+tests/test_structure.py::test_future_immunity_appending_bars_never_changes_earlier_events 
+[gw3] [ 87%] PASSED tests/test_paper_observe.py::test_error_cycles_and_streak_are_reported 
+[gw0] [ 87%] PASSED tests/test_structure.py::test_future_immunity_appending_bars_never_changes_earlier_events 
+tests/test_structure.py::test_minimal_regime_primitives 
+[gw0] [ 87%] PASSED tests/test_structure.py::test_minimal_regime_primitives 
+tests/test_structure.py::test_live_consumers_never_use_structural_primitives 
+[gw0] [ 87%] PASSED tests/test_structure.py::test_live_consumers_never_use_structural_primitives 
+tests/test_structure_study.py::test_shipped_manifest_is_valid_and_family_sizes_are_preregistered 
+[gw0] [ 88%] PASSED tests/test_structure_study.py::test_shipped_manifest_is_valid_and_family_sizes_are_preregistered 
+tests/test_structure_study.py::test_axis_central_value_must_sit_in_the_middle 
+[gw0] [ 88%] PASSED tests/test_structure_study.py::test_axis_central_value_must_sit_in_the_middle 
+tests/test_structure_study.py::test_overlapping_venue_windows_are_refused 
+[gw0] [ 88%] PASSED tests/test_structure_study.py::test_overlapping_venue_windows_are_refused 
+tests/test_structure_study.py::test_definition_is_exploratory_records_latency_and_is_content_addressed 
+[gw0] [ 88%] PASSED tests/test_structure_study.py::test_definition_is_exploratory_records_latency_and_is_content_addressed 
+tests/test_structure_study.py::test_event_identity_carries_dataset_and_assumed_latency 
+[gw1] [ 88%] PASSED tests/test_store_lock.py::test_waits_for_the_lock_then_opens 
+tests/test_store_lock.py::test_non_lock_errors_are_not_swallowed 
+[gw1] [ 88%] PASSED tests/test_store_lock.py::test_non_lock_errors_are_not_swallowed 
+tests/test_structure.py::test_registry_bounds_and_normalises_parameters 
+[gw1] [ 88%] PASSED tests/test_structure.py::test_registry_bounds_and_normalises_parameters 
+tests/test_structure.py::test_chain_spec_validation_and_ablation_ladder 
+[gw1] [ 88%] PASSED tests/test_structure.py::test_chain_spec_validation_and_ablation_ladder 
+tests/test_structure.py::test_series_contract_refuses_mixed_venues_bad_bars_and_naive_times 
+[gw1] [ 88%] PASSED tests/test_structure.py::test_series_contract_refuses_mixed_venues_bad_bars_and_naive_times 
+tests/test_structure_study.py::test_reversal_and_continuation_signs 
+[gw1] [ 89%] PASSED tests/test_structure_study.py::test_reversal_and_continuation_signs 
+tests/test_structure_study.py::test_mirrored_market_gives_mirrored_reversal_returns 
+[gw1] [ 89%] PASSED tests/test_structure_study.py::test_mirrored_market_gives_mirrored_reversal_returns 
+tests/test_structure_study.py::test_independent_events_decluster_per_coin_and_direction 
+tests/test_paper_observe.py::test_notification_lag_is_reported 
+[gw2] [ 89%] PASSED tests/test_shared_intelligence.py::test_funding_backfill_and_macro_rules_do_not_backdate_prism_knowledge 
+tests/test_shared_intelligence.py::test_source_rule_without_receipt_is_withheld 
+[gw2] [ 89%] PASSED tests/test_shared_intelligence.py::test_source_rule_without_receipt_is_withheld 
+tests/test_shared_intelligence.py::test_retained_manifest_is_resolvable_and_tamper_evident 
+[gw2] [ 89%] PASSED tests/test_shared_intelligence.py::test_retained_manifest_is_resolvable_and_tamper_evident 
+[gw0] [ 89%] PASSED tests/test_structure_study.py::test_event_identity_carries_dataset_and_assumed_latency 
+tests/test_structure_study.py::test_each_rung_enters_only_after_it_is_observable 
+tests/test_structure_study.py::test_sparse_stage_is_insufficient_never_tested 
+[gw0] [ 89%] PASSED tests/test_structure_study.py::test_each_rung_enters_only_after_it_is_observable 
+tests/test_structure_study.py::test_rungs_are_linked_subsets_and_held_is_disjoint_from_failed 
+[gw2] [ 89%] PASSED tests/test_structure_study.py::test_sparse_stage_is_insufficient_never_tested 
+tests/test_structure_study.py::test_families_are_per_venue_and_architecture 
+[gw0] [ 90%] PASSED tests/test_structure_study.py::test_rungs_are_linked_subsets_and_held_is_disjoint_from_failed 
+tests/test_structure_study.py::test_entry_return_cost_and_funding_by_hand 
+[gw0] [ 90%] PASSED tests/test_structure_study.py::test_entry_return_cost_and_funding_by_hand 
+tests/test_structure_study.py::test_net_is_gross_minus_two_sides_of_frozen_costs 
+[gw0] [ 90%] PASSED tests/test_structure_study.py::test_net_is_gross_minus_two_sides_of_frozen_costs 
+tests/test_structure_study.py::test_transition_entry_cost_by_hand 
+[gw1] [ 90%] PASSED tests/test_structure_study.py::test_independent_events_decluster_per_coin_and_direction 
+tests/test_structure_study.py::test_decluster_hand_example 
+[gw1] [ 90%] PASSED tests/test_structure_study.py::test_decluster_hand_example 
+tests/test_structure_study.py::test_matched_null_and_bh_hand_examples 
+[gw1] [ 90%] PASSED tests/test_structure_study.py::test_matched_null_and_bh_hand_examples 
+tests/test_structure_study.py::test_dataset_windows_are_verified_against_the_frozen_manifest 
+[gw0] [ 90%] PASSED tests/test_structure_study.py::test_transition_entry_cost_by_hand 
+tests/test_structure_study.py::test_verdict_policy 
+[gw0] [ 90%] PASSED tests/test_structure_study.py::test_verdict_policy 
+tests/test_structure_study.py::test_appending_future_bars_never_changes_earlier_signals_or_outcomes 
+[gw2] [ 91%] PASSED tests/test_structure_study.py::test_families_are_per_venue_and_architecture 
+tests/test_structure_study.py::test_venues_are_never_pooled 
+[gw0] [ 91%] PASSED tests/test_structure_study.py::test_appending_future_bars_never_changes_earlier_signals_or_outcomes 
+tests/test_structure_study.py::test_governed_lifecycle_preregistration_and_rerun 
+[gw2] [ 91%] PASSED tests/test_structure_study.py::test_venues_are_never_pooled 
+tests/test_structure_study.py::test_result_payload_is_deterministic_and_carries_no_clock 
+[gw2] [ 91%] PASSED tests/test_structure_study.py::test_result_payload_is_deterministic_and_carries_no_clock 
+tests/test_structure_study.py::test_unresolved_same_bar_order_is_never_an_outcome 
+[gw2] [ 91%] PASSED tests/test_structure_study.py::test_unresolved_same_bar_order_is_never_an_outcome 
+tests/test_track_record.py::test_overlapping_calls_are_not_independent 
+[gw2] [ 91%] PASSED tests/test_track_record.py::test_overlapping_calls_are_not_independent 
+tests/test_track_record.py::test_no_scans_is_empty 
+[gw2] [ 91%] PASSED tests/test_track_record.py::test_no_scans_is_empty 
+tests/test_trade_path.py::test_mfe_mae_long_hand_calculated 
+[gw2] [ 91%] PASSED tests/test_trade_path.py::test_mfe_mae_long_hand_calculated 
+tests/test_trade_path.py::test_mfe_mae_short_hand_calculated 
+[gw2] [ 91%] PASSED tests/test_trade_path.py::test_mfe_mae_short_hand_calculated 
+tests/test_trade_path.py::test_incomplete_paths_are_nan_not_truncated 
+[gw2] [ 92%] PASSED tests/test_trade_path.py::test_incomplete_paths_are_nan_not_truncated 
+tests/test_trade_path.py::test_threshold_first_reach_and_same_bar_ambiguity 
+[gw2] [ 92%] PASSED tests/test_trade_path.py::test_threshold_first_reach_and_same_bar_ambiguity 
+tests/test_trade_path.py::test_lower_timeframe_resolves_only_with_complete_causal_children 
+[gw2] [ 92%] PASSED tests/test_trade_path.py::test_lower_timeframe_resolves_only_with_complete_causal_children 
+tests/test_trade_path.py::test_ex_ante_risk_and_r_paths 
+[gw2] [ 92%] PASSED tests/test_trade_path.py::test_ex_ante_risk_and_r_paths 
+tests/test_trade_path.py::test_entry_is_the_next_open_after_availability 
+[gw2] [ 92%] PASSED tests/test_trade_path.py::test_entry_is_the_next_open_after_availability 
+tests/test_trade_path.py::test_completed_paths_are_immune_to_appended_bars 
+[gw2] [ 92%] PASSED tests/test_trade_path.py::test_completed_paths_are_immune_to_appended_bars 
+tests/test_trade_path.py::test_input_records_state_the_availability_basis 
+[gw2] [ 92%] PASSED tests/test_trade_path.py::test_input_records_state_the_availability_basis 
+tests/test_trade_path.py::test_build_manifest_and_immutable_export 
+[gw2] [ 92%] PASSED tests/test_trade_path.py::test_build_manifest_and_immutable_export 
+tests/test_trade_path.py::test_r_target_and_stop_in_one_bar_is_ambiguous_never_resolved_favourably 
+[gw2] [ 93%] PASSED tests/test_trade_path.py::test_r_target_and_stop_in_one_bar_is_ambiguous_never_resolved_favourably 
+tests/test_work_monitors.py::test_migration_does_not_touch_execution_or_existing_context 
+[gw2] [ 93%] PASSED tests/test_work_monitors.py::test_migration_does_not_touch_execution_or_existing_context 
+tests/test_work_monitors.py::test_each_specialist_valid_and_boundary_replays[chatgpt_work_crypto_breaking_v1] 
+[gw2] [ 93%] PASSED tests/test_work_monitors.py::test_each_specialist_valid_and_boundary_replays[chatgpt_work_crypto_breaking_v1] 
+tests/test_work_monitors.py::test_each_specialist_valid_and_boundary_replays[chatgpt_work_exchange_structure_v1] 
+[gw2] [ 93%] PASSED tests/test_work_monitors.py::test_each_specialist_valid_and_boundary_replays[chatgpt_work_exchange_structure_v1] 
+tests/test_work_monitors.py::test_each_specialist_valid_and_boundary_replays[chatgpt_work_macro_risk_v1] 
+[gw2] [ 93%] PASSED tests/test_work_monitors.py::test_each_specialist_valid_and_boundary_replays[chatgpt_work_macro_risk_v1] 
+tests/test_work_monitors.py::test_each_specialist_valid_and_boundary_replays[chatgpt_work_regulatory_institutional_v1] 
+[gw2] [ 93%] PASSED tests/test_work_monitors.py::test_each_specialist_valid_and_boundary_replays[chatgpt_work_regulatory_institutional_v1] 
+tests/test_work_monitors.py::test_each_specialist_valid_and_boundary_replays[chatgpt_work_technical_tailrisk_v1] 
+[gw2] [ 93%] PASSED tests/test_work_monitors.py::test_each_specialist_valid_and_boundary_replays[chatgpt_work_technical_tailrisk_v1] 
+tests/test_work_monitors.py::test_episode_dedupe_update_and_restart[chatgpt_work_crypto_breaking_v1] 
+[gw3] [ 93%] PASSED tests/test_paper_observe.py::test_notification_lag_is_reported 
+[gw2] [ 94%] PASSED tests/test_work_monitors.py::test_episode_dedupe_update_and_restart[chatgpt_work_crypto_breaking_v1] 
+tests/test_work_monitors.py::test_episode_dedupe_update_and_restart[chatgpt_work_exchange_structure_v1] 
+tests/test_paper_observe.py::test_snapshots_are_immutable_and_reproducible 
+[gw2] [ 94%] PASSED tests/test_work_monitors.py::test_episode_dedupe_update_and_restart[chatgpt_work_exchange_structure_v1] 
+tests/test_work_monitors.py::test_episode_dedupe_update_and_restart[chatgpt_work_macro_risk_v1] 
+[gw2] [ 94%] PASSED tests/test_work_monitors.py::test_episode_dedupe_update_and_restart[chatgpt_work_macro_risk_v1] 
+tests/test_work_monitors.py::test_episode_dedupe_update_and_restart[chatgpt_work_regulatory_institutional_v1] 
+[gw2] [ 94%] PASSED tests/test_work_monitors.py::test_episode_dedupe_update_and_restart[chatgpt_work_regulatory_institutional_v1] 
+tests/test_work_monitors.py::test_episode_dedupe_update_and_restart[chatgpt_work_technical_tailrisk_v1] 
+[gw2] [ 94%] PASSED tests/test_work_monitors.py::test_episode_dedupe_update_and_restart[chatgpt_work_technical_tailrisk_v1] 
+tests/test_work_monitors.py::test_distinct_events_same_asset_do_not_merge 
+[gw2] [ 94%] PASSED tests/test_work_monitors.py::test_distinct_events_same_asset_do_not_merge 
+tests/test_work_monitors.py::test_specialist_smoke_never_enters_context_or_research[chatgpt_work_crypto_breaking_v1] 
+[gw2] [ 94%] PASSED tests/test_work_monitors.py::test_specialist_smoke_never_enters_context_or_research[chatgpt_work_crypto_breaking_v1] 
+tests/test_work_monitors.py::test_specialist_smoke_never_enters_context_or_research[chatgpt_work_exchange_structure_v1] 
+[gw1] [ 94%] PASSED tests/test_structure_study.py::test_dataset_windows_are_verified_against_the_frozen_manifest 
+tests/test_structure_study.py::test_no_live_consumer_reads_phase17 
+[gw1] [ 94%] PASSED tests/test_structure_study.py::test_no_live_consumer_reads_phase17 
+tests/test_structure_study.py::test_central_chain_rejects_delayed_rejection 
+[gw1] [ 95%] PASSED tests/test_structure_study.py::test_central_chain_rejects_delayed_rejection 
+tests/test_track_record.py::test_episodes_benchmark_and_wait 
+[gw2] [ 95%] PASSED tests/test_work_monitors.py::test_specialist_smoke_never_enters_context_or_research[chatgpt_work_exchange_structure_v1] 
+tests/test_work_monitors.py::test_specialist_smoke_never_enters_context_or_research[chatgpt_work_macro_risk_v1] 
+[gw2] [ 95%] PASSED tests/test_work_monitors.py::test_specialist_smoke_never_enters_context_or_research[chatgpt_work_macro_risk_v1] 
+tests/test_work_monitors.py::test_specialist_smoke_never_enters_context_or_research[chatgpt_work_technical_tailrisk_v1] 
+[gw3] [ 95%] PASSED tests/test_paper_observe.py::test_snapshots_are_immutable_and_reproducible 
+[gw0] [ 95%] PASSED tests/test_structure_study.py::test_governed_lifecycle_preregistration_and_rerun 
+tests/test_structure_study.py::test_failed_evaluation_is_recorded_not_hidden 
+tests/test_paper_observe.py::test_observability_is_read_only_and_never_creates_runs 
+[gw2] [ 95%] PASSED tests/test_work_monitors.py::test_specialist_smoke_never_enters_context_or_research[chatgpt_work_technical_tailrisk_v1] 
+tests/test_work_monitors.py::test_corroboration_and_independent_quality_not_ai_self_confirmation 
+[gw2] [ 95%] PASSED tests/test_work_monitors.py::test_corroboration_and_independent_quality_not_ai_self_confirmation 
+tests/test_work_monitors.py::test_metrics_causality_and_reject_attribution 
+[gw1] [ 95%] PASSED tests/test_track_record.py::test_episodes_benchmark_and_wait 
+tests/test_work_monitors.py::test_specialist_smoke_never_enters_context_or_research[chatgpt_work_regulatory_institutional_v1] 
+[gw2] [ 96%] PASSED tests/test_work_monitors.py::test_metrics_causality_and_reject_attribution 
+tests/test_work_monitors.py::test_monitor_prompts_complete_and_routing 
+[gw2] [ 96%] PASSED tests/test_work_monitors.py::test_monitor_prompts_complete_and_routing 
+tests/test_work_monitors.py::test_research_all_horizons_no_lookahead_and_immutable_denial 
+[gw1] [ 96%] PASSED tests/test_work_monitors.py::test_specialist_smoke_never_enters_context_or_research[chatgpt_work_regulatory_institutional_v1] 
+tests/test_work_monitors.py::test_text_instructions_rejected_but_observed_reaction_allowed 
+[gw1] [ 96%] PASSED tests/test_work_monitors.py::test_text_instructions_rejected_but_observed_reaction_allowed 
+tests/test_work_monitors.py::test_research_missingness_never_invents_prices[future_reference] 
+[gw2] [ 96%] PASSED tests/test_work_monitors.py::test_research_all_horizons_no_lookahead_and_immutable_denial 
+tests/test_work_monitors.py::test_research_missingness_never_invents_prices[gap] 
+[gw1] [ 96%] PASSED tests/test_work_monitors.py::test_research_missingness_never_invents_prices[future_reference] 
+tests/test_work_monitors.py::test_research_missingness_never_invents_prices[no_data] 
+[gw2] [ 96%] PASSED tests/test_work_monitors.py::test_research_missingness_never_invents_prices[gap] 
+[gw1] [ 96%] PASSED tests/test_work_monitors.py::test_research_missingness_never_invents_prices[no_data] 
+[gw3] [ 97%] PASSED tests/test_paper_observe.py::test_observability_is_read_only_and_never_creates_runs 
+tests/test_paper_observe.py::test_observe_module_has_no_policy_feedback_or_execution_path 
+[gw3] [ 97%] PASSED tests/test_paper_observe.py::test_observe_module_has_no_policy_feedback_or_execution_path 
+tests/test_paper_observe.py::test_system_status 
+[gw0] [ 97%] PASSED tests/test_structure_study.py::test_failed_evaluation_is_recorded_not_hidden 
+tests/test_work_monitors.py::test_official_protected_cross_provider_confidence_and_denial 
+[gw3] [ 97%] PASSED tests/test_paper_observe.py::test_system_status 
+tests/test_paper_observe.py::test_cli_observability_commands 
+[gw0] [ 97%] PASSED tests/test_work_monitors.py::test_official_protected_cross_provider_confidence_and_denial 
+[gw3] [ 97%] PASSED tests/test_paper_observe.py::test_cli_observability_commands 
+tests/test_paper_snapshot.py::test_compact_snapshot_round_trip_read_only_remote_commands[False] 
+[gw3] [ 97%] PASSED tests/test_paper_snapshot.py::test_compact_snapshot_round_trip_read_only_remote_commands[False] 
+tests/test_paper_snapshot.py::test_compact_snapshot_round_trip_read_only_remote_commands[True] 
+[gw3] [ 97%] PASSED tests/test_paper_snapshot.py::test_compact_snapshot_round_trip_read_only_remote_commands[True] 
+tests/test_paper_snapshot.py::test_bad_checksum_preserves_previous_snapshot_and_manifest 
+[gw3] [ 97%] PASSED tests/test_paper_snapshot.py::test_bad_checksum_preserves_previous_snapshot_and_manifest 
+tests/test_paper_snapshot.py::test_remote_backup_path_validation 
+[gw3] [ 98%] PASSED tests/test_paper_snapshot.py::test_remote_backup_path_validation 
+tests/test_paper_snapshot.py::test_snapshot_cannot_replace_execution_database[False] 
+[gw3] [ 98%] PASSED tests/test_paper_snapshot.py::test_snapshot_cannot_replace_execution_database[False] 
+tests/test_paper_snapshot.py::test_snapshot_cannot_replace_execution_database[True] 
+[gw3] [ 98%] PASSED tests/test_paper_snapshot.py::test_snapshot_cannot_replace_execution_database[True] 
+tests/test_paper_v2_retirement.py::test_drain_preserves_frozen_exit_and_history 
+[gw3] [ 98%] PASSED tests/test_paper_v2_retirement.py::test_drain_preserves_frozen_exit_and_history 
+tests/test_paper_v2_retirement.py::test_flat_and_pending_retire_immediately 
+[gw3] [ 98%] PASSED tests/test_paper_v2_retirement.py::test_flat_and_pending_retire_immediately 
+tests/test_paper_v2_retirement.py::test_drain_waits_for_frozen_funding_settlement 
+[gw3] [ 98%] PASSED tests/test_paper_v2_retirement.py::test_drain_waits_for_frozen_funding_settlement 
+tests/test_paper_v2_retirement.py::test_research_horizons_continue_with_v2_runtime_retired 
+[gw3] [ 98%] PASSED tests/test_paper_v2_retirement.py::test_research_horizons_continue_with_v2_runtime_retired 
+tests/test_paper_v2_retirement.py::test_retired_scheduled_jobs_write_no_cycles_or_notifications 
+[gw3] [ 98%] PASSED tests/test_paper_v2_retirement.py::test_retired_scheduled_jobs_write_no_cycles_or_notifications 
+tests/test_perp_backtest.py::test_daily_funding_window_and_missing_days 
+[gw3] [ 99%] PASSED tests/test_perp_backtest.py::test_daily_funding_window_and_missing_days 
+tests/test_perp_backtest.py::test_forward_returns_charge_funding_with_the_right_sign 
+[gw3] [ 99%] PASSED tests/test_perp_backtest.py::test_forward_returns_charge_funding_with_the_right_sign 
+tests/test_perp_backtest.py::test_forward_returns_short_side_price_and_excursions 
+[gw3] [ 99%] PASSED tests/test_perp_backtest.py::test_forward_returns_short_side_price_and_excursions 
+tests/test_perp_backtest.py::test_missing_funding_inside_window_makes_return_missing 
+[gw3] [ 99%] PASSED tests/test_perp_backtest.py::test_missing_funding_inside_window_makes_return_missing 
+tests/test_perp_backtest.py::test_event_study_finds_planted_short_edge_and_rejects_noise 
+[gw3] [ 99%] PASSED tests/test_perp_backtest.py::test_event_study_finds_planted_short_edge_and_rejects_noise 
+tests/test_perp_backtest.py::test_leverage_is_an_output_of_the_stop 
+[gw3] [ 99%] PASSED tests/test_perp_backtest.py::test_leverage_is_an_output_of_the_stop 
+tests/test_perp_backtest.py::test_short_trade_pnl_funding_received_and_sizing 
+[gw3] [ 99%] PASSED tests/test_perp_backtest.py::test_short_trade_pnl_funding_received_and_sizing 
+tests/test_perp_backtest.py::test_stop_loss_costs_about_one_risk_unit 
+[gw3] [ 99%] PASSED tests/test_perp_backtest.py::test_stop_loss_costs_about_one_risk_unit 
+tests/test_perp_backtest.py::test_gap_through_liquidation_loses_the_margin_not_just_the_stop 
+[gw3] [100%] PASSED tests/test_perp_backtest.py::test_gap_through_liquidation_loses_the_margin_not_just_the_stop 
+
+=================================== FAILURES ===================================
+______________ test_source_definitions_and_artifact_are_unchanged ______________
+[gw0] linux -- Python 3.12.3 /home/matth/prism/.venv/bin/python
+
+spec = {'activation_contract': {'code_revision': 'pin exact later approved commit; source semantic parity against frozen mani...starting_equity_usd': 100.0, 'capital_transfers_allowed': False, 'cohort_id': 'dynamic_lab_risk_sizing_v1', ...}}, ...}
+
+    def test_source_definitions_and_artifact_are_unchanged(spec):
+        for path, digest in spec["provenance"]["source_hashes"].items():
+>           assert hashlib.sha256((ROOT / path).read_bytes()).hexdigest() == digest, path
+E           AssertionError: src/market_signal/ops/profiles.py
+E           assert '0956b94ee8ff...8d09d172b5b56' == 'd6ba8b7d0fb5...9539fb52ae045'
+E             
+E             - d6ba8b7d0fb53cc931b325db6c9615d0463a871a8bbf50af6309539fb52ae045
+E             + 0956b94ee8fffbd1d97fad283bda5cc79cb094d11d87f90798a8d09d172b5b56
+
+tests/test_prospective_sizing_cohort_spec.py:158: AssertionError
+=============================== warnings summary ===============================
+tests/test_context_gateway.py:18
+tests/test_context_gateway.py:18
+tests/test_context_gateway.py:18
+tests/test_context_gateway.py:18
+  /home/matth/prism/.worktrees/ovh-du-ranking/tests/test_context_gateway.py:18: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+============================= slowest 20 durations =============================
+152.11s call     tests/test_scoring_hype.py::test_scan_end_to_end_on_synthetic_db
+150.66s setup    tests/test_runtime_optimisation_a.py::test_empty_missing_and_boundary_exact_adapter_parity[0-24]
+145.86s call     tests/test_runtime_profiles.py::test_lab_backup_job_registers_exports_and_restores_without_paper_runs
+139.74s call     tests/test_relative_strength.py::test_governed_real_evaluation_on_retained_snapshots
+139.03s call     tests/test_paper_observe.py::test_offline_gap_is_a_missed_execution_without_backfill
+117.74s call     tests/test_paper_observe.py::test_trade_history_matches_costs_and_ledger
+82.35s call     tests/test_structure_study.py::test_dataset_windows_are_verified_against_the_frozen_manifest
+66.45s call     tests/test_paper_observe.py::test_notification_lag_is_reported
+65.13s setup    tests/test_runtime.py::test_backup_is_verified_versioned_and_recorded
+63.32s call     tests/test_paper_observe.py::test_risk_headroom
+57.89s call     tests/test_perps.py::test_overview_on_demo_db
+55.95s call     tests/test_lab_forward.py::test_hand_calculated_outcomes_enter_at_next_open[long]
+51.88s setup    tests/test_runtime.py::test_cli_write_commands_are_refused_on_a_claimed_copy
+50.09s setup    tests/test_structure_study.py::test_governed_lifecycle_preregistration_and_rerun
+48.07s setup    tests/test_runtime.py::test_crashed_holder_leaves_no_stale_lock
+45.68s setup    tests/test_perp_research.py::test_runs_are_saved_and_readable_like_spot_research
+44.90s setup    tests/test_risk_sizing.py::test_nimble_ledger_adapter_reconciles_real_engine_trade[volatility]
+41.51s setup    tests/test_portfolio.py::test_positions_frame_marks_open_positions
+40.05s setup    tests/test_runtime_profiles.py::test_job_outside_profile_is_refused_before_anything_runs
+38.00s call     tests/test_paper.py::test_a_dead_cohort_asset_does_not_block_entries_elsewhere
+=========================== short test summary info ============================
+FAILED tests/test_prospective_sizing_cohort_spec.py::test_source_definitions_and_artifact_are_unchanged
+======= 1 failed, 832 passed, 1 skipped, 4 warnings in 946.28s (0:15:46) =======

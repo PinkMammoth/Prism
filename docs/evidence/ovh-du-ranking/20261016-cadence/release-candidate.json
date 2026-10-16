@@ -1,0 +1,118 @@
+{
+  "revision": "b10d13a313870f0975842f1ee77e7b9938879359",
+  "base": "9fbb242d29b6198d65eefbf8b3ab2bdb6894def1",
+  "approved_main": "5cb1ff6b025539ace20a5b885c110d67ac595e23",
+  "rejected_prepared_release": "eee205f24d5d9ef3cd71c32499f13ec2e2fbb8fd",
+  "profile": {
+    "profile": "autotrader_lab_v2",
+    "identity": "prism_autotrader_lab_v2",
+    "digest": "e7571ad1a2a35fb42dc8c1ea77759e31887a1c7679445561664c1dee68c12207",
+    "authority": "rehearsal",
+    "target": "vps",
+    "runtime_id": "vps-prism-autotrader-lab-rehearsal",
+    "explicit": true,
+    "role": "authoritative",
+    "processes": [
+      "microstructure_collector",
+      "free_source_collector",
+      "free_source_ingest",
+      "universe_radar",
+      "scheduler"
+    ],
+    "disabled_by_flag": [],
+    "collector_dynamic": false,
+    "scheduled_jobs": [
+      "oi",
+      "intraday",
+      "paper_v2_funding",
+      "positioning",
+      "context_macro",
+      "context_news",
+      "microstructure",
+      "backup"
+    ],
+    "execution_allowed": false,
+    "external_actions_allowed": false,
+    "boot_catchup_job": null,
+    "dynamic_universe": {
+      "tier0_discovery": "opt_in",
+      "tier1_warming": "opt_in",
+      "tier2_rich": "opt_in",
+      "tier3_risk_pins": "retention_only"
+    },
+    "definition": {
+      "name": "autotrader_lab_v2",
+      "identity": "prism_autotrader_lab_v2",
+      "targets": [
+        "local",
+        "vps"
+      ],
+      "processes": [
+        "free_source_collector",
+        "free_source_ingest",
+        "microstructure_collector",
+        "scheduler",
+        "universe_radar"
+      ],
+      "process_classes": {
+        "free_source_collector": "passive",
+        "free_source_ingest": "ingest",
+        "microstructure_collector": "passive",
+        "scheduler": "ingest",
+        "universe_radar": "ingest"
+      },
+      "jobs": [
+        "backup",
+        "context_macro",
+        "context_news",
+        "intraday",
+        "microstructure",
+        "oi",
+        "paper_v2_funding",
+        "positioning"
+      ],
+      "job_classes": {
+        "backup": "maintenance",
+        "context_macro": "data",
+        "context_news": "data",
+        "intraday": "data",
+        "microstructure": "data",
+        "oi": "data",
+        "paper_v2_funding": "data",
+        "positioning": "data"
+      },
+      "runtime_ids": {
+        "rehearsal": "vps-prism-autotrader-lab-rehearsal"
+      },
+      "boot_catchup_job": null,
+      "unconditional_jobs": [
+        "paper_v2_funding"
+      ],
+      "dynamic_universe": {
+        "tier0_discovery": "opt_in",
+        "tier1_warming": "opt_in",
+        "tier2_rich": "opt_in",
+        "tier3_risk_pins": "retention_only"
+      }
+    }
+  },
+  "policy_id": "universepolicy_5f88b1dcdf20d7d19047edffab329076d7a63936f8c0916c21ffc83bcf4d56ff",
+  "source_sha256": {
+    "src/market_signal/universe/cadence.py": "9ec9897edbc7562c4adb619f988f0c8004b929baee004337787c2ba8db5606e4",
+    "src/market_signal/universe/telemetry.py": "0c04ac7c6a3ce36f6aabdc73418009e1459debaf740c47e075f78fde176da2fa",
+    "src/market_signal/universe/worker.py": "8e506accd4d793e756c3b6c35ae539b31e00d0f14693d76a567b8b82ad8e8224",
+    "src/market_signal/universe/source.py": "0187c9ce0331753a0a176b6770a3a29d46047d5379965989d3031d63a414318d",
+    "src/market_signal/universe/policy.py": "593becb6cb3f3c507ea8ca83bc23066dcb424f5afa1c16cc0b01fb6ba30ea478",
+    "src/market_signal/universe/engine.py": "63624a0da1b1a2c42b61b1840448e8d52ebc75002ab93f29541d5552e8c1c538",
+    "src/market_signal/universe/portability.py": "a750614d7d4b578a32c0d6ade3e223793898c1d439d3c0087c4dfc1f5a19d0e5",
+    "src/market_signal/universe/ledger.py": "844fa27a27d47de1aab74c3cfdc6ace826a47c7c254212bafa717169ba043622",
+    "src/market_signal/cli/universe_cmds.py": "2423ab34cca0f6be26e5d3941e44728fe7f091219ee864c19c3347d1756e11d9",
+    "deploy/vps/activate_du_data.py": "f12039a006378c459f01ed5dc6fa283d910e21df333464009a08a9a7c1ce7a94"
+  },
+  "archive_sha256": "3da6caafde04c5ee51684cd0785298d58c73c096f4d00bc808a8eb8ec387c46a",
+  "deployed": true,
+  "activated": true,
+  "validation": "1804 passed, 1 skipped, 1 sizing provenance failure retained; explicit user-approved ranking-only exception recorded in validation-summary.json; focused208/cadence20 pass.",
+  "activation_at": "2026-10-16T09:40:09.007059+00:00",
+  "budget_sha256": "69d3bc695944c4a88bf5f023e6d251bbf1a7c4120252f1ea0d5199085f91ce44"
+}

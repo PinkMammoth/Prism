@@ -1,0 +1,30 @@
+{
+  "at": "2026-10-16T08:57:31.083103+00:00",
+  "lab_backup": {
+    "path": "/data/backups/daily/prism-20261016T013003Z.duckdb",
+    "sha256": "82f7c8c089ac8a7ea449d1c13fccde77b0f23f77247a4173c13670188168893f",
+    "tables_verified": 146,
+    "all_fingerprints_match": true,
+    "schema_version": 31
+  },
+  "profile": {
+    "profile": "autotrader_lab",
+    "identity": "prism_autotrader_lab_v1",
+    "digest": "f898e2f01ccc5f744ae52e67fbc8edce7428cdf0256647fffa77d926ea102d19",
+    "authority": "rehearsal",
+    "target": "vps",
+    "runtime_id": "vps-prism-autotrader-lab-rehearsal"
+  },
+  "execution_allowed": false,
+  "external_actions_allowed": false,
+  "real_money_named_credentials_present": false,
+  "config_sha256": {
+    "/etc/prism/prism.env": "93116e83a9169e6ee8cb0cbcb5d7532766465c3569412ffce39540e0f5071439",
+    "/etc/prism/secrets.env": "f2ae9d85ebe3b837d53ec0a9a9987524e4cc2a51ef0e24d69d766c2f90c8c126"
+  },
+  "research_backup": {
+    "status": "ok",
+    "started_at": "2026-10-16T08:08:30.467309+00:00",
+    "finished_at": "2026-10-16T08:13:18.135059+00:00"
+  }
+}

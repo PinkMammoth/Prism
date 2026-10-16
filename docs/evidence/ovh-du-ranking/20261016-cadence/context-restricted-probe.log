@@ -1,0 +1,9 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-9.1.1, pluggy-1.6.0 -- /home/matth/prism/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /home/matth/prism/.worktrees/ovh-du-ranking
+configfile: pyproject.toml
+plugins: xdist-3.8.0, anyio-4.15.1
+collecting ... collected 1 item
+
+tests/test_context_gateway.py::test_auth_before_processing_and_rotation 

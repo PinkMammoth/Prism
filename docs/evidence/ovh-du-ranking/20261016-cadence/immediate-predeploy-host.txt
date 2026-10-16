@@ -1,0 +1,86 @@
+Fri Oct 16 09:34:26 UTC 2026
+ 09:34:26 up 15:41,  0 user,  load average: 0.15, 0.16, 0.17
+6.1.0-53-cloud-amd64
+Reference ID    : 6B86565B (amy.chl.la)
+Stratum         : 3
+Ref time (UTC)  : Fri Oct 16 09:26:51 2026
+System time     : 0.000120605 seconds slow of NTP time
+Last offset     : -0.000052135 seconds
+RMS offset      : 0.000045875 seconds
+Frequency       : 13.130 ppm slow
+Residual freq   : -0.003 ppm
+Skew            : 0.047 ppm
+Root delay      : 0.005679028 seconds
+Root dispersion : 0.000793582 seconds
+Update interval : 515.6 seconds
+Leap status     : Normal
+table inet filter {
+	chain input {
+		type filter hook input priority filter; policy drop;
+		ct state established,related accept
+		ct state invalid drop
+		iif "lo" accept
+		ip protocol icmp accept
+		ip6 nexthdr ipv6-icmp accept
+		tcp dport 22 ct state new limit rate 10/minute accept
+	}
+
+	chain forward {
+		type filter hook forward priority filter; policy drop;
+	}
+
+	chain output {
+		type filter hook output priority filter; policy accept;
+	}
+}
+Netid State  Recv-Q Send-Q      Local Address:Port Peer Address:PortProcess                                   
+udp   UNCONN 0      0               127.0.0.1:323       0.0.0.0:*    users:(("chronyd",pid=499,fd=5))         
+udp   UNCONN 0      0                 0.0.0.0:5355      0.0.0.0:*    users:(("systemd-resolve",pid=443,fd=11))
+udp   UNCONN 0      0              127.0.0.54:53        0.0.0.0:*    users:(("systemd-resolve",pid=443,fd=19))
+udp   UNCONN 0      0           127.0.0.53%lo:53        0.0.0.0:*    users:(("systemd-resolve",pid=443,fd=17))
+udp   UNCONN 0      0      178.33.95.139%ens3:68        0.0.0.0:*    users:(("systemd-network",pid=451,fd=10))
+udp   UNCONN 0      0                   [::1]:323          [::]:*    users:(("chronyd",pid=499,fd=6))         
+udp   UNCONN 0      0                    [::]:5355         [::]:*    users:(("systemd-resolve",pid=443,fd=13))
+tcp   LISTEN 0      4096              0.0.0.0:5355      0.0.0.0:*    users:(("systemd-resolve",pid=443,fd=12))
+tcp   LISTEN 0      128               0.0.0.0:22        0.0.0.0:*    users:(("sshd",pid=513,fd=3))            
+tcp   LISTEN 0      4096           127.0.0.54:53        0.0.0.0:*    users:(("systemd-resolve",pid=443,fd=20))
+tcp   LISTEN 0      4096        127.0.0.53%lo:53        0.0.0.0:*    users:(("systemd-resolve",pid=443,fd=18))
+tcp   LISTEN 0      4096                 [::]:5355         [::]:*    users:(("systemd-resolve",pid=443,fd=14))
+tcp   LISTEN 0      128                  [::]:22           [::]:*    users:(("sshd",pid=513,fd=4))            
+  UNIT LOAD ACTIVE SUB DESCRIPTION
+0 loaded units listed.
+MainPID=625
+NRestarts=0
+Id=prism-microstructure.service
+ActiveState=active
+
+MainPID=612
+NRestarts=0
+Id=prism-free-sources.service
+ActiveState=active
+
+MainPID=609
+NRestarts=0
+Id=prism-free-source-ingest.service
+ActiveState=active
+
+MainPID=2205
+NRestarts=0
+Id=prism-scheduler.service
+ActiveState=active
+
+MainPID=0
+NRestarts=0
+Id=prism-universe.service
+ActiveState=inactive
+
+MainPID=0
+NRestarts=0
+Id=prism-nimble.service
+ActiveState=inactive
+/opt/prism/releases/9acb42a94d8888a2e712490b421912739a02bff6
+               total        used        free      shared  buff/cache   available
+Mem:     12256567296  1115295744  9909161984      528384  1560547328 11141271552
+Swap:              0           0           0
+Filesystem        1B-blocks       Used   Available Use% Mounted on
+/dev/sda1      105467994112 6448574464 94682333184   7% /

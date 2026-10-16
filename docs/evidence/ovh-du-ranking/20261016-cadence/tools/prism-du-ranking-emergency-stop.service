@@ -1,0 +1,16 @@
+[Unit]
+Description=Stop ranking and restore v1 if the bounded observer fails or is OOM-killed
+
+[Service]
+Type=oneshot
+ExecStart=/bin/systemctl stop prism-universe.service
+ExecStart=/opt/prism/current/.venv/bin/python /data/validation/du-ranking-cadence/attempt-2/tools/ranking_watch.py --root /data/validation/du-ranking-cadence/attempt-2 --rollback-only
+TimeoutStartSec=420
+MemoryMax=512M
+Nice=19
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+ReadWritePaths=/data /etc/prism
+InaccessiblePaths=/var/lib/prism-research /etc/prism-research-backup

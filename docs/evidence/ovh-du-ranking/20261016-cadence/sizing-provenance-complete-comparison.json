@@ -1,0 +1,23 @@
+[
+  {
+    "path": "src/market_signal/ops/profiles.py",
+    "expected": "d6ba8b7d0fb53cc931b325db6c9615d0463a871a8bbf50af6309539fb52ae045",
+    "current": "0956b94ee8fffbd1d97fad283bda5cc79cb094d11d87f90798a8d09d172b5b56",
+    "approved_main": "0956b94ee8fffbd1d97fad283bda5cc79cb094d11d87f90798a8d09d172b5b56",
+    "introduced_by_cadence_fix": false
+  },
+  {
+    "path": "src/market_signal/universe/source.py",
+    "expected": "f017dcd56ec356a92784173a0c1aaf244495205786bc5762eede7b77bc07c2a3",
+    "current": "0187c9ce0331753a0a176b6770a3a29d46047d5379965989d3031d63a414318d",
+    "approved_main": "f017dcd56ec356a92784173a0c1aaf244495205786bc5762eede7b77bc07c2a3",
+    "introduced_by_cadence_fix": true
+  },
+  {
+    "path": "src/market_signal/universe/worker.py",
+    "expected": "55bc073d1e45f9a7367aa22eea4efb4952fc02b4a4efbad61b367e0597c56622",
+    "current": "8e506accd4d793e756c3b6c35ae539b31e00d0f14693d76a567b8b82ad8e8224",
+    "approved_main": "55bc073d1e45f9a7367aa22eea4efb4952fc02b4a4efbad61b367e0597c56622",
+    "introduced_by_cadence_fix": true
+  }
+]

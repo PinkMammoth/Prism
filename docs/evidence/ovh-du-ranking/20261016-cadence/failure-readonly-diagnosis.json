@@ -1,0 +1,13 @@
+{
+  "diagnostic_only": true,
+  "live_writes_forbidden": true,
+  "start": 1792150124.9371321,
+  "stage": "commit_handoff",
+  "previous_evidence_clock": 1792144239,
+  "fetch_completed": 1792150162.6741145,
+  "markets": 541,
+  "source_errors": 0,
+  "runtime_lock_busy": false,
+  "diagnostic_completed": true,
+  "end": 1792150162.6783352
+}

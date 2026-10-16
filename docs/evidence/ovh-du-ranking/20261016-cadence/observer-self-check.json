@@ -1,0 +1,51 @@
+{
+  "fixture_only": true,
+  "no_host_mutations": true,
+  "healthy_fixture_passed": true,
+  "stop_cases": [
+    {
+      "condition": "authority",
+      "detected": true
+    },
+    {
+      "condition": "execution",
+      "detected": true
+    },
+    {
+      "condition": "warming",
+      "detected": true
+    },
+    {
+      "condition": "service restart",
+      "detected": true
+    },
+    {
+      "condition": "disk floor",
+      "detected": true
+    },
+    {
+      "condition": "spool drop",
+      "detected": true
+    },
+    {
+      "condition": "paper account",
+      "detected": true
+    },
+    {
+      "condition": "unexpected NOT_DUE",
+      "detected": true
+    },
+    {
+      "condition": "worker failure",
+      "detected": true
+    },
+    {
+      "condition": "repeated source errors",
+      "detected": true
+    },
+    {
+      "condition": "Research backup",
+      "detected": true
+    }
+  ]
+}

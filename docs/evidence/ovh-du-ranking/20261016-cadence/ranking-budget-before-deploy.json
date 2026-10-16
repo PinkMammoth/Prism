@@ -1,0 +1,38 @@
+{
+  "policy_id": "universepolicy_5f88b1dcdf20d7d19047edffab329076d7a63936f8c0916c21ffc83bcf4d56ff",
+  "measured_at": 1792141899,
+  "validated": true,
+  "rich_assets": 6,
+  "minimum_runway_days": 30,
+  "daily_growth_bytes": 250000000,
+  "available_bytes": 13855703961,
+  "worker_cpu_seconds_per_minute": 1.0,
+  "release_revision": "b10d13a313870f0975842f1ee77e7b9938879359",
+  "scope": "Resource admission only: ranking, six existing rich/core markets. No warming/execution/sizing permission. Software validation is a separate gate.",
+  "host_measurement": {
+    "at": "2026-10-16T09:11:39.245591+00:00",
+    "disk_free_bytes": 94683299840,
+    "disk_total_bytes": 105467994112,
+    "minimum_free_fraction": 0.7,
+    "minimum_free_bytes": 73827595879,
+    "transient_backup_reserve_bytes": 7000000000,
+    "ram_available_bytes": 11137523712,
+    "ram_total_bytes": 12256567296,
+    "future_baseline_paper_ram_reserve_bytes": 3000000000,
+    "radar_unit_cap_bytes": 1073741824
+  },
+  "growth_basis": "Existing41MB/day Lab DB +15.579MB/day ranking ledger/outcomes +57MB/day growing backup +64MB/day existing raw/spool +6MB/day provider/free source +37MB/day logs/overhead +0.1MB/day frozen Research backup metadata; round220.679MB/day up to250MB/day.",
+  "runway_days_model": 55.422815844,
+  "unattributed_150MB_daily_stress_runway_days": 34.6392599025,
+  "temporary_restore_peak_not_persistent_growth": true,
+  "warming_cost_included": false,
+  "expected_worker_peak_rss_mib_prior": 362,
+  "expected_worker_cpu_seconds_per_600s_prior": 2.49,
+  "cpu_budget_margin": "1CPU-s/min admission estimate versus0.249 prior; hard stop remains30CPU-s/min.",
+  "warnings": [
+    "Runway below60-day warning; preserve30-day stop and70%-free floor.",
+    "Historical145.6MB host step remains unattributed; current free bytes already charge it.",
+    "Final real ranking cost must replace provisional benchmark assumptions after observation."
+  ],
+  "input_evidence_sha256": "583b538fbb2181586b536adc7666733fc9f56fdcf50d93d35761226e00b8c609"
+}

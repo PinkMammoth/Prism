@@ -1,0 +1,35 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+___________ test_36_second_fetch_real_cli_does_not_skip_second_slot ____________
+
+radar = (PosixPath('/tmp/pytest-of-matth/pytest-6/test_36_second_fetch_real_cli_0/data/radar.duckdb'), [1800000600.0])
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7b07c9effad0>
+
+    def test_36_second_fetch_real_cli_does_not_skip_second_slot(radar, monkeypatch):
+        """Fails on the rejected eee205f CLI/commit implementation (second call NOT_DUE)."""
+        path, clock = radar
+    
+        def fetch(http, prepared, now, **kwargs):
+            clock[0] += 36
+            return {
+                "markets": [Market("SAT", int(clock[0]), EPOCH, 100, 10e6, 3e6)],
+                "listing_first_seen": {"SAT": EPOCH},
+                "errors": {},
+                "light": [],
+                "prepared_at": now,
+            }
+    
+        monkeypatch.setattr(source, "fetch", fetch)
+        for start in (EPOCH, EPOCH + 600):
+            clock[0] = float(start)
+            with contextlib.redirect_stdout(io.StringIO()):
+                universe_cmds.refresh(warming=False, as_json=True)
+        s = Store(path, read_only=True)
+        try:
+>           assert s.con.execute("SELECT count(*) FROM universe_evaluations").fetchone()[0] == 2
+E           assert 1 == 2
+
+tests/test_universe_cadence.py:175: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_universe_cadence.py::test_36_second_fetch_real_cli_does_not_skip_second_slot
+Expected rejected-release regression status: 1

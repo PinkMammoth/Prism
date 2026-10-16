@@ -1,0 +1,8 @@
+{
+  "source": "/data/backups/manual/prism-20261016T093742Z-pre-deploy-b10d13a31387.duckdb",
+  "archive": "/home/matth/prism/data/backup-archive/vps/prism-20261016T093742Z-pre-deploy-b10d13a31387.duckdb.gz",
+  "sha256": "c97813832e9d0b69f7311bf1e1103227807486a3e334e2f88e5a48afdc38d368",
+  "restored_ok": true,
+  "table_fingerprints_match": true,
+  "acknowledged": "/data/backups/manual/prism-20261016T093742Z-pre-deploy-b10d13a31387.duckdb"
+}

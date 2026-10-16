@@ -1,0 +1,31 @@
+{
+  "total": 1806,
+  "passed": 1804,
+  "failed": [
+    "tests/test_prospective_sizing_cohort_spec.py::test_source_definitions_and_artifact_are_unchanged"
+  ],
+  "skipped": [
+    "tests/test_research_namespace.py::test_real_restic_rclone_roundtrip"
+  ],
+  "complete_coverage": true,
+  "source_matches_release_candidate": "b10d13a313870f0975842f1ee77e7b9938879359",
+  "functional_DU_profile_scheduler_regressions": 0,
+  "full_suite_green": false,
+  "activation_gate": "PASS WITH EXPLICIT USER-APPROVED RANKING-ONLY SIZING-PROVENANCE EXCEPTION",
+  "baseline_failure_reproduces_on_approved_main": true,
+  "additional_expected_orchestration_hash_changes": [
+    "src/market_signal/universe/source.py",
+    "src/market_signal/universe/worker.py"
+  ],
+  "cadence_tests": {
+    "passed": 20
+  },
+  "focused_tests": {
+    "passed": 208
+  },
+  "user_exception": {
+    "approved": true,
+    "scope": "Only ranking-only deployment b10d13a; frozen sizing manifest/test retained unchanged and failed; sizing/warming/execution/Research handoff OFF",
+    "recorded_at": "2026-10-16T09:34:22.697545+00:00"
+  }
+}

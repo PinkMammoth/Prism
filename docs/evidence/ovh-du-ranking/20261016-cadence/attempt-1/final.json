@@ -1,0 +1,13 @@
+{
+  "start": "2026-10-16T09:41:43.157794+00:00",
+  "end": "2026-10-16T10:01:19.163073+00:00",
+  "duration_seconds": 1176.0052881240845,
+  "evaluations": 1,
+  "accepted_span_seconds": 0,
+  "warnings": [],
+  "stop_conditions": [
+    "supervised refresh failed or timed out"
+  ],
+  "clean": false,
+  "rollback_performed": true
+}

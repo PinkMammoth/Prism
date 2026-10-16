@@ -1,0 +1,340 @@
+{
+  "at": "2026-10-16T08:34:18.940336+00:00",
+  "clock": {
+    "status": 0,
+    "stdout": "Reference ID    : 6B86565B (amy.chl.la)\nStratum         : 3\nRef time (UTC)  : Fri Oct 16 08:26:31 2026\nSystem time     : 0.000073378 seconds slow of NTP time\nLast offset     : -0.000001454 seconds\nRMS offset      : 0.000049713 seconds\nFrequency       : 13.044 ppm slow\nResidual freq   : -0.000 ppm\nSkew            : 0.019 ppm\nRoot delay      : 0.005631613 seconds\nRoot dispersion : 0.000746622 seconds\nUpdate interval : 516.9 seconds\nLeap status     : Normal\n"
+  },
+  "time": {
+    "status": 0,
+    "stdout": "NTPSynchronized=yes\n"
+  },
+  "firewall": {
+    "status": 0,
+    "stdout": "table inet filter {\n\tchain input {\n\t\ttype filter hook input priority filter; policy drop;\n\t\tct state established,related accept\n\t\tct state invalid drop\n\t\tiif \"lo\" accept\n\t\tip protocol icmp accept\n\t\tip6 nexthdr ipv6-icmp accept\n\t\ttcp dport 22 ct state new limit rate 10/minute accept\n\t}\n\n\tchain forward {\n\t\ttype filter hook forward priority filter; policy drop;\n\t}\n\n\tchain output {\n\t\ttype filter hook output priority filter; policy accept;\n\t}\n}\n"
+  },
+  "listeners": {
+    "status": 0,
+    "stdout": "Netid State  Recv-Q Send-Q      Local Address:Port Peer Address:PortProcess                                   \nudp   UNCONN 0      0               127.0.0.1:323       0.0.0.0:*    users:((\"chronyd\",pid=499,fd=5))         \nudp   UNCONN 0      0                 0.0.0.0:5355      0.0.0.0:*    users:((\"systemd-resolve\",pid=443,fd=11))\nudp   UNCONN 0      0              127.0.0.54:53        0.0.0.0:*    users:((\"systemd-resolve\",pid=443,fd=19))\nudp   UNCONN 0      0           127.0.0.53%lo:53        0.0.0.0:*    users:((\"systemd-resolve\",pid=443,fd=17))\nudp   UNCONN 0      0      178.33.95.139%ens3:68        0.0.0.0:*    users:((\"systemd-network\",pid=451,fd=10))\nudp   UNCONN 0      0                   [::1]:323          [::]:*    users:((\"chronyd\",pid=499,fd=6))         \nudp   UNCONN 0      0                    [::]:5355         [::]:*    users:((\"systemd-resolve\",pid=443,fd=13))\ntcp   LISTEN 0      4096              0.0.0.0:5355      0.0.0.0:*    users:((\"systemd-resolve\",pid=443,fd=12))\ntcp   LISTEN 0      128               0.0.0.0:22        0.0.0.0:*    users:((\"sshd\",pid=513,fd=3))            \ntcp   LISTEN 0      4096           127.0.0.54:53        0.0.0.0:*    users:((\"systemd-resolve\",pid=443,fd=20))\ntcp   LISTEN 0      4096        127.0.0.53%lo:53        0.0.0.0:*    users:((\"systemd-resolve\",pid=443,fd=18))\ntcp   LISTEN 0      4096                 [::]:5355         [::]:*    users:((\"systemd-resolve\",pid=443,fd=14))\ntcp   LISTEN 0      128                  [::]:22           [::]:*    users:((\"sshd\",pid=513,fd=4))            \n"
+  },
+  "failed_units": {
+    "status": 0,
+    "stdout": "  UNIT LOAD ACTIVE SUB DESCRIPTION\n0 loaded units listed.\n"
+  },
+  "kernel_errors": {
+    "status": 0,
+    "stdout": "-- No entries --\n"
+  },
+  "uptime": {
+    "status": 0,
+    "stdout": " 08:34:19 up 14:41,  0 user,  load average: 0.11, 0.13, 0.16\n"
+  },
+  "kernel": {
+    "status": 0,
+    "stdout": "6.1.0-53-cloud-amd64\n"
+  },
+  "profile": {
+    "profile": "autotrader_lab",
+    "identity": "prism_autotrader_lab_v1",
+    "digest": "f898e2f01ccc5f744ae52e67fbc8edce7428cdf0256647fffa77d926ea102d19",
+    "authority": "rehearsal",
+    "target": "vps",
+    "runtime_id": "vps-prism-autotrader-lab-rehearsal",
+    "explicit": true,
+    "role": "authoritative",
+    "processes": [
+      "microstructure_collector",
+      "free_source_collector",
+      "free_source_ingest",
+      "scheduler"
+    ],
+    "disabled_by_flag": [],
+    "collector_dynamic": false,
+    "scheduled_jobs": [
+      "oi",
+      "intraday",
+      "paper_v2_funding",
+      "positioning",
+      "context_macro",
+      "context_news",
+      "microstructure",
+      "backup"
+    ],
+    "execution_allowed": false,
+    "external_actions_allowed": false,
+    "boot_catchup_job": null,
+    "dynamic_universe": {
+      "tier0_discovery": "gated",
+      "tier1_warming": "gated",
+      "tier2_rich": "gated",
+      "tier3_risk_pins": "gated"
+    },
+    "definition": {
+      "name": "autotrader_lab",
+      "identity": "prism_autotrader_lab_v1",
+      "targets": [
+        "local",
+        "vps"
+      ],
+      "processes": [
+        "free_source_collector",
+        "free_source_ingest",
+        "microstructure_collector",
+        "nimble_worker",
+        "scheduler"
+      ],
+      "process_classes": {
+        "free_source_collector": "passive",
+        "free_source_ingest": "ingest",
+        "microstructure_collector": "passive",
+        "nimble_worker": "execution",
+        "scheduler": "ingest"
+      },
+      "jobs": [
+        "backup",
+        "context_macro",
+        "context_news",
+        "intraday",
+        "microstructure",
+        "oi",
+        "paper_nimble_brief",
+        "paper_v2_funding",
+        "positioning"
+      ],
+      "job_classes": {
+        "backup": "maintenance",
+        "context_macro": "data",
+        "context_news": "data",
+        "intraday": "data",
+        "microstructure": "data",
+        "oi": "data",
+        "paper_nimble_brief": "execution",
+        "paper_v2_funding": "data",
+        "positioning": "data"
+      },
+      "runtime_ids": {
+        "full": "vps-prism-autotrader-lab",
+        "rehearsal": "vps-prism-autotrader-lab-rehearsal"
+      },
+      "boot_catchup_job": null,
+      "unconditional_jobs": [
+        "paper_v2_funding"
+      ],
+      "dynamic_universe": {
+        "tier0_discovery": "gated",
+        "tier1_warming": "gated",
+        "tier2_rich": "gated",
+        "tier3_risk_pins": "gated"
+      }
+    }
+  },
+  "security_config_sha256": {
+    "/etc/nftables.conf": "f71e2f1005f0fd7500f87b209db3eaa478a6ed17525512e1151d3c35440e9a32",
+    "/etc/ssh/sshd_config": "121bac24ff921329e3fa7ff8c2b987ed8cf8e6bf905464e4722e6181cbe06801",
+    "/etc/ssh/sshd_config.d/50-cloud-init.conf": "6bf43c7543d384fe7c3442bd97b1c91b9da62b51521184b6c1e421a7ef8bac1d",
+    "/etc/ssh/sshd_config.d/10-prism.conf": "557bcf7c78fccacfd3b4bf11b2bf6bc544e74493e89661d4bcd65e672b486594"
+  },
+  "/data/microstructure/status.json": {
+    "backoff_s": 1.0,
+    "bytes_per_s_60s": 10672.1,
+    "coins": {
+      "AAVE": {
+        "first_minute": "2026-10-15T17:52:00+00:00",
+        "last_book20_age_s": 3.4,
+        "last_book5_age_s": 0.1,
+        "last_ctx_age_s": 0.7,
+        "last_finalized_minute": "2026-10-16T08:33:00+00:00",
+        "last_finalized_status": "COMPLETE",
+        "last_trade_age_s": 6.0,
+        "subscribed": [
+          "book20",
+          "book5",
+          "ctx",
+          "trades"
+        ]
+      },
+      "BTC": {
+        "first_minute": "2026-10-15T17:52:00+00:00",
+        "last_book20_age_s": 3.4,
+        "last_book5_age_s": 0.1,
+        "last_ctx_age_s": 0.7,
+        "last_finalized_minute": "2026-10-16T08:33:00+00:00",
+        "last_finalized_status": "COMPLETE",
+        "last_trade_age_s": 0.1,
+        "subscribed": [
+          "book20",
+          "book5",
+          "ctx",
+          "trades"
+        ]
+      },
+      "ETH": {
+        "first_minute": "2026-10-15T17:52:00+00:00",
+        "last_book20_age_s": 3.4,
+        "last_book5_age_s": 0.1,
+        "last_ctx_age_s": 0.7,
+        "last_finalized_minute": "2026-10-16T08:33:00+00:00",
+        "last_finalized_status": "COMPLETE",
+        "last_trade_age_s": 0.1,
+        "subscribed": [
+          "book20",
+          "book5",
+          "ctx",
+          "trades"
+        ]
+      },
+      "HYPE": {
+        "first_minute": "2026-10-15T17:52:00+00:00",
+        "last_book20_age_s": 3.4,
+        "last_book5_age_s": 0.1,
+        "last_ctx_age_s": 0.7,
+        "last_finalized_minute": "2026-10-16T08:33:00+00:00",
+        "last_finalized_status": "COMPLETE",
+        "last_trade_age_s": 0.1,
+        "subscribed": [
+          "book20",
+          "book5",
+          "ctx",
+          "trades"
+        ]
+      },
+      "LINK": {
+        "first_minute": "2026-10-15T17:52:00+00:00",
+        "last_book20_age_s": 3.4,
+        "last_book5_age_s": 0.1,
+        "last_ctx_age_s": 0.7,
+        "last_finalized_minute": "2026-10-16T08:33:00+00:00",
+        "last_finalized_status": "COMPLETE",
+        "last_trade_age_s": 13.3,
+        "subscribed": [
+          "book20",
+          "book5",
+          "ctx",
+          "trades"
+        ]
+      },
+      "SOL": {
+        "first_minute": "2026-10-15T17:52:00+00:00",
+        "last_book20_age_s": 3.4,
+        "last_book5_age_s": 0.1,
+        "last_ctx_age_s": 0.7,
+        "last_finalized_minute": "2026-10-16T08:33:00+00:00",
+        "last_finalized_status": "COMPLETE",
+        "last_trade_age_s": 2.2,
+        "subscribed": [
+          "book20",
+          "book5",
+          "ctx",
+          "trades"
+        ]
+      }
+    },
+    "conn_id": "msconn_94a793c1b946",
+    "connected": true,
+    "counters": {
+      "connections": 6,
+      "dup_book5": 2,
+      "dup_trades": 791,
+      "ev_A": 144,
+      "ev_C": 309760,
+      "ev_D": 59034,
+      "ev_F": 584898,
+      "ev_O": 6,
+      "ev_T": 399606,
+      "ev_X": 5,
+      "finalized": 5292,
+      "replay_unobserved": 42,
+      "status_COMPLETE": 5256,
+      "status_PARTIAL": 36
+    },
+    "cpu_s": 568.45,
+    "definition": "7c299a853f4ba141",
+    "disconnected_since_ms": null,
+    "dropped_records": 0,
+    "dynamic_universe": false,
+    "feature_version": "microstructure_1m_v1",
+    "flush_ms": {
+      "max": 4.404040999361314,
+      "p50": 1.3734849999309517
+    },
+    "git_commit": "530ba0d18c3009352eee21bb7f1a1c01004ab73a",
+    "last_error": "ConnectionClosedOK: received 1000 (OK) Expired; then sent 1000 (OK) Expired",
+    "last_message_age_s": 0.1,
+    "latency_ms": {
+      "n": 4000,
+      "p50": 355,
+      "p90": 422,
+      "p99": 573
+    },
+    "max_rss_mb": 204.6,
+    "msgs_per_s_60s": 21.57,
+    "pending_records": 0,
+    "pid": 625,
+    "processing_us": {
+      "p50": 23.0,
+      "p99": 79.0
+    },
+    "raw": true,
+    "raw_bytes_written": 26865080,
+    "raw_paused": false,
+    "reconnects": 5,
+    "role": "authoritative",
+    "run_id": "msrun_92299ff05c2d47b8",
+    "runtime_id": "vps-prism-autotrader-lab-rehearsal",
+    "spool_errors": 0,
+    "started_ms": 1792086775063,
+    "subscription_error": null,
+    "url": "wss://api.hyperliquid.xyz/ws",
+    "written_ms": 1792139655514
+  },
+  "/data/free_event_sources/collector.json": {
+    "heartbeat_at": "2026-10-16T08:33:55.925672+00:00",
+    "active": [
+      "hyperliquid_status_v1",
+      "coinbase_status_v1",
+      "kraken_status_v1"
+    ],
+    "backlog": null,
+    "ingested": null,
+    "db_opened": null
+  },
+  "/data/free_event_sources/worker.json": {
+    "heartbeat_at": "2026-10-16T08:34:15.995526+00:00",
+    "active": null,
+    "backlog": 0,
+    "ingested": 0,
+    "db_opened": false
+  },
+  "research_backup": {
+    "status": "ok",
+    "stage": "done",
+    "started_at": "2026-10-16T08:08:30.467309+00:00",
+    "finished_at": "2026-10-16T08:13:18.135059+00:00",
+    "receipt": {
+      "snapshot_id": "fc9507814bea186809af169c88499e19706ba1e1a3bd51c3f2a0c7ce6456553f",
+      "generation": "generation-20261016T081024449039Z",
+      "verified_at": "2026-10-16T08:13:18.129960+00:00",
+      "sha256": "dbaa5a3c31ebd738cca69bbd714263f4583722331f515ee2d239d4be77d9726f",
+      "compressed_sha256": "023c3240e029eb87686905a1a9dfe3475397ba173ac0d7f9a38b1473c3e7892b",
+      "compressed_bytes": 135614775,
+      "remote_listing": {
+        "manifest.json": 24494,
+        "research.duckdb.gz": 135614775
+      },
+      "data_added_packed": 11220,
+      "read_data": "full",
+      "restore_verified": true,
+      "restored_db": null,
+      "manifest_copy": "prism-gdrive:Prism/backups/research/manifests/generation-20261016T081024449039Z.json",
+      "retained_snapshots": 3,
+      "pruned_manifests": [],
+      "timings": {
+        "upload_seconds": 24.04894520599919,
+        "remote_check_seconds": 41.04930110499845,
+        "restore_seconds": 57.723793003002356,
+        "retention_seconds": 42.13982607800426
+      },
+      "off_host_verified": true,
+      "destination_id": "google-drive:Prism/backups/research (rclone drive.file scope)"
+    }
+  }
+}

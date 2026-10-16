@@ -1,0 +1,82 @@
+{
+  "fixture_only": true,
+  "no_host_mutations": true,
+  "healthy_fixture_passed": true,
+  "stop_cases": [
+    {
+      "condition": "release",
+      "detected": true
+    },
+    {
+      "condition": "authority",
+      "detected": true
+    },
+    {
+      "condition": "authority claim timestamp",
+      "detected": true
+    },
+    {
+      "condition": "execution",
+      "detected": true
+    },
+    {
+      "condition": "warming",
+      "detected": true
+    },
+    {
+      "condition": "service restart",
+      "detected": true
+    },
+    {
+      "condition": "disk safety",
+      "detected": true
+    },
+    {
+      "condition": "collector drop",
+      "detected": true
+    },
+    {
+      "condition": "paper account",
+      "detected": true
+    },
+    {
+      "condition": "unexpected NOT_DUE",
+      "detected": true
+    },
+    {
+      "condition": "worker failure",
+      "detected": true
+    },
+    {
+      "condition": "provider repetition",
+      "detected": true
+    },
+    {
+      "condition": "Research backup",
+      "detected": true
+    }
+  ],
+  "rollback_config_cases": [
+    {
+      "scenario": "published core plan",
+      "passed": true,
+      "db_history_preserved": true,
+      "core_not_restarted": true,
+      "guard_rejected_restore": false
+    },
+    {
+      "scenario": "unpublished initial plan",
+      "passed": true,
+      "db_history_preserved": true,
+      "core_not_restarted": true,
+      "guard_rejected_restore": false
+    },
+    {
+      "scenario": "unexpected pin",
+      "passed": true,
+      "db_history_preserved": true,
+      "core_not_restarted": true,
+      "guard_rejected_restore": true
+    }
+  ]
+}

@@ -1,0 +1,454 @@
+{
+  "window.json": {
+    "start": "2026-10-16T09:40:13.762139+00:00",
+    "minimum_accepted_span_seconds": 7200,
+    "minimum_evaluations": 13,
+    "maximum_seconds": 14400
+  },
+  "baseline.json": {
+    "at": "2026-10-16T09:40:13.762164+00:00",
+    "release_revision": "b10d13a313870f0975842f1ee77e7b9938879359",
+    "profile": {
+      "profile": "autotrader_lab_v2",
+      "identity": "prism_autotrader_lab_v2",
+      "digest": "e7571ad1a2a35fb42dc8c1ea77759e31887a1c7679445561664c1dee68c12207",
+      "authority": "rehearsal",
+      "target": "vps",
+      "runtime_id": "vps-prism-autotrader-lab-rehearsal",
+      "explicit": true,
+      "role": "authoritative",
+      "processes": [
+        "microstructure_collector",
+        "free_source_collector",
+        "free_source_ingest",
+        "universe_radar",
+        "scheduler"
+      ],
+      "disabled_by_flag": [],
+      "collector_dynamic": false,
+      "scheduled_jobs": [
+        "oi",
+        "intraday",
+        "paper_v2_funding",
+        "positioning",
+        "context_macro",
+        "context_news",
+        "microstructure",
+        "backup"
+      ],
+      "execution_allowed": false,
+      "external_actions_allowed": false,
+      "boot_catchup_job": null,
+      "dynamic_universe": {
+        "tier0_discovery": "opt_in",
+        "tier1_warming": "opt_in",
+        "tier2_rich": "opt_in",
+        "tier3_risk_pins": "retention_only"
+      },
+      "definition": {
+        "name": "autotrader_lab_v2",
+        "identity": "prism_autotrader_lab_v2",
+        "targets": [
+          "local",
+          "vps"
+        ],
+        "processes": [
+          "free_source_collector",
+          "free_source_ingest",
+          "microstructure_collector",
+          "scheduler",
+          "universe_radar"
+        ],
+        "process_classes": {
+          "free_source_collector": "passive",
+          "free_source_ingest": "ingest",
+          "microstructure_collector": "passive",
+          "scheduler": "ingest",
+          "universe_radar": "ingest"
+        },
+        "jobs": [
+          "backup",
+          "context_macro",
+          "context_news",
+          "intraday",
+          "microstructure",
+          "oi",
+          "paper_v2_funding",
+          "positioning"
+        ],
+        "job_classes": {
+          "backup": "maintenance",
+          "context_macro": "data",
+          "context_news": "data",
+          "intraday": "data",
+          "microstructure": "data",
+          "oi": "data",
+          "paper_v2_funding": "data",
+          "positioning": "data"
+        },
+        "runtime_ids": {
+          "rehearsal": "vps-prism-autotrader-lab-rehearsal"
+        },
+        "boot_catchup_job": null,
+        "unconditional_jobs": [
+          "paper_v2_funding"
+        ],
+        "dynamic_universe": {
+          "tier0_discovery": "opt_in",
+          "tier1_warming": "opt_in",
+          "tier2_rich": "opt_in",
+          "tier3_risk_pins": "retention_only"
+        }
+      }
+    },
+    "units": {
+      "prism-microstructure": {
+        "MainPID": "625",
+        "NRestarts": "0",
+        "MemoryCurrent": "220217344",
+        "CPUUsageNSec": "612846345000",
+        "Id": "prism-microstructure.service",
+        "ActiveState": "active",
+        "SubState": "running",
+        "memory.peak": "222126080",
+        "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+        "rss": [
+          {
+            "pid": "625",
+            "VmHWM": "209808 kB",
+            "VmRSS": "209808 kB"
+          }
+        ]
+      },
+      "prism-free-sources": {
+        "MainPID": "42024",
+        "NRestarts": "0",
+        "MemoryCurrent": "103387136",
+        "CPUUsageNSec": "3035708000",
+        "Id": "prism-free-sources.service",
+        "ActiveState": "active",
+        "SubState": "running",
+        "memory.peak": "111071232",
+        "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+        "rss": [
+          {
+            "pid": "42024",
+            "VmHWM": "182184 kB",
+            "VmRSS": "182184 kB"
+          }
+        ]
+      },
+      "prism-free-source-ingest": {
+        "MainPID": "42018",
+        "NRestarts": "0",
+        "MemoryCurrent": "195903488",
+        "CPUUsageNSec": "3149614000",
+        "Id": "prism-free-source-ingest.service",
+        "ActiveState": "active",
+        "SubState": "running",
+        "memory.peak": "197214208",
+        "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+        "rss": [
+          {
+            "pid": "42018",
+            "VmHWM": "273980 kB",
+            "VmRSS": "273980 kB"
+          }
+        ]
+      },
+      "prism-scheduler": {
+        "MainPID": "42015",
+        "NRestarts": "0",
+        "MemoryCurrent": "107511808",
+        "CPUUsageNSec": "9375533000",
+        "Id": "prism-scheduler.service",
+        "ActiveState": "active",
+        "SubState": "running",
+        "memory.peak": "242765824",
+        "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+        "rss": [
+          {
+            "pid": "42015",
+            "VmHWM": "940 kB",
+            "VmRSS": "940 kB"
+          },
+          {
+            "pid": "42117",
+            "VmHWM": "108 kB",
+            "VmRSS": "108 kB"
+          },
+          {
+            "pid": "42118",
+            "VmHWM": "191460 kB",
+            "VmRSS": "183736 kB"
+          },
+          {
+            "pid": "42119",
+            "VmHWM": "2164 kB",
+            "VmRSS": "2164 kB"
+          }
+        ]
+      },
+      "prism-universe": {
+        "MainPID": "42076",
+        "NRestarts": "0",
+        "MemoryCurrent": "17768448",
+        "CPUUsageNSec": "1714605000",
+        "Id": "prism-universe.service",
+        "ActiveState": "active",
+        "SubState": "running",
+        "memory.peak": "110948352",
+        "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+        "rss": [
+          {
+            "pid": "42076",
+            "VmHWM": "31100 kB",
+            "VmRSS": "31100 kB"
+          }
+        ]
+      },
+      "prism-nimble": {
+        "MainPID": "0",
+        "NRestarts": "0",
+        "MemoryCurrent": "[not set]",
+        "CPUUsageNSec": "1493865000",
+        "Id": "prism-nimble.service",
+        "ActiveState": "inactive",
+        "SubState": "dead",
+        "rss": []
+      }
+    },
+    "stop_conditions": null,
+    "db_error_type": null
+  },
+  "latest.json": {
+    "at": "2026-10-16T09:40:13.762164+00:00",
+    "release_revision": "b10d13a313870f0975842f1ee77e7b9938879359",
+    "profile": {
+      "profile": "autotrader_lab_v2",
+      "identity": "prism_autotrader_lab_v2",
+      "digest": "e7571ad1a2a35fb42dc8c1ea77759e31887a1c7679445561664c1dee68c12207",
+      "authority": "rehearsal",
+      "target": "vps",
+      "runtime_id": "vps-prism-autotrader-lab-rehearsal",
+      "explicit": true,
+      "role": "authoritative",
+      "processes": [
+        "microstructure_collector",
+        "free_source_collector",
+        "free_source_ingest",
+        "universe_radar",
+        "scheduler"
+      ],
+      "disabled_by_flag": [],
+      "collector_dynamic": false,
+      "scheduled_jobs": [
+        "oi",
+        "intraday",
+        "paper_v2_funding",
+        "positioning",
+        "context_macro",
+        "context_news",
+        "microstructure",
+        "backup"
+      ],
+      "execution_allowed": false,
+      "external_actions_allowed": false,
+      "boot_catchup_job": null,
+      "dynamic_universe": {
+        "tier0_discovery": "opt_in",
+        "tier1_warming": "opt_in",
+        "tier2_rich": "opt_in",
+        "tier3_risk_pins": "retention_only"
+      },
+      "definition": {
+        "name": "autotrader_lab_v2",
+        "identity": "prism_autotrader_lab_v2",
+        "targets": [
+          "local",
+          "vps"
+        ],
+        "processes": [
+          "free_source_collector",
+          "free_source_ingest",
+          "microstructure_collector",
+          "scheduler",
+          "universe_radar"
+        ],
+        "process_classes": {
+          "free_source_collector": "passive",
+          "free_source_ingest": "ingest",
+          "microstructure_collector": "passive",
+          "scheduler": "ingest",
+          "universe_radar": "ingest"
+        },
+        "jobs": [
+          "backup",
+          "context_macro",
+          "context_news",
+          "intraday",
+          "microstructure",
+          "oi",
+          "paper_v2_funding",
+          "positioning"
+        ],
+        "job_classes": {
+          "backup": "maintenance",
+          "context_macro": "data",
+          "context_news": "data",
+          "intraday": "data",
+          "microstructure": "data",
+          "oi": "data",
+          "paper_v2_funding": "data",
+          "positioning": "data"
+        },
+        "runtime_ids": {
+          "rehearsal": "vps-prism-autotrader-lab-rehearsal"
+        },
+        "boot_catchup_job": null,
+        "unconditional_jobs": [
+          "paper_v2_funding"
+        ],
+        "dynamic_universe": {
+          "tier0_discovery": "opt_in",
+          "tier1_warming": "opt_in",
+          "tier2_rich": "opt_in",
+          "tier3_risk_pins": "retention_only"
+        }
+      }
+    },
+    "units": {
+      "prism-microstructure": {
+        "MainPID": "625",
+        "NRestarts": "0",
+        "MemoryCurrent": "220217344",
+        "CPUUsageNSec": "612846345000",
+        "Id": "prism-microstructure.service",
+        "ActiveState": "active",
+        "SubState": "running",
+        "memory.peak": "222126080",
+        "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+        "rss": [
+          {
+            "pid": "625",
+            "VmHWM": "209808 kB",
+            "VmRSS": "209808 kB"
+          }
+        ]
+      },
+      "prism-free-sources": {
+        "MainPID": "42024",
+        "NRestarts": "0",
+        "MemoryCurrent": "103387136",
+        "CPUUsageNSec": "3035708000",
+        "Id": "prism-free-sources.service",
+        "ActiveState": "active",
+        "SubState": "running",
+        "memory.peak": "111071232",
+        "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+        "rss": [
+          {
+            "pid": "42024",
+            "VmHWM": "182184 kB",
+            "VmRSS": "182184 kB"
+          }
+        ]
+      },
+      "prism-free-source-ingest": {
+        "MainPID": "42018",
+        "NRestarts": "0",
+        "MemoryCurrent": "195903488",
+        "CPUUsageNSec": "3149614000",
+        "Id": "prism-free-source-ingest.service",
+        "ActiveState": "active",
+        "SubState": "running",
+        "memory.peak": "197214208",
+        "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+        "rss": [
+          {
+            "pid": "42018",
+            "VmHWM": "273980 kB",
+            "VmRSS": "273980 kB"
+          }
+        ]
+      },
+      "prism-scheduler": {
+        "MainPID": "42015",
+        "NRestarts": "0",
+        "MemoryCurrent": "107511808",
+        "CPUUsageNSec": "9375533000",
+        "Id": "prism-scheduler.service",
+        "ActiveState": "active",
+        "SubState": "running",
+        "memory.peak": "242765824",
+        "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+        "rss": [
+          {
+            "pid": "42015",
+            "VmHWM": "940 kB",
+            "VmRSS": "940 kB"
+          },
+          {
+            "pid": "42117",
+            "VmHWM": "108 kB",
+            "VmRSS": "108 kB"
+          },
+          {
+            "pid": "42118",
+            "VmHWM": "191460 kB",
+            "VmRSS": "183736 kB"
+          },
+          {
+            "pid": "42119",
+            "VmHWM": "2164 kB",
+            "VmRSS": "2164 kB"
+          }
+        ]
+      },
+      "prism-universe": {
+        "MainPID": "42076",
+        "NRestarts": "0",
+        "MemoryCurrent": "17768448",
+        "CPUUsageNSec": "1714605000",
+        "Id": "prism-universe.service",
+        "ActiveState": "active",
+        "SubState": "running",
+        "memory.peak": "110948352",
+        "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+        "rss": [
+          {
+            "pid": "42076",
+            "VmHWM": "31100 kB",
+            "VmRSS": "31100 kB"
+          }
+        ]
+      },
+      "prism-nimble": {
+        "MainPID": "0",
+        "NRestarts": "0",
+        "MemoryCurrent": "[not set]",
+        "CPUUsageNSec": "1493865000",
+        "Id": "prism-nimble.service",
+        "ActiveState": "inactive",
+        "SubState": "dead",
+        "rss": []
+      }
+    },
+    "stop_conditions": [],
+    "db_error_type": null
+  },
+  "/etc/prism/prism.env.pre-du-v1": {
+    "sha256": "93116e83a9169e6ee8cb0cbcb5d7532766465c3569412ffce39540e0f5071439",
+    "mode": "0o640"
+  },
+  "/etc/prism/secrets.env": {
+    "sha256": "f2ae9d85ebe3b837d53ec0a9a9987524e4cc2a51ef0e24d69d766c2f90c8c126",
+    "mode": "0o640"
+  },
+  "/data/state/du-budget.json": {
+    "sha256": "69d3bc695944c4a88bf5f023e6d251bbf1a7c4120252f1ea0d5199085f91ce44",
+    "mode": "0o640"
+  },
+  "failed_units": "",
+  "collector_plan": null
+}

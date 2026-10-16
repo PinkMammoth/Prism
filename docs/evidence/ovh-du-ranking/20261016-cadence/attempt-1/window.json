@@ -1,0 +1,6 @@
+{
+  "start": "2026-10-16T09:41:43.157794+00:00",
+  "minimum_accepted_span_seconds": 7200,
+  "minimum_evaluations": 13,
+  "maximum_seconds": 14400
+}

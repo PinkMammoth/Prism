@@ -1,0 +1,7 @@
+{
+  "src/market_signal/cli/universe_cmds.py": "16b990ed704cf8f22645c75231e0c9e459012abfeedc8bfa7bfa0785c3f4578e",
+  "src/market_signal/universe/worker.py": "0c38def633077e288be4bbb22dcb810991967934a7e1ef632093ed25daf7972d",
+  "src/market_signal/universe/cadence.py": "9ec9897edbc7562c4adb619f988f0c8004b929baee004337787c2ba8db5606e4",
+  "src/market_signal/universe/source.py": "0187c9ce0331753a0a176b6770a3a29d46047d5379965989d3031d63a414318d",
+  "tests/test_universe_cadence.py": "1ae363bb6305782076b587af5af991b882e02a308474a5aa79196a56d8a82690"
+}

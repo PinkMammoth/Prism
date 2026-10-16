@@ -1,0 +1,28 @@
+{
+  "at": "2026-10-16T12:03:01.110422+00:00",
+  "/data/validation/du-ranking-cadence/rollback.json": {
+    "mtime_ns": 1792144882841321339,
+    "mtime_utc": "2026-10-16T10:01:22.841321+00:00"
+  },
+  "/data/validation/du-ranking-cadence/final.json": {
+    "mtime_ns": 1792144882841321339,
+    "mtime_utc": "2026-10-16T10:01:22.841321+00:00"
+  },
+  "/etc/prism/prism.env": {
+    "mtime_ns": 1792144881269300327,
+    "mtime_utc": "2026-10-16T10:01:21.269300+00:00"
+  },
+  "/data/state/profile.json": {
+    "mtime_ns": 1792144884025337164,
+    "mtime_utc": "2026-10-16T10:01:24.025337+00:00"
+  },
+  "units": "MainPID=43331\nNRestarts=0\nExecMainStartTimestamp=Fri 2026-10-16 10:01:22 UTC\nId=prism-scheduler.service\nActiveState=active\n\nMainPID=43330\nNRestarts=0\nExecMainStartTimestamp=Fri 2026-10-16 10:01:22 UTC\nId=prism-free-sources.service\nActiveState=active\n\nMainPID=43329\nNRestarts=0\nExecMainStartTimestamp=Fri 2026-10-16 10:01:22 UTC\nId=prism-free-source-ingest.service\nActiveState=active\n\nMainPID=625\nNRestarts=0\nExecMainStartTimestamp=Thu 2026-10-15 17:52:53 UTC\nId=prism-microstructure.service\nActiveState=active\n\nMainPID=0\nNRestarts=0\nExecMainStartTimestamp=Fri 2026-10-16 09:40:08 UTC\nId=prism-universe.service\nActiveState=inactive\n\nMainPID=0\nNRestarts=0\nExecMainStartTimestamp=\nId=prism-nimble.service\nActiveState=inactive\n",
+  "profile": {
+    "identity": "prism_autotrader_lab_v1",
+    "digest": "f898e2f01ccc5f744ae52e67fbc8edce7428cdf0256647fffa77d926ea102d19",
+    "authority": "rehearsal",
+    "execution_allowed": false,
+    "external_actions_allowed": false,
+    "collector_dynamic": false
+  }
+}

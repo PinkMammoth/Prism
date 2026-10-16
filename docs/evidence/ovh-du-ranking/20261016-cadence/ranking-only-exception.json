@@ -1,0 +1,21 @@
+{
+  "approved": true,
+  "user_answer": "Approve ranking-only exception",
+  "revision": "b10d13a313870f0975842f1ee77e7b9938879359",
+  "approved_scope": "Ranking-only deployment and observation",
+  "not_approved": [
+    "warming",
+    "sizing",
+    "paper execution",
+    "real-money access",
+    "Research authority handoff"
+  ],
+  "full_suite": {
+    "passed": 1804,
+    "skipped": 1,
+    "failed": 1
+  },
+  "failure": "tests/test_prospective_sizing_cohort_spec.py::test_source_definitions_and_artifact_are_unchanged",
+  "disclosure": "The same test already fails on approved main (profile source hash), and this cadence change additionally changes pinned source.py/worker.py hashes. Frozen sizing manifest and test remain unchanged and failed.",
+  "recorded_at": "2026-10-16T09:34:22.697545+00:00"
+}

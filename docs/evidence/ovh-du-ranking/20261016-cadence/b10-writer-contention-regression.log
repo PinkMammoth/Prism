@@ -1,0 +1,86 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+___________ test_real_cli_waits_for_short_existing_writer_at_commit ____________
+
+project = PosixPath('/tmp/pytest-of-matth/pytest-10/test_real_cli_waits_for_short_0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f7971a67890>
+
+    def test_real_cli_waits_for_short_existing_writer_at_commit(project, monkeypatch):
+        """b10d13a fails immediately when ordinary free ingest owns the handoff lock."""
+        import threading
+    
+        from market_signal.ops import runtime
+    
+        path = project / "data" / "radar.duckdb"
+        Store(path).close()
+        monkeypatch.setenv("PRISM_DB_PATH", str(path))
+        monkeypatch.delenv("PRISM_RUNTIME_ROLE", raising=False)
+        monkeypatch.setattr(profiles, "current", lambda: SimpleNamespace(explicit=False))
+        monkeypatch.setattr(
+            HttpClient,
+            "_http",
+            lambda self: SimpleNamespace(event_hooks={"request": [], "response": []}),
+        )
+        monkeypatch.setattr(HttpClient, "close", lambda self: None)
+        ready, released = threading.Event(), threading.Event()
+    
+        def existing_writer():
+            with runtime.runtime_lock(path, "free_event_ingest", wait=0):
+                ready.set()
+                released.wait(0.1)
+    
+        thread = threading.Thread(target=existing_writer)
+    
+        def fetch(http, prepared, now, **kwargs):
+            # Acquired only after the read-only prepare phase: exact commit collision.
+            thread.start()
+            assert ready.wait(5)
+            return {
+                "markets": [Market("SAT", now, now, 100, 10e6, 3e6)],
+                "listing_first_seen": {"SAT": now},
+                "errors": {},
+                "light": [],
+                "prepared_at": now,
+            }
+    
+        monkeypatch.setattr(source, "fetch", fetch)
+        stream = io.StringIO()
+        try:
+            with contextlib.redirect_stdout(stream):
+>               universe_cmds.refresh(warming=False, as_json=True)
+
+tests/test_universe_cadence.py:317: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/market_signal/cli/universe_cmds.py:86: in refresh
+    result = _refresh_once(warming)
+             ^^^^^^^^^^^^^^^^^^^^^^
+src/market_signal/cli/universe_cmds.py:122: in _refresh_once
+    with runtime_lock(path, "dynamic_universe", wait=0), open_store() as (_, store):
+/usr/lib/python3.12/contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+db = PosixPath('/tmp/pytest-of-matth/pytest-10/test_real_cli_waits_for_short_0/data/radar.duckdb')
+job = 'dynamic_universe', wait = 0
+
+    @contextmanager
+    def runtime_lock(db: Path, job: str, wait: float) -> Iterator[None]:
+        """Exclusive for one job at a time on this database. Waits up to ``wait`` seconds."""
+        path = db.with_name(db.name + ".runtime.lock")
+        fd = os.open(path, os.O_RDWR | os.O_CREAT, 0o644)
+        start = time.monotonic()
+        try:
+            while True:
+                try:
+                    fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                    break
+                except BlockingIOError:
+                    if time.monotonic() - start >= wait:
+                        holder = path.read_text().strip() or "unknown"
+>                       raise RuntimeBusy(f"another runtime job is running ({holder})") from None
+E                       market_signal.ops.runtime.RuntimeBusy: another runtime job is running ({"pid": 59, "job": "free_event_ingest", "since": "2026-10-16T11:30:47.837136+00:00"})
+
+src/market_signal/ops/runtime.py:356: RuntimeBusy
+=========================== short test summary info ============================
+FAILED tests/test_universe_cadence.py::test_real_cli_waits_for_short_existing_writer_at_commit

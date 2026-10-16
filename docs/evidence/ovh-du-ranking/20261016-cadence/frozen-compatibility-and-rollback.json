@@ -1,0 +1,149 @@
+{
+  "policy_id": "universepolicy_5f88b1dcdf20d7d19047edffab329076d7a63936f8c0916c21ffc83bcf4d56ff",
+  "unchanged_sources": {
+    "src/market_signal/universe/policy.py": {
+      "current_sha256": "593becb6cb3f3c507ea8ca83bc23066dcb424f5afa1c16cc0b01fb6ba30ea478",
+      "approved_main_sha256": "593becb6cb3f3c507ea8ca83bc23066dcb424f5afa1c16cc0b01fb6ba30ea478"
+    },
+    "src/market_signal/universe/engine.py": {
+      "current_sha256": "63624a0da1b1a2c42b61b1840448e8d52ebc75002ab93f29541d5552e8c1c538",
+      "approved_main_sha256": "63624a0da1b1a2c42b61b1840448e8d52ebc75002ab93f29541d5552e8c1c538"
+    },
+    "src/market_signal/universe/portability.py": {
+      "current_sha256": "a750614d7d4b578a32c0d6ade3e223793898c1d439d3c0087c4dfc1f5a19d0e5",
+      "approved_main_sha256": "a750614d7d4b578a32c0d6ade3e223793898c1d439d3c0087c4dfc1f5a19d0e5"
+    },
+    "src/market_signal/universe/ledger.py": {
+      "current_sha256": "844fa27a27d47de1aab74c3cfdc6ace826a47c7c254212bafa717169ba043622",
+      "approved_main_sha256": "844fa27a27d47de1aab74c3cfdc6ace826a47c7c254212bafa717169ba043622"
+    },
+    "src/market_signal/universe/rich.py": {
+      "current_sha256": "26db612a0e3343d938acfd1a17167679301fd4f26392b8e6e4e6361285d82d23",
+      "approved_main_sha256": "26db612a0e3343d938acfd1a17167679301fd4f26392b8e6e4e6361285d82d23"
+    },
+    "src/market_signal/ops/profiles.py": {
+      "current_sha256": "0956b94ee8fffbd1d97fad283bda5cc79cb094d11d87f90798a8d09d172b5b56",
+      "approved_main_sha256": "0956b94ee8fffbd1d97fad283bda5cc79cb094d11d87f90798a8d09d172b5b56"
+    },
+    "deploy/vps/activate_du_data.py": {
+      "current_sha256": "f12039a006378c459f01ed5dc6fa283d910e21df333464009a08a9a7c1ce7a94",
+      "approved_main_sha256": "f12039a006378c459f01ed5dc6fa283d910e21df333464009a08a9a7c1ce7a94"
+    }
+  },
+  "input_functions_ast_unchanged": {
+    "decode": true,
+    "book_metrics": true,
+    "enrich_history": true,
+    "prepare": true,
+    "fetch": true
+  },
+  "ranking_profile": {
+    "profile": "autotrader_lab_v2",
+    "identity": "prism_autotrader_lab_v2",
+    "digest": "e7571ad1a2a35fb42dc8c1ea77759e31887a1c7679445561664c1dee68c12207",
+    "authority": "rehearsal",
+    "target": "vps",
+    "runtime_id": "vps-prism-autotrader-lab-rehearsal",
+    "explicit": true,
+    "role": "authoritative",
+    "processes": [
+      "microstructure_collector",
+      "free_source_collector",
+      "free_source_ingest",
+      "universe_radar",
+      "scheduler"
+    ],
+    "disabled_by_flag": [],
+    "collector_dynamic": false,
+    "scheduled_jobs": [
+      "oi",
+      "intraday",
+      "paper_v2_funding",
+      "positioning",
+      "context_macro",
+      "context_news",
+      "microstructure",
+      "backup"
+    ],
+    "execution_allowed": false,
+    "external_actions_allowed": false,
+    "boot_catchup_job": null,
+    "dynamic_universe": {
+      "tier0_discovery": "opt_in",
+      "tier1_warming": "opt_in",
+      "tier2_rich": "opt_in",
+      "tier3_risk_pins": "retention_only"
+    },
+    "definition": {
+      "name": "autotrader_lab_v2",
+      "identity": "prism_autotrader_lab_v2",
+      "targets": [
+        "local",
+        "vps"
+      ],
+      "processes": [
+        "free_source_collector",
+        "free_source_ingest",
+        "microstructure_collector",
+        "scheduler",
+        "universe_radar"
+      ],
+      "process_classes": {
+        "free_source_collector": "passive",
+        "free_source_ingest": "ingest",
+        "microstructure_collector": "passive",
+        "scheduler": "ingest",
+        "universe_radar": "ingest"
+      },
+      "jobs": [
+        "backup",
+        "context_macro",
+        "context_news",
+        "intraday",
+        "microstructure",
+        "oi",
+        "paper_v2_funding",
+        "positioning"
+      ],
+      "job_classes": {
+        "backup": "maintenance",
+        "context_macro": "data",
+        "context_news": "data",
+        "intraday": "data",
+        "microstructure": "data",
+        "oi": "data",
+        "paper_v2_funding": "data",
+        "positioning": "data"
+      },
+      "runtime_ids": {
+        "rehearsal": "vps-prism-autotrader-lab-rehearsal"
+      },
+      "boot_catchup_job": null,
+      "unconditional_jobs": [
+        "paper_v2_funding"
+      ],
+      "dynamic_universe": {
+        "tier0_discovery": "opt_in",
+        "tier1_warming": "opt_in",
+        "tier2_rich": "opt_in",
+        "tier3_risk_pins": "retention_only"
+      }
+    }
+  },
+  "rollback_config_roundtrip": {
+    "passed": true,
+    "restores_original_identity": {
+      "profile": "autotrader_lab",
+      "identity": "prism_autotrader_lab_v1",
+      "digest": "f898e2f01ccc5f744ae52e67fbc8edce7428cdf0256647fffa77d926ea102d19",
+      "authority": "rehearsal",
+      "target": "vps",
+      "runtime_id": "vps-prism-autotrader-lab-rehearsal"
+    },
+    "same_data_jobs": true,
+    "rank_process_removed": true,
+    "execution_disabled": true,
+    "external_actions_disabled": true
+  },
+  "activation_script_unchanged": true
+}

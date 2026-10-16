@@ -1,0 +1,330 @@
+From c6b6e9da7e0d2e04f265e5fec9d1dde9a0a7d67c Mon Sep 17 00:00:00 2001
+From: PinkMammoth <93152084+PinkMammoth@users.noreply.github.com>
+Date: Fri, 16 Oct 2026 12:37:06 +0100
+Subject: [PATCH] fix(universe): bound writer handoff and preserve supervised
+ JSON output
+
+---
+ docs/DYNAMIC_UNIVERSE_CADENCE_FIX.md   |  27 +++++
+ src/market_signal/cli/universe_cmds.py |  42 ++++---
+ src/market_signal/universe/worker.py   |  29 +++++
+ tests/test_universe_cadence.py         | 146 +++++++++++++++++++++++++
+ 4 files changed, 231 insertions(+), 13 deletions(-)
+
+diff --git a/docs/DYNAMIC_UNIVERSE_CADENCE_FIX.md b/docs/DYNAMIC_UNIVERSE_CADENCE_FIX.md
+index cb15e9f..05274ef 100644
+--- a/docs/DYNAMIC_UNIVERSE_CADENCE_FIX.md
++++ b/docs/DYNAMIC_UNIVERSE_CADENCE_FIX.md
+@@ -103,3 +103,30 @@ satellite backfill, prospective satellite OI captures, rich collection or execut
+ 
+ See [cadence-tranche evidence](evidence/ovh-du-ranking/20261016-cadence/) for final validation,
+ release identity, fresh admission, activation, genuine observation and rollback evidence.
++
++## Writer handoff and JSON follow-up after the first live attempt
++
++The first `b10d13a…` evaluation succeeded at09:50:39 UTC. The10:00 child exited1;
++the bounded observer stopped ranking and restored v1 at10:01:19 UTC, preserving history and
++core PID625. Its arbitrary stderr was deliberately not emitted, but no safe diagnostic class
++had been retained either; the original exit's precise exception is therefore unproven.
++A subsequent strictly read-only public fetch discovered541 markets without source errors.
++
++A real-CLI regression proves an independent handoff defect in b10: a normal writer briefly
++holding the runtime lock after HTTP makes `wait=0` raise `RuntimeBusy`. A second cross-process
++regression proves that a read-only observer can make common DB wait/progress messages corrupt
++the supervised JSON result. These findings are consistent with normal workload contention;
++they do not retrospectively prove the exception type in the discarded original stderr.
++
++The follow-up waits at most60s for the existing runtime writer lock and records requested/
++acquired clocks and actual wait. Network remains outside that lock. The entire child remains
++bounded by the existing300s timeout; nominal deadlines and real evidence clocks are unchanged.
++For `--json`, internal progress is directed to stderr and the final result alone goes to stdout.
++Failed children retain only allowlisted exception-class signatures, stderr size and SHA256,
++never arbitrary exception text or credential-bearing output. No readiness/scoring change occurs.
++
++The live attempt is failed evidence, not a successful cadence window. A resumed observer counts
++only new evaluations whose real evidence clocks lie inside the new window; the prior observation
++is preserved and the genuine stopped gap still resets frozen continuity. Host/cgroup sampling
++remains frequent, with full read-only audits on new completed events or every120s while the radar
++child is idle, reducing observer-induced DB interference.
+diff --git a/src/market_signal/cli/universe_cmds.py b/src/market_signal/cli/universe_cmds.py
+index 1d0b23d..f291476 100644
+--- a/src/market_signal/cli/universe_cmds.py
++++ b/src/market_signal/cli/universe_cmds.py
+@@ -4,7 +4,9 @@ from __future__ import annotations
+ 
+ import json
+ import os
++import sys
+ import time
++from contextlib import nullcontext, redirect_stdout
+ from datetime import UTC, datetime
+ 
+ import typer
+@@ -82,7 +84,11 @@ def refresh(warming: bool = typer.Option(False, "--warming"), as_json: bool = JS
+     from market_signal.config import get_settings
+     from market_signal.universe import cadence
+ 
+-    with cadence.refresh_lock(get_settings().paths.db):
++    # Keep wait/progress output off the machine-readable result channel.
++    with (
++        cadence.refresh_lock(get_settings().paths.db),
++        redirect_stdout(sys.stderr) if as_json else nullcontext(),
++    ):
+         result = _refresh_once(warming)
+     _out(result, as_json)
+ 
+@@ -119,19 +125,29 @@ def _refresh_once(warming):
+     timing["source_refresh_completed_at"] = time.time()
+     timing["api"] = metrics.summary()
+     timing["api"]["captured_response_body_bytes"] = sum(len(p.body) for p in http.captured)
+-    with runtime_lock(path, "dynamic_universe", wait=0), open_store() as (_, store):
+-        # This is the existing evidence clock, sampled at commit entry. Do not replace
+-        # it with the nominal slot or call it the completed transaction timestamp.
+-        evidence_clock = int(datetime.now(UTC).timestamp())
+-        timing["evidence_clock"] = evidence_clock
+-        result = source.commit(store, fetched, evidence_clock, warming=warming, telemetry=timing)
+-        if "evaluation_id" in result:
+-            subscriptions.publish(
+-                default_root(path),
+-                result,
+-                role=os.environ.get("PRISM_RUNTIME_ROLE", ""),
+-                runtime_id=os.environ.get("PRISM_RUNTIME_ID", ""),
++    # Ordinary short writer ownership is contention, not a failed observation.
++    # The whole child still has the worker's 300s timeout; HTTP never holds this lock.
++    timing["runtime_lock_requested_at"] = time.time()
++    with runtime_lock(path, "dynamic_universe", wait=60):
++        timing["runtime_lock_acquired_at"] = time.time()
++        timing["runtime_lock_wait_seconds"] = (
++            timing["runtime_lock_acquired_at"] - timing["runtime_lock_requested_at"]
++        )
++        with open_store() as (_, store):
++            # This is the existing evidence clock, sampled at commit entry. Do not replace
++            # it with the nominal slot or call it the completed transaction timestamp.
++            evidence_clock = int(datetime.now(UTC).timestamp())
++            timing["evidence_clock"] = evidence_clock
++            result = source.commit(
++                store, fetched, evidence_clock, warming=warming, telemetry=timing
+             )
++            if "evaluation_id" in result:
++                subscriptions.publish(
++                    default_root(path),
++                    result,
++                    role=os.environ.get("PRISM_RUNTIME_ROLE", ""),
++                    runtime_id=os.environ.get("PRISM_RUNTIME_ID", ""),
++                )
+     timing["refresh_completed_at"] = time.time()
+     timing["previous_evidence_clock"] = prepared["previous"]["at"] if prepared["previous"] else None
+     timing["continuity_gap_seconds"] = (
+diff --git a/src/market_signal/universe/worker.py b/src/market_signal/universe/worker.py
+index ebc143a..650d8e7 100644
+--- a/src/market_signal/universe/worker.py
++++ b/src/market_signal/universe/worker.py
+@@ -1,8 +1,10 @@
+ """Data-only supervised radar process. HTTP never holds the runtime writer lock."""
+ 
++import hashlib
+ import json
+ import logging
+ import os
++import re
+ import resource
+ import subprocess
+ import sys
+@@ -14,6 +16,32 @@ from market_signal.universe.policy import POLICY
+ log = logging.getLogger("prism.universe")
+ 
+ 
++def failure_details(result):
++    """Class names and opaque diagnostics only; never emit arbitrary child stderr."""
++    stderr = getattr(result, "stderr", "") or ""
++    plain = re.sub(r"\x1b\[[0-?]*[ -/]*[@-~]", "", stderr)
++    names = (
++        "RuntimeBusy",
++        "DatabaseBusy",
++        "HTTPStatusError",
++        "ConnectError",
++        "ConnectTimeout",
++        "ReadTimeout",
++        "TimeoutError",
++        "ValueError",
++        "TypeError",
++        "KeyError",
++        "PermissionError",
++        "OSError",
++        "NotAuthoritative",
++    )
++    return {
++        "error_classes": [name for name in names if re.search(rf"\b{name}\s*:", plain)],
++        "stderr_sha256": hashlib.sha256(stderr.encode()).hexdigest(),
++        "stderr_bytes": len(stderr.encode()),
++    }
++
++
+ def main():
+     logging.basicConfig(level=logging.INFO, format="%(message)s")
+     deadline = cadence.first_deadline(time.time())
+@@ -52,6 +80,7 @@ def main():
+                 )
+             else:
+                 event["status"] = "FAILED"
++                event["failure"] = failure_details(result)
+         except subprocess.TimeoutExpired:
+             # subprocess.run kills and waits for its child before the next deadline.
+             event["status"] = "TIMEOUT"
+diff --git a/tests/test_universe_cadence.py b/tests/test_universe_cadence.py
+index 2526e8b..246c1c8 100644
+--- a/tests/test_universe_cadence.py
++++ b/tests/test_universe_cadence.py
+@@ -270,3 +270,149 @@ def test_late_wakeup_records_missed_slots_without_replaying_them(monkeypatch):
+     assert events[0]["scheduled_deadline"] == EPOCH + 1200
+     assert events[0]["missed_before_start"] == 1
+     assert events[0]["next_scheduled_deadline"] == EPOCH + 1800
++
++
++def test_real_cli_waits_for_short_existing_writer_at_commit(project, monkeypatch):
++    """b10d13a fails immediately when ordinary free ingest owns the handoff lock."""
++    import threading
++
++    from market_signal.ops import runtime
++
++    path = project / "data" / "radar.duckdb"
++    Store(path).close()
++    monkeypatch.setenv("PRISM_DB_PATH", str(path))
++    monkeypatch.delenv("PRISM_RUNTIME_ROLE", raising=False)
++    monkeypatch.setattr(profiles, "current", lambda: SimpleNamespace(explicit=False))
++    monkeypatch.setattr(
++        HttpClient,
++        "_http",
++        lambda self: SimpleNamespace(event_hooks={"request": [], "response": []}),
++    )
++    monkeypatch.setattr(HttpClient, "close", lambda self: None)
++    ready, released = threading.Event(), threading.Event()
++
++    def existing_writer():
++        with runtime.runtime_lock(path, "free_event_ingest", wait=0):
++            ready.set()
++            released.wait(0.1)
++
++    thread = threading.Thread(target=existing_writer)
++
++    def fetch(http, prepared, now, **kwargs):
++        # Acquired only after the read-only prepare phase: exact commit collision.
++        thread.start()
++        assert ready.wait(5)
++        return {
++            "markets": [Market("SAT", now, now, 100, 10e6, 3e6)],
++            "listing_first_seen": {"SAT": now},
++            "errors": {},
++            "light": [],
++            "prepared_at": now,
++        }
++
++    monkeypatch.setattr(source, "fetch", fetch)
++    stream = io.StringIO()
++    try:
++        with contextlib.redirect_stdout(stream):
++            universe_cmds.refresh(warming=False, as_json=True)
++    finally:
++        released.set()
++        thread.join(5)
++    value = json.loads(stream.getvalue())
++    assert value["evaluation_id"]
++    timing = value["telemetry"]
++    assert timing["runtime_lock_acquired_at"] >= timing["runtime_lock_requested_at"]
++    assert timing["evidence_clock"] >= int(timing["runtime_lock_acquired_at"])
++    assert timing["runtime_lock_wait_seconds"] >= 0.05
++    assert not thread.is_alive()
++    with contextlib.closing(Store(path, read_only=True)) as store:
++        assert store.con.execute("SELECT count(*) FROM universe_evaluations").fetchone()[0] == 1
++
++
++def test_json_refresh_keeps_db_wait_messages_out_of_result(project, monkeypatch):
++    """An external read-only observer must not corrupt the supervised JSON result."""
++    import sys
++    import threading
++
++    path = project / "data" / "radar.duckdb"
++    Store(path).close()
++    monkeypatch.setenv("PRISM_DB_PATH", str(path))
++    monkeypatch.delenv("PRISM_RUNTIME_ROLE", raising=False)
++    monkeypatch.setattr(profiles, "current", lambda: SimpleNamespace(explicit=False))
++    monkeypatch.setattr(
++        HttpClient,
++        "_http",
++        lambda self: SimpleNamespace(event_hooks={"request": [], "response": []}),
++    )
++    monkeypatch.setattr(HttpClient, "close", lambda self: None)
++    child = None
++    timer = None
++
++    def release():
++        child.stdin.write("release\n")
++        child.stdin.flush()
++
++    def fetch(http, prepared, now, **kwargs):
++        nonlocal child, timer
++        child = subprocess.Popen(
++            [
++                sys.executable,
++                "-c",
++                "import duckdb,sys; c=duckdb.connect(sys.argv[1],read_only=True); print('READY',flush=True); input(); c.close()",
++                str(path),
++            ],
++            stdin=subprocess.PIPE,
++            stdout=subprocess.PIPE,
++            stderr=subprocess.PIPE,
++            text=True,
++        )
++        assert child.stdout.readline().strip() == "READY"
++        timer = threading.Timer(0.2, release)
++        timer.start()
++        return {
++            "markets": [Market("SAT", now, now, 100, 10e6, 3e6)],
++            "listing_first_seen": {"SAT": now},
++            "errors": {},
++            "light": [],
++            "prepared_at": now,
++        }
++
++    monkeypatch.setattr(source, "fetch", fetch)
++    stdout, stderr = io.StringIO(), io.StringIO()
++    try:
++        with contextlib.redirect_stdout(stdout), contextlib.redirect_stderr(stderr):
++            universe_cmds.refresh(warming=False, as_json=True)
++    finally:
++        if timer:
++            timer.join(5)
++        if child:
++            child.wait(timeout=5)
++    result = json.loads(stdout.getvalue())
++    assert result["evaluation_id"]
++    assert "Database busy" in stderr.getvalue()
++    assert "Database busy" not in stdout.getvalue()
++
++
++def test_worker_failed_child_keeps_safe_diagnostic_without_stderr_values(monkeypatch):
++    secret = "SENTINEL_MUST_NEVER_APPEAR_IN_JOURNAL"
++    monkeypatch.setattr(worker.time, "time", lambda: float(EPOCH))
++    monkeypatch.setattr(
++        worker.subprocess,
++        "run",
++        lambda *args, **kwargs: SimpleNamespace(
++            returncode=1, stderr=f"RuntimeBusy: holder={secret}"
++        ),
++    )
++    events = []
++
++    def record(value):
++        assert secret not in value
++        events.append(json.loads(value))
++        raise Finished
++
++    monkeypatch.setattr(worker.log, "info", record)
++    with pytest.raises(Finished):
++        worker.main()
++    assert events[0]["status"] == "FAILED"
++    assert events[0]["failure"]["error_classes"] == ["RuntimeBusy"]
++    assert len(events[0]["failure"]["stderr_sha256"]) == 64
+-- 
+2.43.0
+
