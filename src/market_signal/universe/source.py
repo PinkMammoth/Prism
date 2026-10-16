@@ -8,7 +8,7 @@ from dataclasses import asdict, replace
 from datetime import UTC, datetime
 from itertools import pairwise
 
-from market_signal.universe import ledger
+from market_signal.universe import cadence, ledger
 from market_signal.universe.engine import Market, evaluate
 from market_signal.universe.policy import CORE, POLICY
 
@@ -276,11 +276,12 @@ def fetch(http, prepared, now, *, warming=False, clock=None):
     }
 
 
-def commit(store, fetched, now, *, warming=False):
+def commit(store, fetched, now, *, warming=False, telemetry=None):
     from market_signal.universe.portability import availability
 
     previous = ledger.latest(store)
-    if previous and now - previous["at"] < POLICY.cadence_seconds:
+    refresh_started = fetched.get("prepared_at", now)
+    if not cadence.due(previous, refresh_started):
         return {"status": "NOT_DUE", "last_evaluation": previous["at"]}
     if warming:
         from market_signal.universe.rich import commit as commit_rich
@@ -290,6 +291,9 @@ def commit(store, fetched, now, *, warming=False):
     decision = evaluate(
         fetched["markets"], ledger.state(store), now, ledger.risk_pins(store, now), warming=warming
     )
+    if telemetry is not None:
+        telemetry["ranking_computed_at"] = time.time()
+    decision["schedule"] = {"version": cadence.VERSION, "slot": cadence.slot(refresh_started)}
     decision["listing_first_seen"] = fetched["listing_first_seen"]
     decision["source_errors"] = {
         **fetched["errors"],
@@ -336,10 +340,18 @@ def commit(store, fetched, now, *, warming=False):
             else {"warmup": {}, "hypotheses": []}
         )
         r["market"]["warmup"].update(r["hypotheses"]["warmup"])
+    if telemetry is not None:
+        telemetry["ranking_db_commit_started_at"] = time.time()
     decision["evaluation_id"] = ledger.append(
         store, decision, [asdict(m) for m in fetched["markets"]]
     )
+    if telemetry is not None:
+        telemetry["ranking_db_commit_completed_at"] = time.time()
     # Batch prospective evidence writes: per-row autocommit would delay quote/exit writers.
+    if telemetry is not None:
+        telemetry["outcomes_db_commit_started_at"] = time.time()
     with store.transaction():
         decision["outcomes_recorded"] = ledger.collect_outcomes(store, now)
+    if telemetry is not None:
+        telemetry["outcomes_db_commit_completed_at"] = time.time()
     return decision

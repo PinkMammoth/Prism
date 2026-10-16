@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import os
+import time
 from datetime import UTC, datetime
 
 import typer
@@ -61,11 +62,7 @@ def asset(asset: str, as_json: bool = JSON):
 @universe.command("refresh")
 def refresh(warming: bool = typer.Option(False, "--warming"), as_json: bool = JSON):
     """Data-only writer. Network collection takes place outside the authoritative runtime lock."""
-    from market_signal.data.http import HttpClient
-    from market_signal.microstructure.spool import default_root
     from market_signal.ops import profiles
-    from market_signal.ops.runtime import runtime_lock
-    from market_signal.universe import source, subscriptions
     from market_signal.universe.policy import POLICY
 
     profile = profiles.current()
@@ -82,12 +79,28 @@ def refresh(warming: bool = typer.Option(False, "--warming"), as_json: bool = JS
             datetime.fromtimestamp(now, UTC),
             rich_assets=6 + POLICY.rich_satellite_cap if warming else 6,
         )
+    from market_signal.config import get_settings
+    from market_signal.universe import cadence
+
+    with cadence.refresh_lock(get_settings().paths.db):
+        result = _refresh_once(warming)
+    _out(result, as_json)
+
+
+def _refresh_once(warming):
+    from market_signal.data.http import HttpClient
+    from market_signal.microstructure.spool import default_root
+    from market_signal.ops.runtime import runtime_lock
+    from market_signal.universe import cadence, source, subscriptions
+    from market_signal.universe.telemetry import Requests
+
+    timing = {"refresh_started_at": time.time()}
+    now = int(timing["refresh_started_at"])
     with open_store(read_only=True) as (_, store):
         prepared = source.prepare(store, now)
         path = store.path
-    if prepared["previous"] and now - prepared["previous"]["at"] < POLICY.cadence_seconds:
-        _out({"status": "NOT_DUE", "last_evaluation": prepared["previous"]["at"]}, as_json)
-        return
+    if not cadence.due(prepared["previous"], now):
+        return {"status": "NOT_DUE", "last_evaluation": prepared["previous"]["at"]}
     http = HttpClient(
         "hyperliquid_universe",
         "https://api.hyperliquid.xyz",
@@ -95,12 +108,23 @@ def refresh(warming: bool = typer.Option(False, "--warming"), as_json: bool = JS
         max_retries=0,
         requests_per_second=2,
     )
+    metrics = Requests()
+    http._http().event_hooks["request"].append(metrics.request)
+    http._http().event_hooks["response"].append(metrics.response)
+    timing["source_fetch_started_at"] = time.time()
     try:
         fetched = source.fetch(http, prepared, now, warming=warming)
     finally:
         http.close()
+    timing["source_refresh_completed_at"] = time.time()
+    timing["api"] = metrics.summary()
+    timing["api"]["captured_response_body_bytes"] = sum(len(p.body) for p in http.captured)
     with runtime_lock(path, "dynamic_universe", wait=0), open_store() as (_, store):
-        result = source.commit(store, fetched, int(datetime.now(UTC).timestamp()), warming=warming)
+        # This is the existing evidence clock, sampled at commit entry. Do not replace
+        # it with the nominal slot or call it the completed transaction timestamp.
+        evidence_clock = int(datetime.now(UTC).timestamp())
+        timing["evidence_clock"] = evidence_clock
+        result = source.commit(store, fetched, evidence_clock, warming=warming, telemetry=timing)
         if "evaluation_id" in result:
             subscriptions.publish(
                 default_root(path),
@@ -108,7 +132,13 @@ def refresh(warming: bool = typer.Option(False, "--warming"), as_json: bool = JS
                 role=os.environ.get("PRISM_RUNTIME_ROLE", ""),
                 runtime_id=os.environ.get("PRISM_RUNTIME_ID", ""),
             )
-    _out(result, as_json)
+    timing["refresh_completed_at"] = time.time()
+    timing["previous_evidence_clock"] = prepared["previous"]["at"] if prepared["previous"] else None
+    timing["continuity_gap_seconds"] = (
+        evidence_clock - prepared["previous"]["at"] if prepared["previous"] else None
+    )
+    result["telemetry"] = timing
+    return result
 
 
 def register(app):
