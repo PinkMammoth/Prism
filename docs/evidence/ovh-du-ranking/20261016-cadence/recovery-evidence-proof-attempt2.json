@@ -1,0 +1,78 @@
+{
+  "uncompressed_sha256_matches": true,
+  "all_relation_fingerprints_match": true,
+  "relation_count": 146,
+  "historical_evaluations": 1,
+  "new_evaluations": 13,
+  "accepted_span_seconds": 7200,
+  "outcomes_by_horizon": [
+    [
+      15,
+      241,
+      68891,
+      1792161639,
+      1792167639
+    ],
+    [
+      30,
+      222,
+      63123,
+      1792162240,
+      1792167639
+    ],
+    [
+      60,
+      144,
+      40570,
+      1792164044,
+      1792167040
+    ],
+    [
+      120,
+      27,
+      7607,
+      1792167639,
+      1792167639
+    ]
+  ],
+  "manual_assets": [
+    {
+      "asset": "BTC",
+      "manual_score": 0.287764399913,
+      "stored_score": 0.287764399913,
+      "matches": true,
+      "entry_eligible": false
+    },
+    {
+      "asset": "ETH",
+      "manual_score": 0.411257008077,
+      "stored_score": 0.411257008077,
+      "matches": true,
+      "entry_eligible": false
+    },
+    {
+      "asset": "ZEC",
+      "manual_score": 0.78121971899,
+      "stored_score": 0.78121971899,
+      "matches": true,
+      "entry_eligible": false
+    },
+    {
+      "asset": "AI",
+      "manual_score": 0,
+      "stored_score": 0,
+      "matches": true,
+      "entry_eligible": false
+    },
+    {
+      "asset": "abcd:USA500",
+      "manual_score": 0,
+      "stored_score": 0,
+      "matches": true,
+      "entry_eligible": false
+    }
+  ],
+  "all_manual_match": true,
+  "source_archive": "/home/matth/prism/data/backup-archive/vps/prism-20261016T162555Z-du-ranking-validation-c6b6e9d.duckdb.gz",
+  "source_archive_sha256": "bcca598c182aa05a22889037323b58a90499a228bc427336c460660a9c90026c"
+}

@@ -1,0 +1,184 @@
+[
+  {
+    "at": 1792160439,
+    "missing_counts": {
+      "rv_bps": 541,
+      "range_bps": 541,
+      "return_bps": 541,
+      "volume_acceleration": 541,
+      "oi_change": 541,
+      "spread_bps": 511,
+      "depth_usd": 511,
+      "trades_per_minute": 511
+    },
+    "all_satellite_entry_ineligible": true
+  },
+  {
+    "at": 1792161039,
+    "missing_counts": {
+      "rv_bps": 541,
+      "range_bps": 541,
+      "return_bps": 541,
+      "volume_acceleration": 201,
+      "oi_change": 541,
+      "spread_bps": 511,
+      "depth_usd": 511,
+      "trades_per_minute": 511
+    },
+    "all_satellite_entry_ineligible": true
+  },
+  {
+    "at": 1792161639,
+    "missing_counts": {
+      "rv_bps": 541,
+      "range_bps": 541,
+      "return_bps": 541,
+      "volume_acceleration": 201,
+      "oi_change": 541,
+      "spread_bps": 511,
+      "depth_usd": 511,
+      "trades_per_minute": 511
+    },
+    "all_satellite_entry_ineligible": true
+  },
+  {
+    "at": 1792162240,
+    "missing_counts": {
+      "rv_bps": 541,
+      "range_bps": 541,
+      "return_bps": 541,
+      "volume_acceleration": 201,
+      "oi_change": 541,
+      "spread_bps": 511,
+      "depth_usd": 511,
+      "trades_per_minute": 511
+    },
+    "all_satellite_entry_ineligible": true
+  },
+  {
+    "at": 1792162840,
+    "missing_counts": {
+      "rv_bps": 541,
+      "range_bps": 541,
+      "return_bps": 541,
+      "volume_acceleration": 201,
+      "oi_change": 541,
+      "spread_bps": 511,
+      "depth_usd": 511,
+      "trades_per_minute": 511
+    },
+    "all_satellite_entry_ineligible": true
+  },
+  {
+    "at": 1792163440,
+    "missing_counts": {
+      "rv_bps": 541,
+      "range_bps": 541,
+      "return_bps": 541,
+      "volume_acceleration": 201,
+      "oi_change": 541,
+      "spread_bps": 511,
+      "depth_usd": 511,
+      "trades_per_minute": 511
+    },
+    "all_satellite_entry_ineligible": true
+  },
+  {
+    "at": 1792164044,
+    "missing_counts": {
+      "rv_bps": 0,
+      "range_bps": 0,
+      "return_bps": 0,
+      "volume_acceleration": 201,
+      "oi_change": 201,
+      "spread_bps": 511,
+      "depth_usd": 511,
+      "trades_per_minute": 511
+    },
+    "all_satellite_entry_ineligible": true
+  },
+  {
+    "at": 1792164639,
+    "missing_counts": {
+      "rv_bps": 0,
+      "range_bps": 0,
+      "return_bps": 0,
+      "volume_acceleration": 201,
+      "oi_change": 201,
+      "spread_bps": 511,
+      "depth_usd": 511,
+      "trades_per_minute": 511
+    },
+    "all_satellite_entry_ineligible": true
+  },
+  {
+    "at": 1792165239,
+    "missing_counts": {
+      "rv_bps": 0,
+      "range_bps": 0,
+      "return_bps": 0,
+      "volume_acceleration": 201,
+      "oi_change": 201,
+      "spread_bps": 511,
+      "depth_usd": 511,
+      "trades_per_minute": 511
+    },
+    "all_satellite_entry_ineligible": true
+  },
+  {
+    "at": 1792165839,
+    "missing_counts": {
+      "rv_bps": 0,
+      "range_bps": 0,
+      "return_bps": 0,
+      "volume_acceleration": 201,
+      "oi_change": 201,
+      "spread_bps": 511,
+      "depth_usd": 511,
+      "trades_per_minute": 511
+    },
+    "all_satellite_entry_ineligible": true
+  },
+  {
+    "at": 1792166440,
+    "missing_counts": {
+      "rv_bps": 0,
+      "range_bps": 0,
+      "return_bps": 0,
+      "volume_acceleration": 201,
+      "oi_change": 201,
+      "spread_bps": 511,
+      "depth_usd": 511,
+      "trades_per_minute": 511
+    },
+    "all_satellite_entry_ineligible": true
+  },
+  {
+    "at": 1792167040,
+    "missing_counts": {
+      "rv_bps": 0,
+      "range_bps": 0,
+      "return_bps": 0,
+      "volume_acceleration": 201,
+      "oi_change": 201,
+      "spread_bps": 511,
+      "depth_usd": 511,
+      "trades_per_minute": 511
+    },
+    "all_satellite_entry_ineligible": true
+  },
+  {
+    "at": 1792167639,
+    "missing_counts": {
+      "rv_bps": 0,
+      "range_bps": 0,
+      "return_bps": 0,
+      "volume_acceleration": 201,
+      "oi_change": 201,
+      "spread_bps": 511,
+      "depth_usd": 511,
+      "trades_per_minute": 511
+    },
+    "all_satellite_entry_ineligible": true
+  }
+]

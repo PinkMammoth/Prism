@@ -2,7 +2,7 @@
 
 Candidate: `c6b6e9da7e0d2e04f265e5fec9d1dde9a0a7d67c`, parent `b10d13a…`.
 Archive SHA: `587daa0d5f8e251ca714a9af82578d73f496ee8d85b0768db8ccd9d7d6e01824`.
-The candidate is committed and reviewable; it is not deployed or activated.
+The user explicitly approved this exact candidate for ranking only. It was deployed and activated at14:12:19.818775 UTC after fresh host, backup, identity and resource checks. Live validation completed:13 fresh genuine evaluations spanning7200s, no rollback required. See the [final report](../../../OVH_DU_CADENCE_RANKING_VALIDATION.md) for measurements and the separate NOT READY warming gate.
 
 The first b10 attempt stored one real evaluation at09:50:39 UTC (541 markets,23 candidates,
 72/72 successful requests). The10:00 refresh exited1 after39.26s. Automatic rollback restored
@@ -35,14 +35,11 @@ prepared activation tooling are byte-identical to approved main.
 
 The frozen sizing source-provenance guard is retained unchanged. Approved main already fails
 its profile-source hash; authorized cadence/source/worker changes additionally alter pinned
-hashes. This is not a green full suite. The previous explicit user exception named b10d13a;
-it is not silently extended to c6b6e9d or warming.
+hashes. This is not a green full suite. The latest explicit user exception names exact c6b6e9d, supersedes b10d13a, and grants no warming or sizing permission.
 
-If full coverage leaves only that disclosed sizing guard unresolved, the requested exception
-is only ranking-only deployment/observation of c6b6e9d. Sizing, warming, execution, paper accounts,
+The approved exception is only ranking-only deployment/observation of c6b6e9d. Sizing, warming, execution, paper accounts,
 real-money access and Research handoff remain OFF. Fresh host/backup/budget checks and the
-unchanged prepared activation tool remain required. A new measured window must contain at
-least13 new genuine evaluations spanning7200s, excluding the preserved first attempt. The
+unchanged prepared activation tool remain required. The completed new measured window contains13 genuine evaluations spanning7200s, excluding the preserved first attempt. The
 stopped interval remains a genuine scientific continuity reset.
 
 The revised observer samples host resources frequently, performs heavy DB audits after new

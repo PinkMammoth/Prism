@@ -1,0 +1,23 @@
+[Unit]
+Description=Continue ranking-only safety after its completed 13-evaluation window
+After=network-online.target prism-universe.service prism-scheduler.service prism-free-sources.service prism-free-source-ingest.service prism-microstructure.service
+RequiresMountsFor=/data
+OnFailure=prism-du-ranking-guard-stop.service
+
+[Service]
+Type=simple
+ExecStart=/opt/prism/current/.venv/bin/python /data/validation/du-ranking-cadence/attempt-2/tools/ranking_guard.py --window /data/validation/du-ranking-cadence/attempt-2 --root /data/validation/du-ranking-cadence/attempt-2/post-window-guard --budget-sha @BUDGET_SHA@
+MemoryMax=512M
+CPUQuota=25%
+Nice=19
+Restart=no
+OOMPolicy=stop
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+ReadWritePaths=/data /etc/prism
+InaccessiblePaths=/var/lib/prism-research /etc/prism-research-backup
+
+[Install]
+WantedBy=multi-user.target

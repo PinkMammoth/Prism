@@ -1,0 +1,90 @@
+{
+ "window": [
+  "2026-10-16T14:13:00+00:00",
+  "2026-10-16T16:21:00+00:00"
+ ],
+ "expected_minutes_per_coin": 128,
+ "status_total": {
+  "COMPLETE": 762,
+  "PARTIAL": 6
+ },
+ "complete_fraction_of_expected": 0.9921875,
+ "missing_minutes": 0,
+ "per_coin": {
+  "AAVE": {
+   "COMPLETE": 127,
+   "PARTIAL": 1
+  },
+  "BTC": {
+   "COMPLETE": 127,
+   "PARTIAL": 1
+  },
+  "ETH": {
+   "COMPLETE": 127,
+   "PARTIAL": 1
+  },
+  "HYPE": {
+   "COMPLETE": 127,
+   "PARTIAL": 1
+  },
+  "LINK": {
+   "COMPLETE": 127,
+   "PARTIAL": 1
+  },
+  "SOL": {
+   "COMPLETE": 127,
+   "PARTIAL": 1
+  }
+ },
+ "flags": {
+  "disconnect": 6,
+  "connect": 6
+ },
+ "late_prints": 0,
+ "run_starts": 0,
+ "disconnects": 1,
+ "disconnect_total_s": 1.6,
+ "disconnect_max_s": 1.6,
+ "closes": [
+  {
+   "at": "2026-10-16T16:10:06.221000",
+   "reason": "ConnectionClosedOK: received 1000 (OK) Expired; then sent 1000 (OK) Expired",
+   "lived_s": 10000.4,
+   "down_s": 1.6
+  }
+ ],
+ "non_complete_minutes": {
+  "1792167000000": [
+   {
+    "coin": "AAVE",
+    "status": "PARTIAL",
+    "flags": "disconnect,connect"
+   },
+   {
+    "coin": "BTC",
+    "status": "PARTIAL",
+    "flags": "disconnect,connect"
+   },
+   {
+    "coin": "ETH",
+    "status": "PARTIAL",
+    "flags": "disconnect,connect"
+   },
+   {
+    "coin": "HYPE",
+    "status": "PARTIAL",
+    "flags": "disconnect,connect"
+   },
+   {
+    "coin": "LINK",
+    "status": "PARTIAL",
+    "flags": "disconnect,connect"
+   },
+   {
+    "coin": "SOL",
+    "status": "PARTIAL",
+    "flags": "disconnect,connect"
+   }
+  ]
+ }
+}

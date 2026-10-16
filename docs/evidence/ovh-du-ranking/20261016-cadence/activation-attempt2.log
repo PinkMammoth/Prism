@@ -1,0 +1,26 @@
+{
+  "applied": {
+    "PRISM_PROFILE": "autotrader_lab_v2",
+    "PRISM_UNIVERSE_STAGE": "ranking",
+    "PRISM_UNIVERSE_BUDGET": "/data/state/du-budget.json",
+    "PRISM_NIMBLE_RUNTIME": "off"
+  },
+  "authority_unchanged": {
+    "PRISM_AUTHORITY": "rehearsal",
+    "PRISM_RUNTIME_ROLE": "authoritative",
+    "PRISM_RUNTIME_ID": "vps-prism-autotrader-lab-rehearsal",
+    "PRISM_DEPLOYMENT_TARGET": "vps",
+    "PRISM_DB_PATH": "/data/prism.duckdb"
+  },
+  "execution_allowed": false,
+  "rollback_environment": "/etc/prism/prism.env.pre-du-v1"
+}
+{"at": "2026-10-16T14:12:19.818775+00:00", "revision": "c6b6e9da7e0d2e04f265e5fec9d1dde9a0a7d67c", "budget_sha256": "9bb2f480052a94eb26f050772adbaae2041dc2e4c93988beb650a535a0837618", "prepared_tool_used": true, "stage": "ranking", "no_execution_or_warming": true}
+Running as unit: prism-du-ranking-watch-attempt2.service
+MainPID=53179
+NRestarts=0
+ActiveState=active
+
+MainPID=53188
+NRestarts=0
+ActiveState=active

@@ -1,0 +1,318 @@
+{
+  "evaluation_id": "universeeval_dbbd3fc18b28e31aa0d7120bf2870d486ab03b8aadb4e2783754b9bdd61813a3",
+  "evidence_clock": 1792167639,
+  "policy_id": "universepolicy_5f88b1dcdf20d7d19047edffab329076d7a63936f8c0916c21ffc83bcf4d56ff",
+  "normalization_cohort_size": 18,
+  "manual_assets": [
+    {
+      "asset": "BTC",
+      "market_inputs": {
+        "active": true,
+        "asset": "BTC",
+        "depth_usd": 4433838.86537,
+        "first_seen": 1792144203,
+        "funding": 1.25e-05,
+        "healthy": true,
+        "impact_bps": 0.06132824717841601,
+        "max_leverage": 40,
+        "observed_at": 1792167603,
+        "oi_change": 0.005553865166426338,
+        "oi_usd": 3427383419.1297503,
+        "price": 81528.5,
+        "quote_at": 1792167608,
+        "range_bps": 39.59251676841413,
+        "return_bps": -13.229376565628836,
+        "rv_bps": 38.200864541799284,
+        "size_decimals": 5,
+        "spread_bps": 0.12264445984313772,
+        "supported": true,
+        "trades_per_minute": 280.06666666666666,
+        "venue_available": true,
+        "volume_acceleration": 0.9735500963892771,
+        "volume_usd": 2397386981.680231,
+        "warmup": {
+          "large_print": false,
+          "lightweight": true,
+          "microstructure": false,
+          "positioning": true,
+          "technical": false
+        }
+      },
+      "reasons": [
+        "NEW_LISTING_WARMUP"
+      ],
+      "normalized_manual": {
+        "rv": 0.027777777777777776,
+        "range": 0.08333333333333333,
+        "return": 0.25,
+        "volume": 0.9722222222222222,
+        "volume_acceleration": 0.25,
+        "frequency": 0.9642857142857143,
+        "oi": 0.9722222222222222,
+        "oi_change": 0.4722222222222222,
+        "funding": 0.6944444444444444
+      },
+      "manual_components": {
+        "movement": 0.08888888888888889,
+        "participation": 0.7531746031746032,
+        "positioning": 0.7666666666666666,
+        "execution": 0.9959118513385621,
+        "data": 1.0
+      },
+      "manual_score": 0.287764399913,
+      "stored_score": 0.287764399913,
+      "matches": true,
+      "entry_eligible": false
+    },
+    {
+      "asset": "ETH",
+      "market_inputs": {
+        "active": true,
+        "asset": "ETH",
+        "depth_usd": 8938325.79947,
+        "first_seen": 1792144203,
+        "funding": 1.08381e-05,
+        "healthy": true,
+        "impact_bps": 1.271247257593755,
+        "max_leverage": 25,
+        "observed_at": 1792167603,
+        "oi_change": 0.0009535459983561643,
+        "oi_usd": 2652226192.3833904,
+        "price": 2438.55,
+        "quote_at": 1792167609,
+        "range_bps": 56.37744079339812,
+        "return_bps": -14.741109268472385,
+        "rv_bps": 57.53816495791769,
+        "size_decimals": 4,
+        "spread_bps": 0.4099116640360273,
+        "supported": true,
+        "trades_per_minute": 134.33333333333334,
+        "venue_available": true,
+        "volume_acceleration": 0.9723013454851889,
+        "volume_usd": 899043473.8985302,
+        "warmup": {
+          "large_print": false,
+          "lightweight": true,
+          "microstructure": false,
+          "positioning": true,
+          "technical": false
+        }
+      },
+      "reasons": [
+        "NEW_LISTING_WARMUP"
+      ],
+      "normalized_manual": {
+        "rv": 0.3055555555555556,
+        "range": 0.25,
+        "return": 0.3055555555555556,
+        "volume": 0.9166666666666666,
+        "volume_acceleration": 0.08333333333333333,
+        "frequency": 0.6071428571428571,
+        "oi": 0.9166666666666666,
+        "oi_change": 0.08333333333333333,
+        "funding": 0.3055555555555556
+      },
+      "manual_components": {
+        "movement": 0.2888888888888889,
+        "participation": 0.5738095238095239,
+        "positioning": 0.5444444444444445,
+        "execution": 0.9863362778654657,
+        "data": 1.0
+      },
+      "manual_score": 0.411257008077,
+      "stored_score": 0.411257008077,
+      "matches": true,
+      "entry_eligible": false
+    },
+    {
+      "asset": "ZEC",
+      "market_inputs": {
+        "active": true,
+        "asset": "ZEC",
+        "depth_usd": 372711.541,
+        "first_seen": 1792144203,
+        "funding": 1.25e-05,
+        "healthy": true,
+        "impact_bps": 4.777537430544765,
+        "max_leverage": 10,
+        "observed_at": 1792167603,
+        "oi_change": 0.015110250612631927,
+        "oi_usd": 576027228.288,
+        "price": 1178.85,
+        "quote_at": 1792167632,
+        "range_bps": 151.8428977393227,
+        "return_bps": -138.4473816295817,
+        "rv_bps": 155.5355364476635,
+        "size_decimals": 2,
+        "spread_bps": 0.8467759007570942,
+        "supported": true,
+        "trades_per_minute": 249.93333333333334,
+        "venue_available": true,
+        "volume_acceleration": 0.9775049008716056,
+        "volume_usd": 312125887.231,
+        "warmup": {
+          "large_print": false,
+          "lightweight": true,
+          "microstructure": false,
+          "positioning": false,
+          "technical": false
+        }
+      },
+      "reasons": [
+        "NEW_LISTING_WARMUP"
+      ],
+      "normalized_manual": {
+        "rv": 0.9722222222222222,
+        "range": 0.8611111111111112,
+        "return": 0.9722222222222222,
+        "volume": 0.8055555555555556,
+        "volume_acceleration": 0.3055555555555556,
+        "frequency": 0.8214285714285714,
+        "oi": 0.8055555555555556,
+        "oi_change": 0.8611111111111112,
+        "funding": 0.6944444444444444
+      },
+      "manual_components": {
+        "movement": 0.9388888888888889,
+        "participation": 0.6603174603174603,
+        "positioning": 0.8,
+        "execution": 0.9717741366414302,
+        "data": 1.0
+      },
+      "manual_score": 0.78121971899,
+      "stored_score": 0.78121971899,
+      "matches": true,
+      "entry_eligible": false
+    },
+    {
+      "asset": "AI",
+      "market_inputs": {
+        "active": false,
+        "asset": "AI",
+        "depth_usd": null,
+        "first_seen": 1792144203,
+        "funding": 0.0,
+        "healthy": true,
+        "impact_bps": null,
+        "max_leverage": 3,
+        "observed_at": 1792167603,
+        "oi_change": null,
+        "oi_usd": 0.0,
+        "price": 0.12555,
+        "quote_at": null,
+        "range_bps": 0.0,
+        "return_bps": 0.0,
+        "rv_bps": 0.0,
+        "size_decimals": 1,
+        "spread_bps": null,
+        "supported": true,
+        "trades_per_minute": null,
+        "venue_available": true,
+        "volume_acceleration": null,
+        "volume_usd": 0.0,
+        "warmup": {
+          "large_print": false,
+          "lightweight": true,
+          "microstructure": false,
+          "positioning": false,
+          "technical": false
+        }
+      },
+      "reasons": [
+        "LOW_OI",
+        "LOW_VOLUME",
+        "MARKET_INACTIVE",
+        "NEW_LISTING_WARMUP"
+      ],
+      "normalized_manual": {
+        "rv": 0,
+        "range": 0,
+        "return": 0,
+        "volume": 0,
+        "volume_acceleration": 0,
+        "frequency": 0,
+        "oi": 0,
+        "oi_change": 0,
+        "funding": 0
+      },
+      "manual_components": {
+        "movement": 0.0,
+        "participation": 0.0,
+        "positioning": 0.0,
+        "execution": 0,
+        "data": 0.5
+      },
+      "manual_score": 0,
+      "stored_score": 0,
+      "matches": true,
+      "entry_eligible": false
+    },
+    {
+      "asset": "abcd:USA500",
+      "market_inputs": {
+        "active": false,
+        "asset": "abcd:USA500",
+        "depth_usd": null,
+        "first_seen": 1792144204,
+        "funding": 0.0,
+        "healthy": true,
+        "impact_bps": null,
+        "max_leverage": 25,
+        "observed_at": 1792167604,
+        "oi_change": null,
+        "oi_usd": 0.0,
+        "price": 6980.0,
+        "quote_at": null,
+        "range_bps": 0.0,
+        "return_bps": 0.0,
+        "rv_bps": 0.0,
+        "size_decimals": 3,
+        "spread_bps": null,
+        "supported": false,
+        "trades_per_minute": null,
+        "venue_available": true,
+        "volume_acceleration": null,
+        "volume_usd": 0.0,
+        "warmup": {
+          "large_print": false,
+          "lightweight": true,
+          "microstructure": false,
+          "positioning": false,
+          "technical": false
+        }
+      },
+      "reasons": [
+        "LOW_OI",
+        "LOW_VOLUME",
+        "MARKET_INACTIVE",
+        "NEW_LISTING_WARMUP",
+        "UNSUPPORTED_MARKET"
+      ],
+      "normalized_manual": {
+        "rv": 0,
+        "range": 0,
+        "return": 0,
+        "volume": 0,
+        "volume_acceleration": 0,
+        "frequency": 0,
+        "oi": 0,
+        "oi_change": 0,
+        "funding": 0
+      },
+      "manual_components": {
+        "movement": 0.0,
+        "participation": 0.0,
+        "positioning": 0.0,
+        "execution": 0,
+        "data": 0.5
+      },
+      "manual_score": 0,
+      "stored_score": 0,
+      "matches": true,
+      "entry_eligible": false
+    }
+  ],
+  "all_match": true,
+  "method": "Independent midrank/weighted-component/geometric-score arithmetic, no engine.rank call.",
+  "source": "Verified off-host post-window recovery backup; exact c6b6 source arithmetic, no live writer"
+}

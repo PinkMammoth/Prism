@@ -1,0 +1,59 @@
+2026-10-16T14:09:35+00:00
+ 14:09:35 up 20:16,  0 user,  load average: 0.19, 0.15, 0.10
+6.1.0-53-cloud-amd64
+NTPSynchronized=yes
+TimeUSec=Fri 2026-10-16 14:09:35 UTC
+Reference ID    : 6B86565B (amy.chl.la)
+Stratum         : 3
+Ref time (UTC)  : Fri Oct 16 14:09:29 2026
+System time     : 0.000040412 seconds fast of NTP time
+Last offset     : -0.000006105 seconds
+RMS offset      : 0.000053793 seconds
+Frequency       : 12.719 ppm slow
+Residual freq   : +0.001 ppm
+Skew            : 0.059 ppm
+Root delay      : 0.005804487 seconds
+Root dispersion : 0.000557894 seconds
+Update interval : 260.6 seconds
+Leap status     : Normal
+Netid State  Recv-Q Send-Q      Local Address:Port Peer Address:PortProcess                                   
+udp   UNCONN 0      0               127.0.0.1:323       0.0.0.0:*    users:(("chronyd",pid=499,fd=5))         
+udp   UNCONN 0      0                 0.0.0.0:5355      0.0.0.0:*    users:(("systemd-resolve",pid=443,fd=11))
+udp   UNCONN 0      0              127.0.0.54:53        0.0.0.0:*    users:(("systemd-resolve",pid=443,fd=19))
+udp   UNCONN 0      0           127.0.0.53%lo:53        0.0.0.0:*    users:(("systemd-resolve",pid=443,fd=17))
+udp   UNCONN 0      0      178.33.95.139%ens3:68        0.0.0.0:*    users:(("systemd-network",pid=451,fd=10))
+udp   UNCONN 0      0                   [::1]:323          [::]:*    users:(("chronyd",pid=499,fd=6))         
+udp   UNCONN 0      0                    [::]:5355         [::]:*    users:(("systemd-resolve",pid=443,fd=13))
+tcp   LISTEN 0      4096              0.0.0.0:5355      0.0.0.0:*    users:(("systemd-resolve",pid=443,fd=12))
+tcp   LISTEN 0      128               0.0.0.0:22        0.0.0.0:*    users:(("sshd",pid=513,fd=3))            
+tcp   LISTEN 0      4096           127.0.0.54:53        0.0.0.0:*    users:(("systemd-resolve",pid=443,fd=20))
+tcp   LISTEN 0      4096        127.0.0.53%lo:53        0.0.0.0:*    users:(("systemd-resolve",pid=443,fd=18))
+tcp   LISTEN 0      4096                 [::]:5355         [::]:*    users:(("systemd-resolve",pid=443,fd=14))
+tcp   LISTEN 0      128                  [::]:22           [::]:*    users:(("sshd",pid=513,fd=4))            
+table inet filter {
+	chain input {
+		type filter hook input priority filter; policy drop;
+		ct state established,related accept
+		ct state invalid drop
+		iif "lo" accept
+		ip protocol icmp accept
+		ip6 nexthdr ipv6-icmp accept
+		tcp dport 22 ct state new limit rate 10/minute accept
+	}
+
+	chain forward {
+		type filter hook forward priority filter; policy drop;
+	}
+
+	chain output {
+		type filter hook output priority filter; policy accept;
+	}
+}
+93116e83a9169e6ee8cb0cbcb5d7532766465c3569412ffce39540e0f5071439  /etc/prism/prism.env
+f2ae9d85ebe3b837d53ec0a9a9987524e4cc2a51ef0e24d69d766c2f90c8c126  /etc/prism/secrets.env
+93116e83a9169e6ee8cb0cbcb5d7532766465c3569412ffce39540e0f5071439  /etc/prism/prism.env.pre-du-v1
+total 16
+drwxr-xr-x 2 prism prism 4096 Oct 16 09:39 manual
+-rw-r--r-- 1 prism prism 1858 Oct 16 09:37 retention.jsonl
+drwxr-xr-x 2 prism prism 4096 Oct 16 09:37 daily
+-rw------- 1 prism prism   52 Oct 15 18:21 retention-policy.json

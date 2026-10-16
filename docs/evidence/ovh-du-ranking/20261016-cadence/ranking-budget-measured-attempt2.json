@@ -1,0 +1,61 @@
+{
+  "policy_id": "universepolicy_5f88b1dcdf20d7d19047edffab329076d7a63936f8c0916c21ffc83bcf4d56ff",
+  "measured_at": 1792167714,
+  "validated": true,
+  "rich_assets": 6,
+  "minimum_runway_days": 30,
+  "daily_growth_bytes": 290000000,
+  "available_bytes": 13646095257,
+  "worker_cpu_seconds_per_minute": 2.0,
+  "release_revision": "c6b6e9da7e0d2e04f265e5fec9d1dde9a0a7d67c",
+  "scope": "Resource admission only: ranking, six existing rich/core markets. No warming/execution/sizing permission. Software validation is a separate gate.",
+  "host_measurement": {
+    "at": "2026-10-16T16:21:54.248579+00:00",
+    "disk_free_bytes": 94473691136,
+    "disk_total_bytes": 105467994112,
+    "minimum_free_fraction": 0.7,
+    "minimum_free_bytes": 73827595879,
+    "transient_backup_reserve_bytes": 7000000000,
+    "ram_available_bytes": 11083214848,
+    "ram_total_bytes": 12256567296,
+    "future_baseline_paper_ram_reserve_bytes": 3000000000,
+    "radar_unit_cap_bytes": 1073741824
+  },
+  "growth_basis": {
+    "baseline_lab_db_upper": 51000000,
+    "ranking_evaluation_ledger": 13433113,
+    "ranking_outcomes_30_candidates_5_horizons": 12441600,
+    "one_growing_lab_backup": 76874713,
+    "existing_micro_raw_spool_no_rotation_credit": 90000000,
+    "provider_free_sources": 6000000,
+    "logs_journal_host_allowance": 37000000,
+    "frozen_research_db": 0,
+    "research_backup_metadata": 100000
+  },
+  "runway_days_model": 47.05550088620689,
+  "unattributed_150MB_daily_stress_runway_days": 31.013852856818183,
+  "temporary_restore_peak_not_persistent_growth": true,
+  "warming_cost_included": false,
+  "expected_worker_peak_rss_mib_prior": 362,
+  "whole_cli_first_peak_rss_mib": 371.7734375,
+  "expected_worker_cpu_seconds_per_600s_prior": 2.49,
+  "whole_cli_cpu_seconds_first_live_evaluation": 7.501337,
+  "cpu_budget_margin": "2CPU-s/min admission estimate versus0.750 whole-CLI first run and0.249 prior internal benchmark; hard stop remains30CPU-s/min.",
+  "warnings": [
+    "Runway below60-day warning; unchanged30-day stop/70%-free floor/7GB restore reserve.",
+    "Raw/spool live rate exceeds earlier base; use90MB/day if that is the computed ceiling, without rotation credit.",
+    "One-off historical145.6MB host step remains unattributed; repeating150MB/day stress remains separate.",
+    "Warming, execution and sizing remain outside this six-rich-core receipt."
+  ],
+  "input_evidence_sha256": "f9e67755b3ca72e2dd404e2d73370668f343c071c70d3aea3eab7f6f6f5f7482",
+  "measured_ranking": {
+    "evaluations": 13,
+    "accepted_span_seconds": 7200,
+    "mean_cpu_seconds_per_evaluation": 8.38522376923077,
+    "max_cpu_seconds_per_evaluation": 9.239693999999986,
+    "worker_cgroup_peak_bytes": 417767424,
+    "whole_cli_peak_rss_kib": 460200,
+    "max_continuity_gap_seconds": 604
+  },
+  "resource_model_sha256": "a1f944209c9ca66584d9f599099434c45863b14515262d015dfb12faa29a02a1"
+}

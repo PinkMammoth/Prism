@@ -1,0 +1,21 @@
+{
+  "at": "2026-10-16T16:45:21.370876+00:00",
+  "application_revision": "c6b6e9da7e0d2e04f265e5fec9d1dde9a0a7d67c",
+  "application_files_unchanged_since_reviewed_candidate": true,
+  "cadence_tests_passed": 23,
+  "full_suite": {
+    "passed": 1807,
+    "skipped": 1,
+    "retained_failed_sizing_provenance_guard": 1,
+    "green": false,
+    "exact_candidate_ranking_exception": "explicitly approved by user"
+  },
+  "operational_guard_fixture_checks_passed": 17,
+  "ruff": "PASS",
+  "format": "PASS",
+  "shell_syntax": "PASS",
+  "git_diff_check": "PASS",
+  "host_and_local_evidence_secret_scans": "0 matches",
+  "continuing_guard_active": true,
+  "no_warming_execution_sizing_authority_change": true
+}

@@ -1,0 +1,1444 @@
+{
+  "at": "2026-10-16T14:12:24.353447+00:00",
+  "release_revision": "c6b6e9da7e0d2e04f265e5fec9d1dde9a0a7d67c",
+  "epoch": 1792159944.353597,
+  "budget_sha256": "9bb2f480052a94eb26f050772adbaae2041dc2e4c93988beb650a535a0837618",
+  "configuration_sha256": {
+    "/etc/prism/prism.env": "c438fc5105db0b04cafd8b86942ce24244543441cbb6867f9c80a91ea960bfbe",
+    "/etc/prism/secrets.env": "f2ae9d85ebe3b837d53ec0a9a9987524e4cc2a51ef0e24d69d766c2f90c8c126"
+  },
+  "memory": {
+    "MemTotal": 12256567296,
+    "MemAvailable": 11050721280,
+    "SwapTotal": 0,
+    "SwapFree": 0
+  },
+  "disk": {
+    "total": 105467994112,
+    "used": 6633603072,
+    "free": 94497304576
+  },
+  "load": [
+    0.6484375,
+    0.3017578125,
+    0.16162109375
+  ],
+  "cpu_jiffies": [
+    937096,
+    80282,
+    95243,
+    42748079,
+    9116,
+    0,
+    11951,
+    4978,
+    0,
+    0
+  ],
+  "units": {
+    "prism-microstructure": {
+      "MainPID": "625",
+      "NRestarts": "0",
+      "MemoryCurrent": "236625920",
+      "CPUUsageNSec": "800028276000",
+      "Id": "prism-microstructure.service",
+      "ActiveState": "active",
+      "SubState": "running",
+      "memory.peak": "237146112",
+      "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+      "rss": [
+        {
+          "pid": "625",
+          "VmHWM": "212544 kB",
+          "VmRSS": "212544 kB"
+        }
+      ]
+    },
+    "prism-free-sources": {
+      "MainPID": "53126",
+      "NRestarts": "0",
+      "MemoryCurrent": "105500672",
+      "CPUUsageNSec": "2707642000",
+      "Id": "prism-free-sources.service",
+      "ActiveState": "active",
+      "SubState": "running",
+      "memory.peak": "111341568",
+      "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+      "rss": [
+        {
+          "pid": "53126",
+          "VmHWM": "184356 kB",
+          "VmRSS": "184356 kB"
+        }
+      ]
+    },
+    "prism-free-source-ingest": {
+      "MainPID": "53125",
+      "NRestarts": "0",
+      "MemoryCurrent": "181800960",
+      "CPUUsageNSec": "2888769000",
+      "Id": "prism-free-source-ingest.service",
+      "ActiveState": "active",
+      "SubState": "running",
+      "memory.peak": "182001664",
+      "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+      "rss": [
+        {
+          "pid": "53125",
+          "VmHWM": "259212 kB",
+          "VmRSS": "259212 kB"
+        }
+      ]
+    },
+    "prism-scheduler": {
+      "MainPID": "53127",
+      "NRestarts": "0",
+      "MemoryCurrent": "58507264",
+      "CPUUsageNSec": "9022544000",
+      "Id": "prism-scheduler.service",
+      "ActiveState": "active",
+      "SubState": "running",
+      "memory.peak": "249389056",
+      "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+      "rss": [
+        {
+          "pid": "53127",
+          "VmHWM": "884 kB",
+          "VmRSS": "884 kB"
+        },
+        {
+          "pid": "53227",
+          "VmHWM": "108 kB",
+          "VmRSS": "108 kB"
+        },
+        {
+          "pid": "53228",
+          "VmHWM": "107232 kB",
+          "VmRSS": "107232 kB"
+        },
+        {
+          "pid": "53229",
+          "VmHWM": "1016 kB",
+          "VmRSS": "1016 kB"
+        }
+      ]
+    },
+    "prism-universe": {
+      "MainPID": "53179",
+      "NRestarts": "0",
+      "MemoryCurrent": "17776640",
+      "CPUUsageNSec": "1575874000",
+      "Id": "prism-universe.service",
+      "ActiveState": "active",
+      "SubState": "running",
+      "memory.peak": "111071232",
+      "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+      "rss": [
+        {
+          "pid": "53179",
+          "VmHWM": "31180 kB",
+          "VmRSS": "31180 kB"
+        }
+      ]
+    },
+    "prism-nimble": {
+      "MainPID": "0",
+      "NRestarts": "0",
+      "MemoryCurrent": "[not set]",
+      "CPUUsageNSec": "1493865000",
+      "Id": "prism-nimble.service",
+      "ActiveState": "inactive",
+      "SubState": "dead",
+      "rss": []
+    }
+  },
+  "db_bytes": 149958656,
+  "profile": {
+    "profile": "autotrader_lab_v2",
+    "identity": "prism_autotrader_lab_v2",
+    "digest": "e7571ad1a2a35fb42dc8c1ea77759e31887a1c7679445561664c1dee68c12207",
+    "authority": "rehearsal",
+    "target": "vps",
+    "runtime_id": "vps-prism-autotrader-lab-rehearsal",
+    "explicit": true,
+    "role": "authoritative",
+    "processes": [
+      "microstructure_collector",
+      "free_source_collector",
+      "free_source_ingest",
+      "universe_radar",
+      "scheduler"
+    ],
+    "disabled_by_flag": [],
+    "collector_dynamic": false,
+    "scheduled_jobs": [
+      "oi",
+      "intraday",
+      "paper_v2_funding",
+      "positioning",
+      "context_macro",
+      "context_news",
+      "microstructure",
+      "backup"
+    ],
+    "execution_allowed": false,
+    "external_actions_allowed": false,
+    "boot_catchup_job": null,
+    "dynamic_universe": {
+      "tier0_discovery": "opt_in",
+      "tier1_warming": "opt_in",
+      "tier2_rich": "opt_in",
+      "tier3_risk_pins": "retention_only"
+    },
+    "definition": {
+      "name": "autotrader_lab_v2",
+      "identity": "prism_autotrader_lab_v2",
+      "targets": [
+        "local",
+        "vps"
+      ],
+      "processes": [
+        "free_source_collector",
+        "free_source_ingest",
+        "microstructure_collector",
+        "scheduler",
+        "universe_radar"
+      ],
+      "process_classes": {
+        "free_source_collector": "passive",
+        "free_source_ingest": "ingest",
+        "microstructure_collector": "passive",
+        "scheduler": "ingest",
+        "universe_radar": "ingest"
+      },
+      "jobs": [
+        "backup",
+        "context_macro",
+        "context_news",
+        "intraday",
+        "microstructure",
+        "oi",
+        "paper_v2_funding",
+        "positioning"
+      ],
+      "job_classes": {
+        "backup": "maintenance",
+        "context_macro": "data",
+        "context_news": "data",
+        "intraday": "data",
+        "microstructure": "data",
+        "oi": "data",
+        "paper_v2_funding": "data",
+        "positioning": "data"
+      },
+      "runtime_ids": {
+        "rehearsal": "vps-prism-autotrader-lab-rehearsal"
+      },
+      "boot_catchup_job": null,
+      "unconditional_jobs": [
+        "paper_v2_funding"
+      ],
+      "dynamic_universe": {
+        "tier0_discovery": "opt_in",
+        "tier1_warming": "opt_in",
+        "tier2_rich": "opt_in",
+        "tier3_risk_pins": "retention_only"
+      }
+    }
+  },
+  "micro": {
+    "backoff_s": 1.0,
+    "bytes_per_s_60s": 12158.2,
+    "coins": {
+      "AAVE": {
+        "first_minute": "2026-10-15T17:52:00+00:00",
+        "last_book20_age_s": 4.2,
+        "last_book5_age_s": 0.3,
+        "last_ctx_age_s": 0.8,
+        "last_finalized_minute": "2026-10-16T14:11:00+00:00",
+        "last_finalized_status": "COMPLETE",
+        "last_trade_age_s": 16.4,
+        "subscribed": [
+          "book20",
+          "book5",
+          "ctx",
+          "trades"
+        ]
+      },
+      "BTC": {
+        "first_minute": "2026-10-15T17:52:00+00:00",
+        "last_book20_age_s": 4.2,
+        "last_book5_age_s": 0.3,
+        "last_ctx_age_s": 0.8,
+        "last_finalized_minute": "2026-10-16T14:11:00+00:00",
+        "last_finalized_status": "COMPLETE",
+        "last_trade_age_s": 0.3,
+        "subscribed": [
+          "book20",
+          "book5",
+          "ctx",
+          "trades"
+        ]
+      },
+      "ETH": {
+        "first_minute": "2026-10-15T17:52:00+00:00",
+        "last_book20_age_s": 4.2,
+        "last_book5_age_s": 0.3,
+        "last_ctx_age_s": 0.8,
+        "last_finalized_minute": "2026-10-16T14:11:00+00:00",
+        "last_finalized_status": "COMPLETE",
+        "last_trade_age_s": 0.3,
+        "subscribed": [
+          "book20",
+          "book5",
+          "ctx",
+          "trades"
+        ]
+      },
+      "HYPE": {
+        "first_minute": "2026-10-15T17:52:00+00:00",
+        "last_book20_age_s": 4.2,
+        "last_book5_age_s": 0.3,
+        "last_ctx_age_s": 0.8,
+        "last_finalized_minute": "2026-10-16T14:11:00+00:00",
+        "last_finalized_status": "COMPLETE",
+        "last_trade_age_s": 0.3,
+        "subscribed": [
+          "book20",
+          "book5",
+          "ctx",
+          "trades"
+        ]
+      },
+      "LINK": {
+        "first_minute": "2026-10-15T17:52:00+00:00",
+        "last_book20_age_s": 4.2,
+        "last_book5_age_s": 0.3,
+        "last_ctx_age_s": 0.8,
+        "last_finalized_minute": "2026-10-16T14:11:00+00:00",
+        "last_finalized_status": "COMPLETE",
+        "last_trade_age_s": 18.2,
+        "subscribed": [
+          "book20",
+          "book5",
+          "ctx",
+          "trades"
+        ]
+      },
+      "SOL": {
+        "first_minute": "2026-10-15T17:52:00+00:00",
+        "last_book20_age_s": 4.2,
+        "last_book5_age_s": 0.3,
+        "last_ctx_age_s": 0.8,
+        "last_finalized_minute": "2026-10-16T14:11:00+00:00",
+        "last_finalized_status": "COMPLETE",
+        "last_trade_age_s": 0.7,
+        "subscribed": [
+          "book20",
+          "book5",
+          "ctx",
+          "trades"
+        ]
+      }
+    },
+    "conn_id": "msconn_4105a61f147e",
+    "connected": true,
+    "counters": {
+      "connections": 8,
+      "dup_book5": 3,
+      "dup_trades": 1146,
+      "ev_A": 192,
+      "ev_C": 428446,
+      "ev_D": 81684,
+      "ev_F": 809532,
+      "ev_O": 8,
+      "ev_T": 617752,
+      "ev_X": 7,
+      "finalized": 7320,
+      "replay_unobserved": 42,
+      "status_COMPLETE": 7272,
+      "status_PARTIAL": 48
+    },
+    "cpu_s": 798.52,
+    "definition": "7c299a853f4ba141",
+    "disconnected_since_ms": null,
+    "dropped_records": 0,
+    "dynamic_universe": false,
+    "feature_version": "microstructure_1m_v1",
+    "flush_ms": {
+      "max": 6.19988699327223,
+      "p50": 1.503891995525919
+    },
+    "git_commit": "530ba0d18c3009352eee21bb7f1a1c01004ab73a",
+    "last_error": "ConnectionClosedOK: received 1000 (OK) Expired; then sent 1000 (OK) Expired",
+    "last_message_age_s": 0.3,
+    "latency_ms": {
+      "n": 4000,
+      "p50": 441,
+      "p90": 645,
+      "p99": 880
+    },
+    "max_rss_mb": 207.6,
+    "msgs_per_s_60s": 22.5,
+    "pending_records": 0,
+    "pid": 625,
+    "processing_us": {
+      "p50": 15.8,
+      "p99": 67.3
+    },
+    "raw": true,
+    "raw_bytes_written": 38956759,
+    "raw_paused": false,
+    "reconnects": 7,
+    "role": "authoritative",
+    "run_id": "msrun_92299ff05c2d47b8",
+    "runtime_id": "vps-prism-autotrader-lab-rehearsal",
+    "spool_errors": 0,
+    "started_ms": 1792086775063,
+    "subscription_error": null,
+    "url": "wss://api.hyperliquid.xyz/ws",
+    "written_ms": 1792159941817
+  },
+  "free_ingest": {
+    "backlog": 0,
+    "heartbeat_at": "2026-10-16T14:12:19.179332+00:00"
+  },
+  "worker_events": [],
+  "observer_resources": {
+    "cpu_seconds": 1.104571,
+    "max_rss_kib": 165756
+  },
+  "db": {
+    "at": "2026-10-16T14:12:24.572114+00:00",
+    "authority": [
+      "vps-prism-autotrader-lab-rehearsal",
+      "2026-10-14 15:43:52.816356+00:00"
+    ],
+    "paper_rows": {
+      "paper_briefs": 0,
+      "paper_cycles": 0,
+      "paper_event_evidence": 0,
+      "paper_event_pending": 0,
+      "paper_events": 0,
+      "paper_evidence": 0,
+      "paper_nimble_accounts": 0,
+      "paper_nimble_deliveries": 0,
+      "paper_nimble_events": 0,
+      "paper_nimble_opportunities": 0,
+      "paper_nimble_positions": 0,
+      "paper_nimble_reports": 0,
+      "paper_nimble_research": 0,
+      "paper_nimble_research_pending": 0,
+      "paper_nimble_runs": 0,
+      "paper_nimble_theses": 0,
+      "paper_nimble_trigger_receipts": 0,
+      "paper_notifications": 0,
+      "paper_policies": 0,
+      "paper_retirements": 0,
+      "paper_runs": 0,
+      "paper_snapshots": 0,
+      "paper_software": 0,
+      "paper_v2_context_snapshots": 0,
+      "paper_v2_deliveries": 0,
+      "paper_v2_evaluations": 0,
+      "paper_v2_events": 0,
+      "paper_v2_opportunities": 0,
+      "paper_v2_outcomes": 0,
+      "paper_v2_policies": 0,
+      "paper_v2_reports": 0,
+      "paper_v2_runs": 0,
+      "paper_v2_universes": 0
+    },
+    "sizing_tables": {},
+    "cycles": [
+      [
+        "intraday",
+        "schedule",
+        "2026-10-16 06:01:01.219598+00:00",
+        "2026-10-16 06:01:11.781459+00:00",
+        "ok"
+      ],
+      [
+        "positioning",
+        "schedule",
+        "2026-10-16 06:04:01.201740+00:00",
+        "2026-10-16 06:04:17.762562+00:00",
+        "ok"
+      ],
+      [
+        "paper_v2_funding",
+        "schedule",
+        "2026-10-16 06:05:02.141891+00:00",
+        "2026-10-16 06:05:09.066036+00:00",
+        "ok"
+      ],
+      [
+        "microstructure",
+        "schedule",
+        "2026-10-16 06:06:01.330637+00:00",
+        "2026-10-16 06:06:08.078581+00:00",
+        "ok"
+      ],
+      [
+        "context_news",
+        "schedule",
+        "2026-10-16 06:08:01.208485+00:00",
+        "2026-10-16 06:08:06.682768+00:00",
+        "ok"
+      ],
+      [
+        "intraday",
+        "schedule",
+        "2026-10-16 06:16:01.197809+00:00",
+        "2026-10-16 06:16:08.350904+00:00",
+        "ok"
+      ],
+      [
+        "microstructure",
+        "schedule",
+        "2026-10-16 06:21:01.211719+00:00",
+        "2026-10-16 06:21:08.158993+00:00",
+        "ok"
+      ],
+      [
+        "intraday",
+        "schedule",
+        "2026-10-16 06:31:01.264471+00:00",
+        "2026-10-16 06:31:08.396831+00:00",
+        "ok"
+      ],
+      [
+        "microstructure",
+        "schedule",
+        "2026-10-16 06:36:01.236584+00:00",
+        "2026-10-16 06:36:07.997698+00:00",
+        "ok"
+      ],
+      [
+        "context_news",
+        "schedule",
+        "2026-10-16 06:38:03.299396+00:00",
+        "2026-10-16 06:38:08.811884+00:00",
+        "ok"
+      ],
+      [
+        "intraday",
+        "schedule",
+        "2026-10-16 06:46:01.216460+00:00",
+        "2026-10-16 06:46:08.687157+00:00",
+        "ok"
+      ],
+      [
+        "microstructure",
+        "schedule",
+        "2026-10-16 06:51:01.292898+00:00",
+        "2026-10-16 06:51:08.140427+00:00",
+        "ok"
+      ],
+      [
+        "intraday",
+        "schedule",
+        "2026-10-16 07:01:01.196426+00:00",
+        "2026-10-16 07:01:11.783118+00:00",
+        "ok"
+      ],
+      [
+        "positioning",
+        "schedule",
+        "2026-10-16 07:04:01.395768+00:00",
+        "2026-10-16 07:04:18.416009+00:00",
+        "ok"
+      ],
+      [
+        "paper_v2_funding",
+        "schedule",
+        "2026-10-16 07:05:02.091251+00:00",
+        "2026-10-16 07:05:09.126639+00:00",
+        "ok"
+      ],
+      [
+        "microstructure",
+        "schedule",
+        "2026-10-16 07:06:01.064323+00:00",
+        "2026-10-16 07:06:07.807343+00:00",
+        "ok"
+      ],
+      [
+        "context_news",
+        "schedule",
+        "2026-10-16 07:08:01.270276+00:00",
+        "2026-10-16 07:08:06.971479+00:00",
+        "ok"
+      ],
+      [
+        "intraday",
+        "schedule",
+        "2026-10-16 07:16:01.270781+00:00",
+        "2026-10-16 07:16:08.901594+00:00",
+        "ok"
+      ],
+      [
+        "microstructure",
+        "schedule",
+        "2026-10-16 07:21:01.407305+00:00",
+        "2026-10-16 07:21:08.425906+00:00",
+        "ok"
+      ],
+      [
+        "intraday",
+        "schedule",
+        "2026-10-16 07:31:01.361996+00:00",
+        "2026-10-16 07:31:09.008783+00:00",
+        "ok"
+      ],
+      [
+        "microstructure",
+        "schedule",
+        "2026-10-16 07:36:01.284746+00:00",
+        "2026-10-16 07:36:08.411420+00:00",
+        "ok"
+      ],
+      [
+        "context_news",
+        "schedule",
+        "2026-10-16 07:38:01.353063+00:00",
+        "2026-10-16 07:38:07.861698+00:00",
+        "ok"
+      ],
+      [
+        "intraday",
+        "schedule",
+        "2026-10-16 07:46:01.175429+00:00",
+        "2026-10-16 07:46:08.818025+00:00",
+        "ok"
+      ],
+      [
+        "microstructure",
+        "schedule",
+        "2026-10-16 07:51:01.365599+00:00",
+        "2026-10-16 07:51:08.551875+00:00",
+        "ok"
+      ],
+      [
+        "intraday",
+        "schedule",
+        "2026-10-16 08:01:01.318910+00:00",
+        "2026-10-16 08:01:14.942380+00:00",
+        "ok"
+      ],
+      [
+        "positioning",
+        "schedule",
+        "2026-10-16 08:04:01.151687+00:00",
+        "2026-10-16 08:04:18.976492+00:00",
+        "ok"
+      ],
+      [
+        "paper_v2_funding",
+        "schedule",
+        "2026-10-16 08:05:02.223234+00:00",
+        "2026-10-16 08:05:09.421134+00:00",
+        "ok"
+      ],
+      [
+        "microstructure",
+        "schedule",
+        "2026-10-16 08:06:01.361730+00:00",
+        "2026-10-16 08:06:08.400132+00:00",
+        "ok"
+      ],
+      [
+        "context_news",
+        "schedule",
+        "2026-10-16 08:08:01.442531+00:00",
+        "2026-10-16 08:08:07.155592+00:00",
+        "ok"
+      ],
+      [
+        "intraday",
+        "schedule",
+        "2026-10-16 08:16:01.437493+00:00",
+        "2026-10-16 08:16:09.093527+00:00",
+        "ok"
+      ],
+      [
+        "microstructure",
+        "schedule",
+        "2026-10-16 08:21:01.239103+00:00",
+        "2026-10-16 08:21:08.306712+00:00",
+        "ok"
+      ],
+      [
+        "oi",
+        "schedule",
+        "2026-10-16 08:30:01.288902+00:00",
+        "2026-10-16 08:30:09.713201+00:00",
+        "ok"
+      ],
+      [
+        "intraday",
+        "schedule",
+        "2026-10-16 08:31:01.520752+00:00",
+        "2026-10-16 08:31:09.037936+00:00",
+        "ok"
+      ],
+      [
+        "microstructure",
+        "schedule",
+        "2026-10-16 08:36:01.324032+00:00",
+        "2026-10-16 08:36:09.970858+00:00",
+        "ok"
+      ],
+      [
+        "context_news",
+        "schedule",
+        "2026-10-16 08:38:01.416043+00:00",
+        "2026-10-16 08:38:07.275462+00:00",
+        "ok"
+      ],
+      [
+        "intraday",
+        "schedule",
+        "2026-10-16 08:46:01.288650+00:00",
+        "2026-10-16 08:46:08.724276+00:00",
+        "ok"
+      ],
+      [
+        "microstructure",
+        "schedule",
+        "2026-10-16 08:51:01.238649+00:00",
+        "2026-10-16 08:51:08.055195+00:00",
+        "ok"
+      ],
+      [
+        "intraday",
+        "schedule",
+        "2026-10-16 09:01:01.483692+00:00",
+        "2026-10-16 09:01:12.289670+00:00",
+        "ok"
+      ],
+      [
+        "positioning",
+        "schedule",
+        "2026-10-16 09:04:01.329152+00:00",
+        "2026-10-16 09:04:18.654011+00:00",
+        "ok"
+      ],
+      [
+        "paper_v2_funding",
+        "schedule",
+        "2026-10-16 09:05:02.239080+00:00",
+        "2026-10-16 09:05:09.362795+00:00",
+        "ok"
+      ],
+      [
+        "microstructure",
+        "schedule",
+        "2026-10-16 09:06:01.198484+00:00",
+        "2026-10-16 09:06:08.465700+00:00",
+        "ok"
+      ],
+      [
+        "context_news",
+        "schedule",
+        "2026-10-16 09:08:01.335088+00:00",
+        "2026-10-16 09:08:07.564354+00:00",
+        "ok"
+      ],
+      [
+        "intraday",
+        "schedule",
+        "2026-10-16 09:16:01.267769+00:00",
+        "2026-10-16 09:16:08.944866+00:00",
+        "ok"
+      ],
+      [
+        "microstructure",
+        "schedule",
+        "2026-10-16 09:21:01.359867+00:00",
+        "2026-10-16 09:21:09.050854+00:00",
+        "ok"
+      ],
+      [
+        "intraday",
+        "schedule",
+        "2026-10-16 09:31:01.299151+00:00",
+        "2026-10-16 09:31:09.195979+00:00",
+        "ok"
+      ],
+      [
+        "microstructure",
+        "schedule",
+        "2026-10-16 09:36:01.328536+00:00",
+        "2026-10-16 09:36:08.630537+00:00",
+        "ok"
+      ],
+      [
+        "context_news",
+        "schedule",
+        "2026-10-16 09:38:01.328096+00:00",
+        "2026-10-16 09:38:07.036194+00:00",
+        "ok"
+      ],
+      [
+        "intraday",
+        "schedule",
+        "2026-10-16 09:46:01.123088+00:00",
+        "2026-10-16 09:46:08.587216+00:00",
+        "ok"
+      ],
+      [
+        "microstructure",
+        "schedule",
+        "2026-10-16 09:51:01.275760+00:00",
+        "2026-10-16 09:51:08.254524+00:00",
+        "ok"
+      ],
+      [
+        "intraday",
+        "schedule",
+        "2026-10-16 10:01:01.362398+00:00",
+        "2026-10-16 10:01:12.120426+00:00",
+        "ok"
+      ],
+      [
+        "positioning",
+        "schedule",
+        "2026-10-16 10:04:01.344345+00:00",
+        "2026-10-16 10:04:19.277030+00:00",
+        "ok"
+      ],
+      [
+        "paper_v2_funding",
+        "schedule",
+        "2026-10-16 10:05:02.139069+00:00",
+        "2026-10-16 10:05:09.463524+00:00",
+        "ok"
+      ],
+      [
+        "microstructure",
+        "schedule",
+        "2026-10-16 10:06:01.516032+00:00",
+        "2026-10-16 10:06:09.111598+00:00",
+        "ok"
+      ],
+      [
+        "context_news",
+        "schedule",
+        "2026-10-16 10:08:01.096187+00:00",
+        "2026-10-16 10:08:07.314871+00:00",
+        "ok"
+      ],
+      [
+        "intraday",
+        "schedule",
+        "2026-10-16 10:16:01.306017+00:00",
+        "2026-10-16 10:16:09.313547+00:00",
+        "ok"
+      ],
+      [
+        "microstructure",
+        "schedule",
+        "2026-10-16 10:21:01.204110+00:00",
+        "2026-10-16 10:21:08.932749+00:00",
+        "ok"
+      ],
+      [
+        "intraday",
+        "schedule",
+        "2026-10-16 10:31:01.081560+00:00",
+        "2026-10-16 10:31:08.760492+00:00",
+        "ok"
+      ],
+      [
+        "microstructure",
+        "schedule",
+        "2026-10-16 10:36:01.150198+00:00",
+        "2026-10-16 10:36:08.286370+00:00",
+        "ok"
+      ],
+      [
+        "context_news",
+        "schedule",
+        "2026-10-16 10:38:01.210339+00:00",
+        "2026-10-16 10:38:07.539252+00:00",
+        "ok"
+      ],
+      [
+        "intraday",
+        "schedule",
+        "2026-10-16 10:46:01.169920+00:00",
+        "2026-10-16 10:46:08.848885+00:00",
+        "ok"
+      ],
+      [
+        "microstructure",
+        "schedule",
+        "2026-10-16 10:51:01.303371+00:00",
+        "2026-10-16 10:51:08.281603+00:00",
+        "ok"
+      ],
+      [
+        "intraday",
+        "schedule",
+        "2026-10-16 11:01:01.197604+00:00",
+        "2026-10-16 11:01:11.991875+00:00",
+        "ok"
+      ],
+      [
+        "positioning",
+        "schedule",
+        "2026-10-16 11:04:01.149850+00:00",
+        "2026-10-16 11:04:18.640312+00:00",
+        "ok"
+      ],
+      [
+        "paper_v2_funding",
+        "schedule",
+        "2026-10-16 11:05:02.265145+00:00",
+        "2026-10-16 11:05:09.485613+00:00",
+        "ok"
+      ],
+      [
+        "microstructure",
+        "schedule",
+        "2026-10-16 11:06:01.210548+00:00",
+        "2026-10-16 11:06:08.731483+00:00",
+        "ok"
+      ],
+      [
+        "context_news",
+        "schedule",
+        "2026-10-16 11:08:01.369527+00:00",
+        "2026-10-16 11:08:07.281987+00:00",
+        "ok"
+      ],
+      [
+        "intraday",
+        "schedule",
+        "2026-10-16 11:16:01.079594+00:00",
+        "2026-10-16 11:16:08.607398+00:00",
+        "ok"
+      ],
+      [
+        "microstructure",
+        "schedule",
+        "2026-10-16 11:21:01.327172+00:00",
+        "2026-10-16 11:21:08.389314+00:00",
+        "ok"
+      ],
+      [
+        "intraday",
+        "schedule",
+        "2026-10-16 11:31:01.189897+00:00",
+        "2026-10-16 11:31:09.040116+00:00",
+        "ok"
+      ],
+      [
+        "microstructure",
+        "schedule",
+        "2026-10-16 11:36:01.235949+00:00",
+        "2026-10-16 11:36:08.247345+00:00",
+        "ok"
+      ],
+      [
+        "context_news",
+        "schedule",
+        "2026-10-16 11:38:01.119356+00:00",
+        "2026-10-16 11:38:06.787392+00:00",
+        "ok"
+      ],
+      [
+        "intraday",
+        "schedule",
+        "2026-10-16 11:46:01.160071+00:00",
+        "2026-10-16 11:46:09.369803+00:00",
+        "ok"
+      ],
+      [
+        "microstructure",
+        "schedule",
+        "2026-10-16 11:51:01.234396+00:00",
+        "2026-10-16 11:51:08.855284+00:00",
+        "ok"
+      ],
+      [
+        "intraday",
+        "schedule",
+        "2026-10-16 12:01:01.281733+00:00",
+        "2026-10-16 12:01:15.045739+00:00",
+        "ok"
+      ],
+      [
+        "positioning",
+        "schedule",
+        "2026-10-16 12:04:01.260058+00:00",
+        "2026-10-16 12:04:18.571026+00:00",
+        "ok"
+      ],
+      [
+        "paper_v2_funding",
+        "schedule",
+        "2026-10-16 12:05:02.350898+00:00",
+        "2026-10-16 12:05:09.813019+00:00",
+        "ok"
+      ],
+      [
+        "microstructure",
+        "schedule",
+        "2026-10-16 12:06:01.250061+00:00",
+        "2026-10-16 12:06:08.457193+00:00",
+        "ok"
+      ],
+      [
+        "context_news",
+        "schedule",
+        "2026-10-16 12:08:01.327310+00:00",
+        "2026-10-16 12:08:07.328555+00:00",
+        "ok"
+      ],
+      [
+        "intraday",
+        "schedule",
+        "2026-10-16 12:16:01.304594+00:00",
+        "2026-10-16 12:16:08.991494+00:00",
+        "ok"
+      ],
+      [
+        "microstructure",
+        "schedule",
+        "2026-10-16 12:21:01.325080+00:00",
+        "2026-10-16 12:21:08.857950+00:00",
+        "ok"
+      ],
+      [
+        "intraday",
+        "schedule",
+        "2026-10-16 12:31:01.287948+00:00",
+        "2026-10-16 12:31:09.434293+00:00",
+        "ok"
+      ],
+      [
+        "microstructure",
+        "schedule",
+        "2026-10-16 12:36:01.242012+00:00",
+        "2026-10-16 12:36:08.091802+00:00",
+        "ok"
+      ],
+      [
+        "context_news",
+        "schedule",
+        "2026-10-16 12:38:01.391233+00:00",
+        "2026-10-16 12:38:07.432473+00:00",
+        "ok"
+      ],
+      [
+        "context_macro",
+        "schedule",
+        "2026-10-16 12:42:01.329287+00:00",
+        "2026-10-16 12:42:14.209732+00:00",
+        "ok"
+      ],
+      [
+        "intraday",
+        "schedule",
+        "2026-10-16 12:46:01.380133+00:00",
+        "2026-10-16 12:46:09.239143+00:00",
+        "ok"
+      ],
+      [
+        "microstructure",
+        "schedule",
+        "2026-10-16 12:51:01.301114+00:00",
+        "2026-10-16 12:51:08.636009+00:00",
+        "ok"
+      ],
+      [
+        "intraday",
+        "schedule",
+        "2026-10-16 13:01:01.247142+00:00",
+        "2026-10-16 13:01:12.275304+00:00",
+        "ok"
+      ],
+      [
+        "positioning",
+        "schedule",
+        "2026-10-16 13:04:01.313479+00:00",
+        "2026-10-16 13:04:19.011367+00:00",
+        "ok"
+      ],
+      [
+        "paper_v2_funding",
+        "schedule",
+        "2026-10-16 13:05:02.232682+00:00",
+        "2026-10-16 13:05:09.568628+00:00",
+        "ok"
+      ],
+      [
+        "microstructure",
+        "schedule",
+        "2026-10-16 13:06:01.174414+00:00",
+        "2026-10-16 13:06:08.671143+00:00",
+        "ok"
+      ],
+      [
+        "context_news",
+        "schedule",
+        "2026-10-16 13:08:01.302046+00:00",
+        "2026-10-16 13:08:07.312847+00:00",
+        "ok"
+      ],
+      [
+        "intraday",
+        "schedule",
+        "2026-10-16 13:16:01.268551+00:00",
+        "2026-10-16 13:16:08.986578+00:00",
+        "ok"
+      ],
+      [
+        "microstructure",
+        "schedule",
+        "2026-10-16 13:21:01.298700+00:00",
+        "2026-10-16 13:21:08.843037+00:00",
+        "ok"
+      ],
+      [
+        "intraday",
+        "schedule",
+        "2026-10-16 13:31:01.170877+00:00",
+        "2026-10-16 13:31:09.117094+00:00",
+        "ok"
+      ],
+      [
+        "microstructure",
+        "schedule",
+        "2026-10-16 13:36:01.255901+00:00",
+        "2026-10-16 13:36:09.192706+00:00",
+        "ok"
+      ],
+      [
+        "context_news",
+        "schedule",
+        "2026-10-16 13:38:01.407481+00:00",
+        "2026-10-16 13:38:07.822312+00:00",
+        "ok"
+      ],
+      [
+        "context_macro",
+        "schedule",
+        "2026-10-16 13:42:01.314075+00:00",
+        "2026-10-16 13:42:20.860464+00:00",
+        "ok"
+      ],
+      [
+        "intraday",
+        "schedule",
+        "2026-10-16 13:46:01.266549+00:00",
+        "2026-10-16 13:46:09.635174+00:00",
+        "ok"
+      ],
+      [
+        "microstructure",
+        "schedule",
+        "2026-10-16 13:51:01.292530+00:00",
+        "2026-10-16 13:51:08.549368+00:00",
+        "ok"
+      ],
+      [
+        "intraday",
+        "schedule",
+        "2026-10-16 14:01:01.359927+00:00",
+        "2026-10-16 14:01:12.343047+00:00",
+        "ok"
+      ],
+      [
+        "positioning",
+        "schedule",
+        "2026-10-16 14:04:01.520976+00:00",
+        "2026-10-16 14:04:18.710878+00:00",
+        "ok"
+      ],
+      [
+        "paper_v2_funding",
+        "schedule",
+        "2026-10-16 14:05:02.296569+00:00",
+        "2026-10-16 14:05:09.572011+00:00",
+        "ok"
+      ],
+      [
+        "microstructure",
+        "schedule",
+        "2026-10-16 14:06:01.311198+00:00",
+        "2026-10-16 14:06:08.716790+00:00",
+        "ok"
+      ],
+      [
+        "context_news",
+        "schedule",
+        "2026-10-16 14:08:01.183870+00:00",
+        "2026-10-16 14:08:07.798741+00:00",
+        "ok"
+      ]
+    ],
+    "fred": [
+      [
+        "fred_calendar",
+        "ok",
+        "2026-10-16 00:20:04.661053+00:00",
+        "2026-10-16 00:20:13.226338+00:00",
+        17,
+        0
+      ],
+      [
+        "fred_actuals",
+        "ok",
+        "2026-10-16 00:20:14.609137+00:00",
+        "2026-10-16 00:20:16.435230+00:00",
+        1,
+        0
+      ],
+      [
+        "fred_calendar",
+        "ok",
+        "2026-10-16 12:42:05.671766+00:00",
+        "2026-10-16 12:42:10.634950+00:00",
+        17,
+        0
+      ],
+      [
+        "fred_actuals",
+        "ok",
+        "2026-10-16 12:42:12.113075+00:00",
+        "2026-10-16 12:42:13.564687+00:00",
+        1,
+        0
+      ],
+      [
+        "fred_calendar",
+        "ok",
+        "2026-10-16 13:42:05.533505+00:00",
+        "2026-10-16 13:42:11.183248+00:00",
+        17,
+        0
+      ],
+      [
+        "fred_actuals",
+        "ok",
+        "2026-10-16 13:42:12.627627+00:00",
+        "2026-10-16 13:42:20.226862+00:00",
+        1,
+        0
+      ]
+    ],
+    "micro_frontiers": [
+      [
+        "AAVE",
+        2782,
+        "2026-10-16 14:05:00+00:00"
+      ],
+      [
+        "BTC",
+        2782,
+        "2026-10-16 14:05:00+00:00"
+      ],
+      [
+        "ETH",
+        2782,
+        "2026-10-16 14:05:00+00:00"
+      ],
+      [
+        "HYPE",
+        2782,
+        "2026-10-16 14:05:00+00:00"
+      ],
+      [
+        "LINK",
+        2782,
+        "2026-10-16 14:05:00+00:00"
+      ],
+      [
+        "SOL",
+        2782,
+        "2026-10-16 14:05:00+00:00"
+      ]
+    ],
+    "bars": [
+      [
+        "AAVE",
+        "15m",
+        "2026-10-16 14:00:00+00:00"
+      ],
+      [
+        "AAVE",
+        "1h",
+        "2026-10-16 14:00:00+00:00"
+      ],
+      [
+        "BTC",
+        "15m",
+        "2026-10-16 14:00:00+00:00"
+      ],
+      [
+        "BTC",
+        "1h",
+        "2026-10-16 14:00:00+00:00"
+      ],
+      [
+        "ETH",
+        "15m",
+        "2026-10-16 14:00:00+00:00"
+      ],
+      [
+        "ETH",
+        "1h",
+        "2026-10-16 14:00:00+00:00"
+      ],
+      [
+        "HYPE",
+        "15m",
+        "2026-10-16 14:00:00+00:00"
+      ],
+      [
+        "HYPE",
+        "1h",
+        "2026-10-16 14:00:00+00:00"
+      ],
+      [
+        "LINK",
+        "15m",
+        "2026-10-16 14:00:00+00:00"
+      ],
+      [
+        "LINK",
+        "1h",
+        "2026-10-16 14:00:00+00:00"
+      ],
+      [
+        "SOL",
+        "15m",
+        "2026-10-16 14:00:00+00:00"
+      ],
+      [
+        "SOL",
+        "1h",
+        "2026-10-16 14:00:00+00:00"
+      ]
+    ],
+    "outcomes": [
+      0,
+      0
+    ],
+    "evaluation_count": 1,
+    "evaluation_payload_bytes": 54898,
+    "snapshot_seconds": 10.88102396800241,
+    "evaluations": [
+      {
+        "id": "universeeval_7ef2e4f65332e02e942a76a12656f89dd1f6b970c67dd7aefc643992f2aa056d",
+        "at": 1792144239,
+        "discovered": 541,
+        "candidates": 23,
+        "candidate_assets": [
+          "BTC",
+          "HYPE",
+          "NEAR",
+          "ETH",
+          "ZEC",
+          "WLD",
+          "SOL",
+          "XRP",
+          "ARB",
+          "LIT",
+          "ENA",
+          "AAVE",
+          "ONDO",
+          "SUI",
+          "kPEPE",
+          "LINK",
+          "TAO",
+          "DOGE",
+          "AERO",
+          "CHIP",
+          "PYTH",
+          "BNB",
+          "AVAX"
+        ],
+        "light_collection": [
+          "AAVE",
+          "ARB",
+          "BTC",
+          "CASHCAT",
+          "CRV",
+          "ENA",
+          "ETH",
+          "HYPE",
+          "INJ",
+          "JUP",
+          "LINK",
+          "LIT",
+          "NEAR",
+          "ONDO",
+          "PONS",
+          "PUMP",
+          "SOL",
+          "STRK",
+          "SUI",
+          "TIA",
+          "UNI",
+          "VVV",
+          "WLD",
+          "XMR",
+          "XPL",
+          "XRP",
+          "ZEC",
+          "ZK",
+          "ZRO",
+          "kPEPE"
+        ],
+        "source_error_classes": {},
+        "source_error_assets": [],
+        "active": 340,
+        "native_supported": 178,
+        "deployer": 307,
+        "inactive": 201,
+        "healthy": 541,
+        "lightweight_ready": 0,
+        "missing_input_counts": {
+          "rv_bps": 541,
+          "range_bps": 541,
+          "return_bps": 541,
+          "oi_change": 541,
+          "spread_bps": 511,
+          "depth_usd": 511,
+          "trades_per_minute": 511
+        },
+        "payload_bytes": 54898,
+        "discovery_to_commit_seconds": 36,
+        "checks": {
+          "scores_and_ranks_match": true,
+          "states_match": true,
+          "changes_match": true,
+          "core_only_plan": true,
+          "no_pins": true,
+          "no_satellite_entry_eligible": true,
+          "no_satellite_rich_since": true,
+          "ranking_only": true,
+          "policy_matches": true,
+          "rank_deterministic_reversed_input": true,
+          "ranking_independent_of_pins": true,
+          "deployer_quarantined": true,
+          "inactive_excluded": true
+        }
+      }
+    ],
+    "replay_seconds": 0.6014414340024814,
+    "read_seconds": 11.482471074006753
+  },
+  "db_audit_at": 1792159956.0596352,
+  "db_audit_event_count": 0,
+  "research_backup": {
+    "status": "ok",
+    "stage": "done",
+    "started_at": "2026-10-16T08:08:30.467309+00:00",
+    "finished_at": "2026-10-16T08:13:18.135059+00:00"
+  }
+}

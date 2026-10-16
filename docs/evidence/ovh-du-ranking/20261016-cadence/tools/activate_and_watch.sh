@@ -1,6 +1,6 @@
 #!/bin/bash
 set -euo pipefail
-/opt/prism/current/.venv/bin/python /data/validation/du-ranking-cadence/attempt-2/tools/activate_reviewed.py 69d3bc695944c4a88bf5f023e6d251bbf1a7c4120252f1ea0d5199085f91ce44
+/opt/prism/current/.venv/bin/python /data/validation/du-ranking-cadence/attempt-2/tools/activate_reviewed.py 9bb2f480052a94eb26f050772adbaae2041dc2e4c93988beb650a535a0837618
 if ! systemd-run --unit=prism-du-ranking-watch-attempt2 \
   --property=OnFailure=prism-du-ranking-emergency-stop-attempt2.service \
   --property=MemoryMax=512M --property=CPUQuota=25% --property=Nice=19 \

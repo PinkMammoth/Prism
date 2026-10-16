@@ -1,0 +1,24 @@
+{
+  "allocation": {
+    "database_name": "prism",
+    "database_size": "149.2 MiB",
+    "block_size": 262144,
+    "total_blocks": 597,
+    "used_blocks": 533,
+    "free_blocks": 64,
+    "wal_size": "0 bytes",
+    "memory_usage": "29.2 MiB",
+    "memory_limit": "9.1 GiB"
+  },
+  "outcomes_count_bytes_max_bytes_asset_length": [
+    634,
+    180191,
+    296,
+    8
+  ],
+  "authority": [
+    "vps-prism-autotrader-lab-rehearsal",
+    "2026-10-14 15:43:52.816356+00:00"
+  ],
+  "table_count": 146
+}

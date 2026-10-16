@@ -1,0 +1,3760 @@
+{
+  "at": "2026-10-16T16:29:00.606196+00:00",
+  "host": {
+    "at": "2026-10-16T16:29:00.606257+00:00",
+    "disk": {
+      "total": 105467994112,
+      "used": 6663647232,
+      "free": 94467260416
+    },
+    "memory": {
+      "MemTotal": 12256567296,
+      "MemAvailable": 10812182528,
+      "SwapTotal": 0,
+      "SwapFree": 0
+    },
+    "load": [
+      0.15234375,
+      0.25537109375,
+      0.216796875
+    ],
+    "cpu_jiffies": [
+      1056643,
+      105183,
+      107214,
+      47503875,
+      9995,
+      0,
+      13566,
+      5544,
+      0,
+      0
+    ],
+    "units": {
+      "microstructure": {
+        "MainPID": "625",
+        "Result": "success",
+        "NRestarts": "0",
+        "ExecMainStartTimestamp": "Thu 2026-10-15 17:52:53 UTC",
+        "MemoryCurrent": "249184256",
+        "CPUUsageNSec": "898386194000",
+        "ActiveState": "active",
+        "SubState": "running"
+      },
+      "free-sources": {
+        "MainPID": "53126",
+        "Result": "success",
+        "NRestarts": "0",
+        "ExecMainStartTimestamp": "Fri 2026-10-16 14:12:18 UTC",
+        "MemoryCurrent": "112963584",
+        "CPUUsageNSec": "13009286000",
+        "ActiveState": "active",
+        "SubState": "running"
+      },
+      "free-source-ingest": {
+        "MainPID": "53125",
+        "Result": "success",
+        "NRestarts": "0",
+        "ExecMainStartTimestamp": "Fri 2026-10-16 14:12:18 UTC",
+        "MemoryCurrent": "209113088",
+        "CPUUsageNSec": "465563649000",
+        "ActiveState": "active",
+        "SubState": "running"
+      },
+      "scheduler": {
+        "MainPID": "53127",
+        "Result": "success",
+        "NRestarts": "0",
+        "ExecMainStartTimestamp": "Fri 2026-10-16 14:12:18 UTC",
+        "MemoryCurrent": "80736256",
+        "CPUUsageNSec": "546573672000",
+        "ActiveState": "active",
+        "SubState": "running"
+      },
+      "universe": {
+        "MainPID": "53179",
+        "Result": "success",
+        "NRestarts": "0",
+        "ExecMainStartTimestamp": "Fri 2026-10-16 14:12:19 UTC",
+        "MemoryCurrent": "39727104",
+        "CPUUsageNSec": "111264653000",
+        "ActiveState": "active",
+        "SubState": "running"
+      },
+      "nimble": {
+        "MainPID": "0",
+        "Result": "exec-condition",
+        "NRestarts": "0",
+        "ExecMainStartTimestamp": "",
+        "MemoryCurrent": "[not set]",
+        "CPUUsageNSec": "1493865000",
+        "ActiveState": "inactive",
+        "SubState": "dead"
+      },
+      "context-gateway": {
+        "MainPID": "0",
+        "Result": "exec-condition",
+        "NRestarts": "0",
+        "ExecMainStartTimestamp": "",
+        "MemoryCurrent": "[not set]",
+        "CPUUsageNSec": "1565357000",
+        "ActiveState": "inactive",
+        "SubState": "dead"
+      },
+      "context-ingest": {
+        "MainPID": "0",
+        "Result": "exec-condition",
+        "NRestarts": "0",
+        "ExecMainStartTimestamp": "",
+        "MemoryCurrent": "[not set]",
+        "CPUUsageNSec": "1479572000",
+        "ActiveState": "inactive",
+        "SubState": "dead"
+      },
+      "research-backup": {
+        "MainPID": "0",
+        "Result": "success",
+        "NRestarts": "0",
+        "ExecMainStartTimestamp": "Fri 2026-10-16 08:08:30 UTC",
+        "MemoryCurrent": "[not set]",
+        "CPUUsageNSec": "162943642000",
+        "ActiveState": "inactive",
+        "SubState": "dead"
+      }
+    },
+    "release": "/opt/prism/releases/c6b6e9da7e0d2e04f265e5fec9d1dde9a0a7d67c",
+    "physical_usage": {
+      "status": 0,
+      "stdout": "61440\t/data/microstructure/lp\n93741056\t/data/microstructure/raw\n46911488\t/data/microstructure/spool\n140738560\t/data/microstructure\n11022336\t/data/validation/du-ranking-cadence\n4063232\t/data/validation/lab-remediation\n17121280\t/data/validation\n45056\t/data/state\n5111808\t/data/raw/binance_futures\n413696\t/data/raw/rss_cftc_press\n208896\t/data/raw/fred\n430080\t/data/raw/rss_fed_press\n2580480\t/data/raw/hyperliquid\n811008\t/data/raw/rss_sec_press\n860160\t/data/raw/hyperliquid_intraday\n10420224\t/data/raw\n4096\t/data/railway-bridge/archive\n8192\t/data/railway-bridge\n4096\t/data/free_event_sources/attempts\n114688\t/data/free_event_sources/receipts\n114688\t/data/free_event_sources/seals\n114688\t/data/free_event_sources/done\n385024\t/data/free_event_sources\n4096\t/data/context_gateway\n188416\t/data/backups/daily\n155975680\t/data/backups/manual\n156176384\t/data/backups\n1204224\t/data/logs\n481841152\t/data\n4096\t/var/lib/prism-research/microstructure\n18046976\t/var/lib/prism-research/state\n4096\t/var/lib/prism-research/raw\n4096\t/var/lib/prism-research/free_event_sources\n4096\t/var/lib/prism-research/scratch\n4096\t/var/lib/prism-research/context_gateway\n4096\t/var/lib/prism-research/results\n4096\t/var/lib/prism-research/.uv-cache/builds-v0\n12288\t/var/lib/prism-research/.uv-cache/interpreter-v4\n593920\t/var/lib/prism-research/.uv-cache/wheels-v6\n94208\t/var/lib/prism-research/.uv-cache/sdists-v9\n229376\t/var/lib/prism-research/.uv-cache/simple-v24\n530866176\t/var/lib/prism-research/.uv-cache/archive-v0\n531812352\t/var/lib/prism-research/.uv-cache\n135647232\t/var/lib/prism-research/backups/generation-20261015T123904063259Z\n135655424\t/var/lib/prism-research/backups\n4096\t/var/lib/prism-research/logs\n1646284800\t/var/lib/prism-research/import\n2331832320\t/var/lib/prism-research\n135651328\t/var/lib/prism-research-backup/generations/generation-20261016T081024449039Z\n135659520\t/var/lib/prism-research-backup/generations\n17874944\t/var/lib/prism-research-backup/state\n4096\t/var/lib/prism-research-backup/scratch\n153542656\t/var/lib/prism-research-backup\n8192\t/var/lib/prism/.local/bin\n12288\t/var/lib/prism/.local\n532381696\t/var/lib/prism/.cache/uv\n532385792\t/var/lib/prism/.cache\n532414464\t/var/lib/prism\n50790400\t/opt/prism/releases/530ba0d18c3009352eee21bb7f1a1c01004ab73a\n46575616\t/opt/prism/releases/401301ff2924a3684a423139113bd8f6867e603d\n70565888\t/opt/prism/releases/c6b6e9da7e0d2e04f265e5fec9d1dde9a0a7d67c\n48635904\t/opt/prism/releases/9acb42a94d8888a2e712490b421912739a02bff6\n71249920\t/opt/prism/releases/b10d13a313870f0975842f1ee77e7b9938879359\n287821824\t/opt/prism/releases\n130191360\t/opt/prism/research/releases\n130199552\t/opt/prism/research\n116318208\t/opt/prism/research-backup/tools\n116322304\t/opt/prism/research-backup\n4096\t/opt/prism/python/.temp\n268357632\t/opt/prism/python/cpython-3.12.3-linux-x86_64-gnu\n268369920\t/opt/prism/python\n802729984\t/opt/prism\n4096\t/var/log/sysstat\n4096\t/var/log/private\n4096\t/var/log/runit/ssh\n8192\t/var/log/runit\n61440\t/var/log/apt\n63074304\t/var/log/journal/f792458fe56545aa8f5bd67f3cc76ffd\n16781312\t/var/log/journal/98a2db221f984e7da5f2bd18b0f1e16b\n79859712\t/var/log/journal\n4096\t/var/log/chrony\n32768\t/var/log/unattended-upgrades\n81616896\t/var/log\n4096\t/tmp/.font-unix\n4096\t/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-chrony.service-i4r9Kr/tmp\n8192\t/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-chrony.service-i4r9Kr\n4096\t/tmp/.X11-unix\n4096\t/tmp/.ICE-unix\n4096\t/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-prism-free-source-ingest.service-TWLxog/tmp\n8192\t/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-prism-free-source-ingest.service-TWLxog\n4096\t/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-prism-scheduler.service-Ei5JnN/tmp\n8192\t/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-prism-scheduler.service-Ei5JnN\n131072\t/tmp/du-attempt2-tools\n4096\t/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-systemd-resolved.service-9YiQvJ/tmp\n8192\t/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-systemd-resolved.service-9YiQvJ\n4096\t/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-prism-free-sources.service-4dx4u9/tmp\n8192\t/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-prism-free-sources.service-4dx4u9\n4096\t/tmp/.XIM-unix\n4096\t/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-prism-microstructure.service-toeMLb/tmp\n8192\t/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-prism-microstructure.service-toeMLb\n4096\t/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-prism-lab-remediation-close.service-qWYYha/tmp\n8192\t/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-prism-lab-remediation-close.service-qWYYha\n4096\t/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-systemd-logind.service-tOvZBt/tmp\n8192\t/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-systemd-logind.service-tOvZBt\n4096\t/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-prism-du-ranking-guard.service-pN5qhz/tmp\n8192\t/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-prism-du-ranking-guard.service-pN5qhz\n4096\t/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-prism-universe.service-NN9JoM/tmp\n8192\t/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-prism-universe.service-NN9JoM\n331776\t/tmp\n4096\t/var/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-prism-microstructure.service-I1UTi6/tmp\n8192\t/var/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-prism-microstructure.service-I1UTi6\n4096\t/var/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-systemd-resolved.service-BIUE0F/tmp\n8192\t/var/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-systemd-resolved.service-BIUE0F\n4096\t/var/tmp/cloud-init\n4096\t/var/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-prism-du-ranking-guard.service-5lBUG3/tmp\n8192\t/var/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-prism-du-ranking-guard.service-5lBUG3\n4096\t/var/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-prism-free-sources.service-ciiedD/tmp\n8192\t/var/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-prism-free-sources.service-ciiedD\n4096\t/var/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-systemd-logind.service-o42eyE/tmp\n8192\t/var/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-systemd-logind.service-o42eyE\n4096\t/var/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-prism-lab-remediation-close.service-YNpiRx/tmp\n8192\t/var/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-prism-lab-remediation-close.service-YNpiRx\n4096\t/var/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-chrony.service-X21DnC/tmp\n8192\t/var/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-chrony.service-X21DnC\n4096\t/var/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-prism-scheduler.service-Rtbqx4/tmp\n8192\t/var/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-prism-scheduler.service-Rtbqx4\n4096\t/var/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-prism-universe.service-jVViL5/tmp\n8192\t/var/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-prism-universe.service-jVViL5\n4096\t/var/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-prism-free-source-ingest.service-w54ckx/tmp\n8192\t/var/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-prism-free-source-ingest.service-w54ckx\n90112\t/var/tmp\n"
+    },
+    "filesystem_top_level": {
+      "status": 0,
+      "stdout": "4096\t/media\n1849548800\t/opt\n4096\t/mnt\n16384\t/lost+found\n481841152\t/data\n4313088\t/etc\n625688576\t/home\n2762891264\t/var\n71151616\t/boot\n16384\t/root\n331776\t/tmp\n867807232\t/usr\n4096\t/srv\n6663622656\t/\n"
+    },
+    "db_files": {
+      "/data/prism.duckdb": {
+        "bytes": 155725824,
+        "physical_bytes": 155729920,
+        "mtime_ns": 1792167965339225618
+      },
+      "/var/lib/prism-research/import/prism.duckdb": {
+        "bytes": 1646276608,
+        "physical_bytes": 1646280704,
+        "mtime_ns": 1792067413151151944
+      }
+    },
+    "environment": {
+      "PRISM_DEPLOYMENT_TARGET": "vps",
+      "PRISM_AUTHORITY": "rehearsal",
+      "PRISM_RUNTIME_ROLE": "authoritative",
+      "PRISM_RUNTIME_ID": "vps-prism-autotrader-lab-rehearsal",
+      "PRISM_DB_PATH": "/data/prism.duckdb",
+      "PRISM_PROFILE": "autotrader_lab_v2",
+      "PRISM_UNIVERSE_STAGE": "ranking",
+      "PRISM_UNIVERSE_BUDGET": "/data/state/du-budget.json",
+      "PRISM_NIMBLE_RUNTIME": "off"
+    },
+    "profile": {
+      "profile": "autotrader_lab_v2",
+      "identity": "prism_autotrader_lab_v2",
+      "digest": "e7571ad1a2a35fb42dc8c1ea77759e31887a1c7679445561664c1dee68c12207",
+      "authority": "rehearsal",
+      "target": "vps",
+      "runtime_id": "vps-prism-autotrader-lab-rehearsal",
+      "explicit": true,
+      "role": "authoritative",
+      "processes": [
+        "microstructure_collector",
+        "free_source_collector",
+        "free_source_ingest",
+        "universe_radar",
+        "scheduler"
+      ],
+      "disabled_by_flag": [],
+      "collector_dynamic": false,
+      "scheduled_jobs": [
+        "oi",
+        "intraday",
+        "paper_v2_funding",
+        "positioning",
+        "context_macro",
+        "context_news",
+        "microstructure",
+        "backup"
+      ],
+      "execution_allowed": false,
+      "external_actions_allowed": false,
+      "boot_catchup_job": null,
+      "dynamic_universe": {
+        "tier0_discovery": "opt_in",
+        "tier1_warming": "opt_in",
+        "tier2_rich": "opt_in",
+        "tier3_risk_pins": "retention_only"
+      },
+      "definition": {
+        "name": "autotrader_lab_v2",
+        "identity": "prism_autotrader_lab_v2",
+        "targets": [
+          "local",
+          "vps"
+        ],
+        "processes": [
+          "free_source_collector",
+          "free_source_ingest",
+          "microstructure_collector",
+          "scheduler",
+          "universe_radar"
+        ],
+        "process_classes": {
+          "free_source_collector": "passive",
+          "free_source_ingest": "ingest",
+          "microstructure_collector": "passive",
+          "scheduler": "ingest",
+          "universe_radar": "ingest"
+        },
+        "jobs": [
+          "backup",
+          "context_macro",
+          "context_news",
+          "intraday",
+          "microstructure",
+          "oi",
+          "paper_v2_funding",
+          "positioning"
+        ],
+        "job_classes": {
+          "backup": "maintenance",
+          "context_macro": "data",
+          "context_news": "data",
+          "intraday": "data",
+          "microstructure": "data",
+          "oi": "data",
+          "paper_v2_funding": "data",
+          "positioning": "data"
+        },
+        "runtime_ids": {
+          "rehearsal": "vps-prism-autotrader-lab-rehearsal"
+        },
+        "boot_catchup_job": null,
+        "unconditional_jobs": [
+          "paper_v2_funding"
+        ],
+        "dynamic_universe": {
+          "tier0_discovery": "opt_in",
+          "tier1_warming": "opt_in",
+          "tier2_rich": "opt_in",
+          "tier3_risk_pins": "retention_only"
+        }
+      }
+    },
+    "research_backup": {
+      "status": "ok",
+      "stage": "done",
+      "started_at": "2026-10-16T08:08:30.467309+00:00",
+      "finished_at": "2026-10-16T08:13:18.135059+00:00",
+      "receipt": {
+        "snapshot_id": "fc9507814bea186809af169c88499e19706ba1e1a3bd51c3f2a0c7ce6456553f",
+        "generation": "generation-20261016T081024449039Z",
+        "verified_at": "2026-10-16T08:13:18.129960+00:00",
+        "sha256": "dbaa5a3c31ebd738cca69bbd714263f4583722331f515ee2d239d4be77d9726f",
+        "compressed_sha256": "023c3240e029eb87686905a1a9dfe3475397ba173ac0d7f9a38b1473c3e7892b",
+        "compressed_bytes": 135614775,
+        "remote_listing": {
+          "manifest.json": 24494,
+          "research.duckdb.gz": 135614775
+        },
+        "data_added_packed": 11220,
+        "read_data": "full",
+        "restore_verified": true,
+        "restored_db": null,
+        "manifest_copy": "prism-gdrive:Prism/backups/research/manifests/generation-20261016T081024449039Z.json",
+        "retained_snapshots": 3,
+        "pruned_manifests": [],
+        "timings": {
+          "upload_seconds": 24.04894520599919,
+          "remote_check_seconds": 41.04930110499845,
+          "restore_seconds": 57.723793003002356,
+          "retention_seconds": 42.13982607800426
+        },
+        "off_host_verified": true,
+        "destination_id": "google-drive:Prism/backups/research (rclone drive.file scope)"
+      },
+      "removed_local": [
+        "generation-20261015T172517321985Z"
+      ]
+    },
+    "micro": {
+      "backoff_s": 1.0,
+      "bytes_per_s_60s": 10186.9,
+      "coins": {
+        "AAVE": {
+          "first_minute": "2026-10-15T17:52:00+00:00",
+          "last_book20_age_s": 1.2,
+          "last_book5_age_s": 0.1,
+          "last_ctx_age_s": 0.0,
+          "last_finalized_minute": "2026-10-16T16:27:00+00:00",
+          "last_finalized_status": "COMPLETE",
+          "last_trade_age_s": 10.1,
+          "subscribed": [
+            "book20",
+            "book5",
+            "ctx",
+            "trades"
+          ]
+        },
+        "BTC": {
+          "first_minute": "2026-10-15T17:52:00+00:00",
+          "last_book20_age_s": 1.2,
+          "last_book5_age_s": 0.1,
+          "last_ctx_age_s": 0.0,
+          "last_finalized_minute": "2026-10-16T16:27:00+00:00",
+          "last_finalized_status": "COMPLETE",
+          "last_trade_age_s": 0.6,
+          "subscribed": [
+            "book20",
+            "book5",
+            "ctx",
+            "trades"
+          ]
+        },
+        "ETH": {
+          "first_minute": "2026-10-15T17:52:00+00:00",
+          "last_book20_age_s": 1.2,
+          "last_book5_age_s": 0.1,
+          "last_ctx_age_s": 0.0,
+          "last_finalized_minute": "2026-10-16T16:27:00+00:00",
+          "last_finalized_status": "COMPLETE",
+          "last_trade_age_s": 0.0,
+          "subscribed": [
+            "book20",
+            "book5",
+            "ctx",
+            "trades"
+          ]
+        },
+        "HYPE": {
+          "first_minute": "2026-10-15T17:52:00+00:00",
+          "last_book20_age_s": 1.2,
+          "last_book5_age_s": 0.1,
+          "last_ctx_age_s": 0.0,
+          "last_finalized_minute": "2026-10-16T16:27:00+00:00",
+          "last_finalized_status": "COMPLETE",
+          "last_trade_age_s": 0.1,
+          "subscribed": [
+            "book20",
+            "book5",
+            "ctx",
+            "trades"
+          ]
+        },
+        "LINK": {
+          "first_minute": "2026-10-15T17:52:00+00:00",
+          "last_book20_age_s": 1.2,
+          "last_book5_age_s": 0.1,
+          "last_ctx_age_s": 0.0,
+          "last_finalized_minute": "2026-10-16T16:27:00+00:00",
+          "last_finalized_status": "COMPLETE",
+          "last_trade_age_s": 2.8,
+          "subscribed": [
+            "book20",
+            "book5",
+            "ctx",
+            "trades"
+          ]
+        },
+        "SOL": {
+          "first_minute": "2026-10-15T17:52:00+00:00",
+          "last_book20_age_s": 1.2,
+          "last_book5_age_s": 0.1,
+          "last_ctx_age_s": 0.0,
+          "last_finalized_minute": "2026-10-16T16:27:00+00:00",
+          "last_finalized_status": "COMPLETE",
+          "last_trade_age_s": 1.0,
+          "subscribed": [
+            "book20",
+            "book5",
+            "ctx",
+            "trades"
+          ]
+        }
+      },
+      "conn_id": "msconn_12dac4f5c7fb",
+      "connected": true,
+      "counters": {
+        "connections": 9,
+        "dup_book5": 4,
+        "dup_trades": 1316,
+        "ev_A": 216,
+        "ev_C": 476236,
+        "ev_D": 90840,
+        "ev_F": 900409,
+        "ev_O": 9,
+        "ev_T": 756222,
+        "ev_X": 8,
+        "finalized": 8136,
+        "replay_unobserved": 42,
+        "status_COMPLETE": 8082,
+        "status_PARTIAL": 54
+      },
+      "cpu_s": 896.83,
+      "definition": "7c299a853f4ba141",
+      "disconnected_since_ms": null,
+      "dropped_records": 0,
+      "dynamic_universe": false,
+      "feature_version": "microstructure_1m_v1",
+      "flush_ms": {
+        "max": 3.364279997185804,
+        "p50": 1.5090939996298403
+      },
+      "git_commit": "530ba0d18c3009352eee21bb7f1a1c01004ab73a",
+      "last_error": "ConnectionClosedOK: received 1000 (OK) Expired; then sent 1000 (OK) Expired",
+      "last_message_age_s": 0.0,
+      "latency_ms": {
+        "n": 4000,
+        "p50": 383,
+        "p90": 501,
+        "p99": 810
+      },
+      "max_rss_mb": 210.7,
+      "msgs_per_s_60s": 21.22,
+      "pending_records": 0,
+      "pid": 625,
+      "processing_us": {
+        "p50": 22.8,
+        "p99": 81.4
+      },
+      "raw": true,
+      "raw_bytes_written": 45161489,
+      "raw_paused": false,
+      "reconnects": 8,
+      "role": "authoritative",
+      "run_id": "msrun_92299ff05c2d47b8",
+      "runtime_id": "vps-prism-autotrader-lab-rehearsal",
+      "spool_errors": 0,
+      "started_ms": 1792086775063,
+      "subscription_error": null,
+      "url": "wss://api.hyperliquid.xyz/ws",
+      "written_ms": 1792168138499
+    },
+    "free_collector": {
+      "heartbeat_at": "2026-10-16T16:28:59.380504+00:00",
+      "backlog": null,
+      "ingested": null,
+      "active": [
+        "hyperliquid_status_v1",
+        "coinbase_status_v1",
+        "kraken_status_v1"
+      ],
+      "providers": null,
+      "db_opened": null
+    },
+    "free_ingest": {
+      "heartbeat_at": "2026-10-16T16:29:01.758295+00:00",
+      "backlog": 0,
+      "ingested": 0,
+      "active": null,
+      "providers": null,
+      "db_opened": false
+    }
+  },
+  "reviewed_source_matches": {
+    "src/market_signal/universe/cadence.py": true,
+    "src/market_signal/universe/telemetry.py": true,
+    "src/market_signal/universe/worker.py": true,
+    "src/market_signal/universe/source.py": true,
+    "src/market_signal/universe/policy.py": true,
+    "src/market_signal/universe/engine.py": true,
+    "src/market_signal/universe/portability.py": true,
+    "src/market_signal/universe/ledger.py": true,
+    "src/market_signal/cli/universe_cmds.py": true,
+    "deploy/vps/activate_du_data.py": true
+  },
+  "guard": {
+    "MainPID": "60362",
+    "NRestarts": "0",
+    "MemoryCurrent": "103686144",
+    "CPUUsageNSec": "9311109000",
+    "Id": "prism-du-ranking-guard.service",
+    "ActiveState": "active",
+    "SubState": "running",
+    "memory.peak": "241840128",
+    "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+    "rss": [
+      {
+        "pid": "60362",
+        "VmHWM": "323676 kB",
+        "VmRSS": "186496 kB"
+      }
+    ]
+  },
+  "guard_enabled": "enabled",
+  "guard_latest": {
+    "at": "2026-10-16T16:28:23.550411+00:00",
+    "release_revision": "c6b6e9da7e0d2e04f265e5fec9d1dde9a0a7d67c",
+    "epoch": 1792168103.5509412,
+    "budget_sha256": "701eab3711310d0cf9a6a724e04ce8a62fd02df1bfd5768e61a7d2ff15fb3c9b",
+    "configuration_sha256": {
+      "/etc/prism/prism.env": "c438fc5105db0b04cafd8b86942ce24244543441cbb6867f9c80a91ea960bfbe",
+      "/etc/prism/secrets.env": "f2ae9d85ebe3b837d53ec0a9a9987524e4cc2a51ef0e24d69d766c2f90c8c126"
+    },
+    "memory": {
+      "MemTotal": 12256567296,
+      "MemAvailable": 10965016576,
+      "SwapTotal": 0,
+      "SwapFree": 0
+    },
+    "disk": {
+      "total": 105467994112,
+      "used": 6663610368,
+      "free": 94467297280
+    },
+    "load": [
+      0.2763671875,
+      0.28857421875,
+      0.22705078125
+    ],
+    "cpu_jiffies": [
+      1056370,
+      104947,
+      107154,
+      47482225,
+      9993,
+      0,
+      13562,
+      5543,
+      0,
+      0
+    ],
+    "units": {
+      "prism-microstructure": {
+        "MainPID": "625",
+        "NRestarts": "0",
+        "MemoryCurrent": "249155584",
+        "CPUUsageNSec": "897949375000",
+        "Id": "prism-microstructure.service",
+        "ActiveState": "active",
+        "SubState": "running",
+        "memory.peak": "249159680",
+        "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+        "rss": [
+          {
+            "pid": "625",
+            "VmHWM": "215800 kB",
+            "VmRSS": "214608 kB"
+          }
+        ]
+      },
+      "prism-free-sources": {
+        "MainPID": "53126",
+        "NRestarts": "0",
+        "MemoryCurrent": "112959488",
+        "CPUUsageNSec": "12965798000",
+        "Id": "prism-free-sources.service",
+        "ActiveState": "active",
+        "SubState": "running",
+        "memory.peak": "114786304",
+        "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+        "rss": [
+          {
+            "pid": "53126",
+            "VmHWM": "192320 kB",
+            "VmRSS": "192320 kB"
+          }
+        ]
+      },
+      "prism-free-source-ingest": {
+        "MainPID": "53125",
+        "NRestarts": "0",
+        "MemoryCurrent": "209125376",
+        "CPUUsageNSec": "465548867000",
+        "Id": "prism-free-source-ingest.service",
+        "ActiveState": "active",
+        "SubState": "running",
+        "memory.peak": "396103680",
+        "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+        "rss": [
+          {
+            "pid": "53125",
+            "VmHWM": "398940 kB",
+            "VmRSS": "214040 kB"
+          }
+        ]
+      },
+      "prism-scheduler": {
+        "MainPID": "53127",
+        "NRestarts": "0",
+        "MemoryCurrent": "17395712",
+        "CPUUsageNSec": "545629404000",
+        "Id": "prism-scheduler.service",
+        "ActiveState": "active",
+        "SubState": "running",
+        "memory.peak": "634355712",
+        "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+        "rss": [
+          {
+            "pid": "53127",
+            "VmHWM": "18188 kB",
+            "VmRSS": "18124 kB"
+          }
+        ]
+      },
+      "prism-universe": {
+        "MainPID": "53179",
+        "NRestarts": "0",
+        "MemoryCurrent": "39727104",
+        "CPUUsageNSec": "111264504000",
+        "Id": "prism-universe.service",
+        "ActiveState": "active",
+        "SubState": "running",
+        "memory.peak": "417767424",
+        "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+        "rss": [
+          {
+            "pid": "53179",
+            "VmHWM": "50012 kB",
+            "VmRSS": "50012 kB"
+          }
+        ]
+      },
+      "prism-nimble": {
+        "MainPID": "0",
+        "NRestarts": "0",
+        "MemoryCurrent": "[not set]",
+        "CPUUsageNSec": "1493865000",
+        "Id": "prism-nimble.service",
+        "ActiveState": "inactive",
+        "SubState": "dead",
+        "rss": []
+      }
+    },
+    "db_bytes": 155725824,
+    "profile": {
+      "profile": "autotrader_lab_v2",
+      "identity": "prism_autotrader_lab_v2",
+      "digest": "e7571ad1a2a35fb42dc8c1ea77759e31887a1c7679445561664c1dee68c12207",
+      "authority": "rehearsal",
+      "target": "vps",
+      "runtime_id": "vps-prism-autotrader-lab-rehearsal",
+      "explicit": true,
+      "role": "authoritative",
+      "processes": [
+        "microstructure_collector",
+        "free_source_collector",
+        "free_source_ingest",
+        "universe_radar",
+        "scheduler"
+      ],
+      "disabled_by_flag": [],
+      "collector_dynamic": false,
+      "scheduled_jobs": [
+        "oi",
+        "intraday",
+        "paper_v2_funding",
+        "positioning",
+        "context_macro",
+        "context_news",
+        "microstructure",
+        "backup"
+      ],
+      "execution_allowed": false,
+      "external_actions_allowed": false,
+      "boot_catchup_job": null,
+      "dynamic_universe": {
+        "tier0_discovery": "opt_in",
+        "tier1_warming": "opt_in",
+        "tier2_rich": "opt_in",
+        "tier3_risk_pins": "retention_only"
+      },
+      "definition": {
+        "name": "autotrader_lab_v2",
+        "identity": "prism_autotrader_lab_v2",
+        "targets": [
+          "local",
+          "vps"
+        ],
+        "processes": [
+          "free_source_collector",
+          "free_source_ingest",
+          "microstructure_collector",
+          "scheduler",
+          "universe_radar"
+        ],
+        "process_classes": {
+          "free_source_collector": "passive",
+          "free_source_ingest": "ingest",
+          "microstructure_collector": "passive",
+          "scheduler": "ingest",
+          "universe_radar": "ingest"
+        },
+        "jobs": [
+          "backup",
+          "context_macro",
+          "context_news",
+          "intraday",
+          "microstructure",
+          "oi",
+          "paper_v2_funding",
+          "positioning"
+        ],
+        "job_classes": {
+          "backup": "maintenance",
+          "context_macro": "data",
+          "context_news": "data",
+          "intraday": "data",
+          "microstructure": "data",
+          "oi": "data",
+          "paper_v2_funding": "data",
+          "positioning": "data"
+        },
+        "runtime_ids": {
+          "rehearsal": "vps-prism-autotrader-lab-rehearsal"
+        },
+        "boot_catchup_job": null,
+        "unconditional_jobs": [
+          "paper_v2_funding"
+        ],
+        "dynamic_universe": {
+          "tier0_discovery": "opt_in",
+          "tier1_warming": "opt_in",
+          "tier2_rich": "opt_in",
+          "tier3_risk_pins": "retention_only"
+        }
+      }
+    },
+    "micro": {
+      "backoff_s": 1.0,
+      "bytes_per_s_60s": 10689.6,
+      "coins": {
+        "AAVE": {
+          "first_minute": "2026-10-15T17:52:00+00:00",
+          "last_book20_age_s": 3.7,
+          "last_book5_age_s": 0.5,
+          "last_ctx_age_s": 0.5,
+          "last_finalized_minute": "2026-10-16T16:27:00+00:00",
+          "last_finalized_status": "COMPLETE",
+          "last_trade_age_s": 0.6,
+          "subscribed": [
+            "book20",
+            "book5",
+            "ctx",
+            "trades"
+          ]
+        },
+        "BTC": {
+          "first_minute": "2026-10-15T17:52:00+00:00",
+          "last_book20_age_s": 3.7,
+          "last_book5_age_s": 0.5,
+          "last_ctx_age_s": 0.5,
+          "last_finalized_minute": "2026-10-16T16:27:00+00:00",
+          "last_finalized_status": "COMPLETE",
+          "last_trade_age_s": 3.9,
+          "subscribed": [
+            "book20",
+            "book5",
+            "ctx",
+            "trades"
+          ]
+        },
+        "ETH": {
+          "first_minute": "2026-10-15T17:52:00+00:00",
+          "last_book20_age_s": 3.7,
+          "last_book5_age_s": 0.5,
+          "last_ctx_age_s": 0.5,
+          "last_finalized_minute": "2026-10-16T16:27:00+00:00",
+          "last_finalized_status": "COMPLETE",
+          "last_trade_age_s": 0.8,
+          "subscribed": [
+            "book20",
+            "book5",
+            "ctx",
+            "trades"
+          ]
+        },
+        "HYPE": {
+          "first_minute": "2026-10-15T17:52:00+00:00",
+          "last_book20_age_s": 3.7,
+          "last_book5_age_s": 0.5,
+          "last_ctx_age_s": 0.5,
+          "last_finalized_minute": "2026-10-16T16:27:00+00:00",
+          "last_finalized_status": "COMPLETE",
+          "last_trade_age_s": 0.8,
+          "subscribed": [
+            "book20",
+            "book5",
+            "ctx",
+            "trades"
+          ]
+        },
+        "LINK": {
+          "first_minute": "2026-10-15T17:52:00+00:00",
+          "last_book20_age_s": 3.7,
+          "last_book5_age_s": 0.5,
+          "last_ctx_age_s": 0.5,
+          "last_finalized_minute": "2026-10-16T16:27:00+00:00",
+          "last_finalized_status": "COMPLETE",
+          "last_trade_age_s": 5.3,
+          "subscribed": [
+            "book20",
+            "book5",
+            "ctx",
+            "trades"
+          ]
+        },
+        "SOL": {
+          "first_minute": "2026-10-15T17:52:00+00:00",
+          "last_book20_age_s": 3.7,
+          "last_book5_age_s": 0.5,
+          "last_ctx_age_s": 0.5,
+          "last_finalized_minute": "2026-10-16T16:27:00+00:00",
+          "last_finalized_status": "COMPLETE",
+          "last_trade_age_s": 2.9,
+          "subscribed": [
+            "book20",
+            "book5",
+            "ctx",
+            "trades"
+          ]
+        }
+      },
+      "conn_id": "msconn_12dac4f5c7fb",
+      "connected": true,
+      "counters": {
+        "connections": 9,
+        "dup_book5": 4,
+        "dup_trades": 1316,
+        "ev_A": 216,
+        "ev_C": 476026,
+        "ev_D": 90798,
+        "ev_F": 900019,
+        "ev_O": 9,
+        "ev_T": 756015,
+        "ev_X": 8,
+        "finalized": 8136,
+        "replay_unobserved": 42,
+        "status_COMPLETE": 8082,
+        "status_PARTIAL": 54
+      },
+      "cpu_s": 896.46,
+      "definition": "7c299a853f4ba141",
+      "disconnected_since_ms": null,
+      "dropped_records": 0,
+      "dynamic_universe": false,
+      "feature_version": "microstructure_1m_v1",
+      "flush_ms": {
+        "max": 3.364279997185804,
+        "p50": 1.5090939996298403
+      },
+      "git_commit": "530ba0d18c3009352eee21bb7f1a1c01004ab73a",
+      "last_error": "ConnectionClosedOK: received 1000 (OK) Expired; then sent 1000 (OK) Expired",
+      "last_message_age_s": 0.5,
+      "latency_ms": {
+        "n": 4000,
+        "p50": 393,
+        "p90": 650,
+        "p99": 833
+      },
+      "max_rss_mb": 210.7,
+      "msgs_per_s_60s": 21.47,
+      "pending_records": 0,
+      "pid": 625,
+      "processing_us": {
+        "p50": 22.0,
+        "p99": 83.2
+      },
+      "raw": true,
+      "raw_bytes_written": 45161489,
+      "raw_paused": false,
+      "reconnects": 8,
+      "role": "authoritative",
+      "run_id": "msrun_92299ff05c2d47b8",
+      "runtime_id": "vps-prism-autotrader-lab-rehearsal",
+      "spool_errors": 0,
+      "started_ms": 1792086775063,
+      "subscription_error": null,
+      "url": "wss://api.hyperliquid.xyz/ws",
+      "written_ms": 1792168103307
+    },
+    "free_ingest": {
+      "backlog": 0,
+      "heartbeat_at": "2026-10-16T16:28:21.719996+00:00",
+      "ingested": 0
+    },
+    "worker_events": [
+      {
+        "candidates": 27,
+        "child_completed_at": 1792160442.7292783,
+        "child_cpu_seconds": 8.002350999999999,
+        "children_peak_rss_kib_since_worker_start": 399596,
+        "evaluation_id": "universeeval_475f20fe336add1b1373f388214eb945ff0cd7038dc55e449e7ab9975d51c907",
+        "evaluation_started_at": 1792160400.0015295,
+        "event": "universe_refresh",
+        "missed_before_start": 0,
+        "next_scheduled_deadline": 1792161000,
+        "returncode": 0,
+        "scheduled_deadline": 1792160400,
+        "scheduler_version": "utc_600s_slots_v1",
+        "skipped_deadlines": 0,
+        "source_error_count": 0,
+        "status": "ACCEPTED",
+        "telemetry": {
+          "api": {
+            "captured_response_body_bytes": 291157,
+            "declared_response_bytes": 291157,
+            "header_latency_seconds_max": 0.4562895160051994,
+            "header_latency_seconds_p50": 0.23438363800232764,
+            "header_latency_seconds_p95": 0.35322756999812555,
+            "request_types": {
+              "candleSnapshot": 30,
+              "l2Book": 30,
+              "metaAndAssetCtxs": 11,
+              "perpDexs": 1
+            },
+            "requests": 72,
+            "statuses": {
+              "200": 72
+            },
+            "transport_failures": 0
+          },
+          "continuity_gap_seconds": 16200,
+          "evidence_clock": 1792160439,
+          "outcomes_db_commit_completed_at": 1792160441.9945016,
+          "outcomes_db_commit_started_at": 1792160441.9375498,
+          "previous_evidence_clock": 1792144239,
+          "ranking_computed_at": 1792160440.1443586,
+          "ranking_db_commit_completed_at": 1792160441.9375463,
+          "ranking_db_commit_started_at": 1792160441.7347944,
+          "refresh_completed_at": 1792160442.344582,
+          "refresh_started_at": 1792160401.4417682,
+          "runtime_lock_acquired_at": 1792160438.795809,
+          "runtime_lock_requested_at": 1792160438.7953427,
+          "runtime_lock_wait_seconds": 0.00046634674072265625,
+          "source_fetch_started_at": 1792160402.9910724,
+          "source_refresh_completed_at": 1792160438.7952185
+        }
+      },
+      {
+        "candidates": 27,
+        "child_completed_at": 1792161042.5781808,
+        "child_cpu_seconds": 7.296525000000001,
+        "children_peak_rss_kib_since_worker_start": 406896,
+        "evaluation_id": "universeeval_c3d2de6754eb0524b804c410b876416133fe108328ff38f97dc35ff4748863a7",
+        "evaluation_started_at": 1792161000.000163,
+        "event": "universe_refresh",
+        "missed_before_start": 0,
+        "next_scheduled_deadline": 1792161600,
+        "returncode": 0,
+        "scheduled_deadline": 1792161000,
+        "scheduler_version": "utc_600s_slots_v1",
+        "skipped_deadlines": 0,
+        "source_error_count": 0,
+        "status": "ACCEPTED",
+        "telemetry": {
+          "api": {
+            "captured_response_body_bytes": 291692,
+            "declared_response_bytes": 291692,
+            "header_latency_seconds_max": 0.736503405001713,
+            "header_latency_seconds_p50": 0.23652486799983308,
+            "header_latency_seconds_p95": 0.39517295199038927,
+            "request_types": {
+              "candleSnapshot": 30,
+              "l2Book": 30,
+              "metaAndAssetCtxs": 11,
+              "perpDexs": 1
+            },
+            "requests": 72,
+            "statuses": {
+              "200": 72
+            },
+            "transport_failures": 0
+          },
+          "continuity_gap_seconds": 600,
+          "evidence_clock": 1792161039,
+          "outcomes_db_commit_completed_at": 1792161041.8842359,
+          "outcomes_db_commit_started_at": 1792161041.814366,
+          "previous_evidence_clock": 1792160439,
+          "ranking_computed_at": 1792161040.2416,
+          "ranking_db_commit_completed_at": 1792161041.814364,
+          "ranking_db_commit_started_at": 1792161041.631619,
+          "refresh_completed_at": 1792161042.2141125,
+          "refresh_started_at": 1792161001.3235571,
+          "runtime_lock_acquired_at": 1792161038.9818568,
+          "runtime_lock_requested_at": 1792161038.9815218,
+          "runtime_lock_wait_seconds": 0.0003349781036376953,
+          "source_fetch_started_at": 1792161002.8015919,
+          "source_refresh_completed_at": 1792161038.9814374
+        }
+      },
+      {
+        "candidates": 23,
+        "child_completed_at": 1792161642.1133206,
+        "child_cpu_seconds": 7.696287999999999,
+        "children_peak_rss_kib_since_worker_start": 440396,
+        "evaluation_id": "universeeval_b89d555b4cb1b0bc5fc0c364bef3c3d504cffbd4a2832bc9cd29981f562c72c3",
+        "evaluation_started_at": 1792161600.0004966,
+        "event": "universe_refresh",
+        "missed_before_start": 0,
+        "next_scheduled_deadline": 1792162200,
+        "returncode": 0,
+        "scheduled_deadline": 1792161600,
+        "scheduler_version": "utc_600s_slots_v1",
+        "skipped_deadlines": 0,
+        "source_error_count": 0,
+        "status": "ACCEPTED",
+        "telemetry": {
+          "api": {
+            "captured_response_body_bytes": 291102,
+            "declared_response_bytes": 291102,
+            "header_latency_seconds_max": 0.42549919000884984,
+            "header_latency_seconds_p50": 0.23320294100267347,
+            "header_latency_seconds_p95": 0.29197385400766507,
+            "request_types": {
+              "candleSnapshot": 30,
+              "l2Book": 30,
+              "metaAndAssetCtxs": 11,
+              "perpDexs": 1
+            },
+            "requests": 72,
+            "statuses": {
+              "200": 72
+            },
+            "transport_failures": 0
+          },
+          "continuity_gap_seconds": 600,
+          "evidence_clock": 1792161639,
+          "outcomes_db_commit_completed_at": 1792161641.4563718,
+          "outcomes_db_commit_started_at": 1792161641.2737622,
+          "previous_evidence_clock": 1792161039,
+          "ranking_computed_at": 1792161639.6918507,
+          "ranking_db_commit_completed_at": 1792161641.27376,
+          "ranking_db_commit_started_at": 1792161641.0729792,
+          "refresh_completed_at": 1792161641.7638617,
+          "refresh_started_at": 1792161601.1671398,
+          "runtime_lock_acquired_at": 1792161638.4505405,
+          "runtime_lock_requested_at": 1792161638.4503405,
+          "runtime_lock_wait_seconds": 0.00020003318786621094,
+          "source_fetch_started_at": 1792161602.6901295,
+          "source_refresh_completed_at": 1792161638.450264
+        }
+      },
+      {
+        "candidates": 22,
+        "child_completed_at": 1792162243.286006,
+        "child_cpu_seconds": 8.308982000000004,
+        "children_peak_rss_kib_since_worker_start": 440396,
+        "evaluation_id": "universeeval_f46539ea6c2a529f8f6dd257aea8625e9422e3b1376a60e1fa28c4df06b94c49",
+        "evaluation_started_at": 1792162200.0001588,
+        "event": "universe_refresh",
+        "missed_before_start": 0,
+        "next_scheduled_deadline": 1792162800,
+        "returncode": 0,
+        "scheduled_deadline": 1792162200,
+        "scheduler_version": "utc_600s_slots_v1",
+        "skipped_deadlines": 0,
+        "source_error_count": 0,
+        "status": "ACCEPTED",
+        "telemetry": {
+          "api": {
+            "captured_response_body_bytes": 291001,
+            "declared_response_bytes": 291001,
+            "header_latency_seconds_max": 0.6833296149998205,
+            "header_latency_seconds_p50": 0.2329183319961885,
+            "header_latency_seconds_p95": 0.3660546820028685,
+            "request_types": {
+              "candleSnapshot": 30,
+              "l2Book": 30,
+              "metaAndAssetCtxs": 11,
+              "perpDexs": 1
+            },
+            "requests": 72,
+            "statuses": {
+              "200": 72
+            },
+            "transport_failures": 0
+          },
+          "continuity_gap_seconds": 601,
+          "evidence_clock": 1792162240,
+          "outcomes_db_commit_completed_at": 1792162242.5947433,
+          "outcomes_db_commit_started_at": 1792162242.26908,
+          "previous_evidence_clock": 1792161639,
+          "ranking_computed_at": 1792162240.6464453,
+          "ranking_db_commit_completed_at": 1792162242.2690768,
+          "ranking_db_commit_started_at": 1792162242.0824728,
+          "refresh_completed_at": 1792162242.927069,
+          "refresh_started_at": 1792162201.2669034,
+          "runtime_lock_acquired_at": 1792162239.2411675,
+          "runtime_lock_requested_at": 1792162239.2408366,
+          "runtime_lock_wait_seconds": 0.00033092498779296875,
+          "source_fetch_started_at": 1792162202.8848884,
+          "source_refresh_completed_at": 1792162239.240742
+        }
+      },
+      {
+        "candidates": 23,
+        "child_completed_at": 1792162843.5694668,
+        "child_cpu_seconds": 8.556357999999996,
+        "children_peak_rss_kib_since_worker_start": 440396,
+        "evaluation_id": "universeeval_c6defde8159e05086e166bca2a31c4a7e7b789e86b174daec9a9379d7ae2aa63",
+        "evaluation_started_at": 1792162800.0001435,
+        "event": "universe_refresh",
+        "missed_before_start": 0,
+        "next_scheduled_deadline": 1792163400,
+        "returncode": 0,
+        "scheduled_deadline": 1792162800,
+        "scheduler_version": "utc_600s_slots_v1",
+        "skipped_deadlines": 0,
+        "source_error_count": 0,
+        "status": "ACCEPTED",
+        "telemetry": {
+          "api": {
+            "captured_response_body_bytes": 291115,
+            "declared_response_bytes": 291115,
+            "header_latency_seconds_max": 0.7717875899979845,
+            "header_latency_seconds_p50": 0.23554662099923007,
+            "header_latency_seconds_p95": 0.4274975480075227,
+            "request_types": {
+              "candleSnapshot": 30,
+              "l2Book": 30,
+              "metaAndAssetCtxs": 11,
+              "perpDexs": 1
+            },
+            "requests": 72,
+            "statuses": {
+              "200": 72
+            },
+            "transport_failures": 0
+          },
+          "continuity_gap_seconds": 600,
+          "evidence_clock": 1792162840,
+          "outcomes_db_commit_completed_at": 1792162842.7601695,
+          "outcomes_db_commit_started_at": 1792162842.440968,
+          "previous_evidence_clock": 1792162240,
+          "ranking_computed_at": 1792162840.9003239,
+          "ranking_db_commit_completed_at": 1792162842.4409647,
+          "ranking_db_commit_started_at": 1792162842.2629673,
+          "refresh_completed_at": 1792162843.131526,
+          "refresh_started_at": 1792162801.3351738,
+          "runtime_lock_acquired_at": 1792162839.4377375,
+          "runtime_lock_requested_at": 1792162839.4375074,
+          "runtime_lock_wait_seconds": 0.0002300739288330078,
+          "source_fetch_started_at": 1792162802.882275,
+          "source_refresh_completed_at": 1792162839.437402
+        }
+      },
+      {
+        "candidates": 22,
+        "child_completed_at": 1792163442.858285,
+        "child_cpu_seconds": 7.982298,
+        "children_peak_rss_kib_since_worker_start": 440396,
+        "evaluation_id": "universeeval_e5453b80fa708f10e66a91e44a05ee0422b486a01d83d1b80f1de29ef1508327",
+        "evaluation_started_at": 1792163400.0002196,
+        "event": "universe_refresh",
+        "missed_before_start": 0,
+        "next_scheduled_deadline": 1792164000,
+        "returncode": 0,
+        "scheduled_deadline": 1792163400,
+        "scheduler_version": "utc_600s_slots_v1",
+        "skipped_deadlines": 0,
+        "source_error_count": 0,
+        "status": "ACCEPTED",
+        "telemetry": {
+          "api": {
+            "captured_response_body_bytes": 291215,
+            "declared_response_bytes": 291215,
+            "header_latency_seconds_max": 0.5835549600014929,
+            "header_latency_seconds_p50": 0.23511144900112413,
+            "header_latency_seconds_p95": 0.334916059000534,
+            "request_types": {
+              "candleSnapshot": 30,
+              "l2Book": 30,
+              "metaAndAssetCtxs": 11,
+              "perpDexs": 1
+            },
+            "requests": 72,
+            "statuses": {
+              "200": 72
+            },
+            "transport_failures": 0
+          },
+          "continuity_gap_seconds": 600,
+          "evidence_clock": 1792163440,
+          "outcomes_db_commit_completed_at": 1792163442.165159,
+          "outcomes_db_commit_started_at": 1792163441.894309,
+          "previous_evidence_clock": 1792162840,
+          "ranking_computed_at": 1792163440.3953836,
+          "ranking_db_commit_completed_at": 1792163441.8943071,
+          "ranking_db_commit_started_at": 1792163441.7075064,
+          "refresh_completed_at": 1792163442.4752083,
+          "refresh_started_at": 1792163401.251705,
+          "runtime_lock_acquired_at": 1792163439.0410597,
+          "runtime_lock_requested_at": 1792163439.0406249,
+          "runtime_lock_wait_seconds": 0.00043487548828125,
+          "source_fetch_started_at": 1792163403.0051937,
+          "source_refresh_completed_at": 1792163439.0405107
+        }
+      },
+      {
+        "candidates": 21,
+        "child_completed_at": 1792164047.5633442,
+        "child_cpu_seconds": 8.623216,
+        "children_peak_rss_kib_since_worker_start": 440396,
+        "evaluation_id": "universeeval_e34de28b095882339faf0fbd09c58ef2f42f82eb66c4c7ca7029504fd65e8158",
+        "evaluation_started_at": 1792164000.0001457,
+        "event": "universe_refresh",
+        "missed_before_start": 0,
+        "next_scheduled_deadline": 1792164600,
+        "returncode": 0,
+        "scheduled_deadline": 1792164000,
+        "scheduler_version": "utc_600s_slots_v1",
+        "skipped_deadlines": 0,
+        "source_error_count": 0,
+        "status": "ACCEPTED",
+        "telemetry": {
+          "api": {
+            "captured_response_body_bytes": 291509,
+            "declared_response_bytes": 291509,
+            "header_latency_seconds_max": 0.7753975680097938,
+            "header_latency_seconds_p50": 0.23584127299545798,
+            "header_latency_seconds_p95": 0.42821533100504894,
+            "request_types": {
+              "candleSnapshot": 30,
+              "l2Book": 30,
+              "metaAndAssetCtxs": 11,
+              "perpDexs": 1
+            },
+            "requests": 72,
+            "statuses": {
+              "200": 72
+            },
+            "transport_failures": 0
+          },
+          "continuity_gap_seconds": 604,
+          "evidence_clock": 1792164044,
+          "outcomes_db_commit_completed_at": 1792164046.7845027,
+          "outcomes_db_commit_started_at": 1792164046.3098392,
+          "previous_evidence_clock": 1792163440,
+          "ranking_computed_at": 1792164044.602113,
+          "ranking_db_commit_completed_at": 1792164046.3098373,
+          "ranking_db_commit_started_at": 1792164046.1158466,
+          "refresh_completed_at": 1792164047.141862,
+          "refresh_started_at": 1792164001.195307,
+          "runtime_lock_acquired_at": 1792164043.2744055,
+          "runtime_lock_requested_at": 1792164039.273467,
+          "runtime_lock_wait_seconds": 4.000938415527344,
+          "source_fetch_started_at": 1792164002.9528732,
+          "source_refresh_completed_at": 1792164039.273337
+        }
+      },
+      {
+        "candidates": 19,
+        "child_completed_at": 1792164642.9908276,
+        "child_cpu_seconds": 8.457807999999993,
+        "children_peak_rss_kib_since_worker_start": 440396,
+        "evaluation_id": "universeeval_f8e77243a6695a70e223940b304210ec2bb11157465c00c591bfed25fdfd4456",
+        "evaluation_started_at": 1792164600.0013635,
+        "event": "universe_refresh",
+        "missed_before_start": 0,
+        "next_scheduled_deadline": 1792165200,
+        "returncode": 0,
+        "scheduled_deadline": 1792164600,
+        "scheduler_version": "utc_600s_slots_v1",
+        "skipped_deadlines": 0,
+        "source_error_count": 0,
+        "status": "ACCEPTED",
+        "telemetry": {
+          "api": {
+            "captured_response_body_bytes": 291790,
+            "declared_response_bytes": 291790,
+            "header_latency_seconds_max": 0.48936051900091115,
+            "header_latency_seconds_p50": 0.23195380299875978,
+            "header_latency_seconds_p95": 0.40168197799357586,
+            "request_types": {
+              "candleSnapshot": 30,
+              "l2Book": 30,
+              "metaAndAssetCtxs": 11,
+              "perpDexs": 1
+            },
+            "requests": 72,
+            "statuses": {
+              "200": 72
+            },
+            "transport_failures": 0
+          },
+          "continuity_gap_seconds": 595,
+          "evidence_clock": 1792164639,
+          "outcomes_db_commit_completed_at": 1792164642.2567508,
+          "outcomes_db_commit_started_at": 1792164641.8959646,
+          "previous_evidence_clock": 1792164044,
+          "ranking_computed_at": 1792164640.260964,
+          "ranking_db_commit_completed_at": 1792164641.8959606,
+          "ranking_db_commit_started_at": 1792164641.7006083,
+          "refresh_completed_at": 1792164642.6045287,
+          "refresh_started_at": 1792164601.3567069,
+          "runtime_lock_acquired_at": 1792164638.8761878,
+          "runtime_lock_requested_at": 1792164638.8758764,
+          "runtime_lock_wait_seconds": 0.0003113746643066406,
+          "source_fetch_started_at": 1792164603.103221,
+          "source_refresh_completed_at": 1792164638.8757734
+        }
+      },
+      {
+        "candidates": 18,
+        "child_completed_at": 1792165243.1509032,
+        "child_cpu_seconds": 8.867796000000013,
+        "children_peak_rss_kib_since_worker_start": 440528,
+        "evaluation_id": "universeeval_78e2b7a9a23db7be734cd470f53dd295a21cc23c86cc9fbba57c968e529ee9cb",
+        "evaluation_started_at": 1792165200.0003798,
+        "event": "universe_refresh",
+        "missed_before_start": 0,
+        "next_scheduled_deadline": 1792165800,
+        "returncode": 0,
+        "scheduled_deadline": 1792165200,
+        "scheduler_version": "utc_600s_slots_v1",
+        "skipped_deadlines": 0,
+        "source_error_count": 0,
+        "status": "ACCEPTED",
+        "telemetry": {
+          "api": {
+            "captured_response_body_bytes": 291694,
+            "declared_response_bytes": 291694,
+            "header_latency_seconds_max": 0.440232749999268,
+            "header_latency_seconds_p50": 0.2298466539941728,
+            "header_latency_seconds_p95": 0.3544188480009325,
+            "request_types": {
+              "candleSnapshot": 30,
+              "l2Book": 30,
+              "metaAndAssetCtxs": 11,
+              "perpDexs": 1
+            },
+            "requests": 72,
+            "statuses": {
+              "200": 72
+            },
+            "transport_failures": 0
+          },
+          "continuity_gap_seconds": 600,
+          "evidence_clock": 1792165239,
+          "outcomes_db_commit_completed_at": 1792165242.3460062,
+          "outcomes_db_commit_started_at": 1792165241.8322954,
+          "previous_evidence_clock": 1792164639,
+          "ranking_computed_at": 1792165240.131799,
+          "ranking_db_commit_completed_at": 1792165241.832293,
+          "ranking_db_commit_started_at": 1792165241.6432755,
+          "refresh_completed_at": 1792165242.705469,
+          "refresh_started_at": 1792165201.1374974,
+          "runtime_lock_acquired_at": 1792165238.7686212,
+          "runtime_lock_requested_at": 1792165238.768397,
+          "runtime_lock_wait_seconds": 0.00022411346435546875,
+          "source_fetch_started_at": 1792165203.0228984,
+          "source_refresh_completed_at": 1792165238.76832
+        }
+      },
+      {
+        "candidates": 20,
+        "child_completed_at": 1792165843.392863,
+        "child_cpu_seconds": 8.851605000000006,
+        "children_peak_rss_kib_since_worker_start": 440528,
+        "evaluation_id": "universeeval_18a17a4bc6b539a2124ecd77f23256ed3bc5bcb0f761b0afaab150750a6c8a0d",
+        "evaluation_started_at": 1792165800.0001845,
+        "event": "universe_refresh",
+        "missed_before_start": 0,
+        "next_scheduled_deadline": 1792166400,
+        "returncode": 0,
+        "scheduled_deadline": 1792165800,
+        "scheduler_version": "utc_600s_slots_v1",
+        "skipped_deadlines": 0,
+        "source_error_count": 0,
+        "status": "ACCEPTED",
+        "telemetry": {
+          "api": {
+            "captured_response_body_bytes": 291579,
+            "declared_response_bytes": 291579,
+            "header_latency_seconds_max": 0.3606292800104711,
+            "header_latency_seconds_p50": 0.22913014199002646,
+            "header_latency_seconds_p95": 0.32693199400091544,
+            "request_types": {
+              "candleSnapshot": 30,
+              "l2Book": 30,
+              "metaAndAssetCtxs": 11,
+              "perpDexs": 1
+            },
+            "requests": 72,
+            "statuses": {
+              "200": 72
+            },
+            "transport_failures": 0
+          },
+          "continuity_gap_seconds": 600,
+          "evidence_clock": 1792165839,
+          "outcomes_db_commit_completed_at": 1792165842.497271,
+          "outcomes_db_commit_started_at": 1792165841.97801,
+          "previous_evidence_clock": 1792165239,
+          "ranking_computed_at": 1792165840.2854903,
+          "ranking_db_commit_completed_at": 1792165841.9780073,
+          "ranking_db_commit_started_at": 1792165841.78598,
+          "refresh_completed_at": 1792165842.969609,
+          "refresh_started_at": 1792165801.2420337,
+          "runtime_lock_acquired_at": 1792165838.9383392,
+          "runtime_lock_requested_at": 1792165838.9379523,
+          "runtime_lock_wait_seconds": 0.00038695335388183594,
+          "source_fetch_started_at": 1792165803.0383925,
+          "source_refresh_completed_at": 1792165838.9378507
+        }
+      },
+      {
+        "candidates": 19,
+        "child_completed_at": 1792166444.5616164,
+        "child_cpu_seconds": 9.239693999999986,
+        "children_peak_rss_kib_since_worker_start": 460200,
+        "evaluation_id": "universeeval_24a48a8f7a72f8b79bc05236a0b08f481348307b43cdff13245377c57d3b5341",
+        "evaluation_started_at": 1792166400.000206,
+        "event": "universe_refresh",
+        "missed_before_start": 0,
+        "next_scheduled_deadline": 1792167000,
+        "returncode": 0,
+        "scheduled_deadline": 1792166400,
+        "scheduler_version": "utc_600s_slots_v1",
+        "skipped_deadlines": 0,
+        "source_error_count": 0,
+        "status": "ACCEPTED",
+        "telemetry": {
+          "api": {
+            "captured_response_body_bytes": 291287,
+            "declared_response_bytes": 291287,
+            "header_latency_seconds_max": 0.8261277419951512,
+            "header_latency_seconds_p50": 0.2641312749910867,
+            "header_latency_seconds_p95": 0.5477941739954986,
+            "request_types": {
+              "candleSnapshot": 30,
+              "l2Book": 30,
+              "metaAndAssetCtxs": 11,
+              "perpDexs": 1
+            },
+            "requests": 72,
+            "statuses": {
+              "200": 72
+            },
+            "transport_failures": 0
+          },
+          "continuity_gap_seconds": 601,
+          "evidence_clock": 1792166440,
+          "outcomes_db_commit_completed_at": 1792166443.812443,
+          "outcomes_db_commit_started_at": 1792166442.9829385,
+          "previous_evidence_clock": 1792165839,
+          "ranking_computed_at": 1792166441.3381066,
+          "ranking_db_commit_completed_at": 1792166442.982935,
+          "ranking_db_commit_started_at": 1792166442.7569797,
+          "refresh_completed_at": 1792166444.2015147,
+          "refresh_started_at": 1792166401.385708,
+          "runtime_lock_acquired_at": 1792166440.0183895,
+          "runtime_lock_requested_at": 1792166440.018177,
+          "runtime_lock_wait_seconds": 0.0002124309539794922,
+          "source_fetch_started_at": 1792166403.3660772,
+          "source_refresh_completed_at": 1792166440.018105
+        }
+      },
+      {
+        "candidates": 18,
+        "child_completed_at": 1792167043.736271,
+        "child_cpu_seconds": 8.855641000000006,
+        "children_peak_rss_kib_since_worker_start": 460200,
+        "evaluation_id": "universeeval_90309e146f459ba09f797e90878148649b30aefc585ad0427059d9fb2e4ac38a",
+        "evaluation_started_at": 1792167000.0010827,
+        "event": "universe_refresh",
+        "missed_before_start": 0,
+        "next_scheduled_deadline": 1792167600,
+        "returncode": 0,
+        "scheduled_deadline": 1792167000,
+        "scheduler_version": "utc_600s_slots_v1",
+        "skipped_deadlines": 0,
+        "source_error_count": 0,
+        "status": "ACCEPTED",
+        "telemetry": {
+          "api": {
+            "captured_response_body_bytes": 290999,
+            "declared_response_bytes": 290999,
+            "header_latency_seconds_max": 0.7997785370098427,
+            "header_latency_seconds_p50": 0.23560510999232065,
+            "header_latency_seconds_p95": 0.3777276569890091,
+            "request_types": {
+              "candleSnapshot": 30,
+              "l2Book": 30,
+              "metaAndAssetCtxs": 11,
+              "perpDexs": 1
+            },
+            "requests": 72,
+            "statuses": {
+              "200": 72
+            },
+            "transport_failures": 0
+          },
+          "continuity_gap_seconds": 600,
+          "evidence_clock": 1792167040,
+          "outcomes_db_commit_completed_at": 1792167042.9904501,
+          "outcomes_db_commit_started_at": 1792167042.3177123,
+          "previous_evidence_clock": 1792166440,
+          "ranking_computed_at": 1792167040.6854153,
+          "ranking_db_commit_completed_at": 1792167042.3177087,
+          "ranking_db_commit_started_at": 1792167042.0873566,
+          "refresh_completed_at": 1792167043.4039805,
+          "refresh_started_at": 1792167001.278673,
+          "runtime_lock_acquired_at": 1792167039.380683,
+          "runtime_lock_requested_at": 1792167039.3803248,
+          "runtime_lock_wait_seconds": 0.0003581047058105469,
+          "source_fetch_started_at": 1792167003.1335404,
+          "source_refresh_completed_at": 1792167039.380216
+        }
+      },
+      {
+        "candidates": 18,
+        "child_completed_at": 1792167643.1059225,
+        "child_cpu_seconds": 8.26934700000001,
+        "children_peak_rss_kib_since_worker_start": 460200,
+        "evaluation_id": "universeeval_dbbd3fc18b28e31aa0d7120bf2870d486ab03b8aadb4e2783754b9bdd61813a3",
+        "evaluation_started_at": 1792167600.0002296,
+        "event": "universe_refresh",
+        "missed_before_start": 0,
+        "next_scheduled_deadline": 1792168200,
+        "returncode": 0,
+        "scheduled_deadline": 1792167600,
+        "scheduler_version": "utc_600s_slots_v1",
+        "skipped_deadlines": 0,
+        "source_error_count": 0,
+        "status": "ACCEPTED",
+        "telemetry": {
+          "api": {
+            "captured_response_body_bytes": 290908,
+            "declared_response_bytes": 290908,
+            "header_latency_seconds_max": 0.6688787870079977,
+            "header_latency_seconds_p50": 0.2312025349965552,
+            "header_latency_seconds_p95": 0.37395937099063303,
+            "request_types": {
+              "candleSnapshot": 30,
+              "l2Book": 30,
+              "metaAndAssetCtxs": 11,
+              "perpDexs": 1
+            },
+            "requests": 72,
+            "statuses": {
+              "200": 72
+            },
+            "transport_failures": 0
+          },
+          "continuity_gap_seconds": 599,
+          "evidence_clock": 1792167639,
+          "outcomes_db_commit_completed_at": 1792167642.3626938,
+          "outcomes_db_commit_started_at": 1792167641.6939483,
+          "previous_evidence_clock": 1792167040,
+          "ranking_computed_at": 1792167640.1179173,
+          "ranking_db_commit_completed_at": 1792167641.6939456,
+          "ranking_db_commit_started_at": 1792167641.5070102,
+          "refresh_completed_at": 1792167642.6764793,
+          "refresh_started_at": 1792167601.1927361,
+          "runtime_lock_acquired_at": 1792167638.8283162,
+          "runtime_lock_requested_at": 1792167638.8280783,
+          "runtime_lock_wait_seconds": 0.00023794174194335938,
+          "source_fetch_started_at": 1792167602.89809,
+          "source_refresh_completed_at": 1792167638.8280041
+        }
+      }
+    ],
+    "observer_resources": {
+      "cpu_seconds": 6.178433,
+      "max_rss_kib": 323676
+    },
+    "db": {
+      "authority": [
+        "vps-prism-autotrader-lab-rehearsal",
+        "2026-10-14 15:43:52.816356+00:00"
+      ],
+      "paper_rows": {
+        "paper_briefs": 0,
+        "paper_cycles": 0,
+        "paper_event_evidence": 0,
+        "paper_event_pending": 0,
+        "paper_events": 0,
+        "paper_evidence": 0,
+        "paper_nimble_accounts": 0,
+        "paper_nimble_deliveries": 0,
+        "paper_nimble_events": 0,
+        "paper_nimble_opportunities": 0,
+        "paper_nimble_positions": 0,
+        "paper_nimble_reports": 0,
+        "paper_nimble_research": 0,
+        "paper_nimble_research_pending": 0,
+        "paper_nimble_runs": 0,
+        "paper_nimble_theses": 0,
+        "paper_nimble_trigger_receipts": 0,
+        "paper_notifications": 0,
+        "paper_policies": 0,
+        "paper_retirements": 0,
+        "paper_runs": 0,
+        "paper_snapshots": 0,
+        "paper_software": 0,
+        "paper_v2_context_snapshots": 0,
+        "paper_v2_deliveries": 0,
+        "paper_v2_evaluations": 0,
+        "paper_v2_events": 0,
+        "paper_v2_opportunities": 0,
+        "paper_v2_outcomes": 0,
+        "paper_v2_policies": 0,
+        "paper_v2_reports": 0,
+        "paper_v2_runs": 0,
+        "paper_v2_universes": 0
+      },
+      "sizing_tables": {},
+      "cycles": [
+        [
+          "intraday",
+          "schedule",
+          "2026-10-15 16:31:01.155901+00:00",
+          "2026-10-15 16:31:07.296627+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-15 16:36:01.307733+00:00",
+          "2026-10-15 16:36:06.675628+00:00",
+          "ok"
+        ],
+        [
+          "context_news",
+          "schedule",
+          "2026-10-15 16:38:01.147091+00:00",
+          "2026-10-15 16:38:05.851922+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-15 16:46:01.289960+00:00",
+          "2026-10-15 16:46:07.577168+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-15 16:51:01.312983+00:00",
+          "2026-10-15 16:51:06.674887+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-15 17:01:01.409780+00:00",
+          "2026-10-15 17:01:10.877360+00:00",
+          "ok"
+        ],
+        [
+          "positioning",
+          "schedule",
+          "2026-10-15 17:04:03.261111+00:00",
+          "2026-10-15 17:04:19.161015+00:00",
+          "ok"
+        ],
+        [
+          "paper_v2_funding",
+          "schedule",
+          "2026-10-15 17:05:01.836198+00:00",
+          "2026-10-15 17:05:08.032534+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-15 17:06:01.280624+00:00",
+          "2026-10-15 17:06:06.661198+00:00",
+          "ok"
+        ],
+        [
+          "context_news",
+          "schedule",
+          "2026-10-15 17:08:01.329190+00:00",
+          "2026-10-15 17:08:06.059152+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-15 17:16:01.296700+00:00",
+          "2026-10-15 17:16:07.863984+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-15 17:21:01.235442+00:00",
+          "2026-10-15 17:21:06.648399+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-15 17:31:01.215112+00:00",
+          "2026-10-15 17:31:07.649229+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-15 17:36:01.339964+00:00",
+          "2026-10-15 17:36:06.832451+00:00",
+          "ok"
+        ],
+        [
+          "context_news",
+          "schedule",
+          "2026-10-15 17:38:01.181279+00:00",
+          "2026-10-15 17:38:05.782857+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-15 17:46:01.308822+00:00",
+          "2026-10-15 17:46:08.460816+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-15 17:51:01.184834+00:00",
+          "2026-10-15 17:51:06.790936+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "reboot-recovery",
+          "2026-10-15 17:53:59.555823+00:00",
+          "2026-10-15 17:54:05.378072+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "reboot-recovery",
+          "2026-10-15 17:54:07.489992+00:00",
+          "2026-10-15 17:54:10.821610+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "reboot-recovery",
+          "2026-10-15 17:56:05.247063+00:00",
+          "2026-10-15 17:56:10.385579+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-15 18:01:01.311330+00:00",
+          "2026-10-15 18:01:10.936918+00:00",
+          "ok"
+        ],
+        [
+          "positioning",
+          "schedule",
+          "2026-10-15 18:04:01.279280+00:00",
+          "2026-10-15 18:04:17.230088+00:00",
+          "ok"
+        ],
+        [
+          "paper_v2_funding",
+          "schedule",
+          "2026-10-15 18:05:01.889717+00:00",
+          "2026-10-15 18:05:08.347864+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-15 18:06:01.230464+00:00",
+          "2026-10-15 18:06:06.666743+00:00",
+          "ok"
+        ],
+        [
+          "context_news",
+          "schedule",
+          "2026-10-15 18:08:01.302629+00:00",
+          "2026-10-15 18:08:05.934735+00:00",
+          "ok"
+        ],
+        [
+          "context_macro",
+          "remediation-manual",
+          "2026-10-15 18:13:38.657956+00:00",
+          "2026-10-15 18:13:55.060741+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-15 18:16:01.322574+00:00",
+          "2026-10-15 18:16:07.997798+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-15 18:21:01.480838+00:00",
+          "2026-10-15 18:21:07.304725+00:00",
+          "ok"
+        ],
+        [
+          "backup",
+          "remediation-manual",
+          "2026-10-15 18:22:00.117046+00:00",
+          "2026-10-15 18:22:07.980563+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-15 18:31:03.424047+00:00",
+          "2026-10-15 18:31:10.018372+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-15 18:36:01.299426+00:00",
+          "2026-10-15 18:36:06.762798+00:00",
+          "ok"
+        ],
+        [
+          "context_news",
+          "schedule",
+          "2026-10-15 18:38:01.360811+00:00",
+          "2026-10-15 18:38:06.339013+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-15 18:46:01.294437+00:00",
+          "2026-10-15 18:46:07.766215+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-15 18:51:01.191345+00:00",
+          "2026-10-15 18:51:06.932494+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-15 19:01:01.265672+00:00",
+          "2026-10-15 19:01:10.949806+00:00",
+          "ok"
+        ],
+        [
+          "positioning",
+          "schedule",
+          "2026-10-15 19:04:01.383941+00:00",
+          "2026-10-15 19:04:17.690329+00:00",
+          "ok"
+        ],
+        [
+          "paper_v2_funding",
+          "schedule",
+          "2026-10-15 19:05:01.639186+00:00",
+          "2026-10-15 19:05:07.967497+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-15 19:06:01.366428+00:00",
+          "2026-10-15 19:06:07.511368+00:00",
+          "ok"
+        ],
+        [
+          "context_news",
+          "schedule",
+          "2026-10-15 19:08:01.232764+00:00",
+          "2026-10-15 19:08:06.294341+00:00",
+          "ok"
+        ],
+        [
+          "context_macro",
+          "schedule",
+          "2026-10-15 19:12:01.331449+00:00",
+          "2026-10-15 19:12:12.018584+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-15 19:16:01.309771+00:00",
+          "2026-10-15 19:16:08.065550+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-15 19:21:01.158037+00:00",
+          "2026-10-15 19:21:06.881055+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-15 19:31:01.398191+00:00",
+          "2026-10-15 19:31:08.119844+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-15 19:36:01.353449+00:00",
+          "2026-10-15 19:36:06.882106+00:00",
+          "ok"
+        ],
+        [
+          "context_news",
+          "schedule",
+          "2026-10-15 19:38:01.333283+00:00",
+          "2026-10-15 19:38:06.374955+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-15 19:46:01.251338+00:00",
+          "2026-10-15 19:46:07.786683+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-15 19:51:01.357360+00:00",
+          "2026-10-15 19:51:07.157921+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-15 20:01:01.363830+00:00",
+          "2026-10-15 20:01:13.988632+00:00",
+          "ok"
+        ],
+        [
+          "positioning",
+          "schedule",
+          "2026-10-15 20:04:05.392742+00:00",
+          "2026-10-15 20:04:21.114803+00:00",
+          "ok"
+        ],
+        [
+          "paper_v2_funding",
+          "schedule",
+          "2026-10-15 20:05:01.971523+00:00",
+          "2026-10-15 20:05:08.469152+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-15 20:06:01.274423+00:00",
+          "2026-10-15 20:06:06.955056+00:00",
+          "ok"
+        ],
+        [
+          "context_news",
+          "schedule",
+          "2026-10-15 20:08:01.242264+00:00",
+          "2026-10-15 20:08:06.301616+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-15 20:16:01.347319+00:00",
+          "2026-10-15 20:16:07.866170+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-15 20:21:01.131090+00:00",
+          "2026-10-15 20:21:06.911109+00:00",
+          "ok"
+        ],
+        [
+          "oi",
+          "schedule",
+          "2026-10-15 20:30:01.293292+00:00",
+          "2026-10-15 20:30:08.765042+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-15 20:31:01.116455+00:00",
+          "2026-10-15 20:31:07.793338+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-15 20:36:01.107198+00:00",
+          "2026-10-15 20:36:06.921456+00:00",
+          "ok"
+        ],
+        [
+          "context_news",
+          "schedule",
+          "2026-10-15 20:38:01.324089+00:00",
+          "2026-10-15 20:38:06.491736+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-15 20:46:01.274245+00:00",
+          "2026-10-15 20:46:07.990769+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-15 20:51:01.352616+00:00",
+          "2026-10-15 20:51:07.763869+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-15 21:01:01.201357+00:00",
+          "2026-10-15 21:01:10.867718+00:00",
+          "ok"
+        ],
+        [
+          "positioning",
+          "schedule",
+          "2026-10-15 21:04:01.374358+00:00",
+          "2026-10-15 21:04:17.222687+00:00",
+          "ok"
+        ],
+        [
+          "paper_v2_funding",
+          "schedule",
+          "2026-10-15 21:05:06.038797+00:00",
+          "2026-10-15 21:05:12.592600+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-15 21:06:01.293732+00:00",
+          "2026-10-15 21:06:07.217110+00:00",
+          "ok"
+        ],
+        [
+          "context_news",
+          "schedule",
+          "2026-10-15 21:08:01.249434+00:00",
+          "2026-10-15 21:08:05.922172+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-15 21:16:01.448412+00:00",
+          "2026-10-15 21:16:08.575110+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-15 21:21:01.350710+00:00",
+          "2026-10-15 21:21:08.471796+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-15 21:31:01.189709+00:00",
+          "2026-10-15 21:31:07.708310+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-15 21:36:01.335546+00:00",
+          "2026-10-15 21:36:07.125051+00:00",
+          "ok"
+        ],
+        [
+          "context_news",
+          "schedule",
+          "2026-10-15 21:38:01.385909+00:00",
+          "2026-10-15 21:38:06.264724+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-15 21:46:01.254518+00:00",
+          "2026-10-15 21:46:09.008991+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-15 21:51:01.212483+00:00",
+          "2026-10-15 21:51:06.936214+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-15 22:01:01.283081+00:00",
+          "2026-10-15 22:01:10.993815+00:00",
+          "ok"
+        ],
+        [
+          "positioning",
+          "schedule",
+          "2026-10-15 22:04:01.216667+00:00",
+          "2026-10-15 22:04:18.381271+00:00",
+          "ok"
+        ],
+        [
+          "paper_v2_funding",
+          "schedule",
+          "2026-10-15 22:05:02.046526+00:00",
+          "2026-10-15 22:05:08.304214+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-15 22:06:01.480936+00:00",
+          "2026-10-15 22:06:07.363977+00:00",
+          "ok"
+        ],
+        [
+          "context_news",
+          "schedule",
+          "2026-10-15 22:08:01.113213+00:00",
+          "2026-10-15 22:08:06.034550+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-15 22:16:01.326245+00:00",
+          "2026-10-15 22:16:08.231517+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-15 22:21:01.255328+00:00",
+          "2026-10-15 22:21:07.342676+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-15 22:31:01.462674+00:00",
+          "2026-10-15 22:31:08.136069+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-15 22:36:01.251567+00:00",
+          "2026-10-15 22:36:07.207986+00:00",
+          "ok"
+        ],
+        [
+          "context_news",
+          "schedule",
+          "2026-10-15 22:38:01.278831+00:00",
+          "2026-10-15 22:38:06.042672+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-15 22:46:01.162736+00:00",
+          "2026-10-15 22:46:07.776524+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-15 22:51:01.340654+00:00",
+          "2026-10-15 22:51:08.343865+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-15 23:01:01.275058+00:00",
+          "2026-10-15 23:01:11.127366+00:00",
+          "ok"
+        ],
+        [
+          "positioning",
+          "schedule",
+          "2026-10-15 23:04:01.135124+00:00",
+          "2026-10-15 23:04:17.305967+00:00",
+          "ok"
+        ],
+        [
+          "paper_v2_funding",
+          "schedule",
+          "2026-10-15 23:05:01.666902+00:00",
+          "2026-10-15 23:05:08.114906+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-15 23:06:01.244375+00:00",
+          "2026-10-15 23:06:07.296243+00:00",
+          "ok"
+        ],
+        [
+          "context_news",
+          "schedule",
+          "2026-10-15 23:08:01.248316+00:00",
+          "2026-10-15 23:08:06.782839+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-15 23:16:01.176922+00:00",
+          "2026-10-15 23:16:07.877801+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-15 23:21:01.285912+00:00",
+          "2026-10-15 23:21:07.757393+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-15 23:31:01.151563+00:00",
+          "2026-10-15 23:31:08.201511+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-15 23:36:01.364553+00:00",
+          "2026-10-15 23:36:07.612649+00:00",
+          "ok"
+        ],
+        [
+          "context_news",
+          "schedule",
+          "2026-10-15 23:38:01.342530+00:00",
+          "2026-10-15 23:38:06.180894+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-15 23:46:01.200555+00:00",
+          "2026-10-15 23:46:08.005313+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-15 23:51:01.366874+00:00",
+          "2026-10-15 23:51:07.807688+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 00:01:03.358407+00:00",
+          "2026-10-16 00:01:16.435142+00:00",
+          "ok"
+        ],
+        [
+          "positioning",
+          "schedule",
+          "2026-10-16 00:04:01.369746+00:00",
+          "2026-10-16 00:04:18.143294+00:00",
+          "ok"
+        ],
+        [
+          "paper_v2_funding",
+          "schedule",
+          "2026-10-16 00:05:02.353507+00:00",
+          "2026-10-16 00:05:09.424337+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 00:06:01.173645+00:00",
+          "2026-10-16 00:06:07.694671+00:00",
+          "ok"
+        ],
+        [
+          "context_news",
+          "schedule",
+          "2026-10-16 00:08:01.196399+00:00",
+          "2026-10-16 00:08:06.345280+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 00:16:01.254978+00:00",
+          "2026-10-16 00:16:08.205645+00:00",
+          "ok"
+        ],
+        [
+          "context_macro",
+          "schedule",
+          "2026-10-16 00:20:01.201472+00:00",
+          "2026-10-16 00:20:17.041430+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 00:21:01.320736+00:00",
+          "2026-10-16 00:21:07.980804+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 00:31:01.460350+00:00",
+          "2026-10-16 00:31:08.595466+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 00:36:01.210730+00:00",
+          "2026-10-16 00:36:07.247742+00:00",
+          "ok"
+        ],
+        [
+          "context_news",
+          "schedule",
+          "2026-10-16 00:38:01.330907+00:00",
+          "2026-10-16 00:38:07.094740+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 00:46:01.139171+00:00",
+          "2026-10-16 00:46:08.251316+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 00:51:01.346936+00:00",
+          "2026-10-16 00:51:07.775462+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 01:01:01.296845+00:00",
+          "2026-10-16 01:01:11.410747+00:00",
+          "ok"
+        ],
+        [
+          "positioning",
+          "schedule",
+          "2026-10-16 01:04:01.201396+00:00",
+          "2026-10-16 01:04:18.780630+00:00",
+          "ok"
+        ],
+        [
+          "paper_v2_funding",
+          "schedule",
+          "2026-10-16 01:05:02.192705+00:00",
+          "2026-10-16 01:05:08.968960+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 01:06:01.394117+00:00",
+          "2026-10-16 01:06:09.065783+00:00",
+          "ok"
+        ],
+        [
+          "context_news",
+          "schedule",
+          "2026-10-16 01:08:01.221925+00:00",
+          "2026-10-16 01:08:06.351691+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 01:16:03.256042+00:00",
+          "2026-10-16 01:16:10.325259+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 01:21:01.283245+00:00",
+          "2026-10-16 01:21:07.729937+00:00",
+          "ok"
+        ],
+        [
+          "backup",
+          "schedule",
+          "2026-10-16 01:30:01.330238+00:00",
+          "2026-10-16 01:30:10.781573+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 01:31:01.166342+00:00",
+          "2026-10-16 01:31:08.122877+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 01:36:01.309701+00:00",
+          "2026-10-16 01:36:07.859891+00:00",
+          "ok"
+        ],
+        [
+          "context_news",
+          "schedule",
+          "2026-10-16 01:38:03.208785+00:00",
+          "2026-10-16 01:38:08.382798+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 01:46:01.311065+00:00",
+          "2026-10-16 01:46:08.290744+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 01:51:01.241928+00:00",
+          "2026-10-16 01:51:07.345315+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 02:01:01.118071+00:00",
+          "2026-10-16 02:01:11.284566+00:00",
+          "ok"
+        ],
+        [
+          "positioning",
+          "schedule",
+          "2026-10-16 02:04:01.305341+00:00",
+          "2026-10-16 02:04:17.468889+00:00",
+          "ok"
+        ],
+        [
+          "paper_v2_funding",
+          "schedule",
+          "2026-10-16 02:05:01.912406+00:00",
+          "2026-10-16 02:05:08.605717+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 02:06:01.248914+00:00",
+          "2026-10-16 02:06:07.564247+00:00",
+          "ok"
+        ],
+        [
+          "context_news",
+          "schedule",
+          "2026-10-16 02:08:01.263528+00:00",
+          "2026-10-16 02:08:06.290089+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 02:16:01.219517+00:00",
+          "2026-10-16 02:16:08.178893+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 02:21:01.339651+00:00",
+          "2026-10-16 02:21:07.863563+00:00",
+          "ok"
+        ],
+        [
+          "oi",
+          "schedule",
+          "2026-10-16 02:30:01.105266+00:00",
+          "2026-10-16 02:30:08.499283+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 02:31:01.269859+00:00",
+          "2026-10-16 02:31:08.505591+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 02:36:01.268221+00:00",
+          "2026-10-16 02:36:07.336160+00:00",
+          "ok"
+        ],
+        [
+          "context_news",
+          "schedule",
+          "2026-10-16 02:38:03.393334+00:00",
+          "2026-10-16 02:38:08.541294+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 02:46:01.257220+00:00",
+          "2026-10-16 02:46:08.380753+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 02:51:01.272535+00:00",
+          "2026-10-16 02:51:07.797727+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 03:01:01.215911+00:00",
+          "2026-10-16 03:01:11.343157+00:00",
+          "ok"
+        ],
+        [
+          "positioning",
+          "schedule",
+          "2026-10-16 03:04:01.383156+00:00",
+          "2026-10-16 03:04:17.658373+00:00",
+          "ok"
+        ],
+        [
+          "paper_v2_funding",
+          "schedule",
+          "2026-10-16 03:05:02.120817+00:00",
+          "2026-10-16 03:05:09.260833+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 03:06:01.238833+00:00",
+          "2026-10-16 03:06:07.715281+00:00",
+          "ok"
+        ],
+        [
+          "context_news",
+          "schedule",
+          "2026-10-16 03:08:01.167560+00:00",
+          "2026-10-16 03:08:06.339451+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 03:16:01.349969+00:00",
+          "2026-10-16 03:16:08.373740+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 03:21:01.216952+00:00",
+          "2026-10-16 03:21:07.291556+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 03:31:01.307712+00:00",
+          "2026-10-16 03:31:08.578757+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 03:36:01.201163+00:00",
+          "2026-10-16 03:36:07.799638+00:00",
+          "ok"
+        ],
+        [
+          "context_news",
+          "schedule",
+          "2026-10-16 03:38:03.234059+00:00",
+          "2026-10-16 03:38:09.053957+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 03:46:01.399136+00:00",
+          "2026-10-16 03:46:08.415142+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 03:51:01.324075+00:00",
+          "2026-10-16 03:51:07.943079+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 04:01:01.243023+00:00",
+          "2026-10-16 04:01:14.463582+00:00",
+          "ok"
+        ],
+        [
+          "positioning",
+          "schedule",
+          "2026-10-16 04:04:01.422027+00:00",
+          "2026-10-16 04:04:18.194258+00:00",
+          "ok"
+        ],
+        [
+          "paper_v2_funding",
+          "schedule",
+          "2026-10-16 04:05:01.917511+00:00",
+          "2026-10-16 04:05:08.809600+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 04:06:01.214282+00:00",
+          "2026-10-16 04:06:07.789024+00:00",
+          "ok"
+        ],
+        [
+          "context_news",
+          "schedule",
+          "2026-10-16 04:08:01.181431+00:00",
+          "2026-10-16 04:08:06.823978+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 04:16:01.487214+00:00",
+          "2026-10-16 04:16:08.618072+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 04:21:01.263773+00:00",
+          "2026-10-16 04:21:07.685504+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 04:31:01.272700+00:00",
+          "2026-10-16 04:31:08.553113+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 04:36:01.328330+00:00",
+          "2026-10-16 04:36:07.842524+00:00",
+          "ok"
+        ],
+        [
+          "context_news",
+          "schedule",
+          "2026-10-16 04:38:03.455647+00:00",
+          "2026-10-16 04:38:08.848966+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 04:46:01.320727+00:00",
+          "2026-10-16 04:46:08.736794+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 04:51:01.298195+00:00",
+          "2026-10-16 04:51:08.003047+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 05:01:01.091954+00:00",
+          "2026-10-16 05:01:11.477893+00:00",
+          "ok"
+        ],
+        [
+          "positioning",
+          "schedule",
+          "2026-10-16 05:04:01.150610+00:00",
+          "2026-10-16 05:04:18.256728+00:00",
+          "ok"
+        ],
+        [
+          "paper_v2_funding",
+          "schedule",
+          "2026-10-16 05:05:02.106396+00:00",
+          "2026-10-16 05:05:09.395343+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 05:06:01.306183+00:00",
+          "2026-10-16 05:06:08.374421+00:00",
+          "ok"
+        ],
+        [
+          "context_news",
+          "schedule",
+          "2026-10-16 05:08:01.130899+00:00",
+          "2026-10-16 05:08:06.462387+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 05:16:01.273861+00:00",
+          "2026-10-16 05:16:08.963304+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 05:21:01.327158+00:00",
+          "2026-10-16 05:21:07.828664+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 05:31:01.103395+00:00",
+          "2026-10-16 05:31:08.289329+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 05:36:01.326747+00:00",
+          "2026-10-16 05:36:07.805322+00:00",
+          "ok"
+        ],
+        [
+          "context_news",
+          "schedule",
+          "2026-10-16 05:38:05.277670+00:00",
+          "2026-10-16 05:38:10.990564+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 05:46:01.337691+00:00",
+          "2026-10-16 05:46:08.756499+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 05:51:01.183393+00:00",
+          "2026-10-16 05:51:07.910786+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 06:01:01.219598+00:00",
+          "2026-10-16 06:01:11.781459+00:00",
+          "ok"
+        ],
+        [
+          "positioning",
+          "schedule",
+          "2026-10-16 06:04:01.201740+00:00",
+          "2026-10-16 06:04:17.762562+00:00",
+          "ok"
+        ],
+        [
+          "paper_v2_funding",
+          "schedule",
+          "2026-10-16 06:05:02.141891+00:00",
+          "2026-10-16 06:05:09.066036+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 06:06:01.330637+00:00",
+          "2026-10-16 06:06:08.078581+00:00",
+          "ok"
+        ],
+        [
+          "context_news",
+          "schedule",
+          "2026-10-16 06:08:01.208485+00:00",
+          "2026-10-16 06:08:06.682768+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 06:16:01.197809+00:00",
+          "2026-10-16 06:16:08.350904+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 06:21:01.211719+00:00",
+          "2026-10-16 06:21:08.158993+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 06:31:01.264471+00:00",
+          "2026-10-16 06:31:08.396831+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 06:36:01.236584+00:00",
+          "2026-10-16 06:36:07.997698+00:00",
+          "ok"
+        ],
+        [
+          "context_news",
+          "schedule",
+          "2026-10-16 06:38:03.299396+00:00",
+          "2026-10-16 06:38:08.811884+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 06:46:01.216460+00:00",
+          "2026-10-16 06:46:08.687157+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 06:51:01.292898+00:00",
+          "2026-10-16 06:51:08.140427+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 07:01:01.196426+00:00",
+          "2026-10-16 07:01:11.783118+00:00",
+          "ok"
+        ],
+        [
+          "positioning",
+          "schedule",
+          "2026-10-16 07:04:01.395768+00:00",
+          "2026-10-16 07:04:18.416009+00:00",
+          "ok"
+        ],
+        [
+          "paper_v2_funding",
+          "schedule",
+          "2026-10-16 07:05:02.091251+00:00",
+          "2026-10-16 07:05:09.126639+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 07:06:01.064323+00:00",
+          "2026-10-16 07:06:07.807343+00:00",
+          "ok"
+        ],
+        [
+          "context_news",
+          "schedule",
+          "2026-10-16 07:08:01.270276+00:00",
+          "2026-10-16 07:08:06.971479+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 07:16:01.270781+00:00",
+          "2026-10-16 07:16:08.901594+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 07:21:01.407305+00:00",
+          "2026-10-16 07:21:08.425906+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 07:31:01.361996+00:00",
+          "2026-10-16 07:31:09.008783+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 07:36:01.284746+00:00",
+          "2026-10-16 07:36:08.411420+00:00",
+          "ok"
+        ],
+        [
+          "context_news",
+          "schedule",
+          "2026-10-16 07:38:01.353063+00:00",
+          "2026-10-16 07:38:07.861698+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 07:46:01.175429+00:00",
+          "2026-10-16 07:46:08.818025+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 07:51:01.365599+00:00",
+          "2026-10-16 07:51:08.551875+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 08:01:01.318910+00:00",
+          "2026-10-16 08:01:14.942380+00:00",
+          "ok"
+        ],
+        [
+          "positioning",
+          "schedule",
+          "2026-10-16 08:04:01.151687+00:00",
+          "2026-10-16 08:04:18.976492+00:00",
+          "ok"
+        ],
+        [
+          "paper_v2_funding",
+          "schedule",
+          "2026-10-16 08:05:02.223234+00:00",
+          "2026-10-16 08:05:09.421134+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 08:06:01.361730+00:00",
+          "2026-10-16 08:06:08.400132+00:00",
+          "ok"
+        ],
+        [
+          "context_news",
+          "schedule",
+          "2026-10-16 08:08:01.442531+00:00",
+          "2026-10-16 08:08:07.155592+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 08:16:01.437493+00:00",
+          "2026-10-16 08:16:09.093527+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 08:21:01.239103+00:00",
+          "2026-10-16 08:21:08.306712+00:00",
+          "ok"
+        ],
+        [
+          "oi",
+          "schedule",
+          "2026-10-16 08:30:01.288902+00:00",
+          "2026-10-16 08:30:09.713201+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 08:31:01.520752+00:00",
+          "2026-10-16 08:31:09.037936+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 08:36:01.324032+00:00",
+          "2026-10-16 08:36:09.970858+00:00",
+          "ok"
+        ],
+        [
+          "context_news",
+          "schedule",
+          "2026-10-16 08:38:01.416043+00:00",
+          "2026-10-16 08:38:07.275462+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 08:46:01.288650+00:00",
+          "2026-10-16 08:46:08.724276+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 08:51:01.238649+00:00",
+          "2026-10-16 08:51:08.055195+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 09:01:01.483692+00:00",
+          "2026-10-16 09:01:12.289670+00:00",
+          "ok"
+        ],
+        [
+          "positioning",
+          "schedule",
+          "2026-10-16 09:04:01.329152+00:00",
+          "2026-10-16 09:04:18.654011+00:00",
+          "ok"
+        ],
+        [
+          "paper_v2_funding",
+          "schedule",
+          "2026-10-16 09:05:02.239080+00:00",
+          "2026-10-16 09:05:09.362795+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 09:06:01.198484+00:00",
+          "2026-10-16 09:06:08.465700+00:00",
+          "ok"
+        ],
+        [
+          "context_news",
+          "schedule",
+          "2026-10-16 09:08:01.335088+00:00",
+          "2026-10-16 09:08:07.564354+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 09:16:01.267769+00:00",
+          "2026-10-16 09:16:08.944866+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 09:21:01.359867+00:00",
+          "2026-10-16 09:21:09.050854+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 09:31:01.299151+00:00",
+          "2026-10-16 09:31:09.195979+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 09:36:01.328536+00:00",
+          "2026-10-16 09:36:08.630537+00:00",
+          "ok"
+        ],
+        [
+          "context_news",
+          "schedule",
+          "2026-10-16 09:38:01.328096+00:00",
+          "2026-10-16 09:38:07.036194+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 09:46:01.123088+00:00",
+          "2026-10-16 09:46:08.587216+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 09:51:01.275760+00:00",
+          "2026-10-16 09:51:08.254524+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 10:01:01.362398+00:00",
+          "2026-10-16 10:01:12.120426+00:00",
+          "ok"
+        ],
+        [
+          "positioning",
+          "schedule",
+          "2026-10-16 10:04:01.344345+00:00",
+          "2026-10-16 10:04:19.277030+00:00",
+          "ok"
+        ],
+        [
+          "paper_v2_funding",
+          "schedule",
+          "2026-10-16 10:05:02.139069+00:00",
+          "2026-10-16 10:05:09.463524+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 10:06:01.516032+00:00",
+          "2026-10-16 10:06:09.111598+00:00",
+          "ok"
+        ],
+        [
+          "context_news",
+          "schedule",
+          "2026-10-16 10:08:01.096187+00:00",
+          "2026-10-16 10:08:07.314871+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 10:16:01.306017+00:00",
+          "2026-10-16 10:16:09.313547+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 10:21:01.204110+00:00",
+          "2026-10-16 10:21:08.932749+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 10:31:01.081560+00:00",
+          "2026-10-16 10:31:08.760492+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 10:36:01.150198+00:00",
+          "2026-10-16 10:36:08.286370+00:00",
+          "ok"
+        ],
+        [
+          "context_news",
+          "schedule",
+          "2026-10-16 10:38:01.210339+00:00",
+          "2026-10-16 10:38:07.539252+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 10:46:01.169920+00:00",
+          "2026-10-16 10:46:08.848885+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 10:51:01.303371+00:00",
+          "2026-10-16 10:51:08.281603+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 11:01:01.197604+00:00",
+          "2026-10-16 11:01:11.991875+00:00",
+          "ok"
+        ],
+        [
+          "positioning",
+          "schedule",
+          "2026-10-16 11:04:01.149850+00:00",
+          "2026-10-16 11:04:18.640312+00:00",
+          "ok"
+        ],
+        [
+          "paper_v2_funding",
+          "schedule",
+          "2026-10-16 11:05:02.265145+00:00",
+          "2026-10-16 11:05:09.485613+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 11:06:01.210548+00:00",
+          "2026-10-16 11:06:08.731483+00:00",
+          "ok"
+        ],
+        [
+          "context_news",
+          "schedule",
+          "2026-10-16 11:08:01.369527+00:00",
+          "2026-10-16 11:08:07.281987+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 11:16:01.079594+00:00",
+          "2026-10-16 11:16:08.607398+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 11:21:01.327172+00:00",
+          "2026-10-16 11:21:08.389314+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 11:31:01.189897+00:00",
+          "2026-10-16 11:31:09.040116+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 11:36:01.235949+00:00",
+          "2026-10-16 11:36:08.247345+00:00",
+          "ok"
+        ],
+        [
+          "context_news",
+          "schedule",
+          "2026-10-16 11:38:01.119356+00:00",
+          "2026-10-16 11:38:06.787392+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 11:46:01.160071+00:00",
+          "2026-10-16 11:46:09.369803+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 11:51:01.234396+00:00",
+          "2026-10-16 11:51:08.855284+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 12:01:01.281733+00:00",
+          "2026-10-16 12:01:15.045739+00:00",
+          "ok"
+        ],
+        [
+          "positioning",
+          "schedule",
+          "2026-10-16 12:04:01.260058+00:00",
+          "2026-10-16 12:04:18.571026+00:00",
+          "ok"
+        ],
+        [
+          "paper_v2_funding",
+          "schedule",
+          "2026-10-16 12:05:02.350898+00:00",
+          "2026-10-16 12:05:09.813019+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 12:06:01.250061+00:00",
+          "2026-10-16 12:06:08.457193+00:00",
+          "ok"
+        ],
+        [
+          "context_news",
+          "schedule",
+          "2026-10-16 12:08:01.327310+00:00",
+          "2026-10-16 12:08:07.328555+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 12:16:01.304594+00:00",
+          "2026-10-16 12:16:08.991494+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 12:21:01.325080+00:00",
+          "2026-10-16 12:21:08.857950+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 12:31:01.287948+00:00",
+          "2026-10-16 12:31:09.434293+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 12:36:01.242012+00:00",
+          "2026-10-16 12:36:08.091802+00:00",
+          "ok"
+        ],
+        [
+          "context_news",
+          "schedule",
+          "2026-10-16 12:38:01.391233+00:00",
+          "2026-10-16 12:38:07.432473+00:00",
+          "ok"
+        ],
+        [
+          "context_macro",
+          "schedule",
+          "2026-10-16 12:42:01.329287+00:00",
+          "2026-10-16 12:42:14.209732+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 12:46:01.380133+00:00",
+          "2026-10-16 12:46:09.239143+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 12:51:01.301114+00:00",
+          "2026-10-16 12:51:08.636009+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 13:01:01.247142+00:00",
+          "2026-10-16 13:01:12.275304+00:00",
+          "ok"
+        ],
+        [
+          "positioning",
+          "schedule",
+          "2026-10-16 13:04:01.313479+00:00",
+          "2026-10-16 13:04:19.011367+00:00",
+          "ok"
+        ],
+        [
+          "paper_v2_funding",
+          "schedule",
+          "2026-10-16 13:05:02.232682+00:00",
+          "2026-10-16 13:05:09.568628+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 13:06:01.174414+00:00",
+          "2026-10-16 13:06:08.671143+00:00",
+          "ok"
+        ],
+        [
+          "context_news",
+          "schedule",
+          "2026-10-16 13:08:01.302046+00:00",
+          "2026-10-16 13:08:07.312847+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 13:16:01.268551+00:00",
+          "2026-10-16 13:16:08.986578+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 13:21:01.298700+00:00",
+          "2026-10-16 13:21:08.843037+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 13:31:01.170877+00:00",
+          "2026-10-16 13:31:09.117094+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 13:36:01.255901+00:00",
+          "2026-10-16 13:36:09.192706+00:00",
+          "ok"
+        ],
+        [
+          "context_news",
+          "schedule",
+          "2026-10-16 13:38:01.407481+00:00",
+          "2026-10-16 13:38:07.822312+00:00",
+          "ok"
+        ],
+        [
+          "context_macro",
+          "schedule",
+          "2026-10-16 13:42:01.314075+00:00",
+          "2026-10-16 13:42:20.860464+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 13:46:01.266549+00:00",
+          "2026-10-16 13:46:09.635174+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 13:51:01.292530+00:00",
+          "2026-10-16 13:51:08.549368+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 14:01:01.359927+00:00",
+          "2026-10-16 14:01:12.343047+00:00",
+          "ok"
+        ],
+        [
+          "positioning",
+          "schedule",
+          "2026-10-16 14:04:01.520976+00:00",
+          "2026-10-16 14:04:18.710878+00:00",
+          "ok"
+        ],
+        [
+          "paper_v2_funding",
+          "schedule",
+          "2026-10-16 14:05:02.296569+00:00",
+          "2026-10-16 14:05:09.572011+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 14:06:01.311198+00:00",
+          "2026-10-16 14:06:08.716790+00:00",
+          "ok"
+        ],
+        [
+          "context_news",
+          "schedule",
+          "2026-10-16 14:08:01.183870+00:00",
+          "2026-10-16 14:08:07.798741+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 14:16:01.328637+00:00",
+          "2026-10-16 14:16:09.593131+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 14:21:01.279011+00:00",
+          "2026-10-16 14:21:08.850537+00:00",
+          "ok"
+        ],
+        [
+          "oi",
+          "schedule",
+          "2026-10-16 14:30:01.309854+00:00",
+          "2026-10-16 14:30:14.319865+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 14:31:01.243892+00:00",
+          "2026-10-16 14:31:09.380793+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 14:36:01.294637+00:00",
+          "2026-10-16 14:36:08.898292+00:00",
+          "ok"
+        ],
+        [
+          "context_news",
+          "schedule",
+          "2026-10-16 14:38:01.290598+00:00",
+          "2026-10-16 14:38:07.290424+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 14:46:01.352648+00:00",
+          "2026-10-16 14:46:09.571994+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 14:51:01.344925+00:00",
+          "2026-10-16 14:51:17.235919+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 15:01:01.425148+00:00",
+          "2026-10-16 15:01:12.721647+00:00",
+          "ok"
+        ],
+        [
+          "positioning",
+          "schedule",
+          "2026-10-16 15:04:01.225325+00:00",
+          "2026-10-16 15:04:18.625858+00:00",
+          "ok"
+        ],
+        [
+          "paper_v2_funding",
+          "schedule",
+          "2026-10-16 15:05:02.384514+00:00",
+          "2026-10-16 15:05:09.989164+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 15:06:01.346419+00:00",
+          "2026-10-16 15:06:09.336325+00:00",
+          "ok"
+        ],
+        [
+          "context_news",
+          "schedule",
+          "2026-10-16 15:08:01.197741+00:00",
+          "2026-10-16 15:08:07.256641+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 15:16:01.322457+00:00",
+          "2026-10-16 15:16:09.472247+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 15:21:01.226208+00:00",
+          "2026-10-16 15:21:09.060203+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 15:31:01.322379+00:00",
+          "2026-10-16 15:31:09.300372+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 15:36:01.321725+00:00",
+          "2026-10-16 15:36:16.839200+00:00",
+          "ok"
+        ],
+        [
+          "context_news",
+          "schedule",
+          "2026-10-16 15:38:01.380670+00:00",
+          "2026-10-16 15:38:07.818037+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 15:46:01.481366+00:00",
+          "2026-10-16 15:46:09.670009+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 15:51:01.293986+00:00",
+          "2026-10-16 15:51:09.465127+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 16:01:03.340602+00:00",
+          "2026-10-16 16:01:17.531848+00:00",
+          "ok"
+        ],
+        [
+          "positioning",
+          "schedule",
+          "2026-10-16 16:04:01.285365+00:00",
+          "2026-10-16 16:04:19.192330+00:00",
+          "ok"
+        ],
+        [
+          "paper_v2_funding",
+          "schedule",
+          "2026-10-16 16:05:02.392403+00:00",
+          "2026-10-16 16:05:10.392749+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 16:06:01.268554+00:00",
+          "2026-10-16 16:06:09.381655+00:00",
+          "ok"
+        ],
+        [
+          "context_news",
+          "schedule",
+          "2026-10-16 16:08:01.237061+00:00",
+          "2026-10-16 16:08:07.873137+00:00",
+          "ok"
+        ],
+        [
+          "intraday",
+          "schedule",
+          "2026-10-16 16:16:01.323317+00:00",
+          "2026-10-16 16:16:17.589502+00:00",
+          "ok"
+        ],
+        [
+          "microstructure",
+          "schedule",
+          "2026-10-16 16:21:01.280839+00:00",
+          "2026-10-16 16:21:10.810933+00:00",
+          "ok"
+        ]
+      ],
+      "evaluations": [
+        {
+          "id": "universeeval_dbbd3fc18b28e31aa0d7120bf2870d486ab03b8aadb4e2783754b9bdd61813a3",
+          "at": 1792167639,
+          "checks": {
+            "ranking_only": true,
+            "policy_matches": true,
+            "core_only_plan": true,
+            "no_pins": true,
+            "no_satellite_entry": true,
+            "no_satellite_rich_since": true
+          }
+        }
+      ]
+    },
+    "db_audit_at": 1792168113.6605282,
+    "db_audit_event_count": 13,
+    "research_backup": {
+      "status": "ok",
+      "stage": "done",
+      "started_at": "2026-10-16T08:08:30.467309+00:00",
+      "finished_at": "2026-10-16T08:13:18.135059+00:00"
+    },
+    "cpu_busy_percent": 3.359130577968055,
+    "cpu_steal_percent": 0.010977550908392338,
+    "stop_conditions": [],
+    "mode": "continuous safety only; completed scientific window preserved"
+  },
+  "failed_units": "",
+  "clock_synced": "yes",
+  "kernel": "6.1.0-53-cloud-amd64",
+  "uptime_seconds": 81376.39,
+  "active_budget_sha256": "701eab3711310d0cf9a6a724e04ce8a62fd02df1bfd5768e61a7d2ff15fb3c9b",
+  "new_host_evidence_secret_scan": {
+    "files": 27,
+    "matching_files": [],
+    "known_secret_matches": 0,
+    "values_not_exported": true
+  }
+}

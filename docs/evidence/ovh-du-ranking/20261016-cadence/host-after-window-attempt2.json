@@ -1,0 +1,457 @@
+{
+  "at": "2026-10-16T16:21:54.248579+00:00",
+  "disk": {
+    "total": 105467994112,
+    "used": 6657216512,
+    "free": 94473691136
+  },
+  "memory": {
+    "MemTotal": 12256567296,
+    "MemAvailable": 11083214848,
+    "SwapTotal": 0,
+    "SwapFree": 0
+  },
+  "load": [
+    0.5185546875,
+    0.4072265625,
+    0.23193359375
+  ],
+  "cpu_jiffies": [
+    1050085,
+    104351,
+    106249,
+    47256793,
+    9946,
+    0,
+    13467,
+    5516,
+    0,
+    0
+  ],
+  "units": {
+    "microstructure": {
+      "MainPID": "625",
+      "Result": "success",
+      "NRestarts": "0",
+      "ExecMainStartTimestamp": "Thu 2026-10-15 17:52:53 UTC",
+      "MemoryCurrent": "248541184",
+      "CPUUsageNSec": "893529903000",
+      "ActiveState": "active",
+      "SubState": "running"
+    },
+    "free-sources": {
+      "MainPID": "53126",
+      "Result": "success",
+      "NRestarts": "0",
+      "ExecMainStartTimestamp": "Fri 2026-10-16 14:12:18 UTC",
+      "MemoryCurrent": "112955392",
+      "CPUUsageNSec": "12489988000",
+      "ActiveState": "active",
+      "SubState": "running"
+    },
+    "free-source-ingest": {
+      "MainPID": "53125",
+      "Result": "success",
+      "NRestarts": "0",
+      "ExecMainStartTimestamp": "Fri 2026-10-16 14:12:18 UTC",
+      "MemoryCurrent": "211050496",
+      "CPUUsageNSec": "443650289000",
+      "ActiveState": "active",
+      "SubState": "running"
+    },
+    "scheduler": {
+      "MainPID": "53127",
+      "Result": "success",
+      "NRestarts": "0",
+      "ExecMainStartTimestamp": "Fri 2026-10-16 14:12:18 UTC",
+      "MemoryCurrent": "17387520",
+      "CPUUsageNSec": "532604222000",
+      "ActiveState": "active",
+      "SubState": "running"
+    },
+    "universe": {
+      "MainPID": "53179",
+      "Result": "success",
+      "NRestarts": "0",
+      "ExecMainStartTimestamp": "Fri 2026-10-16 14:12:19 UTC",
+      "MemoryCurrent": "39727104",
+      "CPUUsageNSec": "111261817000",
+      "ActiveState": "active",
+      "SubState": "running"
+    },
+    "nimble": {
+      "MainPID": "0",
+      "Result": "exec-condition",
+      "NRestarts": "0",
+      "ExecMainStartTimestamp": "",
+      "MemoryCurrent": "[not set]",
+      "CPUUsageNSec": "1493865000",
+      "ActiveState": "inactive",
+      "SubState": "dead"
+    },
+    "context-gateway": {
+      "MainPID": "0",
+      "Result": "exec-condition",
+      "NRestarts": "0",
+      "ExecMainStartTimestamp": "",
+      "MemoryCurrent": "[not set]",
+      "CPUUsageNSec": "1565357000",
+      "ActiveState": "inactive",
+      "SubState": "dead"
+    },
+    "context-ingest": {
+      "MainPID": "0",
+      "Result": "exec-condition",
+      "NRestarts": "0",
+      "ExecMainStartTimestamp": "",
+      "MemoryCurrent": "[not set]",
+      "CPUUsageNSec": "1479572000",
+      "ActiveState": "inactive",
+      "SubState": "dead"
+    },
+    "research-backup": {
+      "MainPID": "0",
+      "Result": "success",
+      "NRestarts": "0",
+      "ExecMainStartTimestamp": "Fri 2026-10-16 08:08:30 UTC",
+      "MemoryCurrent": "[not set]",
+      "CPUUsageNSec": "162943642000",
+      "ActiveState": "inactive",
+      "SubState": "dead"
+    }
+  },
+  "release": "/opt/prism/releases/c6b6e9da7e0d2e04f265e5fec9d1dde9a0a7d67c",
+  "physical_usage": {
+    "status": 0,
+    "stdout": "61440\t/data/microstructure/lp\n93446144\t/data/microstructure/raw\n46833664\t/data/microstructure/spool\n140365824\t/data/microstructure\n10825728\t/data/validation/du-ranking-cadence\n4063232\t/data/validation/lab-remediation\n16920576\t/data/validation\n45056\t/data/state\n5111808\t/data/raw/binance_futures\n413696\t/data/raw/rss_cftc_press\n208896\t/data/raw/fred\n430080\t/data/raw/rss_fed_press\n2580480\t/data/raw/hyperliquid\n811008\t/data/raw/rss_sec_press\n860160\t/data/raw/hyperliquid_intraday\n10420224\t/data/raw\n4096\t/data/railway-bridge/archive\n8192\t/data/railway-bridge\n4096\t/data/free_event_sources/attempts\n114688\t/data/free_event_sources/receipts\n114688\t/data/free_event_sources/seals\n114688\t/data/free_event_sources/done\n385024\t/data/free_event_sources\n4096\t/data/context_gateway\n188416\t/data/backups/daily\n150147072\t/data/backups/manual\n150347776\t/data/backups\n1204224\t/data/logs\n475439104\t/data\n4096\t/var/lib/prism-research/microstructure\n18046976\t/var/lib/prism-research/state\n4096\t/var/lib/prism-research/raw\n4096\t/var/lib/prism-research/free_event_sources\n4096\t/var/lib/prism-research/scratch\n4096\t/var/lib/prism-research/context_gateway\n4096\t/var/lib/prism-research/results\n4096\t/var/lib/prism-research/.uv-cache/builds-v0\n12288\t/var/lib/prism-research/.uv-cache/interpreter-v4\n593920\t/var/lib/prism-research/.uv-cache/wheels-v6\n94208\t/var/lib/prism-research/.uv-cache/sdists-v9\n229376\t/var/lib/prism-research/.uv-cache/simple-v24\n530866176\t/var/lib/prism-research/.uv-cache/archive-v0\n531812352\t/var/lib/prism-research/.uv-cache\n135647232\t/var/lib/prism-research/backups/generation-20261015T123904063259Z\n135655424\t/var/lib/prism-research/backups\n4096\t/var/lib/prism-research/logs\n1646284800\t/var/lib/prism-research/import\n2331832320\t/var/lib/prism-research\n135651328\t/var/lib/prism-research-backup/generations/generation-20261016T081024449039Z\n135659520\t/var/lib/prism-research-backup/generations\n17874944\t/var/lib/prism-research-backup/state\n4096\t/var/lib/prism-research-backup/scratch\n153542656\t/var/lib/prism-research-backup\n8192\t/var/lib/prism/.local/bin\n12288\t/var/lib/prism/.local\n532381696\t/var/lib/prism/.cache/uv\n532385792\t/var/lib/prism/.cache\n532414464\t/var/lib/prism\n50790400\t/opt/prism/releases/530ba0d18c3009352eee21bb7f1a1c01004ab73a\n46575616\t/opt/prism/releases/401301ff2924a3684a423139113bd8f6867e603d\n70565888\t/opt/prism/releases/c6b6e9da7e0d2e04f265e5fec9d1dde9a0a7d67c\n48635904\t/opt/prism/releases/9acb42a94d8888a2e712490b421912739a02bff6\n71249920\t/opt/prism/releases/b10d13a313870f0975842f1ee77e7b9938879359\n287821824\t/opt/prism/releases\n130191360\t/opt/prism/research/releases\n130199552\t/opt/prism/research\n116318208\t/opt/prism/research-backup/tools\n116322304\t/opt/prism/research-backup\n4096\t/opt/prism/python/.temp\n268357632\t/opt/prism/python/cpython-3.12.3-linux-x86_64-gnu\n268369920\t/opt/prism/python\n802729984\t/opt/prism\n4096\t/var/log/sysstat\n4096\t/var/log/private\n4096\t/var/log/runit/ssh\n8192\t/var/log/runit\n61440\t/var/log/apt\n63074304\t/var/log/journal/f792458fe56545aa8f5bd67f3cc76ffd\n16781312\t/var/log/journal/98a2db221f984e7da5f2bd18b0f1e16b\n79859712\t/var/log/journal\n4096\t/var/log/chrony\n32768\t/var/log/unattended-upgrades\n81616896\t/var/log\n4096\t/tmp/.font-unix\n4096\t/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-chrony.service-i4r9Kr/tmp\n8192\t/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-chrony.service-i4r9Kr\n4096\t/tmp/.X11-unix\n4096\t/tmp/.ICE-unix\n4096\t/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-prism-free-source-ingest.service-TWLxog/tmp\n8192\t/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-prism-free-source-ingest.service-TWLxog\n4096\t/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-prism-scheduler.service-Ei5JnN/tmp\n8192\t/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-prism-scheduler.service-Ei5JnN\n126976\t/tmp/du-attempt2-tools\n4096\t/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-systemd-resolved.service-9YiQvJ/tmp\n8192\t/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-systemd-resolved.service-9YiQvJ\n4096\t/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-prism-free-sources.service-4dx4u9/tmp\n8192\t/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-prism-free-sources.service-4dx4u9\n4096\t/tmp/.XIM-unix\n4096\t/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-prism-microstructure.service-toeMLb/tmp\n8192\t/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-prism-microstructure.service-toeMLb\n4096\t/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-prism-lab-remediation-close.service-qWYYha/tmp\n8192\t/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-prism-lab-remediation-close.service-qWYYha\n4096\t/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-systemd-logind.service-tOvZBt/tmp\n8192\t/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-systemd-logind.service-tOvZBt\n4096\t/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-prism-universe.service-NN9JoM/tmp\n8192\t/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-prism-universe.service-NN9JoM\n319488\t/tmp\n4096\t/var/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-prism-microstructure.service-I1UTi6/tmp\n8192\t/var/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-prism-microstructure.service-I1UTi6\n4096\t/var/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-systemd-resolved.service-BIUE0F/tmp\n8192\t/var/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-systemd-resolved.service-BIUE0F\n4096\t/var/tmp/cloud-init\n4096\t/var/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-prism-free-sources.service-ciiedD/tmp\n8192\t/var/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-prism-free-sources.service-ciiedD\n4096\t/var/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-systemd-logind.service-o42eyE/tmp\n8192\t/var/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-systemd-logind.service-o42eyE\n4096\t/var/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-prism-lab-remediation-close.service-YNpiRx/tmp\n8192\t/var/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-prism-lab-remediation-close.service-YNpiRx\n4096\t/var/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-chrony.service-X21DnC/tmp\n8192\t/var/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-chrony.service-X21DnC\n4096\t/var/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-prism-scheduler.service-Rtbqx4/tmp\n8192\t/var/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-prism-scheduler.service-Rtbqx4\n4096\t/var/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-prism-universe.service-jVViL5/tmp\n8192\t/var/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-prism-universe.service-jVViL5\n4096\t/var/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-prism-free-source-ingest.service-w54ckx/tmp\n8192\t/var/tmp/systemd-private-2e218007141d43709bbe3a4c6cc998c5-prism-free-source-ingest.service-w54ckx\n81920\t/var/tmp\n"
+  },
+  "filesystem_top_level": {
+    "status": 0,
+    "stdout": "4096\t/media\n1849548800\t/opt\n4096\t/mnt\n16384\t/lost+found\n475439104\t/data\n4304896\t/etc\n625688576\t/home\n2762883072\t/var\n71151616\t/boot\n16384\t/root\n319488\t/tmp\n867807232\t/usr\n4096\t/srv\n6657191936\t/\n"
+  },
+  "db_files": {
+    "/data/prism.duckdb": {
+      "bytes": 155725824,
+      "physical_bytes": 155729920,
+      "mtime_ns": 1792167672099494624
+    },
+    "/var/lib/prism-research/import/prism.duckdb": {
+      "bytes": 1646276608,
+      "physical_bytes": 1646280704,
+      "mtime_ns": 1792067413151151944
+    }
+  },
+  "environment": {
+    "PRISM_DEPLOYMENT_TARGET": "vps",
+    "PRISM_AUTHORITY": "rehearsal",
+    "PRISM_RUNTIME_ROLE": "authoritative",
+    "PRISM_RUNTIME_ID": "vps-prism-autotrader-lab-rehearsal",
+    "PRISM_DB_PATH": "/data/prism.duckdb",
+    "PRISM_PROFILE": "autotrader_lab_v2",
+    "PRISM_UNIVERSE_STAGE": "ranking",
+    "PRISM_UNIVERSE_BUDGET": "/data/state/du-budget.json",
+    "PRISM_NIMBLE_RUNTIME": "off"
+  },
+  "profile": {
+    "profile": "autotrader_lab_v2",
+    "identity": "prism_autotrader_lab_v2",
+    "digest": "e7571ad1a2a35fb42dc8c1ea77759e31887a1c7679445561664c1dee68c12207",
+    "authority": "rehearsal",
+    "target": "vps",
+    "runtime_id": "vps-prism-autotrader-lab-rehearsal",
+    "explicit": true,
+    "role": "authoritative",
+    "processes": [
+      "microstructure_collector",
+      "free_source_collector",
+      "free_source_ingest",
+      "universe_radar",
+      "scheduler"
+    ],
+    "disabled_by_flag": [],
+    "collector_dynamic": false,
+    "scheduled_jobs": [
+      "oi",
+      "intraday",
+      "paper_v2_funding",
+      "positioning",
+      "context_macro",
+      "context_news",
+      "microstructure",
+      "backup"
+    ],
+    "execution_allowed": false,
+    "external_actions_allowed": false,
+    "boot_catchup_job": null,
+    "dynamic_universe": {
+      "tier0_discovery": "opt_in",
+      "tier1_warming": "opt_in",
+      "tier2_rich": "opt_in",
+      "tier3_risk_pins": "retention_only"
+    },
+    "definition": {
+      "name": "autotrader_lab_v2",
+      "identity": "prism_autotrader_lab_v2",
+      "targets": [
+        "local",
+        "vps"
+      ],
+      "processes": [
+        "free_source_collector",
+        "free_source_ingest",
+        "microstructure_collector",
+        "scheduler",
+        "universe_radar"
+      ],
+      "process_classes": {
+        "free_source_collector": "passive",
+        "free_source_ingest": "ingest",
+        "microstructure_collector": "passive",
+        "scheduler": "ingest",
+        "universe_radar": "ingest"
+      },
+      "jobs": [
+        "backup",
+        "context_macro",
+        "context_news",
+        "intraday",
+        "microstructure",
+        "oi",
+        "paper_v2_funding",
+        "positioning"
+      ],
+      "job_classes": {
+        "backup": "maintenance",
+        "context_macro": "data",
+        "context_news": "data",
+        "intraday": "data",
+        "microstructure": "data",
+        "oi": "data",
+        "paper_v2_funding": "data",
+        "positioning": "data"
+      },
+      "runtime_ids": {
+        "rehearsal": "vps-prism-autotrader-lab-rehearsal"
+      },
+      "boot_catchup_job": null,
+      "unconditional_jobs": [
+        "paper_v2_funding"
+      ],
+      "dynamic_universe": {
+        "tier0_discovery": "opt_in",
+        "tier1_warming": "opt_in",
+        "tier2_rich": "opt_in",
+        "tier3_risk_pins": "retention_only"
+      }
+    }
+  },
+  "research_backup": {
+    "status": "ok",
+    "stage": "done",
+    "started_at": "2026-10-16T08:08:30.467309+00:00",
+    "finished_at": "2026-10-16T08:13:18.135059+00:00",
+    "receipt": {
+      "snapshot_id": "fc9507814bea186809af169c88499e19706ba1e1a3bd51c3f2a0c7ce6456553f",
+      "generation": "generation-20261016T081024449039Z",
+      "verified_at": "2026-10-16T08:13:18.129960+00:00",
+      "sha256": "dbaa5a3c31ebd738cca69bbd714263f4583722331f515ee2d239d4be77d9726f",
+      "compressed_sha256": "023c3240e029eb87686905a1a9dfe3475397ba173ac0d7f9a38b1473c3e7892b",
+      "compressed_bytes": 135614775,
+      "remote_listing": {
+        "manifest.json": 24494,
+        "research.duckdb.gz": 135614775
+      },
+      "data_added_packed": 11220,
+      "read_data": "full",
+      "restore_verified": true,
+      "restored_db": null,
+      "manifest_copy": "prism-gdrive:Prism/backups/research/manifests/generation-20261016T081024449039Z.json",
+      "retained_snapshots": 3,
+      "pruned_manifests": [],
+      "timings": {
+        "upload_seconds": 24.04894520599919,
+        "remote_check_seconds": 41.04930110499845,
+        "restore_seconds": 57.723793003002356,
+        "retention_seconds": 42.13982607800426
+      },
+      "off_host_verified": true,
+      "destination_id": "google-drive:Prism/backups/research (rclone drive.file scope)"
+    },
+    "removed_local": [
+      "generation-20261015T172517321985Z"
+    ]
+  },
+  "micro": {
+    "backoff_s": 1.0,
+    "bytes_per_s_60s": 12781.0,
+    "coins": {
+      "AAVE": {
+        "first_minute": "2026-10-15T17:52:00+00:00",
+        "last_book20_age_s": 2.7,
+        "last_book5_age_s": 0.4,
+        "last_ctx_age_s": 0.4,
+        "last_finalized_minute": "2026-10-16T16:20:00+00:00",
+        "last_finalized_status": "COMPLETE",
+        "last_trade_age_s": 0.8,
+        "subscribed": [
+          "book20",
+          "book5",
+          "ctx",
+          "trades"
+        ]
+      },
+      "BTC": {
+        "first_minute": "2026-10-15T17:52:00+00:00",
+        "last_book20_age_s": 2.7,
+        "last_book5_age_s": 0.4,
+        "last_ctx_age_s": 0.4,
+        "last_finalized_minute": "2026-10-16T16:20:00+00:00",
+        "last_finalized_status": "COMPLETE",
+        "last_trade_age_s": 0.7,
+        "subscribed": [
+          "book20",
+          "book5",
+          "ctx",
+          "trades"
+        ]
+      },
+      "ETH": {
+        "first_minute": "2026-10-15T17:52:00+00:00",
+        "last_book20_age_s": 2.7,
+        "last_book5_age_s": 0.4,
+        "last_ctx_age_s": 0.4,
+        "last_finalized_minute": "2026-10-16T16:20:00+00:00",
+        "last_finalized_status": "COMPLETE",
+        "last_trade_age_s": 0.8,
+        "subscribed": [
+          "book20",
+          "book5",
+          "ctx",
+          "trades"
+        ]
+      },
+      "HYPE": {
+        "first_minute": "2026-10-15T17:52:00+00:00",
+        "last_book20_age_s": 2.7,
+        "last_book5_age_s": 0.4,
+        "last_ctx_age_s": 0.4,
+        "last_finalized_minute": "2026-10-16T16:20:00+00:00",
+        "last_finalized_status": "COMPLETE",
+        "last_trade_age_s": 0.4,
+        "subscribed": [
+          "book20",
+          "book5",
+          "ctx",
+          "trades"
+        ]
+      },
+      "LINK": {
+        "first_minute": "2026-10-15T17:52:00+00:00",
+        "last_book20_age_s": 2.7,
+        "last_book5_age_s": 0.4,
+        "last_ctx_age_s": 0.4,
+        "last_finalized_minute": "2026-10-16T16:20:00+00:00",
+        "last_finalized_status": "COMPLETE",
+        "last_trade_age_s": 0.6,
+        "subscribed": [
+          "book20",
+          "book5",
+          "ctx",
+          "trades"
+        ]
+      },
+      "SOL": {
+        "first_minute": "2026-10-15T17:52:00+00:00",
+        "last_book20_age_s": 2.7,
+        "last_book5_age_s": 0.4,
+        "last_ctx_age_s": 0.4,
+        "last_finalized_minute": "2026-10-16T16:20:00+00:00",
+        "last_finalized_status": "COMPLETE",
+        "last_trade_age_s": 0.4,
+        "subscribed": [
+          "book20",
+          "book5",
+          "ctx",
+          "trades"
+        ]
+      }
+    },
+    "conn_id": "msconn_12dac4f5c7fb",
+    "connected": true,
+    "counters": {
+      "connections": 9,
+      "dup_book5": 4,
+      "dup_trades": 1316,
+      "ev_A": 216,
+      "ev_C": 473734,
+      "ev_D": 90360,
+      "ev_F": 895681,
+      "ev_O": 9,
+      "ev_T": 751445,
+      "ev_X": 8,
+      "finalized": 8094,
+      "replay_unobserved": 42,
+      "status_COMPLETE": 8040,
+      "status_PARTIAL": 54
+    },
+    "cpu_s": 892.02,
+    "definition": "7c299a853f4ba141",
+    "disconnected_since_ms": null,
+    "dropped_records": 0,
+    "dynamic_universe": false,
+    "feature_version": "microstructure_1m_v1",
+    "flush_ms": {
+      "max": 3.364279997185804,
+      "p50": 1.5023840096546337
+    },
+    "git_commit": "530ba0d18c3009352eee21bb7f1a1c01004ab73a",
+    "last_error": "ConnectionClosedOK: received 1000 (OK) Expired; then sent 1000 (OK) Expired",
+    "last_message_age_s": 0.4,
+    "latency_ms": {
+      "n": 4000,
+      "p50": 408,
+      "p90": 614,
+      "p99": 1037
+    },
+    "max_rss_mb": 210.7,
+    "msgs_per_s_60s": 22.35,
+    "pending_records": 0,
+    "pid": 625,
+    "processing_us": {
+      "p50": 18.6,
+      "p99": 74.7
+    },
+    "raw": true,
+    "raw_bytes_written": 44897170,
+    "raw_paused": false,
+    "reconnects": 8,
+    "role": "authoritative",
+    "run_id": "msrun_92299ff05c2d47b8",
+    "runtime_id": "vps-prism-autotrader-lab-rehearsal",
+    "spool_errors": 0,
+    "started_ms": 1792086775063,
+    "subscription_error": null,
+    "url": "wss://api.hyperliquid.xyz/ws",
+    "written_ms": 1792167710871
+  },
+  "free_collector": {
+    "heartbeat_at": "2026-10-16T16:21:52.372331+00:00",
+    "backlog": null,
+    "ingested": null,
+    "active": [
+      "hyperliquid_status_v1",
+      "coinbase_status_v1",
+      "kraken_status_v1"
+    ],
+    "providers": null,
+    "db_opened": null
+  },
+  "free_ingest": {
+    "heartbeat_at": "2026-10-16T16:21:52.716636+00:00",
+    "backlog": 0,
+    "ingested": 0,
+    "active": null,
+    "providers": null,
+    "db_opened": null
+  }
+}

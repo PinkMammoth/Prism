@@ -1,0 +1,16 @@
+{
+  "source_archive": "/home/matth/prism/data/backup-archive/vps/prism-20261016T141031Z-pre-deploy-c6b6e9da7e0d.duckdb.gz",
+  "database_size": {
+    "database_name": "baseline",
+    "database_size": "148.7 MiB",
+    "block_size": 262144,
+    "total_blocks": 595,
+    "used_blocks": 500,
+    "free_blocks": 95,
+    "wal_size": "0 bytes",
+    "memory_usage": "22.5 MiB",
+    "memory_limit": "12.1 GiB"
+  },
+  "purpose": "Resource allocation inspection of already verified pre-deploy off-host backup; no new production write",
+  "temporary_copy_removed": true
+}

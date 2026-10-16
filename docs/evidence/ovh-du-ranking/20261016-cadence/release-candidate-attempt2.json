@@ -110,7 +110,15 @@
     "deploy/vps/activate_du_data.py": "f12039a006378c459f01ed5dc6fa283d910e21df333464009a08a9a7c1ce7a94"
   },
   "archive_sha256": "587daa0d5f8e251ca714a9af82578d73f496ee8d85b0768db8ccd9d7d6e01824",
-  "deployed": false,
-  "activated": false,
-  "validation": "Complete1809-case coverage:1807 passed,1 skipped,1 frozen sizing provenance failure retained. Cadence23 passed; Ruff/format/diffcheck passed. Awaiting candidate-specific user exception."
+  "deployed": true,
+  "activated": true,
+  "validation": "1807 passed,1 skipped,1 retained frozen sizing provenance failure; exact c6b6e9d ranking-only exception explicitly approved by user.",
+  "activation_at": "2026-10-16T14:12:19.818775+00:00",
+  "budget_sha256": "9bb2f480052a94eb26f050772adbaae2041dc2e4c93988beb650a535a0837618",
+  "activation_budget_sha256": "9bb2f480052a94eb26f050772adbaae2041dc2e4c93988beb650a535a0837618",
+  "active_measured_budget_sha256": "701eab3711310d0cf9a6a724e04ce8a62fd02df1bfd5768e61a7d2ff15fb3c9b",
+  "ranking_validation": "RANKING VALIDATION PASS WITH SPECIFIC LIMITATIONS",
+  "new_genuine_evaluations": 13,
+  "accepted_span_seconds": 7200,
+  "warming": "OFF; NOT READY"
 }

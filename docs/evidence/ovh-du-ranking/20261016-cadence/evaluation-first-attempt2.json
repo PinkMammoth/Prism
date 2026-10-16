@@ -1,0 +1,76 @@
+{
+  "at": "2026-10-16T14:22:52.348798+00:00",
+  "evaluations": 2,
+  "evidence_times": [
+    1792144239,
+    1792160439
+  ],
+  "last_event": {
+    "candidates": 27,
+    "child_completed_at": 1792160442.7292783,
+    "child_cpu_seconds": 8.002350999999999,
+    "children_peak_rss_kib_since_worker_start": 399596,
+    "evaluation_id": "universeeval_475f20fe336add1b1373f388214eb945ff0cd7038dc55e449e7ab9975d51c907",
+    "evaluation_started_at": 1792160400.0015295,
+    "event": "universe_refresh",
+    "missed_before_start": 0,
+    "next_scheduled_deadline": 1792161000,
+    "returncode": 0,
+    "scheduled_deadline": 1792160400,
+    "scheduler_version": "utc_600s_slots_v1",
+    "skipped_deadlines": 0,
+    "source_error_count": 0,
+    "status": "ACCEPTED",
+    "telemetry": {
+      "api": {
+        "captured_response_body_bytes": 291157,
+        "declared_response_bytes": 291157,
+        "header_latency_seconds_max": 0.4562895160051994,
+        "header_latency_seconds_p50": 0.23438363800232764,
+        "header_latency_seconds_p95": 0.35322756999812555,
+        "request_types": {
+          "candleSnapshot": 30,
+          "l2Book": 30,
+          "metaAndAssetCtxs": 11,
+          "perpDexs": 1
+        },
+        "requests": 72,
+        "statuses": {
+          "200": 72
+        },
+        "transport_failures": 0
+      },
+      "continuity_gap_seconds": 16200,
+      "evidence_clock": 1792160439,
+      "outcomes_db_commit_completed_at": 1792160441.9945016,
+      "outcomes_db_commit_started_at": 1792160441.9375498,
+      "previous_evidence_clock": 1792144239,
+      "ranking_computed_at": 1792160440.1443586,
+      "ranking_db_commit_completed_at": 1792160441.9375463,
+      "ranking_db_commit_started_at": 1792160441.7347944,
+      "refresh_completed_at": 1792160442.344582,
+      "refresh_started_at": 1792160401.4417682,
+      "runtime_lock_acquired_at": 1792160438.795809,
+      "runtime_lock_requested_at": 1792160438.7953427,
+      "runtime_lock_wait_seconds": 0.00046634674072265625,
+      "source_fetch_started_at": 1792160402.9910724,
+      "source_refresh_completed_at": 1792160438.7952185
+    }
+  },
+  "checks_all_pass": true,
+  "stop_conditions": [],
+  "db_error_type": null,
+  "available_ram": 11006611456,
+  "disk_free": 94494068736,
+  "cpu_busy_percent": 0.29637760702524696,
+  "load": [
+    0.11767578125,
+    0.150390625,
+    0.12744140625
+  ],
+  "core_connected": true,
+  "core_pid": 625,
+  "free_backlog": 0,
+  "profile": "prism_autotrader_lab_v2",
+  "observer_active": "active"
+}

@@ -1,5 +1,7 @@
 # OVH ranking admission and Research backup closure — 2026-10-16
 
+**Historical admission report. Current state is superseded by [completed c6b6e9d ranking validation](OVH_DU_CADENCE_RANKING_VALIDATION.md): Lab v2 ranking active;13 new genuine evaluations passed exactly2h with specific limitations. Warming remains NOT READY/OFF. Research closure below remains valid.**
+
 Research backup alert **closed**. Ranking resource verdict: **PASS WITH SPECIFIC LIMITATIONS**.
 Ranking was **not activated**: a newly reproduced defect in the exact prepared DU worker
 violates the required observation cadence. Warming readiness: **NOT READY**.

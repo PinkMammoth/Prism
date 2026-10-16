@@ -1,0 +1,101 @@
+warning: c6b6e9da7e0d2e04f265e5fec9d1dde9a0a7d67c is not on any remote branch yet (push it so the revision is recoverable)
+Using CPython 3.12.3
+Creating virtual environment at: .venv
+   Building prism-market-signal @ file:///opt/prism/releases/c6b6e9da7e0d2e04f265e5fec9d1dde9a0a7d67c
+      Built prism-market-signal @ file:///opt/prism/releases/c6b6e9da7e0d2e04f265e5fec9d1dde9a0a7d67c
+Prepared 1 package in 554ms
+Installed 63 packages in 79ms
+ + altair==6.3.0
+ + annotated-doc==0.0.5
+ + annotated-types==0.8.0
+ + anyio==4.15.1
+ + attrs==26.1.0
+ + certifi==2026.7.22
+ + cffi==2.1.1
+ + charset-normalizer==3.5.1
+ + click==8.5.0
+ + cryptography==50.0.2
+ + duckdb==1.5.5
+ + h11==0.16.0
+ + httpcore==1.0.9
+ + httptools==0.8.0
+ + httpx==0.28.1
+ + httpx-sse==0.4.3
+ + idna==3.20
+ + itsdangerous==2.2.0
+ + jinja2==3.1.6
+ + jsonschema==4.26.0
+ + jsonschema-specifications==2025.9.1
+ + markdown-it-py==4.2.0
+ + markupsafe==3.0.3
+ + mcp==1.30.0
+ + mdurl==0.1.2
+ + narwhals==2.26.0
+ + numpy==2.5.3
+ + packaging==26.3
+ + pandas==3.0.6
+ + pillow==12.3.0
+ + plotly==7.1.0
+ + prism-market-signal==0.1.0 (from file:///opt/prism/releases/c6b6e9da7e0d2e04f265e5fec9d1dde9a0a7d67c)
+ + protobuf==7.36.2
+ + pyarrow==25.0.1
+ + pycparser==3.1
+ + pydantic==2.13.5
+ + pydantic-core==2.46.5
+ + pydantic-settings==2.15.0
+ + pydeck==0.9.3
+ + pygments==2.21.0
+ + pyjwt==2.15.1
+ + python-dateutil==2.9.0.post0
+ + python-dotenv==1.2.3
+ + python-multipart==0.0.32
+ + pytz==2026.4
+ + pyyaml==6.0.3
+ + referencing==0.37.0
+ + requests==2.34.2
+ + rich==15.0.0
+ + rpds-py==2026.6.3
+ + shellingham==1.5.4
+ + six==1.17.0
+ + sse-starlette==3.5.0
+ + starlette==1.7.0
+ + streamlit==1.64.0
+ + toml==0.10.2
+ + typer==0.27.2
+ + typing-extensions==4.16.0
+ + typing-inspection==0.4.4
+ + urllib3==2.8.0
+ + uvicorn==0.53.0
+ + watchdog==6.0.0
+ + websockets==16.1.1
+== profile check (fail closed) with the new release
+== pre-deploy backup (authoritative/rehearsal database only)
+2026-10-16T14:10:40Z INFO backup /data/backups/manual/prism-20261016T141031Z-pre-deploy-c6b6e9da7e0d.duckdb verified (143.0 MiB, sha256 5afa86a24770…); pruned 1
+{
+  "path": "/data/backups/manual/prism-20261016T141031Z-pre-deploy-c6b6e9da7e0d.duckdb",
+  "sha256": "5afa86a247705549214201735006af3c87413a189361294c86089b73ea16e0ef",
+  "bytes": 149958656,
+  "schema_version": 31,
+  "paper_runs": [],
+  "weekly": null,
+  "pruned": [
+    "/data/backups/manual/prism-20261016T093742Z-pre-deploy-b10d13a31387.duckdb"
+  ]
+}
+== installed c6b6e9da7e0d2e04f265e5fec9d1dde9a0a7d67c (previous: /opt/prism/releases/b10d13a313870f0975842f1ee77e7b9938879359)
+UNIT                                LOAD   ACTIVE SUB     DESCRIPTION
+prism-free-source-ingest.service    loaded active running Prism free-source spool ingest (authoritative DB writer under the runtime lock)
+prism-free-sources.service          loaded active running Prism free public event-source collector (spool only; never opens DuckDB)
+prism-lab-remediation-close.service loaded active exited  /opt/prism/current/.venv/bin/python /etc/prism/lab-remediation/close_unattended.py
+prism-microstructure.service        loaded active running Prism Hyperliquid microstructure collector (public data -> spool; never opens DuckDB)
+prism-scheduler.service             loaded active running Prism scheduler (supercronic; the ONLY scheduling authority on this host)
+prism-soak.service                  loaded active running Prism soak sampler (read-only observation)
+prism-lab-remediation-close.timer   loaded active running /opt/prism/current/.venv/bin/python /etc/prism/lab-remediation/close_unattended.py
+prism-research-backup.timer         loaded active waiting Nightly Prism Research backup to Google Drive
+
+LOAD   = Reflects whether the unit definition was properly loaded.
+ACTIVE = The high-level unit activation state, i.e. generalization of SUB.
+SUB    = The low-level unit activation state, values depend on unit type.
+8 loaded units listed. Pass --all to see loaded but inactive units, too.
+To show all installed unit files use 'systemctl list-unit-files'.
+== deployed c6b6e9da7e0d2e04f265e5fec9d1dde9a0a7d67c to debian@178.33.95.139. Check: ssh debian@178.33.95.139 'sudo -u prism /opt/prism/current/.venv/bin/market ops profile'

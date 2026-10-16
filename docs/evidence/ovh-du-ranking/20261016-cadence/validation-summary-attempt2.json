@@ -16,7 +16,9 @@
   "permitted_focused_passed": 3,
   "permitted_remaining_passed": 832,
   "environmental_failures_resolved": "Two loopback bind failures rerun passed with permission; a restricted Context TestClient timeout reproduced and passed permitted in0.60s. Interrupted949 completed passes preserved; only uncompleted cases rerun.",
-  "gate": "AWAITING USER RANKING-ONLY EXCEPTION FOR c6b6e9d; prior approval named b10d13a",
+  "gate": "APPROVED exact c6b6e9d ranking-only exception; deployed and thirteen fresh genuine evaluations passed7200s. Frozen sizing guard remains failed; no warming/sizing permission.",
   "sizing_guard_retained_unchanged": true,
-  "recorded_at": "2026-10-16T12:16:25.451087+00:00"
+  "recorded_at": "2026-10-16T12:16:25.451087+00:00",
+  "user_approval": "APPROVED exact c6b6e9d ranking only; see approval-c6b6e9d.json",
+  "ranking_window_completed_at": "2026-10-16T16:21:20.171427+00:00"
 }

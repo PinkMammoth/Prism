@@ -1,0 +1,24 @@
+{
+  "fixture_only": true,
+  "no_host_mutations": true,
+  "passed": 17,
+  "cases": [
+    "healthy live metadata fixture",
+    "stale accepted evidence",
+    "wrong profile digest",
+    "DB transaction over30s",
+    "expired resource receipt",
+    "higher measured growth safety floor",
+    "13 genuine and7200s",
+    "old single observation insufficient",
+    "12 observations insufficient",
+    "7199s insufficient",
+    "failed window rejected",
+    "warming stage",
+    "wrong policy",
+    "satellite subscription",
+    "unexpected risk pin",
+    "satellite entry eligibility",
+    "satellite rich segment"
+  ]
+}

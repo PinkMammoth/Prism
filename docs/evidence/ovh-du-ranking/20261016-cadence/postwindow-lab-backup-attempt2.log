@@ -1,0 +1,12 @@
+2026-10-16T16:26:05Z INFO backup /data/backups/manual/prism-20261016T162555Z-du-ranking-validation-c6b6e9d.duckdb verified (148.5 MiB, sha256 0a561fe6547e…); pruned 1
+{
+  "path": "/data/backups/manual/prism-20261016T162555Z-du-ranking-validation-c6b6e9d.duckdb",
+  "sha256": "0a561fe6547e0737f3fbab9e53d0b174483e22165df4a3c6e6771eda2b0be90e",
+  "bytes": 155725824,
+  "schema_version": 31,
+  "paper_runs": [],
+  "weekly": null,
+  "pruned": [
+    "/data/backups/manual/prism-20261016T141031Z-pre-deploy-c6b6e9da7e0d.duckdb"
+  ]
+}

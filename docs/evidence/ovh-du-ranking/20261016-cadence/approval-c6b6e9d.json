@@ -1,0 +1,15 @@
+{
+  "approved_revision": "c6b6e9da7e0d2e04f265e5fec9d1dde9a0a7d67c",
+  "authority": "explicit user approval in current session",
+  "supersedes": "b10d13a exception",
+  "scope": "ranking-only deployment and 13 new genuine evaluations spanning at least 7200 seconds",
+  "exception": "1807 passed, 1 skipped, frozen sizing provenance guard failed and retained",
+  "forbidden": [
+    "warming",
+    "sizing cohort",
+    "paper/execution",
+    "real-money access",
+    "Research authority transfer"
+  ],
+  "automatic_rollback_required": true
+}
