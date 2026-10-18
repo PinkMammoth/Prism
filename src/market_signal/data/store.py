@@ -1732,9 +1732,11 @@ class Store:
         lock_timeout: float = 0.0,
         on_wait: Callable[[str], None] | None = None,
         authority_check: bool = True,
+        connect_config: dict[str, str] | None = None,
     ):
         self.path = Path(path)
         self.raw_dir = Path(raw_dir) if raw_dir else self.path.parent / "raw"
+        self.connect_config = dict(connect_config or {})
         guarded = authority_check and not read_only and str(path) != ":memory:"
         if guarded and not self.path.exists():
             check_authority(None, self.path)  # never create a fresh "live" database
@@ -1758,7 +1760,9 @@ class Store:
         delay, told = 0.25, False
         while True:
             try:
-                return duckdb.connect(str(self.path), read_only=read_only)
+                return duckdb.connect(
+                    str(self.path), read_only=read_only, config=self.connect_config
+                )
             except duckdb.IOException as exc:
                 if not _is_lock_error(exc):
                     raise

@@ -19,7 +19,9 @@ def latest(store, *, at=None):
         "SELECT count(*) FROM information_schema.tables WHERE table_name='universe_evaluations'"
     ).fetchone()[0]:
         return None
-    sql = "SELECT evaluation_id,payload FROM universe_evaluations WHERE policy_id=?"
+    # Sorting with the BLOB projected can materialize historical payloads even
+    # though only one evaluation is needed. Keep the ordering query scalar-only.
+    sql = "SELECT evaluation_id FROM universe_evaluations WHERE policy_id=?"
     params = [POLICY.identity]
     if at is not None:
         sql += " AND evaluated_at<=?"
@@ -27,7 +29,10 @@ def latest(store, *, at=None):
     row = store.con.execute(sql + " ORDER BY evaluated_at DESC LIMIT 1", params).fetchone()
     if not row:
         return None
-    result = json.loads(gzip.decompress(row[1]))
+    payload = store.con.execute(
+        "SELECT payload FROM universe_evaluations WHERE evaluation_id=?", [row[0]]
+    ).fetchone()[0]
+    result = json.loads(gzip.decompress(payload))
     result["evaluation_id"] = row[0]
     return result
 

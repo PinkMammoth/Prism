@@ -21,11 +21,14 @@ LOCK_TIMEOUT = float(os.environ.get("PRISM_LOCK_TIMEOUT", "600"))
 
 
 @contextmanager
-def open_store(read_only: bool = False) -> Iterator[tuple[Settings, Store]]:
+def open_store(
+    read_only: bool = False, *, connect_config: dict[str, str] | None = None
+) -> Iterator[tuple[Settings, Store]]:
     settings = get_settings()
     try:
         store = Store(settings.paths.db, settings.paths.raw, read_only=read_only,
-                      lock_timeout=LOCK_TIMEOUT, on_wait=lambda m: console.print(f"[yellow]{m}[/]"))  # fmt: skip
+                      lock_timeout=LOCK_TIMEOUT, on_wait=lambda m: console.print(f"[yellow]{m}[/]"),
+                      connect_config=connect_config)  # fmt: skip
     except DatabaseBusy as exc:
         console.print(f"[red]Gave up after {exc.waited:.0f}s: {exc.holder} still has the database open. "
                       + (f"If nothing should be running, check it with `ps -fp {exc.pid}`.[/]" if exc.pid else "[/]"))  # fmt: skip

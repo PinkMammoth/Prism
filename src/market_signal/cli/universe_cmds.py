@@ -16,6 +16,9 @@ from market_signal.universe import ledger
 
 universe = typer.Typer(no_args_is_help=True, help="Prospective dynamic Hyperliquid market radar")
 JSON = typer.Option(False, "--json")
+# Apply before opening the DB: SET after connection misses catalog/startup allocation.
+# This applies only to radar refreshes; other CLI jobs retain their current defaults.
+REFRESH_DB_CONFIG = {"threads": "1", "memory_limit": "64MB"}
 
 
 def _out(value, as_json):
@@ -102,7 +105,7 @@ def _refresh_once(warming):
 
     timing = {"refresh_started_at": time.time()}
     now = int(timing["refresh_started_at"])
-    with open_store(read_only=True) as (_, store):
+    with open_store(read_only=True, connect_config=REFRESH_DB_CONFIG) as (_, store):
         prepared = source.prepare(store, now)
         path = store.path
     if not cadence.due(prepared["previous"], now):
@@ -133,7 +136,7 @@ def _refresh_once(warming):
         timing["runtime_lock_wait_seconds"] = (
             timing["runtime_lock_acquired_at"] - timing["runtime_lock_requested_at"]
         )
-        with open_store() as (_, store):
+        with open_store(connect_config=REFRESH_DB_CONFIG) as (_, store):
             # This is the existing evidence clock, sampled at commit entry. Do not replace
             # it with the nominal slot or call it the completed transaction timestamp.
             evidence_clock = int(datetime.now(UTC).timestamp())
