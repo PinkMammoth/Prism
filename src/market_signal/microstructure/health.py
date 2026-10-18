@@ -117,10 +117,10 @@ def evaluate(store: Store | None, spool: Spool, now: datetime | None = None) -> 
         recent = coverage(store, now, minutes=GAP_WINDOW_MIN)
         status = col["status"] or {}
         dynamic = status.get("dynamic_universe", False)
-        if dynamic:
-            from market_signal.universe.policy import CORE
-
-            required = set(CORE) | set(status.get("coins", {}))
+        if status.get("coins"):
+            # Stored satellite history survives retirement and rollback. Judge live
+            # acquisition only for the configured core and currently subscribed set.
+            required = set(d.COINS) | set(status["coins"])
             if len(cov):
                 cov = cov[cov.coin.isin(required)]
             if len(recent):
