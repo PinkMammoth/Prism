@@ -341,6 +341,17 @@ def test_subscription_plan_pins_staleness_and_identity(tmp_path):
     assert len({json.dumps(s, sort_keys=True) for s in subscriptions(desired)}) == 4 * len(desired)
 
 
+def test_explicit_static_collector_ignores_retained_warming_plan(tmp_path):
+    out, _ = cycle([market()])
+    out["evaluation_id"] = "synthetic"
+    publish(tmp_path, out, role="scratch", runtime_id="test")
+    c = Collector(Spool(tmp_path), CORE, role="scratch", runtime_id="test", dynamic=False)
+    assert not c.dynamic
+    assert set(c.coins) == set(CORE)
+    implicit = Collector(Spool(tmp_path), CORE, role="scratch", runtime_id="test")
+    assert implicit.dynamic
+
+
 def test_collector_dynamic_add_remove_keeps_core_and_reconnect_set(tmp_path):
     out, _ = cycle([market()])
     out["evaluation_id"] = "synthetic"

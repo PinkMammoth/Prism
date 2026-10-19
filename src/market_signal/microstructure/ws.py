@@ -116,10 +116,12 @@ class Collector:
     def __init__(self, spool: Spool, coins: tuple[str, ...] = d.COINS, *, url: str = d.WS_URL,
                  role: str = "", runtime_id: str = "", git_commit: str | None = None,
                  raw: bool = True, duration_s: float | None = None,
-                 spool_days: int = 8, raw_days: int = 1, dynamic: bool = False):  # fmt: skip
+                 spool_days: int = 8, raw_days: int = 1, dynamic: bool | None = None):  # fmt: skip
         self.spool = spool
         self.coins = tuple(sorted(set(coins)))
-        self.dynamic = dynamic or (spool.root / "universe_subscriptions.json").exists()
+        # An explicit static profile must win over a retained warming plan.
+        self.dynamic = ((spool.root / "universe_subscriptions.json").exists()
+                        if dynamic is None else dynamic)
         self.subscription_error = None
         self.url = url
         self.role, self.runtime_id, self.git_commit = role, runtime_id, git_commit
