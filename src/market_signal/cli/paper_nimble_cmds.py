@@ -32,9 +32,10 @@ def _execution(action):
 def register_policy(
     events: bool = typer.Option(False, "--events"),
     dynamic: bool = typer.Option(False, "--dynamic-universe"),
+    core: bool = typer.Option(False, "--core-six", help="Static core-six successor policy."),
 ):
     _execution("register")
-    call(lambda s: engine.register(s, events=events, dynamic=dynamic), write=True)
+    call(lambda s: engine.register(s, events=events, dynamic=dynamic, core=core), write=True)
 
 
 @nimble.command("create")
@@ -42,6 +43,7 @@ def create(
     events: bool = typer.Option(False, "--events"),
     variant: str = typer.Option(None),
     dynamic: bool = typer.Option(False, "--dynamic-universe"),
+    core: bool = typer.Option(False, "--core-six", help="Exactly one static core-six account."),
 ):
     _execution("create")
     if events and dynamic:
@@ -53,7 +55,7 @@ def create(
         r = (
             engine.create_cohorts(s)
             if events and variant == "both"
-            else engine.create(s, events=events, variant=variant, dynamic=dynamic)
+            else engine.create(s, events=events, variant=variant, dynamic=dynamic, core=core)
         )
         publish(
             marker(s.path),
@@ -90,6 +92,17 @@ def evaluate():
 @nimble.command("status")
 def status(run_id: str = typer.Option(None), as_json: bool = JSON):
     call(lambda s: report.status(s, _rid(s, run_id)), as_json=as_json)
+
+
+@nimble.command("funnel")
+def funnel(
+    run_id: str = typer.Option(None),
+    start: str = typer.Option(None, help="UTC window start (default: activation)."),
+    end: str = typer.Option(None, help="UTC window end (default: now)."),
+    as_json: bool = JSON,
+):
+    """READ-ONLY opportunity funnel, accounting, latency and input frontiers."""
+    call(lambda s: report.funnel(s, _rid(s, run_id), start=start, end=end), as_json=as_json)
 
 
 @nimble.command("trades")
@@ -155,11 +168,16 @@ def brief(
         if not engine.runs(s):
             return {"recorded": False, "reason": "nimble not activated"}
         sender = None
+        unconfigured = False
         if send:
             from market_signal.config import get_settings
-            from market_signal.portfolio.telegram import TelegramClient
+            from market_signal.portfolio.telegram import TelegramClient, TelegramError
 
-            sender = TelegramClient.from_settings(get_settings()).send
+            try:
+                sender = TelegramClient.from_settings(get_settings()).send
+            except TelegramError:
+                # No delivery channel: the daily report is still recorded, never skipped.
+                unconfigured = True
         from market_signal.paper.nimble import event_spec, spec
 
         runs = engine.runs(s)
@@ -188,6 +206,8 @@ def brief(
                 return sender(text)
 
         result = report.record_daily(s, baseline, sender=deliver, trade_details=trade_details)
+        if unconfigured:
+            result["delivery"] = "unconfigured"
         return {**result, "event_cohort_reports": others}
 
     result = call(go, write=True)

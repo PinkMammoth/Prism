@@ -9,6 +9,7 @@ import pandas as pd
 
 from market_signal.models.domain import utcnow
 from market_signal.paper.v2 import report as baseline_report
+from market_signal.paper.v2 import spec as baseline
 from market_signal.paper.v2.data import clean, ts
 from market_signal.research.lab.common import canonical_json, content_id
 
@@ -324,3 +325,216 @@ def record_daily(store, rid, *, sender=None, day=None, trade_details=False):
         "delivery": delivery,
         "per_trade_notifications": False,
     }
+
+
+_DEFERRED = (
+    "EXECUTABLE_QUOTE_UNAVAILABLE",
+    "FUNDING_UNAVAILABLE",
+    "VENUE_UNAVAILABLE",
+    "THESIS_ALREADY_STALE",
+    "INVALID_TIMING",
+)
+
+
+def _frontiers(store, now):
+    """Latest known decision inputs per core asset, so a quiet run is attributable."""
+    out = {}
+    for coin in baseline.COINS:
+        bar = store.con.execute(
+            "SELECT max(close_time),max(first_observed_at) FROM perp_intraday_bars "
+            "WHERE source='hyperliquid' AND timeframe='1h' AND coin=? AND first_observed_at<=?",
+            [coin, now.to_pydatetime()],
+        ).fetchone()
+        oi = store.con.execute(
+            "SELECT max(captured_at) FROM context_hl_oi_hourly WHERE coin=? AND captured_at<=?",
+            [coin, now.to_pydatetime()],
+        ).fetchone()[0]
+        minute = store.con.execute(
+            "SELECT max(minute_open) FROM microstructure_minutes WHERE coin=? "
+            "AND status='COMPLETE' AND ingested_at<=?",
+            [coin, now.to_pydatetime()],
+        ).fetchone()[0]
+        funding = store.con.execute(
+            "SELECT max(time) FROM perp_funding WHERE source='hyperliquid' AND coin=? "
+            "AND available_at<=?",
+            [coin, now.to_pydatetime()],
+        ).fetchone()[0]
+        out[coin] = {
+            "bar_1h_close": bar[0],
+            "bar_1h_observed": bar[1],
+            "oi_capture": oi,
+            "complete_minute": minute,
+            "settled_funding": funding,
+        }
+    return clean(
+        {
+            coin: {
+                k: {"at": ts(v).isoformat(), "age_minutes": (now - ts(v)).total_seconds() / 60}
+                if v is not None
+                else None
+                for k, v in values.items()
+            }
+            for coin, values in out.items()
+        }
+    )
+
+
+def _worker_heartbeat(store, now):
+    try:
+        hb = json.loads((store.path.parent / "paper_nimble_worker.json").read_text())
+    except (OSError, ValueError):
+        return None
+    return {
+        "heartbeat_at": hb.get("heartbeat_at"),
+        "age_seconds": (now - ts(hb["heartbeat_at"])).total_seconds()
+        if hb.get("heartbeat_at")
+        else None,
+        "state": hb.get("state"),
+    }
+
+
+def funnel(store, rid, *, start=None, end=None):
+    """Read-only opportunity funnel: evaluation -> signal -> admission -> fill -> exit -> accounts.
+
+    Unevaluated grid instants are candidates whose required inputs never became ready while
+    their grid was current (the engine retries them silently); input frontiers explain them.
+    """
+    run = engine.load(store, rid)
+    activation = ts(run["activated_at"])
+    now = ts(utcnow())
+    lo = max(activation, ts(start)) if start else activation
+    hi = min(now, ts(end)) if end else now
+    hs = engine.hypotheses(store, rid)
+    window = [lo.to_pydatetime(), hi.to_pydatetime()]
+    rows = store.con.execute(
+        "SELECT hypothesis_id,fired,admission,coalesce(rejection_reason,''),count(*) "
+        "FROM paper_nimble_opportunities WHERE run_id=? AND evaluated_at>? AND evaluated_at<=? "
+        "GROUP BY ALL",
+        [rid, *window],
+    ).fetchall()
+    phase = {h.hypothesis_id: h.source_phase for h in hs}
+    evaluated, fired, outcome = Counter(), Counter(), Counter()
+    for hid, f, admission, reason, n in rows:
+        evaluated[phase.get(hid, "other")] += n
+        if f:
+            fired[phase.get(hid, "other")] += n
+            outcome[reason or admission] += n
+        else:
+            outcome["not_fired:" + (reason or admission)] += n
+    expected = missed = 0
+    for h in hs:
+        step = pd.Timedelta(minutes=h.cadence_minutes)
+        grid = pd.date_range(activation.floor(step) + step, hi - step, freq=step)
+        grid = [g for g in grid if g > lo - step and g > activation]
+        if not grid:
+            continue
+        seen = store.con.execute(
+            "SELECT count(DISTINCT (asset,signal_at)) FROM paper_nimble_opportunities "
+            "WHERE run_id=? AND hypothesis_id=? AND signal_at>=? AND signal_at<=?",
+            [rid, h.hypothesis_id, grid[0].to_pydatetime(), grid[-1].to_pydatetime()],
+        ).fetchone()[0]
+        expected += len(grid) * len(baseline.COINS)
+        missed += len(grid) * len(baseline.COINS) - seen
+    ps = [
+        p
+        for p in engine.positions(store, rid, terminal=True)
+        if lo < ts(p["intent_at"]) <= hi or p["state"] in ("PENDING", "OPEN", "EXIT_PENDING")
+    ]
+    opened = [p for p in ps if p.get("entry_at")]
+    closed = [p for p in opened if p["state"] == "CLOSED"]
+    m = metrics(closed, equity=100.0, days=max((hi - lo).total_seconds() / 86400, 1 / 1440))
+    ac = engine.account(store, rid)
+    return clean(
+        {
+            "mode": "paper",
+            "run_id": rid,
+            "policy_id": run["policy_id"],
+            "version": json.loads(run["definition"])["version"],
+            "window": {"start": lo.isoformat(), "end": hi.isoformat()},
+            "evaluations": {
+                "recorded": sum(evaluated.values()),
+                "by_phase": dict(evaluated),
+                "expected_grid_candidates": expected,
+                "deferred_never_ready": missed,
+            },
+            "signals_fired": {"total": sum(fired.values()), "by_phase": dict(fired)},
+            "outcomes": dict(sorted(outcome.items())),
+            "economic_rejects": outcome.get("UNECONOMIC_TARGET", 0),
+            "deferred_or_unavailable": {k: outcome.get(k, 0) for k in _DEFERRED},
+            "admitted_intents": outcome.get("ADMITTED", 0),
+            "supported_existing": outcome.get("SUPPORTED", 0),
+            "intents": {
+                "total": len(ps),
+                "by_state": dict(Counter(p["state"] for p in ps)),
+                "cancellations": dict(
+                    Counter(p.get("reason") for p in ps if p["state"] == "CANCELLED")
+                ),
+                "execution_expired": sum(p.get("reason") == "EXECUTION_EXPIRED" for p in ps),
+            },
+            "fills": len(opened),
+            "open_positions": [
+                {
+                    k: p.get(k)
+                    for k in (
+                        "trade_id",
+                        "asset",
+                        "side",
+                        "hypothesis_id",
+                        "state",
+                        "entry_at",
+                        "entry_fill",
+                        "notional",
+                        "unrealised",
+                    )
+                }
+                for p in opened
+                if p["state"] in ("OPEN", "EXIT_PENDING")
+            ],
+            "closes": {
+                "total": len(closed),
+                "exit_reasons": m["exit_reasons"],
+                "accounting_final": sum(bool(p.get("accounting_final")) for p in closed),
+                "accounting_provisional": sum(not p.get("accounting_final") for p in closed),
+            },
+            "pnl": {
+                k: m[k]
+                for k in (
+                    "price_pnl",
+                    "gross_pnl",
+                    "net_pnl",
+                    "fees",
+                    "slippage",
+                    "funding",
+                    "unsettled_adverse_reserve",
+                    "liquidation_adjustment",
+                )
+            },
+            "latency_seconds": {
+                "intent_to_fill": _latencies([p.get("intent_to_fill_seconds") for p in opened]),
+                "evidence_to_fill": _latencies([p.get("entry_latency_seconds") for p in opened]),
+                "exit_condition_to_fill": _latencies(
+                    [p.get("exit_latency_seconds") for p in closed]
+                ),
+                "exit_intent_to_fill": _latencies(
+                    [p.get("decision_to_fill_seconds") for p in closed]
+                ),
+            },
+            "capital_utilisation": m["capital_utilization"],
+            "account": {
+                k: ac.get(k)
+                for k in (
+                    "status",
+                    "cash",
+                    "equity",
+                    "peak",
+                    "drawdown",
+                    "max_drawdown",
+                    "gross_notional",
+                )
+            },
+            "worker": _worker_heartbeat(store, now),
+            "input_frontiers": _frontiers(store, now),
+            "interpretation": "exploratory execution evidence; signal evidence is separate "
+            "(paper_nimble_research forward curves)",
+        }
+    )

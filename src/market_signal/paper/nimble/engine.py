@@ -21,7 +21,7 @@ from market_signal.paper.v2 import spec as baseline
 from market_signal.paper.v2.data import clean, ts
 from market_signal.research.lab.common import canonical_json, content_id
 
-from . import dynamic_spec, event_spec, spec
+from . import core_spec, dynamic_spec, event_spec, spec
 from .model import ExecutionThesis, build_thesis, economics, fill, sign
 
 
@@ -42,10 +42,14 @@ def current(store):
     return rs[-1]["run_id"]
 
 
-def register(store, *, now=None, events=False, dynamic=False):
-    if events and dynamic:
-        raise ValueError("dynamic event cohorts are not released")
-    policy = dynamic_spec if dynamic else event_spec if events else spec
+def _policy(*, events=False, dynamic=False, core=False):
+    if sum((events, dynamic, core)) > 1:
+        raise ValueError("event, dynamic and core-six policies are separate experiments")
+    return dynamic_spec if dynamic else event_spec if events else core_spec if core else spec
+
+
+def register(store, *, now=None, events=False, dynamic=False, core=False):
+    policy = _policy(events=events, dynamic=dynamic, core=core)
     at = ts(now or utcnow())
     store.con.execute(
         "INSERT INTO paper_nimble_policies VALUES (?,?,?) ON CONFLICT DO NOTHING",
@@ -54,7 +58,7 @@ def register(store, *, now=None, events=False, dynamic=False):
     return {
         "policy_id": policy.policy_id(),
         "risk_policy_id": spec.risk_id(),
-        "hypotheses": 34 if events else 28,
+        "hypotheses": 34 if events else len(core_spec.bootstrap()) if core else 28,
         "version": policy.VERSION,
         "mode": "paper",
     }
@@ -73,6 +77,8 @@ def load(store, rid):
         if run["policy_id"] == dynamic_spec.policy_id()
         else event_spec
         if run["policy_id"] == event_spec.policy_id()
+        else core_spec
+        if run["policy_id"] == core_spec.policy_id()
         else spec
     )
     if (
@@ -82,13 +88,13 @@ def load(store, rid):
         or run["risk_policy_id"] != spec.risk_id()
     ):
         raise ValueError("frozen nimble policy identity/content mismatch")
-    if policy is dynamic_spec:
+    if policy in (dynamic_spec, core_spec):
         d = json.loads(run["definition"])
         if (
-            d.get("entry_universe_id") != dynamic_spec.universe_id()
+            d.get("entry_universe_id") != policy.universe_id()
             or content_id("paperrun_nimble_", d) != rid
         ):
-            raise ValueError("frozen dynamic run identity mismatch")
+            raise ValueError("frozen dynamic/core-six run identity mismatch")
     if policy is event_spec:
         d = json.loads(run["definition"])
         if (
@@ -105,6 +111,8 @@ def hypotheses(store, rid):
     if run["policy_id"] == event_spec.policy_id():
         variant = json.loads(run["definition"])["event_variant"]
         return (*baseline.bootstrap(), *(h for h in event_spec.bootstrap() if h.variant == variant))
+    if run["policy_id"] == core_spec.policy_id():
+        return core_spec.bootstrap()
     return baseline.bootstrap()
 
 
@@ -269,10 +277,10 @@ def verify_baseline(store, rid):
     }
 
 
-def create(store, *, now=None, comparison_days=7, events=False, variant=None, dynamic=False):
-    if events and dynamic:
-        raise ValueError("dynamic event cohorts are not released")
-    policy = dynamic_spec if dynamic else event_spec if events else spec
+def create(
+    store, *, now=None, comparison_days=7, events=False, variant=None, dynamic=False, core=False
+):
+    policy = _policy(events=events, dynamic=dynamic, core=core)
     if events and variant not in ("immediate", "confirmed"):
         raise ValueError("event run requires immediate or confirmed cohort")
     at = ts(now or utcnow())
@@ -290,7 +298,7 @@ def create(store, *, now=None, comparison_days=7, events=False, variant=None, dy
         same_cohort = r["policy_id"] == policy.policy_id() and (
             not events or json.loads(r["definition"]).get("event_variant") == variant
         )
-        if same_cohort and (
+        if (same_cohort or core) and (
             account(store, r["run_id"])["status"] == "ACTIVE" or positions(store, r["run_id"])
         ):
             raise ValueError("a nimble run is already active or draining")
@@ -305,6 +313,8 @@ def create(store, *, now=None, comparison_days=7, events=False, variant=None, dy
         "exit_policy_version": spec.EXIT_VERSION,
         "entry_universe_id": dynamic_spec.universe_id()
         if dynamic
+        else core_spec.universe_id()
+        if core
         else event_spec.universe_id(variant)
         if events
         else baseline.universe_id(),
@@ -781,7 +791,10 @@ def reconcile(store, rid, rates, now):
         event(store, rid, "funding_adjustment", key, fixed, now)
 
 
-def monitor(store, rid, qs, rates=(), updates=(), contexts=None, *, now=None, mark=True):
+def monitor(
+    store, rid, qs, rates=(), updates=(), contexts=None, *, now=None, mark=True, fills_only=False
+):
+    """``fills_only`` executes already-decided entry/exit intents; it decides nothing new."""
     at = ts(now or utcnow())
     contexts = contexts or {}
     run = load(store, rid)
@@ -790,7 +803,7 @@ def monitor(store, rid, qs, rates=(), updates=(), contexts=None, *, now=None, ma
 
     venue = (
         event_engine.unavailable(store, at)
-        if event_run or run["policy_id"] == dynamic_spec.policy_id()
+        if event_run or run["policy_id"] in (dynamic_spec.policy_id(), core_spec.policy_id())
         else None
     )
     if event_run:
@@ -910,7 +923,7 @@ def monitor(store, rid, qs, rates=(), updates=(), contexts=None, *, now=None, ma
                 and ts(q.available_at) > ts(p["exit_intent_at"])
             ):
                 _close(store, rid, p, q, rates, at, rate)
-        else:
+        elif not fills_only:
             condition = exit_condition(
                 p, q, updates, at, rate, ac["status"], ac.get("stop_reason", "ADMIN_STOP")
             )
@@ -923,7 +936,7 @@ def monitor(store, rid, qs, rates=(), updates=(), contexts=None, *, now=None, ma
                     {**p, "state": "EXIT_PENDING", **condition},
                     at,
                 )
-    if mark:
+    if mark and not fills_only:
         _mark(store, rid, qs, rates, updates, contexts, at)
 
 
@@ -934,12 +947,14 @@ def admit(store, rid, observations, qs, source, contexts=None, *, now=None):
     hs = {h.hypothesis_id: h for h in hypotheses(store, rid)}
     contexts = contexts or {}
     dynamic = run["policy_id"] == dynamic_spec.policy_id()
+    core = run["policy_id"] == core_spec.policy_id()
     universe_contexts = {}
     venue_failure = None
-    if dynamic:
+    if dynamic or core:
         from .events import unavailable
 
         venue_failure = unavailable(store, at)
+    if dynamic:
         from market_signal.universe.execution import admission as universe_admission
     candidates = []
     for o in observations:
@@ -972,6 +987,8 @@ def admit(store, rid, observations, qs, source, contexts=None, *, now=None):
             minutes=min(20, spec.mapping(h)["expiry_minutes"])
         ):
             reason = "THESIS_ALREADY_STALE"
+        if core and h and reason is None and venue_failure:
+            reason = "VENUE_UNAVAILABLE"
         if dynamic and h and reason is None:
             reason, universe_context = universe_admission(
                 store, o.asset, h, o.signal_at, at, _quote(qs, o.asset, at)
@@ -1099,7 +1116,7 @@ def admit(store, rid, observations, qs, source, contexts=None, *, now=None):
                         if geometry.get("available_at") and ts(geometry["available_at"]) > at:
                             raise ValueError("INVALID_TIMING")
                         thesis = build_thesis(h, o, qs_asset, geometry, at)
-                        if h.source_phase == 30 or dynamic:
+                        if h.source_phase == 30 or dynamic or core:
                             thesis = thesis.model_copy(
                                 update={"execution_policy_id": run["policy_id"]}
                             )

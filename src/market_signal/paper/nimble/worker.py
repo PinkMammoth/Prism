@@ -85,9 +85,51 @@ class Worker:
                     return True
         return False
 
+    def _funding_since(self, store, at):
+        # Bounded two-day funding read includes all maximum 8h holds/accounting retries.
+        # For older unsettled closes, retain their actual entry boundary.
+        unresolved = store.con.execute(
+            "SELECT min(json_extract_string(payload,'$.entry_at')) "
+            "FROM paper_nimble_positions WHERE run_id=? AND state='CLOSED' "
+            "AND json_extract(payload,'$.accounting_final')=false",
+            [self.rid],
+        ).fetchone()[0]
+        return min(ts(unresolved) if unresolved else at, at - pd_delta(days=2))
+
+    def _fill_intents(self, store, now):
+        """Execute already-decided entry/exit intents first, on a fresh clock and quote.
+
+        Spool ingest, discovery and source reads below can take seconds under the same lock;
+        doing them first aged hourly intents past the frozen 60 s entry window. Nothing new is
+        decided here: exit/invalidation decisions and marks remain in the full monitor pass.
+        """
+        if not any(
+            p["state"] in ("PENDING", "EXIT_PENDING") for p in engine.positions(store, self.rid)
+        ):
+            return None
+        at = ts(now or utcnow())
+        qs, ctx = quotes_for_store(store, at)
+        source = Sources(store, at)
+        source.run_id = self.rid
+        with store.transaction():
+            engine.monitor(
+                store,
+                self.rid,
+                qs,
+                source.funding(self._funding_since(store, at)),
+                (),
+                ctx,
+                now=at,
+                fills_only=True,
+            )
+        return {
+            "at": at.isoformat(),
+            "lock_acquired_seconds": round(time.perf_counter() - self._tick_started, 3),
+        }
+
     def tick(self, *, now=None, force=False):
         at = ts(now or utcnow())
-        started = time.perf_counter()
+        started = self._tick_started = time.perf_counter()
         cpu = time.process_time()
         m = marker(self.db)
         if not self.rid and not m.exists() and not force:
@@ -113,6 +155,7 @@ class Worker:
                     run = next((r for r in rs if r["run_id"] == self.requested_run_id), rs[-1])
                     self.rid = run["run_id"]
                     engine.load(store, self.rid)
+                    filled = self._fill_intents(store, now)
                     if changed:
                         result = ingest(store, self.spool, now=at.to_pydatetime())
                         if result["status"] != "ok":
@@ -127,16 +170,7 @@ class Worker:
                     ps = engine.positions(store, self.rid)
                     assets = sorted({p["asset"] for p in ps if p["state"] != "PENDING"})
                     updates = source.updates(assets) if minute_due or changed or wake else []
-                    # Bounded two-day funding read includes all maximum 8h holds/accounting retries.
-                    # For older unsettled closes, retain their actual entry boundary.
-                    unresolved = store.con.execute(
-                        "SELECT min(json_extract_string(payload,'$.entry_at')) "
-                        "FROM paper_nimble_positions WHERE run_id=? AND state='CLOSED' "
-                        "AND json_extract(payload,'$.accounting_final')=false",
-                        [self.rid],
-                    ).fetchone()[0]
-                    since = min(ts(unresolved) if unresolved else at, at - pd_delta(days=2))
-                    rates = source.funding(since)
+                    rates = source.funding(self._funding_since(store, at))
                     totals = {}
                     evaluated = []
                     at = ts(now or utcnow())
@@ -272,7 +306,7 @@ class Worker:
                         if action and not minute_due:
                             engine._mark(store, self.rid, qs, rates, updates, ctx, at)
                     self.venue_blocked = (
-                        run["policy_id"] == events.rules.policy_id()
+                        run["policy_id"] in (events.rules.policy_id(), engine.core_spec.policy_id())
                         and events.unavailable(store, at) is not None
                     )
                     self.cached_positions = engine.positions(store, self.rid)
@@ -288,6 +322,7 @@ class Worker:
                 "run_id": self.rid,
                 "evaluated": evaluated,
                 "admission": totals,
+                "intent_fill_pass": filled,
                 "wall_seconds": time.perf_counter() - started,
                 "cpu_seconds": time.process_time() - cpu,
                 "open_positions": len(self.cached_positions),
