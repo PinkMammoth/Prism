@@ -300,6 +300,10 @@ def delete_verified(
     """Provider-only, exact-checksum deletion. Caller holds the runtime writer lock."""
     if receipt.get("archive_type") != "provider-raw":
         raise ValueError("microstructure raw and spool deletion protected in v1")
+    # A Phase 1 enrollment must not be bypassed by the older operator-only tool.
+    # Legacy custody remains intact; a new reviewed pass must reconcile its holds.
+    if (Path(root).parent / "retention-phase1").exists():
+        raise ValueError("Phase 1 protection active; legacy expiry requires separate qualification")
     path = safe_source(root, path, "provider-raw")
     logpath = backups.safe_location(logpath)
     if logpath == path or logpath.is_relative_to(root):

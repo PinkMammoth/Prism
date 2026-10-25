@@ -1,0 +1,18 @@
+[Unit]
+Description=Prism conservative Phase 1 retention (%i)
+After=network-online.target
+
+[Service]
+Type=oneshot
+User=%i
+Group=%i
+EnvironmentFile=/etc/prism/retention-phase1-%i.env
+Environment=PYTHONDONTWRITEBYTECODE=1
+ExecStart=/usr/local/libexec/prism-retention-phase1
+TimeoutStartSec=240
+Nice=10
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=yes
+ReadWritePaths=/data/retention-phase1 /var/lib/prism-research/retention-phase1

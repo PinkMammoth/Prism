@@ -27,6 +27,10 @@ def enqueue(store, source, key, assets, available_at, *, event_ids=(), metadata=
         raise ValueError("unregistered trigger source")
     if not outbox_enabled():
         return None
+    from market_signal.ops.retention_phase1 import inactive_execution
+
+    if inactive_execution(store, source):
+        return None
     payload = {
         "assets": sorted(set(assets)),
         "event_ids": sorted(set(event_ids)),
