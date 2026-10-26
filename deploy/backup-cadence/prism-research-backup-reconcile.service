@@ -1,0 +1,18 @@
+[Unit]
+Description=Reconcile Research recovery copies before the existing Drive backup pipeline
+[Service]
+Type=oneshot
+WorkingDirectory=/opt/prism/research/current
+Environment=PYTHONPATH=/opt/prism/research/current/src
+ExecStart=/opt/prism/research/current/.venv/bin/python /opt/prism/backup-cadence/cadence.py run research
+TimeoutStartSec=2h
+Nice=19
+IOSchedulingClass=idle
+CPUQuota=100%
+MemoryMax=3G
+UMask=0077
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=yes
+ReadWritePaths=/var/lib/prism-research/backup-sealed /var/lib/prism-research/import/prism.duckdb.runtime.lock /var/lib/prism-research-backup /etc/prism-research-backup
+InaccessiblePaths=/data /etc/prism

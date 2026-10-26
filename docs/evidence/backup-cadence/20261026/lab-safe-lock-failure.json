@@ -1,0 +1,7 @@
+{
+  "status": "failed",
+  "stage": "reconcile",
+  "started_at": "2026-10-26T11:54:03.945026+00:00",
+  "finished_at": "2026-10-26T11:57:54.081493+00:00",
+  "error": "lab:export failed (exit 1) RuntimeError: restic forget failed (status 11): repository lock failure"
+}

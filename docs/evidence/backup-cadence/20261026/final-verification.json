@@ -1,0 +1,170 @@
+{
+  "proofs": {
+    "lab": {
+      "full_copies": [
+        {
+          "path": "/data/backups/manual/prism-20261026T115246Z-cadence-verification.duckdb",
+          "bytes": 384053248,
+          "links": 1,
+          "sha256": "9209da9c8f4a6f129d0c6970b8c741a5a847f4a9df87f47c4855f343a0d92d79",
+          "manifest_sha256": "9209da9c8f4a6f129d0c6970b8c741a5a847f4a9df87f47c4855f343a0d92d79",
+          "ack_sha256": "9209da9c8f4a6f129d0c6970b8c741a5a847f4a9df87f47c4855f343a0d92d79",
+          "ack_restore_sha256": "9209da9c8f4a6f129d0c6970b8c741a5a847f4a9df87f47c4855f343a0d92d79",
+          "archive": "restic:f6ee3d049d8a9927f1517dee421bd73278fdc8a4f043705a7f427812a8be07fd",
+          "verified_at": "2026-10-26T12:06:03.506599+00:00"
+        }
+      ],
+      "offhost": {
+        "snapshot_id": "f6ee3d049d8a9927f1517dee421bd73278fdc8a4f043705a7f427812a8be07fd",
+        "generation": "generation-9209da9c8f4a6f129d0c6970b8c741a5a847f4a9df87f47c4855f343a0d92d79",
+        "verified_at": "2026-10-26T12:06:03.506599+00:00",
+        "sha256": "9209da9c8f4a6f129d0c6970b8c741a5a847f4a9df87f47c4855f343a0d92d79",
+        "compressed_sha256": "caed3d4b93b14ee8bc198a5ad1a184fefdd8a18040b775636646e421b73843f3",
+        "compressed_bytes": 72656150,
+        "read_data": "full",
+        "restore_verified": true,
+        "off_host_verified": true,
+        "destination_id": "google-drive:Prism/backups/lab (isolated restic host/tag)",
+        "tables_verified": 146
+      },
+      "compressed_generation": "/var/lib/prism-research-backup/cadence/lab/generation-9209da9c8f4a6f129d0c6970b8c741a5a847f4a9df87f47c4855f343a0d92d79"
+    },
+    "research": {
+      "full_copies": [
+        {
+          "path": "/var/lib/prism-research/backup-sealed/registered/manual/prism-20261026T121528Z-google-drive-source.duckdb",
+          "bytes": 1588080640,
+          "links": 2,
+          "sha256": "eedde57f2aa75039ab0efd93ac090d47448722da6cb90fb58d45ec481bf3eb91",
+          "manifest_sha256": "eedde57f2aa75039ab0efd93ac090d47448722da6cb90fb58d45ec481bf3eb91",
+          "ack_sha256": "eedde57f2aa75039ab0efd93ac090d47448722da6cb90fb58d45ec481bf3eb91",
+          "ack_restore_sha256": "eedde57f2aa75039ab0efd93ac090d47448722da6cb90fb58d45ec481bf3eb91",
+          "archive": "restic:8a92470198f8acffbeb4f264da121bcfa4552c60614201cc13a3ac97713e8091",
+          "verified_at": "2026-10-26T12:24:23.255452+00:00"
+        }
+      ],
+      "offhost": {
+        "snapshot_id": "8a92470198f8acffbeb4f264da121bcfa4552c60614201cc13a3ac97713e8091",
+        "generation": "generation-20261026T122040876342Z",
+        "verified_at": "2026-10-26T12:24:23.255452+00:00",
+        "sha256": "eedde57f2aa75039ab0efd93ac090d47448722da6cb90fb58d45ec481bf3eb91",
+        "compressed_sha256": "84ab254d7738939ca7b83960e9a483006a6157d693cb3d2e8ceb24fe5078bb6c",
+        "compressed_bytes": 137395027,
+        "read_data": "full",
+        "restore_verified": true,
+        "off_host_verified": true,
+        "destination_id": "google-drive:Prism/backups/research (rclone drive.file scope)",
+        "tables_verified": 146,
+        "supplemental_source_metadata": {
+          "core_recovery": true,
+          "context_direct": true,
+          "context_recovery": true
+        }
+      },
+      "compressed_generation": "/var/lib/prism-research-backup/generations/generation-20261026T122040876342Z",
+      "sealed_link_same_file": true
+    }
+  },
+  "governed_deletions_verified": {
+    "lab": [
+      {
+        "path": "/data/backups/manual/prism-20261026T091053Z-pre-deploy-788db37b140f.duckdb",
+        "sha256": "ac8b978d7e5c99ed5b8b42f3a0c958d02ddd5bf81cc6a5be86d27b02e9a44581",
+        "bytes": 358887424,
+        "at": "2026-10-26T11:53:22.012715+00:00",
+        "action": "deleted"
+      }
+    ],
+    "research": [
+      {
+        "path": "/var/lib/prism-research/backup-sealed/registered/manual/prism-20261026T031924Z-google-drive-source.duckdb",
+        "sha256": "564178b517990d984e4e46b15fd7068c1e38c8a74a26a510b32f63fe161e37bb",
+        "bytes": 1588080640,
+        "at": "2026-10-26T12:14:34.569504+00:00",
+        "action": "deleted"
+      },
+      {
+        "path": "/var/lib/prism-research/backup-sealed/registered/manual/prism-20261026T042418Z-google-drive-source.duckdb",
+        "sha256": "28c045db9408e5bc08dd5071685978963b0276221800047083a42592e2df2f66",
+        "bytes": 1588080640,
+        "at": "2026-10-26T12:17:57.836227+00:00",
+        "action": "deleted"
+      }
+    ]
+  },
+  "compressed_local_inventory": [
+    {
+      "path": "/var/lib/prism-research-backup/cadence/lab/generation-9209da9c8f4a6f129d0c6970b8c741a5a847f4a9df87f47c4855f343a0d92d79/research.duckdb.gz",
+      "bytes": 72656150
+    },
+    {
+      "path": "/var/lib/prism-research-backup/cadence/research/generation-28c045db9408e5bc08dd5071685978963b0276221800047083a42592e2df2f66/research.duckdb.gz",
+      "bytes": 135873158
+    },
+    {
+      "path": "/var/lib/prism-research-backup/generations/generation-20261026T122040876342Z/research.duckdb.gz",
+      "bytes": 137395027
+    },
+    {
+      "path": "/var/lib/prism-research/backups/generation-20261015T123904063259Z/research.duckdb.gz",
+      "bytes": 135614775
+    }
+  ],
+  "services": {
+    "prism-lab-backup-export": {
+      "Result": "success",
+      "User": "",
+      "ActiveState": "inactive",
+      "SubState": "dead"
+    },
+    "prism-research-backup": {
+      "Result": "success",
+      "User": "prism-research-backup",
+      "ActiveState": "inactive",
+      "SubState": "dead"
+    },
+    "prism-research-backup-reconcile": {
+      "Result": "success",
+      "User": "",
+      "ActiveState": "inactive",
+      "SubState": "dead"
+    },
+    "prism-research-backup-source": {
+      "Result": "success",
+      "User": "prism-research",
+      "ActiveState": "inactive",
+      "SubState": "dead"
+    },
+    "prism-research-backup-ack": {
+      "Result": "success",
+      "User": "",
+      "ActiveState": "inactive",
+      "SubState": "dead"
+    }
+  },
+  "nimble": {
+    "MainPID": "1032858",
+    "ActiveState": "active",
+    "ActiveEnterTimestamp": "Mon 2026-10-26 09:33:43 UTC"
+  },
+  "unchanged_environment_hashes": {
+    "/etc/prism/prism.env": "e30ce3b16014edd6dac434ca236c11e5a4970268cb275f47756bfd946151f076",
+    "/etc/prism-research/runtime.env": "1dd17ab710dd411673da567b2d2ecfb7b0f3a8bc144fa4a562bc6453065c8cb5"
+  },
+  "releases": {
+    "/opt/prism/current": "/opt/prism/releases/788db37b140fe349dd2cfec1037f35c0baf7a8cb",
+    "/opt/prism/research/current": "/opt/prism/research/releases/87d027edb75d91b981620fab927d2f01834627bf"
+  },
+  "timers": {
+    "prism-lab-backup-export.timer": {
+      "NextElapseUSecRealtime": "Mon 2026-10-26 12:50:00 UTC",
+      "LastTriggerUSec": "Mon 2026-10-26 11:50:00 UTC",
+      "UnitFileState": "enabled"
+    },
+    "prism-research-backup.timer": {
+      "NextElapseUSecRealtime": "Tue 2026-10-27 03:21:53 UTC",
+      "LastTriggerUSec": "Mon 2026-10-26 03:18:30 UTC",
+      "UnitFileState": "enabled"
+    }
+  }
+}

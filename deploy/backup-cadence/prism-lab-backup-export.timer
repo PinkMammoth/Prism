@@ -1,0 +1,9 @@
+[Unit]
+Description=Reconcile Lab backups after 01:30 creation and retry safely each hour
+
+[Timer]
+OnCalendar=*-*-* *:50:00 UTC
+Persistent=true
+
+[Install]
+WantedBy=timers.target

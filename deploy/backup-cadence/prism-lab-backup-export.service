@@ -1,0 +1,25 @@
+[Unit]
+Description=Prism Lab backup export, restore verification, acknowledgement and governed retention
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=/opt/prism/current
+Environment=PYTHONPATH=/opt/prism/current/src
+ExecStart=/opt/prism/current/.venv/bin/python /opt/prism/backup-cadence/cadence.py run lab
+TimeoutStartSec=2h
+Nice=19
+IOSchedulingClass=idle
+CPUQuota=100%
+MemoryMax=3G
+UMask=0077
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=yes
+ReadWritePaths=/data/backups /data/state /data/prism.duckdb.runtime.lock /var/lib/prism-research-backup /etc/prism-research-backup
+InaccessiblePaths=/etc/prism-research /var/lib/prism-research
+ProtectKernelTunables=yes
+ProtectControlGroups=yes
+RestrictSUIDSGID=yes
+LockPersonality=yes
