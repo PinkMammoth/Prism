@@ -88,9 +88,13 @@ def update_macro(settings: Settings, store: Store, series: list[str] | None = No
                 error=str(exc)[:500],
             )
             results.append((sid, "failed", 0, 0, str(exc)[:80]))
-    eia = EiaProvider(_http(settings, "eia"), settings.secret("EIA_API_KEY"))
+    eia_key = settings.secret("EIA_API_KEY")
+    eia = EiaProvider(_http(settings, "eia"), eia_key)
     for sid, spec in (cfg.get("eia") or {}).items():
         if series and sid not in series:
+            continue
+        if not eia_key:
+            results.append((sid, "disabled", 0, 0, "TEMPORARILY DISABLED / NON-BLOCKING"))
             continue
         last = _last_obs(store, sid)
         start = None if last is None else last - timedelta(days=60)
