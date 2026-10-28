@@ -1,0 +1,213 @@
+{
+  "version": "phase28a_specialist_smoke_v1",
+  "verified_at": "2026-10-10 13:01:26 UTC",
+  "mode": "connected_oauth_synthetic_test_excluded",
+  "provider": "chatgpt_work_crypto_breaking_v1",
+  "auth_identity": "chatgpt_work_personal_v1",
+  "receipt": {
+    "attempts": [],
+    "auth_identity": "chatgpt_work_personal_v1",
+    "completion": {
+      "context_available_at": "2026-10-10T12:59:41.095303+00:00",
+      "gateway_received_at": "2026-10-10T12:59:38.456105+00:00",
+      "ingest_recorded_at": "2026-10-10T12:59:41.091057+00:00",
+      "ingest_started_at": "2026-10-10T12:59:41.090889+00:00",
+      "ingest_status": "TEST_EXCLUDED",
+      "logical_event_id": null,
+      "provider": "chatgpt_work_crypto_breaking_v1",
+      "receipt_id": "ctxgw_d2916b14fa5a63e0e463cb8910b1e46e707ebbba3fc69132d7facdd758fc0aff",
+      "spool_fsynced_at": "2026-10-10T12:59:38.480927+00:00"
+    },
+    "durability": {
+      "receipt_id": "ctxgw_d2916b14fa5a63e0e463cb8910b1e46e707ebbba3fc69132d7facdd758fc0aff",
+      "spool_fsynced_at": "2026-10-10T12:59:38.480927+00:00"
+    },
+    "entity_map_version": "entities_v1:bf7ad7177b389192",
+    "gateway_received_at": "2026-10-10T12:59:38.456105+00:00",
+    "latency": {
+      "discovery_to_gateway_s": 0.456105,
+      "discovery_to_send_s": 0,
+      "durable_to_available_s": 2.614376,
+      "end_to_end_s": null,
+      "event_to_discovery_s": null,
+      "gateway_to_available_s": 2.639198,
+      "gateway_to_durable_s": 0.024822,
+      "information_to_discovery_s": 0,
+      "information_to_gateway_s": 0.456105,
+      "publication_to_gateway_s": null,
+      "send_to_gateway_s": 0.456105,
+      "source_event_to_gateway_s": null,
+      "source_to_discovery_s": null
+    },
+    "observation": {
+      "assets": [
+        "ETH"
+      ],
+      "attributes": {
+        "facts": {
+          "reported_corroborating_urls": "[]",
+          "reported_factual_claims": "[\"This is a synthetic smoke test; no actual market development occurred.\"]",
+          "reported_source": "Prism Phase 28A synthetic transport fixture",
+          "synthetic": true
+        },
+        "kind": "generic"
+      },
+      "confidence": "REPORTED",
+      "country": null,
+      "dedup_key": null,
+      "entities": [
+        "ethereum"
+      ],
+      "event_time": null,
+      "market_wide": false,
+      "observation_mode": "live",
+      "provider_time": null,
+      "published_at": null,
+      "raw_sha256": "d742fdc4bb553e16d318afb1b618161e25d0e17a66ac93e20d0e585c52b1aa51",
+      "region": null,
+      "relevance_end": null,
+      "reported_first_seen_at": "2026-10-10T12:59:38Z",
+      "scheduled": false,
+      "schema_version": "context_observation_v1",
+      "scope": "asset",
+      "source_id": "chatgpt_work_crypto_breaking_v1",
+      "source_ref": "https://example.com/prism-phase28a-isolated-smoke",
+      "source_type": "ai_monitor",
+      "subcategory": "chain_halt",
+      "summary": "Synthetic transport fixture only. No real chain halt occurred. test=true must exclude this from active context and research.",
+      "taxonomy_version": "context_taxonomy_v2",
+      "title": "SYNTHETIC Phase 28A specialist smoke — not a market event",
+      "update_kind": null
+    },
+    "payload": {
+      "external_event_id": "phase28a_specialist_transport_smoke",
+      "item": {
+        "assets": [
+          "ETH"
+        ],
+        "attributes": {
+          "facts": {
+            "synthetic": true
+          },
+          "kind": "generic"
+        },
+        "category": "protocol",
+        "confidence": "REPORTED",
+        "entities": [
+          "ethereum"
+        ],
+        "event_time": null,
+        "factual_claims": [
+          "This is a synthetic smoke test; no actual market development occurred."
+        ],
+        "first_seen_at": "2026-10-10T12:59:38.000Z",
+        "market_wide": false,
+        "provenance": [
+          "Phase 28A safe connected-action specialist verification"
+        ],
+        "published_at": null,
+        "scheduled": false,
+        "source": "Prism Phase 28A synthetic transport fixture",
+        "source_type": "ai_monitor",
+        "subcategory": "chain_halt",
+        "summary": "Synthetic transport fixture only. No real chain halt occurred. test=true must exclude this from active context and research.",
+        "title": "SYNTHETIC Phase 28A specialist smoke — not a market event",
+        "url": "https://example.com/prism-phase28a-isolated-smoke"
+      },
+      "monitor": {
+        "evidence": "primary",
+        "immediate_impact": true,
+        "impact_reason": "Synthetic contract fixture for the chain-halt class; not actual market information.",
+        "information_time": "2026-10-10T12:59:38.000Z",
+        "novelty": "new",
+        "policy_version": "work_sensor_policy_v1"
+      },
+      "schema": "context_import_v1",
+      "sender_version": "chatgpt_work_crypto_breaking_v1",
+      "sent_at": "2026-10-10T12:59:38.000Z",
+      "submission_id": "phase28a_specialist_smoke_1791637178000",
+      "test": true
+    },
+    "payload_sha256": "d742fdc4bb553e16d318afb1b618161e25d0e17a66ac93e20d0e585c52b1aa51",
+    "provider": "chatgpt_work_crypto_breaking_v1",
+    "receipt_id": "ctxgw_d2916b14fa5a63e0e463cb8910b1e46e707ebbba3fc69132d7facdd758fc0aff",
+    "schema_version": "context_import_v1"
+  },
+  "identical_retry_status": "DUPLICATE_same_receipt",
+  "provider_metrics": {
+    "accepted": 1,
+    "affected_direct_asset_count_distribution": {},
+    "affected_resolved_asset_count_distribution": {},
+    "corroborations": 0,
+    "descriptive_only": true,
+    "duplicates": 0,
+    "gateway_statistics_available": true,
+    "latency_s": {
+      "discovery_to_gateway_s": {
+        "median": null,
+        "n": 0
+      },
+      "discovery_to_send_s": {
+        "median": null,
+        "n": 0
+      },
+      "event_to_discovery_s": {
+        "median": null,
+        "n": 0
+      },
+      "gateway_to_available_s": {
+        "median": null,
+        "n": 0
+      },
+      "information_to_discovery_s": {
+        "median": null,
+        "n": 0
+      },
+      "information_to_gateway_s": {
+        "median": null,
+        "n": 0
+      },
+      "publication_to_gateway_s": {
+        "median": null,
+        "n": 0
+      },
+      "send_to_gateway_s": {
+        "median": null,
+        "n": 0
+      },
+      "source_event_to_gateway_s": {
+        "median": null,
+        "n": 0
+      },
+      "source_to_discovery_s": {
+        "median": null,
+        "n": 0
+      }
+    },
+    "later_denied_invalidated": 0,
+    "later_independently_corroborated": 0,
+    "logical_events_observed": 0,
+    "materiality_distribution": {},
+    "new_logical_events": 0,
+    "rejected": 0,
+    "sender_times_are_claims": true,
+    "submissions": 2,
+    "test_receipts": 1,
+    "transport_retries": 1,
+    "updates": 0,
+    "window": "all_time"
+  },
+  "health": {
+    "running": true,
+    "worker_running": true,
+    "spool_backlog": 0,
+    "alerts": []
+  },
+  "production_reactions": [],
+  "send_to_test_completion_s": 3.095303,
+  "cached_schema_block_resolved_for_specialist_payload": true,
+  "discovery_latency_measured": false,
+  "genuine_event_verified": false,
+  "scheduled_task_verified": false,
+  "no_execution_changes": true
+}

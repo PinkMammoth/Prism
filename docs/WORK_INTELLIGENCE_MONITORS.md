@@ -375,13 +375,24 @@ The production evidence/status report records what was actually deployed and ver
 
 ### Verified rollout state — 10 October 2026
 
+**Update after the user refreshed tools:** the Crypto specialist transport smoke passed
+at 12:59 UTC. [Exact evidence](evidence/phase28a/specialist-smoke-after-refresh.json)
+records `chatgpt_work_crypto_breaking_v1`, OAuth identity `chatgpt_work_personal_v1`, an
+ACCEPTED receipt followed by an identical-retry DUPLICATE, and TEST_EXCLUDED completion
+with null logical event. Its provider metrics show one accepted test receipt, one retry,
+zero logical events and no event-latency samples; production reaction rows remain empty.
+Send→gateway was 0.456105 s, gateway→test completion 2.639198 s, total 3.095303 s.
+The cached-schema block described below is resolved for the specialist payload. Saved
+pilot scheduling, actual discovery cadence/cost and a genuine fresh event remain unverified.
+The earlier rollout evidence below is retained as the initial verification snapshot.
+
 Prism support revision `92e61f7de8c9a2df157fcdd9a002fabb6717f0d1` is deployed to the existing
 Railway service, migration 28, authoritative and ready. Both paper runs retained their
 activation times, 28 hypotheses and policy identities. Gateway/worker are healthy with
 zero backlog/alerts. All five specialist metric entries exist, with zero live submissions
 and zero production reaction rows. See [production evidence](evidence/phase28a/production-verification.json).
 
-**Work monitors are not yet activated or verified end-to-end.** A specialist `test=true`
+**At initial verification, specialist transport was blocked.** A specialist `test=true`
 call failed in the client connector before reaching Prism: its cached Phase 26A schema
 does not allow `payload.monitor`. The current server advertises that metadata and the
 two new bounded subcategories; the cached client also lacks those subcategories.
