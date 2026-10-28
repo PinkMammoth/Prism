@@ -604,10 +604,6 @@ def test_legacy_crontab_matches_the_pre_split_entrypoint(project, clean_env):
 # ----------------------------------------------------------------------------- entrypoint
 
 
-# The last pre-split entrypoint: approved main with Dynamic Universe (cc311d0).
-OLD_ENTRYPOINT_COMMIT = "cc311d0"
-
-
 def _run_entrypoint(script: str, tmp: Path, e: dict) -> set[str]:
     bin_ = tmp / "bin"
     bin_.mkdir(exist_ok=True)
@@ -653,7 +649,7 @@ echo "proc python $*" >> {log}; kill $PPID; exit 0
     "e",
     [
         {"PRISM_RUNTIME_ROLE": "authoritative", "PRISM_RUNTIME_ID": RAILWAY,
-         "PRISM_CONTEXT_GATEWAY": "on", "PRISM_FREE_SOURCES": "on"},  # current production
+         "PRISM_CONTEXT_GATEWAY": "on", "PRISM_FREE_SOURCES": "on"},  # retired production
         {"PRISM_RUNTIME_ROLE": "authoritative", "PRISM_RUNTIME_ID": RAILWAY},
         {"PRISM_RUNTIME_ROLE": "authoritative", "PRISM_RUNTIME_ID": RAILWAY,
          "PRISM_FREE_SOURCES": "on", "PRISM_NIMBLE_RUNTIME": "off", "PRISM_MICROSTRUCTURE": "off"},
@@ -665,28 +661,22 @@ echo "proc python $*" >> {log}; kill $PPID; exit 0
         {"PRISM_UNIVERSE_STAGE": "warming"},  # radar without authority, as before
     ],
 )  # fmt: skip
-def test_legacy_entrypoint_starts_exactly_what_the_pre_split_one_did(e, tmp_path):
-    try:
-        old = subprocess.run(["git", "show", f"{OLD_ENTRYPOINT_COMMIT}:deploy/railway/entrypoint.sh"],
-                             cwd=REPO, capture_output=True, text=True, check=True).stdout  # fmt: skip
-    except (OSError, subprocess.CalledProcessError):
-        pytest.skip("pre-split entrypoint needs git history")
+def test_retired_railway_entrypoint_never_starts_legacy_processes(e, tmp_path):
     new = (REPO / "deploy" / "railway" / "entrypoint.sh").read_text()
-    (tmp_path / "o").mkdir()
-    (tmp_path / "n").mkdir()
-    assert _run_entrypoint(new, tmp_path / "n", e) == _run_entrypoint(old, tmp_path / "o", e)
+    with pytest.raises(subprocess.CalledProcessError) as refused:
+        _run_entrypoint(new, tmp_path, e)
+    assert refused.value.returncode == 78
+    assert (tmp_path / "calls.log").read_text() == ""
 
 
-def test_entrypoint_fails_closed_and_research_profile_starts_no_execution(tmp_path):
+def test_retired_railway_entrypoint_also_refuses_research_profile(tmp_path):
     new = (REPO / "deploy" / "railway" / "entrypoint.sh").read_text()
     with pytest.raises(subprocess.CalledProcessError):
         _run_entrypoint(new, tmp_path, {"PRISM_PROFILE": "bogus"})
-    started = _run_entrypoint(
-        new, tmp_path, {**research_env("full"), "PRISM_CONTEXT_GATEWAY": "on"}
-    )
-    assert not any("nimble" in s for s in started)
-    assert "proc market microstructure collect" in started and "boot" in started
-    assert any("gateway.launch" in s for s in started)
+    with pytest.raises(subprocess.CalledProcessError) as refused:
+        _run_entrypoint(new, tmp_path, {**research_env("full"), "PRISM_CONTEXT_GATEWAY": "on"})
+    assert refused.value.returncode == 78
+    assert (tmp_path / "calls.log").read_text() == ""
 
 
 # ----------------------------------------------------------------------------- run identity

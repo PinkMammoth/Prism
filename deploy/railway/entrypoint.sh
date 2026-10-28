@@ -7,6 +7,9 @@
 # profile is `legacy`, which reproduces the pre-split flags exactly (PRISM_MICROSTRUCTURE and
 # PRISM_NIMBLE_RUNTIME default on, PRISM_CONTEXT_GATEWAY and PRISM_FREE_SOURCES default off).
 set -eu
+echo "Railway production retired on 2026-10-22; OVH is the production authority." >&2
+exit 78
+# Historical runtime procedure retained below; never starts production processes.
 cd /app
 echo "prism runtime: revision $(cat REVISION) role=${PRISM_RUNTIME_ROLE:-unset} id=${PRISM_RUNTIME_ID:-unset} profile=${PRISM_PROFILE:-legacy}"
 mkdir -p /data/logs /data/backups

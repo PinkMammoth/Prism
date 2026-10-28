@@ -31,6 +31,12 @@ def headroom():
 
 
 def main():
+    print(json.dumps({"status": "retired", "authority": "vps-prism-research"}))
+    return 0
+
+
+def historical_main():
+    """Retained for incident evidence; no production entrypoint calls this procedure."""
     if sys.argv[1:] not in (["nightly"], ["retry"]):
         raise SystemExit("expected nightly or retry")
     log = logging.getLogger("railway_bridge")

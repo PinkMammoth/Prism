@@ -181,7 +181,7 @@ def test_sender_deletes_only_after_verified_receipt(tmp_path, packet, monkeypatc
         ("retry", None, True, 1),
     ],
 )
-def test_bridge_scheduler_retries_without_starting_execution(
+def test_retired_bridge_entrypoint_never_runs_historical_scheduler(
     tmp_path, monkeypatch, mode, backup_exit, archive_fails, expected
 ):
     import logging
@@ -214,11 +214,5 @@ def test_bridge_scheduler_retries_without_starting_execution(
 
     monkeypatch.setattr(job.subprocess, "run", run)
     monkeypatch.setattr(job, "send", send)
-    assert job.main() == expected
-    if mode == "nightly":
-        assert calls == [
-            ["market", "ops", "cycle", "backup", "--trigger", "schedule", "--wait", "3600"],
-            "archive",
-        ]
-    else:
-        assert calls == ["archive"]
+    assert job.main() == 0
+    assert calls == []

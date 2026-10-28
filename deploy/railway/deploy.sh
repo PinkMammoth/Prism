@@ -5,6 +5,9 @@
 # Before replacing a running deployment it takes a verified pre-deploy backup on the server.
 # Database migrations run on the first writable open (the boot catch-up cycle).
 set -euo pipefail
+echo "Railway production retired on 2026-10-22; deploy Prism production on OVH." >&2
+exit 78
+# Historical deployment procedure retained below as incident evidence only.
 REPO=$(git rev-parse --show-toplevel)
 cd "$REPO"
 REF=${1:-HEAD}
